@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Dashboard — Daedalus | Free Personal Productivity Hub</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Your personal life dashboard - track goals, manage tasks, monitor health metrics, and plan your life journey with age-based insights.">
+    <meta name="keywords"
+        content="life dashboard, productivity hub, personal goals, life planning, health metrics, age calculator, life expectancy">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="Life Dashboard — Daedalus">
+    <meta property="og:description"
+        content="Track your life journey with personalized insights, goals, and productivity tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/life-dashboard.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Life Dashboard — Daedalus">
+    <meta name="twitter:description" content="Your personal life and productivity dashboard.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/life-dashboard.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Teko:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: rgba(20, 20, 20, 0.85);
+            --bg-tertiary: rgba(30, 30, 30, 0.85);
+            --bg-hover: rgba(37, 37, 37, 0.9);
+            --accent-primary: #ffd700;
+            --accent-secondary: #cba800;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #606060;
+            --border: rgba(42, 42, 42, 0.5);
+            --error: #ff4444;
+            --success: #00ff88;
+
+            --font-display: 'Rajdhani', sans-serif;
+            --font-title: 'Teko', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: url('images/pubg%20bg.jpg') no-repeat center center/cover;
+            filter: blur(15px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 280px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('images/pubg%20side.jpg') no-repeat center center/cover;
+            filter: blur(15px);
+            z-index: -1;
+            opacity: 0.75;
+        }
+
+        .sidebar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 10, 0.8);
+            z-index: -1;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .survival-time-container {
+            margin-top: 12px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #00ff88;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .survival-label {
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-title);
+            font-size: 28px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .logo-icon i {
+            width: 18px;
+            height: 18px;
+            color: black;
+        }
+
+        .new-chat-btn {
+            width: fit-content;
+            padding: 14px 20px;
+            margin: 20px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font-display);
+        }
+
+        .new-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+        }
+
+        .new-chat-btn i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 12px 140px;
+        }
+
+        .chat-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .chat-item {
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .chat-item.active {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .chat-item-content {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-item-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-item-preview {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 4px;
+        }
+
+        .delete-chat-btn {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            opacity: 1;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-item:hover .delete-chat-btn {
+            opacity: 1;
+        }
+
+        .delete-chat-btn:hover {
+            background: rgba(255, 68, 68, 0.1);
+            color: #b91c1c;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg-secondary);
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: var(--bg-hover);
+        }
+
+        .chat-title {
+            font-size: 24px;
+            font-family: var(--font-title);
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        /* Messages area */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            scroll-behavior: smooth;
+            padding-bottom: 25vh;
+        }
+
+        .messages-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .message {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .message.user .avatar {
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            color: white;
+        }
+
+        .message.assistant .avatar {
+            background: var(--bg-tertiary);
+            color: var(--accent-primary);
+            border: 2px solid var(--border);
+        }
+
+        .message-content {
+            flex: 1;
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .message.user .message-content {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-top-left-radius: 4px;
+        }
+
+        .message.assistant .message-content {
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-top-left-radius: 4px;
+            backdrop-filter: blur(5px);
+        }
+
+        .message-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .message-content em {
+            color: var(--accent-primary);
+            font-style: normal;
+        }
+
+        .message-content code {
+            background: var(--bg-tertiary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--accent-primary);
+        }
+
+        .code-block {
+            position: relative;
+            margin: 10px 0;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            background: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            min-width: fit-content;
+        }
+
+        .code-block .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .code-block .copy-btn:hover {
+            background: var(--accent-secondary);
+        }
+
+        .message-images {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .message-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            object-fit: cover;
+        }
+
+        .message:hover .message-actions {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .message-actions {
+            position: absolute;
+            top: -12px;
+            right: 10px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .action-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .edit-textarea {
+            width: 100%;
+            background: var(--bg-hover);
+            border: 1px solid var(--accent-primary);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            min-height: 60px;
+            margin-bottom: 8px;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .save-edit-btn, .cancel-edit-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+        }
+
+        .save-edit-btn {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .cancel-edit-btn {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 6px;
+            padding: 12px 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% {
+                opacity: 1;
+            }
+            30% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Input area */
+        .input-container {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+            position: fixed;
+            bottom: 0;
+            left: 280px;
+            right: 0;
+        }
+
+        .image-preview-container {
+            display: none;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .image-preview-container.active {
+            display: flex;
+        }
+
+        .image-preview {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--bg-primary);
+            border: none;
+            color: var(--text-primary);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .image-preview:hover .remove-image {
+            opacity: 1;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 8px;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--accent-primary);
+        }
+
+        .attach-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .attach-btn i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .attach-btn:hover {
+            background: var(--bg-hover);
+            color: var(--accent-primary);
+        }
+
+        #prompt {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 15px;
+            resize: none;
+            max-height: 120px;
+            padding: 10px;
+        }
+
+        #prompt::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--error);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        /* Profile Modal */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-modal.active {
+            display: flex;
+        }
+
+        .profile-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .profile-card h2 {
+            font-family: var(--font-title);
+            font-size: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-primary);
+        }
+
+        .save-profile-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .save-profile-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+            z-index: 10;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .user-profile:hover {
+            background: var(--bg-hover);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            border: 2px solid var(--border);
+        }
+
+        .user-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .edit-profile-btn {
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-profile-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .input-container {
+                left: 0;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+            }
+
+            .overlay.active {
+                display: block;
+            }
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-state-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .empty-state-icon i {
+            width: 100%;
+            height: 100%;
+            color: var(--accent-primary);
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .empty-state h2 {
+            font-family: var(--font-title);
+            font-size: 32px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 32px;
+            max-width: 400px;
+        }
+
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .suggestion-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .suggestion-card:hover {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .suggestion-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .suggestion-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Dashboard specific styles */
+        .dashboard-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .age-insight {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .milestone {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone.upcoming {
+            border-color: var(--success);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .milestone.achieved {
+            border-color: var(--accent-primary);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .todo-item {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-tertiary);
+            transition: all 0.2s ease;
+        }
+
+        .todo-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .goal-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            background: var(--bg-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .goal-item:hover {
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal-progress {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .goal-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .metric-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .metric-card:hover {
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .health-score {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 0.5rem;
+        }
+
+        .productivity-score {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 0.5rem;
+        }
+
+        .life-progress {
+            position: relative;
+            height: 12px;
+            background: var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .life-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i data-feather="target"></i>
+                    </div>
+                    <span>Life Dashboard</span>
+                </div>
+                <div class="survival-time-container">
+                    <span class="survival-label">Session Time:</span>
+                    <span id="survival-time">00:00:00</span>
+                </div>
+            </div>
+
+            <div class="chat-list">
+                <!-- Dashboard sections as "chats" -->
+                <div class="chat-item active" data-section="overview">
+                    <div class="chat-item-content">
+                        <div class="chat-item-title">Dashboard Overview</div>
+                        <div class="chat-item-preview">Your life at a glance</div>
+                    </div>
+                </div>
+                <div class="chat-item" data-section="tasks">
+                    <div class="chat-item-content">
+                        <div class="chat-item-title">Daily Tasks</div>
+                        <div class="chat-item-preview">Manage your todos</div>
+                    </div>
+                </div>
+                <div class="chat-item" data-section="goals">
+                    <div class="chat-item-content">
+                        <div class="chat-item-title">Life Goals</div>
+                        <div class="chat-item-preview">Track your aspirations</div>
+                    </div>
+                </div>
+                <div class="chat-item" data-section="insights">
+                    <div class="chat-item-content">
+                        <div class="chat-item-title">Age Insights</div>
+                        <div class="chat-item-preview">Life stage analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-profile" id="userProfileBtn">
+                    <div class="user-avatar" id="sidebarAvatar">
+                        <i data-feather="user"></i>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebarUserName">Set Profile</div>
+                    </div>
+                    <button class="edit-profile-btn" id="editProfileBtn">
+                        <i data-feather="settings"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <div class="chat-header">
+                <button class="menu-btn" id="menuBtn">
+                    <i data-feather="menu"></i>
+                </button>
+                <div class="chat-title" id="currentSectionTitle">Dashboard Overview</div>
+            </div>
+
+            <!-- Messages area -->
+            <div class="messages-container" id="messages">
+                <!-- Dashboard content will be loaded here -->
+                <div id="dashboard-content">
+                    <!-- Content will be dynamically loaded -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Profile Modal -->
+        <div class="profile-modal" id="profileModal">
+            <div class="profile-card">
+                <h2>Welcome to Life Dashboard</h2>
+                <div class="form-group">
+                    <label for="userName">What's your name?</label>
+                    <input type="text" id="userName" class="form-input" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="userAge">How old are you?</label>
+                    <input type="number" id="userAge" class="form-input" placeholder="Enter your age" min="1" max="120">
+                </div>
+                <button class="save-profile-btn" id="saveProfileBtn">Get Started</button>
+            </div>
+        </div>
+
+        <!-- Overlay for mobile -->
+        <div class="overlay" id="overlay"></div>
+    </div>
+    </div>
+
+    <script>
+        // Update Survival Time
+        function updateSurvivalTime() {
+            const now = new Date();
+            const start = new Date(localStorage.getItem('session-start') || now);
+            const diff = now - start;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('survival-time').textContent =
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Start clock
+        setInterval(updateSurvivalTime, 1000);
+        updateSurvivalTime();
+
+        // Set session start if not set
+        if (!localStorage.getItem('session-start')) {
+            localStorage.setItem('session-start', new Date().toISOString());
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // DOM Elements
+            const profileModal = document.getElementById('profileModal');
+            const userNameInput = document.getElementById('userName');
+            const userAgeInput = document.getElementById('userAge');
+            const saveProfileBtn = document.getElementById('saveProfileBtn');
+            const userProfileBtn = document.getElementById('userProfileBtn');
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            const sidebarUserName = document.getElementById('sidebarUserName');
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            const menuBtn = document.getElementById('menuBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const currentSectionTitle = document.getElementById('currentSectionTitle');
+            const dashboardContent = document.getElementById('dashboard-content');
+
+            // Chat items
+            const chatItems = document.querySelectorAll('.chat-item');
+
+            // Data storage
+            let userProfile = {
+                name: '',
+                age: 0,
+                created: null
+            };
+
+            let todos = [];
+            let goals = [];
+            let weeklyData = {
+                mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 0, sun: 0
+            };
+
+            // Inspirational quotes
+            const quotes = [
+                { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+                { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+                { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+                { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+                { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+                { text: "Your time is limited, so don't waste it living someone else's life.", author: "Steve Jobs" },
+                { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" }
+            ];
+
+            // Age-based calculations
+            function calculateLifeExpectancy(age) {
+                const baseExpectancy = 72;
+                const ageAdjustment = age > 40 ? (age - 40) * 0.2 : 0;
+                return Math.max(1, baseExpectancy - ageAdjustment);
+            }
+
+            function getLifeStage(age) {
+                if (age < 13) return "Childhood";
+                if (age < 20) return "Teen Years";
+                if (age < 30) return "Young Adult";
+                if (age < 40) return "Adult";
+                if (age < 50) return "Middle Age";
+                if (age < 65) return "Mature Adult";
+                return "Senior Years";
+            }
+
+            function getFocusAreas(age) {
+                if (age < 20) return "Education, personal growth, building healthy habits";
+                if (age < 30) return "Career development, relationships, financial planning";
+                if (age < 40) return "Career advancement, family planning, skill development";
+                if (age < 50) return "Financial security, health maintenance, life balance";
+                if (age < 65) return "Legacy building, retirement planning, mentorship";
+                return "Health management, family connections, life reflection";
+            }
+
+            function getMilestones(age) {
+                const milestones = [
+                    { age: 18, title: "Legal Adult", description: "Voting rights, contracts, independence" },
+                    { age: 21, title: "Legal Drinking Age", description: "Alcohol consumption in most countries" },
+                    { age: 25, title: "Quarter Life", description: "Often considered career establishment point" },
+                    { age: 30, title: "Career Peak", description: "Many reach professional milestones" },
+                    { age: 40, title: "Mid-Life", description: "Time for life reassessment" },
+                    { age: 50, title: "Half Century", description: "Major life reflection milestone" },
+                    { age: 60, title: "Retirement Age", description: "Traditional retirement eligibility" },
+                    { age: 65, title: "Senior Status", description: "Medicare eligibility in many countries" },
+                    { age: 70, title: "Golden Years", description: "Often considered retirement phase" },
+                    { age: 80, title: "Octogenarian", description: "Rare and celebrated milestone" },
+                    { age: 90, title: "Nonagenarian", description: "Exceptional longevity milestone" },
+                    { age: 100, title: "Centenarian", description: "Century of life milestone" }
+                ];
+
+                return milestones.filter(m => m.age > age).slice(0, 3);
+            }
+
+            function calculateHealthScore(age) {
+                let baseScore = 100;
+                if (age > 30) baseScore -= (age - 30) * 0.5;
+                if (age > 50) baseScore -= (age - 50) * 0.8;
+                if (age > 70) baseScore -= (age - 70) * 1.2;
+                return Math.max(0, Math.min(100, Math.round(baseScore)));
+            }
+
+            // Local storage functions
+            function saveToStorage() {
+                localStorage.setItem('life-dashboard-profile', JSON.stringify(userProfile));
+                localStorage.setItem('life-dashboard-todos', JSON.stringify(todos));
+                localStorage.setItem('life-dashboard-goals', JSON.stringify(goals));
+                localStorage.setItem('life-dashboard-weekly', JSON.stringify(weeklyData));
+            }
+
+            function loadFromStorage() {
+                const profile = localStorage.getItem('life-dashboard-profile');
+                if (profile) {
+                    userProfile = JSON.parse(profile);
+                }
+
+                const storedTodos = localStorage.getItem('life-dashboard-todos');
+                if (storedTodos) {
+                    todos = JSON.parse(storedTodos);
+                }
+
+                const storedGoals = localStorage.getItem('life-dashboard-goals');
+                if (storedGoals) {
+                    goals = JSON.parse(storedGoals);
+                }
+
+                const storedWeekly = localStorage.getItem('life-dashboard-weekly');
+                if (storedWeekly) {
+                    weeklyData = JSON.parse(storedWeekly);
+                }
+            }
+
+            // Load section content
+            function loadSection(section) {
+                let content = '';
+
+                switch(section) {
+                    case 'overview':
+                        content = generateOverviewContent();
+                        break;
+                    case 'tasks':
+                        content = generateTasksContent();
+                        break;
+                    case 'goals':
+                        content = generateGoalsContent();
+                        break;
+                    case 'insights':
+                        content = generateInsightsContent();
+                        break;
+                }
+
+                dashboardContent.innerHTML = content;
+                feather.replace();
+                attachEventListeners();
+            }
+
+            function generateOverviewContent() {
+                if (!userProfile.name) {
+                    return `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i data-feather="user"></i>
+                            </div>
+                            <h2>Welcome to Life Dashboard</h2>
+                            <p>Set up your profile to get started with personalized insights and productivity tools.</p>
+                            <button class="save-profile-btn" onclick="document.getElementById('editProfileBtn').click()">Set Up Profile</button>
+                        </div>
+                    `;
+                }
+
+                const lifeExpectancy = calculateLifeExpectancy(userProfile.age);
+                const lifePercentage = (userProfile.age / (userProfile.age + lifeExpectancy)) * 100;
+                const healthScore = calculateHealthScore(userProfile.age);
+                const completedTodos = todos.filter(todo => todo.completed).length;
+                const totalTodos = todos.length;
+                const productivityScore = totalTodos > 0 ? Math.round((completedTodos / totalTodos) * 100) : 0;
+
+                return `
+                    <div class="message user">
+                        <div class="avatar">
+                            <i data-feather="user"></i>
+                        </div>
+                        <div class="message-content">
+                            <strong>Profile Overview</strong><br>
+                            Hello ${userProfile.name}! You are ${userProfile.age} years old.
+                        </div>
+                    </div>
+
+                    <div class="message assistant">
+                        <div class="avatar">
+                            <i data-feather="target"></i>
+                        </div>
+                        <div class="message-content">
+                            <strong>Life Progress</strong><br>
+                            Based on global averages, you have approximately ${Math.round(lifeExpectancy)} years left (${lifePercentage.toFixed(1)}% through life).
+                            <div class="life-progress" style="margin-top: 10px;">
+                                <div class="life-fill" style="width: ${lifePercentage}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message assistant">
+                        <div class="avatar">
+                            <i data-feather="activity"></i>
+                        </div>
+                        <div class="message-content">
+                            <strong>Health & Productivity</strong><br>
+                            Health Score: ${healthScore}/100 | Productivity: ${productivityScore}% | Tasks Completed: ${completedTodos}/${totalTodos}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateTasksContent() {
+                let tasksHtml = todos.map((todo, index) => `
+                    <div class="todo-item ${todo.completed ? 'completed' : ''}">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center flex-1">
+                                <input type="checkbox" class="mr-3 todo-checkbox" data-index="${index}" ${todo.completed ? 'checked' : ''}>
+                                <span class="flex-1">${todo.text}</span>
+                            </div>
+                            <button class="text-red-500 hover:text-red-700 delete-todo" data-index="${index}">
+                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">${new Date(todo.created).toLocaleDateString()}</div>
+                    </div>
+                `).join('');
+
+                if (todos.length === 0) {
+                    tasksHtml = '<p class="text-center text-gray-500 py-8">No tasks yet. Add your first task below!</p>';
+                }
+
+                return `
+                    <div class="message assistant">
+                        <div class="avatar">
+                            <i data-feather="check-square"></i>
+                        </div>
+                        <div class="message-content">
+                            <strong>Daily Tasks</strong><br>
+                            Manage your daily tasks and track your productivity.
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <div class="mb-4">
+                            <div class="flex gap-2">
+                                <input type="text" id="new-todo" placeholder="Add a new task..." class="flex-1 form-input">
+                                <button id="add-todo" class="save-profile-btn" style="padding: 12px;">
+                                    <i data-feather="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="todo-list" class="max-h-80 overflow-y-auto">
+                            ${tasksHtml}
+                        </div>
+
+                        <div class="mt-4 text-sm text-gray-400">
+                            <span id="completed-count">${todos.filter(t => t.completed).length}</span> of <span id="total-count">${todos.length}</span> tasks completed
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateGoalsContent() {
+                let goalsHtml = goals.map((goal, index) => `
+                    <div class="goal-item">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-white">${goal.text}</h4>
+                                <div class="flex items-center justify-between text-sm text-gray-400 mt-1">
+                                    <span class="capitalize">${goal.category}</span>
+                                    <span>${goal.progress}% complete</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 ml-4">
+                                <button class="text-green-500 hover:text-green-700 update-progress" data-index="${index}" data-action="decrease">
+                                    <i data-feather="minus" class="w-4 h-4"></i>
+                                </button>
+                                <button class="text-blue-500 hover:text-blue-700 update-progress" data-index="${index}" data-action="increase">
+                                    <i data-feather="plus" class="w-4 h-4"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 delete-goal" data-index="${index}">
+                                    <i data-feather="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            <div class="goal-fill" style="width: ${goal.progress}%"></div>
+                        </div>
+                    </div>
+                `).join('');
+
+                if (goals.length === 0) {
+                    goalsHtml = '<p class="text-center text-gray-500 py-8">No goals yet. Set your first goal below!</p>';
+                }
+
+                return `
+                    <div class="message assistant">
+                        <div class="avatar">
+                            <i data-feather="target"></i>
+                        </div>
+                        <div class="message-content">
+                            <strong>Life Goals</strong><br>
+                            Set and track your long-term aspirations.
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <div class="mb-4">
+                            <div class="flex gap-2 mb-2">
+                                <input type="text" id="new-goal" placeholder="Set a new goal..." class="flex-1 form-input">
+                                <select id="goal-category" class="form-input" style="width: 150px;">
+                                    <option value="personal">Personal</option>
+                                    <option value="career">Career</option>
+                                    <option value="health">Health</option>
+                                    <option value="financial">Financial</option>
+                                    <option value="education">Education</option>
+                                </select>
+                            </div>
+                            <button id="add-goal" class="save-profile-btn w-full">Add Goal</button>
+                        </div>
+
+                        <div id="goals-list">
+                            ${goalsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateInsightsContent() {
+                if (!userProfile.age) {
+                    return `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i data-feather="eye"></i>
+                            </div>
+                            <h2>Age-Based Insights</h2>
+                            <p>Set your age in your profile to see personalized insights and milestones.</p>
+                        </div>
+                    `;
+                }
+
+                const lifeStage = getLifeStage(userProfile.age);
+                const focusAreas = getFocusAreas(userProfile.age);
+                const milestones = getMilestones(userProfile.age);
+
+                let milestonesHtml = milestones.map(milestone => `
+                    <div class="milestone upcoming">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h4 class="font-semibold text-white">${milestone.title} (Age ${milestone.age})</h4>
+                                <p class="text-sm text-gray-400">${milestone.description}</p>
+                            </div>
+                            <div class="text-sm text-gray-500">${milestone.age - userProfile.age} years</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="message assistant">
+                        <div class="avatar">
+                            <i data-feather="eye"></i>
+                        </div>
+                        <div class="message-content">
+                            <strong>Age-Based Insights for ${userProfile.name}</strong><br>
+                            Current Life Stage: ${lifeStage}<br>
+                            Focus Areas: ${focusAreas}
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3 class="text-lg font-semibold text-white mb-4">Upcoming Milestones</h3>
+                        <div class="space-y-2">
+                            ${milestonesHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function attachEventListeners() {
+                // Todo functionality
+                const addTodoBtn = document.getElementById('add-todo');
+                const newTodoInput = document.getElementById('new-todo');
+
+                if (addTodoBtn && newTodoInput) {
+                    addTodoBtn.addEventListener('click', function() {
+                        const text = newTodoInput.value.trim();
+                        if (!text) return;
+
+                        todos.push({
+                            text: text,
+                            completed: false,
+                            created: new Date().toISOString()
+                        });
+
+                        newTodoInput.value = '';
+                        loadSection('tasks');
+                        saveToStorage();
+                    });
+
+                    newTodoInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            addTodoBtn.click();
+                        }
+                    });
+                }
+
+                // Todo checkboxes
+                document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const index = parseInt(this.dataset.index);
+                        todos[index].completed = this.checked;
+                        loadSection('tasks');
+                        saveToStorage();
+                    });
+                });
+
+                // Delete todos
+                document.querySelectorAll('.delete-todo').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        todos.splice(index, 1);
+                        loadSection('tasks');
+                        saveToStorage();
+                    });
+                });
+
+                // Goal functionality
+                const addGoalBtn = document.getElementById('add-goal');
+                const newGoalInput = document.getElementById('new-goal');
+                const goalCategorySelect = document.getElementById('goal-category');
+
+                if (addGoalBtn && newGoalInput) {
+                    addGoalBtn.addEventListener('click', function() {
+                        const text = newGoalInput.value.trim();
+                        const category = goalCategorySelect ? goalCategorySelect.value : 'personal';
+
+                        if (!text) return;
+
+                        goals.push({
+                            text: text,
+                            category: category,
+                            progress: 0,
+                            created: new Date().toISOString()
+                        });
+
+                        newGoalInput.value = '';
+                        loadSection('goals');
+                        saveToStorage();
+                    });
+
+                    newGoalInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            addGoalBtn.click();
+                        }
+                    });
+                }
+
+                // Goal progress
+                document.querySelectorAll('.update-progress').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        const action = this.dataset.action;
+
+                        if (action === 'increase' && goals[index].progress < 100) {
+                            goals[index].progress = Math.min(100, goals[index].progress + 10);
+                        } else if (action === 'decrease' && goals[index].progress > 0) {
+                            goals[index].progress = Math.max(0, goals[index].progress - 10);
+                        }
+
+                        loadSection('goals');
+                        saveToStorage();
+                    });
+                });
+
+                // Delete goals
+                document.querySelectorAll('.delete-goal').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        goals.splice(index, 1);
+                        loadSection('goals');
+                        saveToStorage();
+                    });
+                });
+            }
+
+            // Sidebar navigation
+            chatItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    chatItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    const section = this.dataset.section;
+                    currentSectionTitle.textContent = this.querySelector('.chat-item-title').textContent;
+                    loadSection(section);
+                });
+            });
+
+            // Profile modal
+            function showProfileModal() {
+                userNameInput.value = userProfile.name || '';
+                userAgeInput.value = userProfile.age || '';
+                profileModal.classList.add('active');
+            }
+
+            function hideProfileModal() {
+                profileModal.classList.remove('active');
+            }
+
+            saveProfileBtn.addEventListener('click', function() {
+                const name = userNameInput.value.trim();
+                const age = parseInt(userAgeInput.value);
+
+                if (!name || !age || age < 1 || age > 120) {
+                    alert('Please enter a valid name and age (1-120).');
+                    return;
+                }
+
+                userProfile = {
+                    name: name,
+                    age: age,
+                    created: userProfile.created || new Date().toISOString()
+                };
+
+                sidebarUserName.textContent = name;
+                sidebarAvatar.innerHTML = '<i data-feather="user"></i>';
+                feather.replace();
+
+                hideProfileModal();
+                loadSection('overview');
+                saveToStorage();
+            });
+
+            userProfileBtn.addEventListener('click', showProfileModal);
+            editProfileBtn.addEventListener('click', showProfileModal);
+
+            // Mobile menu
+            menuBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            // Initialize
+            loadFromStorage();
+
+            if (userProfile.name && userProfile.age > 0) {
+                sidebarUserName.textContent = userProfile.name;
+                loadSection('overview');
+            } else {
+                profileModal.classList.add('active');
+            }
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you need to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

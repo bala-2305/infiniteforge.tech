@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 Number Puzzle — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Play 2048 Number Puzzle online: Slide tiles to combine numbers and reach 2048. Challenge your strategic thinking with this addictive number game.">
+    <meta name="keywords" content="2048 game, number puzzle, sliding puzzle, strategy game, brain training, logic game, tile game, math game, puzzle game, addictive game, 2048 puzzle, number sliding, cognitive training">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="2048 Number Puzzle — InfiniteForge">
+    <meta property="og:description" content="Play 2048 Number Puzzle online: Slide tiles to combine numbers and reach 2048. Challenge your strategic thinking with this addictive number game.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/2048-game.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="2048 Number Puzzle — InfiniteForge">
+    <meta name="twitter:description" content="Play 2048 Number Puzzle online: Slide tiles to combine numbers and reach 2048. Challenge your strategic thinking with this addictive number game.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/2048-game.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/2048-game.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "2048 Number Puzzle — InfiniteForge",
+        "description": "Play 2048 Number Puzzle online: Slide tiles to combine numbers and reach 2048. Challenge your strategic thinking with this addictive number game.",
+        "url": "https://infiniteforge.tech/2048-game.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-07",
+        "dateModified": "2025-10-07"
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        .game-container {
+            background: #bbada0;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .grid-container {
+            position: relative;
+            background: #bbada0;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .grid-row {
+            display: flex;
+        }
+
+        .grid-cell {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            border-radius: 3px;
+            background: rgba(238, 228, 218, 0.35);
+        }
+
+        .tile {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 3px;
+            text-align: center;
+            line-height: 100px;
+            font-size: 36px;
+            font-weight: bold;
+            transition: all 0.15s ease-in-out;
+            z-index: 10;
+        }
+
+        .tile-2 { background: #eee4da; color: #776e65; }
+        .tile-4 { background: #ede0c8; color: #776e65; }
+        .tile-8 { background: #f2b179; color: #f9f6f2; }
+        .tile-16 { background: #f59563; color: #f9f6f2; }
+        .tile-32 { background: #f67c5f; color: #f9f6f2; }
+        .tile-64 { background: #f65e3b; color: #f9f6f2; }
+        .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 32px; }
+        .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 32px; }
+        .tile-512 { background: #edc850; color: #f9f6f2; font-size: 32px; }
+        .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 28px; }
+        .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 28px; }
+
+        .tile-super { background: linear-gradient(45deg, #edc22e, #3c3a32); color: #f9f6f2; font-size: 24px; }
+
+        .tile-new {
+            animation: appear 0.2s ease-in-out;
+        }
+
+        .tile-merged {
+            animation: pop 0.15s ease-in-out;
+        }
+
+        @keyframes appear {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(238, 228, 218, 0.73);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            z-index: 20;
+        }
+
+        .game-won-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(237, 194, 46, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            z-index: 20;
+        }
+
+        @media (max-width: 640px) {
+            .grid-cell, .tile {
+                width: 70px;
+                height: 70px;
+                line-height: 70px;
+                font-size: 24px;
+            }
+
+            .tile-128, .tile-256, .tile-512 { font-size: 20px; }
+            .tile-1024, .tile-2048 { font-size: 18px; }
+            .tile-super { font-size: 16px; }
+
+            .game-container {
+                padding: 10px;
+                max-width: 320px;
+            }
+
+            .grid-container {
+                padding: 10px;
+            }
+        }
+    </style>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-24 pb-12 px-4" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">2048 Number Puzzle</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto" itemprop="description">
+                Slide tiles to combine numbers and reach 2048! Use arrow keys or swipe to move tiles. Combine matching numbers to create higher values.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-4 gap-8 mb-8">
+            <!-- Game Controls -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
+                        Game Controls
+                    </h3>
+                    <div class="space-y-4">
+                        <button id="new-game" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors font-medium">
+                            New Game
+                        </button>
+                        <button id="undo-move" class="w-full bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors">
+                            Undo Move
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Stats -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-500"></i>
+                        Game Stats
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Score</span>
+                            <span class="font-semibold text-xl" id="score">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Best</span>
+                            <span class="font-semibold text-xl" id="best-score">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Moves</span>
+                            <span class="font-semibold" id="moves">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Highest Tile</span>
+                            <span class="font-semibold" id="highest-tile">2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Board -->
+            <div class="lg:col-span-3">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Game Board</h2>
+                        <div id="game-status" class="text-lg text-gray-600">Use arrow keys to move tiles</div>
+                    </div>
+
+                    <div class="game-container">
+                        <div class="grid-container">
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                        </div>
+                        <div id="tile-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="book-open" class="w-5 h-5 mr-2 text-blue-500"></i>
+                    How to Play
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>🎯 Goal:</strong> Combine tiles to reach 2048</p>
+                    <p><strong>⬆️⬇️⬅️➡️ Controls:</strong> Use arrow keys or swipe to move tiles</p>
+                    <p><strong>🔄 Movement:</strong> All tiles slide in the chosen direction</p>
+                    <p><strong>➕ Combining:</strong> Matching numbers merge into their sum</p>
+                    <p><strong>🎲 New Tiles:</strong> A new 2 or 4 appears after each move</p>
+                    <p><strong>🏁 Game Over:</strong> When no moves are possible</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="target" class="w-5 h-5 mr-2 text-green-500"></i>
+                    Strategy Tips
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>🎯 Corner Strategy:</strong> Keep highest numbers in corners</p>
+                    <p><strong>📈 Build Up:</strong> Create a monotonic sequence</p>
+                    <p><strong>🚫 Avoid Chaos:</strong> Don't let small numbers scatter</p>
+                    <p><strong>⚡ Plan Ahead:</strong> Think 2-3 moves ahead</p>
+                    <p><strong>🎪 Pattern Recognition:</strong> Look for merge opportunities</p>
+                    <p><strong>🏆 Practice:</strong> Each game improves your strategy</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fun Facts -->
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <i data-feather="brain" class="w-4 h-4 mr-2 text-blue-500"></i>
+                    Mental Benefits
+                </h4>
+                <p class="text-sm text-gray-600">2048 improves strategic thinking, pattern recognition, and decision-making skills.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <i data-feather="trending-up" class="w-4 h-4 mr-2 text-green-500"></i>
+                    Skill Progression
+                </h4>
+                <p class="text-sm text-gray-600">Start with basic patterns, then learn advanced techniques like corner strategies and chain reactions.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <i data-feather="clock" class="w-4 h-4 mr-2 text-purple-500"></i>
+                    Quick Sessions
+                </h4>
+                <p class="text-sm text-gray-600">Perfect for short breaks - games typically last 5-15 minutes depending on skill level.</p>
+            </div>
+        </div>
+
+        <div id="message" class="mt-4 text-center text-sm text-gray-600"></div>
+    </main>
+
+    <script>
+        // Defer initialization until page loads to improve INP
+        window.addEventListener('load', function() {
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link is clicked
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+
+                // Close mobile menu when scrolling
+                window.addEventListener('scroll', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            // Game elements
+            const tileContainer = document.getElementById('tile-container');
+            const scoreElement = document.getElementById('score');
+            const bestScoreElement = document.getElementById('best-score');
+            const movesElement = document.getElementById('moves');
+            const highestTileElement = document.getElementById('highest-tile');
+            const gameStatus = document.getElementById('game-status');
+            const newGameBtn = document.getElementById('new-game');
+            const undoBtn = document.getElementById('undo-move');
+
+            // Game state
+            let board = [];
+            let score = 0;
+            let moves = 0;
+            let highestTile = 2;
+            let gameOver = false;
+            let gameWon = false;
+            let previousState = null;
+
+            // Initialize game
+            function initGame() {
+                board = Array(4).fill().map(() => Array(4).fill(0));
+                score = 0;
+                moves = 0;
+                highestTile = 2;
+                gameOver = false;
+                gameWon = false;
+                previousState = null;
+
+                // Add two initial tiles
+                addRandomTile();
+                addRandomTile();
+
+                updateDisplay();
+                updateGameStatus();
+                saveBestScore();
+            }
+
+            // Add random tile (2 or 4)
+            function addRandomTile() {
+                const emptyCells = [];
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        if (board[i][j] === 0) {
+                            emptyCells.push({row: i, col: j});
+                        }
+                    }
+                }
+
+                if (emptyCells.length > 0) {
+                    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                    board[randomCell.row][randomCell.col] = Math.random() < 0.9 ? 2 : 4;
+                }
+            }
+
+            // Save current state for undo
+            function saveState() {
+                previousState = {
+                    board: board.map(row => [...row]),
+                    score: score,
+                    moves: moves,
+                    highestTile: highestTile
+                };
+            }
+
+            // Undo move
+            function undoMove() {
+                if (previousState && !gameOver) {
+                    board = previousState.board.map(row => [...row]);
+                    score = previousState.score;
+                    moves = previousState.moves;
+                    highestTile = previousState.highestTile;
+                    gameOver = false;
+                    gameWon = false;
+                    updateDisplay();
+                    updateGameStatus();
+                    showMessage('Move undone!', 'info');
+                }
+            }
+
+            // Move tiles in a direction
+            function move(direction) {
+                if (gameOver) return false;
+
+                saveState();
+                let moved = false;
+
+                switch (direction) {
+                    case 'up':
+                        moved = moveUp();
+                        break;
+                    case 'down':
+                        moved = moveDown();
+                        break;
+                    case 'left':
+                        moved = moveLeft();
+                        break;
+                    case 'right':
+                        moved = moveRight();
+                        break;
+                }
+
+                if (moved) {
+                    moves++;
+                    addRandomTile();
+                    updateHighestTile();
+                    checkGameState();
+                    updateDisplay();
+                    updateGameStatus();
+                    saveBestScore();
+                }
+
+                return moved;
+            }
+
+            // Move up
+            function moveUp() {
+                let moved = false;
+                for (let col = 0; col < 4; col++) {
+                    const column = board.map(row => row[col]);
+                    const newColumn = slideAndMerge(column);
+                    for (let row = 0; row < 4; row++) {
+                        if (board[row][col] !== newColumn[row]) {
+                            moved = true;
+                        }
+                        board[row][col] = newColumn[row];
+                    }
+                }
+                return moved;
+            }
+
+            // Move down
+            function moveDown() {
+                let moved = false;
+                for (let col = 0; col < 4; col++) {
+                    const column = board.map(row => row[col]).reverse();
+                    const newColumn = slideAndMerge(column).reverse();
+                    for (let row = 0; row < 4; row++) {
+                        if (board[row][col] !== newColumn[row]) {
+                            moved = true;
+                        }
+                        board[row][col] = newColumn[row];
+                    }
+                }
+                return moved;
+            }
+
+            // Move left
+            function moveLeft() {
+                let moved = false;
+                for (let row = 0; row < 4; row++) {
+                    const newRow = slideAndMerge([...board[row]]);
+                    if (board[row].some((val, i) => val !== newRow[i])) {
+                        moved = true;
+                    }
+                    board[row] = newRow;
+                }
+                return moved;
+            }
+
+            // Move right
+            function moveRight() {
+                let moved = false;
+                for (let row = 0; row < 4; row++) {
+                    const newRow = slideAndMerge([...board[row]].reverse()).reverse();
+                    if (board[row].some((val, i) => val !== newRow[i])) {
+                        moved = true;
+                    }
+                    board[row] = newRow;
+                }
+                return moved;
+            }
+
+            // Slide and merge tiles
+            function slideAndMerge(line) {
+                // Remove zeros and slide left
+                const filtered = line.filter(val => val !== 0);
+
+                // Merge adjacent equal values
+                for (let i = 0; i < filtered.length - 1; i++) {
+                    if (filtered[i] === filtered[i + 1]) {
+                        filtered[i] *= 2;
+                        score += filtered[i];
+                        filtered[i + 1] = 0;
+                        i++; // Skip next element as it's now merged
+                    }
+                }
+
+                // Remove zeros again and pad with zeros
+                const final = filtered.filter(val => val !== 0);
+                while (final.length < 4) {
+                    final.push(0);
+                }
+
+                return final;
+            }
+
+            // Update highest tile
+            function updateHighestTile() {
+                for (let row = 0; row < 4; row++) {
+                    for (let col = 0; col < 4; col++) {
+                        if (board[row][col] > highestTile) {
+                            highestTile = board[row][col];
+                        }
+                    }
+                }
+            }
+
+            // Check game state
+            function checkGameState() {
+                // Check for 2048
+                if (!gameWon) {
+                    for (let row = 0; row < 4; row++) {
+                        for (let col = 0; col < 4; col++) {
+                            if (board[row][col] === 2048) {
+                                gameWon = true;
+                                showGameWon();
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // Check for game over
+                if (!canMove()) {
+                    gameOver = true;
+                    showGameOver();
+                }
+            }
+
+            // Check if any moves are possible
+            function canMove() {
+                // Check for empty cells
+                for (let row = 0; row < 4; row++) {
+                    for (let col = 0; col < 4; col++) {
+                        if (board[row][col] === 0) return true;
+                    }
+                }
+
+                // Check for possible merges
+                for (let row = 0; row < 4; row++) {
+                    for (let col = 0; col < 4; col++) {
+                        const current = board[row][col];
+                        // Check right neighbor
+                        if (col < 3 && current === board[row][col + 1]) return true;
+                        // Check bottom neighbor
+                        if (row < 3 && current === board[row + 1][col]) return true;
+                    }
+                }
+
+                return false;
+            }
+
+            // Show game over overlay
+            function showGameOver() {
+                const overlay = document.createElement('div');
+                overlay.className = 'game-over-overlay';
+                overlay.innerHTML = `
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Game Over!</h2>
+                        <p class="text-gray-600 mb-4">No more moves available</p>
+                        <button onclick="location.reload()" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+                document.querySelector('.game-container').appendChild(overlay);
+                showMessage('Game Over! Try again to beat your score.', 'error');
+            }
+
+            // Show game won overlay
+            function showGameWon() {
+                const overlay = document.createElement('div');
+                overlay.className = 'game-won-overlay';
+                overlay.innerHTML = `
+                    <div class="text-center">
+                        <h2 class="text-4xl font-bold text-yellow-600 mb-2">You Win! 🎉</h2>
+                        <p class="text-gray-800 mb-4">You reached 2048!</p>
+                        <div class="flex gap-2 justify-center">
+                            <button onclick="this.parentElement.parentElement.remove()" class="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition-colors">
+                                Continue
+                            </button>
+                            <button onclick="location.reload()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                                New Game
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.querySelector('.game-container').appendChild(overlay);
+                showMessage('Congratulations! You reached 2048!', 'success');
+            }
+
+            // Update display
+            function updateDisplay() {
+                // Clear existing tiles
+                tileContainer.innerHTML = '';
+
+                // Create tiles
+                for (let row = 0; row < 4; row++) {
+                    for (let col = 0; col < 4; col++) {
+                        const value = board[row][col];
+                        if (value !== 0) {
+                            const tile = document.createElement('div');
+                            tile.className = `tile tile-${value}`;
+                            tile.textContent = value;
+                            tile.style.left = `${15 + col * 110}px`;
+                            tile.style.top = `${15 + row * 110}px`;
+                            tileContainer.appendChild(tile);
+                        }
+                    }
+                }
+
+                // Update stats
+                scoreElement.textContent = score.toLocaleString();
+                movesElement.textContent = moves;
+                highestTileElement.textContent = highestTile;
+            }
+
+            // Update game status
+            function updateGameStatus() {
+                if (gameOver) {
+                    gameStatus.textContent = 'Game Over - Click "New Game" to try again';
+                } else if (gameWon) {
+                    gameStatus.textContent = 'You won! Keep playing to reach higher scores';
+                } else {
+                    gameStatus.textContent = 'Use arrow keys to move tiles';
+                }
+            }
+
+            // Save best score
+            function saveBestScore() {
+                const bestScore = localStorage.getItem('2048-best-score') || 0;
+                if (score > bestScore) {
+                    localStorage.setItem('2048-best-score', score);
+                }
+                bestScoreElement.textContent = Math.max(score, bestScore).toLocaleString();
+            }
+
+            // Load best score
+            function loadBestScore() {
+                const bestScore = localStorage.getItem('2048-best-score') || 0;
+                bestScoreElement.textContent = bestScore.toLocaleString();
+            }
+
+            // Show message
+            function showMessage(msg, type = 'info') {
+                const messageEl = document.getElementById('message');
+                messageEl.textContent = msg;
+                messageEl.className = `mt-4 text-center text-sm ${type === 'error' ? 'text-red-600' : type === 'success' ? 'text-green-600' : 'text-gray-600'}`;
+                setTimeout(() => {
+                    messageEl.textContent = '';
+                }, 3000);
+            }
+
+            // Keyboard controls
+            document.addEventListener('keydown', function(e) {
+                if (gameOver) return;
+
+                let moved = false;
+                switch (e.key) {
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        moved = move('up');
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        moved = move('down');
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        moved = move('left');
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        moved = move('right');
+                        break;
+                }
+
+                if (moved) {
+                    // Add visual feedback for successful moves
+                    document.body.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        document.body.style.transform = 'scale(1)';
+                    }, 100);
+                }
+            });
+
+            // Touch controls for mobile
+            let touchStartX = 0;
+            let touchStartY = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                if (gameOver) return;
+
+                const touchEndX = e.changedTouches[0].clientX;
+                const touchEndY = e.changedTouches[0].clientY;
+
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = touchEndY - touchStartY;
+
+                const minSwipeDistance = 50;
+
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    // Horizontal swipe
+                    if (Math.abs(deltaX) > minSwipeDistance) {
+                        if (deltaX > 0) {
+                            move('right');
+                        } else {
+                            move('left');
+                        }
+                    }
+                } else {
+                    // Vertical swipe
+                    if (Math.abs(deltaY) > minSwipeDistance) {
+                        if (deltaY > 0) {
+                            move('down');
+                        } else {
+                            move('up');
+                        }
+                    }
+                }
+            });
+
+            // Event listeners
+            newGameBtn.addEventListener('click', initGame);
+            undoBtn.addEventListener('click', undoMove);
+
+            // Initialize
+            loadBestScore();
+            initGame();
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

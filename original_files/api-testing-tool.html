@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing Tool — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Test REST APIs with our comprehensive API testing tool. Send GET, POST, PUT, DELETE requests, add custom headers, view responses, and debug API endpoints easily.">
+    <meta name="keywords" content="API testing tool, REST API tester, HTTP request tester, API debugger, POST request, GET request, API headers, JSON response, API endpoint testing, web API testing, HTTP client, API development tool">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="API Testing Tool — InfiniteForge">
+    <meta property="og:description" content="Test REST APIs with our comprehensive API testing tool. Send GET, POST, PUT, DELETE requests, add custom headers, view responses, and debug API endpoints easily.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/api-testing-tool.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="API Testing Tool — InfiniteForge">
+    <meta name="twitter:description" content="Test REST APIs with our comprehensive API testing tool. Send GET, POST, PUT, DELETE requests, add custom headers, view responses, and debug API endpoints easily.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/api-testing-tool.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/api-testing-tool.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "API Testing Tool — InfiniteForge",
+        "description": "Test REST APIs with our comprehensive API testing tool. Send GET, POST, PUT, DELETE requests, add custom headers, view responses, and debug API endpoints easily.",
+        "url": "https://infiniteforge.tech/api-testing-tool.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-14",
+        "dateModified": "2025-10-14"
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        .method-get { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .method-post { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        .method-put { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .method-delete { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .method-patch { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+
+        .response-json {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .response-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .response-container:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .status-success { color: #10b981; }
+        .status-error { color: #ef4444; }
+        .status-info { color: #3b82f6; }
+
+        .tab-active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .tab-inactive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .tab-inactive:hover {
+            background: #e5e7eb;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .method-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .request-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .header-row input {
+                width: 100%;
+            }
+
+            .header-row button {
+                align-self: flex-end;
+                width: auto;
+            }
+
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+
+            .response-tabs {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .method-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .request-config {
+                order: 2;
+            }
+
+            .request-response {
+                order: 1;
+            }
+
+            .response-container {
+                min-height: 150px;
+            }
+
+            .request-body textarea {
+                font-size: 0.75rem;
+            }
+
+            .sample-api-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dark-mode {
+            background-color: #1f2937;
+            color: #f9fafb;
+        }
+
+        .dark-mode .bg-white {
+            background-color: #374151;
+            color: #f9fafb;
+        }
+
+        .dark-mode .text-gray-800 {
+            color: #f9fafb;
+        }
+
+        .dark-mode .text-gray-600 {
+            color: #d1d5db;
+        }
+
+        .dark-mode .text-gray-700 {
+            color: #d1d5db;
+        }
+
+        .dark-mode .border-gray-300 {
+            border-color: #4b5563;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: #111827;
+        }
+
+        .dark-mode .bg-gray-100 {
+            background-color: #374151;
+        }
+
+        .dark-mode .text-gray-500 {
+            color: #9ca3af;
+        }
+
+        .dark-mode .response-container {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            border-color: #4b5563;
+        }
+
+        .dark-mode .tab-inactive {
+            background: #4b5563;
+            color: #9ca3af;
+        }
+
+        .dark-mode .tab-inactive:hover {
+            background: #6b7280;
+        }
+
+        .syntax-highlight {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .syntax-highlight .string { color: #10b981; }
+        .syntax-highlight .number { color: #f59e0b; }
+        .syntax-highlight .boolean { color: #ef4444; }
+        .syntax-highlight .null { color: #8b5cf6; }
+        .syntax-highlight .key { color: #3b82f6; }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #374151;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .request-saved {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <button id="dark-mode-toggle" class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Toggle Dark Mode">
+                        <i data-feather="moon" class="w-5 h-5"></i>
+                    </button>
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden flex items-center space-x-2">
+                    <button id="dark-mode-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Toggle Dark Mode">
+                        <i data-feather="moon" class="w-5 h-5"></i>
+                    </button>
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-8 sm:mb-12">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">API Testing Tool</h1>
+            <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4" itemprop="description">
+                Test REST APIs with ease. Send HTTP requests, add custom headers, view responses, and debug API endpoints in real-time.
+            </p>
+        </div>
+
+        <div class="main-grid grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8">
+            <!-- Request Configuration -->
+            <div class="request-config lg:col-span-1 order-1 lg:order-1">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
+                        Request Configuration
+                    </h3>
+
+                    <!-- HTTP Method -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">HTTP Method</label>
+                        <div class="method-buttons grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button id="method-get" class="method-get px-3 py-2 rounded-md font-medium text-sm transition-all">GET</button>
+                            <button id="method-post" class="method-post px-3 py-2 rounded-md font-medium text-sm transition-all">POST</button>
+                            <button id="method-put" class="method-put px-3 py-2 rounded-md font-medium text-sm transition-all">PUT</button>
+                            <button id="method-delete" class="method-delete px-3 py-2 rounded-md font-medium text-sm transition-all">DELETE</button>
+                        </div>
+                    </div>
+
+                    <!-- URL Input -->
+                    <div class="mb-4">
+                        <label for="api-url" class="block text-sm font-medium text-gray-700 mb-2">API Endpoint URL</label>
+                        <input type="url" id="api-url" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://api.example.com/endpoint">
+                    </div>
+
+                    <!-- Headers -->
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Headers</label>
+                            <button id="add-header" class="text-blue-600 hover:text-blue-800 text-sm font-medium">+ Add Header</button>
+                        </div>
+                        <div id="headers-container">
+                            <div class="header-row flex flex-col sm:flex-row gap-2 mb-2">
+                                <input type="text" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm w-full sm:w-auto" placeholder="Key" value="Content-Type">
+                                <input type="text" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm w-full sm:w-auto" placeholder="Value" value="application/json">
+                                <button class="remove-header text-red-500 hover:text-red-700 px-2 self-end sm:self-auto">
+                                    <i data-feather="x" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Send Button -->
+                    <button id="send-request" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="send-text">Send Request</span>
+                        <div id="loading-spinner" class="loading-spinner mx-auto hidden"></div>
+                    </button>
+                </div>
+
+                <!-- Request History -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="clock" class="w-5 h-5 mr-2 text-green-500"></i>
+                        Recent Requests
+                    </h3>
+                    <div id="request-history" class="space-y-2 max-h-64 overflow-y-auto">
+                        <p class="text-sm text-gray-500 text-center">No requests yet</p>
+                    </div>
+                </div>
+
+                <!-- Saved Requests -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="bookmark" class="w-5 h-5 mr-2 text-blue-500"></i>
+                        Saved Requests
+                    </h3>
+                    <div id="saved-requests" class="space-y-2 max-h-64 overflow-y-auto">
+                        <p class="text-sm text-gray-500 text-center">No saved requests</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request/Response -->
+            <div class="request-response lg:col-span-2 order-2 lg:order-2">
+                <!-- Request Body -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <i data-feather="file-text" class="w-5 h-5 mr-2 text-purple-500"></i>
+                            Request Body
+                        </h3>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <button id="syntax-highlight" class="px-3 py-1 text-sm bg-purple-100 hover:bg-purple-200 text-purple-600 rounded-md transition-colors tooltip" title="Toggle Syntax Highlighting">
+                                <i data-feather="code" class="w-4 h-4 mr-1 inline"></i>
+                                Highlight
+                            </button>
+                            <button id="format-json" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors tooltip" title="Format JSON">
+                                <i data-feather="align-left" class="w-4 h-4 mr-1 inline"></i>
+                                Format
+                            </button>
+                            <button id="clear-body" class="px-3 py-1 text-sm bg-red-100 hover:bg-red-200 text-red-600 rounded-md transition-colors tooltip" title="Clear Body">
+                                <i data-feather="trash-2" class="w-4 h-4 mr-1 inline"></i>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                    <div id="request-body-container" class="relative">
+                        <textarea id="request-body" class="request-body w-full h-32 sm:h-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm resize-vertical" placeholder='{
+  "key": "value",
+  "number": 123,
+  "array": [1, 2, 3]
+}'></textarea>
+                        <div id="syntax-preview" class="syntax-highlight absolute top-0 left-0 w-full h-32 sm:h-40 px-3 py-2 pointer-events-none opacity-0 transition-opacity duration-300 overflow-hidden hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Response -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <i data-feather="server" class="w-5 h-5 mr-2 text-indigo-500"></i>
+                            Response
+                        </h3>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                            <div id="response-status" class="text-sm font-medium">Status: <span class="status-info">Ready</span></div>
+                            <div id="response-time" class="text-sm text-gray-600">Time: 0ms</div>
+                        </div>
+                    </div>
+
+                    <!-- Response Tabs -->
+                    <div class="response-tabs flex gap-1 mb-4">
+                        <button id="tab-body" class="tab-active px-3 sm:px-4 py-2 rounded-t-md text-xs sm:text-sm font-medium transition-all">Body</button>
+                        <button id="tab-headers" class="tab-inactive px-3 sm:px-4 py-2 rounded-t-md text-xs sm:text-sm font-medium transition-all">Headers</button>
+                        <button id="tab-cookies" class="tab-inactive px-3 sm:px-4 py-2 rounded-t-md text-xs sm:text-sm font-medium transition-all">Cookies</button>
+                        <div class="ml-auto flex gap-2">
+                            <button id="copy-response" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-xs sm:text-sm font-medium transition-colors tooltip" title="Copy Response">
+                                <i data-feather="copy" class="w-4 h-4"></i>
+                            </button>
+                            <button id="save-request" class="px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-md text-xs sm:text-sm font-medium transition-colors tooltip" title="Save Request">
+                                <i data-feather="save" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Response Content -->
+                    <div class="response-container">
+                        <div id="response-content" class="p-4 min-h-[200px]">
+                            <div id="response-body" class="response-json">
+                                <span class="text-gray-500">Response will appear here...</span>
+                            </div>
+                            <div id="response-headers" class="response-json hidden">
+                                <span class="text-gray-500">Response headers will appear here...</span>
+                            </div>
+                            <div id="response-cookies" class="response-json hidden">
+                                <span class="text-gray-500">Response cookies will appear here...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-6 sm:mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="book-open" class="w-5 h-5 mr-2 text-blue-500"></i>
+                    How to Use
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>🔗 Enter URL:</strong> Input your API endpoint URL in the URL field</p>
+                    <p><strong>📋 Select Method:</strong> Choose HTTP method (GET, POST, PUT, DELETE)</p>
+                    <p><strong>📝 Add Headers:</strong> Include authentication tokens, content types, etc.</p>
+                    <p><strong>📄 Request Body:</strong> Add JSON data for POST/PUT requests</p>
+                    <p><strong>🚀 Send Request:</strong> Click "Send Request" or press <kbd class="bg-gray-200 px-1 rounded">Ctrl+Enter</kbd></p>
+                    <p><strong>⌨️ Keyboard Shortcuts:</strong></p>
+                    <ul class="ml-4 space-y-1">
+                        <li><kbd class="bg-gray-200 px-1 rounded">Ctrl+Enter</kbd> - Send request</li>
+                        <li><kbd class="bg-gray-200 px-1 rounded">Ctrl+Shift+F</kbd> - Format JSON</li>
+                        <li><kbd class="bg-gray-200 px-1 rounded">Ctrl+Shift+H</kbd> - Toggle syntax highlighting</li>
+                        <li><kbd class="bg-gray-200 px-1 rounded">Ctrl+Shift+C</kbd> - Clear body</li>
+                        <li><kbd class="bg-gray-200 px-1 rounded">Ctrl+Shift+S</kbd> - Save request</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="zap" class="w-5 h-5 mr-2 text-green-500"></i>
+                    Features
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>🌐 All Methods:</strong> Support for GET, POST, PUT, DELETE, PATCH</p>
+                    <p><strong>📋 Custom Headers:</strong> Add any headers your API requires</p>
+                    <p><strong>📄 JSON Formatting:</strong> Auto-format JSON request/response bodies</p>
+                    <p><strong>⏱️ Response Time:</strong> Measure API response times</p>
+                    <p><strong>🍪 Cookies:</strong> View and manage cookies from responses</p>
+                    <p><strong>📚 History:</strong> Keep track of recent API requests</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample APIs -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i data-feather="code" class="w-5 h-5 mr-2 text-purple-500"></i>
+                Sample APIs to Test
+            </h3>
+            <div class="sample-api-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer" onclick="loadSampleAPI('https://jsonplaceholder.typicode.com/posts/1', 'GET')">
+                    <div class="font-medium text-gray-800">JSONPlaceholder</div>
+                    <div class="text-sm text-gray-600">Sample REST API</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer" onclick="loadSampleAPI('https://api.github.com/users/octocat', 'GET')">
+                    <div class="font-medium text-gray-800">GitHub API</div>
+                    <div class="text-sm text-gray-600">Public user data</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer" onclick="loadSampleAPI('https://httpbin.org/get', 'GET')">
+                    <div class="font-medium text-gray-800">HTTPBin</div>
+                    <div class="text-sm text-gray-600">HTTP testing service</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer" onclick="loadSampleAPI('https://reqres.in/api/users', 'POST', '{&quot;name&quot;: &quot;John Doe&quot;, &quot;job&quot;: &quot;Developer&quot;}')">
+                    <div class="font-medium text-gray-800">ReqRes</div>
+                    <div class="text-sm text-gray-600">Mock API for testing</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer" onclick="loadSampleAPI('https://api.coindesk.com/v1/bpi/currentprice.json', 'GET')">
+                    <div class="font-medium text-gray-800">CoinDesk</div>
+                    <div class="text-sm text-gray-600">Bitcoin price API</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer" onclick="loadSampleAPI('https://catfact.ninja/fact', 'GET')">
+                    <div class="font-medium text-gray-800">Cat Facts</div>
+                    <div class="text-sm text-gray-600">Random cat facts</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Track page view for API testing tool
+            gtag('event', 'page_view', {
+                page_title: 'API Testing Tool',
+                page_location: window.location.href,
+                event_category: 'engagement'
+            });
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link is clicked
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+
+                // Close mobile menu when scrolling
+                window.addEventListener('scroll', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // DOM Elements
+            const methodButtons = document.querySelectorAll('[id^="method-"]');
+            const apiUrlInput = document.getElementById('api-url');
+            const sendRequestBtn = document.getElementById('send-request');
+            const sendText = document.getElementById('send-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const requestBodyTextarea = document.getElementById('request-body');
+            const requestBodyContainer = document.getElementById('request-body-container');
+            const syntaxPreview = document.getElementById('syntax-preview');
+            const responseStatus = document.getElementById('response-status');
+            const responseTime = document.getElementById('response-time');
+            const responseBody = document.getElementById('response-body');
+            const responseHeaders = document.getElementById('response-headers');
+            const responseCookies = document.getElementById('response-cookies');
+            const tabBody = document.getElementById('tab-body');
+            const tabHeaders = document.getElementById('tab-headers');
+            const tabCookies = document.getElementById('tab-cookies');
+            const copyResponseBtn = document.getElementById('copy-response');
+            const saveRequestBtn = document.getElementById('save-request');
+            const addHeaderBtn = document.getElementById('add-header');
+            const headersContainer = document.getElementById('headers-container');
+            const formatJsonBtn = document.getElementById('format-json');
+            const syntaxHighlightBtn = document.getElementById('syntax-highlight');
+            const clearBodyBtn = document.getElementById('clear-body');
+            const requestHistory = document.getElementById('request-history');
+            const savedRequestsContainer = document.getElementById('saved-requests');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const darkModeToggleMobile = document.getElementById('dark-mode-toggle-mobile');
+
+            // State
+            let currentMethod = 'GET';
+            let requestHistoryData = [];
+            let isDarkMode = localStorage.getItem('apiTester_darkMode') === 'true';
+            let syntaxHighlightEnabled = false;
+            let savedRequests = JSON.parse(localStorage.getItem('apiTester_savedRequests') || '[]');
+
+            // Initialize dark mode
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                updateDarkModeIcons();
+            }
+
+            // Dark mode toggle
+            function updateDarkModeIcons() {
+                const icons = document.querySelectorAll('#dark-mode-toggle i, #dark-mode-toggle-mobile i');
+                icons.forEach(icon => {
+                    icon.setAttribute('data-feather', isDarkMode ? 'sun' : 'moon');
+                });
+                feather.replace();
+            }
+
+            [darkModeToggle, darkModeToggleMobile].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        isDarkMode = !isDarkMode;
+                        document.body.classList.toggle('dark-mode', isDarkMode);
+                        localStorage.setItem('apiTester_darkMode', isDarkMode);
+                        updateDarkModeIcons();
+
+                        gtag('event', 'dark_mode_toggled', {
+                            event_category: 'ui_interaction',
+                            event_label: isDarkMode ? 'enabled' : 'disabled',
+                            page_title: 'API Testing Tool'
+                        });
+                    });
+                }
+            });
+
+            // Notification system
+            function showNotification(message, type = 'info') {
+                // Remove existing notifications
+                const existingNotifications = document.querySelectorAll('.notification');
+                existingNotifications.forEach(notification => notification.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg fade-in ${type === 'success' ? 'bg-green-500 text-white' : type === 'error' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}`;
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i data-feather="${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info'}" class="w-5 h-5 mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+                document.body.appendChild(notification);
+                feather.replace();
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + Enter to send request
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!sendRequestBtn.disabled) {
+                        sendRequestBtn.click();
+                    }
+                }
+
+                // Ctrl/Cmd + Shift + F to format JSON
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
+                    e.preventDefault();
+                    formatJsonBtn.click();
+                }
+
+                // Ctrl/Cmd + Shift + H to toggle syntax highlighting
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'H') {
+                    e.preventDefault();
+                    syntaxHighlightBtn.click();
+                }
+
+                // Ctrl/Cmd + Shift + C to clear body
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+                    e.preventDefault();
+                    clearBodyBtn.click();
+                }
+
+                // Ctrl/Cmd + Shift + S to save request
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'S') {
+                    e.preventDefault();
+                    saveRequestBtn.click();
+                }
+            });
+
+            // Method selection
+            methodButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    methodButtons.forEach(btn => btn.classList.remove('ring-2', 'ring-blue-500', 'scale-105'));
+                    this.classList.add('ring-2', 'ring-blue-500', 'scale-105');
+                    currentMethod = this.textContent;
+
+                    // Track method selection
+                    gtag('event', 'method_selected', {
+                        event_category: 'api_testing',
+                        event_label: currentMethod,
+                        page_title: 'API Testing Tool'
+                    });
+                });
+            });
+
+            // Set default method
+            document.getElementById('method-get').classList.add('ring-2', 'ring-blue-500', 'scale-105');
+
+            // Add header
+            addHeaderBtn.addEventListener('click', function() {
+                const headerRow = document.createElement('div');
+                headerRow.className = 'header-row flex flex-col sm:flex-row gap-2 mb-2';
+                headerRow.innerHTML = `
+                    <input type="text" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm w-full sm:w-auto" placeholder="Key">
+                    <input type="text" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm w-full sm:w-auto" placeholder="Value">
+                    <button class="remove-header text-red-500 hover:text-red-700 px-2 self-end sm:self-auto">
+                        <i data-feather="x" class="w-4 h-4"></i>
+                    </button>
+                `;
+                headersContainer.appendChild(headerRow);
+                feather.replace();
+                attachRemoveListeners();
+
+                // Track header addition
+                gtag('event', 'header_added', {
+                    event_category: 'api_testing',
+                    event_label: 'custom_header',
+                    page_title: 'API Testing Tool'
+                });
+            });
+
+            // Remove header
+            function attachRemoveListeners() {
+                document.querySelectorAll('.remove-header').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        this.closest('.header-row').remove();
+                    });
+                });
+            }
+            attachRemoveListeners();
+
+            // Syntax highlighting
+            function highlightJSON(jsonString) {
+                try {
+                    const parsed = JSON.parse(jsonString);
+                    const highlighted = JSON.stringify(parsed, null, 2)
+                        .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                            let cls = 'number';
+                            if (/^"/.test(match)) {
+                                if (/:$/.test(match)) {
+                                    cls = 'key';
+                                } else {
+                                    cls = 'string';
+                                }
+                            } else if (/true|false/.test(match)) {
+                                cls = 'boolean';
+                            } else if (/null/.test(match)) {
+                                cls = 'null';
+                            }
+                            return `<span class="${cls}">${match}</span>`;
+                        });
+                    return highlighted;
+                } catch (e) {
+                    return jsonString;
+                }
+            }
+
+            function updateSyntaxHighlighting() {
+                if (syntaxHighlightEnabled) {
+                    const highlighted = highlightJSON(requestBodyTextarea.value);
+                    syntaxPreview.innerHTML = highlighted;
+                    syntaxPreview.classList.remove('hidden');
+                    syntaxPreview.style.opacity = '1';
+                    requestBodyTextarea.style.opacity = '0';
+                } else {
+                    syntaxPreview.classList.add('hidden');
+                    syntaxPreview.style.opacity = '0';
+                    requestBodyTextarea.style.opacity = '1';
+                }
+            }
+
+            syntaxHighlightBtn.addEventListener('click', () => {
+                syntaxHighlightEnabled = !syntaxHighlightEnabled;
+                syntaxHighlightBtn.classList.toggle('bg-purple-200', syntaxHighlightEnabled);
+                updateSyntaxHighlighting();
+
+                gtag('event', 'syntax_highlight_toggled', {
+                    event_category: 'ui_interaction',
+                    event_label: syntaxHighlightEnabled ? 'enabled' : 'disabled',
+                    page_title: 'API Testing Tool'
+                });
+            });
+
+            requestBodyTextarea.addEventListener('input', () => {
+                if (syntaxHighlightEnabled) {
+                    updateSyntaxHighlighting();
+                }
+            });
+
+            // Format JSON
+            formatJsonBtn.addEventListener('click', function() {
+                try {
+                    const parsed = JSON.parse(requestBodyTextarea.value);
+                    requestBodyTextarea.value = JSON.stringify(parsed, null, 2);
+                    if (syntaxHighlightEnabled) {
+                        updateSyntaxHighlighting();
+                    }
+
+                    // Track JSON formatting
+                    gtag('event', 'json_formatted', {
+                        event_category: 'api_testing',
+                        event_label: 'request_body',
+                        page_title: 'API Testing Tool'
+                    });
+                } catch (e) {
+                    showNotification('Invalid JSON format', 'error');
+                }
+            });
+
+            // Clear body
+            clearBodyBtn.addEventListener('click', function() {
+                requestBodyTextarea.value = '';
+
+                // Track body clearing
+                gtag('event', 'body_cleared', {
+                    event_category: 'api_testing',
+                    event_label: 'request_body',
+                    page_title: 'API Testing Tool'
+                });
+            });
+
+            // Tab switching
+            function switchTab(activeTab, inactiveTabs) {
+                activeTab.classList.remove('tab-inactive');
+                activeTab.classList.add('tab-active');
+                inactiveTabs.forEach(tab => {
+                    tab.classList.remove('tab-active');
+                    tab.classList.add('tab-inactive');
+                });
+            }
+
+            tabBody.addEventListener('click', () => {
+                switchTab(tabBody, [tabHeaders, tabCookies]);
+                responseBody.classList.remove('hidden');
+                responseHeaders.classList.add('hidden');
+                responseCookies.classList.add('hidden');
+
+                // Track tab switching
+                gtag('event', 'response_tab_viewed', {
+                    event_category: 'api_testing',
+                    event_label: 'body',
+                    page_title: 'API Testing Tool'
+                });
+            });
+
+            tabHeaders.addEventListener('click', () => {
+                switchTab(tabHeaders, [tabBody, tabCookies]);
+                responseHeaders.classList.remove('hidden');
+                responseBody.classList.add('hidden');
+                responseCookies.classList.add('hidden');
+
+                // Track tab switching
+                gtag('event', 'response_tab_viewed', {
+                    event_category: 'api_testing',
+                    event_label: 'headers',
+                    page_title: 'API Testing Tool'
+                });
+            });
+
+            tabCookies.addEventListener('click', () => {
+                switchTab(tabCookies, [tabBody, tabHeaders]);
+                responseCookies.classList.remove('hidden');
+                responseBody.classList.add('hidden');
+                responseHeaders.classList.add('hidden');
+
+                // Track tab switching
+                gtag('event', 'response_tab_viewed', {
+                    event_category: 'api_testing',
+                    event_label: 'cookies',
+                    page_title: 'API Testing Tool'
+                });
+            });
+
+            // Copy response
+            copyResponseBtn.addEventListener('click', async () => {
+                const activeTab = document.querySelector('.tab-active');
+                let content = '';
+
+                if (activeTab.id === 'tab-body') {
+                    content = responseBody.textContent;
+                } else if (activeTab.id === 'tab-headers') {
+                    content = responseHeaders.textContent;
+                } else if (activeTab.id === 'tab-cookies') {
+                    content = responseCookies.textContent;
+                }
+
+                try {
+                    await navigator.clipboard.writeText(content);
+                    showNotification('Response copied to clipboard!', 'success');
+
+                    gtag('event', 'response_copied', {
+                        event_category: 'ui_interaction',
+                        event_label: activeTab.id.replace('tab-', ''),
+                        page_title: 'API Testing Tool'
+                    });
+                } catch (err) {
+                    showNotification('Failed to copy response', 'error');
+                }
+            });
+
+            // Save request
+            saveRequestBtn.addEventListener('click', () => {
+                const request = {
+                    url: apiUrlInput.value,
+                    method: currentMethod,
+                    headers: [],
+                    body: requestBodyTextarea.value,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Collect headers
+                document.querySelectorAll('.header-row').forEach(row => {
+                    const inputs = row.querySelectorAll('input');
+                    const key = inputs[0].value.trim();
+                    const value = inputs[1].value.trim();
+                    if (key && value) {
+                        request.headers.push({ key, value });
+                    }
+                });
+
+                savedRequests.unshift(request);
+                if (savedRequests.length > 10) {
+                    savedRequests = savedRequests.slice(0, 10);
+                }
+
+                localStorage.setItem('apiTester_savedRequests', JSON.stringify(savedRequests));
+                showNotification('Request saved!', 'success');
+
+                gtag('event', 'request_saved', {
+                    event_category: 'ui_interaction',
+                    event_label: currentMethod,
+                    page_title: 'API Testing Tool'
+                });
+
+                updateSavedRequestsDisplay();
+            });
+
+            // Send request
+            sendRequestBtn.addEventListener('click', async function() {
+                const url = apiUrlInput.value.trim();
+                if (!url) {
+                    alert('Please enter a valid URL');
+                    return;
+                }
+
+                // Track API request initiation
+                gtag('event', 'api_request_sent', {
+                    event_category: 'api_testing',
+                    event_label: currentMethod,
+                    custom_parameter_1: url,
+                    page_title: 'API Testing Tool'
+                });
+
+                // Show loading state
+                sendRequestBtn.disabled = true;
+                sendText.classList.add('hidden');
+                loadingSpinner.classList.remove('hidden');
+
+                const startTime = Date.now();
+
+                try {
+                    // Collect headers
+                    const headers = {};
+                    document.querySelectorAll('.header-row').forEach(row => {
+                        const inputs = row.querySelectorAll('input');
+                        const key = inputs[0].value.trim();
+                        const value = inputs[1].value.trim();
+                        if (key && value) {
+                            headers[key] = value;
+                        }
+                    });
+
+                    // Prepare request options
+                    const options = {
+                        method: currentMethod,
+                        headers: headers
+                    };
+
+                    // Add body for methods that support it
+                    if (['POST', 'PUT', 'PATCH'].includes(currentMethod)) {
+                        const body = requestBodyTextarea.value.trim();
+                        if (body) {
+                            options.body = body;
+                        }
+                    }
+
+                    // Make request
+                    const response = await fetch(url, options);
+                    const endTime = Date.now();
+                    const responseTime = endTime - startTime;
+
+                    // Update status
+                    const statusClass = response.ok ? 'status-success' : 'status-error';
+                    responseStatus.innerHTML = `Status: <span class="${statusClass}">${response.status} ${response.statusText}</span>`;
+                    responseTime.textContent = `Time: ${responseTime}ms`;
+
+                    // Get response data
+                    const responseText = await response.text();
+                    let formattedResponse = responseText;
+
+                    // Try to format JSON
+                    try {
+                        const jsonData = JSON.parse(responseText);
+                        formattedResponse = JSON.stringify(jsonData, null, 2);
+                    } catch (e) {
+                        // Not JSON, keep as text
+                    }
+
+                    // Update response body
+                    responseBody.innerHTML = `<pre class="whitespace-pre-wrap">${formattedResponse}</pre>`;
+
+                    // Update response headers
+                    let headersHtml = '';
+                    for (const [key, value] of response.headers.entries()) {
+                        headersHtml += `<div class="mb-1"><strong>${key}:</strong> ${value}</div>`;
+                    }
+                    responseHeaders.innerHTML = headersHtml || '<span class="text-gray-500">No headers</span>';
+
+                    // Update response cookies (simplified)
+                    responseCookies.innerHTML = '<span class="text-gray-500">Cookie handling requires server-side implementation</span>';
+
+                    // Track successful API response
+                    gtag('event', 'api_response_received', {
+                        event_category: 'api_testing',
+                        event_label: `${response.status}`,
+                        value: responseTime,
+                        custom_parameter_1: currentMethod,
+                        page_title: 'API Testing Tool'
+                    });
+
+                    // Add to history
+                    addToHistory(url, currentMethod, response.status, responseTime);
+
+                } catch (error) {
+                    const errorTime = Date.now() - startTime;
+                    responseStatus.innerHTML = `Status: <span class="status-error">Error</span>`;
+                    responseTime.textContent = `Time: ${errorTime}ms`;
+                    responseBody.innerHTML = `<pre class="text-red-600">Error: ${error.message}</pre>`;
+                    responseHeaders.innerHTML = '<span class="text-gray-500">No headers</span>';
+                    responseCookies.innerHTML = '<span class="text-gray-500">No cookies</span>';
+
+                    // Track API error
+                    gtag('event', 'api_request_error', {
+                        event_category: 'api_testing',
+                        event_label: error.message,
+                        value: errorTime,
+                        custom_parameter_1: currentMethod,
+                        page_title: 'API Testing Tool'
+                    });
+
+                    // Add to history
+                    addToHistory(url, currentMethod, 'Error', errorTime);
+                }
+
+                // Hide loading state
+                sendRequestBtn.disabled = false;
+                sendText.classList.remove('hidden');
+                loadingSpinner.classList.add('hidden');
+            });
+
+            // Add to history
+            function addToHistory(url, method, status, time) {
+                const historyItem = {
+                    url: url,
+                    method: method,
+                    status: status,
+                    time: time,
+                    timestamp: new Date().toLocaleTimeString()
+                };
+
+                requestHistoryData.unshift(historyItem);
+                if (requestHistoryData.length > 10) {
+                    requestHistoryData.pop();
+                }
+
+                updateHistoryDisplay();
+            }
+
+            // Update history display
+            function updateHistoryDisplay() {
+                if (requestHistoryData.length === 0) {
+                    requestHistory.innerHTML = '<p class="text-sm text-gray-500 text-center">No requests yet</p>';
+                    return;
+                }
+
+                requestHistory.innerHTML = requestHistoryData.map(item => `
+                    <div class="p-2 bg-gray-50 rounded text-sm cursor-pointer hover:bg-gray-100 transition-colors" onclick="loadFromHistory('${item.url}', '${item.method}')">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium ${item.status >= 200 && item.status < 300 ? 'text-green-600' : 'text-red-600'}">${item.method} ${item.status}</span>
+                            <span class="text-gray-500">${item.time}ms</span>
+                        </div>
+                        <div class="text-gray-600 truncate">${item.url}</div>
+                        <div class="text-xs text-gray-400">${item.timestamp}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Update saved requests display
+            function updateSavedRequestsDisplay() {
+                if (savedRequests.length === 0) {
+                    savedRequestsContainer.innerHTML = '<p class="text-sm text-gray-500 text-center">No saved requests</p>';
+                    return;
+                }
+
+                savedRequestsContainer.innerHTML = savedRequests.map((request, index) => `
+                    <div class="p-2 bg-blue-50 rounded text-sm cursor-pointer hover:bg-blue-100 transition-colors group" onclick="loadSavedRequest(${index})">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-blue-600">${request.method}</span>
+                            <button class="opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700" onclick="deleteSavedRequest(event, ${index})">
+                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="text-gray-600 truncate">${request.url}</div>
+                        <div class="text-xs text-gray-400">${new Date(request.timestamp).toLocaleString()}</div>
+                    </div>
+                `).join('');
+                feather.replace();
+            }
+
+            // Load from history
+            window.loadFromHistory = function(url, method) {
+                apiUrlInput.value = url;
+                // Reset method selection
+                methodButtons.forEach(btn => {
+                    btn.classList.remove('ring-2', 'ring-blue-500', 'scale-105');
+                    if (btn.textContent === method) {
+                        btn.classList.add('ring-2', 'ring-blue-500', 'scale-105');
+                        currentMethod = method;
+                    }
+                });
+
+                // Track history usage
+                gtag('event', 'history_loaded', {
+                    event_category: 'api_testing',
+                    event_label: method,
+                    page_title: 'API Testing Tool'
+                });
+            };
+
+            // Load saved request
+            window.loadSavedRequest = function(index) {
+                const request = savedRequests[index];
+                apiUrlInput.value = request.url;
+                requestBodyTextarea.value = request.body;
+
+                // Reset method selection
+                methodButtons.forEach(btn => {
+                    btn.classList.remove('ring-2', 'ring-blue-500', 'scale-105');
+                    if (btn.textContent === request.method) {
+                        btn.classList.add('ring-2', 'ring-blue-500', 'scale-105');
+                        currentMethod = request.method;
+                    }
+                });
+
+                // Clear existing headers
+                document.querySelectorAll('.header-row').forEach(row => {
+                    if (row.querySelectorAll('input')[0].value !== 'Content-Type') {
+                        row.remove();
+                    }
+                });
+
+                // Load headers
+                request.headers.forEach(header => {
+                    if (header.key !== 'Content-Type') {
+                        const headerRow = document.createElement('div');
+                        headerRow.className = 'header-row flex flex-col sm:flex-row gap-2 mb-2';
+                        headerRow.innerHTML = `
+                            <input type="text" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm w-full sm:w-auto" placeholder="Key" value="${header.key}">
+                            <input type="text" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm w-full sm:w-auto" placeholder="Value" value="${header.value}">
+                            <button class="remove-header text-red-500 hover:text-red-700 px-2 self-end sm:self-auto">
+                                <i data-feather="x" class="w-4 h-4"></i>
+                            </button>
+                        `;
+                        headersContainer.appendChild(headerRow);
+                        feather.replace();
+                        attachRemoveListeners();
+                    }
+                });
+
+                showNotification('Request loaded!', 'success');
+
+                gtag('event', 'saved_request_loaded', {
+                    event_category: 'api_testing',
+                    event_label: request.method,
+                    page_title: 'API Testing Tool'
+                });
+            };
+
+            // Delete saved request
+            window.deleteSavedRequest = function(event, index) {
+                event.stopPropagation();
+                savedRequests.splice(index, 1);
+                localStorage.setItem('apiTester_savedRequests', JSON.stringify(savedRequests));
+                updateSavedRequestsDisplay();
+                showNotification('Request deleted!', 'success');
+            };
+
+            // Load sample API
+            window.loadSampleAPI = function(url, method, body = '') {
+                apiUrlInput.value = url;
+                requestBodyTextarea.value = body;
+
+                // Reset method selection
+                methodButtons.forEach(btn => {
+                    btn.classList.remove('ring-2', 'ring-blue-500', 'scale-105');
+                    if (btn.textContent === method) {
+                        btn.classList.add('ring-2', 'ring-blue-500', 'scale-105');
+                        currentMethod = method;
+                    }
+                });
+
+                // Track sample API usage
+                gtag('event', 'sample_api_loaded', {
+                    event_category: 'api_testing',
+                    event_label: method,
+                    custom_parameter_1: url.split('/')[2], // domain name
+                    page_title: 'API Testing Tool'
+                });
+            };
+
+            // Initialize saved requests display
+            updateSavedRequestsDisplay();
+        });
+    </script>
+
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

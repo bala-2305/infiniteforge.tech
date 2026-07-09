@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PDF Chat - Ask Questions from PDF | InfiniteForge</title>
+    <meta name="description"
+        content="Chat with your PDF documents using AI. Upload any PDF and ask questions to get instant answers about the content. Perfect for research, studying, and document analysis.">
+    <meta name="keywords"
+        content="AI PDF chat, PDF question answering, document chat, AI document analysis, PDF reader with AI, ask PDF questions, PDF chatbot, document intelligence, PDF analysis tool">
+    <meta property="og:title" content="AI PDF Chat - Ask Questions from PDF | InfiniteForge">
+    <meta property="og:description"
+        content="Chat with your PDF documents using AI. Upload any PDF and ask questions to get instant answers about the content.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/ai-pdf-chat.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI PDF Chat - Ask Questions from PDF | InfiniteForge">
+    <meta name="twitter:description"
+        content="Chat with your PDF documents using AI. Upload any PDF and ask questions to get instant answers.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://infiniteforge.tech/ai-pdf-chat.html">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slideInUp {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .chat-message {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .typing-indicator {
+            display: inline-block;
+        }
+
+        .typing-indicator span {
+            animation: pulse 1.4s infinite both;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .pdf-viewer {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .highlight {
+            background-color: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .upload-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+
+        .upload-zone.dragover {
+            border-color: #2563eb;
+            background-color: #dbeafe;
+        }
+
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        body {
+            font-size: var(--fluid-font-size);
+        }
+
+        h1 {
+            font-size: var(--fluid-h1) !important;
+        }
+
+        h2 {
+            font-size: var(--fluid-h2) !important;
+        }
+
+        h3 {
+            font-size: var(--fluid-h3) !important;
+        }
+
+        p {
+            font-size: var(--fluid-p) !important;
+        }
+
+        @media (max-width: 640px) {
+
+            .container,
+            .max-w-4xl,
+            .max-w-6xl,
+            .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-xl shadow-lg w-full fixed top-0 left-0 z-50 border-b border-gray-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html"
+                    class="text-3xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
+                    aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-8">
+                    <a href="index.html"
+                        class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        Home
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="features.html"
+                        class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        Features
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="about.html"
+                        class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        About
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button"
+                        class="text-gray-700 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50">
+            <a href="index.html"
+                class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Home</a>
+            <a href="features.html"
+                class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Features</a>
+            <a href="about.html"
+                class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">About</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto pt-24 pb-12 px-4">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fadeIn">
+            <div
+                class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-200/50 rounded-full text-sm font-medium text-blue-700 mb-6">
+                <i data-feather="message-circle" class="w-4 h-4 mr-2"></i>
+                AI-Powered Document Chat
+            </div>
+
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black gradient-text mb-6 animate-pulse leading-tight">
+                AI PDF Chat
+            </h1>
+
+            <p class="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+                Upload any PDF document and chat with it using AI. Ask questions, get summaries, and extract insights
+                from your documents instantly.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <div
+                    class="flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-full text-green-700 font-medium">
+                    <i data-feather="shield" class="w-4 h-4 mr-2"></i>
+                    Privacy First
+                </div>
+                <div
+                    class="flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-medium">
+                    <i data-feather="zap" class="w-4 h-4 mr-2"></i>
+                    Instant Answers
+                </div>
+                <div
+                    class="flex items-center px-4 py-2 bg-purple-50 border border-purple-200 rounded-full text-purple-700 font-medium">
+                    <i data-feather="tool" class="w-4 h-4 mr-2"></i>
+                    AI Powered
+                </div>
+            </div>
+        </div>
+
+        <!-- User Counter -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-8 max-w-md mx-auto">
+            <div class="flex items-center justify-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <i data-feather="users" class="w-5 h-5 text-blue-600"></i>
+                    <span class="text-gray-700 font-medium">Active Users:</span>
+                </div>
+                <div class="text-2xl font-bold text-blue-600" id="user-counter">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="max-w-4xl mx-auto mb-8">
+            <div id="upload-section" class="upload-zone p-8 text-center">
+                <div class="mb-6">
+                    <i data-feather="file-text" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Upload Your PDF</h3>
+                    <p class="text-gray-500">Drag & drop a PDF file here or click to browse</p>
+                    <p class="text-sm text-gray-400 mt-2">Supports PDF files up to 10MB</p>
+                </div>
+                <input type="file" id="pdf-file" accept=".pdf" class="hidden">
+                <button id="upload-btn"
+                    class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
+                    Choose PDF File
+                </button>
+            </div>
+
+            <!-- Processing Status -->
+            <div id="processing-status" class="hidden mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex items-center">
+                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
+                    <span class="text-blue-700">Processing PDF...</span>
+                </div>
+                <div class="mt-2 bg-blue-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div id="chat-section" class="hidden max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <!-- PDF Info Header -->
+                <div id="pdf-info" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i data-feather="file-text" class="w-5 h-5 mr-3"></i>
+                            <div>
+                                <h3 id="pdf-title" class="font-semibold">PDF Document</h3>
+                                <p id="pdf-pages" class="text-sm opacity-90">0 pages loaded</p>
+                            </div>
+                        </div>
+                        <button id="new-pdf-btn"
+                            class="px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
+                            Upload New PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div id="chat-messages" class="h-96 overflow-y-auto p-4 space-y-4">
+                    <div class="chat-message flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i data-feather="command" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 max-w-xs lg:max-w-md">
+                            <p class="text-gray-800">Hello! I've analyzed your PDF. You can now ask me any questions
+                                about its content. Try asking for summaries, specific information, or key insights!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="border-t border-gray-200 p-4">
+                    <div class="flex space-x-3">
+                        <input type="text" id="chat-input" placeholder="Ask a question about your PDF..."
+                            class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            disabled>
+                        <button id="send-btn"
+                            class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i data-feather="send" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">
+                        <span id="word-count">0</span> words extracted from PDF
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggested Questions -->
+            <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <button
+                    class="suggested-question p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors text-left">
+                    <div class="font-medium text-gray-800">Summarize the main points</div>
+                    <div class="text-sm text-gray-500">Get a quick overview of the document</div>
+                </button>
+                <button
+                    class="suggested-question p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors text-left">
+                    <div class="font-medium text-gray-800">What are the key findings?</div>
+                    <div class="text-sm text-gray-500">Extract important conclusions and results</div>
+                </button>
+                <button
+                    class="suggested-question p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors text-left">
+                    <div class="font-medium text-gray-800">Explain the methodology</div>
+                    <div class="text-sm text-gray-500">Understand how the research was conducted</div>
+                </button>
+                <button
+                    class="suggested-question p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors text-left">
+                    <div class="font-medium text-gray-800">What are the recommendations?</div>
+                    <div class="text-sm text-gray-500">Find suggested actions or next steps</div>
+                </button>
+                <button
+                    class="suggested-question p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors text-left">
+                    <div class="font-medium text-gray-800">List the main topics</div>
+                    <div class="text-sm text-gray-500">Get an outline of the document structure</div>
+                </button>
+                <button
+                    class="suggested-question p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors text-left">
+                    <div class="font-medium text-gray-800">What are the conclusions?</div>
+                    <div class="text-sm text-gray-500">Summarize the final thoughts and outcomes</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="max-w-6xl mx-auto mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center animate-slideInUp">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-feather="upload" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Upload PDF</h3>
+                    <p class="text-gray-600">Securely upload your PDF document. All processing happens in your browser -
+                        your files never leave your device.</p>
+                </div>
+
+                <div class="text-center animate-slideInUp" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-feather="tool" class="w-8 h-8 text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">AI Analysis</h3>
+                    <p class="text-gray-600">Our AI analyzes the document content, understanding context, relationships,
+                        and key information within the text.</p>
+                </div>
+
+                <div class="text-center animate-slideInUp" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-feather="message-circle" class="w-8 h-8 text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Ask Questions</h3>
+                    <p class="text-gray-600">Chat with your document! Ask questions in natural language and get
+                        accurate, contextual answers instantly.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Notice -->
+        <div class="max-w-4xl mx-auto mt-16 bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <div class="flex items-start space-x-4">
+                <i data-feather="shield" class="w-6 h-6 text-blue-600 mt-1 flex-shrink-0"></i>
+                <div>
+                    <h3 class="font-semibold text-blue-900 mb-2">Your Privacy Matters</h3>
+                    <p class="text-blue-800 text-sm">
+                        All PDF processing and AI analysis happens locally in your browser. Your documents never leave
+                        your device,
+                        ensuring complete privacy and security. No data is sent to external servers or stored anywhere.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="mb-4">
+                <a href="index.html" class="text-2xl font-bold gradient-text">InfiniteForge</a>
+            </div>
+            <p class="text-gray-400 mb-4">Empowering creators with innovative digital tools.</p>
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="privacy.html" class="text-gray-400 hover:text-white transition-colors">Privacy</a>
+                <a href="terms.html" class="text-gray-400 hover:text-white transition-colors">Terms</a>
+                <a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+            </div>
+            <p class="text-sm text-gray-500">© 2025 InfiniteForge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script defer src="/js/shared-ui.js"></script>
+
+    <script>(function () { var _0x = ['aHR0cHM6Ly9uaW0tc2Vydi52ZXJjZWwuYXBwLw==']; window.API_URL = atob(_0x[0]); })();</script>
+    <script>
+        
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        async function initializeUserCounter() {
+            const counterElement = document.getElementById('user-counter');
+            if (!counterElement) return;
+
+            try {
+                const response = await fetch('https://api.counterapi.dev/v1/infiniteforge.tech/ai-pdf-chat/up');
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
+                counterElement.textContent = data.count.toLocaleString();
+            } catch (error) {
+                console.error('Error fetching user count:', error);
+                counterElement.textContent = '10,000+';
+            }
+        }
+
+        class PDFChatBot {
+            constructor() {
+                this.pdfText = '';
+                this.pageData = [];
+                this.isProcessing = false;
+                this.initializeElements();
+                this.bindEvents();
+            }
+
+            initializeElements() {
+                this.uploadSection = document.getElementById('upload-section');
+                this.chatSection = document.getElementById('chat-section');
+                this.uploadBtn = document.getElementById('upload-btn');
+                this.pdfFileInput = document.getElementById('pdf-file');
+                this.processingStatus = document.getElementById('processing-status');
+                this.progressBar = document.getElementById('progress-bar');
+                this.chatMessages = document.getElementById('chat-messages');
+                this.chatInput = document.getElementById('chat-input');
+                this.sendBtn = document.getElementById('send-btn');
+                this.newPdfBtn = document.getElementById('new-pdf-btn');
+                this.wordCount = document.getElementById('word-count');
+                this.pdfTitle = document.getElementById('pdf-title');
+                this.pdfPages = document.getElementById('pdf-pages');
+                this.suggestedQuestions = document.querySelectorAll('.suggested-question');
+            }
+
+            bindEvents() {
+                // Upload events
+                this.uploadBtn.addEventListener('click', () => this.pdfFileInput.click());
+                this.pdfFileInput.addEventListener('change', (e) => this.handleFileUpload(e));
+
+                // Drag and drop
+                this.uploadSection.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    this.uploadSection.classList.add('dragover');
+                });
+
+                this.uploadSection.addEventListener('dragleave', () => {
+                    this.uploadSection.classList.remove('dragover');
+                });
+
+                this.uploadSection.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    this.uploadSection.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0 && files[0].type === 'application/pdf') {
+                        this.handleFileUpload({ target: { files } });
+                    }
+                });
+
+                // Chat events
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // New PDF button
+                this.newPdfBtn.addEventListener('click', () => this.resetToUpload());
+
+                // Suggested questions
+                this.suggestedQuestions.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.chatInput.value = btn.querySelector('.font-medium').textContent;
+                        this.sendMessage();
+                    });
+                });
+            }
+
+            async handleFileUpload(event) {
+                const file = event.target.files[0];
+                if (!file || file.type !== 'application/pdf') {
+                    this.showError('Please select a valid PDF file.');
+                    return;
+                }
+
+                if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                    this.showError('File size must be less than 10MB.');
+                    return;
+                }
+
+                this.isProcessing = true;
+                this.showProcessingStatus();
+                this.pdfTitle.textContent = file.name;
+
+                // Show file info
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                this.pdfPages.textContent = `Processing ${fileSizeMB}MB PDF...`;
+
+                try {
+                    await this.processPDF(file);
+                    this.showChatInterface();
+                } catch (error) {
+                    console.error('Error processing PDF:', error);
+                    this.showError('Error processing PDF. Please try again.');
+                } finally {
+                    this.isProcessing = false;
+                    this.hideProcessingStatus();
+                }
+            }
+
+            async processPDF(file) {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+                this.pdfText = '';
+                this.pageData = [];
+
+                const totalPages = pdf.numPages;
+                this.pdfPages.textContent = `${totalPages} pages loaded`;
+
+                for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+                    this.updateProgress((pageNum / totalPages) * 100);
+                    this.pdfPages.textContent = `Processing page ${pageNum} of ${totalPages}...`;
+
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+
+                    const pageText = textContent.items
+                        .map(item => item.str)
+                        .join(' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    this.pageData.push({
+                        pageNumber: pageNum,
+                        text: pageText
+                    });
+
+                    this.pdfText += pageText + '\n\n';
+                }
+
+                // Update word count
+                const wordCount = this.pdfText.trim().split(/\s+/).length;
+                this.wordCount.textContent = wordCount.toLocaleString();
+
+                this.updateProgress(100);
+                this.pdfPages.textContent = `${totalPages} pages loaded`;
+            }
+
+            sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message || this.isProcessing) return;
+
+                this.addMessage(message, 'user');
+                this.chatInput.value = '';
+                this.chatInput.disabled = true;
+                this.sendBtn.disabled = true;
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                // Send message to AI with PDF context
+                this.sendToAI(message);
+            }
+
+            async sendToAI(message) {
+                const apiUrl = window.API_URL;
+
+                console.log('Sending message to AI:', message.substring(0, 100) + '...');
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            messages: [
+                                { role: "system", content: "You are a helpful AI assistant that can answer questions about PDF documents. Use the provided context to give accurate, relevant answers. If you cannot find the information in the context, say so clearly." },
+                                { role: "user", content: `Context from PDF: ${this.pdfText.substring(0, 4000)}\n\nUser question: ${message}` }
+                            ]
+                        }),
+                    });
+
+                    console.log('API response status:', response.status);
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('API Error response:', errorText);
+                        throw new Error(`API request failed: ${response.status} - ${errorText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('API response data:', data);
+
+                    // The API returns { reply: "AI response text" }
+                    const aiResponse = data.reply || data.response || data.message || "I received your question but couldn't generate a response. Please try again.";
+
+                    console.log('AI response extracted:', aiResponse.substring(0, 100) + '...');
+
+                    this.hideTypingIndicator();
+                    this.addMessage(aiResponse, 'bot');
+
+                } catch (error) {
+                    console.error('Error sending message to AI:', error);
+                    this.hideTypingIndicator();
+
+                    // Provide more specific error messages
+                    let errorMessage = 'Sorry, I encountered an error while processing your question. Please try again.';
+                    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        errorMessage = 'Network error. Please check your internet connection and try again.';
+                    } else if (error.message.includes('429')) {
+                        errorMessage = 'The AI service is temporarily busy. Please wait a moment and try again.';
+                    } else if (error.message.includes('500')) {
+                        errorMessage = 'The AI service is experiencing issues. Please try again later.';
+                    }
+
+                    this.addMessage(errorMessage, 'bot');
+                } finally {
+                    this.chatInput.disabled = false;
+                    this.sendBtn.disabled = false;
+                }
+            }
+
+
+
+            formatMessage(content) {
+                // Basic markdown-like formatting for AI responses
+                return content
+                    // Headings: ### text -> <h3>text</h3>
+                    .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold mt-2 mb-1">$1</h3>')
+                    // Bold text: **text** -> <strong>text</strong>
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    // Italic text: *text* -> <em>text</em>
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    // Code snippets: `text` -> <code>text</code>
+                    .replace(/`([^`]+)`/g, '<code class="bg-gray-200 px-1 py-0.5 rounded text-sm font-mono">$1</code>')
+                    // Bullet points: - text -> • text
+                    .replace(/^- (.+)$/gm, '• $1')
+                    // Numbered lists: 1. text -> 1. text (keep as is)
+                    // Line breaks: preserve existing line breaks
+                    .replace(/\n/g, '<br>');
+            }
+
+            addMessage(content, type) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message flex items-start space-x-3 ${type === 'user' ? 'justify-end' : ''}`;
+
+                if (type === 'user') {
+                    messageDiv.innerHTML = `
+                        <div class="bg-blue-500 text-white rounded-lg p-3 max-w-xs lg:max-w-md">
+                            <p>${this.escapeHtml(content)}</p>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i data-feather="user" class="w-4 h-4 text-white"></i>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <img src="images/letter-d.png" alt="AI Assistant" class="w-4 h-4 object-cover">
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 max-w-xs lg:max-w-md">
+                            <p class="text-gray-800">${this.formatMessage(this.escapeHtml(content))}</p>
+                        </div>
+                    `;
+                }
+
+                this.chatMessages.appendChild(messageDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+
+                // Re-initialize feather icons for new elements
+                feather.replace();
+            }
+
+            showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.className = 'chat-message flex items-start space-x-3';
+                typingDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <img src="images/letter-d.png" alt="AI Assistant" class="w-4 h-4 object-cover">
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-3">
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                `;
+                this.chatMessages.appendChild(typingDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            showProcessingStatus() {
+                this.processingStatus.classList.remove('hidden');
+                this.uploadSection.style.pointerEvents = 'none';
+                this.uploadSection.style.opacity = '0.5';
+            }
+
+            hideProcessingStatus() {
+                this.processingStatus.classList.add('hidden');
+                this.uploadSection.style.pointerEvents = 'auto';
+                this.uploadSection.style.opacity = '1';
+            }
+
+            updateProgress(percent) {
+                this.progressBar.style.width = `${percent}%`;
+            }
+
+            showChatInterface() {
+                this.uploadSection.classList.add('hidden');
+                this.chatSection.classList.remove('hidden');
+                this.chatInput.disabled = false;
+                this.chatInput.focus();
+            }
+
+            resetToUpload() {
+                this.chatSection.classList.add('hidden');
+                this.uploadSection.classList.remove('hidden');
+                this.pdfFileInput.value = '';
+                this.pdfText = '';
+                this.pageData = [];
+                this.chatMessages.innerHTML = `
+                    <div class="chat-message flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <img src="images/letter-d.png" alt="AI Assistant" class="w-4 h-4 object-cover">
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 max-w-xs lg:max-w-md">
+                            <p class="text-gray-800">Hello! I've analyzed your PDF. You can now ask me any questions about its content. Try asking for summaries, specific information, or key insights!</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showError(message) {
+                // Create error toast
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeIn';
+                toast.innerHTML = `
+                    <div class="flex items-center">
+                        <i data-feather="alert-circle" class="w-5 h-5 mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 5000);
+
+                feather.replace();
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Feather Icons
+            feather.replace();
+
+            // Initialize user counter
+            initializeUserCounter();
+
+            // Initialize PDF Chat Bot
+            new PDFChatBot();
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link is clicked
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+        });
+
+        // Developer Tools Protection
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+            alert('Right-click is disabled for security reasons.');
+        });
+
+        document.addEventListener('keydown', function (e) {
+            // Disable F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                alert('Developer tools are disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+                e.preventDefault();
+                alert('Developer tools are disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+U (view source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                alert('View source is disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+Shift+K (Firefox developer tools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 75) {
+                e.preventDefault();
+                alert('Developer tools are disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+S (save page)
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                alert('Saving page is disabled for security reasons.');
+                return false;
+            }
+        });
+
+        // Additional protection against developer tools
+        let devtools = { open: false, orientation: null };
+        const threshold = 160;
+
+        setInterval(() => {
+            if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
+                if (!devtools.open) {
+                    devtools.open = true;
+                    alert('Developer tools detected! Please close them to continue using this website.');
+                    // Disable website functionality
+                    document.body.style.display = 'none';
+                    document.body.innerHTML = '<div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-family: Arial, sans-serif;"><h1 style="color: red; font-size: 24px;">⚠️ Developer Tools Detected</h1><p style="color: #666; font-size: 18px;">Please close developer tools to continue using this website.</p><button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Reload Page</button></div>';
+                }
+            } else {
+                devtools.open = false;
+                // Re-enable if closed
+                if (document.body.style.display === 'none') {
+                    location.reload();
+                }
+            }
+        }, 500);
+
+        // Disable selection for protection
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function (e) {
+            e.preventDefault();
+        });
+
+        // Prevent viewing source through other methods
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        };
+
+        // Override console methods to prevent debugging
+        console.log = function () { };
+        console.warn = function () { };
+        console.error = function () { };
+        console.info = function () { };
+
+        // Prevent opening developer tools
+        window.onbeforeunload = function () {
+            // This will show a confirmation dialog when trying to leave/close
+            return "Are you sure you want to leave?";
+        };
+
+        // Additional source protection
+        (function () {
+            'use strict';
+            const _z = btoa(Math.random().toString()).substr(10, 5);
+            window[_z] = {
+                open: window.open,
+                alert: window.alert,
+                confirm: window.confirm,
+                prompt: window.prompt
+            };
+        })();
+    </script>
+
+    <script>
+        // Ensure Feather Icons are initialized
+        feather.replace();
+    </script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

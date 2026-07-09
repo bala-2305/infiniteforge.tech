@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS/CSS/HTML Minifier — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Minify your JavaScript, CSS, and HTML code with our powerful online minifier. Reduce file sizes, improve load times, and optimize your web performance.">
+    <meta name="keywords" content="javascript minifier, css minifier, html minifier, code minification, file compression, web optimization, performance improvement, code optimizer">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="JS/CSS/HTML Minifier — InfiniteForge">
+    <meta property="og:description" content="Minify your JavaScript, CSS, and HTML code with our powerful online minifier. Reduce file sizes, improve load times, and optimize your web performance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/js-css-html-minifier.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JS/CSS/HTML Minifier — InfiniteForge">
+    <meta name="twitter:description" content="Minify your JavaScript, CSS, and HTML code with our powerful online minifier. Reduce file sizes, improve load times, and optimize your web performance.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/js-css-html-minifier.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/js-css-html-minifier.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "JS/CSS/HTML Minifier — InfiniteForge",
+        "description": "Minify your JavaScript, CSS, and HTML code with our powerful online minifier. Reduce file sizes, improve load times, and optimize your web performance.",
+        "url": "https://infiniteforge.tech/js-css-html-minifier.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-14",
+        "dateModified": "2025-10-14"
+    }</script>
+    <style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        .code-input, .code-output {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .code-input {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .code-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .code-output {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .minify-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .minify-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        }
+
+        .tab-active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .tab-inactive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .dark .tab-inactive {
+            background: #374151;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .minifier-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Dark mode styles */
+        .dark body {
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+
+        .dark .bg-white {
+            background-color: #1f2937;
+        }
+
+        .dark .text-gray-800 {
+            color: #f3f4f6;
+        }
+
+        .dark .text-gray-700 {
+            color: #d1d5db;
+        }
+
+        .dark .text-gray-600 {
+            color: #9ca3af;
+        }
+
+        .dark .text-gray-500 {
+            color: #6b7280;
+        }
+
+        .dark .bg-gray-50 {
+            background-color: #111827;
+        }
+
+        .dark .bg-gray-100 {
+            background-color: #1f2937;
+        }
+
+        .dark .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark .code-input {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+
+        .dark .code-output {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+
+        .dark .stats-card {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-color: #374151;
+        }
+
+        .dark .tab-inactive {
+            background: #374151;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 dark:bg-gray-900 font-poppins overflow-x-hidden">
+    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
+                        <svg class="w-5 h-5 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+            <button id="mobile-theme-toggle" class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    Toggle Theme
+                </span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-8 sm:mb-12">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">JS/CSS/HTML Minifier</h1>
+            <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4" itemprop="description">
+                Minify your JavaScript, CSS, and HTML code to reduce file sizes and improve website performance.
+            </p>
+        </div>
+
+        <!-- Code Type Tabs -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
+            <div class="tab-buttons flex justify-center gap-2 mb-6">
+                <button id="js-tab" class="tab-active px-6 py-2 rounded-lg font-medium transition-all">JavaScript</button>
+                <button id="css-tab" class="tab-inactive px-6 py-2 rounded-lg font-medium transition-all">CSS</button>
+                <button id="html-tab" class="tab-inactive px-6 py-2 rounded-lg font-medium transition-all">HTML</button>
+            </div>
+
+            <!-- Minifier Interface -->
+            <div class="minifier-grid grid md:grid-cols-2 gap-6">
+                <!-- Input Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                        <i data-feather="code" class="w-5 h-5 mr-2 text-blue-500"></i>
+                        Input Code
+                    </h3>
+                    <textarea id="input-code" class="code-input w-full h-80 p-4 resize-none" placeholder="Paste your code here..."></textarea>
+                    <div class="mt-3 text-sm text-gray-500">
+                        <span id="input-char-count">0</span> characters
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                        <i data-feather="minimize-2" class="w-5 h-5 mr-2 text-green-500"></i>
+                        Minified Code
+                    </h3>
+                    <textarea id="output-code" class="code-output w-full h-80 p-4 resize-none" readonly placeholder="Minified code will appear here..."></textarea>
+                    <div class="mt-3 text-sm text-gray-500">
+                        <span id="output-char-count">0</span> characters
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons flex justify-center gap-4 mt-6">
+                <button id="minify-btn" class="minify-btn px-8 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span id="minify-text">Minify Code</span>
+                    <div id="minify-spinner" class="hidden ml-2 inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </button>
+                <button id="copy-btn" class="copy-btn px-6 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <i data-feather="copy" class="w-4 h-4 mr-2"></i>
+                    Copy
+                </button>
+                <button id="clear-btn" class="clear-btn px-6 py-3 rounded-lg font-medium">
+                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Original Size -->
+            <div class="stats-card p-6 text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i data-feather="file-text" class="w-8 h-8 text-blue-500 mr-2"></i>
+                    <h3 class="text-lg font-semibold text-gray-800">Original Size</h3>
+                </div>
+                <div class="text-2xl font-bold text-blue-600" id="original-size">0 B</div>
+                <div class="text-sm text-gray-500 mt-1">Input code size</div>
+            </div>
+
+            <!-- Minified Size -->
+            <div class="stats-card p-6 text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i data-feather="minimize-2" class="w-8 h-8 text-green-500 mr-2"></i>
+                    <h3 class="text-lg font-semibold text-gray-800">Minified Size</h3>
+                </div>
+                <div class="text-2xl font-bold text-green-600" id="minified-size">0 B</div>
+                <div class="text-sm text-gray-500 mt-1">Compressed size</div>
+            </div>
+
+            <!-- Compression Ratio -->
+            <div class="stats-card p-6 text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i data-feather="trending-down" class="w-8 h-8 text-purple-500 mr-2"></i>
+                    <h3 class="text-lg font-semibold text-gray-800">Compression</h3>
+                </div>
+                <div class="text-2xl font-bold text-purple-600" id="compression-ratio">0%</div>
+                <div class="text-sm text-gray-500 mt-1">Size reduction</div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="grid md:grid-cols-2 gap-6 lg:gap-8 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="play-circle" class="w-5 h-5 mr-2 text-blue-500"></i>
+                    How to Use
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>📝 Select code type:</strong> Choose between JavaScript, CSS, or HTML</p>
+                    <p><strong>📋 Paste your code:</strong> Copy and paste your code into the input area</p>
+                    <p><strong>⚡ Click minify:</strong> Press the "Minify Code" button to compress</p>
+                    <p><strong>📋 Copy result:</strong> Use the copy button to get your minified code</p>
+                    <p><strong>🧹 Clear when done:</strong> Use the clear button to reset everything</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="info" class="w-5 h-5 mr-2 text-green-500"></i>
+                    What is Minification?
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>📦 Remove whitespace:</strong> Eliminates unnecessary spaces and line breaks</p>
+                    <p><strong>🗜️ Shorten names:</strong> Compresses variable and function names (JS)</p>
+                    <p><strong>🚀 Faster loading:</strong> Smaller files load faster on websites</p>
+                    <p><strong>💾 Save bandwidth:</strong> Reduces data transfer and hosting costs</p>
+                    <p><strong>⚡ Better performance:</strong> Improved page load times and user experience</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link is clicked
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+
+                // Close mobile menu when scrolling
+                window.addEventListener('scroll', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // DOM Elements
+            const jsTab = document.getElementById('js-tab');
+            const cssTab = document.getElementById('css-tab');
+            const htmlTab = document.getElementById('html-tab');
+            const inputCode = document.getElementById('input-code');
+            const outputCode = document.getElementById('output-code');
+            const minifyBtn = document.getElementById('minify-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const minifyText = document.getElementById('minify-text');
+            const minifySpinner = document.getElementById('minify-spinner');
+            const inputCharCount = document.getElementById('input-char-count');
+            const outputCharCount = document.getElementById('output-char-count');
+            const originalSize = document.getElementById('original-size');
+            const minifiedSize = document.getElementById('minified-size');
+            const compressionRatio = document.getElementById('compression-ratio');
+
+            // State
+            let currentCodeType = 'js';
+
+            // Tab switching
+            function switchTab(codeType) {
+                currentCodeType = codeType;
+
+                // Update tab styles
+                [jsTab, cssTab, htmlTab].forEach(tab => {
+                    tab.className = 'tab-inactive px-6 py-2 rounded-lg font-medium transition-all';
+                });
+
+                if (codeType === 'js') jsTab.className = 'tab-active px-6 py-2 rounded-lg font-medium transition-all';
+                else if (codeType === 'css') cssTab.className = 'tab-active px-6 py-2 rounded-lg font-medium transition-all';
+                else if (codeType === 'html') htmlTab.className = 'tab-active px-6 py-2 rounded-lg font-medium transition-all';
+
+                // Update placeholder text
+                const placeholders = {
+                    js: 'Paste your JavaScript code here...',
+                    css: 'Paste your CSS code here...',
+                    html: 'Paste your HTML code here...'
+                };
+                inputCode.placeholder = placeholders[codeType];
+
+                // Track tab switch
+                gtag('event', 'minifier_tab_switch', {
+                    event_category: 'code_minification',
+                    event_label: codeType,
+                    page_title: 'JS/CSS/HTML Minifier'
+                });
+            }
+
+            jsTab.addEventListener('click', () => switchTab('js'));
+            cssTab.addEventListener('click', () => switchTab('css'));
+            htmlTab.addEventListener('click', () => switchTab('html'));
+
+            // Character count updates
+            function updateCharCounts() {
+                const inputLength = inputCode.value.length;
+                const outputLength = outputCode.value.length;
+
+                inputCharCount.textContent = inputLength.toLocaleString();
+                outputCharCount.textContent = outputLength.toLocaleString();
+
+                // Update sizes
+                originalSize.textContent = formatBytes(inputLength);
+                minifiedSize.textContent = formatBytes(outputLength);
+
+                // Update compression ratio
+                if (inputLength > 0) {
+                    const ratio = ((inputLength - outputLength) / inputLength * 100).toFixed(1);
+                    compressionRatio.textContent = ratio + '%';
+                } else {
+                    compressionRatio.textContent = '0%';
+                }
+            }
+
+            inputCode.addEventListener('input', updateCharCounts);
+            outputCode.addEventListener('input', updateCharCounts);
+
+            // Format bytes function
+            function formatBytes(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Minification functions
+            function minifyJavaScript(code) {
+                // Basic JavaScript minification
+                return code
+                    // Remove single-line comments
+                    .replace(/\/\/.*$/gm, '')
+                    // Remove multi-line comments
+                    .replace(/\/\*[\s\S]*?\*\//g, '')
+                    // Remove extra whitespace
+                    .replace(/\s+/g, ' ')
+                    // Remove whitespace around operators
+                    .replace(/\s*([+\-*/=<>!&|(){}[\];:,])\s*/g, '$1')
+                    // Remove trailing commas
+                    .replace(/,(\s*[}\]])/g, '$1')
+                    // Remove empty lines
+                    .replace(/^\s*[\r\n]/gm, '')
+                    .trim();
+            }
+
+            function minifyCSS(code) {
+                // Basic CSS minification
+                return code
+                    // Remove comments
+                    .replace(/\/\*[\s\S]*?\*\//g, '')
+                    // Remove extra whitespace
+                    .replace(/\s+/g, ' ')
+                    // Remove whitespace around selectors, properties, and values
+                    .replace(/\s*([{}:;,])\s*/g, '$1')
+                    // Remove trailing semicolons
+                    .replace(/;}/g, '}')
+                    // Remove empty rules
+                    .replace(/[^{}]+\{\s*\}/g, '')
+                    .trim();
+            }
+
+            function minifyHTML(code) {
+                // Basic HTML minification
+                return code
+                    // Remove HTML comments
+                    .replace(/<!--[\s\S]*?-->/g, '')
+                    // Remove extra whitespace between tags
+                    .replace(/>\s+</g, '><')
+                    // Remove leading/trailing whitespace
+                    .replace(/^\s+|\s+$/g, '')
+                    // Remove empty lines
+                    .replace(/^\s*[\r\n]/gm, '')
+                    .trim();
+            }
+
+            // Minify code
+            async function minifyCode() {
+                const input = inputCode.value.trim();
+                if (!input) {
+                    alert('Please enter some code to minify.');
+                    return;
+                }
+
+                // Show loading state
+                minifyBtn.disabled = true;
+                minifyText.textContent = 'Minifying...';
+                minifySpinner.classList.remove('hidden');
+
+                try {
+                    let minified = '';
+
+                    // Minify based on current code type
+                    switch (currentCodeType) {
+                        case 'js':
+                            minified = minifyJavaScript(input);
+                            break;
+                        case 'css':
+                            minified = minifyCSS(input);
+                            break;
+                        case 'html':
+                            minified = minifyHTML(input);
+                            break;
+                    }
+
+                    outputCode.value = minified;
+                    updateCharCounts();
+
+                    // Enable copy button
+                    copyBtn.disabled = false;
+
+                    // Track successful minification
+                    gtag('event', 'code_minified', {
+                        event_category: 'code_minification',
+                        event_label: currentCodeType,
+                        value: Math.round((input.length - minified.length) / input.length * 100),
+                        page_title: 'JS/CSS/HTML Minifier'
+                    });
+
+                } catch (error) {
+                    console.error('Minification error:', error);
+                    alert('Error minifying code. Please check your input.');
+
+                    // Track minification error
+                    gtag('event', 'minification_error', {
+                        event_category: 'code_minification',
+                        event_label: currentCodeType,
+                        page_title: 'JS/CSS/HTML Minifier'
+                    });
+                } finally {
+                    // Reset loading state
+                    minifyBtn.disabled = false;
+                    minifyText.textContent = 'Minify Code';
+                    minifySpinner.classList.add('hidden');
+                }
+            }
+
+            // Copy to clipboard
+            async function copyToClipboard() {
+                const text = outputCode.value;
+                if (!text) return;
+
+                try {
+                    await navigator.clipboard.writeText(text);
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i data-feather="check" class="w-4 h-4 mr-2"></i>Copied!';
+                    if (typeof feather !== 'undefined') feather.replace();
+
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        if (typeof feather !== 'undefined') feather.replace();
+                    }, 2000);
+
+                    // Track copy action
+                    gtag('event', 'code_copied', {
+                        event_category: 'code_minification',
+                        event_label: currentCodeType,
+                        page_title: 'JS/CSS/HTML Minifier'
+                    });
+
+                } catch (error) {
+                    console.error('Copy failed:', error);
+                    // Fallback for older browsers
+                    outputCode.select();
+                    document.execCommand('copy');
+                }
+            }
+
+            // Clear all
+            function clearAll() {
+                inputCode.value = '';
+                outputCode.value = '';
+                copyBtn.disabled = true;
+                updateCharCounts();
+
+                // Track clear action
+                gtag('event', 'minifier_cleared', {
+                    event_category: 'code_minification',
+                    page_title: 'JS/CSS/HTML Minifier'
+                });
+            }
+
+            // Event listeners
+            minifyBtn.addEventListener('click', minifyCode);
+            copyBtn.addEventListener('click', copyToClipboard);
+            clearBtn.addEventListener('click', clearAll);
+
+            // Dark mode functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+
+            // Check for saved theme preference or default to light mode
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            }
+
+            function toggleTheme() {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+                // Update theme toggle icon
+                const icons = document.querySelectorAll('#theme-toggle svg, #mobile-theme-toggle svg');
+                icons.forEach(icon => {
+                    if (isDark) {
+                        // Sun icon for dark mode (to switch to light)
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+                    } else {
+                        // Moon icon for light mode (to switch to dark)
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+                    }
+                });
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+
+            if (mobileThemeToggle) {
+                mobileThemeToggle.addEventListener('click', toggleTheme);
+            }
+
+            // Initialize theme toggle icon
+            const isDark = document.documentElement.classList.contains('dark');
+            const icons = document.querySelectorAll('#theme-toggle svg, #mobile-theme-toggle svg');
+            icons.forEach(icon => {
+                if (isDark) {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+                } else {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+                }
+            });
+
+            // Initialize
+            updateCharCounts();
+        });
+    </script>
+
+
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

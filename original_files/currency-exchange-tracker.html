@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/currency-exchange-tracker.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Exchange Tracker - Live Exchange Rates & Converter | InfiniteForge</title>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Currency Exchange Tracker - Live Exchange Rates & Converter | InfiniteForge">
+    <meta name="twitter:description" content="Free currency exchange tracker with live rates, currency converter, and exchange rate calculator. Track USD, EUR, GBP, INR, and 150+ currencies with real-time updates.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/currency-exchange-tracker.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <meta name="description"
+        content="Free currency exchange tracker with live rates, currency converter, and exchange rate calculator. Track USD, EUR, GBP, INR, and 150+ currencies with real-time updates.">
+    <meta name="keywords"
+        content="currency exchange tracker, currency converter, exchange rates, live rates, forex rates, USD to INR, EUR to USD, GBP converter, currency calculator, foreign exchange, money converter, InfiniteForge">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+
+    <meta property="og:title" content="Currency Exchange Tracker - Live Exchange Rates & Converter | InfiniteForge">
+    <meta property="og:description"
+        content="Free currency exchange tracker with live rates, currency converter, and exchange rate calculator. Track USD, EUR, GBP, INR, and 150+ currencies with real-time updates.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/currency-exchange-tracker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/currency-exchange-tracker.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <link rel="canonical" href="https://infiniteforge.tech/currency-exchange-tracker.html">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Fallback for feather icons if CDN fails
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof feather === 'undefined') {
+                    console.warn('Feather icons failed to load, loading from alternative CDN...');
+                    // Try alternative CDN
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/feather-icons/dist/feather.min.js';
+                    script.onload = function() {
+                        console.log('Feather icons loaded from alternative CDN');
+                        feather.replace();
+                    };
+                    script.onerror = function() {
+                        console.error('Failed to load feather icons from both CDNs');
+                        // Add CSS fallbacks for essential icons
+                        addIconFallbacks();
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    // Initialize feather icons immediately if already loaded
+                    feather.replace();
+                }
+            }, 100); // Reduced delay for faster initialization
+        });
+
+        // Add CSS-based fallbacks for essential icons
+        function addIconFallbacks() {
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Fallback styles for feather icons */
+                i[data-feather]:before {
+                    content: '▸';
+                    font-weight: bold;
+                }
+                i[data-feather="dollar-sign"]:before { content: '💲'; }
+                i[data-feather="trending-up"]:before { content: '📈'; }
+                i[data-feather="refresh-cw"]:before { content: '🔄'; }
+                i[data-feather="menu"]:before { content: '☰'; }
+                i[data-feather="arrow-right"]:before { content: '→'; }
+                i[data-feather="activity"]:before { content: '📊'; }
+                i[data-feather="globe"]:before { content: '🌍'; }
+            `;
+            document.head.appendChild(style);
+            console.log('Added fallback icons');
+        }
+
+        // Initialize feather icons on DOM ready as backup
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        body {
+            font-size: var(--fluid-font-size);
+        }
+
+        h1 { font-size: var(--fluid-h1) !important; }
+        h2 { font-size: var(--fluid-h2) !important; }
+        h3 { font-size: var(--fluid-h3) !important; }
+        p { font-size: var(--fluid-p) !important; }
+
+        @media (max-width: 640px) {
+            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Animations and Micro-interactions */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Apply animations on scroll */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Stagger animations */
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-delay-500 { animation-delay: 0.5s; }
+
+        /* Enhanced hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Currency Exchange specific styles */
+        .currency-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .currency-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .exchange-rate {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .currency-flag {
+            width: 24px;
+            height: 18px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .converter-input {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+            width: 100%;
+        }
+
+        .converter-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 640px) {
+            .converter-input {
+                padding: 10px 12px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+
+            .converter-section {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .popular-pair {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .popular-pair:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .rate-change {
+            font-size: 0.875rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .rate-change.positive {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .rate-change.negative {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #2563eb;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Currency Exchange Tracker",
+        "description": "Free currency exchange tracker with live rates, currency converter, and exchange rate calculator. Track USD, EUR, GBP, INR, and 150+ currencies with real-time updates.",
+        "url": "https://infiniteforge.tech/currency-exchange-tracker.html",
+        "applicationCategory": "Financial",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <!-- Google tag (gtag.js) -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md w-full fixed top-0 left-0 z-50" aria-label="Main Navigation">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="flex items-center">
+                    <a href="index.html" class="hidden md:inline-block ml-6 text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="sitemap.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Sitemap</a>
+                    <a href="contact.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                    <!-- Mobile menu button -->
+                    <button id="mobileMenuBtn" class="md:hidden ml-4 text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data-feather="menu" class="w-7 h-7" aria-label="Mobile menu"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40 hidden">
+                <!-- Navigation -->
+                <div class="px-4 py-2">
+                    <a href="index.html" class="block px-2 py-2 text-blue-600 rounded">Home</a>
+                    <a href="features.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Features</a>
+                    <a href="about.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">About</a>
+                    <a href="sitemap.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Sitemap</a>
+                    <a href="contact.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-6xl mx-auto pt-20 px-4 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/WebPage">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-green-600 via-blue-600 to-purple-800 rounded-3xl mb-16">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="absolute inset-0">
+                <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute bottom-10 right-10 w-32 h-32 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white bg-opacity-5 rounded-full blur-2xl"></div>
+            </div>
+            <div class="relative z-10 py-20 px-6 text-center text-white">
+                <div class="flex justify-center items-center mb-6">
+                    <i data-feather="dollar-sign" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
+                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent" itemprop="headline">
+                        Currency Exchange Tracker
+                    </h1>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-green-100">Live Exchange Rates & Converter</h2>
+                <p class="text-xl text-green-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
+                    Track live currency exchange rates, convert currencies instantly, and stay updated with forex market trends. Free currency converter for 150+ currencies worldwide.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="#currency-converter" class="bg-white text-green-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Convert Currency Now
+                        <i data-feather="arrow-right" class="w-5 h-5 ml-2 inline"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Currency Converter -->
+        <section id="currency-converter" class="mb-20">
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Currency Converter</h2>
+                    <p class="text-lg text-gray-600">Convert between currencies with live exchange rates</p>
+                </div>
+
+                <!-- Converter Form -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-8">
+                    <!-- From Currency -->
+                    <div class="converter-section">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">From</label>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <select id="from-currency" class="converter-input flex-1">
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="INR">INR - Indian Rupee</option>
+                                <option value="JPY">JPY - Japanese Yen</option>
+                                <option value="CAD">CAD - Canadian Dollar</option>
+                                <option value="AUD">AUD - Australian Dollar</option>
+                                <option value="CHF">CHF - Swiss Franc</option>
+                                <option value="CNY">CNY - Chinese Yuan</option>
+                                <option value="SEK">SEK - Swedish Krona</option>
+                                <option value="NZD">NZD - New Zealand Dollar</option>
+                                <option value="MXN">MXN - Mexican Peso</option>
+                                <option value="SGD">SGD - Singapore Dollar</option>
+                                <option value="HKD">HKD - Hong Kong Dollar</option>
+                                <option value="NOK">NOK - Norwegian Krone</option>
+                                <option value="KRW">KRW - South Korean Won</option>
+                                <option value="TRY">TRY - Turkish Lira</option>
+                                <option value="RUB">RUB - Russian Ruble</option>
+                                <option value="BRL">BRL - Brazilian Real</option>
+                                <option value="ZAR">ZAR - South African Rand</option>
+                            </select>
+                            <input type="number" id="from-amount" class="converter-input w-full sm:w-32 md:w-40" placeholder="0.00" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- To Currency -->
+                    <div class="converter-section">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">To</label>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <select id="to-currency" class="converter-input flex-1">
+                                <option value="INR">INR - Indian Rupee</option>
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="JPY">JPY - Japanese Yen</option>
+                                <option value="CAD">CAD - Canadian Dollar</option>
+                                <option value="AUD">AUD - Australian Dollar</option>
+                                <option value="CHF">CHF - Swiss Franc</option>
+                                <option value="CNY">CNY - Chinese Yuan</option>
+                                <option value="SEK">SEK - Swedish Krona</option>
+                                <option value="NZD">NZD - New Zealand Dollar</option>
+                                <option value="MXN">MXN - Mexican Peso</option>
+                                <option value="SGD">SGD - Singapore Dollar</option>
+                                <option value="HKD">HKD - Hong Kong Dollar</option>
+                                <option value="NOK">NOK - Norwegian Krone</option>
+                                <option value="KRW">KRW - South Korean Won</option>
+                                <option value="TRY">TRY - Turkish Lira</option>
+                                <option value="RUB">RUB - Russian Ruble</option>
+                                <option value="BRL">BRL - Brazilian Real</option>
+                                <option value="ZAR">ZAR - South African Rand</option>
+                            </select>
+                            <input type="number" id="to-amount" class="converter-input w-full sm:w-32 md:w-40" placeholder="0.00" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Convert Button -->
+                <div class="text-center mb-8">
+                    <button id="convert-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-semibold text-base md:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl w-full sm:w-auto">
+                        <i data-feather="refresh-cw" class="w-5 h-5 mr-2 inline"></i>
+                        Convert Currency
+                    </button>
+                </div>
+
+                <!-- Exchange Rate Display -->
+                <div id="exchange-rate-display" class="text-center mb-8 hidden">
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="text-sm text-gray-600 mb-2">Exchange Rate</div>
+                        <div class="exchange-rate" id="current-rate">1 USD = 83.50 INR</div>
+                        <div class="text-sm text-gray-500 mt-2" id="rate-timestamp">Last updated: Just now</div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-message" class="error-message hidden mt-6"></div>
+            </div>
+        </section>
+
+        <!-- Popular Currency Pairs -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Popular Currency Pairs</h2>
+                <p class="text-lg text-gray-600">Track the most traded currency pairs in real-time</p>
+            </div>
+
+            <div id="popular-pairs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <!-- Popular pairs will be populated here -->
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gradient-to-br from-gray-50 to-green-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Choose Our Currency Tracker?</h2>
+                    <p class="text-lg text-gray-600">Professional-grade currency tools for accurate financial decisions</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="activity" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Live Exchange Rates</h3>
+                        <p class="text-gray-600">Real-time currency rates updated every few minutes from reliable financial data sources.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="refresh-cw" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Instant Conversion</h3>
+                        <p class="text-gray-600">Convert any amount between 150+ currencies with just one click. No registration required.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="globe" class="w-8 h-8 text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Global Coverage</h3>
+                        <p class="text-gray-600">Support for major world currencies including USD, EUR, GBP, INR, JPY, and many more.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-400">© 2025 InfiniteForge. Made with <span class="text-red-400">♥</span> for creators worldwide by <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" class="hover:text-white transition-colors">InfinityForge</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Currency Exchange Tracker functionality
+        let exchangeRates = {};
+        let lastUpdate = null;
+
+        // Popular currency pairs to display
+        const popularPairs = [
+            { from: 'USD', to: 'INR', name: 'USD to INR' },
+            { from: 'EUR', to: 'USD', name: 'EUR to USD' },
+            { from: 'GBP', to: 'USD', name: 'GBP to USD' },
+            { from: 'USD', to: 'EUR', name: 'USD to EUR' },
+            { from: 'USD', to: 'GBP', name: 'USD to GBP' },
+            { from: 'USD', to: 'JPY', name: 'USD to JPY' },
+            { from: 'EUR', to: 'INR', name: 'EUR to INR' },
+            { from: 'GBP', to: 'INR', name: 'GBP to INR' },
+            { from: 'AUD', to: 'USD', name: 'AUD to USD' },
+            { from: 'CAD', to: 'USD', name: 'CAD to USD' },
+            { from: 'CHF', to: 'USD', name: 'CHF to USD' },
+            { from: 'CNY', to: 'USD', name: 'CNY to USD' }
+        ];
+
+        // Initialize the currency tracker
+        function initCurrencyTracker() {
+            setupEventListeners();
+            loadExchangeRates();
+            displayPopularPairs();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Convert button
+            document.getElementById('convert-btn').addEventListener('click', convertCurrency);
+
+            // Real-time conversion on input change
+            document.getElementById('from-amount').addEventListener('input', convertCurrencyRealtime);
+            document.getElementById('from-currency').addEventListener('change', handleCurrencyChange);
+            document.getElementById('to-currency').addEventListener('change', handleCurrencyChange);
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking links
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                });
+            });
+        }
+
+        // Load exchange rates from API
+        async function loadExchangeRates() {
+            try {
+                showLoading(true);
+                hideError();
+
+                // Using exchangerate-api.com (free tier)
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch exchange rates');
+                }
+
+                const data = await response.json();
+                exchangeRates = data.rates;
+                lastUpdate = new Date();
+
+                console.log('Exchange rates loaded successfully');
+                updatePopularPairs();
+
+            } catch (error) {
+                console.error('Error loading exchange rates:', error);
+                showError('Failed to load exchange rates. Please try again later.');
+                // Load cached rates if available
+                loadCachedRates();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Load cached rates (fallback)
+        function loadCachedRates() {
+            const cached = localStorage.getItem('exchangeRates');
+            if (cached) {
+                try {
+                    const data = JSON.parse(cached);
+                    exchangeRates = data.rates;
+                    lastUpdate = new Date(data.timestamp);
+                    console.log('Loaded cached exchange rates');
+                    updatePopularPairs();
+                } catch (error) {
+                    console.error('Error loading cached rates:', error);
+                }
+            }
+        }
+
+        // Save rates to cache
+        function saveRatesToCache() {
+            try {
+                const data = {
+                    rates: exchangeRates,
+                    timestamp: lastUpdate
+                };
+                localStorage.setItem('exchangeRates', JSON.stringify(data));
+            } catch (error) {
+                console.error('Error saving rates to cache:', error);
+            }
+        }
+
+        // Convert currency
+        function convertCurrency() {
+            const fromCurrency = document.getElementById('from-currency').value;
+            const toCurrency = document.getElementById('to-currency').value;
+            const amount = parseFloat(document.getElementById('from-amount').value);
+
+            if (!amount || amount < 0) {
+                showError('Please enter a valid amount');
+                return;
+            }
+
+            if (!exchangeRates[fromCurrency] || !exchangeRates[toCurrency]) {
+                showError('Exchange rate not available for selected currencies');
+                return;
+            }
+
+            // Convert through USD as base
+            const usdAmount = amount / exchangeRates[fromCurrency];
+            const convertedAmount = usdAmount * exchangeRates[toCurrency];
+
+            document.getElementById('to-amount').value = convertedAmount.toFixed(2);
+
+            // Update exchange rate display
+            updateExchangeRateDisplay(fromCurrency, toCurrency);
+
+            hideError();
+        }
+
+        // Real-time conversion
+        function convertCurrencyRealtime() {
+            const amount = document.getElementById('from-amount').value;
+            if (amount && parseFloat(amount) > 0) {
+                convertCurrency();
+            }
+        }
+
+        // Handle currency change
+        function handleCurrencyChange() {
+            const fromCurrency = document.getElementById('from-currency').value;
+            const toCurrency = document.getElementById('to-currency').value;
+
+            updateExchangeRateDisplay(fromCurrency, toCurrency);
+
+            // Convert if there's an amount
+            const amount = document.getElementById('from-amount').value;
+            if (amount && parseFloat(amount) > 0) {
+                convertCurrency();
+            }
+        }
+
+        // Update exchange rate display
+        function updateExchangeRateDisplay(fromCurrency, toCurrency) {
+            if (!exchangeRates[fromCurrency] || !exchangeRates[toCurrency]) {
+                return;
+            }
+
+            const rate = exchangeRates[toCurrency] / exchangeRates[fromCurrency];
+            const rateText = `1 ${fromCurrency} = ${rate.toFixed(4)} ${toCurrency}`;
+
+            document.getElementById('current-rate').textContent = rateText;
+            document.getElementById('rate-timestamp').textContent = `Last updated: ${lastUpdate ? lastUpdate.toLocaleTimeString() : 'Just now'}`;
+            document.getElementById('exchange-rate-display').classList.remove('hidden');
+        }
+
+        // Display popular currency pairs
+        function displayPopularPairs() {
+            const container = document.getElementById('popular-pairs');
+
+            popularPairs.forEach(pair => {
+                const card = document.createElement('div');
+                card.className = 'currency-card p-6 popular-pair';
+                card.onclick = () => selectCurrencyPair(pair.from, pair.to);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-semibold text-white">${pair.name}</h4>
+                        <div class="loading-spinner" id="spinner-${pair.from}-${pair.to}"></div>
+                    </div>
+                    <div class="exchange-rate text-white" id="rate-${pair.from}-${pair.to}">Loading...</div>
+                    <div class="text-green-100 text-sm mt-1" id="change-${pair.from}-${pair.to}">--</div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Update popular pairs with current rates
+        function updatePopularPairs() {
+            popularPairs.forEach(pair => {
+                const rateElement = document.getElementById(`rate-${pair.from}-${pair.to}`);
+                const spinnerElement = document.getElementById(`spinner-${pair.from}-${pair.to}`);
+
+                if (exchangeRates[pair.from] && exchangeRates[pair.to]) {
+                    const rate = exchangeRates[pair.to] / exchangeRates[pair.from];
+                    rateElement.textContent = rate.toFixed(4);
+
+                    // Hide spinner
+                    if (spinnerElement) {
+                        spinnerElement.style.display = 'none';
+                    }
+                }
+            });
+
+            saveRatesToCache();
+        }
+
+        // Select currency pair from popular pairs
+        function selectCurrencyPair(fromCurrency, toCurrency) {
+            document.getElementById('from-currency').value = fromCurrency;
+            document.getElementById('to-currency').value = toCurrency;
+            handleCurrencyChange();
+        }
+
+        // Show loading state
+        function showLoading(show) {
+            const convertBtn = document.getElementById('convert-btn');
+            const icon = convertBtn.querySelector('i');
+
+            if (show) {
+                convertBtn.disabled = true;
+                convertBtn.innerHTML = '<div class="loading-spinner mr-2 inline"></div>Loading...';
+            } else {
+                convertBtn.disabled = false;
+                convertBtn.innerHTML = '<i data-feather="refresh-cw" class="w-5 h-5 mr-2 inline"></i>Convert Currency';
+                // Reinitialize feather icons
+                setTimeout(() => {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                }, 10);
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Hide error message
+        function hideError() {
+            document.getElementById('error-message').classList.add('hidden');
+        }
+
+        // Format currency
+        function formatCurrency(amount, currency) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currency,
+                minimumFractionDigits: 2
+            }).format(amount);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initCurrencyTracker();
+        });
+
+        // Refresh rates every 5 minutes
+        setInterval(loadExchangeRates, 5 * 60 * 1000);
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

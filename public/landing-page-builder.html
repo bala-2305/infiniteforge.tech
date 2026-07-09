@@ -1,578 +1,808 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page Builder with AI — Daedalus</title>
-    <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Create stunning landing pages with AI assistance. Generate professional landing pages for your business, products, or services with our free AI-powered landing page builder.">
-    <meta name="keywords" content="landing page builder, AI landing page generator, website builder, landing page creator, business landing pages, product landing pages, AI website generator">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Landing Page Builder with AI — Daedalus">
-    <meta property="og:description" content="Create stunning landing pages with AI assistance. Generate professional landing pages for your business, products, or services.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://infiniteforge.tech/landing-page-builder.html">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Daedalus Logo">
-    <meta property="og:site_name" content="Daedalus">
-    <meta property="og:locale" content="en_US">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Landing Page Builder with AI — Daedalus">
-    <meta name="twitter:description" content="Create stunning landing pages with AI assistance. Generate professional landing pages for your business, products, or services.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Daedalus Logo">
-    <link rel="canonical" href="https://infiniteforge.tech/landing-page-builder.html">
-    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/landing-page-builder.html">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InfiniteForge — AI Landing Page Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ──── RESET & VARS ──── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Landing Page Builder with AI — Daedalus",
-        "description": "Create stunning landing pages with AI assistance. Generate professional landing pages for your business, products, or services with our free AI-powered landing page builder.",
-        "url": "https://infiniteforge.tech/landing-page-builder.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Daedalus",
-            "url": "https://infiniteforge.tech"
-        },
-        "primaryImageOfPage": {
-            "@type": "ImageObject",
-            "url": "https://infiniteforge.tech/assets/letter-d.png"
-        },
-        "datePublished": "2025-10-09",
-        "dateModified": "2025-10-09"
-    }</script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
+  :root {
+    --bg: #0a0a0f;
+    --bg-panel: #12121a;
+    --bg-panel-alt: #1a1a26;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8ee;
+    --text-muted: #6e6e80;
+    --accent: #7c5cfc;
+    --accent-glow: rgba(124,92,252,0.35);
+    --accent2: #00d4aa;
+    --accent2-glow: rgba(0,212,170,0.25);
+    --red: #f04848;
+    --font: 'Sora', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
 
-        body {
-            font-size: var(--fluid-font-size);
-        }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-        h1 { font-size: var(--fluid-h1) !important; }
-        h2 { font-size: var(--fluid-h2) !important; }
-        h3 { font-size: var(--fluid-h3) !important; }
-        p { font-size: var(--fluid-p) !important; }
+  /* ──── TOP NAV ──── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(10,10,15,0.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-left { display: flex; align-items: center; gap: 12px; }
+  .nav-logo {
+    display: flex; align-items: center; gap: 9px;
+    text-decoration: none;
+  }
+  .nav-logo .logo-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo .logo-icon svg { width: 16px; height: 16px; }
+  .nav-logo span {
+    font-weight: 700; font-size: 17px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent2));
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
 
-        @media (max-width: 640px) {
-            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
+  .nav-tabs { display: flex; gap: 4px; margin-left: 14px; }
+  .nav-tab {
+    padding: 5px 13px; border-radius: 6px;
+    border: none; background: transparent;
+    color: var(--text-muted); font-family: var(--font); font-size: 13px;
+    cursor: pointer; transition: all .2s;
+  }
+  .nav-tab:hover { color: var(--text); background: var(--bg-panel-alt); }
+  .nav-tab.active {
+    background: var(--bg-panel-alt);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  }
 
-        /* Custom styles for landing page builder */
-        .input-field {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-btn {
+    padding: 6px 16px; border-radius: 7px;
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none; transition: all .2s;
+  }
+  .nav-btn.ghost {
+    background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .nav-btn.ghost:hover { border-color: var(--accent); color: var(--text); }
 
-        .input-field:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
+  /* ──── MAIN LAYOUT ──── */
+  .app { display: flex; height: 100%; padding-top: 52px; }
 
-        .textarea-field {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            min-height: 100px;
-            resize: vertical;
-            transition: border-color 0.3s ease;
-        }
+  /* ──── SIDEBAR ──── */
+  .sidebar {
+    width: 300px; min-width: 300px;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
 
-        .textarea-field:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
+  .sidebar-header {
+    padding: 18px 18px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header h3 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--text-muted); font-weight: 500; margin-bottom: 12px;
+  }
 
-        .tool-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
+  /* Prompt box */
+  .prompt-wrap {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .prompt-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .prompt-wrap textarea {
+    width: 100%; min-height: 90px; max-height: 180px;
+    background: transparent; border: none; resize: vertical;
+    color: var(--text); font-family: var(--font); font-size: 13px;
+    line-height: 1.55; padding: 12px 14px;
+    outline: none;
+  }
+  .prompt-wrap textarea::placeholder { color: var(--text-muted); }
+  .prompt-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px;
+  }
+  .prompt-actions .char-count { font-size: 11px; color: var(--text-muted); }
+  .gen-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 16px; border-radius: 7px; border: none;
+    background: linear-gradient(135deg, var(--accent), #6a4de0);
+    color: #fff; font-family: var(--font); font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+    box-shadow: 0 2px 10px var(--accent-glow);
+  }
+  .gen-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 18px var(--accent-glow); }
+  .gen-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .gen-btn .spinner {
+    width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .6s linear infinite; display: none;
+  }
+  .gen-btn.loading .spinner { display: block; }
+  .gen-btn.loading .gen-label { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-        .tool-card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
+  /* Quick prompts */
+  .quick-section { padding: 14px 18px 0; }
+  .quick-section h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); font-weight: 500; margin-bottom: 9px;
+  }
+  .quick-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .quick-chip {
+    padding: 5px 11px; border-radius: 20px;
+    background: var(--bg-panel-alt); border: 1px solid var(--border);
+    color: var(--text-muted); font-family: var(--font); font-size: 12px;
+    cursor: pointer; transition: all .2s;
+  }
+  .quick-chip:hover {
+    border-color: var(--accent); color: var(--text);
+    background: rgba(124,92,252,.08);
+  }
 
-        .tab-button {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
+  /* Options */
+  .options-section { padding: 16px 18px; border-top: 1px solid var(--border); }
+  .options-section h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); font-weight: 500; margin-bottom: 10px;
+  }
+  .option-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .option-label { font-size: 13px; color: var(--text); }
+  .option-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  select.option-select {
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font); font-size: 12px;
+    padding: 5px 10px; border-radius: 6px; outline: none; cursor: pointer;
+    min-width: 100px;
+  }
+  select.option-select:focus { border-color: var(--accent); }
+  /* Toggle switch */
+  .toggle { position: relative; width: 38px; height: 21px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0;
+    background: var(--bg-panel-alt); border: 1px solid var(--border);
+    border-radius: 21px; transition: .25s; cursor: pointer;
+  }
+  .toggle-slider:before {
+    content: ''; position: absolute;
+    width: 16px; height: 16px; left: 2px; bottom: 2px;
+    background: var(--text-muted); border-radius: 50%; transition: .25s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--accent); border-color: var(--accent); }
+  .toggle input:checked + .toggle-slider:before { transform: translateX(18px); background: #fff; }
 
-        .tab-button:hover {
-            border-color: #3b82f6;
-            background: #eff6ff;
-        }
 
-        .tab-button.active {
-            border-color: #3b82f6;
-            background: #eff6ff;
-            color: #1e40af;
-        }
+  /* ──── MAIN PREVIEW ──── */
+  .main {
+    flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    position: relative;
+  }
 
-        .preview-container {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: 600px;
-            overflow: auto;
-        }
+  /* View tabs row */
+  .view-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .view-tabs { display: flex; gap: 4px; }
+  .view-tab {
+    padding: 5px 14px; border-radius: 6px; border: none;
+    background: transparent; color: var(--text-muted);
+    font-family: var(--font); font-size: 13px; cursor: pointer; transition: all .2s;
+  }
+  .view-tab:hover { color: var(--text); background: var(--bg-panel-alt); }
+  .view-tab.active { background: var(--bg-panel-alt); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
 
-        .loading-spinner {
-            border: 2px solid #f3f4f6;
-            border-top: 2px solid #3b82f6;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
+  .view-bar-actions { display: flex; gap: 8px; align-items: center; }
+  .icon-btn {
+    width: 32px; height: 32px; border-radius: 7px;
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .2s;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--text); background: rgba(124,92,252,.08); }
+  .icon-btn svg { width: 15px; height: 15px; }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+  /* Device frame selector */
+  .device-btns { display: flex; gap: 4px; }
+  .device-btn {
+    padding: 4px 8px; border-radius: 5px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text-muted);
+    font-family: var(--font); font-size: 11px; cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .device-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(124,92,252,.08); }
+  .device-btn svg { width: 12px; height: 12px; }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
+  /* Preview / Code area */
+  .preview-area { flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto; background: var(--bg); position: relative; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+  /* Checkerboard behind iframe */
+  .preview-area::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(45deg, #161620 25%, transparent 25%),
+                      linear-gradient(-45deg, #161620 25%, transparent 25%),
+                      linear-gradient(45deg, transparent 75%, #161620 75%),
+                      linear-gradient(-45deg, transparent 75%, #161620 75%);
+    background-size: 32px 32px;
+    background-position: 0 0, 0 16px, 16px -16px, -16px 0px;
+    opacity: .4;
+  }
+
+  .iframe-wrap {
+    position: relative; z-index: 1;
+    background: #fff; border-radius: 8px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.45);
+    overflow: hidden; transition: width .35s, height .35s;
+  }
+  .iframe-wrap.desktop { width: calc(100% - 48px); height: calc(100% - 48px); }
+  .iframe-wrap.tablet { width: 780px; height: calc(100% - 72px); }
+  .iframe-wrap.mobile { width: 390px; height: calc(100% - 72px); }
+
+  .iframe-wrap iframe {
+    width: 100%; height: 100%; border: none; display: block;
+  }
+
+  /* Code view */
+  .code-view {
+    flex: 1; overflow: auto; display: none;
+    background: #0e0e14;
+  }
+  .code-view.visible { display: block; }
+  .code-block {
+    padding: 20px; font-family: var(--mono); font-size: 12.5px;
+    line-height: 1.7; color: #c9c9d4; white-space: pre; overflow-x: auto;
+    min-height: 100%;
+  }
+  /* Syntax highlight helpers */
+  .sh-tag { color: #f472b6; }
+  .sh-attr { color: #a78bfa; }
+  .sh-str { color: #86efac; }
+  .sh-comment { color: #4a4a5a; font-style: italic; }
+  .sh-css { color: #60a5fa; }
+
+  /* Empty state */
+  .empty-state {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+  }
+  .empty-state .empty-icon {
+    width: 72px; height: 72px; border-radius: 18px;
+    background: linear-gradient(135deg, rgba(124,92,252,.15), rgba(0,212,170,.1));
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .empty-state .empty-icon svg { width: 34px; height: 34px; color: var(--accent); opacity: .7; }
+  .empty-state h2 { font-size: 20px; font-weight: 600; color: var(--text); }
+  .empty-state p { font-size: 13px; color: var(--text-muted); max-width: 340px; text-align: center; line-height: 1.5; }
+
+  /* Status bar */
+  .status-bar {
+    height: 26px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+    background: var(--bg-panel); border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-muted); font-family: var(--mono);
+  }
+  .status-left { display: flex; align-items: center; gap: 14px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 6px var(--accent2-glow); }
+  .status-right { display: flex; align-items: center; gap: 12px; }
+
+  /* ──── LOADING OVERLAY ──── */
+  .gen-overlay {
+    display: none; position: absolute; inset: 0; z-index: 50;
+    background: rgba(10,10,15,.88); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+  }
+  .gen-overlay.visible { display: flex; }
+  .gen-overlay .ring {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 3px solid var(--border); border-top-color: var(--accent);
+    animation: spin .7s linear infinite;
+  }
+  .gen-overlay h3 { font-size: 16px; font-weight: 500; color: var(--text); }
+  .gen-overlay .progress-track {
+    width: 220px; height: 3px; background: var(--bg-panel-alt); border-radius: 2px; overflow: hidden;
+  }
+  .gen-overlay .progress-fill {
+    height: 100%; width: 0%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width .15s;
+  }
+  .gen-overlay p { font-size: 12px; color: var(--text-muted); }
+
+  /* ──── SCROLLBAR ──── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.15); }
+</style>
 </head>
+<body>
 
-<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<!-- ──── NAV ──── -->
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8L7 12L13 4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span>InfiniteForge</span>
+    </a>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tab-build">Build</button>
+    </div>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn ghost" id="copy-code-btn">Copy Code</button>
+    <button class="nav-btn ghost" id="download-btn">↓ Download</button>
+  </div>
+</nav>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<!-- ──── APP ──── -->
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Describe your page</h3>
+      <div class="prompt-wrap">
+        <textarea id="prompt-input" placeholder="e.g. A dark-themed SaaS landing page for an AI analytics tool with a hero section, features grid, and pricing table…"></textarea>
+      </div>
+      <div class="prompt-actions">
+        <span class="char-count" id="char-count">0 / 2000</span>
+        <button class="gen-btn" id="gen-btn">
+          <span class="spinner"></span>
+          <span class="gen-label">✦ Generate</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="quick-section">
+      <h4>Quick prompts</h4>
+      <div class="quick-chips">
+        <span class="quick-chip">SaaS Hero</span>
+        <span class="quick-chip">Portfolio</span>
+        <span class="quick-chip">E-commerce</span>
+        <span class="quick-chip">Blog Layout</span>
+        <span class="quick-chip">Startup</span>
+        <span class="quick-chip">Agency</span>
+        <span class="quick-chip">Product Launch</span>
+        <span class="quick-chip">Pricing Page</span>
+      </div>
+    </div>
+
+    <div class="options-section">
+      <h4>Options</h4>
+      <div class="option-row">
+        <div><div class="option-label">Style</div><div class="option-desc">Visual tone</div></div>
+        <select class="option-select" id="opt-style">
+          <option value="modern">Modern</option>
+          <option value="minimal">Minimal</option>
+          <option value="dark">Dark</option>
+          <option value="bold">Bold</option>
+          <option value="playful">Playful</option>
+        </select>
+      </div>
+      <div class="option-row">
+        <div><div class="option-label">Color</div><div class="option-desc">Primary accent</div></div>
+        <select class="option-select" id="opt-color">
+          <option value="purple">Purple</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="orange">Orange</option>
+          <option value="pink">Pink</option>
+        </select>
+      </div>
+      <div class="option-row">
+        <div><div class="option-label">Animations</div></div>
+        <label class="toggle"><input type="checkbox" id="opt-anim" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="option-row">
+        <div><div class="option-label">Responsive</div></div>
+        <label class="toggle"><input type="checkbox" id="opt-responsive" checked /><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- View bar -->
+    <div class="view-bar">
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="preview">Preview</button>
+        <button class="view-tab" data-view="code">Code</button>
+      </div>
+      <div class="view-bar-actions">
+        <div class="device-btns">
+          <button class="device-btn active" data-device="desktop">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="14" height="10" rx="1.5"/><path d="M5 14h6"/></svg> Desktop
+          </button>
+          <button class="device-btn" data-device="tablet">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="1" width="10" height="14" rx="1.5"/></svg> Tab
+          </button>
+          <button class="device-btn" data-device="mobile">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="1" width="8" height="14" rx="1.5"/><circle cx="8" cy="13" r=".8" fill="currentColor"/></svg> Mobile
+          </button>
+        </div>
+        <button class="icon-btn" id="fullscreen-btn" title="Fullscreen">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6V2h4M10 2h4v4M6 14H2v-4M14 10v4h-4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Preview area -->
+    <div class="preview-area" id="preview-area">
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 34 34" fill="none"><path d="M7 17L14 24L27 10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Ready to build</h2>
+        <p>Describe the landing page you want and hit <strong style="color:var(--accent)">Generate</strong>. AI will create a fully functional HTML page for you.</p>
+      </div>
+
+      <!-- iframe wrapper (hidden until generated) -->
+      <div class="iframe-wrap desktop" id="iframe-wrap" style="display:none;">
+        <iframe id="preview-iframe" srcdoc="" sandbox="allow-scripts"></iframe>
+      </div>
+
+      <!-- Generation overlay -->
+      <div class="gen-overlay" id="gen-overlay">
+        <div class="ring"></div>
+        <h3>Generating your page…</h3>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <p id="gen-status-text">Analyzing prompt…</p>
+      </div>
+    </div>
+
+    <!-- Code view (hidden by default) -->
+    <div class="code-view" id="code-view">
+      <div class="code-block" id="code-block"><!-- generated code will appear here --></div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-left">
+        <span class="status-dot" id="status-dot" style="background:#444;box-shadow:none;"></span>
+        <span id="status-text">No page generated</span>
+      </div>
+      <div class="status-right">
+        <span id="status-size">—</span>
+        <span id="status-lines">—</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ──── SCRIPT ──── -->
+<script>(function () { var _0x = ['aHR0cHM6Ly9uaW0tc2Vydi52ZXJjZWwuYXBwL2NoYXQ=']; window.API_URL = atob(_0x[0]); })();</script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+(function () {
+  // ── Elements ──
+  const promptInput  = document.getElementById('prompt-input');
+  const charCount    = document.getElementById('char-count');
+  const genBtn       = document.getElementById('gen-btn');
+  const genOverlay   = document.getElementById('gen-overlay');
+  const progressFill = document.getElementById('progress-fill');
+  const genStatus    = document.getElementById('gen-status-text');
+  const emptyState   = document.getElementById('empty-state');
+  const iframeWrap   = document.getElementById('iframe-wrap');
+  const previewIframe= document.getElementById('preview-iframe');
+  const codeView     = document.getElementById('code-view');
+  const codeBlock    = document.getElementById('code-block');
+  const statusDot    = document.getElementById('status-dot');
+  const statusText   = document.getElementById('status-text');
+  const statusSize   = document.getElementById('status-size');
+  const statusLines  = document.getElementById('status-lines');
+  const copyCodeBtn  = document.getElementById('copy-code-btn');
+  const downloadBtn  = document.getElementById('download-btn');
 
-  gtag('config', 'G-FQ082B7887');
+  let generatedHTML = '';
+  let currentDevice = 'desktop';
+
+  const apiUrl = window.API_URL;
+
+  // ── Char counter ──
+  promptInput.addEventListener('input', () => {
+    charCount.textContent = promptInput.value.length + ' / 2000';
+  });
+
+  // ── Quick chips ──
+  const CHIP_PROMPTS = {
+    'SaaS Hero': 'A sleek dark-themed SaaS landing page with a bold hero section featuring a gradient headline, animated stats counter, a features grid with icons, and a CTA button.',
+    'Portfolio': 'A minimal light-themed personal portfolio with a centered hero, an animated intro, a projects grid with hover cards, skills section with progress bars, and a contact form.',
+    'E-commerce': 'A vibrant e-commerce product showcase page with a hero banner, a product cards grid with hover zoom effects, a testimonials carousel, and a newsletter signup section.',
+    'Blog Layout': 'A clean editorial blog layout with a sticky nav, a hero article section, a responsive article grid, category filters, and a sidebar with trending posts.',
+    'Startup': 'A bold startup landing page with a dark background, animated gradient blobs, a hero with a video background placeholder, social proof logos, and a pricing comparison table.',
+    'Agency': 'A premium creative agency page with dramatic typography, a scrolling marquee of client logos, a project showcase with overlay effects, team grid, and contact section.',
+    'Product Launch': 'A high-energy product launch page with animated reveal sections, a 3D-style product card, feature bullets that appear on scroll, countdown timer, and early-access signup form.',
+    'Pricing Page': 'A dark SaaS pricing page with three tiers, annual/monthly toggle, feature comparison table, FAQ accordion, and a CTA banner at the bottom.'
+  };
+  document.querySelectorAll('.quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      promptInput.value = CHIP_PROMPTS[chip.textContent] || '';
+      charCount.textContent = promptInput.value.length + ' / 2000';
+    });
+  });
+
+  document.querySelectorAll('.view-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const view = tab.dataset.view;
+      if (view === 'code') {
+        document.getElementById('preview-area').style.display = 'none';
+        codeView.classList.add('visible');
+      } else {
+        document.getElementById('preview-area').style.display = 'flex';
+        codeView.classList.remove('visible');
+      }
+    });
+  });
+
+  document.querySelectorAll('.device-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDevice = btn.dataset.device;
+      iframeWrap.className = 'iframe-wrap ' + currentDevice;
+    });
+  });
+
+  document.getElementById('fullscreen-btn').addEventListener('click', () => {
+    const area = document.getElementById('preview-area');
+    if (!document.fullscreenElement) {
+      area.requestFullscreen && area.requestFullscreen();
+    } else {
+      document.exitFullscreen && document.exitFullscreen();
+    }
+  });
+
+  // ── Copy code ──
+  copyCodeBtn.addEventListener('click', async () => {
+    if (!generatedHTML) return;
+    await navigator.clipboard.writeText(generatedHTML);
+    copyCodeBtn.textContent = '✓ Copied!';
+    setTimeout(() => copyCodeBtn.textContent = 'Copy Code', 1500);
+  });
+
+  // ── Download ──
+  downloadBtn.addEventListener('click', () => {
+    if (!generatedHTML) return;
+    const blob = new Blob([generatedHTML], { type: 'text/html' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'landing-page.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  // ── Simple syntax highlighter ──
+  function highlightHTML(code) {
+    // 1. Escape HTML entities
+    let escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // 2. Highlight comments
+    escaped = escaped.replace(/&lt;!--[\s\S]*?--&gt;/g, '<span class="sh-comment">$&</span>');
+
+    // 3. Highlight tags and their contents
+    escaped = escaped.replace(/&lt;(\/?[a-zA-Z][\s\S]*?)&gt;/g, (match, content) => {
+      // Highlight attributes
+      let h = content.replace(/(\s)([a-zA-Z\-]+)(=)/g, '$1<span class="sh-attr">$2</span>$3');
+      // Highlight strings within the tag
+      h = h.replace(/"([^"]*)"/g, '<span class="sh-str">"$1"</span>');
+      return '<span class="sh-tag">&lt;' + h + '&gt;</span>';
+    });
+
+    // 4. Special handling for CSS inside style tags
+    escaped = escaped.replace(/(<span class="sh-tag">&lt;style&gt;<\/span>)([\s\S]*?)(<span class="sh-tag">&lt;\/style&gt;<\/span>)/g, (m, open, css, close) => {
+      return open + '<span class="sh-css">' + css + '</span>' + close;
+    });
+
+    return escaped;
+  }
+
+  // ── Progress animation ──
+  let progressInterval = null;
+  function startProgress() {
+    let w = 0;
+    progressFill.style.width = '0%';
+    progressInterval = setInterval(() => {
+      w += Math.random() * 4 + 1;
+      if (w > 85) w = 85;
+      progressFill.style.width = w + '%';
+    }, 180);
+  }
+  function endProgress() {
+    clearInterval(progressInterval);
+    progressFill.style.width = '100%';
+    setTimeout(() => { progressFill.style.width = '0%'; }, 400);
+  }
+
+  const STATUS_TEXTS = [
+    'Analyzing prompt…',
+    'Designing layout…',
+    'Writing HTML structure…',
+    'Crafting styles…',
+    'Adding interactivity…',
+    'Polishing details…'
+  ];
+  let statusIdx = 0, statusTicker = null;
+  function startStatusTicker() {
+    statusIdx = 0;
+    genStatus.textContent = STATUS_TEXTS[0];
+    statusTicker = setInterval(() => {
+      statusIdx = (statusIdx + 1) % STATUS_TEXTS.length;
+      genStatus.textContent = STATUS_TEXTS[statusIdx];
+    }, 1200);
+  }
+  function stopStatusTicker() { clearInterval(statusTicker); }
+
+  // ── GENERATE ──
+  genBtn.addEventListener('click', async () => {
+    const prompt = promptInput.value.trim();
+    if (!prompt) return;
+
+    const style = document.getElementById('opt-style').value;
+    const color = document.getElementById('opt-color').value;
+    const anim  = document.getElementById('opt-anim').checked;
+    const resp  = document.getElementById('opt-responsive').checked;
+
+    const systemMsg = `You are an expert web developer and designer. Generate a SINGLE, complete, self-contained HTML file for a beautiful landing page.
+Rules:
+- Output ONLY raw HTML (<!DOCTYPE html> … </html>). No markdown, no code blocks, no explanations.
+- Include all CSS in a <style> block and all JS in a <script> block.
+- Use inline or embedded fonts via Google Fonts @import if needed.
+- Style: \${style}. Primary accent color family: \${color}.
+- \${anim ? 'Include smooth scroll-triggered animations and micro-interactions.' : 'Keep animations minimal.'}
+- \${resp ? 'Make the layout fully responsive with media queries.' : ''}
+- Make it visually stunning, modern, and production-ready.
+- Ensure the HTML is complete, valid, and all tags are properly closed.
+- Generate a comprehensive page with multiple detailed sections: Hero, Features (grid), How It Works (steps), Testimonials (cards), Pricing (table), FAQ (accordion), Blog/News, Gallery, Team, and Footer.
+- Include extensive, custom-crafted CSS styling with many color variables, hover effects, complex keyframe animations, and layered backgrounds.
+- Add descriptive comments in the HTML/CSS/JS code to increase readability and length.
+- Add significant amount of production-quality JavaScript for interactive components.
+- Aim for at least 800-1000 lines of detailed, production-quality code.
+- Repeat: Provide a VERY LONG response. Include exhaustive CSS and extensive HTML sections.
+- IMPORTANT: If you must truncate, stop at exactly 8000 tokens or as close as possible to a complete tag.`;
+
+    const userMsg = prompt;
+
+    // Show overlay
+    genBtn.classList.add('loading');
+    genBtn.disabled = true;
+    genOverlay.classList.add('visible');
+    startProgress();
+    startStatusTicker();
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 180000); // 180 seconds timeout
+
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            { role: 'system', content: systemMsg },
+            { role: 'user',   content: userMsg }
+          ],
+          max_tokens: 8000,
+          temperature: 0.7
+        }),
+        signal: controller.signal
+      });
+
+      if (!res.ok) throw new Error('API error ' + res.status);
+      let html = '';
+      const responseText = await res.text();
+      
+      try {
+        const data = JSON.parse(responseText);
+        html = data.reply || '';
+      } catch (e) {
+        // Handle partial or malformed JSON if it was truncated
+        const match = responseText.match(/"reply"\s*:\s*"(.*)/s);
+        if (match) {
+          html = match[1]
+            .replace(/\\n/g, '\n')
+            .replace(/\\"/g, '"')
+            .replace(/\\t/g, '\t')
+            .replace(/\\r/g, '\r')
+            .replace(/\\\\/g, '\\');
+          // Strip potential trailing JSON syntax if present
+          html = html.replace(/"\s*\}\s*$/, '');
+        } else {
+          html = responseText;
+        }
+      }
+
+      // Clean up any remaining markdown/code block syntax
+      html = html.replace(/^```[a-z]*\s*/i, '').replace(/\s*```$/i, '').trim();
+
+      // If the reply doesn't start with <!DOCTYPE or <html, wrap it
+      if (!html.toLowerCase().startsWith('<!doctype') && !html.toLowerCase().startsWith('<html')) {
+        html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Generated Page</title></head><body>' + html + '</body></html>';
+      }
+
+      generatedHTML = html;
+
+      // Update preview
+      previewIframe.srcdoc = html;
+      emptyState.style.display = 'none';
+      iframeWrap.style.display = 'block';
+      iframeWrap.className = 'iframe-wrap ' + currentDevice;
+
+      // Update code view
+      codeBlock.innerHTML = highlightHTML(html);
+
+      // Status bar
+      statusDot.style.background = 'var(--accent2)';
+      statusDot.style.boxShadow = '0 0 6px var(--accent2-glow)';
+      statusText.textContent = 'Page generated successfully';
+      const lines = html.split('\n').length;
+      statusLines.textContent = lines + ' lines';
+      statusSize.textContent = (html.length / 1024).toFixed(1) + ' KB';
+
+
+    } catch (err) {
+      console.error(err);
+      if (err.name === 'AbortError') {
+        statusText.textContent = 'Error: Request timed out. Please try again.';
+      } else {
+        statusText.textContent = 'Error: ' + err.message;
+      }
+      statusDot.style.background = 'var(--red)';
+      statusDot.style.boxShadow = '0 0 6px rgba(240,72,72,.4)';
+    } finally {
+      clearTimeout(timeoutId);
+      endProgress();
+      stopStatusTicker();
+      setTimeout(() => { genOverlay.classList.remove('visible'); }, 350);
+      genBtn.classList.remove('loading');
+      genBtn.disabled = false;
+    }
+  });
+
+
+})();
 </script>
 
-<body class="bg-gray-50 min-h-screen font-['Poppins']">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center space-x-4">
-                    <a href="index.html" class="flex items-center space-x-2">
-                        <img src="images/letter-d.png" alt="Daedalus Logo" class="w-8 h-8">
-                        <span class="text-xl font-bold text-gray-800">Daedalus</span>
-                    </a>
-                </div>
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
-                    <a href="features.html" class="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
-                    <a href="about.html" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
-                </div>
-                <!-- Mobile menu button -->
-                <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden">
-            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
-            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
-            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
-        </div>
-    </nav>
-
-    <main class="max-w-7xl mx-auto pt-8 pb-12 px-4">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4 flex justify-center items-center">
-                <i data-feather="layout" class="w-12 h-12 text-blue-500 mr-4"></i>
-                Landing Page Builder
-            </h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Create stunning, professional landing pages in minutes with the power of AI. Perfect for businesses, products, and services.
-            </p>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-8 mb-8">
-            <!-- Input Form -->
-            <div class="tool-card">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Describe Your Landing Page</h2>
-
-                <form id="landing-form" class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Business/Product Name</label>
-                        <input type="text" id="business-name" class="input-field" placeholder="e.g., TechStart Pro, FitnessFlow App" required>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">What does it do? (Brief description)</label>
-                        <textarea id="product-description" class="textarea-field" placeholder="Describe what your product/service does and its main benefits..." required></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Audience</label>
-                        <input type="text" id="target-audience" class="input-field" placeholder="e.g., Small business owners, Fitness enthusiasts, Tech professionals" required>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Key Features (Optional - separate with commas)</label>
-                        <input type="text" id="key-features" class="input-field" placeholder="e.g., Easy setup, 24/7 support, Mobile app, Analytics dashboard">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Call-to-Action</label>
-                        <input type="text" id="cta-text" class="input-field" placeholder="e.g., Get Started Free, Start Your Trial, Learn More" value="Get Started Today">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary Color</label>
-                            <input type="color" id="primary-color" class="w-full h-12 rounded-lg border-2 border-gray-300" value="#3b82f6">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Secondary Color</label>
-                            <input type="color" id="secondary-color" class="w-full h-12 rounded-lg border-2 border-gray-300" value="#1e40af">
-                        </div>
-                    </div>
-
-                    <button type="submit" id="generate-btn" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
-                        <i data-feather="zap" class="w-5 h-5 mr-2"></i>
-                        Generate Landing Page with AI
-                    </button>
-                </form>
-            </div>
-
-            <!-- Preview -->
-            <div class="tool-card">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold text-gray-800">Live Preview</h2>
-                    <div class="flex space-x-2">
-                        <button id="copy-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm hidden">
-                            <i data-feather="copy" class="w-4 h-4 mr-1 inline"></i>
-                            Copy HTML
-                        </button>
-                        <button id="download-btn" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm hidden">
-                            <i data-feather="download" class="w-4 h-4 mr-1 inline"></i>
-                            Download
-                        </button>
-                    </div>
-                </div>
-
-                <div id="preview-container" class="preview-container">
-                    <div class="text-center text-gray-500 py-12">
-                        <i data-feather="eye" class="w-16 h-16 mx-auto mb-4 text-gray-300"></i>
-                        <p class="text-lg">Your AI-generated landing page will appear here</p>
-                        <p class="text-sm mt-2">Fill out the form and click "Generate" to see the magic!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Features Section -->
-        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Why Use Our AI Landing Page Builder?</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="zap" class="w-8 h-8 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">AI-Powered Content</h3>
-                    <p class="text-gray-600">Generate compelling copy, headlines, and descriptions tailored to your business.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="settings" class="w-8 h-8 text-green-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Customizable Design</h3>
-                    <p class="text-gray-600">Choose colors, layouts, and styling to match your brand perfectly.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="download" class="w-8 h-8 text-purple-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Ready to Use</h3>
-                    <p class="text-gray-600">Download clean, optimized HTML that you can use immediately on your website.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="max-w-7xl mx-auto text-center">
-            <p>&copy; 2025 Daedalus. Made with <span class="text-red-400">♥</span> for creators worldwide.</p>
-        </div>
-    </footer>
-
-    <script>
-        // DOM elements
-        const DOM = {
-            form: document.getElementById('landing-form'),
-            businessName: document.getElementById('business-name'),
-            productDescription: document.getElementById('product-description'),
-            targetAudience: document.getElementById('target-audience'),
-            keyFeatures: document.getElementById('key-features'),
-            ctaText: document.getElementById('cta-text'),
-            primaryColor: document.getElementById('primary-color'),
-            secondaryColor: document.getElementById('secondary-color'),
-            generateBtn: document.getElementById('generate-btn'),
-            previewContainer: document.getElementById('preview-container'),
-            copyBtn: document.getElementById('copy-btn'),
-            downloadBtn: document.getElementById('download-btn')
-        };
-
-        let generatedHTML = '';
-
-        // Generate landing page with AI
-        async function generateLandingPage(formData) {
-            const prompt = `You are an expert landing page copywriter and web designer. Create a complete, professional landing page HTML for the following business/product:
-
-Business/Product Name: ${formData.businessName}
-Description: ${formData.productDescription}
-Target Audience: ${formData.targetAudience}
-Key Features: ${formData.keyFeatures || 'Not specified'}
-Call-to-Action: ${formData.ctaText}
-Primary Color: ${formData.primaryColor}
-Secondary Color: ${formData.secondaryColor}
-
-Requirements:
-1. Create a modern, responsive landing page with hero section, features, testimonials, and CTA
-2. Use the specified colors as primary and secondary colors
-3. Include compelling headlines and copy that converts
-4. Make it mobile-friendly with Tailwind CSS classes
-5. Include social proof elements and trust indicators
-6. Add proper meta tags and structured data
-7. Make the design professional and conversion-focused
-
-Return ONLY the complete HTML code, no explanations or markdown formatting. The HTML should be ready to use as-is.`;
-
-            try {
-                const response = await fetch("https://backend.buildpicoapps.com/aero/run/llm-api?pk=v1-Z0FBQUFBQm5IZkJDMlNyYUVUTjIyZVN3UWFNX3BFTU85SWpCM2NUMUk3T2dxejhLSzBhNWNMMXNzZlp3c09BSTR6YW1Sc1BmdGNTVk1GY0liT1RoWDZZX1lNZlZ0Z1dqd3c9PQ==", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        prompt: prompt
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('API request failed');
-                }
-
-                const data = await response.json();
-                return data.status === "success" ? data.text : null;
-            } catch (error) {
-                console.error("Error:", error);
-                return null;
-            }
-        }
-
-        // Show loading state
-        function showLoading() {
-            DOM.previewContainer.innerHTML = `
-                <div class="text-center py-12">
-                    <div class="loading-spinner mb-4"></div>
-                    <p class="text-lg text-gray-600">AI is crafting your perfect landing page...</p>
-                    <p class="text-sm text-gray-500 mt-2">This may take a few moments</p>
-                </div>
-            `;
-            DOM.generateBtn.disabled = true;
-            DOM.generateBtn.innerHTML = '<div class="loading-spinner mr-2"></div> Generating...';
-        }
-
-        // Hide loading state
-        function hideLoading() {
-            DOM.generateBtn.disabled = false;
-            DOM.generateBtn.innerHTML = '<i data-feather="zap" class="w-5 h-5 mr-2"></i> Generate Landing Page with AI';
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-            feather.replace();
-        }
-
-        // Display generated landing page
-        function displayLandingPage(html) {
-            generatedHTML = html;
-            DOM.previewContainer.innerHTML = `
-                <div class="fade-in">
-                    <iframe srcdoc="${html.replace(/"/g, '&quot;')}" class="w-full h-full min-h-[500px] border-0 rounded-lg"></iframe>
-                </div>
-            `;
-            DOM.copyBtn.classList.remove('hidden');
-            DOM.downloadBtn.classList.remove('hidden');
-        }
-
-        // Copy HTML to clipboard
-        DOM.copyBtn.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(generatedHTML);
-                const originalText = DOM.copyBtn.innerHTML;
-                DOM.copyBtn.innerHTML = '<i data-feather="check" class="w-4 h-4 mr-1"></i> Copied!';
-                DOM.copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                DOM.copyBtn.classList.add('bg-green-500', 'hover:bg-green-600');
-                setTimeout(() => {
-                    DOM.copyBtn.innerHTML = originalText;
-                    DOM.copyBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
-                    DOM.copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
-                    feather.replace();
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy HTML. Please try again.');
-            }
-        });
-
-        // Download HTML file
-        DOM.downloadBtn.addEventListener('click', () => {
-            const blob = new Blob([generatedHTML], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'landing-page.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
-        // Form submission
-        DOM.form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = {
-                businessName: DOM.businessName.value.trim(),
-                productDescription: DOM.productDescription.value.trim(),
-                targetAudience: DOM.targetAudience.value.trim(),
-                keyFeatures: DOM.keyFeatures.value.trim(),
-                ctaText: DOM.ctaText.value.trim(),
-                primaryColor: DOM.primaryColor.value,
-                secondaryColor: DOM.secondaryColor.value
-            };
-
-            if (!formData.businessName || !formData.productDescription || !formData.targetAudience) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            showLoading();
-
-            const result = await generateLandingPage(formData);
-
-            hideLoading();
-
-            if (result) {
-                displayLandingPage(result);
-            } else {
-                DOM.previewContainer.innerHTML = `
-                    <div class="text-center py-12">
-                        <i data-feather="alert-circle" class="w-16 h-16 mx-auto mb-4 text-red-400"></i>
-                        <p class="text-lg text-red-600">Failed to generate landing page</p>
-                        <p class="text-sm text-gray-500 mt-2">Please try again later</p>
-                        <button onclick="location.reload()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            Try Again
-                        </button>
-                    </div>
-                `;
-            }
-        });
-
-        // Initialize Feather icons
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-
-                // Close mobile menu when a link is clicked
-                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-                mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
-                });
-
-                // Close mobile menu when scrolling
-                window.addEventListener('scroll', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-            }
-        });
-    </script>
 </body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
-
 </html>

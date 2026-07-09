@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Play Tic Tac Toe online: Classic 3x3 grid game with score tracking, win detection, and responsive design. Perfect for quick games and entertainment.">
+    <meta name="keywords" content="tic tac toe, tic-tac-toe, noughts and crosses, game, puzzle, strategy game, online game, browser game, entertainment, fun game">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Tic Tac Toe Game — InfiniteForge">
+    <meta property="og:description" content="Play Tic Tac Toe online: Classic 3x3 grid game with score tracking, win detection, and responsive design.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/tic-tac-toe.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tic Tac Toe Game — InfiniteForge">
+    <meta name="twitter:description" content="Play Tic Tac Toe online: Classic 3x3 grid game with score tracking, win detection, and responsive design.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/tic-tac-toe.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/tic-tac-toe.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Tic Tac Toe Game — InfiniteForge",
+        "description": "Play Tic Tac Toe online: Classic 3x3 grid game with score tracking, win detection, and responsive design.",
+        "url": "https://infiniteforge.tech/tic-tac-toe.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-07",
+        "dateModified": "2025-10-07"
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .cell:hover {
+            background: #f9fafb;
+            transform: scale(1.05);
+        }
+
+        .cell.x {
+            color: #dc2626;
+        }
+
+        .cell.o {
+            color: #2563eb;
+        }
+
+        .cell.winning {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 640px) {
+            .cell {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            .game-board {
+                max-width: 260px;
+            }
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto pt-24 pb-12 px-4" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">Tic Tac Toe</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto" itemprop="description">
+                Classic 3x3 grid strategy game. Take turns placing X's and O's to get three in a row. Perfect for quick entertainment and brain training.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8 mb-8">
+            <!-- Game Board -->
+            <div class="lg:col-span-2">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Game Board</h2>
+                        <div id="status" class="text-lg text-gray-600">Player X's turn</div>
+                    </div>
+
+                    <div class="game-board mx-auto mb-6" id="game-board">
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                        <div class="cell" data-cell></div>
+                    </div>
+
+                    <div class="flex justify-center space-x-4">
+                        <button id="reset-game" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium">
+                            Reset Game
+                        </button>
+                        <button id="new-game" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors font-medium">
+                            New Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score & Stats -->
+            <div class="space-y-6">
+                <!-- Score Board -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="trophy" class="w-5 h-5 mr-2 text-yellow-500"></i>
+                        Score Board
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                            <span class="font-medium text-red-800">Player X</span>
+                            <span class="text-2xl font-bold text-red-600" id="score-x">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                            <span class="font-medium text-blue-800">Player O</span>
+                            <span class="text-2xl font-bold text-blue-600" id="score-o">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-800">Draws</span>
+                            <span class="text-2xl font-bold text-gray-600" id="score-draws">0</span>
+                        </div>
+                    </div>
+                    <button id="reset-scores" class="w-full mt-4 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+                        Reset Scores
+                    </button>
+                </div>
+
+                <!-- Game Stats -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-500"></i>
+                        Game Stats
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Games Played</span>
+                            <span class="font-semibold" id="games-played">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Current Streak</span>
+                            <span class="font-semibold" id="current-streak">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Win Rate X</span>
+                            <span class="font-semibold" id="win-rate-x">0%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Win Rate O</span>
+                            <span class="font-semibold" id="win-rate-o">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How to Play -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="book-open" class="w-5 h-5 mr-2 text-blue-500"></i>
+                        How to Play
+                    </h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <p><strong>1.</strong> Players take turns placing X's and O's</p>
+                        <p><strong>2.</strong> Get 3 in a row (horizontal, vertical, or diagonal)</p>
+                        <p><strong>3.</strong> First to get 3 in a row wins!</p>
+                        <p><strong>4.</strong> If board fills up with no winner, it's a draw</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game History -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i data-feather="clock" class="w-5 h-5 mr-2 text-teal-500"></i>
+                Recent Games
+            </h3>
+            <div id="game-history" class="space-y-2 max-h-48 overflow-y-auto">
+                <div class="text-center text-gray-500 py-4">
+                    <p>No games played yet</p>
+                </div>
+            </div>
+            <button id="clear-history" class="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
+                Clear History
+            </button>
+        </div>
+
+        <!-- Fun Facts -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <i data-feather="info" class="w-4 h-4 mr-2 text-blue-500"></i>
+                    Did You Know?
+                </h4>
+                <p class="text-sm text-gray-600">Tic-tac-toe is also known as "noughts and crosses" in some countries.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <i data-feather="trending-up" class="w-4 h-4 mr-2 text-green-500"></i>
+                    Game Theory
+                </h4>
+                <p class="text-sm text-gray-600">Perfect play always results in a draw. There are 255,168 possible games!</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <i data-feather="calendar" class="w-4 h-4 mr-2 text-purple-500"></i>
+                    History
+                </h4>
+                <p class="text-sm text-gray-600">The game dates back to ancient Egypt around 1300 BC.</p>
+            </div>
+        </div>
+
+        <div id="message" class="mt-4 text-center text-sm text-gray-600"></div>
+    </main>
+
+    <script>
+        // Defer initialization until page loads to improve INP
+        window.addEventListener('load', function() {
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link is clicked
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+
+                // Close mobile menu when scrolling
+                window.addEventListener('scroll', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            // Game elements
+            const cells = document.querySelectorAll('[data-cell]');
+            const statusEl = document.getElementById('status');
+            const resetGameBtn = document.getElementById('reset-game');
+            const newGameBtn = document.getElementById('new-game');
+            const resetScoresBtn = document.getElementById('reset-scores');
+            const clearHistoryBtn = document.getElementById('clear-history');
+
+            // Score elements
+            const scoreXEl = document.getElementById('score-x');
+            const scoreOEl = document.getElementById('score-o');
+            const scoreDrawsEl = document.getElementById('score-draws');
+
+            // Stats elements
+            const gamesPlayedEl = document.getElementById('games-played');
+            const currentStreakEl = document.getElementById('current-streak');
+            const winRateXEl = document.getElementById('win-rate-x');
+            const winRateOEl = document.getElementById('win-rate-o');
+
+            // History element
+            const gameHistoryEl = document.getElementById('game-history');
+
+            // Game state
+            let currentPlayer = 'X';
+            let gameActive = true;
+            let gameState = ['', '', '', '', '', '', '', '', ''];
+            let scores = { X: 0, O: 0, draws: 0 };
+            let gamesPlayed = 0;
+            let currentStreak = 0;
+            let lastWinner = null;
+            let gameHistory = [];
+
+            // Winning combinations
+            const winningCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+
+            // Initialize game
+            function initializeGame() {
+                cells.forEach(cell => {
+                    cell.textContent = '';
+                    cell.classList.remove('x', 'o', 'winning');
+                    cell.addEventListener('click', handleCellClick);
+                });
+                gameState = ['', '', '', '', '', '', '', '', ''];
+                currentPlayer = 'X';
+                gameActive = true;
+                updateStatus();
+            }
+
+            // Handle cell click
+            function handleCellClick(e) {
+                const cell = e.target;
+                const cellIndex = Array.from(cells).indexOf(cell);
+
+                if (gameState[cellIndex] !== '' || !gameActive) {
+                    return;
+                }
+
+                // Update game state
+                gameState[cellIndex] = currentPlayer;
+                cell.textContent = currentPlayer;
+                cell.classList.add(currentPlayer.toLowerCase());
+
+                // Check for winner
+                if (checkWinner()) {
+                    gameActive = false;
+                    highlightWinningCells();
+                    updateScore(currentPlayer);
+                    updateStreak(currentPlayer);
+                    addToHistory(`${currentPlayer} wins!`);
+                    showMessage(`Player ${currentPlayer} wins! 🎉`, 'success');
+                    return;
+                }
+
+                // Check for draw
+                if (checkDraw()) {
+                    gameActive = false;
+                    updateScore('draw');
+                    updateStreak('draw');
+                    addToHistory('Draw game');
+                    showMessage('It\'s a draw! 🤝', 'info');
+                    return;
+                }
+
+                // Switch player
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                updateStatus();
+            }
+
+            // Check for winner
+            function checkWinner() {
+                for (let combination of winningCombinations) {
+                    const [a, b, c] = combination;
+                    if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+                        return combination;
+                    }
+                }
+                return false;
+            }
+
+            // Highlight winning cells
+            function highlightWinningCells() {
+                const winningCombination = checkWinner();
+                if (winningCombination) {
+                    winningCombination.forEach(index => {
+                        cells[index].classList.add('winning');
+                    });
+                }
+            }
+
+            // Check for draw
+            function checkDraw() {
+                return gameState.every(cell => cell !== '');
+            }
+
+            // Update status display
+            function updateStatus() {
+                if (gameActive) {
+                    statusEl.textContent = `Player ${currentPlayer}'s turn`;
+                    statusEl.className = 'text-lg ' + (currentPlayer === 'X' ? 'text-red-600' : 'text-blue-600');
+                }
+            }
+
+            // Update score
+            function updateScore(winner) {
+                if (winner === 'draw') {
+                    scores.draws++;
+                    scoreDrawsEl.textContent = scores.draws;
+                } else {
+                    scores[winner]++;
+                    if (winner === 'X') {
+                        scoreXEl.textContent = scores.X;
+                    } else {
+                        scoreOEl.textContent = scores.O;
+                    }
+                }
+                gamesPlayed++;
+                updateStats();
+            }
+
+            // Update streak
+            function updateStreak(result) {
+                if (result === lastWinner) {
+                    currentStreak++;
+                } else {
+                    currentStreak = 1;
+                }
+                lastWinner = result;
+                currentStreakEl.textContent = currentStreak;
+            }
+
+            // Update statistics
+            function updateStats() {
+                gamesPlayedEl.textContent = gamesPlayed;
+                const winRateX = gamesPlayed > 0 ? Math.round((scores.X / gamesPlayed) * 100) : 0;
+                const winRateO = gamesPlayed > 0 ? Math.round((scores.O / gamesPlayed) * 100) : 0;
+                winRateXEl.textContent = winRateX + '%';
+                winRateOEl.textContent = winRateO + '%';
+            }
+
+            // Add to history
+            function addToHistory(result) {
+                const timestamp = new Date().toLocaleTimeString();
+                const historyItem = {
+                    result,
+                    timestamp,
+                    gameNumber: gamesPlayed
+                };
+
+                gameHistory.unshift(historyItem);
+                if (gameHistory.length > 10) {
+                    gameHistory = gameHistory.slice(0, 10);
+                }
+
+                updateHistoryDisplay();
+            }
+
+            // Update history display
+            function updateHistoryDisplay() {
+                gameHistoryEl.innerHTML = '';
+
+                if (gameHistory.length === 0) {
+                    gameHistoryEl.innerHTML = `
+                        <div class="text-center text-gray-500 py-4">
+                            <p>No games played yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                gameHistory.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded';
+                    div.innerHTML = `
+                        <div>
+                            <span class="font-medium">Game ${item.gameNumber}:</span>
+                            <span class="${item.result.includes('wins') ? 'text-green-600' : 'text-gray-600'}">${item.result}</span>
+                        </div>
+                        <span class="text-sm text-gray-500">${item.timestamp}</span>
+                    `;
+                    gameHistoryEl.appendChild(div);
+                });
+            }
+
+            // Reset current game
+            function resetGame() {
+                cells.forEach(cell => {
+                    cell.textContent = '';
+                    cell.classList.remove('x', 'o', 'winning');
+                });
+                gameState = ['', '', '', '', '', '', '', '', ''];
+                currentPlayer = 'X';
+                gameActive = true;
+                updateStatus();
+                showMessage('Game reset! Player X starts.', 'info');
+            }
+
+            // Start new game
+            function newGame() {
+                resetGame();
+                showMessage('New game started! Good luck!', 'success');
+            }
+
+            // Reset all scores
+            function resetScores() {
+                scores = { X: 0, O: 0, draws: 0 };
+                gamesPlayed = 0;
+                currentStreak = 0;
+                lastWinner = null;
+
+                scoreXEl.textContent = '0';
+                scoreOEl.textContent = '0';
+                scoreDrawsEl.textContent = '0';
+                gamesPlayedEl.textContent = '0';
+                currentStreakEl.textContent = '0';
+                winRateXEl.textContent = '0%';
+                winRateOEl.textContent = '0%';
+
+                showMessage('All scores reset!', 'info');
+            }
+
+            // Clear history
+            function clearHistory() {
+                gameHistory = [];
+                updateHistoryDisplay();
+                showMessage('Game history cleared!', 'info');
+            }
+
+            // Show message
+            function showMessage(msg, type = 'info') {
+                const messageEl = document.getElementById('message');
+                messageEl.textContent = msg;
+                messageEl.className = `mt-4 text-center text-sm ${type === 'error' ? 'text-red-600' : type === 'success' ? 'text-green-600' : 'text-gray-600'}`;
+            }
+
+            // Event listeners
+            resetGameBtn.addEventListener('click', resetGame);
+            newGameBtn.addEventListener('click', newGame);
+            resetScoresBtn.addEventListener('click', resetScores);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+
+            // Initialize the game
+            initializeGame();
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

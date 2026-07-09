@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Test and improve your typing speed with our comprehensive typing speed test. Multiple difficulty levels, real-time WPM calculation, accuracy tracking, and various text passages to practice.">
+    <meta name="keywords" content="typing speed test, typing test, WPM test, words per minute, typing practice, typing speed, typing accuracy, typing game, typing trainer, keyboard typing test, typing speed checker, typing speed calculator, typing speed measurement, typing speed tool, typing speed online, typing speed free, typing speed test online, typing speed test free">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Typing Speed Test — InfiniteForge">
+    <meta property="og:description" content="Test and improve your typing speed with our comprehensive typing speed test. Multiple difficulty levels, real-time WPM calculation, accuracy tracking, and various text passages to practice.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/typing-speed-test.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Typing Speed Test — InfiniteForge">
+    <meta name="twitter:description" content="Test and improve your typing speed with our comprehensive typing speed test. Multiple difficulty levels, real-time WPM calculation, accuracy tracking, and various text passages to practice.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/typing-speed-test.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/typing-speed-test.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Typing Speed Test — InfiniteForge",
+        "description": "Test and improve your typing speed with our comprehensive typing speed test. Multiple difficulty levels, real-time WPM calculation, accuracy tracking, and various text passages to practice.",
+        "url": "https://infiniteforge.tech/typing-speed-test.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-07",
+        "dateModified": "2025-10-07"
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        .typing-text {
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            white-space: pre-wrap;
+        }
+
+        .char {
+            display: inline-block;
+            transition: all 0.15s ease;
+            padding: 1px 0;
+            border-radius: 2px;
+        }
+
+        .char.correct {
+            color: #10b981;
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+
+        .char.incorrect {
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.15);
+            text-decoration: underline wavy #ef4444;
+        }
+
+        .char.current {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+            transform: scale(1.02);
+        }
+
+        .text-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .text-container:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .text-container.active {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .text-container.disabled {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-color: #cbd5e1;
+            opacity: 0.7;
+        }
+
+        .text-display-area {
+            padding: 24px;
+            min-height: 120px;
+            position: relative;
+        }
+
+        .typing-input {
+            width: 100%;
+            min-height: 60px;
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #1e293b;
+            position: relative;
+            z-index: 2;
+        }
+
+        .typing-input::placeholder {
+            color: #94a3b8;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .typing-input:focus::placeholder {
+            opacity: 0.5;
+        }
+
+        .input-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.02) 100%);
+            z-index: 1;
+        }
+
+        .cursor-blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .stats-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .difficulty-easy {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            color: #166534;
+        }
+
+        .difficulty-medium {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+        }
+
+        .difficulty-hard {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .keyboard-hint {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 1px solid #d1d5db;
+        }
+
+        @media (max-width: 768px) {
+            .typing-text {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .text-display-area {
+                padding: 16px;
+            }
+
+            .typing-input {
+                padding: 12px 16px;
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .text-container {
+                min-height: 160px;
+            }
+
+            .text-display-area {
+                padding: 12px;
+            }
+
+            .typing-input {
+                padding: 10px 12px;
+                min-height: 50px;
+            }
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) translateY(-1px); }
+            25% { transform: translateX(-5px) translateY(-1px); }
+            75% { transform: translateX(5px) translateY(-1px); }
+        }
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .char.correct {
+            color: #10b981;
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+        
+        .anim-pop {
+            animation: popIn 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .word-wrapper {
+            display: inline-block;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-24 pb-12 px-4" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">Typing Speed Test</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto" itemprop="description">
+                Test and improve your typing speed with multiple difficulty levels and various text passages. Track your WPM, accuracy, and progress in real-time.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-4 gap-8 mb-8">
+            <!-- Controls -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
+                        Test Settings
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Difficulty Level</label>
+                            <select id="difficulty-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <button id="start-test" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors font-medium">
+                            Start Test
+                        </button>
+                        <button id="reset-test" class="w-full bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors" disabled>
+                            Reset Test
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-500"></i>
+                        Live Statistics
+                    </h3>
+                    <div class="stats-grid grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="wpm">0</div>
+                            <div class="text-sm text-gray-600">WPM</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600" id="accuracy">100</div>
+                            <div class="text-sm text-gray-600">Accuracy</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="time">0:00</div>
+                            <div class="text-sm text-gray-600">Time</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-orange-600" id="progress">0</div>
+                            <div class="text-sm text-gray-600">Progress</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Scores -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="trophy" class="w-5 h-5 mr-2 text-yellow-500"></i>
+                        Best Scores
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Easy</span>
+                            <span class="font-semibold text-green-600" id="best-easy">0 WPM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Medium</span>
+                            <span class="font-semibold text-yellow-600" id="best-medium">0 WPM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Hard</span>
+                            <span class="font-semibold text-red-600" id="best-hard">0 WPM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Area -->
+            <div class="lg:col-span-3">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-2xl font-semibold text-gray-800">Typing Test</h2>
+                            <div id="difficulty-badge" class="px-3 py-1 rounded-full text-sm font-medium difficulty-easy">
+                                Easy
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="progress-bar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div id="text-container" class="text-container disabled mb-6 relative">
+                        <div class="text-display-area">
+                            <div id="text-display" class="typing-text"></div>
+                        </div>
+                        <div class="input-overlay"></div>
+                        <textarea id="typing-input" class="typing-input" placeholder="Click 'Start Test' to begin typing..." disabled spellcheck="false" autocorrect="off" autocapitalize="off"></textarea>
+                    </div>
+
+                    <div id="test-results" class="hidden bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-200" aria-live="polite">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Test Complete! 🎉</h3>
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-blue-600" id="final-wpm">0</div>
+                                <div class="text-sm text-gray-600">Words Per Minute</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-600" id="final-accuracy">100%</div>
+                                <div class="text-sm text-gray-600">Accuracy</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-purple-600" id="final-time">0:00</div>
+                                <div class="text-sm text-gray-600">Time Taken</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button id="try-again" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 hover:scale-105 transform transition-all duration-200 font-medium shadow-lg">
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="book-open" class="w-5 h-5 mr-2 text-blue-500"></i>
+                    How to Use
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>🎯 Start:</strong> Select difficulty level and click "Start Test"</p>
+                    <p><strong>⌨️ Type:</strong> Begin typing the displayed text as accurately as possible</p>
+                    <p><strong>📊 Track:</strong> Monitor your WPM, accuracy, and progress in real-time</p>
+                    <p><strong>🏁 Finish:</strong> Complete the entire passage to see your final results</p>
+                    <p><strong>🔄 Practice:</strong> Try different difficulty levels to improve your skills</p>
+                    <p><strong>💾 Records:</strong> Your best scores are automatically saved</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i data-feather="target" class="w-5 h-5 mr-2 text-green-500"></i>
+                    Difficulty Levels
+                </h3>
+                <div class="space-y-3 text-sm text-gray-600">
+                    <p><strong>🟢 Easy:</strong> Simple words and short sentences for beginners</p>
+                    <p><strong>🟡 Medium:</strong> Common vocabulary with moderate complexity</p>
+                    <p><strong>🔴 Hard:</strong> Advanced vocabulary and complex sentence structures</p>
+                    <p><strong>📈 Progress:</strong> Start easy and gradually increase difficulty</p>
+                    <p><strong>🎯 Goal:</strong> Aim for 40+ WPM with 95%+ accuracy</p>
+                    <p><strong>💪 Challenge:</strong> Hard mode for experienced typists</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keyboard Shortcuts -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i data-feather="keyboard" class="w-5 h-5 mr-2 text-purple-500"></i>
+                Keyboard Tips
+            </h3>
+            <div class="grid md:grid-cols-3 gap-4 text-sm text-gray-600">
+                <div class="keyboard-hint p-3 rounded">
+                    <strong>Position:</strong> Keep fingers on home row (ASDF JKL;)
+                </div>
+                <div class="keyboard-hint p-3 rounded">
+                    <strong>Posture:</strong> Sit straight, keep wrists elevated
+                </div>
+                <div class="keyboard-hint p-3 rounded">
+                    <strong>Pace:</strong> Focus on accuracy first, speed will follow
+                </div>
+            </div>
+        </div>
+
+        <div id="message" class="mt-4 text-center text-sm text-gray-600"></div>
+    </main>
+
+    <script>
+        // Defer initialization until page loads to improve INP
+        window.addEventListener('load', function() {
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link is clicked
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+
+                // Close mobile menu when scrolling
+                window.addEventListener('scroll', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            // DOM Elements
+            const startTestBtn = document.getElementById('start-test');
+            const resetTestBtn = document.getElementById('reset-test');
+            const tryAgainBtn = document.getElementById('try-again');
+            const difficultySelect = document.getElementById('difficulty-select');
+            const difficultyBadge = document.getElementById('difficulty-badge');
+            const textDisplay = document.getElementById('text-display');
+            const typingInput = document.getElementById('typing-input');
+            const textContainer = document.getElementById('text-container');
+            const progressBar = document.getElementById('progress-bar');
+            const testResults = document.getElementById('test-results');
+
+            // Stats elements
+            const wpmEl = document.getElementById('wpm');
+            const accuracyEl = document.getElementById('accuracy');
+            const timeEl = document.getElementById('time');
+            const progressEl = document.getElementById('progress');
+
+            // Final results
+            const finalWpmEl = document.getElementById('final-wpm');
+            const finalAccuracyEl = document.getElementById('final-accuracy');
+            const finalTimeEl = document.getElementById('final-time');
+
+            // Best scores
+            const bestEasyEl = document.getElementById('best-easy');
+            const bestMediumEl = document.getElementById('best-medium');
+            const bestHardEl = document.getElementById('best-hard');
+
+            // Game state
+            let currentText = '';
+            let currentIndex = 0;
+            let startTime = null;
+            let timer = null;
+            let isTestActive = false;
+            let totalChars = 0;
+            let correctChars = 0;
+            let incorrectChars = 0;
+
+            // Text collections for different difficulties
+            const texts = {
+                easy: [
+                    "The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet. Typing practice helps improve your speed and accuracy. Keep your fingers on the home row keys.",
+                    "A journey of a thousand miles begins with a single step. Practice makes perfect when it comes to typing. Focus on accuracy first, then speed will follow naturally.",
+                    "The sun rises in the east and sets in the west. Birds fly in the sky and fish swim in the sea. Learning to type well takes time and patience.",
+                    "Technology has changed the way we live and work. Computers and smartphones are now essential tools. Typing skills are more important than ever.",
+                    "Reading books can expand your knowledge and vocabulary. Writing helps you express your thoughts clearly. Both skills work together with typing.",
+                    "The weather today is sunny and warm. People are enjoying outdoor activities. Spring is a beautiful time of year with flowers blooming.",
+                    "Music can be relaxing or energizing depending on the type. Classical music is often played in concert halls. Pop music is popular among young people.",
+                    "Healthy eating is important for good health. Fruits and vegetables provide essential vitamins. Exercise helps keep your body strong.",
+                    "Learning new skills keeps your mind active. Trying new things can be exciting and rewarding. Never stop learning throughout your life.",
+                    "Friends and family are important in life. Spending time with loved ones brings joy. Sharing experiences creates lasting memories.",
+                    "The ocean is vast and mysterious. Waves crash against the shore. Marine life includes many different species of fish and mammals.",
+                    "Trees provide oxygen and shade. Forests are home to many animals. Planting trees helps the environment and future generations.",
+                    "Stars twinkle in the night sky. The moon goes through different phases. Astronomy helps us understand the universe.",
+                    "Cooking can be both art and science. Recipes combine ingredients in specific ways. Trying new foods expands your culinary horizons.",
+                    "Sports bring people together in competition. Teamwork and practice lead to success. Physical activity is good for both body and mind.",
+                    "Art expresses creativity and emotion. Paintings and sculptures can be beautiful. Museums preserve cultural heritage.",
+                    "Travel broadens your perspective on life. Visiting new places teaches you about different cultures. Memories from trips last forever.",
+                    "Science helps us understand how things work. Experiments test hypotheses and theories. Innovation drives technological progress.",
+                    "Gardening can be a relaxing hobby. Plants need water, sunlight, and care. Growing your own food is rewarding and healthy.",
+                    "Photography captures moments in time. A good photograph tells a story. Learning composition improves your pictures.",
+                    "The internet connects people worldwide. Information is available instantly. Digital literacy is essential in modern society.",
+                    "Volunteering helps others and feels good. Giving back to your community matters. Small acts of kindness make a difference.",
+                    "History teaches us about the past. Understanding events helps us learn. Lessons from history guide our future decisions.",
+                    "Mathematics is the language of science. Numbers and equations describe patterns. Problem-solving skills are valuable everywhere.",
+                    "Languages open doors to new cultures. Speaking another language helps communication. Bilingual people have more opportunities.",
+                    "Meditation can reduce stress and improve focus. Taking time for yourself is important. Mindfulness brings peace of mind.",
+                    "Bicycles are an eco-friendly transportation. Pedaling provides good exercise. Many cities have bike lanes for safety.",
+                    "Theater brings stories to life on stage. Actors perform for live audiences. Drama can be both entertaining and educational.",
+                    "Puzzles challenge your thinking skills. Solving them is satisfying. Different types include crosswords and sudoku.",
+                    "Writing stories sparks imagination. Characters and plots create worlds. Creative writing develops your storytelling ability."
+                ],
+                medium: [
+                    "The Industrial Revolution transformed manufacturing processes and urbanization patterns across Europe and North America. Technological innovations like the steam engine revolutionized transportation and production methods. Economic systems shifted from agrarian to industrial economies, creating new social classes and labor conditions.",
+                    "Climate change represents one of the most significant environmental challenges facing humanity today. Rising global temperatures affect weather patterns, sea levels, and ecosystems worldwide. Mitigation strategies include reducing greenhouse gas emissions and transitioning to renewable energy sources.",
+                    "Artificial intelligence algorithms are increasingly integrated into various aspects of daily life. Machine learning systems can analyze vast amounts of data to make predictions and recommendations. Ethical considerations regarding privacy, bias, and job displacement remain important topics of discussion.",
+                    "The human brain contains approximately 86 billion neurons, each capable of forming thousands of synaptic connections. Neuroplasticity allows the brain to reorganize itself throughout life in response to experiences and learning. Cognitive functions like memory, attention, and problem-solving rely on complex neural networks.",
+                    "Sustainable development aims to meet present needs without compromising future generations' ability to meet theirs. This concept encompasses environmental protection, economic growth, and social equity. International agreements like the Paris Climate Accord work toward global sustainability goals.",
+                    "Cryptocurrency systems operate on decentralized networks using blockchain technology for secure transactions. Digital currencies like Bitcoin and Ethereum have introduced new financial paradigms. Regulatory frameworks continue to evolve as adoption increases across various industries.",
+                    "Quantum computing harnesses the principles of quantum mechanics to perform complex calculations at unprecedented speeds. Unlike classical computers that use bits, quantum computers use qubits that can exist in multiple states simultaneously. This technology has potential applications in cryptography, drug discovery, and optimization problems.",
+                    "Biodiversity encompasses the variety of life forms on Earth, including genetic diversity, species diversity, and ecosystem diversity. Conservation efforts aim to protect endangered species and habitats from threats like habitat destruction, pollution, and climate change. Ecosystem services provided by biodiversity are essential for human survival.",
+                    "The Internet of Things (IoT) connects everyday devices to the internet, enabling data collection and automated responses. Smart homes, cities, and industries benefit from increased connectivity and efficiency. Security concerns and data privacy issues accompany the growth of IoT ecosystems.",
+                    "Renewable energy sources like solar, wind, and hydroelectric power are becoming increasingly cost-competitive with fossil fuels. Technological advancements and government incentives drive the transition to clean energy. Energy storage solutions are crucial for managing intermittent renewable sources.",
+                    "Social media platforms have transformed communication patterns and information dissemination globally. User-generated content creates new forms of journalism and community engagement. Algorithmic content curation influences public discourse and individual information consumption.",
+                    "Genetic engineering techniques allow scientists to modify organisms at the molecular level. CRISPR technology enables precise gene editing with applications in medicine, agriculture, and biotechnology. Ethical debates surround the use of these powerful tools and their long-term consequences.",
+                    "Virtual reality technology creates immersive digital environments for entertainment, education, and training. Applications range from gaming and simulation to medical therapy and architectural visualization. Advancements in haptic feedback and display technology enhance the user experience.",
+                    "Microbiome research reveals the complex communities of microorganisms living in and on the human body. These microbial ecosystems influence digestion, immunity, and even mental health. Understanding microbiome dynamics opens new avenues for personalized medicine and nutrition.",
+                    "Augmented reality overlays digital information onto the physical world through mobile devices and smart glasses. Applications include navigation assistance, educational tools, and interactive gaming. AR technology enhances real-world experiences with contextual information.",
+                    "Nanotechnology manipulates matter at the atomic and molecular scale to create new materials and devices. Applications span medicine, electronics, and environmental remediation. Safety concerns and ethical implications accompany the development of nanotechnology products.",
+                    "Behavioral economics combines insights from psychology and economics to understand decision-making processes. Concepts like loss aversion and cognitive biases explain why people sometimes make irrational choices. These principles inform policy design and marketing strategies.",
+                    "Cybersecurity measures protect digital systems from unauthorized access and malicious attacks. Encryption, firewalls, and intrusion detection systems form layers of defense. As digital threats evolve, so do the strategies to counter them.",
+                    "Urban planning integrates transportation, housing, and infrastructure to create livable cities. Sustainable urban development considers environmental impact, social equity, and economic viability. Smart city initiatives use technology to improve urban services and quality of life.",
+                    "Neuroscience research explores the mechanisms underlying consciousness, perception, and cognition. Brain imaging techniques like fMRI reveal neural activity patterns. Understanding brain function has implications for mental health treatment and human-machine interfaces.",
+                    "Supply chain management coordinates the flow of goods, services, and information from suppliers to customers. Globalization and digital technologies have transformed traditional supply chain models. Resilience and sustainability are increasingly important considerations.",
+                    "Digital transformation involves integrating digital technologies into all business areas to fundamentally change operations. Cloud computing, artificial intelligence, and data analytics drive organizational change. Successful transformation requires cultural adaptation and skill development.",
+                    "Oceanography studies the physical, chemical, and biological properties of the world's oceans. Marine ecosystems support diverse life forms and provide essential ecosystem services. Climate change impacts ocean temperature, acidity, and sea levels.",
+                    "Epidemiology investigates patterns and causes of health-related events in populations. Statistical methods analyze disease distribution and risk factors. Public health interventions rely on epidemiological data to prevent and control diseases.",
+                    "Space exploration expands human understanding of the universe and our place within it. Missions to Mars, lunar bases, and deep space telescopes advance scientific knowledge. International cooperation drives many space exploration initiatives.",
+                    "Financial markets facilitate the allocation of resources through buying and selling of assets. Stock exchanges, bond markets, and derivatives markets enable price discovery and risk management. Regulatory frameworks ensure market integrity and investor protection.",
+                    "Cultural anthropology studies human societies and cultures across time and space. Ethnographic methods provide deep insights into social practices and belief systems. Understanding cultural diversity promotes cross-cultural communication and cooperation.",
+                    "Materials science investigates the properties and applications of various materials. From metals and polymers to ceramics and composites, materials enable technological advancement. Research focuses on developing stronger, lighter, and more sustainable materials.",
+                    "Public policy addresses societal challenges through government action and regulation. Policy analysis evaluates alternatives and their potential impacts. Evidence-based policymaking relies on data, research, and stakeholder input.",
+                    "Evolutionary biology explains the diversity of life through natural selection and genetic variation. Fossil records and molecular evidence support evolutionary theory. Understanding evolution informs fields like medicine, agriculture, and conservation."
+                ],
+                hard: [
+                    "The epistemological foundations of scientific methodology necessitate rigorous empirical validation and falsifiability criteria to establish theoretical frameworks. Kuhnian paradigm shifts demonstrate how revolutionary scientific discoveries fundamentally alter conceptual frameworks, challenging previously accepted ontological assumptions about reality's structure.",
+                    "Neuroplasticity mechanisms facilitate synaptic reorganization through long-term potentiation and depression processes, enabling cognitive adaptation to environmental stimuli. Glutamatergic neurotransmission modulates dendritic spine morphology, influencing memory consolidation and retrieval mechanisms in hippocampal-dependent learning paradigms.",
+                    "Quantum entanglement phenomena violate classical intuitions about locality and realism, as demonstrated by Bell's theorem and experimental violations of CHSH inequalities. Superposition states enable quantum algorithms to solve complex optimization problems exponentially faster than classical counterparts, revolutionizing computational complexity theory.",
+                    "Macroevolutionary patterns emerge from microevolutionary processes through genetic drift, natural selection, and speciation events. Punctuated equilibrium models contrast with gradualist perspectives, suggesting that morphological innovation occurs rapidly during cladogenetic events rather than through continuous anagenetic transformation.",
+                    "Postmodern deconstruction interrogates binary oppositions and hierarchical structures embedded within discursive formations. Derrida's concept of différance reveals how meaning emerges through relational differences rather than essentialist presence, destabilizing logocentric metaphysical traditions and enabling pluralistic interpretive frameworks.",
+                    "Stochastic processes in financial mathematics model asset price dynamics through geometric Brownian motion and Lévy distributions. Risk-neutral valuation frameworks utilize arbitrage-free pricing principles to determine derivative instrument values, incorporating volatility smiles and jump-diffusion models for accurate risk assessment.",
+                    "Topological quantum field theories describe invariant properties of manifolds under continuous deformations, providing mathematical frameworks for understanding quantum gravity and condensed matter systems. Chern-Simons forms and Donaldson invariants characterize four-dimensional topology through gauge-theoretic methods.",
+                    "Epigenetic modifications regulate gene expression through DNA methylation, histone acetylation, and non-coding RNA interactions. Transgenerational epigenetic inheritance challenges neo-Darwinian frameworks by demonstrating Lamarckian inheritance patterns that persist across multiple generations despite genetic recombination.",
+                    "Fractal geometry characterizes self-similar patterns across multiple scales, from Mandelbrot sets to natural phenomena like coastlines and vascular networks. Hausdorff dimension quantifies fractal complexity, enabling mathematical modeling of irregular structures in physics, biology, and computer graphics.",
+                    "Game-theoretic equilibrium concepts like Nash equilibria and subgame perfection analyze strategic interactions in multi-agent systems. Evolutionary game theory models cultural evolution and cooperation emergence through replicator dynamics and ESS stability criteria.",
+                    "Category theory provides abstract frameworks for understanding structural relationships between mathematical objects. Functors and natural transformations preserve categorical structure, enabling unified approaches to algebra, topology, and logic through universal constructions.",
+                    "Non-equilibrium thermodynamics describes irreversible processes through entropy production and fluctuation theorems. Stochastic thermodynamics extends classical frameworks to mesoscopic systems, quantifying thermodynamic quantities in fluctuating environments and enabling Maxwell's demon paradoxes resolution.",
+                    "String theory posits fundamental constituents of matter as one-dimensional strings rather than point particles, requiring ten-dimensional spacetime manifolds compactified through Calabi-Yau geometries. D-brane dynamics and T-duality symmetries provide rich mathematical structures for unifying quantum mechanics and general relativity.",
+                    "Computational complexity theory classifies problems according to resource requirements, distinguishing P, NP, and NP-complete classes. Cook-Levin theorem demonstrates NP-completeness of satisfiability problems, establishing theoretical foundations for algorithm design and cryptographic security.",
+                    "Quantum information theory extends classical information concepts through density matrices and von Neumann entropy. Quantum teleportation and superdense coding exploit quantum correlations to transmit information more efficiently than classical channels, enabling quantum cryptography protocols.",
+                    "Symplectic geometry provides mathematical foundations for classical mechanics through phase space formulations. Poisson brackets and Hamiltonian flows characterize dynamical systems, with applications to celestial mechanics and plasma physics through canonical transformation techniques.",
+                    "Graph theory algorithms solve optimization problems through minimum spanning trees, shortest paths, and maximum flow computations. Network analysis reveals community structures and centrality measures in social, biological, and technological systems.",
+                    "Lie group representations characterize symmetry transformations in quantum mechanics and particle physics. Irreducible representations classify elementary particles according to spin and internal quantum numbers, providing mathematical foundations for the Standard Model.",
+                    "Chaos theory describes deterministic systems exhibiting sensitive dependence on initial conditions. Strange attractors and fractal dimensions characterize turbulent fluid flows and weather patterns, with applications to prediction and control in nonlinear dynamical systems.",
+                    "Homological algebra studies chain complexes and their homology groups, providing tools for algebraic topology and abstract algebra. Derived categories and triangulated structures enable modern approaches to representation theory and algebraic geometry.",
+                    "Bayesian inference provides probabilistic frameworks for statistical reasoning and machine learning. Markov chain Monte Carlo methods sample from complex posterior distributions, enabling parameter estimation in hierarchical models and uncertainty quantification.",
+                    "Differential geometry studies manifolds through curvature tensors and connection forms. Riemannian metrics define distances and angles on curved surfaces, with applications to general relativity and computer vision through geodesic computations.",
+                    "Modal logic extends classical logic with possibility and necessity operators, enabling reasoning about knowledge, belief, and time. Kripke semantics provides model-theoretic foundations for modal reasoning in philosophy and computer science.",
+                    "Operator algebras generalize functional analysis through C*-algebras and von Neumann algebras. Tomita-Takesaki theory characterizes modular automorphisms, providing mathematical frameworks for quantum statistical mechanics and quantum field theory.",
+                    "Tropical geometry studies algebraic varieties over tropical semirings, providing combinatorial tools for enumerative geometry. Ultrametric distances and piecewise linear structures enable efficient computation of intersection numbers and Gromov-Witten invariants.",
+                    "Ergodic theory studies measure-preserving transformations and their statistical properties. Birkhoff's ergodic theorem establishes time averages equal space averages, with applications to statistical mechanics and number theory through mixing properties.",
+                    "Model theory investigates mathematical structures through first-order logic and their elementary properties. Compactness and Löwenheim-Skolem theorems establish fundamental limitations and possibilities for formal theories.",
+                    "Algebraic number theory studies integers in algebraic number fields through ideals and class groups. L-functions and modular forms connect number theory to representation theory and algebraic geometry through Langlands correspondence.",
+                    "Non-commutative geometry extends differential geometry to operator algebras, providing frameworks for quantum spacetime and foliation theory. Spectral triples characterize geometric structures through Dirac operators and commutators.",
+                    "Higher category theory generalizes category theory to n-categories, enabling formalization of homotopy theory and quantum field theory. Infinity-groupoids and simplicial sets provide models for homotopy types and derived geometry."
+                ]
+            };
+
+            // Initialize
+            loadBestScores();
+            updateDifficultyBadge();
+
+            // Event listeners
+            startTestBtn.addEventListener('click', startTest);
+            resetTestBtn.addEventListener('click', resetTest);
+            tryAgainBtn.addEventListener('click', tryAgain);
+            difficultySelect.addEventListener('change', updateDifficultyBadge);
+            typingInput.addEventListener('input', handleTyping);
+
+            function startTest() {
+                const difficulty = difficultySelect.value;
+                const textArray = texts[difficulty];
+                currentText = textArray[Math.floor(Math.random() * textArray.length)];
+
+                // Reset state
+                currentIndex = 0;
+                startTime = null;
+                totalChars = 0;
+                correctChars = 0;
+                incorrectChars = 0;
+                isTestActive = true;
+
+                // Update UI
+                displayText();
+                typingInput.value = '';
+                typingInput.disabled = false;
+                typingInput.focus();
+                textContainer.classList.remove('disabled');
+                textContainer.classList.add('active');
+                testResults.classList.add('hidden');
+                startTestBtn.disabled = true;
+                resetTestBtn.disabled = false;
+
+                // Start timer
+                startTimer();
+
+                showMessage('Test started! Start typing...', 'info');
+            }
+
+            function resetTest() {
+                if (timer) clearInterval(timer);
+                isTestActive = false;
+
+                // Reset UI
+                textDisplay.innerHTML = '';
+                typingInput.value = '';
+                typingInput.disabled = true;
+                textContainer.classList.remove('active');
+                textContainer.classList.add('disabled');
+                progressBar.style.width = '0%';
+                testResults.classList.add('hidden');
+                startTestBtn.disabled = false;
+                resetTestBtn.disabled = true;
+
+                // Reset stats
+                updateStats(0, 100, '0:00', 0);
+
+                showMessage('Test reset. Choose difficulty and start again.', 'info');
+            }
+
+            function tryAgain() {
+                resetTest();
+                startTest();
+            }
+
+            function handleTyping(e) {
+                if (!isTestActive) return;
+
+                const typed = e.target.value;
+                const currentChar = currentText[currentIndex];
+
+                // Start timer on first keystroke
+                if (!startTime && typed.length > 0) {
+                    startTime = Date.now();
+                }
+
+                // Check typed characters
+                const newCharIndex = typed.length - 1;
+                if (newCharIndex >= 0 && newCharIndex < currentText.length) {
+                    totalChars++;
+                    if (typed[newCharIndex] === currentText[newCharIndex]) {
+                        correctChars++;
+                    } else {
+                        incorrectChars++;
+                        // Shake effect for incorrect typing
+                        textContainer.classList.add('shake');
+                        setTimeout(() => textContainer.classList.remove('shake'), 300);
+                    }
+                }
+
+                currentIndex = typed.length;
+
+                // Update display
+                displayText();
+                updateProgress();
+                updateLiveStats();
+
+                // Check completion
+                if (currentIndex >= currentText.length) {
+                    completeTest();
+                }
+            }
+
+            function displayText() {
+                let html = '';
+                let currentWordHtml = '';
+
+                for (let i = 0; i < currentText.length; i++) {
+                    let className = 'char';
+
+                    if (i < currentIndex) {
+                        // Already typed
+                        if (typingInput.value[i] === currentText[i]) {
+                            className += ' correct';
+                            // Animate only the last typed character
+                            if (i === currentIndex - 1) {
+                                className += ' anim-pop';
+                            }
+                        } else {
+                            className += ' incorrect';
+                        }
+                    } else if (i === currentIndex && isTestActive) {
+                        // Current character with blinking cursor effect
+                        className += ' current cursor-blink';
+                    }
+
+                    const charHtml = `<span class="${className}">${currentText[i]}</span>`;
+                    
+                    if (currentText[i] === ' ') {
+                        if (currentWordHtml) {
+                            html += `<span class="word-wrapper">${currentWordHtml}</span>`;
+                            currentWordHtml = '';
+                        }
+                        html += charHtml;
+                    } else {
+                        currentWordHtml += charHtml;
+                    }
+                }
+                
+                if (currentWordHtml) {
+                    html += `<span class="word-wrapper">${currentWordHtml}</span>`;
+                }
+                
+                textDisplay.innerHTML = html;
+            }
+
+            function updateProgress() {
+                const progress = (currentIndex / currentText.length) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressEl.textContent = Math.round(progress);
+            }
+
+            function updateLiveStats() {
+                if (!startTime) return;
+
+                const elapsed = (Date.now() - startTime) / 1000; // seconds
+                const minutes = elapsed / 60;
+                const wpm = Math.round((totalChars / 5) / minutes) || 0;
+                const accuracy = Math.round((correctChars / totalChars) * 100) || 100;
+                const timeStr = formatTime(elapsed);
+
+                updateStats(wpm, accuracy, timeStr, Math.round((currentIndex / currentText.length) * 100));
+            }
+
+            function updateStats(wpm, accuracy, time, progress) {
+                wpmEl.textContent = wpm;
+                accuracyEl.textContent = `${accuracy}%`;
+                timeEl.textContent = time;
+                progressEl.textContent = `${progress}%`;
+            }
+
+            function startTimer() {
+                timer = setInterval(updateLiveStats, 100);
+            }
+
+            function completeTest() {
+                if (timer) clearInterval(timer);
+                isTestActive = false;
+
+                const elapsed = (Date.now() - startTime) / 1000;
+                const minutes = elapsed / 60;
+                const finalWpm = Math.round((totalChars / 5) / minutes);
+                const finalAccuracy = Math.round((correctChars / totalChars) * 100);
+                const finalTime = formatTime(elapsed);
+
+                // Update final results
+                finalWpmEl.textContent = finalWpm;
+                finalAccuracyEl.textContent = `${finalAccuracy}%`;
+                finalTimeEl.textContent = finalTime;
+
+                // Update UI
+                textContainer.classList.remove('active');
+                textContainer.classList.add('disabled');
+                typingInput.disabled = true;
+
+                // Show results
+                testResults.classList.remove('hidden');
+                testResults.classList.add('animate-fade-in-up');
+
+                // Confetti celebration
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+                    });
+                }
+
+                // Animate numbers
+                animateValue(finalWpmEl, 0, finalWpm, 1500);
+                animateValue(finalAccuracyEl, 0, finalAccuracy, 1500, "%");
+
+                // Save best score
+                saveBestScore(difficultySelect.value, finalWpm);
+
+                showMessage(`Test completed! ${finalWpm} WPM with ${finalAccuracy}% accuracy.`, 'success');
+            }
+
+            function animateValue(obj, start, end, duration, suffix = "") {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    // Easing function for smooth animation
+                    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                    
+                    obj.textContent = Math.floor(easeOutQuart * (end - start) + start) + suffix;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            function updateDifficultyBadge() {
+                const difficulty = difficultySelect.value;
+                const badge = difficultyBadge;
+
+                badge.className = `px-3 py-1 rounded-full text-sm font-medium difficulty-${difficulty}`;
+
+                switch(difficulty) {
+                    case 'easy':
+                        badge.textContent = 'Easy';
+                        break;
+                    case 'medium':
+                        badge.textContent = 'Medium';
+                        break;
+                    case 'hard':
+                        badge.textContent = 'Hard';
+                        break;
+                }
+            }
+
+            function saveBestScore(difficulty, wpm) {
+                const key = `typingTest_best_${difficulty}`;
+                const currentBest = parseInt(localStorage.getItem(key) || '0');
+
+                if (wpm > currentBest) {
+                    localStorage.setItem(key, wpm.toString());
+                    loadBestScores();
+                    showMessage(`New personal best for ${difficulty}: ${wpm} WPM!`, 'success');
+                }
+            }
+
+            function loadBestScores() {
+                bestEasyEl.textContent = `${localStorage.getItem('typingTest_best_easy') || 0} WPM`;
+                bestMediumEl.textContent = `${localStorage.getItem('typingTest_best_medium') || 0} WPM`;
+                bestHardEl.textContent = `${localStorage.getItem('typingTest_best_hard') || 0} WPM`;
+            }
+
+            function showMessage(msg, type = 'info') {
+                const messageEl = document.getElementById('message');
+                messageEl.textContent = msg;
+                messageEl.className = `mt-4 text-center text-sm ${type === 'error' ? 'text-red-600' : type === 'success' ? 'text-green-600' : 'text-gray-600'}`;
+                setTimeout(() => {
+                    messageEl.textContent = '';
+                }, 5000);
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

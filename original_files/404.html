@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="utf-8">
+    <title>InfiniteForge - Page Not Found (404)</title>
+    <meta name="description" content="Oops! The page you are looking for has vanished into space.">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="InfiniteForge">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0b0f19;
+            overflow: hidden;
+        }
+
+        /* Ambient floating keyframes */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .floating-card {
+            animation: float 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* Custom text shadow for glow effect */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(168, 85, 247, 0.3);
+        }
+    </style>
+</head>
+
+<body class="h-full w-full flex items-center justify-center relative select-none">
+
+    <!-- Cosmic Starfield Canvas -->
+    <canvas id="space-canvas" class="absolute inset-0 w-full h-full block z-0"></canvas>
+
+    <!-- Glowing Portal Blur Background -->
+    <div class="absolute w-[350px] h-[350px] rounded-full bg-gradient-to-tr from-blue-500/20 via-indigo-500/25 to-purple-600/20 blur-[100px] pointer-events-none z-0"></div>
+
+    <!-- 404 Interface Card -->
+    <main class="relative z-10 w-full max-w-lg px-6">
+        <div id="tilt-card" class="floating-card backdrop-blur-lg bg-slate-950/40 border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl flex flex-col items-center text-center transition-all duration-300 ease-out">
+            
+            <!-- Icon/Visual element -->
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 mb-6 transform hover:rotate-12 transition-transform duration-300">
+                <i data-feather="compass" class="w-8 h-8 text-white animate-spin" style="animation-duration: 10s;"></i>
+            </div>
+
+            <!-- Giant 404 Header -->
+            <h1 class="text-8xl sm:text-9xl font-black bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent glow-text leading-none select-text">
+                404
+            </h1>
+
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-4 tracking-tight leading-tight">
+                Lost in the Void
+            </h2>
+
+            <p class="text-gray-400 mt-3 text-sm sm:text-base leading-relaxed max-w-sm">
+                The coordinates you entered do not exist in our tools cosmos. Let's guide you back to safety.
+            </p>
+
+            <!-- Buttons -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full justify-center">
+                <a href="index.html" class="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+                    <i data-feather="home" class="w-4 h-4 mr-2"></i> Return Home
+                </a>
+                <a href="features.html" class="inline-flex items-center justify-center bg-white/5 hover:bg-white/10 text-white border border-white/10 font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+                    <i data-feather="grid" class="w-4 h-4 mr-2"></i> Explore Tools
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Canvas Animation & Interactive Tilting JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize icons
+            if (window.feather) {
+                feather.replace();
+            }
+
+            // Canvas Animation Setup
+            const canvas = document.getElementById('space-canvas');
+            const ctx = canvas.getContext('2d');
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            });
+
+            const stars = [];
+            const starCount = 100;
+            let mouse = { x: w / 2, y: h / 2, active: false };
+
+            class Star {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.size = Math.random() * 1.5 + 0.5;
+                    this.speed = Math.random() * 0.4 + 0.1;
+                    this.color = `rgba(${Math.floor(Math.random() * 50 + 200)}, ${Math.floor(Math.random() * 50 + 200)}, 255, ${Math.random() * 0.7 + 0.3})`;
+                }
+                update() {
+                    this.y -= this.speed;
+                    if (mouse.active) {
+                        const dx = (mouse.x - w / 2) * 0.03;
+                        const dy = (mouse.y - h / 2) * 0.03;
+                        this.x -= dx * this.speed * 0.15;
+                        this.y -= dy * this.speed * 0.15;
+                    }
+                    if (this.y < 0) this.y = h;
+                    if (this.x < 0) this.x = w;
+                    if (this.x > w) this.x = 0;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < starCount; i++) {
+                stars.push(new Star());
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                mouse.active = true;
+            });
+
+            document.addEventListener('mouseleave', () => {
+                mouse.active = false;
+            });
+
+            function animate() {
+                ctx.fillStyle = 'rgba(11, 15, 25, 0.15)'; // background fade for stars trails
+                ctx.fillRect(0, 0, w, h);
+                stars.forEach(star => {
+                    star.update();
+                    star.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // 3D Parallax Tilt Card
+            const card = document.getElementById('tilt-card');
+            if (card) {
+                document.addEventListener('mousemove', (e) => {
+                    const xAxis = (window.innerWidth / 2 - e.clientX) / 30;
+                    const yAxis = (window.innerHeight / 2 - e.clientY) / 30;
+                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
+                });
+
+                document.addEventListener('mouseleave', () => {
+                    card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                });
+            }
+        });
+    </script>
+
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+</script>
+
+</html>

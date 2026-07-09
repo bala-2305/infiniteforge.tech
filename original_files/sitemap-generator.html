@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap Generator - Create XML Sitemaps | InfiniteForge Tools</title>
+    <meta name="description" content="Generate XML sitemaps automatically by scanning your website or manually adding URLs. Create SEO-friendly sitemaps with customizable priorities and last modified dates.">
+    <meta name="keywords" content="sitemap generator, xml sitemap, website sitemap, seo sitemap, sitemap creator, xml sitemap generator, website crawler, search engine sitemap">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Sitemap Generator - Create XML Sitemaps | InfiniteForge Tools">
+    <meta property="og:description" content="Generate professional XML sitemaps by scanning websites automatically or adding URLs manually. Create SEO-optimized sitemaps with customizable priorities and timestamps.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/sitemap-generator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sitemap Generator - Create XML Sitemaps | InfiniteForge Tools">
+    <meta name="twitter:description" content="Generate professional XML sitemaps by scanning websites automatically or adding URLs manually. Create SEO-optimized sitemaps with customizable priorities and timestamps.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/sitemap-generator.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/sitemap-generator.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Sitemap Generator",
+        "description": "Professional XML sitemap generator for websites with automatic crawling capabilities, customizable priorities and SEO optimization",
+        "url": "https://infiniteforge.tech/sitemap-generator.html",
+        "applicationCategory": "WebApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .sitemap-xml {
+            font-family: 'Courier New', monospace;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .url-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            margin-bottom: 8px;
+        }
+
+        .url-item input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .url-item select {
+            width: 80px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 2px 4px;
+            font-size: 12px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 8px;
+            color: #3b82f6;
+        }
+
+        .priority-high { background-color: #fef3c7; border-color: #f59e0b; }
+        .priority-medium { background-color: #ecfdf5; border-color: #10b981; }
+        .priority-low { background-color: #f3f4f6; border-color: #6b7280; }
+
+        @media (max-width: 768px) {
+            .url-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+            }
+
+            .url-item select {
+                width: 100%;
+            }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-['Poppins']">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-white font-bold text-xl">D</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-800">InfiniteForge</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="features.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 p-2">
+                        <i data-feather="menu" class="w-6 h-6 feather-icon"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="features.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fadeIn">
+                Sitemap Generator
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90 animate-slideIn">
+                Create professional XML sitemaps by scanning your website automatically or adding URLs manually
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div class="flex items-center text-lg">
+                    <i data-feather="search" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
+                    Automatic website scanning
+                </div>
+                <div class="flex items-center text-lg">
+                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
+                    Custom priorities
+                </div>
+                <div class="flex items-center text-lg">
+                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
+                    SEO optimized
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Input Form -->
+            <div class="bg-white rounded-lg shadow-lg p-6 animate-fadeIn">
+                <h2 class="section-title">
+                    <i data-feather="settings" class="feather-icon"></i>
+                    Sitemap Configuration
+                </h2>
+
+                <!-- Website URL -->
+                <div class="input-group">
+                    <label for="websiteUrl">Website URL *</label>
+                    <input type="url" id="websiteUrl" placeholder="https://example.com" required>
+                </div>
+
+                <!-- URLs Input -->
+                <div class="input-group">
+                    <label for="urlsInput">URLs (one per line) *</label>
+                    <textarea id="urlsInput" rows="8" placeholder="https://example.com/
+https://example.com/about.html
+https://example.com/contact.html
+https://example.com/products.html
+
+Or use the website scanner below to automatically discover URLs"></textarea>
+                </div>
+
+                <!-- Website Scanner Section -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i data-feather="search" class="w-5 h-5 mr-2 text-blue-600 feather-icon"></i>
+                        Website Scanner
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="input-group">
+                            <label for="crawlDepth">Crawl Depth</label>
+                            <select id="crawlDepth">
+                                <option value="1">1 (Fast - homepage only)</option>
+                                <option value="2" selected>2 (Recommended)</option>
+                                <option value="3">3 (Thorough)</option>
+                                <option value="4">4 (Deep scan)</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="crawlDelay">Delay Between Requests (ms)</label>
+                            <select id="crawlDelay">
+                                <option value="100">100ms (Fast)</option>
+                                <option value="500" selected>500ms (Recommended)</option>
+                                <option value="1000">1000ms (Slow but safe)</option>
+                                <option value="2000">2000ms (Very slow)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Crawling Progress -->
+                    <div id="crawlProgress" class="hidden mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-gray-700">Scanning Progress</span>
+                            <span id="progressText" class="text-sm text-gray-600">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span id="pagesFound">0 pages found</span>
+                            <span id="pagesQueued">0 pages queued</span>
+                        </div>
+                    </div>
+
+                <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button id="scanWebsite" class="btn-primary flex-1">
+                            <i data-feather="search" class="w-5 h-5 inline mr-2 feather-icon"></i>
+                            Scan Website
+                        </button>
+                        <button id="stopScan" class="btn-secondary flex-1 hidden">
+                            <i data-feather="square" class="w-5 h-5 inline mr-2 feather-icon"></i>
+                            Stop Scan
+                        </button>
+                        <button id="clearUrls" class="btn-secondary">
+                            <i data-feather="trash-2" class="w-5 h-5 inline mr-2 feather-icon"></i>
+                            Clear URLs
+                        </button>
+                        <button id="generateSitemap" class="btn-primary flex-1">
+                            <i data-feather="zap" class="w-5 h-5 inline mr-2 feather-icon"></i>
+                            Generate Sitemap
+                        </button>
+                    </div>
+
+                    <div class="mt-3 text-xs text-gray-600">
+                        <i data-feather="info" class="w-4 h-4 inline mr-1 feather-icon"></i>
+                        Note: Scanning may be limited by CORS policies. For comprehensive crawling, consider using server-side tools.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sitemap Preview -->
+            <div class="bg-white rounded-lg shadow-lg p-6 animate-slideIn">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="section-title mb-0">
+                        <i data-feather="eye" class="feather-icon"></i>
+                        Sitemap Preview
+                    </h2>
+                    <div class="flex gap-2">
+                        <button id="copySitemap" class="btn-secondary text-sm px-4 py-2">
+                            <i data-feather="copy" class="w-4 h-4 inline mr-1 feather-icon"></i>
+                            Copy
+                        </button>
+                        <button id="downloadSitemap" class="btn-success text-sm px-4 py-2">
+                            <i data-feather="download" class="w-4 h-4 inline mr-1 feather-icon"></i>
+                            Download XML
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Generated Sitemap -->
+                <div id="sitemapOutput" class="sitemap-xml p-4 text-gray-800 text-sm overflow-x-auto max-h-96">
+                    <div id="emptyState" class="text-center py-12">
+                        <i data-feather="file-text" class="w-16 h-16 text-gray-300 mx-auto mb-4 feather-icon"></i>
+                        <h3 class="text-lg font-semibold text-gray-600 mb-2">No Sitemap Generated</h3>
+                        <p class="text-gray-500">Fill in your website details and click "Generate Sitemap" to create an XML sitemap.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-white font-bold text-xl">D</span>
+                        </div>
+                        <span class="text-xl font-bold">InfiniteForge</span>
+                    </div>
+                    <p class="text-gray-400">Free online tools for developers, designers, and businesses. No signup required.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="features.html" class="hover:text-white transition-colors">All Tools</a></li>
+                        <li><a href="imageconverter.html" class="hover:text-white transition-colors">Image Tools</a></li>
+                        <li><a href="pdfconverter.html" class="hover:text-white transition-colors">PDF Tools</a></li>
+                        <li><a href="json-validator.html" class="hover:text-white transition-colors">Developer Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="github" class="w-5 h-5 feather-icon"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="twitter" class="w-5 h-5 feather-icon"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="linkedin" class="w-5 h-5 feather-icon"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 InfinityForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        class SitemapGenerator {
+            constructor() {
+                this.initializeElements();
+                this.attachEventListeners();
+                this.urlItems = [];
+                this.setDefaultValues();
+            }
+
+            initializeElements() {
+                // Form inputs
+                this.websiteUrl = document.getElementById('websiteUrl');
+                this.urlsInput = document.getElementById('urlsInput');
+                this.defaultPriority = document.getElementById('defaultPriority');
+
+                // Crawling inputs
+                this.crawlDepth = document.getElementById('crawlDepth');
+                this.crawlDelay = document.getElementById('crawlDelay');
+
+                // Buttons
+                this.generateSitemapBtn = document.getElementById('generateSitemap');
+                this.addUrlBtn = document.getElementById('addUrl');
+                this.scanWebsiteBtn = document.getElementById('scanWebsite');
+                this.stopScanBtn = document.getElementById('stopScan');
+                this.clearUrlsBtn = document.getElementById('clearUrls');
+                this.copySitemapBtn = document.getElementById('copySitemap');
+                this.downloadSitemapBtn = document.getElementById('downloadSitemap');
+
+                // Display elements
+                this.sitemapOutput = document.getElementById('sitemapOutput');
+                this.emptyState = document.getElementById('emptyState');
+
+                // Crawling progress elements
+                this.crawlProgress = document.getElementById('crawlProgress');
+                this.progressBar = document.getElementById('progressBar');
+                this.progressText = document.getElementById('progressText');
+                this.pagesFound = document.getElementById('pagesFound');
+                this.pagesQueued = document.getElementById('pagesQueued');
+
+                // Crawling state
+                this.isCrawling = false;
+                this.crawler = null;
+            }
+
+            attachEventListeners() {
+                if (this.generateSitemapBtn) {
+                    this.generateSitemapBtn.addEventListener('click', () => this.generateSitemap());
+                }
+                if (this.addUrlBtn) {
+                    this.addUrlBtn.addEventListener('click', () => this.addUrlItem());
+                }
+                if (this.scanWebsiteBtn) {
+                    this.scanWebsiteBtn.addEventListener('click', () => this.startWebsiteScan());
+                }
+                if (this.stopScanBtn) {
+                    this.stopScanBtn.addEventListener('click', () => this.stopWebsiteScan());
+                }
+                if (this.clearUrlsBtn) {
+                    this.clearUrlsBtn.addEventListener('click', () => this.clearUrls());
+                }
+                if (this.copySitemapBtn) {
+                    this.copySitemapBtn.addEventListener('click', () => this.copySitemap());
+                }
+                if (this.downloadSitemapBtn) {
+                    this.downloadSitemapBtn.addEventListener('click', () => this.downloadSitemap());
+                }
+
+                // Mobile menu functionality
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        if (icon) {
+                            icon.setAttribute('data-feather', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+                            this.initializeFeatherIcons();
+                        }
+                    });
+
+                    // Close mobile menu when clicking outside or scrolling
+                    document.addEventListener('click', (e) => {
+                        if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                            mobileMenu.classList.add('hidden');
+                            const icon = mobileMenuButton.querySelector('i');
+                            if (icon) {
+                                icon.setAttribute('data-feather', 'menu');
+                                this.initializeFeatherIcons();
+                            }
+                        }
+                    });
+
+                    window.addEventListener('scroll', () => {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            const icon = mobileMenuButton.querySelector('i');
+                            if (icon) {
+                                icon.setAttribute('data-feather', 'menu');
+                                this.initializeFeatherIcons();
+                            }
+                        }
+                    });
+                }
+            }
+
+            setDefaultValues() {
+                // Set current date/time for lastmod
+                this.currentDateTime = new Date().toISOString();
+                this.hideSitemap();
+            }
+
+            addUrlItem() {
+                const urlItem = {
+                    url: '',
+                    priority: this.defaultPriority.value,
+                    id: Date.now()
+                };
+                this.urlItems.push(urlItem);
+                this.renderUrlItems();
+            }
+
+            renderUrlItems() {
+                // This would render individual URL items with priority selectors
+                // For now, we'll use the textarea approach
+            }
+
+            generateSitemap() {
+                if (!this.validateForm()) {
+                    return;
+                }
+
+                const urls = this.parseUrls();
+                if (urls.length === 0) {
+                    this.showError('Please add at least one URL');
+                    return;
+                }
+
+                const sitemapXml = this.createSitemapXML(urls);
+                this.displaySitemap(sitemapXml);
+                this.showSuccessMessage('Sitemap generated successfully!');
+            }
+
+            validateForm() {
+                if (!this.websiteUrl.value.trim()) {
+                    this.showError('Website URL is required');
+                    this.websiteUrl.focus();
+                    return false;
+                }
+
+                try {
+                    new URL(this.websiteUrl.value);
+                } catch (e) {
+                    this.showError('Please enter a valid website URL');
+                    this.websiteUrl.focus();
+                    return false;
+                }
+
+                return true;
+            }
+
+            parseUrls() {
+                const urlsText = this.urlsInput.value.trim();
+                if (!urlsText) return [];
+
+                const urls = urlsText.split('\n')
+                    .map(url => url.trim())
+                    .filter(url => url.length > 0)
+                    .map(url => {
+                        // Ensure URL is absolute
+                        if (!url.startsWith('http')) {
+                            const baseUrl = this.websiteUrl.value.replace(/\/$/, '');
+                            url = url.startsWith('/') ? baseUrl + url : baseUrl + '/' + url;
+                        }
+                        return {
+                            loc: url,
+                            priority: this.getUrlPriority(url),
+                            lastmod: this.currentDateTime
+                        };
+                    });
+
+                return urls;
+            }
+
+            getUrlPriority(url) {
+                const path = url.replace(this.websiteUrl.value, '').toLowerCase();
+
+                // Homepage gets highest priority
+                if (path === '/' || path === '') return '1.00';
+
+                // Main pages get high priority
+                if (['/about', '/contact', '/services', '/products', '/blog'].some(route =>
+                    path.startsWith(route) || path.includes(route.slice(1)))) {
+                    return '0.80';
+                }
+
+                // Content pages get medium priority
+                if (path.includes('/') && !path.includes('.')) {
+                    return '0.64';
+                }
+
+                // Everything else gets lower priority
+                return '0.5';
+            }
+
+            createSitemapXML(urls) {
+                let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+                xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n';
+                xml += '<!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->\n';
+
+                urls.forEach(url => {
+                    xml += '<url>\n';
+                    xml += `    <loc>${this.escapeXml(url.loc)}</loc>\n`;
+                    xml += `    <lastmod>${url.lastmod}</lastmod>\n`;
+                    xml += `    <priority>${url.priority}</priority>\n`;
+                    xml += '</url>\n';
+                });
+
+                xml += '</urlset>';
+                return xml;
+            }
+
+            escapeXml(unsafe) {
+                return unsafe.replace(/[<>&'"]/g, (c) => {
+                    switch (c) {
+                        case '<': return '&lt;';
+                        case '>': return '&gt;';
+                        case '&': return '&amp;';
+                        case "'": return '&#39;';
+                        case '"': return '&quot;';
+                    }
+                });
+            }
+
+            displaySitemap(xml) {
+                this.sitemapOutput.innerHTML = `<pre class="whitespace-pre-wrap break-all">${this.syntaxHighlightXML(xml)}</pre>`;
+                this.emptyState.style.display = 'none';
+                this.sitemapOutput.style.display = 'block';
+            }
+
+            syntaxHighlightXML(xml) {
+                return xml
+                    .replace(/&lt;/g, '<span class="text-blue-600">&lt;</span>')
+                    .replace(/&gt;/g, '<span class="text-blue-600">&gt;</span>')
+                    .replace(/&amp;/g, '<span class="text-red-600">&amp;</span>')
+                    .replace(/&quot;/g, '<span class="text-green-600">&quot;</span>')
+                    .replace(/&apos;/g, '<span class="text-green-600">&apos;</span>')
+                    .replace(/<!--(.*?)-->/g, '<span class="text-gray-500">&lt;!--$1--&gt;</span>')
+                    .replace(/(&lt;\/?[a-zA-Z][^&]*&gt;)/g, '<span class="text-purple-600">$1</span>');
+            }
+
+            hideSitemap() {
+                this.sitemapOutput.style.display = 'none';
+                this.emptyState.style.display = 'block';
+            }
+
+            copySitemap() {
+                const sitemapText = this.sitemapOutput.textContent;
+                if (!sitemapText) {
+                    this.showError('No sitemap to copy');
+                    return;
+                }
+
+                navigator.clipboard.writeText(sitemapText).then(() => {
+                    this.showSuccessMessage('Sitemap copied to clipboard!');
+                }).catch(() => {
+                    this.showError('Failed to copy sitemap');
+                });
+            }
+
+            downloadSitemap() {
+                const sitemapText = this.sitemapOutput.textContent;
+                if (!sitemapText) {
+                    this.showError('No sitemap to download');
+                    return;
+                }
+
+                const blob = new Blob([sitemapText], { type: 'application/xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'sitemap.xml';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                this.showSuccessMessage('Sitemap downloaded successfully!');
+            }
+
+            clearUrls() {
+                this.urlsInput.value = '';
+                this.showSuccessMessage('URLs cleared successfully!');
+            }
+
+            async startWebsiteScan() {
+                if (!this.websiteUrl.value.trim()) {
+                    this.showError('Please enter a website URL first');
+                    this.websiteUrl.focus();
+                    return;
+                }
+
+                try {
+                    new URL(this.websiteUrl.value);
+                } catch (e) {
+                    this.showError('Please enter a valid website URL');
+                    this.websiteUrl.focus();
+                    return;
+                }
+
+                if (this.isCrawling) {
+                    return;
+                }
+
+                this.isCrawling = true;
+                this.scanWebsiteBtn.disabled = true;
+                this.scanWebsiteBtn.innerHTML = '<i data-feather="loader" class="w-5 h-5 inline mr-2 animate-spin feather-icon"></i>Scanning...';
+                this.stopScanBtn.classList.remove('hidden');
+                this.crawlProgress.classList.remove('hidden');
+
+                this.initializeFeatherIcons();
+
+                try {
+                    this.crawler = new WebCrawler({
+                        baseUrl: this.websiteUrl.value,
+                        maxDepth: parseInt(this.crawlDepth.value),
+                        delay: parseInt(this.crawlDelay.value),
+                        onProgress: (progress) => this.updateCrawlProgress(progress),
+                        onComplete: (urls) => this.onCrawlComplete(urls),
+                        onError: (error) => this.onCrawlError(error)
+                    });
+
+                    await this.crawler.start();
+                } catch (error) {
+                    this.onCrawlError(error.message);
+                }
+            }
+
+            stopWebsiteScan() {
+                if (this.crawler) {
+                    this.crawler.stop();
+                }
+                this.resetCrawlUI();
+            }
+
+            updateCrawlProgress(progress) {
+                const percentage = Math.round(progress.percentage);
+                this.progressBar.style.width = `${percentage}%`;
+                this.progressText.textContent = `${percentage}%`;
+                this.pagesFound.textContent = `${progress.found} pages found`;
+                this.pagesQueued.textContent = `${progress.queued} pages queued`;
+            }
+
+            onCrawlComplete(urls) {
+                // Add discovered URLs to the textarea
+                const existingUrls = this.urlsInput.value.trim();
+                const newUrls = urls.filter(url => !existingUrls.includes(url));
+
+                if (newUrls.length > 0) {
+                    const allUrls = existingUrls ? existingUrls + '\n' + newUrls.join('\n') : newUrls.join('\n');
+                    this.urlsInput.value = allUrls;
+                    this.showSuccessMessage(`Scan complete! Found ${urls.length} pages (${newUrls.length} new)`);
+                } else {
+                    this.showSuccessMessage(`Scan complete! Found ${urls.length} pages (all already listed)`);
+                }
+
+                this.resetCrawlUI();
+            }
+
+            onCrawlError(error) {
+                this.showError(`Scan failed: ${error}`);
+                this.resetCrawlUI();
+            }
+
+            resetCrawlUI() {
+                this.isCrawling = false;
+                this.scanWebsiteBtn.disabled = false;
+                this.scanWebsiteBtn.innerHTML = '<i data-feather="search" class="w-5 h-5 inline mr-2 feather-icon"></i>Scan Website';
+                this.stopScanBtn.classList.add('hidden');
+                this.crawlProgress.classList.add('hidden');
+                this.progressBar.style.width = '0%';
+                this.progressText.textContent = '0%';
+                this.pagesFound.textContent = '0 pages found';
+                this.pagesQueued.textContent = '0 pages queued';
+                this.initializeFeatherIcons();
+            }
+
+            showSuccessMessage(message) {
+                this.showToast(message, 'success');
+            }
+
+            showError(message) {
+                this.showToast(message, 'error');
+            }
+
+            showToast(message, type) {
+                const toast = document.createElement('div');
+                toast.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 animate-fadeIn text-white`;
+
+                let bgColor = 'bg-green-500';
+                let icon = 'check-circle';
+
+                if (type === 'error') {
+                    bgColor = 'bg-red-500';
+                    icon = 'alert-circle';
+                }
+
+                toast.className += ` ${bgColor}`;
+
+                toast.innerHTML = `
+                    <div class="flex items-center">
+                        <i data-feather="${icon}" class="w-5 h-5 mr-3 feather-icon"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+                document.body.appendChild(toast);
+
+                this.initializeFeatherIcons();
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 5000);
+            }
+
+            initializeFeatherIcons() {
+                // Call the global initialization function
+                if (typeof initFeatherIcons === 'function') {
+                    initFeatherIcons();
+                }
+            }
+        }
+
+        class WebCrawler {
+            constructor(options) {
+                this.baseUrl = options.baseUrl;
+                this.maxDepth = options.maxDepth || 2;
+                this.delay = options.delay || 500;
+                this.onProgress = options.onProgress || (() => {});
+                this.onComplete = options.onComplete || (() => {});
+                this.onError = options.onError || (() => {});
+
+                this.visited = new Set();
+                this.queue = [];
+                this.foundUrls = new Set();
+                this.isRunning = false;
+                this.shouldStop = false;
+
+                // Parse base URL
+                try {
+                    this.baseUrlObj = new URL(this.baseUrl);
+                    this.baseDomain = this.baseUrlObj.hostname;
+                } catch (e) {
+                    throw new Error('Invalid base URL');
+                }
+            }
+
+            async start() {
+                this.isRunning = true;
+                this.shouldStop = false;
+                this.visited.clear();
+                this.queue = [];
+                this.foundUrls.clear();
+
+                // Start with the homepage
+                this.queue.push({
+                    url: this.baseUrl,
+                    depth: 0
+                });
+
+                this.foundUrls.add(this.baseUrl);
+
+                try {
+                    await this.crawl();
+                    if (!this.shouldStop) {
+                        this.onComplete(Array.from(this.foundUrls).sort());
+                    }
+                } catch (error) {
+                    this.onError(error.message);
+                } finally {
+                    this.isRunning = false;
+                }
+            }
+
+            stop() {
+                this.shouldStop = true;
+            }
+
+            async crawl() {
+                while (this.queue.length > 0 && !this.shouldStop) {
+                    const current = this.queue.shift();
+                    const { url, depth } = current;
+
+                    if (this.visited.has(url) || depth > this.maxDepth) {
+                        continue;
+                    }
+
+                    this.visited.add(url);
+
+                    try {
+                        await this.processPage(url, depth);
+                    } catch (error) {
+                        console.warn(`Failed to process ${url}:`, error);
+                        // Continue with other URLs even if one fails
+                    }
+
+                    // Update progress
+                    const progress = {
+                        percentage: (this.visited.size / (this.visited.size + this.queue.length)) * 100,
+                        found: this.foundUrls.size,
+                        queued: this.queue.length
+                    };
+                    this.onProgress(progress);
+
+                    // Delay between requests
+                    if (this.delay > 0 && this.queue.length > 0) {
+                        await this.sleep(this.delay);
+                    }
+                }
+            }
+
+            async processPage(url, depth) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                            'User-Agent': 'Mozilla/5.0 (compatible; SitemapGenerator/1.0)'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('text/html')) {
+                        return; // Skip non-HTML content
+                    }
+
+                    const html = await response.text();
+                    const links = this.extractLinks(html, url);
+
+                    // Add new internal links to queue
+                    for (const link of links) {
+                        if (!this.foundUrls.has(link) && !this.visited.has(link) && this.isInternalLink(link)) {
+                            this.foundUrls.add(link);
+                            if (depth < this.maxDepth) {
+                                this.queue.push({
+                                    url: link,
+                                    depth: depth + 1
+                                });
+                            }
+                        }
+                    }
+
+                } catch (error) {
+                    // Handle CORS errors gracefully
+                    if (error.name === 'TypeError' && error.message.includes('CORS')) {
+                        console.warn(`CORS error for ${url}. This is expected for many websites.`);
+                        // Still add the URL to found URLs if it's internal
+                        if (this.isInternalLink(url)) {
+                            this.foundUrls.add(url);
+                        }
+                    } else {
+                        throw error;
+                    }
+                }
+            }
+
+            extractLinks(html, baseUrl) {
+                const links = [];
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Extract all links
+                const anchors = doc.querySelectorAll('a[href]');
+                for (const anchor of anchors) {
+                    try {
+                        const href = anchor.getAttribute('href');
+                        if (!href) continue;
+
+                        // Convert relative URLs to absolute
+                        const absoluteUrl = new URL(href, baseUrl).href;
+
+                        // Clean up the URL (remove fragments, normalize)
+                        const cleanUrl = absoluteUrl.split('#')[0];
+
+                        if (cleanUrl && !links.includes(cleanUrl)) {
+                            links.push(cleanUrl);
+                        }
+                    } catch (e) {
+                        // Skip invalid URLs
+                        continue;
+                    }
+                }
+
+                return links;
+            }
+
+            isInternalLink(url) {
+                try {
+                    const urlObj = new URL(url);
+                    return urlObj.hostname === this.baseDomain;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize the sitemap generator when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new SitemapGenerator();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Initialize Feather icons as soon as script loads
+        function initFeatherIcons() {
+            if (typeof feather !== 'undefined' && feather.replace) {
+                try {
+                    feather.replace();
+                    console.log('✓ Feather icons loaded successfully');
+                } catch (error) {
+                    console.error('Failed to replace feather icons:', error);
+                }
+            } else {
+                console.warn('Feather icons library not available, retrying...');
+                setTimeout(initFeatherIcons, 100);
+            }
+        }
+
+        // Initialize immediately
+        initFeatherIcons();
+
+        // Also initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFeatherIcons);
+        } else {
+            initFeatherIcons();
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initFeatherIcons);
+
+        // Fallback: try alternative CDN if primary fails after a delay
+        setTimeout(() => {
+            if (typeof feather === 'undefined') {
+                console.warn('Primary Feather CDN failed, loading from backup...');
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/feather-icons@latest';
+                script.onload = initFeatherIcons;
+                document.head.appendChild(script);
+            }
+        }, 1000);
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Benchmark Score — Daedalus | Free Performance Testing Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Test your system's performance with our free JavaScript benchmark. Measure CPU speed, memory performance, and overall computational power with detailed scoring.">
+    <meta name="keywords"
+        content="system benchmark, performance test, CPU benchmark, JavaScript benchmark, system performance, computer speed test, benchmark score">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="System Benchmark Score — Daedalus">
+    <meta property="og:description"
+        content="Test your system's performance with a comprehensive JavaScript benchmark and get detailed performance scores.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/system-benchmark-score.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="System Benchmark Score — Daedalus">
+    <meta name="twitter:description" content="Test your system's performance with a comprehensive JavaScript benchmark.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/system-benchmark-score.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .benchmark-score {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .score-ring {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-ring::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-gradient) 0deg, var(--primary-gradient) var(--progress), #e2e8f0 var(--progress));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 15px), black calc(100% - 14px));
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 15px), black calc(100% - 14px));
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .test-item.running {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+
+        .test-item.completed {
+            background: #f0fdf4;
+            border-color: #10b981;
+        }
+
+        .test-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-icon.pending {
+            background: #e2e8f0;
+        }
+
+        .status-icon.running {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        .status-icon.completed {
+            background: #10b981;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">System Benchmark Score</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Test your system's computational performance with our comprehensive JavaScript benchmark suite.</p>
+        </div>
+
+        <!-- Main Score Display -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="text-center">
+                <div class="score-ring mb-6" style="--progress: 0deg;">
+                    <div class="benchmark-score" id="overall-score">--</div>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">Overall Performance Score</h2>
+                <p class="text-gray-500" id="score-description">Run the benchmark to get your score</p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button id="start-benchmark" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
+                    Start Benchmark
+                </button>
+                <button id="stop-benchmark" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
+                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
+                    Stop Benchmark
+                </button>
+                <button id="reset-results" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="rotate-ccw" class="w-4 h-4 mr-2"></i>
+                    Reset Results
+                </button>
+            </div>
+
+            <div class="text-center">
+                <div class="progress-bar mb-2">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <p class="text-sm text-gray-600" id="progress-text">Ready to start benchmark</p>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <!-- Individual Test Scores -->
+            <div class="result-box">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <i data-feather="cpu" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                    Test Results
+                </h3>
+                <div id="test-results" class="space-y-2">
+                    <div class="test-item" data-test="cpu">
+                        <div class="flex items-center gap-3">
+                            <div class="status-icon pending"></div>
+                            <span class="font-medium">CPU Performance</span>
+                        </div>
+                        <div class="test-status">
+                            <span class="text-sm text-gray-500" id="cpu-score">--</span>
+                            <span class="text-xs text-gray-400" id="cpu-time">--ms</span>
+                        </div>
+                    </div>
+                    <div class="test-item" data-test="memory">
+                        <div class="flex items-center gap-3">
+                            <div class="status-icon pending"></div>
+                            <span class="font-medium">Memory Operations</span>
+                        </div>
+                        <div class="test-status">
+                            <span class="text-sm text-gray-500" id="memory-score">--</span>
+                            <span class="text-xs text-gray-400" id="memory-time">--ms</span>
+                        </div>
+                    </div>
+                    <div class="test-item" data-test="array">
+                        <div class="flex items-center gap-3">
+                            <div class="status-icon pending"></div>
+                            <span class="font-medium">Array Operations</span>
+                        </div>
+                        <div class="test-status">
+                            <span class="text-sm text-gray-500" id="array-score">--</span>
+                            <span class="text-xs text-gray-400" id="array-time">--ms</span>
+                        </div>
+                    </div>
+                    <div class="test-item" data-test="string">
+                        <div class="flex items-center gap-3">
+                            <div class="status-icon pending"></div>
+                            <span class="font-medium">String Manipulation</span>
+                        </div>
+                        <div class="test-status">
+                            <span class="text-sm text-gray-500" id="string-score">--</span>
+                            <span class="text-xs text-gray-400" id="string-time">--ms</span>
+                        </div>
+                    </div>
+                    <div class="test-item" data-test="object">
+                        <div class="flex items-center gap-3">
+                            <div class="status-icon pending"></div>
+                            <span class="font-medium">Object Operations</span>
+                        </div>
+                        <div class="test-status">
+                            <span class="text-sm text-gray-500" id="object-score">--</span>
+                            <span class="text-xs text-gray-400" id="object-time">--ms</span>
+                        </div>
+                    </div>
+                    <div class="test-item" data-test="math">
+                        <div class="flex items-center gap-3">
+                            <div class="status-icon pending"></div>
+                            <span class="font-medium">Mathematical Computations</span>
+                        </div>
+                        <div class="test-status">
+                            <span class="text-sm text-gray-500" id="math-score">--</span>
+                            <span class="text-xs text-gray-400" id="math-time">--ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Information -->
+            <div class="result-box">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <i data-feather="monitor" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                    System Information
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Browser:</span>
+                        <span id="browser-info" class="font-mono font-semibold text-sm">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">User Agent:</span>
+                        <span id="user-agent" class="font-mono font-semibold text-xs truncate" title="">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Platform:</span>
+                        <span id="platform" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Cores:</span>
+                        <span id="cores" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Memory:</span>
+                        <span id="memory" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Screen:</span>
+                        <span id="screen-size" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Test Date:</span>
+                        <span id="test-date" class="font-mono font-semibold text-sm">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Comparison -->
+        <div class="result-box mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                Performance Comparison
+            </h3>
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <div class="text-2xl font-bold text-gray-900" id="comparison-score">--</div>
+                    <div class="text-sm text-gray-600">Your Score</div>
+                </div>
+                <div class="text-center p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">1500+</div>
+                    <div class="text-sm text-gray-600">High-End</div>
+                </div>
+                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">800-1500</div>
+                    <div class="text-sm text-gray-600">Mid-Range</div>
+                </div>
+                <div class="text-center p-4 bg-orange-50 rounded-lg">
+                    <div class="text-2xl font-bold text-orange-600">0-800</div>
+                    <div class="text-sm text-gray-600">Entry-Level</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="info" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How the Benchmark Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This benchmark tests various aspects of your system's JavaScript performance to provide a comprehensive performance score.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Test Categories:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>CPU Performance:</strong> Mathematical calculations and loops</li>
+                            <li><strong>Memory Operations:</strong> Object creation and manipulation</li>
+                            <li><strong>Array Operations:</strong> Sorting, filtering, and transformations</li>
+                            <li><strong>String Manipulation:</strong> Concatenation and processing</li>
+                            <li><strong>Object Operations:</strong> Property access and iteration</li>
+                            <li><strong>Mathematical Computations:</strong> Complex math functions</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Scoring:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Score Calculation:</strong> Based on operations per second</li>
+                            <li><strong>Weighted Average:</strong> Different tests have different weights</li>
+                            <li><strong>Normalization:</strong> Scores are calibrated for comparison</li>
+                            <li><strong>Accuracy:</strong> Results depend on browser and system load</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-sm text-amber-600 bg-amber-50 p-3 rounded-lg mt-4">
+                    <strong>Note:</strong> Benchmark results can vary based on browser, system load, and other factors. For best results, close other applications and run the test when the system is idle.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const startBtn = document.getElementById('start-benchmark');
+            const stopBtn = document.getElementById('stop-benchmark');
+            const resetBtn = document.getElementById('reset-results');
+            const overallScoreEl = document.getElementById('overall-score');
+            const scoreDescriptionEl = document.getElementById('score-description');
+            const progressFillEl = document.getElementById('progress-fill');
+            const progressTextEl = document.getElementById('progress-text');
+            const comparisonScoreEl = document.getElementById('comparison-score');
+            const scoreRing = document.querySelector('.score-ring');
+
+            // System info elements
+            const browserInfoEl = document.getElementById('browser-info');
+            const userAgentEl = document.getElementById('user-agent');
+            const platformEl = document.getElementById('platform');
+            const coresEl = document.getElementById('cores');
+            const memoryEl = document.getElementById('memory');
+            const screenSizeEl = document.getElementById('screen-size');
+            const testDateEl = document.getElementById('test-date');
+
+            // State
+            let isRunning = false;
+            let currentTestIndex = 0;
+            let results = {};
+            let totalScore = 0;
+
+            // Benchmark test definitions
+            const tests = [
+                {
+                    name: 'cpu',
+                    title: 'CPU Performance',
+                    weight: 0.25,
+                    run: cpuTest
+                },
+                {
+                    name: 'memory',
+                    title: 'Memory Operations',
+                    weight: 0.20,
+                    run: memoryTest
+                },
+                {
+                    name: 'array',
+                    title: 'Array Operations',
+                    weight: 0.20,
+                    run: arrayTest
+                },
+                {
+                    name: 'string',
+                    title: 'String Manipulation',
+                    weight: 0.15,
+                    run: stringTest
+                },
+                {
+                    name: 'object',
+                    title: 'Object Operations',
+                    weight: 0.10,
+                    run: objectTest
+                },
+                {
+                    name: 'math',
+                    title: 'Mathematical Computations',
+                    weight: 0.10,
+                    run: mathTest
+                }
+            ];
+
+            // Benchmark test functions
+            function cpuTest() {
+                const iterations = 500000;
+                let result = 0;
+                const start = performance.now();
+
+                for (let i = 0; i < iterations; i++) {
+                    result += Math.sin(i) * Math.cos(i);
+                    result += Math.sqrt(i + 1);
+                    result += i * i;
+                }
+
+                const end = performance.now();
+                const time = end - start;
+                const score = Math.round(iterations / time * 100);
+                return { score, time };
+            }
+
+            function memoryTest() {
+                const iterations = 10000;
+                const start = performance.now();
+
+                for (let i = 0; i < iterations; i++) {
+                    const obj = {
+                        id: i,
+                        name: `object_${i}`,
+                        data: new Array(100).fill(0).map((_, j) => ({ value: j * i })),
+                        nested: {
+                            prop1: `nested_${i}`,
+                            prop2: i * 2,
+                            array: [i, i + 1, i + 2]
+                        }
+                    };
+                    // Force garbage collection by dereferencing
+                    if (i % 100 === 0) {
+                        // Simulate memory pressure
+                        const temp = new Array(1000).fill(obj);
+                    }
+                }
+
+                const end = performance.now();
+                const time = end - start;
+                const score = Math.round(iterations / time * 1000);
+                return { score, time };
+            }
+
+            function arrayTest() {
+                const size = 10000;
+                const start = performance.now();
+
+                // Create large array
+                let arr = new Array(size).fill(0).map((_, i) => i);
+
+                // Sort
+                arr.sort((a, b) => b - a);
+
+                // Filter
+                arr = arr.filter(x => x % 2 === 0);
+
+                // Map
+                arr = arr.map(x => x * x);
+
+                // Reduce
+                const result = arr.reduce((sum, x) => sum + x, 0);
+
+                // Find operations
+                for (let i = 0; i < 1000; i++) {
+                    arr.find(x => x === i);
+                    arr.includes(i);
+                    arr.indexOf(i);
+                }
+
+                const end = performance.now();
+                const time = end - start;
+                const score = Math.round(size / time * 100);
+                return { score, time };
+            }
+
+            function stringTest() {
+                const iterations = 5000;
+                const start = performance.now();
+
+                let result = '';
+                const baseString = 'The quick brown fox jumps over the lazy dog. ';
+
+                for (let i = 0; i < iterations; i++) {
+                    // String concatenation
+                    result += baseString + i.toString();
+
+                    // String manipulation
+                    const str = result.toUpperCase();
+                    const reversed = str.split('').reverse().join('');
+                    const replaced = reversed.replace(/FOX/g, 'CAT');
+                    const sliced = replaced.slice(10, 50);
+
+                    // Regex operations
+                    const matches = sliced.match(/\w+/g) || [];
+                    const joined = matches.join('-');
+
+                    // Force some computation
+                    if (joined.length > 100) {
+                        result = result.substring(0, 100);
+                    }
+                }
+
+                const end = performance.now();
+                const time = end - start;
+                const score = Math.round(iterations / time * 1000);
+                return { score, time };
+            }
+
+            function objectTest() {
+                const iterations = 10000;
+                const start = performance.now();
+
+                const objects = [];
+
+                for (let i = 0; i < iterations; i++) {
+                    const obj = {
+                        id: i,
+                        name: `object_${i}`,
+                        timestamp: Date.now(),
+                        data: {
+                            nested: {
+                                value: i * Math.random(),
+                                array: [i, i + 1, i + 2, i + 3]
+                            }
+                        },
+                        computed: function() {
+                            return this.id * 2 + this.data.nested.value;
+                        }
+                    };
+
+                    // Property access
+                    const id = obj.id;
+                    const name = obj.name;
+                    const nestedValue = obj.data.nested.value;
+                    const computed = obj.computed();
+
+                    // Object manipulation
+                    obj.modified = true;
+                    obj.lastAccess = Date.now();
+
+                    objects.push(obj);
+
+                    // Object iteration
+                    if (i % 100 === 0) {
+                        Object.keys(obj).forEach(key => {
+                            const value = obj[key];
+                        });
+                    }
+                }
+
+                const end = performance.now();
+                const time = end - start;
+                const score = Math.round(iterations / time * 100);
+                return { score, time };
+            }
+
+            function mathTest() {
+                const iterations = 100000;
+                const start = performance.now();
+
+                let result = 0;
+
+                for (let i = 0; i < iterations; i++) {
+                    // Trigonometric functions
+                    result += Math.sin(i * 0.01) + Math.cos(i * 0.01);
+
+                    // Exponential and logarithmic
+                    result += Math.exp(i * 0.001) + Math.log(i + 1);
+
+                    // Power and root functions
+                    result += Math.pow(i, 1.5) + Math.sqrt(i + 1);
+
+                    // Random number generation
+                    result += Math.random() * Math.PI;
+
+                    // Complex calculations
+                    const complex = Math.atan2(Math.sin(i), Math.cos(i)) +
+                                  Math.tanh(i * 0.01) +
+                                  Math.hypot(i, i + 1);
+
+                    result += complex;
+                }
+
+                const end = performance.now();
+                const time = end - start;
+                const score = Math.round(iterations / time * 10);
+                return { score, time };
+            }
+
+            // Utility functions
+            function updateTestStatus(testName, status, score = null, time = null) {
+                const testItem = document.querySelector(`[data-test="${testName}"]`);
+                const statusIcon = testItem.querySelector('.status-icon');
+                const scoreEl = document.getElementById(`${testName}-score`);
+                const timeEl = document.getElementById(`${testName}-time`);
+
+                testItem.className = `test-item ${status}`;
+                statusIcon.className = `status-icon ${status}`;
+
+                if (score !== null) {
+                    scoreEl.textContent = score.toLocaleString();
+                }
+                if (time !== null) {
+                    timeEl.textContent = `${time.toFixed(1)}ms`;
+                }
+            }
+
+            function updateProgress(progress, text) {
+                progressFillEl.style.width = `${progress}%`;
+                progressTextEl.textContent = text;
+            }
+
+            function calculateOverallScore() {
+                let weightedSum = 0;
+                let totalWeight = 0;
+
+                tests.forEach(test => {
+                    if (results[test.name]) {
+                        weightedSum += results[test.name].score * test.weight;
+                        totalWeight += test.weight;
+                    }
+                });
+
+                if (totalWeight > 0) {
+                    totalScore = Math.round(weightedSum / totalWeight);
+                    return totalScore;
+                }
+                return 0;
+            }
+
+            function updateScoreDisplay() {
+                const score = calculateOverallScore();
+                overallScoreEl.textContent = score.toLocaleString();
+
+                // Update score ring
+                const percentage = Math.min(score / 2000 * 100, 100);
+                scoreRing.style.setProperty('--progress', `${percentage * 3.6}deg`);
+
+                // Update description
+                let description = 'Entry Level Performance';
+                if (score >= 1500) description = 'High-End Performance';
+                else if (score >= 800) description = 'Mid-Range Performance';
+
+                scoreDescriptionEl.textContent = description;
+                comparisonScoreEl.textContent = score.toLocaleString();
+            }
+
+            function getSystemInfo() {
+                // Browser detection
+                const ua = navigator.userAgent;
+                let browser = 'Unknown';
+                if (ua.includes('Chrome')) browser = 'Chrome';
+                else if (ua.includes('Firefox')) browser = 'Firefox';
+                else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
+                else if (ua.includes('Edge')) browser = 'Edge';
+
+                browserInfoEl.textContent = browser;
+                userAgentEl.textContent = ua.substring(0, 50) + '...';
+                userAgentEl.title = ua;
+                platformEl.textContent = navigator.platform;
+                coresEl.textContent = navigator.hardwareConcurrency || 'Unknown';
+                memoryEl.textContent = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown';
+                screenSizeEl.textContent = `${screen.width}×${screen.height}`;
+                testDateEl.textContent = new Date().toLocaleString();
+            }
+
+            async function runBenchmark() {
+                if (isRunning) return;
+
+                isRunning = true;
+                currentTestIndex = 0;
+                results = {};
+                totalScore = 0;
+
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+
+                updateProgress(0, 'Starting benchmark...');
+
+                for (let i = 0; i < tests.length; i++) {
+                    if (!isRunning) break;
+
+                    const test = tests[i];
+                    updateTestStatus(test.name, 'running');
+                    updateProgress((i / tests.length) * 100, `Running ${test.title}...`);
+
+                    // Small delay to allow UI update
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
+                    try {
+                        const result = test.run();
+                        results[test.name] = result;
+                        updateTestStatus(test.name, 'completed', result.score, result.time);
+                    } catch (error) {
+                        console.error(`Error in ${test.name} test:`, error);
+                        updateTestStatus(test.name, 'completed', 0, 0);
+                    }
+                }
+
+                if (isRunning) {
+                    updateProgress(100, 'Benchmark completed!');
+                    updateScoreDisplay();
+                }
+
+                isRunning = false;
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+            }
+
+            function stopBenchmark() {
+                isRunning = false;
+                updateProgress(0, 'Benchmark stopped');
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+            }
+
+            function resetResults() {
+                results = {};
+                totalScore = 0;
+                overallScoreEl.textContent = '--';
+                scoreDescriptionEl.textContent = 'Run the benchmark to get your score';
+                scoreRing.style.setProperty('--progress', '0deg');
+                comparisonScoreEl.textContent = '--';
+                updateProgress(0, 'Ready to start benchmark');
+
+                // Reset all test statuses
+                tests.forEach(test => {
+                    updateTestStatus(test.name, 'pending');
+                });
+            }
+
+            // Event listeners
+            startBtn.addEventListener('click', runBenchmark);
+            stopBtn.addEventListener('click', stopBenchmark);
+            resetBtn.addEventListener('click', resetResults);
+
+            // Initialize
+            getSystemInfo();
+            resetResults();
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app'sFirebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

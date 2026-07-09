@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to HTML Converter - InfiniteForge</title>
+    <meta name="description" content="Convert Markdown to HTML instantly. Free online Markdown to HTML converter with live preview, syntax highlighting, and download options.">
+    <meta name="keywords" content="markdown to html, markdown converter, html converter, markdown parser, online converter, markdown preview">
+    <meta name="author" content="InfiniteForge">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/markdown-to-html.html">
+    <meta property="og:title" content="Markdown to HTML Converter - InfiniteForge">
+    <meta property="og:description" content="Convert Markdown to HTML instantly with live preview and syntax highlighting.">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/images/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://infiniteforge.tech/markdown-to-html.html">
+    <meta property="twitter:title" content="Markdown to HTML Converter - InfiniteForge">
+    <meta property="twitter:description" content="Convert Markdown to HTML instantly with live preview and syntax highlighting.">
+    <meta property="twitter:image" content="https://infiniteforge.tech/assets/images/og-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://infiniteforge.tech/markdown-to-html.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/markdown-to-html.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.umd.js"></script>
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .markdown-input, .html-output {
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .markdown-input {
+            min-height: 300px;
+        }
+
+        .html-output {
+            min-height: 300px;
+            background-color: #f8f9fa;
+        }
+
+        .preview-output {
+            min-height: 300px;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+        }
+
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+
+        .tab-button.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .success-message {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* Custom scrollbar */
+        .code-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .code-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .code-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .code-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Markdown preview styles */
+        .preview-content h1,
+        .preview-content h2,
+        .preview-content h3,
+        .preview-content h4,
+        .preview-content h5,
+        .preview-content h6 {
+            color: #1f2937;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .preview-content h1 { font-size: 2em; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
+        .preview-content h2 { font-size: 1.5em; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
+        .preview-content h3 { font-size: 1.25em; }
+        .preview-content h4 { font-size: 1.125em; }
+        .preview-content h5 { font-size: 1em; }
+        .preview-content h6 { font-size: 0.875em; }
+
+        .preview-content p {
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+
+        .preview-content ul,
+        .preview-content ol {
+            margin-bottom: 1em;
+            padding-left: 2em;
+        }
+
+        .preview-content li {
+            margin-bottom: 0.5em;
+        }
+
+        .preview-content code {
+            background-color: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875em;
+        }
+
+        .preview-content pre {
+            background-color: #f3f4f6;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+        }
+
+        .preview-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .preview-content blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 16px;
+            margin-bottom: 1em;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .preview-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1em;
+        }
+
+        .preview-content th,
+        .preview-content td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .preview-content th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        .preview-content a {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+        .preview-content a:hover {
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>    
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="h-8 w-8 mr-2">
+                        <span class="text-xl font-bold text-gray-900">InfiniteForge</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="features.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Tools</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Markdown to HTML Converter</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Convert Markdown to HTML instantly with live preview. Perfect for bloggers, developers, and content creators.
+                All processing happens locally in your browser for maximum privacy.
+            </p>
+        </div>
+
+        <!-- Conversion Options -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Conversion Options</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex items-center">
+                    <input type="checkbox" id="breaks" checked class="mr-2">
+                    <label for="breaks" class="text-sm font-medium text-gray-700">Convert line breaks to &lt;br&gt;</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="gfm" checked class="mr-2">
+                    <label for="gfm" class="text-sm font-medium text-gray-700">GitHub Flavored Markdown</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="sanitize" class="mr-2">
+                    <label for="sanitize" class="text-sm font-medium text-gray-700">Sanitize HTML output</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input/Output Tabs -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex border-b border-gray-200 mb-6">
+                <button id="tab-html" class="tab-button px-4 py-2 rounded-t-md active">HTML Output</button>
+                <button id="tab-preview" class="tab-button px-4 py-2 rounded-t-md">Live Preview</button>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Markdown Input</h3>
+                        <div class="flex gap-2">
+                            <button id="paste-btn" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
+                                <i data-feather="clipboard" class="w-4 h-4 inline mr-1"></i>Paste
+                            </button>
+                            <button id="clear-input-btn" class="px-3 py-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-md transition-colors">
+                                <i data-feather="trash-2" class="w-4 h-4 inline mr-1"></i>Clear
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="markdown-input" class="markdown-input w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none code-container" placeholder="# Hello World
+
+This is **bold** and this is *italic*.
+
+## Lists
+- Item 1
+- Item 2
+- Item 3
+
+## Code
+```javascript
+console.log('Hello, World!');
+```
+
+## Links
+[Google](https://google.com)"></textarea>
+                </div>
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800" id="output-title">HTML Output</h3>
+                        <div class="flex gap-2">
+                            <button id="copy-btn" class="px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md transition-colors" disabled>
+                                <i data-feather="copy" class="w-4 h-4 inline mr-1"></i>Copy
+                            </button>
+                            <button id="download-btn" class="px-3 py-1 text-sm bg-green-100 hover:bg-green-200 text-green-700 rounded-md transition-colors" disabled>
+                                <i data-feather="download" class="w-4 h-4 inline mr-1"></i>Download
+                            </button>
+                        </div>
+                    </div>
+                    <div id="output-container">
+                        <pre id="html-output" class="html-output w-full p-4 border border-gray-300 rounded-md code-container"><code class="language-html">&lt;h1&gt;Hello World&lt;/h1&gt;
+
+&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and this is &lt;em&gt;italic&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Lists&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Item 1&lt;/li&gt;
+&lt;li&gt;Item 2&lt;/li&gt;
+&lt;li&gt;Item 3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Code&lt;/h2&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;console.log('Hello, World!');
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://google.com"&gt;Google&lt;/a&gt;&lt;/p&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center mb-8">
+            <button id="convert-btn" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+                <span id="convert-text">Convert to HTML</span>
+                <div id="loading-spinner" class="hidden loading-spinner inline-block ml-2"></div>
+            </button>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-container" class="hidden">
+            <!-- Messages will be inserted here -->
+        </div>
+
+        <!-- Features Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <i data-feather="zap" class="w-12 h-12 text-blue-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Instant Conversion</h3>
+                    <p class="text-gray-600">Convert Markdown to HTML in real-time with live preview and instant results.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="shield" class="w-12 h-12 text-green-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Privacy First</h3>
+                    <p class="text-gray-600">All conversion happens locally in your browser. Your content never leaves your device.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="settings" class="w-12 h-12 text-purple-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Customizable Options</h3>
+                    <p class="text-gray-600">Configure line breaks, GitHub Flavored Markdown, and HTML sanitization options.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="eye" class="w-12 h-12 text-yellow-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Live Preview</h3>
+                    <p class="text-gray-600">See how your Markdown will look as rendered HTML with beautiful styling.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="code" class="w-12 h-12 text-indigo-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Syntax Highlighting</h3>
+                    <p class="text-gray-600">Code blocks in your Markdown are syntax-highlighted in the preview.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="download" class="w-12 h-12 text-red-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Export Options</h3>
+                    <p class="text-gray-600">Copy HTML to clipboard or download as a file for easy integration.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Markdown Cheat Sheet -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Markdown Cheat Sheet</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Basic Syntax</h3>
+                    <div class="space-y-2 text-sm">
+                        <div><code class="bg-gray-100 px-2 py-1 rounded"># Heading 1</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;h1&gt;Heading 1&lt;/h1&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">**bold**</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;strong&gt;bold&lt;/strong&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">*italic*</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;em&gt;italic&lt;/em&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">[link](url)</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;a href="url"&gt;link&lt;/a&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">![alt](image.jpg)</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;img alt="alt" src="image.jpg"&gt;</code></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Lists & Code</h3>
+                    <div class="space-y-2 text-sm">
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">- Item</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">1. Item</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;ol&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ol&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">`code`</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;code&gt;code&lt;/code&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">```code```</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;pre&gt;&lt;code&gt;code&lt;/code&gt;&lt;/pre&gt;</code></div>
+                        <div><code class="bg-gray-100 px-2 py-1 rounded">&gt; quote</code> → <code class="bg-gray-100 px-2 py-1 rounded">&lt;blockquote&gt;quote&lt;/blockquote&gt;</code></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What is Markdown?</h3>
+                    <p class="text-gray-600">Markdown is a lightweight markup language with plain-text formatting syntax. It's designed to be easy to read and write, and can be converted to HTML and other formats.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Is my content safe and private?</h3>
+                    <p class="text-gray-600">Absolutely! All Markdown processing happens locally in your browser using client-side JavaScript. Your content never leaves your device or gets sent to any server.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What Markdown features are supported?</h3>
+                    <p class="text-gray-600">We support standard Markdown syntax including headings, paragraphs, links, images, lists, code blocks, blockquotes, tables, and more. GitHub Flavored Markdown (GFM) is also supported.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Can I use this offline?</h3>
+                    <p class="text-gray-600">Once the page is loaded, the Markdown parser is cached locally, so you can use the converter offline for subsequent conversions.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What's the difference between HTML output and Live Preview?</h3>
+                    <p class="text-gray-600">HTML Output shows the raw HTML code that you can copy and use. Live Preview shows how the HTML will look when rendered in a browser with styling applied.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="h-8 w-8 mr-2">
+                        <span class="text-xl font-bold">InfiniteForge</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Free, privacy-focused online tools for developers and content creators.
+                        All processing happens locally in your browser.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="youtube" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="twitter" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white transition-colors">All Tools</a></li>
+                        <li><a href="imagecompressor.html" class="text-gray-400 hover:text-white transition-colors">Image Tools</a></li>
+                        <li><a href="pdftools.html" class="text-gray-400 hover:text-white transition-colors">PDF Tools</a></li>
+                        <li><a href="video-to-gif.html" class="text-gray-400 hover:text-white transition-colors">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors">Privacy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition-colors">Terms</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 InfiniteForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Markdown to HTML Converter",
+        "description": "Convert Markdown to HTML instantly with live preview, syntax highlighting, and download options. Free, fast, and privacy-focused.",
+        "url": "https://infiniteforge.tech/markdown-to-html.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Real-time Markdown to HTML conversion",
+            "Live preview with styling",
+            "GitHub Flavored Markdown support",
+            "Client-side processing for privacy",
+            "Copy and download functionality",
+            "Syntax highlighting"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "InfiniteForge"
+        }
+    }
+    </script>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Global variables
+        let htmlOutput = '';
+        let currentTab = 'html';
+
+        // DOM elements
+        const markdownInput = document.getElementById('markdown-input');
+        const htmlOutputEl = document.getElementById('html-output');
+        const outputContainer = document.getElementById('output-container');
+        const outputTitle = document.getElementById('output-title');
+        const convertBtn = document.getElementById('convert-btn');
+        const convertText = document.getElementById('convert-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const copyBtn = document.getElementById('copy-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const pasteBtn = document.getElementById('paste-btn');
+        const clearInputBtn = document.getElementById('clear-input-btn');
+        const statusContainer = document.getElementById('status-container');
+        const tabHtml = document.getElementById('tab-html');
+        const tabPreview = document.getElementById('tab-preview');
+        const breaksCheckbox = document.getElementById('breaks');
+        const gfmCheckbox = document.getElementById('gfm');
+        const sanitizeCheckbox = document.getElementById('sanitize');
+
+        // Configure Marked.js
+        marked.setOptions({
+            breaks: breaksCheckbox.checked,
+            gfm: gfmCheckbox.checked,
+            sanitize: sanitizeCheckbox.checked,
+            smartLists: true,
+            smartypants: true
+        });
+
+        // Initialize the application
+        function init() {
+            setupEventListeners();
+            loadSampleMarkdown();
+            convertMarkdown();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Convert button
+            convertBtn.addEventListener('click', convertMarkdown);
+
+            // Copy button
+            copyBtn.addEventListener('click', copyToClipboard);
+
+            // Download button
+            downloadBtn.addEventListener('click', downloadHtml);
+
+            // Paste button
+            pasteBtn.addEventListener('click', pasteFromClipboard);
+
+            // Clear input button
+            clearInputBtn.addEventListener('click', clearInput);
+
+            // Tab switching
+            tabHtml.addEventListener('click', () => switchTab('html'));
+            tabPreview.addEventListener('click', () => switchTab('preview'));
+
+            // Mobile menu
+            document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
+
+            // Option checkboxes
+            breaksCheckbox.addEventListener('change', updateMarkedOptions);
+            gfmCheckbox.addEventListener('change', updateMarkedOptions);
+            sanitizeCheckbox.addEventListener('change', updateMarkedOptions);
+
+            // Auto-convert on input change (debounced)
+            let convertTimeout;
+            markdownInput.addEventListener('input', () => {
+                clearTimeout(convertTimeout);
+                convertTimeout = setTimeout(() => {
+                    if (markdownInput.value.trim()) {
+                        convertMarkdown();
+                    }
+                }, 500);
+            });
+        }
+
+        // Update Marked.js options
+        function updateMarkedOptions() {
+            marked.setOptions({
+                breaks: breaksCheckbox.checked,
+                gfm: gfmCheckbox.checked,
+                sanitize: sanitizeCheckbox.checked,
+                smartLists: true,
+                smartypants: true
+            });
+            convertMarkdown();
+        }
+
+        // Switch between HTML and Preview tabs
+        function switchTab(tab) {
+            currentTab = tab;
+
+            // Update tab buttons
+            tabHtml.classList.toggle('active', tab === 'html');
+            tabPreview.classList.toggle('active', tab === 'preview');
+
+            // Update output title
+            outputTitle.textContent = tab === 'html' ? 'HTML Output' : 'Live Preview';
+
+            // Update output content
+            updateOutputDisplay();
+        }
+
+        // Convert Markdown to HTML
+        function convertMarkdown() {
+            try {
+                const markdown = markdownInput.value;
+                htmlOutput = marked.parse(markdown);
+
+                updateOutputDisplay();
+                enableButtons();
+
+                showStatus('Markdown converted successfully!', 'success');
+            } catch (error) {
+                console.error('Conversion error:', error);
+                showStatus('Error converting Markdown. Please check your syntax.', 'error');
+            }
+        }
+
+        // Update output display based on current tab
+        function updateOutputDisplay() {
+            if (currentTab === 'html') {
+                outputContainer.innerHTML = `<pre id="html-output" class="html-output w-full p-4 border border-gray-300 rounded-md code-container"><code class="language-html">${escapeHtml(htmlOutput)}</code></pre>`;
+                Prism.highlightElement(document.querySelector('#html-output code'));
+            } else {
+                outputContainer.innerHTML = `<div id="preview-output" class="preview-output preview-content">${htmlOutput}</div>`;
+            }
+        }
+
+        // Enable copy and download buttons
+        function enableButtons() {
+            copyBtn.disabled = false;
+            downloadBtn.disabled = false;
+            copyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard() {
+            try {
+                const textToCopy = currentTab === 'html' ? htmlOutput : getPlainHtml(htmlOutput);
+                await navigator.clipboard.writeText(textToCopy);
+                showStatus('Copied to clipboard!', 'success');
+            } catch (error) {
+                console.error('Copy failed:', error);
+                showStatus('Failed to copy to clipboard.', 'error');
+            }
+        }
+
+        // Download HTML
+        function downloadHtml() {
+            try {
+                const content = currentTab === 'html' ? htmlOutput : getPlainHtml(htmlOutput);
+                const blob = new Blob([content], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showStatus('HTML downloaded successfully!', 'success');
+            } catch (error) {
+                console.error('Download failed:', error);
+                showStatus('Failed to download HTML.', 'error');
+            }
+        }
+
+        // Paste from clipboard
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                markdownInput.value = text;
+                convertMarkdown();
+                showStatus('Pasted from clipboard!', 'success');
+            } catch (error) {
+                console.error('Paste failed:', error);
+                showStatus('Failed to paste from clipboard.', 'error');
+            }
+        }
+
+        // Clear input
+        function clearInput() {
+            markdownInput.value = '';
+            htmlOutput = '';
+            updateOutputDisplay();
+            copyBtn.disabled = true;
+            downloadBtn.disabled = true;
+            copyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            downloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            showStatus('Input cleared.', 'success');
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Auto-close mobile menu on scroll or link click
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Show status messages
+        function showStatus(message, type) {
+            statusContainer.innerHTML = `
+                <div class="${type}-message fade-in">
+                    ${message}
+                </div>
+            `;
+            statusContainer.classList.remove('hidden');
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                statusContainer.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Load sample Markdown
+        function loadSampleMarkdown() {
+            const sample = `# Hello World
+
+This is **bold** text and this is *italic* text.
+
+## Lists
+
+### Unordered List
+- Item 1
+- Item 2
+- Item 3
+
+### Ordered List
+1. First item
+2. Second item
+3. Third item
+
+## Code
+
+Inline code: \`console.log('Hello, World!')\`
+
+\`\`\`javascript
+function greet(name) {
+    console.log(\`Hello, \${name}!\`);
+}
+
+greet('World');
+\`\`\`
+
+## Links and Images
+
+[Visit Google](https://google.com)
+
+![Sample Image](https://via.placeholder.com/300x200?text=Sample+Image)
+
+## Blockquotes
+
+> This is a blockquote.
+> It can span multiple lines.
+
+## Tables
+
+| Name | Age | City |
+|------|-----|------|
+| John | 25  | NYC  |
+| Jane | 30  | LA   |
+| Bob  | 35  | Chicago |
+
+## Task Lists
+
+- [x] Completed task
+- [ ] Incomplete task
+- [x] Another completed task`;
+
+            markdownInput.value = sample;
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getPlainHtml(html) {
+            return html;
+        }
+
+        // Initialize when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InfiniteForge — AI Landing Page Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ──── RESET & VARS ──── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg-panel: #12121a;
+    --bg-panel-alt: #1a1a26;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8ee;
+    --text-muted: #6e6e80;
+    --accent: #7c5cfc;
+    --accent-glow: rgba(124,92,252,0.35);
+    --accent2: #00d4aa;
+    --accent2-glow: rgba(0,212,170,0.25);
+    --red: #f04848;
+    --font: 'Sora', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ──── TOP NAV ──── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(10,10,15,0.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-left { display: flex; align-items: center; gap: 12px; }
+  .nav-logo {
+    display: flex; align-items: center; gap: 9px;
+    text-decoration: none;
+  }
+  .nav-logo .logo-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo .logo-icon svg { width: 16px; height: 16px; }
+  .nav-logo span {
+    font-weight: 700; font-size: 17px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent2));
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .nav-tabs { display: flex; gap: 4px; margin-left: 14px; }
+  .nav-tab {
+    padding: 5px 13px; border-radius: 6px;
+    border: none; background: transparent;
+    color: var(--text-muted); font-family: var(--font); font-size: 13px;
+    cursor: pointer; transition: all .2s;
+  }
+  .nav-tab:hover { color: var(--text); background: var(--bg-panel-alt); }
+  .nav-tab.active {
+    background: var(--bg-panel-alt);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-btn {
+    padding: 6px 16px; border-radius: 7px;
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none; transition: all .2s;
+  }
+  .nav-btn.ghost {
+    background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .nav-btn.ghost:hover { border-color: var(--accent); color: var(--text); }
+
+  /* ──── MAIN LAYOUT ──── */
+  .app { display: flex; height: 100%; padding-top: 52px; }
+
+  /* ──── SIDEBAR ──── */
+  .sidebar {
+    width: 300px; min-width: 300px;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 18px 18px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header h3 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--text-muted); font-weight: 500; margin-bottom: 12px;
+  }
+
+  /* Prompt box */
+  .prompt-wrap {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .prompt-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .prompt-wrap textarea {
+    width: 100%; min-height: 90px; max-height: 180px;
+    background: transparent; border: none; resize: vertical;
+    color: var(--text); font-family: var(--font); font-size: 13px;
+    line-height: 1.55; padding: 12px 14px;
+    outline: none;
+  }
+  .prompt-wrap textarea::placeholder { color: var(--text-muted); }
+  .prompt-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px;
+  }
+  .prompt-actions .char-count { font-size: 11px; color: var(--text-muted); }
+  .gen-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 16px; border-radius: 7px; border: none;
+    background: linear-gradient(135deg, var(--accent), #6a4de0);
+    color: #fff; font-family: var(--font); font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+    box-shadow: 0 2px 10px var(--accent-glow);
+  }
+  .gen-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 18px var(--accent-glow); }
+  .gen-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .gen-btn .spinner {
+    width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .6s linear infinite; display: none;
+  }
+  .gen-btn.loading .spinner { display: block; }
+  .gen-btn.loading .gen-label { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Quick prompts */
+  .quick-section { padding: 14px 18px 0; }
+  .quick-section h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); font-weight: 500; margin-bottom: 9px;
+  }
+  .quick-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .quick-chip {
+    padding: 5px 11px; border-radius: 20px;
+    background: var(--bg-panel-alt); border: 1px solid var(--border);
+    color: var(--text-muted); font-family: var(--font); font-size: 12px;
+    cursor: pointer; transition: all .2s;
+  }
+  .quick-chip:hover {
+    border-color: var(--accent); color: var(--text);
+    background: rgba(124,92,252,.08);
+  }
+
+  /* Options */
+  .options-section { padding: 16px 18px; border-top: 1px solid var(--border); }
+  .options-section h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); font-weight: 500; margin-bottom: 10px;
+  }
+  .option-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .option-label { font-size: 13px; color: var(--text); }
+  .option-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  select.option-select {
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font); font-size: 12px;
+    padding: 5px 10px; border-radius: 6px; outline: none; cursor: pointer;
+    min-width: 100px;
+  }
+  select.option-select:focus { border-color: var(--accent); }
+  /* Toggle switch */
+  .toggle { position: relative; width: 38px; height: 21px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0;
+    background: var(--bg-panel-alt); border: 1px solid var(--border);
+    border-radius: 21px; transition: .25s; cursor: pointer;
+  }
+  .toggle-slider:before {
+    content: ''; position: absolute;
+    width: 16px; height: 16px; left: 2px; bottom: 2px;
+    background: var(--text-muted); border-radius: 50%; transition: .25s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--accent); border-color: var(--accent); }
+  .toggle input:checked + .toggle-slider:before { transform: translateX(18px); background: #fff; }
+
+
+  /* ──── MAIN PREVIEW ──── */
+  .main {
+    flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    position: relative;
+  }
+
+  /* View tabs row */
+  .view-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .view-tabs { display: flex; gap: 4px; }
+  .view-tab {
+    padding: 5px 14px; border-radius: 6px; border: none;
+    background: transparent; color: var(--text-muted);
+    font-family: var(--font); font-size: 13px; cursor: pointer; transition: all .2s;
+  }
+  .view-tab:hover { color: var(--text); background: var(--bg-panel-alt); }
+  .view-tab.active { background: var(--bg-panel-alt); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+
+  .view-bar-actions { display: flex; gap: 8px; align-items: center; }
+  .icon-btn {
+    width: 32px; height: 32px; border-radius: 7px;
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .2s;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--text); background: rgba(124,92,252,.08); }
+  .icon-btn svg { width: 15px; height: 15px; }
+
+  /* Device frame selector */
+  .device-btns { display: flex; gap: 4px; }
+  .device-btn {
+    padding: 4px 8px; border-radius: 5px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text-muted);
+    font-family: var(--font); font-size: 11px; cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .device-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(124,92,252,.08); }
+  .device-btn svg { width: 12px; height: 12px; }
+
+  /* Preview / Code area */
+  .preview-area { flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto; background: var(--bg); position: relative; }
+
+  /* Checkerboard behind iframe */
+  .preview-area::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(45deg, #161620 25%, transparent 25%),
+                      linear-gradient(-45deg, #161620 25%, transparent 25%),
+                      linear-gradient(45deg, transparent 75%, #161620 75%),
+                      linear-gradient(-45deg, transparent 75%, #161620 75%);
+    background-size: 32px 32px;
+    background-position: 0 0, 0 16px, 16px -16px, -16px 0px;
+    opacity: .4;
+  }
+
+  .iframe-wrap {
+    position: relative; z-index: 1;
+    background: #fff; border-radius: 8px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.45);
+    overflow: hidden; transition: width .35s, height .35s;
+  }
+  .iframe-wrap.desktop { width: calc(100% - 48px); height: calc(100% - 48px); }
+  .iframe-wrap.tablet { width: 780px; height: calc(100% - 72px); }
+  .iframe-wrap.mobile { width: 390px; height: calc(100% - 72px); }
+
+  .iframe-wrap iframe {
+    width: 100%; height: 100%; border: none; display: block;
+  }
+
+  /* Code view */
+  .code-view {
+    flex: 1; overflow: auto; display: none;
+    background: #0e0e14;
+  }
+  .code-view.visible { display: block; }
+  .code-block {
+    padding: 20px; font-family: var(--mono); font-size: 12.5px;
+    line-height: 1.7; color: #c9c9d4; white-space: pre; overflow-x: auto;
+    min-height: 100%;
+  }
+  /* Syntax highlight helpers */
+  .sh-tag { color: #f472b6; }
+  .sh-attr { color: #a78bfa; }
+  .sh-str { color: #86efac; }
+  .sh-comment { color: #4a4a5a; font-style: italic; }
+  .sh-css { color: #60a5fa; }
+
+  /* Empty state */
+  .empty-state {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+  }
+  .empty-state .empty-icon {
+    width: 72px; height: 72px; border-radius: 18px;
+    background: linear-gradient(135deg, rgba(124,92,252,.15), rgba(0,212,170,.1));
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .empty-state .empty-icon svg { width: 34px; height: 34px; color: var(--accent); opacity: .7; }
+  .empty-state h2 { font-size: 20px; font-weight: 600; color: var(--text); }
+  .empty-state p { font-size: 13px; color: var(--text-muted); max-width: 340px; text-align: center; line-height: 1.5; }
+
+  /* Status bar */
+  .status-bar {
+    height: 26px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+    background: var(--bg-panel); border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-muted); font-family: var(--mono);
+  }
+  .status-left { display: flex; align-items: center; gap: 14px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 6px var(--accent2-glow); }
+  .status-right { display: flex; align-items: center; gap: 12px; }
+
+  /* ──── LOADING OVERLAY ──── */
+  .gen-overlay {
+    display: none; position: absolute; inset: 0; z-index: 50;
+    background: rgba(10,10,15,.88); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+  }
+  .gen-overlay.visible { display: flex; }
+  .gen-overlay .ring {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 3px solid var(--border); border-top-color: var(--accent);
+    animation: spin .7s linear infinite;
+  }
+  .gen-overlay h3 { font-size: 16px; font-weight: 500; color: var(--text); }
+  .gen-overlay .progress-track {
+    width: 220px; height: 3px; background: var(--bg-panel-alt); border-radius: 2px; overflow: hidden;
+  }
+  .gen-overlay .progress-fill {
+    height: 100%; width: 0%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width .15s;
+  }
+  .gen-overlay p { font-size: 12px; color: var(--text-muted); }
+
+  /* ──── SCROLLBAR ──── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.15); }
+</style>
+</head>
+<body>
+
+<!-- ──── NAV ──── -->
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8L7 12L13 4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span>InfiniteForge</span>
+    </a>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tab-build">Build</button>
+    </div>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn ghost" id="copy-code-btn">Copy Code</button>
+    <button class="nav-btn ghost" id="download-btn">↓ Download</button>
+  </div>
+</nav>
+
+<!-- ──── APP ──── -->
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Describe your page</h3>
+      <div class="prompt-wrap">
+        <textarea id="prompt-input" placeholder="e.g. A dark-themed SaaS landing page for an AI analytics tool with a hero section, features grid, and pricing table…"></textarea>
+      </div>
+      <div class="prompt-actions">
+        <span class="char-count" id="char-count">0 / 2000</span>
+        <button class="gen-btn" id="gen-btn">
+          <span class="spinner"></span>
+          <span class="gen-label">✦ Generate</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="quick-section">
+      <h4>Quick prompts</h4>
+      <div class="quick-chips">
+        <span class="quick-chip">SaaS Hero</span>
+        <span class="quick-chip">Portfolio</span>
+        <span class="quick-chip">E-commerce</span>
+        <span class="quick-chip">Blog Layout</span>
+        <span class="quick-chip">Startup</span>
+        <span class="quick-chip">Agency</span>
+        <span class="quick-chip">Product Launch</span>
+        <span class="quick-chip">Pricing Page</span>
+      </div>
+    </div>
+
+    <div class="options-section">
+      <h4>Options</h4>
+      <div class="option-row">
+        <div><div class="option-label">Style</div><div class="option-desc">Visual tone</div></div>
+        <select class="option-select" id="opt-style">
+          <option value="modern">Modern</option>
+          <option value="minimal">Minimal</option>
+          <option value="dark">Dark</option>
+          <option value="bold">Bold</option>
+          <option value="playful">Playful</option>
+        </select>
+      </div>
+      <div class="option-row">
+        <div><div class="option-label">Color</div><div class="option-desc">Primary accent</div></div>
+        <select class="option-select" id="opt-color">
+          <option value="purple">Purple</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="orange">Orange</option>
+          <option value="pink">Pink</option>
+        </select>
+      </div>
+      <div class="option-row">
+        <div><div class="option-label">Animations</div></div>
+        <label class="toggle"><input type="checkbox" id="opt-anim" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="option-row">
+        <div><div class="option-label">Responsive</div></div>
+        <label class="toggle"><input type="checkbox" id="opt-responsive" checked /><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- View bar -->
+    <div class="view-bar">
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="preview">Preview</button>
+        <button class="view-tab" data-view="code">Code</button>
+      </div>
+      <div class="view-bar-actions">
+        <div class="device-btns">
+          <button class="device-btn active" data-device="desktop">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="14" height="10" rx="1.5"/><path d="M5 14h6"/></svg> Desktop
+          </button>
+          <button class="device-btn" data-device="tablet">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="1" width="10" height="14" rx="1.5"/></svg> Tab
+          </button>
+          <button class="device-btn" data-device="mobile">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="1" width="8" height="14" rx="1.5"/><circle cx="8" cy="13" r=".8" fill="currentColor"/></svg> Mobile
+          </button>
+        </div>
+        <button class="icon-btn" id="fullscreen-btn" title="Fullscreen">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6V2h4M10 2h4v4M6 14H2v-4M14 10v4h-4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Preview area -->
+    <div class="preview-area" id="preview-area">
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 34 34" fill="none"><path d="M7 17L14 24L27 10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Ready to build</h2>
+        <p>Describe the landing page you want and hit <strong style="color:var(--accent)">Generate</strong>. AI will create a fully functional HTML page for you.</p>
+      </div>
+
+      <!-- iframe wrapper (hidden until generated) -->
+      <div class="iframe-wrap desktop" id="iframe-wrap" style="display:none;">
+        <iframe id="preview-iframe" srcdoc="" sandbox="allow-scripts"></iframe>
+      </div>
+
+      <!-- Generation overlay -->
+      <div class="gen-overlay" id="gen-overlay">
+        <div class="ring"></div>
+        <h3>Generating your page…</h3>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <p id="gen-status-text">Analyzing prompt…</p>
+      </div>
+    </div>
+
+    <!-- Code view (hidden by default) -->
+    <div class="code-view" id="code-view">
+      <div class="code-block" id="code-block"><!-- generated code will appear here --></div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-left">
+        <span class="status-dot" id="status-dot" style="background:#444;box-shadow:none;"></span>
+        <span id="status-text">No page generated</span>
+      </div>
+      <div class="status-right">
+        <span id="status-size">—</span>
+        <span id="status-lines">—</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ──── SCRIPT ──── -->
+<script>(function () { var _0x = ['aHR0cHM6Ly9uaW0tc2Vydi52ZXJjZWwuYXBwLw==']; window.API_URL = atob(_0x[0]); })();</script>
+<script>
+(function () {
+  // ── Elements ──
+  const promptInput  = document.getElementById('prompt-input');
+  const charCount    = document.getElementById('char-count');
+  const genBtn       = document.getElementById('gen-btn');
+  const genOverlay   = document.getElementById('gen-overlay');
+  const progressFill = document.getElementById('progress-fill');
+  const genStatus    = document.getElementById('gen-status-text');
+  const emptyState   = document.getElementById('empty-state');
+  const iframeWrap   = document.getElementById('iframe-wrap');
+  const previewIframe= document.getElementById('preview-iframe');
+  const codeView     = document.getElementById('code-view');
+  const codeBlock    = document.getElementById('code-block');
+  const statusDot    = document.getElementById('status-dot');
+  const statusText   = document.getElementById('status-text');
+  const statusSize   = document.getElementById('status-size');
+  const statusLines  = document.getElementById('status-lines');
+  const copyCodeBtn  = document.getElementById('copy-code-btn');
+  const downloadBtn  = document.getElementById('download-btn');
+
+  let generatedHTML = '';
+  let currentDevice = 'desktop';
+
+  const apiUrl = window.API_URL;
+
+  // ── Char counter ──
+  promptInput.addEventListener('input', () => {
+    charCount.textContent = promptInput.value.length + ' / 2000';
+  });
+
+  // ── Quick chips ──
+  const CHIP_PROMPTS = {
+    'SaaS Hero': 'A sleek dark-themed SaaS landing page with a bold hero section featuring a gradient headline, animated stats counter, a features grid with icons, and a CTA button.',
+    'Portfolio': 'A minimal light-themed personal portfolio with a centered hero, an animated intro, a projects grid with hover cards, skills section with progress bars, and a contact form.',
+    'E-commerce': 'A vibrant e-commerce product showcase page with a hero banner, a product cards grid with hover zoom effects, a testimonials carousel, and a newsletter signup section.',
+    'Blog Layout': 'A clean editorial blog layout with a sticky nav, a hero article section, a responsive article grid, category filters, and a sidebar with trending posts.',
+    'Startup': 'A bold startup landing page with a dark background, animated gradient blobs, a hero with a video background placeholder, social proof logos, and a pricing comparison table.',
+    'Agency': 'A premium creative agency page with dramatic typography, a scrolling marquee of client logos, a project showcase with overlay effects, team grid, and contact section.',
+    'Product Launch': 'A high-energy product launch page with animated reveal sections, a 3D-style product card, feature bullets that appear on scroll, countdown timer, and early-access signup form.',
+    'Pricing Page': 'A dark SaaS pricing page with three tiers, annual/monthly toggle, feature comparison table, FAQ accordion, and a CTA banner at the bottom.'
+  };
+  document.querySelectorAll('.quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      promptInput.value = CHIP_PROMPTS[chip.textContent] || '';
+      charCount.textContent = promptInput.value.length + ' / 2000';
+    });
+  });
+
+  document.querySelectorAll('.view-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const view = tab.dataset.view;
+      if (view === 'code') {
+        document.getElementById('preview-area').style.display = 'none';
+        codeView.classList.add('visible');
+      } else {
+        document.getElementById('preview-area').style.display = 'flex';
+        codeView.classList.remove('visible');
+      }
+    });
+  });
+
+  document.querySelectorAll('.device-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDevice = btn.dataset.device;
+      iframeWrap.className = 'iframe-wrap ' + currentDevice;
+    });
+  });
+
+  document.getElementById('fullscreen-btn').addEventListener('click', () => {
+    const area = document.getElementById('preview-area');
+    if (!document.fullscreenElement) {
+      area.requestFullscreen && area.requestFullscreen();
+    } else {
+      document.exitFullscreen && document.exitFullscreen();
+    }
+  });
+
+  // ── Copy code ──
+  copyCodeBtn.addEventListener('click', async () => {
+    if (!generatedHTML) return;
+    await navigator.clipboard.writeText(generatedHTML);
+    copyCodeBtn.textContent = '✓ Copied!';
+    setTimeout(() => copyCodeBtn.textContent = 'Copy Code', 1500);
+  });
+
+  // ── Download ──
+  downloadBtn.addEventListener('click', () => {
+    if (!generatedHTML) return;
+    const blob = new Blob([generatedHTML], { type: 'text/html' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'landing-page.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  // ── Simple syntax highlighter ──
+  function highlightHTML(code) {
+    // 1. Escape HTML entities
+    let escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // 2. Highlight comments
+    escaped = escaped.replace(/&lt;!--[\s\S]*?--&gt;/g, '<span class="sh-comment">$&</span>');
+
+    // 3. Highlight tags and their contents
+    escaped = escaped.replace(/&lt;(\/?[a-zA-Z][\s\S]*?)&gt;/g, (match, content) => {
+      // Highlight attributes
+      let h = content.replace(/(\s)([a-zA-Z\-]+)(=)/g, '$1<span class="sh-attr">$2</span>$3');
+      // Highlight strings within the tag
+      h = h.replace(/"([^"]*)"/g, '<span class="sh-str">"$1"</span>');
+      return '<span class="sh-tag">&lt;' + h + '&gt;</span>';
+    });
+
+    // 4. Special handling for CSS inside style tags
+    escaped = escaped.replace(/(<span class="sh-tag">&lt;style&gt;<\/span>)([\s\S]*?)(<span class="sh-tag">&lt;\/style&gt;<\/span>)/g, (m, open, css, close) => {
+      return open + '<span class="sh-css">' + css + '</span>' + close;
+    });
+
+    return escaped;
+  }
+
+  // ── Progress animation ──
+  let progressInterval = null;
+  function startProgress() {
+    let w = 0;
+    progressFill.style.width = '0%';
+    progressInterval = setInterval(() => {
+      w += Math.random() * 4 + 1;
+      if (w > 85) w = 85;
+      progressFill.style.width = w + '%';
+    }, 180);
+  }
+  function endProgress() {
+    clearInterval(progressInterval);
+    progressFill.style.width = '100%';
+    setTimeout(() => { progressFill.style.width = '0%'; }, 400);
+  }
+
+  const STATUS_TEXTS = [
+    'Analyzing prompt…',
+    'Designing layout…',
+    'Writing HTML structure…',
+    'Crafting styles…',
+    'Adding interactivity…',
+    'Polishing details…'
+  ];
+  let statusIdx = 0, statusTicker = null;
+  function startStatusTicker() {
+    statusIdx = 0;
+    genStatus.textContent = STATUS_TEXTS[0];
+    statusTicker = setInterval(() => {
+      statusIdx = (statusIdx + 1) % STATUS_TEXTS.length;
+      genStatus.textContent = STATUS_TEXTS[statusIdx];
+    }, 1200);
+  }
+  function stopStatusTicker() { clearInterval(statusTicker); }
+
+  // ── GENERATE ──
+  genBtn.addEventListener('click', async () => {
+    const prompt = promptInput.value.trim();
+    if (!prompt) return;
+
+    const style = document.getElementById('opt-style').value;
+    const color = document.getElementById('opt-color').value;
+    const anim  = document.getElementById('opt-anim').checked;
+    const resp  = document.getElementById('opt-responsive').checked;
+
+    const systemMsg = `You are an expert web developer and designer. Generate a SINGLE, complete, self-contained HTML file for a beautiful landing page.
+Rules:
+- Output ONLY raw HTML (<!DOCTYPE html> … </html>). No markdown, no code blocks, no explanations.
+- Include all CSS in a <style> block and all JS in a <script> block.
+- Use inline or embedded fonts via Google Fonts @import if needed.
+- Style: \${style}. Primary accent color family: \${color}.
+- \${anim ? 'Include smooth scroll-triggered animations and micro-interactions.' : 'Keep animations minimal.'}
+- \${resp ? 'Make the layout fully responsive with media queries.' : ''}
+- Make it visually stunning, modern, and production-ready.
+- Ensure the HTML is complete, valid, and all tags are properly closed.
+- Generate a comprehensive page with multiple detailed sections: Hero, Features (grid), How It Works (steps), Testimonials (cards), Pricing (table), FAQ (accordion), Blog/News, Gallery, Team, and Footer.
+- Include extensive, custom-crafted CSS styling with many color variables, hover effects, complex keyframe animations, and layered backgrounds.
+- Add descriptive comments in the HTML/CSS/JS code to increase readability and length.
+- Add significant amount of production-quality JavaScript for interactive components.
+- Aim for at least 800-1000 lines of detailed, production-quality code.
+- Repeat: Provide a VERY LONG response. Include exhaustive CSS and extensive HTML sections.
+- IMPORTANT: If you must truncate, stop at exactly 8000 tokens or as close as possible to a complete tag.`;
+
+    const userMsg = prompt;
+
+    // Show overlay
+    genBtn.classList.add('loading');
+    genBtn.disabled = true;
+    genOverlay.classList.add('visible');
+    startProgress();
+    startStatusTicker();
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 180000); // 180 seconds timeout
+
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            { role: 'system', content: systemMsg },
+            { role: 'user',   content: userMsg }
+          ],
+          max_tokens: 8000,
+          temperature: 0.7
+        }),
+        signal: controller.signal
+      });
+
+      if (!res.ok) throw new Error('API error ' + res.status);
+      let html = '';
+      const responseText = await res.text();
+      
+      try {
+        const data = JSON.parse(responseText);
+        html = data.reply || '';
+      } catch (e) {
+        // Handle partial or malformed JSON if it was truncated
+        const match = responseText.match(/"reply"\s*:\s*"(.*)/s);
+        if (match) {
+          html = match[1]
+            .replace(/\\n/g, '\n')
+            .replace(/\\"/g, '"')
+            .replace(/\\t/g, '\t')
+            .replace(/\\r/g, '\r')
+            .replace(/\\\\/g, '\\');
+          // Strip potential trailing JSON syntax if present
+          html = html.replace(/"\s*\}\s*$/, '');
+        } else {
+          html = responseText;
+        }
+      }
+
+      // Clean up any remaining markdown/code block syntax
+      html = html.replace(/^```[a-z]*\s*/i, '').replace(/\s*```$/i, '').trim();
+
+      // If the reply doesn't start with <!DOCTYPE or <html, wrap it
+      if (!html.toLowerCase().startsWith('<!doctype') && !html.toLowerCase().startsWith('<html')) {
+        html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Generated Page</title></head><body>' + html + '</body></html>';
+      }
+
+      generatedHTML = html;
+
+      // Update preview
+      previewIframe.srcdoc = html;
+      emptyState.style.display = 'none';
+      iframeWrap.style.display = 'block';
+      iframeWrap.className = 'iframe-wrap ' + currentDevice;
+
+      // Update code view
+      codeBlock.innerHTML = highlightHTML(html);
+
+      // Status bar
+      statusDot.style.background = 'var(--accent2)';
+      statusDot.style.boxShadow = '0 0 6px var(--accent2-glow)';
+      statusText.textContent = 'Page generated successfully';
+      const lines = html.split('\n').length;
+      statusLines.textContent = lines + ' lines';
+      statusSize.textContent = (html.length / 1024).toFixed(1) + ' KB';
+
+
+    } catch (err) {
+      console.error(err);
+      if (err.name === 'AbortError') {
+        statusText.textContent = 'Error: Request timed out. Please try again.';
+      } else {
+        statusText.textContent = 'Error: ' + err.message;
+      }
+      statusDot.style.background = 'var(--red)';
+      statusDot.style.boxShadow = '0 0 6px rgba(240,72,72,.4)';
+    } finally {
+      clearTimeout(timeoutId);
+      endProgress();
+      stopStatusTicker();
+      setTimeout(() => { genOverlay.classList.remove('visible'); }, 350);
+      genBtn.classList.remove('loading');
+      genBtn.disabled = false;
+    }
+  });
+
+
+})();
+</script>
+
+</body>
+</html>

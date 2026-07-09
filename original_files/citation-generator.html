@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/citation-generator.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Generator - APA, MLA, Chicago & More | InfiniteForge</title>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Citation Generator - APA, MLA, Chicago & More | InfiniteForge">
+    <meta name="twitter:description" content="Free online citation generator supporting APA, MLA, Chicago, Harvard, and more. Generate accurate citations for books, articles, websites, and other sources.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/citation-generator.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <meta name="description"
+        content="Free online citation generator supporting APA, MLA, Chicago, Harvard, and more. Generate accurate citations for books, articles, websites, and other sources instantly.">
+    <meta name="keywords"
+        content="citation generator, APA citation, MLA citation, Chicago citation, Harvard citation, bibliography generator, reference generator, academic writing, InfiniteForge">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+
+    <meta property="og:title" content="Citation Generator - APA, MLA, Chicago & More | InfiniteForge">
+    <meta property="og:description"
+        content="Free online citation generator supporting APA, MLA, Chicago, Harvard, and more. Generate accurate citations for books, articles, websites, and other sources instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/citation-generator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/citation-generator.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <link rel="canonical" href="https://infiniteforge.tech/citation-generator.html">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Fallback for feather icons if CDN fails
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof feather === 'undefined') {
+                    console.warn('Feather icons failed to load, loading from alternative CDN...');
+                    // Try alternative CDN
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/feather-icons/dist/feather.min.js';
+                    script.onload = function() {
+                        console.log('Feather icons loaded from alternative CDN');
+                        feather.replace();
+                    };
+                    script.onerror = function() {
+                        console.error('Failed to load feather icons from both CDNs');
+                        // Add CSS fallbacks for essential icons
+                        addIconFallbacks();
+                    };
+                    document.head.appendChild(script);
+                }
+            }, 2000); // Wait 2 seconds for initial load
+        });
+
+        // Add CSS-based fallbacks for essential icons
+        function addIconFallbacks() {
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Fallback styles for feather icons */
+                i[data-feather]:before {
+                    content: '▸';
+                    font-weight: bold;
+                }
+                i[data-feather="book"]:before { content: '📚'; }
+                i[data-feather="menu"]:before { content: '☰'; }
+                i[data-feather="copy"]:before { content: '📋'; }
+                i[data-feather="download"]:before { content: '💾'; }
+                i[data-feather="refresh-cw"]:before { content: '🔄'; }
+                i[data-feather="file-text"]:before { content: '📄'; }
+                i[data-feather="globe"]:before { content: '🌐'; }
+                i[data-feather="users"]:before { content: '👥'; }
+                i[data-feather="award"]:before { content: '🏆'; }
+            `;
+            document.head.appendChild(style);
+            console.log('Added fallback icons');
+        }
+    </script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        body {
+            font-size: var(--fluid-font-size);
+        }
+
+        h1 { font-size: var(--fluid-h1) !important; }
+        h2 { font-size: var(--fluid-h2) !important; }
+        h3 { font-size: var(--fluid-h3) !important; }
+        p { font-size: var(--fluid-p) !important; }
+
+        @media (max-width: 640px) {
+            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Animations and Micro-interactions */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Apply animations on scroll */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Stagger animations */
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-delay-500 { animation-delay: 0.5s; }
+
+        /* Enhanced hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Citation Generator specific styles */
+        .source-type-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .source-type-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .source-type-card.selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .citation-style-btn {
+            transition: all 0.3s ease;
+        }
+
+        .citation-style-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .citation-output {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .citation-result {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .citation-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            word-break: break-word;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #2563eb;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Citation Generator",
+        "description": "Free online citation generator supporting APA, MLA, Chicago, Harvard, and more citation styles. Generate accurate citations for books, articles, websites, and other sources.",
+        "url": "https://infiniteforge.tech/citation-generator.html",
+        "applicationCategory": "Educational",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <!-- Google tag (gtag.js) -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md w-full fixed top-0 left-0 z-50" aria-label="Main Navigation">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="flex items-center">
+                    <a href="index.html" class="hidden md:inline-block ml-6 text-blue-600 font-medium">Home</a>
+                    <a href="features.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="sitemap.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Sitemap</a>
+                    <a href="contact.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                    <!-- Mobile menu button -->
+                    <button id="mobileMenuBtn"
+                        class="md:hidden ml-4 text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data-feather="menu" class="w-7 h-7" aria-label="Mobile menu"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40 hidden">
+                <!-- Navigation -->
+                <div class="px-4 py-2">
+                    <a href="index.html" class="block px-2 py-2 text-blue-600 rounded">Home</a>
+                    <a href="features.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Features</a>
+                    <a href="about.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">About</a>
+                    <a href="sitemap.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Sitemap</a>
+                    <a href="contact.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 rounded-3xl mb-16">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="absolute inset-0">
+                <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute bottom-10 right-10 w-32 h-32 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white bg-opacity-5 rounded-full blur-2xl"></div>
+            </div>
+            <div class="relative z-10 py-20 px-6 text-center text-white">
+                <div class="flex justify-center items-center mb-6">
+                    <i data-feather="file-text" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
+                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent" itemprop="headline">
+                        Citation Generator
+                    </h1>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100">Generate Perfect Citations Instantly</h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
+                    Free online citation generator supporting APA, MLA, Chicago, Harvard, and more. Create accurate citations for books, articles, websites, and other sources in seconds.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="#citation-generator" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Start Generating Citations
+                        <i data-feather="file-text" class="w-5 h-5 ml-2 inline"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Citation Generator -->
+        <section id="citation-generator" class="mb-20">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Citation Generator</h2>
+                    <p class="text-lg text-gray-600">Generate accurate citations in multiple styles</p>
+                </div>
+
+                <!-- Citation Style Selection -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Choose Citation Style</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        <button class="citation-style-btn active px-4 py-3 rounded-lg font-semibold bg-blue-600 text-white transition-all duration-300" data-style="apa">
+                            APA 7th
+                        </button>
+                        <button class="citation-style-btn px-4 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 transition-all duration-300" data-style="mla">
+                            MLA 9th
+                        </button>
+                        <button class="citation-style-btn px-4 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 transition-all duration-300" data-style="chicago">
+                            Chicago
+                        </button>
+                        <button class="citation-style-btn px-4 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 transition-all duration-300" data-style="harvard">
+                            Harvard
+                        </button>
+                        <button class="citation-style-btn px-4 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 transition-all duration-300" data-style="ieee">
+                            IEEE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Source Type Selection -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Source Type</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="source-type-card selected bg-white border-2 border-blue-500 rounded-xl p-6 text-center" data-type="book">
+                            <i data-feather="book" class="w-12 h-12 text-blue-600 mx-auto mb-4"></i>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Book</h4>
+                            <p class="text-gray-600 text-sm">Print or e-book sources</p>
+                        </div>
+                        <div class="source-type-card bg-white border-2 border-gray-200 rounded-xl p-6 text-center" data-type="article">
+                            <i data-feather="file-text" class="w-12 h-12 text-green-600 mx-auto mb-4"></i>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Journal Article</h4>
+                            <p class="text-gray-600 text-sm">Academic journal articles</p>
+                        </div>
+                        <div class="source-type-card bg-white border-2 border-gray-200 rounded-xl p-6 text-center" data-type="website">
+                            <i data-feather="globe" class="w-12 h-12 text-purple-600 mx-auto mb-4"></i>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Website</h4>
+                            <p class="text-gray-600 text-sm">Web pages and online articles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citation Form -->
+                <div id="citation-form" class="mb-8">
+                    <!-- Book Form -->
+                    <div id="book-form" class="form-container">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-6">Book Information</h4>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="book-author">Author(s) *</label>
+                                <input type="text" id="book-author" placeholder="e.g., Smith, John A. or Smith, J. A.">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-year">Publication Year *</label>
+                                <input type="number" id="book-year" placeholder="e.g., 2023" min="1000" max="2030">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label for="book-title">Book Title *</label>
+                                <input type="text" id="book-title" placeholder="e.g., The Art of Citation">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-publisher">Publisher *</label>
+                                <input type="text" id="book-publisher" placeholder="e.g., Academic Press">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-place">Place of Publication</label>
+                                <input type="text" id="book-place" placeholder="e.g., New York, NY">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-edition">Edition</label>
+                                <input type="text" id="book-edition" placeholder="e.g., 2nd ed.">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-pages">Pages (optional)</label>
+                                <input type="text" id="book-pages" placeholder="e.g., pp. 45-67">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article Form -->
+                    <div id="article-form" class="form-container hidden">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-6">Journal Article Information</h4>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="article-author">Author(s) *</label>
+                                <input type="text" id="article-author" placeholder="e.g., Johnson, M. R.">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-year">Publication Year *</label>
+                                <input type="number" id="article-year" placeholder="e.g., 2023" min="1000" max="2030">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label for="article-title">Article Title *</label>
+                                <input type="text" id="article-title" placeholder="e.g., Advances in Citation Technology">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label for="article-journal">Journal Name *</label>
+                                <input type="text" id="article-journal" placeholder="e.g., Journal of Academic Writing">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-volume">Volume</label>
+                                <input type="text" id="article-volume" placeholder="e.g., 15">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-issue">Issue</label>
+                                <input type="text" id="article-issue" placeholder="e.g., 2">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-pages">Pages *</label>
+                                <input type="text" id="article-pages" placeholder="e.g., 123-145">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-doi">DOI (optional)</label>
+                                <input type="text" id="article-doi" placeholder="e.g., 10.1234/jaw.2023.001">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Website Form -->
+                    <div id="website-form" class="form-container hidden">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-6">Website Information</h4>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="website-author">Author(s)</label>
+                                <input type="text" id="website-author" placeholder="e.g., Smith, John (leave blank if unknown)">
+                            </div>
+                            <div class="form-group">
+                                <label for="website-year">Publication/Access Year *</label>
+                                <input type="number" id="website-year" placeholder="e.g., 2023" min="1000" max="2030">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label for="website-title">Page/Article Title *</label>
+                                <input type="text" id="website-title" placeholder="e.g., The Future of Online Citation">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label for="website-site">Website Name *</label>
+                                <input type="text" id="website-site" placeholder="e.g., Academic Resources Hub">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label for="website-url">URL *</label>
+                                <input type="url" id="website-url" placeholder="https://example.com/article">
+                            </div>
+                            <div class="form-group">
+                                <label for="website-access-date">Access Date</label>
+                                <input type="date" id="website-access-date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <div class="text-center mb-8">
+                    <button id="generate-citation" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors">
+                        <i data-feather="refresh-cw" class="w-5 h-5 mr-2 inline"></i>
+                        Generate Citation
+                    </button>
+                </div>
+
+                <!-- Citation Results -->
+                <div id="citation-results" class="hidden">
+                    <div class="citation-result">
+                        <h4 class="text-xl font-semibold mb-4">Generated Citation</h4>
+                        <div class="citation-text" id="citation-output"></div>
+                        <div class="flex flex-wrap gap-4 justify-center mt-6">
+                            <button id="copy-citation" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-2 rounded-lg font-semibold transition-all">
+                                <i data-feather="copy" class="w-4 h-4 mr-2 inline"></i>
+                                Copy Citation
+                            </button>
+                            <button id="download-citation" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-2 rounded-lg font-semibold transition-all">
+                                <i data-feather="download" class="w-4 h-4 mr-2 inline"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                    <div id="citation-message" class="mt-4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Choose Our Citation Generator?</h2>
+                    <p class="text-lg text-gray-600">Professional citation tools for academic excellence</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="award" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Multiple Styles</h3>
+                        <p class="text-gray-600">Support for APA, MLA, Chicago, Harvard, IEEE, and more citation styles used worldwide.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="users" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Academic Sources</h3>
+                        <p class="text-gray-600">Generate citations for books, journal articles, websites, and other academic source types.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="copy" class="w-8 h-8 text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Easy Copy & Export</h3>
+                        <p class="text-gray-600">Copy citations to clipboard or download them for use in your documents and reference managers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-400">© 2025 InfiniteForge. Made with <span class="text-red-400">♥</span> for creators worldwide by <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" class="hover:text-white transition-colors">InfinityForge</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Citation Generator functionality
+        let currentStyle = 'apa';
+        let currentSourceType = 'book';
+
+        // Citation style templates
+        const citationTemplates = {
+            apa: {
+                book: (data) => {
+                    const author = formatAuthorAPA(data.author);
+                    const year = data.year;
+                    const title = data.title;
+                    const publisher = data.publisher;
+                    const place = data.place ? `${data.place}: ` : '';
+                    const edition = data.edition ? ` (${data.edition}).` : '.';
+                    const pages = data.pages ? ` ${data.pages}.` : '';
+
+                    return `${author} (${year}). ${title}${edition} ${place}${publisher}${pages}`;
+                },
+                article: (data) => {
+                    const author = formatAuthorAPA(data.author);
+                    const year = data.year;
+                    const title = data.title;
+                    const journal = data.journal;
+                    const volume = data.volume ? `, ${data.volume}` : '';
+                    const issue = data.issue ? `(${data.issue})` : '';
+                    const pages = data.pages;
+                    const doi = data.doi ? `, ${data.doi}` : '';
+
+                    return `${author} (${year}). ${title}. ${journal}${volume}${issue}, ${pages}${doi}`;
+                },
+                website: (data) => {
+                    const author = data.author ? formatAuthorAPA(data.author) : '';
+                    const year = data.year;
+                    const title = data.title;
+                    const site = data.site;
+                    const url = data.url;
+                    const accessDate = data.accessDate ? formatDateAPA(data.accessDate) : '';
+
+                    const authorPart = author ? `${author} (${year}). ` : '';
+                    const accessPart = accessDate ? ` Retrieved ${accessDate}, from ` : ' ';
+
+                    return `${authorPart}${title}. ${site}${accessPart}${url}`;
+                }
+            },
+            mla: {
+                book: (data) => {
+                    const author = formatAuthorMLA(data.author);
+                    const title = data.title;
+                    const publisher = data.publisher;
+                    const year = data.year;
+                    const place = data.place ? `${data.place}: ` : '';
+                    const edition = data.edition ? ` ${data.edition},` : '';
+
+                    return `${author}. ${title}${edition} ${place}${publisher}, ${year}.`;
+                },
+                article: (data) => {
+                    const author = formatAuthorMLA(data.author);
+                    const title = `"${data.title}."`;
+                    const journal = data.journal;
+                    const volume = data.volume ? ` vol. ${data.volume},` : '';
+                    const issue = data.issue ? ` no. ${data.issue},` : '';
+                    const year = data.year;
+                    const pages = data.pages;
+                    const doi = data.doi ? `, ${data.doi}` : '';
+
+                    return `${author}. ${title} ${journal}${volume}${issue} ${year}, ${pages}${doi}.`;
+                },
+                website: (data) => {
+                    const author = data.author ? formatAuthorMLA(data.author) : '';
+                    const title = `"${data.title}."`;
+                    const site = data.site;
+                    const year = data.year;
+                    const url = data.url;
+
+                    const authorPart = author ? `${author}. ` : '';
+
+                    return `${authorPart}${title} ${site}, ${year}, ${url}.`;
+                }
+            },
+            chicago: {
+                book: (data) => {
+                    const author = formatAuthorChicago(data.author);
+                    const title = data.title;
+                    const place = data.place ? `${data.place}: ` : '';
+                    const publisher = data.publisher;
+                    const year = data.year;
+
+                    return `${author}. ${title}. ${place}${publisher}, ${year}.`;
+                },
+                article: (data) => {
+                    const author = formatAuthorChicago(data.author);
+                    const title = `"${data.title},"`;
+                    const journal = data.journal;
+                    const volume = data.volume ? ` ${data.volume},` : '';
+                    const issue = data.issue ? ` no. ${data.issue}` : '';
+                    const year = ` (${year})`;
+                    const pages = `: ${data.pages}`;
+                    const doi = data.doi ? `, ${data.doi}` : '';
+
+                    return `${author}. ${title} ${journal}${volume}${issue}${year}${pages}${doi}.`;
+                },
+                website: (data) => {
+                    const author = data.author ? formatAuthorChicago(data.author) : '';
+                    const title = `"${data.title}."`;
+                    const site = data.site;
+                    const year = data.year;
+                    const url = data.url;
+                    const accessDate = data.accessDate ? ` Accessed ${formatDateChicago(data.accessDate)}` : '';
+
+                    const authorPart = author ? `${author}. ` : '';
+
+                    return `${authorPart}${title} ${site}, ${year}${accessDate}. ${url}.`;
+                }
+            },
+            harvard: {
+                book: (data) => {
+                    const author = formatAuthorHarvard(data.author);
+                    const year = data.year;
+                    const title = data.title;
+                    const edition = data.edition ? ` ${data.edition}` : '';
+                    const place = data.place ? `${data.place}: ` : '';
+                    const publisher = data.publisher;
+
+                    return `${author} ${year} ${title}${edition}. ${place}${publisher}.`;
+                },
+                article: (data) => {
+                    const author = formatAuthorHarvard(data.author);
+                    const year = data.year;
+                    const title = data.title;
+                    const journal = data.journal;
+                    const volume = data.volume ? ` ${data.volume}` : '';
+                    const issue = data.issue ? `(${data.issue})` : '';
+                    const pages = data.pages;
+                    const doi = data.doi ? ` doi:${data.doi}` : '';
+
+                    return `${author} ${year} '${title}' ${journal}${volume}${issue} ${pages}${doi}.`;
+                },
+                website: (data) => {
+                    const author = data.author ? formatAuthorHarvard(data.author) : '';
+                    const year = data.year;
+                    const title = data.title;
+                    const site = data.site;
+                    const url = data.url;
+                    const accessDate = data.accessDate ? ` [Accessed ${formatDateHarvard(data.accessDate)}]` : '';
+
+                    const authorPart = author ? `${author} ` : '';
+
+                    return `${authorPart}${year} ${title}. ${site}${accessDate}. ${url}.`;
+                }
+            },
+            ieee: {
+                book: (data) => {
+                    const author = formatAuthorIEEE(data.author);
+                    const title = data.title;
+                    const place = data.place ? `${data.place}: ` : '';
+                    const publisher = data.publisher;
+                    const year = data.year;
+
+                    return `${author}, "${title}," ${place}${publisher}, ${year}.`;
+                },
+                article: (data) => {
+                    const author = formatAuthorIEEE(data.author);
+                    const title = `"${data.title},"`;
+                    const journal = data.journal;
+                    const volume = data.volume ? ` vol. ${data.volume},` : '';
+                    const issue = data.issue ? ` no. ${data.issue},` : '';
+                    const pages = ` pp. ${data.pages},`;
+                    const year = data.year;
+                    const doi = data.doi ? ` doi: ${data.doi}` : '';
+
+                    return `${author} ${title} ${journal}${volume}${issue}${pages} ${year}${doi}.`;
+                },
+                website: (data) => {
+                    const author = data.author ? formatAuthorIEEE(data.author) : '';
+                    const title = `"${data.title},"`;
+                    const site = data.site;
+                    const year = data.year;
+                    const url = data.url;
+
+                    const authorPart = author ? `${author} ` : '';
+
+                    return `${authorPart}${title} ${site}, ${year}. [Online]. Available: ${url}.`;
+                }
+            }
+        };
+
+        // Initialize the citation generator
+        function initCitationGenerator() {
+            setupEventListeners();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Citation style buttons
+            document.querySelectorAll('.citation-style-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectCitationStyle(this.dataset.style);
+                });
+            });
+
+            // Source type cards
+            document.querySelectorAll('.source-type-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    selectSourceType(this.dataset.type);
+                });
+            });
+
+            // Generate citation button
+            document.getElementById('generate-citation').addEventListener('click', generateCitation);
+
+            // Copy citation button
+            document.getElementById('copy-citation').addEventListener('click', copyCitation);
+
+            // Download citation button
+            document.getElementById('download-citation').addEventListener('click', downloadCitation);
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking links
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                });
+            });
+        }
+
+        // Select citation style
+        function selectCitationStyle(style) {
+            currentStyle = style;
+
+            // Update UI
+            document.querySelectorAll('.citation-style-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            document.querySelector(`[data-style="${style}"]`).classList.add('active', 'bg-blue-600', 'text-white');
+            document.querySelector(`[data-style="${style}"]`).classList.remove('bg-gray-200', 'text-gray-700');
+        }
+
+        // Select source type
+        function selectSourceType(type) {
+            currentSourceType = type;
+
+            // Update UI
+            document.querySelectorAll('.source-type-card').forEach(card => {
+                card.classList.remove('selected', 'border-blue-500', 'bg-blue-50');
+                card.classList.add('border-gray-200');
+            });
+
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected', 'border-blue-500', 'bg-blue-50');
+            document.querySelector(`[data-type="${type}"]`).classList.remove('border-gray-200');
+
+            // Show appropriate form
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.classList.add('hidden');
+            });
+
+            document.getElementById(`${type}-form`).classList.remove('hidden');
+        }
+
+        // Generate citation
+        function generateCitation() {
+            const formData = getFormData();
+
+            if (!validateFormData(formData)) {
+                return;
+            }
+
+            try {
+                const citation = citationTemplates[currentStyle][currentSourceType](formData);
+                document.getElementById('citation-output').textContent = citation;
+                document.getElementById('citation-results').classList.remove('hidden');
+                showMessage('Citation generated successfully!', 'success');
+            } catch (error) {
+                console.error('Error generating citation:', error);
+                showMessage('Error generating citation. Please check your input.', 'error');
+            }
+        }
+
+        // Get form data based on current source type
+        function getFormData() {
+            const data = {};
+
+            switch (currentSourceType) {
+                case 'book':
+                    data.author = document.getElementById('book-author').value.trim();
+                    data.year = document.getElementById('book-year').value.trim();
+                    data.title = document.getElementById('book-title').value.trim();
+                    data.publisher = document.getElementById('book-publisher').value.trim();
+                    data.place = document.getElementById('book-place').value.trim();
+                    data.edition = document.getElementById('book-edition').value.trim();
+                    data.pages = document.getElementById('book-pages').value.trim();
+                    break;
+                case 'article':
+                    data.author = document.getElementById('article-author').value.trim();
+                    data.year = document.getElementById('article-year').value.trim();
+                    data.title = document.getElementById('article-title').value.trim();
+                    data.journal = document.getElementById('article-journal').value.trim();
+                    data.volume = document.getElementById('article-volume').value.trim();
+                    data.issue = document.getElementById('article-issue').value.trim();
+                    data.pages = document.getElementById('article-pages').value.trim();
+                    data.doi = document.getElementById('article-doi').value.trim();
+                    break;
+                case 'website':
+                    data.author = document.getElementById('website-author').value.trim();
+                    data.year = document.getElementById('website-year').value.trim();
+                    data.title = document.getElementById('website-title').value.trim();
+                    data.site = document.getElementById('website-site').value.trim();
+                    data.url = document.getElementById('website-url').value.trim();
+                    data.accessDate = document.getElementById('website-access-date').value;
+                    break;
+            }
+
+            return data;
+        }
+
+        // Validate form data
+        function validateFormData(data) {
+            const requiredFields = {
+                book: ['author', 'year', 'title', 'publisher'],
+                article: ['author', 'year', 'title', 'journal', 'pages'],
+                website: ['year', 'title', 'site', 'url']
+            };
+
+            const required = requiredFields[currentSourceType];
+
+            for (const field of required) {
+                if (!data[field]) {
+                    showMessage(`Please fill in the required field: ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`, 'error');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Copy citation to clipboard
+        async function copyCitation() {
+            const citation = document.getElementById('citation-output').textContent;
+
+            try {
+                await navigator.clipboard.writeText(citation);
+                showMessage('Citation copied to clipboard!', 'success');
+            } catch (error) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = citation;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showMessage('Citation copied to clipboard!', 'success');
+            }
+        }
+
+        // Download citation
+        function downloadCitation() {
+            const citation = document.getElementById('citation-output').textContent;
+            const blob = new Blob([citation], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `citation-${currentStyle}-${currentSourceType}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showMessage('Citation downloaded successfully!', 'success');
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('citation-message');
+            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+            messageDiv.textContent = message;
+            messageDiv.classList.remove('hidden');
+
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Author formatting functions
+        function formatAuthorAPA(author) {
+            // Convert "Smith, John A." to "Smith, J. A."
+            return author.replace(/(\w+),\s*(\w+)\s+(\w+)/g, '$1, $2. $3.');
+        }
+
+        function formatAuthorMLA(author) {
+            // Convert "Smith, John A." to "Smith, John A."
+            return author;
+        }
+
+        function formatAuthorChicago(author) {
+            // Convert "Smith, John A." to "Smith, John A."
+            return author;
+        }
+
+        function formatAuthorHarvard(author) {
+            // Convert "Smith, John A." to "SMITH, J.A."
+            return author.toUpperCase().replace(/(\w+),\s*(\w+)\s*(\w*)/g, '$1, $2$3');
+        }
+
+        function formatAuthorIEEE(author) {
+            // Convert "Smith, John A." to "J. A. Smith"
+            return author.replace(/(\w+),\s*(\w+)\s*(\w*)/g, '$2. $3. $1');
+        }
+
+        // Date formatting functions
+        function formatDateAPA(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function formatDateChicago(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function formatDateHarvard(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initCitationGenerator();
+
+            // Initialize feather icons with retry mechanism
+            function initFeatherIcons(retryCount = 0) {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                    console.log('Feather icons initialized successfully');
+                } else if (retryCount < 10) {
+                    // Retry up to 10 times with increasing delay
+                    setTimeout(() => initFeatherIcons(retryCount + 1), 100 * (retryCount + 1));
+                } else {
+                    console.warn('Feather icons library failed to load after multiple attempts');
+                }
+            }
+
+            initFeatherIcons();
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

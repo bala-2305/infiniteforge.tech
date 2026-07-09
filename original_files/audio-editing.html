@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Audio Editing Tools - Trim, Cut, Effects | InfiniteForge</title>
+  <meta name="description" content="Free online audio editing tools. Trim, cut, add effects, adjust volume and speed. No installation required - edit audio directly in your browser." />
+  <meta name="keywords" content="audio editing, online audio editor, trim audio, cut audio, audio effects, volume control, speed control, fade in out, audio processing, web audio editor, free audio tools, audio cutter, audio trimmer" />
+  <meta name="author" content="InfiniteForge" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://infiniteforge.tech/audio-editing.html" />
+  <link rel="icon" type="image/png" href="images/letter-d.png">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://infiniteforge.tech/audio-editing.html" />
+  <meta property="og:title" content="Basic Audio Editing Tools - Free Online Audio Editor | InfiniteForge" />
+  <meta property="og:description" content="Trim, cut, add effects to your audio files online. Free audio editing tools with volume and speed controls." />
+  <meta property="og:image" content="https://infiniteforge.tech/images/audio-editing-og.jpg" />
+  <meta property="og:site_name" content="InfiniteForge" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="Basic Audio Editing Tools - Free Online Audio Editor | InfiniteForge" />
+  <meta property="twitter:description" content="Trim, cut, add effects to your audio files online. Free audio editing tools with volume and speed controls." />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Fallback for Feather Icons
+        window.addEventListener('load', function() {
+            if (typeof feather === 'undefined') {
+                // Load feather icons from alternative CDN if primary fails
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js';
+                script.onload = function() {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
+        }
+
+        .control-slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+
+        .control-slider::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: none;
+        }
+
+        .timeline {
+            position: relative;
+            height: 60px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 8px;
+            transition: width 0.1s ease;
+        }
+
+        .playhead {
+            position: absolute;
+            top: -5px;
+            width: 3px;
+            height: 70px;
+            background: #ef4444;
+            border-radius: 2px;
+            cursor: ew-resize;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="flex items-center">
+                            <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8 mr-3" style="display: none;">
+                            <span class="text-xl font-bold text-gray-900">InfiniteForge</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600" aria-label="Toggle menu">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="features.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Tools</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Basic Audio Editing Tools</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Trim, cut, add fade effects, and edit your audio files online. No software installation required.
+            </p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="text-center">
+<div class="p-8 mb-4" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 8px; border: 2px dashed #cbd5e1;">
+                    <i data-feather="upload" class="w-16 h-16 text-gray-400 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Upload Your Audio File</h3>
+                    <p class="text-gray-500 mb-4">Supports MP3, WAV, OGG, and M4A formats (max 50MB)</p>
+                    <input type="file" id="audio-file" accept="audio/*" class="hidden" />
+                    <button id="upload-btn" class="btn-primary">
+                        Choose Audio File
+                    </button>
+                </div>
+                <div id="file-info" class="hidden text-sm text-gray-600">
+                    <span id="file-name"></span> • <span id="file-size"></span> • <span id="file-duration"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Player & Controls -->
+        <div id="editor-section" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i data-feather="play-circle" class="w-5 h-5 text-blue-500"></i>
+                    Audio Player
+                </h2>
+
+                <!-- Timeline -->
+                <div class="timeline mb-4" id="timeline">
+                    <div class="timeline-progress" id="timeline-progress"></div>
+                    <div class="playhead" id="playhead" style="left: 0px;"></div>
+                </div>
+
+                <!-- Playback Controls -->
+                <div class="flex flex-wrap items-center justify-center gap-4 mb-4">
+                    <button id="play-btn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition">
+                        <i data-feather="play" class="w-5 h-5"></i>
+                    </button>
+                    <button id="pause-btn" class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-full transition">
+                        <i data-feather="pause" class="w-5 h-5"></i>
+                    </button>
+                    <button id="stop-btn" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition">
+                        <i data-feather="square" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Volume & Speed Controls -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Volume</label>
+                        <input type="range" id="volume-slider" class="control-slider w-full" min="0" max="1" step="0.1" value="1">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0%</span>
+                            <span id="volume-value">100%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Speed</label>
+                        <input type="range" id="speed-slider" class="control-slider w-full" min="0.5" max="2" step="0.1" value="1">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0.5x</span>
+                            <span id="speed-value">1.0x</span>
+                            <span>2.0x</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editing Tools -->
+        <div id="tools-section" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <i data-feather="settings" class="w-5 h-5 text-blue-500"></i>
+                Editing Tools
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Trim Tool -->
+                <div class="tool-card p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-feather="scissors" class="w-5 h-5 text-blue-500"></i>
+                        <h3 class="font-semibold text-gray-800">Trim Audio</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Start Time (seconds)</label>
+                            <input type="number" id="trim-start" class="input-field" min="0" step="0.1">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">End Time (seconds)</label>
+                            <input type="number" id="trim-end" class="input-field" min="0" step="0.1">
+                        </div>
+                        <button id="trim-btn" class="btn-primary w-full">
+                            Apply Trim
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Fade Effects -->
+                <div class="tool-card p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-feather="volume-2" class="w-5 h-5 text-green-500"></i>
+                        <h3 class="font-semibold text-gray-800">Fade Effects</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <button id="fade-in-btn" class="btn-secondary w-full">
+                            Fade In (2s)
+                        </button>
+                        <button id="fade-out-btn" class="btn-secondary w-full">
+                            Fade Out (2s)
+                        </button>
+                        <button id="remove-fade-btn" class="btn-primary w-full">
+                            Remove Fade
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Audio Filters -->
+                <div class="tool-card p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-feather="filter" class="w-5 h-5 text-purple-500"></i>
+                        <h3 class="font-semibold text-gray-800">Audio Filters</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <button id="normalize-btn" class="btn-secondary w-full">
+                            Normalize
+                        </button>
+                        <button id="reverse-btn" class="btn-secondary w-full">
+                            Reverse Audio
+                        </button>
+                        <button id="reset-btn" class="btn-primary w-full">
+                            Reset All
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div id="export-section" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <i data-feather="download" class="w-5 h-5 text-blue-500"></i>
+                Export Audio
+            </h2>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <select id="export-format" class="input-field max-w-xs">
+                    <option value="mp3">MP3</option>
+                    <option value="wav">WAV</option>
+                    <option value="ogg">OGG</option>
+                </select>
+                <button id="export-btn" class="btn-primary flex items-center gap-2">
+                    <i data-feather="download" class="w-4 h-4"></i>
+                    Export Audio
+                </button>
+            </div>
+
+            <div id="export-status" class="mt-4 text-center text-sm text-gray-600 hidden">
+                Processing your audio... This may take a few moments.
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center mb-4">
+                    <i data-feather="scissors" class="w-8 h-8 text-blue-600 mr-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-900">Trim & Cut</h3>
+                </div>
+                <p class="text-gray-600">Precisely trim and cut your audio files with start and end time controls.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center mb-4">
+                    <i data-feather="volume-2" class="w-8 h-8 text-green-600 mr-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-900">Audio Effects</h3>
+                </div>
+                <p class="text-gray-600">Add fade in/out effects, normalize volume, and apply various audio enhancements.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center mb-4">
+                    <i data-feather="play-circle" class="w-8 h-8 text-purple-600 mr-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-900">Real-time Playback</h3>
+                </div>
+                <p class="text-gray-600">Preview your edits instantly with adjustable volume and playback speed controls.</p>
+            </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">How to Use</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-2">1. Upload Audio</h4>
+                    <p class="text-gray-600 mb-4">Choose your audio file (MP3, WAV, OGG, M4A) from your device.</p>
+
+                    <h4 class="font-semibold text-gray-900 mb-2">2. Preview & Edit</h4>
+                    <p class="text-gray-600 mb-4">Use the audio player to preview and apply various editing tools.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-2">3. Apply Effects</h4>
+                    <p class="text-gray-600 mb-4">Trim sections, add fade effects, adjust volume and speed.</p>
+
+                    <h4 class="font-semibold text-gray-900 mb-2">4. Export</h4>
+                    <p class="text-gray-600">Download your edited audio in your preferred format.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status-container" class="fixed bottom-4 right-4 z-50 hidden">
+        <!-- Status messages will be inserted here -->
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent"
+        class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 z-50 transform translate-y-full transition-transform duration-300"
+        style="display: none;">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-4 md:mb-0 md:mr-4">
+                <p class="text-sm">
+                    We use cookies to enhance your experience and analyze site traffic. By continuing to use this site,
+                    you consent to our use of cookies.
+                    <a href="privacy.html" class="underline hover:no-underline">Learn more</a>
+                </p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decline-cookies" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+                    Decline
+                </button>
+                <button id="accept-cookies" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+                    Accept
+                </button>
+            </div>
+        </div>
+    </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 mt-8">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2025 InfiniteForge. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Audio editing variables
+    let audioContext = null;
+    let audioBuffer = null;
+    let audioSource = null;
+    let isPlaying = false;
+    let currentTime = 0;
+    let playbackRate = 1;
+    let volume = 1;
+    let fadeInApplied = false;
+    let fadeOutApplied = false;
+    let trimStart = 0;
+    let trimEnd = 0;
+    let playbackStartTime = 0;
+    let playbackStartPosition = 0;
+
+    // DOM elements
+    const uploadBtn = document.getElementById("upload-btn");
+    const audioFileInput = document.getElementById("audio-file");
+    const fileInfo = document.getElementById("file-info");
+    const fileName = document.getElementById("file-name");
+    const fileSize = document.getElementById("file-size");
+    const fileDuration = document.getElementById("file-duration");
+    const editorSection = document.getElementById("editor-section");
+    const toolsSection = document.getElementById("tools-section");
+    const exportSection = document.getElementById("export-section");
+
+    const playBtn = document.getElementById("play-btn");
+    const pauseBtn = document.getElementById("pause-btn");
+    const stopBtn = document.getElementById("stop-btn");
+    const volumeSlider = document.getElementById("volume-slider");
+    const speedSlider = document.getElementById("speed-slider");
+    const volumeValue = document.getElementById("volume-value");
+    const speedValue = document.getElementById("speed-value");
+
+    const timeline = document.getElementById("timeline");
+    const timelineProgress = document.getElementById("timeline-progress");
+    const playhead = document.getElementById("playhead");
+
+    const trimStartInput = document.getElementById("trim-start");
+    const trimEndInput = document.getElementById("trim-end");
+    const trimBtn = document.getElementById("trim-btn");
+    const fadeInBtn = document.getElementById("fade-in-btn");
+    const fadeOutBtn = document.getElementById("fade-out-btn");
+    const removeFadeBtn = document.getElementById("remove-fade-btn");
+    const normalizeBtn = document.getElementById("normalize-btn");
+    const reverseBtn = document.getElementById("reverse-btn");
+    const resetBtn = document.getElementById("reset-btn");
+
+    const exportFormat = document.getElementById("export-format");
+    const exportBtn = document.getElementById("export-btn");
+    const exportStatus = document.getElementById("export-status");
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Feather Icons
+      if (typeof feather !== 'undefined') {
+        feather.replace();
+      }
+
+      // Mobile menu
+      document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+      });
+
+      // Close mobile menu when a link is clicked
+      const mobileMenuLinks = document.getElementById('mobile-menu').querySelectorAll('a');
+      mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById('mobile-menu').classList.add('hidden');
+        });
+      });
+
+      // Close mobile menu when scrolling
+      window.addEventListener('scroll', () => {
+        const menu = document.getElementById('mobile-menu');
+        if (!menu.classList.contains('hidden')) {
+          menu.classList.add('hidden');
+        }
+      });
+    });
+    // Initialize Web Audio API
+    function initAudioContext() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioContext;
+    }
+
+    // File upload handling
+    uploadBtn.addEventListener("click", () => {
+      audioFileInput.click();
+    });
+
+    audioFileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        const context = initAudioContext();
+        const arrayBuffer = await file.arrayBuffer();
+        audioBuffer = await context.decodeAudioData(arrayBuffer);
+
+        // Update file info
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileDuration.textContent = formatDuration(audioBuffer.duration);
+
+        fileInfo.classList.remove("hidden");
+        editorSection.classList.remove("hidden");
+        toolsSection.classList.remove("hidden");
+        exportSection.classList.remove("hidden");
+
+        // Set trim inputs max values
+        trimStartInput.max = audioBuffer.duration;
+        trimEndInput.max = audioBuffer.duration;
+        trimEndInput.value = audioBuffer.duration;
+
+        // Reset states
+        resetAudioState();
+
+      } catch (error) {
+        showStatus("Error loading audio file: " + error.message, 'error');
+      }
+    });
+
+    // Playback controls
+    playBtn.addEventListener("click", () => {
+      if (!audioBuffer) return;
+      playAudio();
+    });
+
+    pauseBtn.addEventListener("click", () => {
+      if (audioSource && isPlaying) {
+        const context = initAudioContext();
+        const elapsed = context.currentTime - playbackStartTime;
+        currentTime = playbackStartPosition + elapsed;
+        audioSource.stop();
+        isPlaying = false;
+        updatePlayButtons();
+      }
+    });
+
+    stopBtn.addEventListener("click", () => {
+      stopAudio();
+    });
+
+    function playAudio() {
+      if (!audioBuffer) return;
+
+      const context = initAudioContext();
+      audioSource = context.createBufferSource();
+      audioSource.buffer = audioBuffer;
+      audioSource.playbackRate.value = playbackRate;
+
+      const gainNode = context.createGain();
+      gainNode.gain.value = volume;
+
+      audioSource.connect(gainNode);
+      gainNode.connect(context.destination);
+
+      // Apply fade effects if set
+      if (fadeInApplied || fadeOutApplied) {
+        applyFadeEffects(gainNode);
+      }
+
+      const playbackStartPosition = currentTime;
+      const startTime = context.currentTime;
+      playbackStartTime = startTime;
+      audioSource.start(0, playbackStartPosition);
+      isPlaying = true;
+      updatePlayButtons();
+
+      // Update timeline
+      function updateTimeline() {
+        if (isPlaying) {
+          const elapsed = context.currentTime - startTime;
+          const currentPosition = playbackStartPosition + elapsed;
+          updateTimelineUI(currentPosition);
+          requestAnimationFrame(updateTimeline);
+        }
+      }
+      updateTimeline();
+
+      audioSource.onended = () => {
+        isPlaying = false;
+        currentTime = playbackStartPosition + (context.currentTime - startTime);
+        updatePlayButtons();
+      };
+    }
+
+    function stopAudio() {
+      if (audioSource) {
+        audioSource.stop();
+      }
+      currentTime = 0;
+      isPlaying = false;
+      updateTimelineUI(0);
+      updatePlayButtons();
+    }
+
+    function updatePlayButtons() {
+      playBtn.style.display = isPlaying ? "none" : "block";
+      pauseBtn.style.display = isPlaying ? "block" : "none";
+    }
+
+    // Volume and speed controls
+    volumeSlider.addEventListener("input", (e) => {
+      volume = parseFloat(e.target.value);
+      volumeValue.textContent = Math.round(volume * 100) + "%";
+      if (audioSource) {
+        // Volume changes will take effect on next play
+      }
+    });
+
+    speedSlider.addEventListener("input", (e) => {
+      playbackRate = parseFloat(e.target.value);
+      speedValue.textContent = playbackRate.toFixed(1) + "x";
+      if (audioSource) {
+        audioSource.playbackRate.value = playbackRate;
+      }
+    });
+
+    // Timeline interaction
+    timeline.addEventListener("click", (e) => {
+      if (!audioBuffer) return;
+      const rect = timeline.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = clickX / rect.width;
+      const newTime = percentage * audioBuffer.duration;
+
+      currentTime = newTime;
+      updateTimelineUI(currentTime);
+
+      // If currently playing, restart from new position
+      if (isPlaying && audioSource) {
+        audioSource.stop();
+        isPlaying = false;
+        updatePlayButtons();
+        setTimeout(() => playAudio(), 50); // Small delay to ensure stop completes
+      }
+    });
+
+    function updateTimelineUI(time) {
+      if (!audioBuffer) return;
+      const percentage = Math.min((time / audioBuffer.duration) * 100, 100);
+      timelineProgress.style.width = percentage + "%";
+      playhead.style.left = percentage + "%";
+    }
+
+    // Editing tools
+    trimBtn.addEventListener("click", () => {
+      const start = parseFloat(trimStartInput.value) || 0;
+      const end = parseFloat(trimEndInput.value) || audioBuffer.duration;
+
+      if (start >= end || end > audioBuffer.duration) {
+        showStatus("Invalid trim range", 'warning');
+        return;
+      }
+
+      const context = initAudioContext();
+      const trimmedLength = end - start;
+      const sampleRate = audioBuffer.sampleRate;
+      const numberOfChannels = audioBuffer.numberOfChannels;
+
+      const trimmedBuffer = context.createBuffer(numberOfChannels, trimmedLength * sampleRate, sampleRate);
+
+      for (let channel = 0; channel < numberOfChannels; channel++) {
+        const originalData = audioBuffer.getChannelData(channel);
+        const trimmedData = trimmedBuffer.getChannelData(channel);
+        const startSample = Math.floor(start * sampleRate);
+
+        for (let i = 0; i < trimmedData.length; i++) {
+          trimmedData[i] = originalData[startSample + i];
+        }
+      }
+
+      audioBuffer = trimmedBuffer;
+      fileDuration.textContent = formatDuration(audioBuffer.duration);
+      trimEndInput.value = audioBuffer.duration;
+      stopAudio();
+      showStatus('Audio trimmed successfully!', 'success');
+    });
+
+    fadeInBtn.addEventListener("click", () => {
+      fadeInApplied = true;
+      fadeOutApplied = false;
+      showStatus('Fade in effect applied', 'success');
+    });
+
+    fadeOutBtn.addEventListener("click", () => {
+      fadeOutApplied = true;
+      fadeInApplied = false;
+      showStatus('Fade out effect applied', 'success');
+    });
+
+    removeFadeBtn.addEventListener("click", () => {
+      fadeInApplied = false;
+      fadeOutApplied = false;
+      showStatus('Fade effects removed', 'info');
+    });
+
+    function applyFadeEffects(gainNode) {
+      const duration = audioBuffer.duration;
+      const fadeTime = 2; // 2 seconds
+
+      if (fadeInApplied) {
+        gainNode.gain.setValueAtTime(0, 0);
+        gainNode.gain.linearRampToValueAtTime(volume, fadeTime);
+      }
+
+      if (fadeOutApplied) {
+        gainNode.gain.setValueAtTime(volume, duration - fadeTime);
+        gainNode.gain.linearRampToValueAtTime(0, duration);
+      }
+    }
+
+    normalizeBtn.addEventListener("click", () => {
+      // Simple normalization - find peak and scale
+      let maxPeak = 0;
+      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+        const data = audioBuffer.getChannelData(channel);
+        for (let i = 0; i < data.length; i++) {
+          maxPeak = Math.max(maxPeak, Math.abs(data[i]));
+        }
+      }
+
+      if (maxPeak > 0) {
+        const scale = 0.95 / maxPeak; // Leave some headroom
+        for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+          const data = audioBuffer.getChannelData(channel);
+          for (let i = 0; i < data.length; i++) {
+            data[i] *= scale;
+          }
+        }
+      }
+      showStatus('Audio normalized successfully!', 'success');
+    });
+
+    reverseBtn.addEventListener("click", () => {
+      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+        const data = audioBuffer.getChannelData(channel);
+        const reversed = new Float32Array(data.length);
+        for (let i = 0; i < data.length; i++) {
+          reversed[i] = data[data.length - 1 - i];
+        }
+        data.set(reversed);
+      }
+      showStatus('Audio reversed successfully!', 'success');
+    });
+
+    resetBtn.addEventListener("click", () => {
+      // Reset all effects and reload original file
+      fadeInApplied = false;
+      fadeOutApplied = false;
+      playbackRate = 1;
+      volume = 1;
+      speedSlider.value = 1;
+      volumeSlider.value = 1;
+      speedValue.textContent = "1.0x";
+      volumeValue.textContent = "100%";
+      stopAudio();
+      showStatus('All effects reset', 'info');
+    });
+
+    // Export functionality (simplified - would need server-side processing for full export)
+    exportBtn.addEventListener("click", () => {
+      exportStatus.classList.remove("hidden");
+      exportStatus.textContent = "Export functionality would require server-side processing for full implementation.";
+      showStatus('Export feature coming soon!', 'info');
+
+      setTimeout(() => {
+        exportStatus.classList.add("hidden");
+      }, 3000);
+    });
+
+    // Utility functions
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    function formatDuration(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }
+
+    function resetAudioState() {
+      currentTime = 0;
+      playbackStartTime = 0;
+      playbackStartPosition = 0;
+      isPlaying = false;
+      fadeInApplied = false;
+      fadeOutApplied = false;
+      playbackRate = 1;
+      volume = 1;
+      updateTimelineUI(0);
+      updatePlayButtons();
+    }
+
+    function showStatus(message, type) {
+      const container = document.getElementById('status-container');
+      const className = type === 'success' ? 'bg-green-100 text-green-800 border-green-200' :
+                       type === 'error' ? 'bg-red-100 text-red-800 border-red-200' :
+                       type === 'warning' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                       'bg-blue-100 text-blue-800 border-blue-200';
+
+      container.innerHTML = `<div class="${className} border px-4 py-3 rounded-lg shadow-lg">
+          <div class="flex items-center">
+              <i data-feather="${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : type === 'warning' ? 'alert-triangle' : 'info'}" class="w-5 h-5 mr-2"></i>
+              <span>${message}</span>
+              <button onclick="this.parentElement.parentElement.classList.add('hidden')" class="ml-auto text-gray-500 hover:text-gray-700">
+                  <i data-feather="x" class="w-4 h-4"></i>
+              </button>
+          </div>
+      </div>`;
+      container.classList.remove('hidden');
+
+      // Re-initialize feather icons for the status message
+      if (typeof feather !== 'undefined') {
+          feather.replace();
+      }
+
+      setTimeout(() => {
+          container.classList.add('hidden');
+      }, 5000);
+    }
+
+    // Cookie consent functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const cookieConsent = document.getElementById('cookie-consent');
+      const acceptCookies = document.getElementById('accept-cookies');
+      const declineCookies = document.getElementById('decline-cookies');
+
+      // Show cookie consent if not already accepted/declined
+      if (!localStorage.getItem('cookie-consent')) {
+          setTimeout(() => {
+              cookieConsent.style.display = 'block';
+              setTimeout(() => {
+                  cookieConsent.classList.remove('translate-y-full');
+              }, 100);
+          }, 1000);
+      }
+
+      acceptCookies.addEventListener('click', function() {
+          localStorage.setItem('cookie-consent', 'accepted');
+          cookieConsent.classList.add('translate-y-full');
+          setTimeout(() => {
+              cookieConsent.style.display = 'none';
+          }, 300);
+      });
+
+      declineCookies.addEventListener('click', function() {
+          localStorage.setItem('cookie-consent', 'declined');
+          cookieConsent.classList.add('translate-y-full');
+          setTimeout(() => {
+              cookieConsent.style.display = 'none';
+          }, 300);
+      });
+    });
+  </script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

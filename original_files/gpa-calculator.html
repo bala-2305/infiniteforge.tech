@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/gpa-calculator.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA / CGPA Calculator - Free Academic Grade Calculator | InfiniteForge</title>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GPA / CGPA Calculator - Free Academic Grade Calculator | InfiniteForge">
+    <meta name="twitter:description" content="Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/gpa-calculator.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <meta name="description"
+        content="Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning.">
+    <meta name="keywords"
+        content="GPA calculator, CGPA calculator, grade calculator, academic calculator, semester GPA, cumulative GPA, grading scale, student tools, InfiniteForge">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    
+    <meta property="og:title" content="GPA / CGPA Calculator - Free Academic Grade Calculator | InfiniteForge">
+    <meta property="og:description"
+        content="Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/gpa-calculator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/gpa-calculator.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <link rel="canonical" href="https://infiniteforge.tech/gpa-calculator.html">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Fallback for feather icons if CDN fails
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof feather === 'undefined') {
+                    console.warn('Feather icons failed to load, loading from alternative CDN...');
+                    // Try alternative CDN
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/feather-icons/dist/feather.min.js';
+                    script.onload = function() {
+                        console.log('Feather icons loaded from alternative CDN');
+                        feather.replace();
+                    };
+                    script.onerror = function() {
+                        console.error('Failed to load feather icons from both CDNs');
+                        // Add CSS fallbacks for essential icons
+                        addIconFallbacks();
+                    };
+                    document.head.appendChild(script);
+                }
+            }, 2000); // Wait 2 seconds for initial load
+        });
+
+        // Add CSS-based fallbacks for essential icons
+        function addIconFallbacks() {
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Fallback styles for feather icons */
+                i[data-feather]:before {
+                    content: '▸';
+                    font-weight: bold;
+                }
+                i[data-feather="calculator"]:before { content: '🧮'; }
+                i[data-feather="menu"]:before { content: '☰'; }
+                i[data-feather="plus"]:before { content: '+'; }
+                i[data-feather="trash-2"]:before { content: '🗑'; }
+                i[data-feather="save"]:before { content: '💾'; }
+                i[data-feather="folder-open"]:before { content: '📁'; }
+                i[data-feather="target"]:before { content: '🎯'; }
+                i[data-feather="trending-up"]:before { content: '📈'; }
+                i[data-feather="book"]:before { content: '📚'; }
+                i[data-feather="volume-2"]:before { content: '🔊'; }
+                i[data-feather="shuffle"]:before { content: '🔀'; }
+            `;
+            document.head.appendChild(style);
+            console.log('Added fallback icons');
+        }
+    </script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        body {
+            font-size: var(--fluid-font-size);
+        }
+
+        h1 { font-size: var(--fluid-h1) !important; }
+        h2 { font-size: var(--fluid-h2) !important; }
+        h3 { font-size: var(--fluid-h3) !important; }
+        p { font-size: var(--fluid-p) !important; }
+
+        @media (max-width: 640px) {
+            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Animations and Micro-interactions */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Apply animations on scroll */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Stagger animations */
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-delay-500 { animation-delay: 0.5s; }
+
+        /* Enhanced hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* GPA Calculator specific styles */
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .course-row {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .course-row:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .grade-select {
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .grade-select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .gpa-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 16px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .grade-a { background: #10b981; color: white; }
+        .grade-b { background: #3b82f6; color: white; }
+        .grade-c { background: #f59e0b; color: white; }
+        .grade-d { background: #ef4444; color: white; }
+        .grade-f { background: #6b7280; color: white; }
+
+        .scale-selector {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .scale-option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .scale-option:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .scale-option.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #2563eb;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 12px;
+            border-radius: 8px;
+        }
+    </style>
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "GPA / CGPA Calculator",
+        "description": "Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales.",
+        "url": "https://infiniteforge.tech/gpa-calculator.html",
+        "applicationCategory": "Educational",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <!-- Google tag (gtag.js) -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md w-full fixed top-0 left-0 z-50" aria-label="Main Navigation">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="flex items-center">
+                    <a href="index.html" class="hidden md:inline-block ml-6 text-blue-600 font-medium">Home</a>
+                    <a href="features.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="sitemap.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Sitemap</a>
+                    <a href="contact.html"
+                        class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                    <!-- Mobile menu button -->
+                    <button id="mobileMenuBtn"
+                        class="md:hidden ml-4 text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data-feather="menu" class="w-7 h-7" aria-label="Mobile menu"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40 hidden">
+                <!-- Navigation -->
+                <div class="px-4 py-2">
+                    <a href="index.html" class="block px-2 py-2 text-blue-600 rounded">Home</a>
+                    <a href="features.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Features</a>
+                    <a href="about.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">About</a>
+                    <a href="sitemap.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Sitemap</a>
+                    <a href="contact.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 rounded-3xl mb-16">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="absolute inset-0">
+                <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute bottom-10 right-10 w-32 h-32 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white bg-opacity-5 rounded-full blur-2xl"></div>
+            </div>
+            <div class="relative z-10 py-20 px-6 text-center text-white">
+                <div class="flex justify-center items-center mb-6">
+                    <i data-feather="trending-up" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
+                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent" itemprop="headline">
+                        GPA / CGPA Calculator
+                    </h1>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100">Calculate Your Academic Performance</h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
+                    Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning and progress tracking.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="#gpa-calculator" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Start Calculating GPA
+                        <i data-feather="trending-up" class="w-5 h-5 ml-2 inline"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- GPA Calculator -->
+        <section id="gpa-calculator" class="mb-20">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">GPA / CGPA Calculator</h2>
+                    <p class="text-lg text-gray-600">Calculate your Grade Point Average and Cumulative GPA</p>
+                </div>
+
+                <!-- Grading Scale Selector -->
+                <div class="scale-selector mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Grading Scale</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="scale-option selected" data-scale="4.0">
+                            <div class="font-semibold">4.0 Scale</div>
+                            <div class="text-sm text-gray-600">A=4.0, B=3.0, C=2.0, D=1.0, F=0.0</div>
+                        </div>
+                        <div class="scale-option" data-scale="5.0">
+                            <div class="font-semibold">5.0 Scale</div>
+                            <div class="text-sm text-gray-600">A=5.0, B=4.0, C=3.0, D=2.0, F=0.0</div>
+                        </div>
+                        <div class="scale-option" data-scale="10.0">
+                            <div class="font-semibold">10.0 Scale</div>
+                            <div class="text-sm text-gray-600">A=10.0, B=8.0, C=6.0, D=4.0, F=0.0</div>
+                        </div>
+                        <div class="scale-option" data-scale="custom">
+                            <div class="font-semibold">Custom Scale</div>
+                            <div class="text-sm text-gray-600">Define your own grading scale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="flex justify-center gap-2 mb-8">
+                    <button id="semester-tab" class="tab-button active px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                        Semester GPA
+                    </button>
+                    <button id="cgpa-tab" class="tab-button px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 transition-all duration-300">
+                        CGPA Calculator
+                    </button>
+                </div>
+
+                <!-- Semester GPA Calculator -->
+                <div id="semester-calculator">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Add Your Courses</h3>
+                            <button id="add-course-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                                <i data-feather="plus" class="w-4 h-4 inline mr-1"></i>
+                                Add Course
+                            </button>
+                        </div>
+
+                        <div id="courses-container">
+                            <!-- Course rows will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div id="semester-results" class="hidden">
+                        <div class="result-card mb-6">
+                            <h4 class="text-xl font-semibold mb-2">Semester GPA</h4>
+                            <div class="gpa-display" id="semester-gpa">0.00</div>
+                            <p class="text-blue-100">Total Credits: <span id="total-credits">0</span></p>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4">Grade Distribution</h4>
+                            <div id="grade-distribution" class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                <!-- Grade distribution will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CGPA Calculator -->
+                <div id="cgpa-calculator" class="hidden">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Previous GPA -->
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Previous Academic Record</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Previous CGPA</label>
+                                    <input type="number" id="previous-cgpa" step="0.01" min="0" max="10" placeholder="e.g., 3.5"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Previous Total Credits</label>
+                                    <input type="number" id="previous-credits" min="0" placeholder="e.g., 60"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Current Semester -->
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Current Semester</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Semester GPA</label>
+                                    <input type="number" id="current-semester-gpa" step="0.01" min="0" max="10" placeholder="e.g., 3.8"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Semester Credits</label>
+                                    <input type="number" id="current-semester-credits" min="0" placeholder="e.g., 15"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CGPA Results -->
+                    <div id="cgpa-results" class="hidden mt-8">
+                        <div class="result-card">
+                            <h4 class="text-xl font-semibold mb-2">Cumulative GPA (CGPA)</h4>
+                            <div class="gpa-display" id="cgpa-result">0.00</div>
+                            <div class="text-blue-100 mt-4 space-y-1">
+                                <p>Total Credits: <span id="cgpa-total-credits">0</span></p>
+                                <p>Previous Credits: <span id="cgpa-previous-credits">0</span></p>
+                                <p>Current Credits: <span id="cgpa-current-credits">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-6">
+                        <button id="calculate-cgpa-btn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                            Calculate CGPA
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Save/Load Data -->
+                <div class="mt-12 border-t pt-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Save Your Data</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <button id="save-data-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            <i data-feather="save" class="w-4 h-4 inline mr-1"></i>
+                            Save Data
+                        </button>
+                        <button id="load-data-btn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            <i data-feather="folder-open" class="w-4 h-4 inline mr-1"></i>
+                            Load Data
+                        </button>
+                        <button id="clear-data-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            <i data-feather="trash-2" class="w-4 h-4 inline mr-1"></i>
+                            Clear All
+                        </button>
+                    </div>
+                    <div id="data-message" class="mt-4 hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Use Our GPA Calculator?</h2>
+                    <p class="text-lg text-gray-600">Comprehensive academic performance calculation tools</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="target" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Multiple Grading Scales</h3>
+                        <p class="text-gray-600">Support for 4.0, 5.0, 10.0 scales and custom grading systems used worldwide.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="trending-up" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">CGPA Calculation</h3>
+                        <p class="text-gray-600">Calculate cumulative GPA by combining previous academic performance with current semester.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="save" class="w-8 h-8 text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Save & Load Data</h3>
+                        <p class="text-gray-600">Save your course data locally and load it anytime for future calculations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-400">© 2025 InfiniteForge. Made with <span class="text-red-400">♥</span> for creators worldwide by <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" class="hover:text-white transition-colors">InfinityForge</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // GPA Calculator functionality
+        let courses = [];
+        let currentScale = '4.0';
+        let gradingScales = {
+            '4.0': {
+                'A+': 4.0, 'A': 4.0, 'A-': 3.7,
+                'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+                'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+                'D+': 1.3, 'D': 1.0, 'D-': 0.7,
+                'F': 0.0
+            },
+            '5.0': {
+                'A+': 5.0, 'A': 5.0, 'A-': 4.5,
+                'B+': 4.0, 'B': 3.5, 'B-': 3.0,
+                'C+': 2.5, 'C': 2.0, 'C-': 1.5,
+                'D+': 1.0, 'D': 0.5, 'D-': 0.0,
+                'F': 0.0
+            },
+            '10.0': {
+                'A+': 10.0, 'A': 9.0, 'A-': 8.0,
+                'B+': 7.0, 'B': 6.0, 'B-': 5.0,
+                'C+': 4.0, 'C': 3.0, 'C-': 2.0,
+                'D+': 1.0, 'D': 0.5, 'D-': 0.0,
+                'F': 0.0
+            },
+            'custom': {}
+        };
+
+        // Initialize the calculator
+        function initGPACalculator() {
+            setupEventListeners();
+            addCourseRow(); // Add initial course row
+            loadSavedData();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab switching
+            document.getElementById('semester-tab').addEventListener('click', () => switchTab('semester'));
+            document.getElementById('cgpa-tab').addEventListener('click', () => switchTab('cgpa'));
+
+            // Add course button
+            document.getElementById('add-course-btn').addEventListener('click', addCourseRow);
+
+            // Grading scale selection
+            document.querySelectorAll('.scale-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    selectGradingScale(this.dataset.scale);
+                });
+            });
+
+            // CGPA calculation
+            document.getElementById('calculate-cgpa-btn').addEventListener('click', calculateCGPA);
+
+            // CGPA input listeners for real-time calculation
+            document.getElementById('previous-cgpa').addEventListener('input', updateCGPAResults);
+            document.getElementById('previous-credits').addEventListener('input', updateCGPAResults);
+            document.getElementById('current-semester-gpa').addEventListener('input', updateCGPAResults);
+            document.getElementById('current-semester-credits').addEventListener('input', updateCGPAResults);
+
+            // Save/Load/Clear data
+            document.getElementById('save-data-btn').addEventListener('click', saveData);
+            document.getElementById('load-data-btn').addEventListener('click', loadData);
+            document.getElementById('clear-data-btn').addEventListener('click', clearData);
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking links
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                });
+            });
+        }
+
+        // Switch between tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            document.getElementById(`${tab}-tab`).classList.add('active', 'bg-blue-600', 'text-white');
+            document.getElementById(`${tab}-tab`).classList.remove('bg-gray-200', 'text-gray-700');
+
+            document.getElementById('semester-calculator').classList.toggle('hidden', tab !== 'semester');
+            document.getElementById('cgpa-calculator').classList.toggle('hidden', tab !== 'cgpa');
+        }
+
+        // Select grading scale
+        function selectGradingScale(scale) {
+            currentScale = scale;
+
+            // Update UI
+            document.querySelectorAll('.scale-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`[data-scale="${scale}"]`).classList.add('selected');
+
+            // Update all grade selects
+            updateGradeSelects();
+
+            // Recalculate GPA
+            calculateGPA();
+        }
+
+        // Update grade select options
+        function updateGradeSelects() {
+            const gradeSelects = document.querySelectorAll('.grade-select');
+            const grades = Object.keys(gradingScales[currentScale]);
+
+            gradeSelects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Select Grade</option>';
+
+                grades.forEach(grade => {
+                    const option = document.createElement('option');
+                    option.value = grade;
+                    option.textContent = `${grade} (${gradingScales[currentScale][grade]})`;
+                    select.appendChild(option);
+                });
+
+                // Restore previous selection if it exists
+                if (currentValue && grades.includes(currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+
+        // Add course row
+        function addCourseRow(courseData = null) {
+            const container = document.getElementById('courses-container');
+            const courseIndex = courses.length;
+
+            const courseRow = document.createElement('div');
+            courseRow.className = 'course-row p-4 mb-4';
+            courseRow.dataset.index = courseIndex;
+
+            courseRow.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Course Name</label>
+                        <input type="text" class="course-name w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                               placeholder="e.g., Mathematics 101" value="${courseData?.name || ''}">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Credits</label>
+                        <input type="number" class="course-credits w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                               min="0" step="0.5" placeholder="e.g., 3" value="${courseData?.credits || ''}">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+                        <select class="grade-select course-grade w-full">
+                            <option value="">Select Grade</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="remove-course-btn bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition-colors" title="Remove Course">
+                            <i data-feather="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(courseRow);
+
+            // Add course to data array
+            courses.push({
+                name: courseData?.name || '',
+                credits: courseData?.credits || 0,
+                grade: courseData?.grade || ''
+            });
+
+            // Setup event listeners for this row
+            setupCourseRowListeners(courseRow, courseIndex);
+
+            // Update grade select for this row
+            updateGradeSelects();
+
+            // Set grade if provided
+            if (courseData?.grade) {
+                courseRow.querySelector('.course-grade').value = courseData.grade;
+            }
+
+            // Replace feather icons in the new row
+            setTimeout(() => {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            }, 10);
+        }
+
+        // Setup listeners for course row
+        function setupCourseRowListeners(row, index) {
+            const nameInput = row.querySelector('.course-name');
+            const creditsInput = row.querySelector('.course-credits');
+            const gradeSelect = row.querySelector('.course-grade');
+            const removeBtn = row.querySelector('.remove-course-btn');
+
+            // Update course data on input
+            nameInput.addEventListener('input', () => {
+                courses[index].name = nameInput.value;
+                calculateGPA();
+            });
+
+            creditsInput.addEventListener('input', () => {
+                courses[index].credits = parseFloat(creditsInput.value) || 0;
+                calculateGPA();
+            });
+
+            gradeSelect.addEventListener('change', () => {
+                courses[index].grade = gradeSelect.value;
+                calculateGPA();
+            });
+
+            // Remove course
+            removeBtn.addEventListener('click', () => {
+                courses.splice(index, 1);
+                row.remove();
+                updateCourseIndices();
+                calculateGPA();
+            });
+        }
+
+        // Update course indices after removal
+        function updateCourseIndices() {
+            document.querySelectorAll('.course-row').forEach((row, index) => {
+                row.dataset.index = index;
+                setupCourseRowListeners(row, index);
+            });
+        }
+
+        // Calculate GPA
+        function calculateGPA() {
+            let totalPoints = 0;
+            let totalCredits = 0;
+            let gradeCounts = {};
+
+            courses.forEach(course => {
+                if (course.credits > 0 && course.grade) {
+                    const gradePoints = gradingScales[currentScale][course.grade] || 0;
+                    totalPoints += gradePoints * course.credits;
+                    totalCredits += course.credits;
+
+                    // Count grades
+                    gradeCounts[course.grade] = (gradeCounts[course.grade] || 0) + 1;
+                }
+            });
+
+            const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
+
+            // Update results
+            if (totalCredits > 0) {
+                document.getElementById('semester-gpa').textContent = gpa;
+                document.getElementById('total-credits').textContent = totalCredits;
+                document.getElementById('semester-results').classList.remove('hidden');
+                updateGradeDistribution(gradeCounts);
+            } else {
+                document.getElementById('semester-results').classList.add('hidden');
+            }
+        }
+
+        // Update grade distribution display
+        function updateGradeDistribution(gradeCounts) {
+            const container = document.getElementById('grade-distribution');
+            container.innerHTML = '';
+
+            Object.entries(gradeCounts).forEach(([grade, count]) => {
+                const gradeElement = document.createElement('div');
+                gradeElement.className = `text-center p-3 rounded-lg bg-gray-100`;
+                gradeElement.innerHTML = `
+                    <div class="font-semibold text-lg">${grade}</div>
+                    <div class="text-sm text-gray-600">${count} course${count > 1 ? 's' : ''}</div>
+                `;
+                container.appendChild(gradeElement);
+            });
+        }
+
+        // Calculate CGPA
+        function calculateCGPA() {
+            const prevCGPA = parseFloat(document.getElementById('previous-cgpa').value) || 0;
+            const prevCredits = parseFloat(document.getElementById('previous-credits').value) || 0;
+            const currentGPA = parseFloat(document.getElementById('current-semester-gpa').value) || 0;
+            const currentCredits = parseFloat(document.getElementById('current-semester-credits').value) || 0;
+
+            if (prevCredits === 0 && currentCredits === 0) {
+                document.getElementById('cgpa-results').classList.add('hidden');
+                return;
+            }
+
+            const totalCredits = prevCredits + currentCredits;
+            const totalPoints = (prevCGPA * prevCredits) + (currentGPA * currentCredits);
+            const cgpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
+
+            document.getElementById('cgpa-result').textContent = cgpa;
+            document.getElementById('cgpa-total-credits').textContent = totalCredits;
+            document.getElementById('cgpa-previous-credits').textContent = prevCredits;
+            document.getElementById('cgpa-current-credits').textContent = currentCredits;
+            document.getElementById('cgpa-results').classList.remove('hidden');
+        }
+
+        // Update CGPA results in real-time
+        function updateCGPAResults() {
+            calculateCGPA();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            const data = {
+                courses: courses,
+                scale: currentScale,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('gpaCalculatorData', JSON.stringify(data));
+            showMessage('Data saved successfully!', 'success');
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('gpaCalculatorData');
+            if (saved) {
+                const data = JSON.parse(saved);
+
+                // Clear existing courses
+                document.getElementById('courses-container').innerHTML = '';
+                courses = [];
+
+                // Load scale
+                if (data.scale) {
+                    selectGradingScale(data.scale);
+                }
+
+                // Load courses
+                if (data.courses && data.courses.length > 0) {
+                    data.courses.forEach(course => {
+                        addCourseRow(course);
+                    });
+                }
+
+                showMessage('Data loaded successfully!', 'success');
+            } else {
+                showMessage('No saved data found.', 'error');
+            }
+        }
+
+        // Load saved data on page load
+        function loadSavedData() {
+            const saved = localStorage.getItem('gpaCalculatorData');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.courses && data.courses.length > 0) {
+                        // Clear existing courses
+                        document.getElementById('courses-container').innerHTML = '';
+                        courses = [];
+
+                        // Load courses
+                        data.courses.forEach(course => {
+                            addCourseRow(course);
+                        });
+
+                        // Load scale if available
+                        if (data.scale) {
+                            selectGradingScale(data.scale);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading saved data:', error);
+                }
+            }
+        }
+
+        // Clear all data
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                courses = [];
+                document.getElementById('courses-container').innerHTML = '';
+                document.getElementById('semester-results').classList.add('hidden');
+                localStorage.removeItem('gpaCalculatorData');
+                addCourseRow(); // Add one empty row
+                showMessage('All data cleared.', 'success');
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('data-message');
+            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+            messageDiv.textContent = message;
+            messageDiv.classList.remove('hidden');
+
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initGPACalculator();
+            
+            // Initialize feather icons with retry mechanism
+            function initFeatherIcons(retryCount = 0) {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                    console.log('Feather icons initialized successfully');
+                } else if (retryCount < 10) {
+                    // Retry up to 10 times with increasing delay
+                    setTimeout(() => initFeatherIcons(retryCount + 1), 100 * (retryCount + 1));
+                } else {
+                    console.warn('Feather icons library failed to load after multiple attempts');
+                }
+            }
+            
+            initFeatherIcons();
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

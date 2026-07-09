@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Code Executor - Run Python, JavaScript, C++, Java Code Instantly | InfiniteForge</title>
+  <meta name="description" content="Execute code online instantly with our free code runner. Supports Python, JavaScript, C++, Java, and more languages using Piston API. No installation required - run code directly in your browser." />
+  <meta name="keywords" content="online code executor, code runner, run code online, python executor, javascript executor, c++ executor, java executor, code execution, programming tools, piston api, online compiler, code playground, instant code execution, browser code runner, multi-language code executor" />
+  <meta name="author" content="InfiniteForge" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="language" content="English" />
+  <meta name="revisit-after" content="7 days" />
+  <link rel="canonical" href="https://infiniteforge.tech/online-compiler.html" />
+  <link rel="icon" type="image/png" href="images/letter-d.png">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://infiniteforge.tech/online-compiler.html" />
+  <meta property="og:title" content="Online Code Executor - Run Code Instantly | InfiniteForge" />
+  <meta property="og:description" content="Execute Python, JavaScript, C++, Java code online instantly. Free code runner with Piston API - no installation required." />
+  <meta property="og:image" content="https://infiniteforge.tech/images/online-compiler-og.jpg" />
+  <meta property="og:site_name" content="InfiniteForge" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://infiniteforge.tech/online-compiler.html" />
+  <meta property="twitter:title" content="Online Code Executor - Run Code Instantly | InfiniteForge" />
+  <meta property="twitter:description" content="Execute Python, JavaScript, C++, Java code online instantly. Free code runner with Piston API - no installation required." />
+  <meta property="twitter:image" content="https://infiniteforge.tech/images/online-compiler-og.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Online Code Executor",
+    "description": "Execute code online instantly in multiple programming languages including Python, JavaScript, C++, and Java using the Piston API.",
+    "url": "https://infiniteforge.tech/online-compiler.html",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Multi-language support",
+      "Instant code execution",
+      "No installation required",
+      "Browser-based interface",
+      "Piston API integration"
+    ],
+    "programmingLanguage": ["Python", "JavaScript", "C++", "Java"],
+    "author": {
+      "@type": "Organization",
+      "name": "InfiniteForge"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "InfiniteForge"
+    }
+  }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    textarea::-webkit-scrollbar {
+      width: 6px;
+    }
+    textarea::-webkit-scrollbar-thumb {
+      background-color: rgba(59, 130, 246, 0.5);
+      border-radius: 4px;
+    }
+
+    /* Smooth scaling on mobile */
+    :root {
+      --fluid-font: clamp(0.875rem, 2vw, 1rem);
+    }
+
+    body, button, input, textarea {
+      font-size: var(--fluid-font);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="bg-white/90 backdrop-blur-md shadow-md fixed w-full top-0 left-0 z-50 border-b border-blue-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+      <a href="index.html" class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
+        InfiniteForge
+      </a>
+      <button id="menu-btn" class="sm:hidden text-gray-700 p-2 rounded hover:bg-blue-50">
+        <i data-feather="menu"></i>
+      </button>
+      <div id="menu" class="hidden sm:flex space-x-6 text-gray-700 font-medium">
+        <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+        <a href="features.html" class="hover:text-blue-600 transition">Tools</a>
+        <a href="about.html" class="hover:text-blue-600 transition">About</a>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-blue-100">
+      <a href="index.html" class="block py-2 px-4 text-gray-700 hover:bg-blue-50">Home</a>
+      <a href="features.html" class="block py-2 px-4 text-gray-700 hover:bg-blue-50">Tools</a>
+      <a href="about.html" class="block py-2 px-4 text-gray-700 hover:bg-blue-50">About</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-1 pt-24 pb-10 px-4 sm:px-8 max-w-5xl mx-auto w-full animate-fadeIn">
+    <header class="text-center mb-10">
+      <h1 class="text-3xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent">
+        Online Code Executor
+      </h1>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">
+        Run your code instantly in multiple languages with the Piston API — all inside your browser.
+      </p>
+    </header>
+
+    <!-- Code Editor -->
+    <section class="bg-white rounded-xl shadow-lg border border-blue-100 p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div class="flex items-center gap-3">
+          <i data-feather="terminal" class="w-6 h-6 text-blue-500"></i>
+          <span class="text-lg font-semibold text-gray-800">Write Your Code</span>
+        </div>
+
+        <select id="language" class="border border-gray-300 rounded-lg p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="python">Python</option>
+          <option value="javascript">JavaScript</option>
+          <option value="cpp">C++</option>
+          <option value="java">Java</option>
+        </select>
+      </div>
+
+      <textarea id="code-input" class="w-full h-64 p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none font-mono text-sm sm:text-base" placeholder="// Write your code here..."></textarea>
+
+      <div class="flex flex-col sm:flex-row justify-end gap-3 mt-4">
+        <button id="clear-btn" class="flex items-center justify-center gap-2 px-5 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-gray-700">
+          <i data-feather="trash-2" class="w-4 h-4"></i> Clear
+        </button>
+        <button id="run-btn" class="flex items-center justify-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition">
+          <i data-feather="play" class="w-4 h-4"></i> Run Code
+        </button>
+      </div>
+    </section>
+
+    <!-- Output Section -->
+    <section class="bg-white rounded-xl shadow-lg border border-blue-100 p-6 sm:p-8 mt-6">
+      <div class="flex items-center gap-3 mb-4">
+        <i data-feather="monitor" class="w-6 h-6 text-blue-500"></i>
+        <span class="text-lg font-semibold text-gray-800">Output</span>
+      </div>
+      <pre id="output" class="bg-gray-900 text-green-400 rounded-lg p-4 overflow-x-auto text-sm sm:text-base h-56 sm:h-64 font-mono"></pre>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-400 py-6 text-center">
+    <p>© 2025 InfiniteForge. Built with 💙 </p>
+  </footer>
+
+  <script>
+    feather.replace();
+
+    // Mobile Menu
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+
+    const runBtn = document.getElementById("run-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const codeInput = document.getElementById("code-input");
+    const output = document.getElementById("output");
+    const language = document.getElementById("language");
+
+    const pistonURL = "https://emkc.org/api/v2/piston/execute";
+
+    runBtn.addEventListener("click", async () => {
+      const code = codeInput.value.trim();
+      if (!code) {
+        output.textContent = "⚠️ Please write some code first.";
+        return;
+      }
+
+      output.textContent = "⏳ Running your code...";
+      try {
+        const response = await fetch(pistonURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            language: language.value,
+            version: "*",
+            files: [{ content: code }],
+          }),
+        });
+
+        const result = await response.json();
+        output.textContent = result.run?.output || "No output returned.";
+      } catch (err) {
+        output.textContent = "❌ Error: " + err.message;
+      }
+    });
+
+    clearBtn.addEventListener("click", () => {
+      codeInput.value = "";
+      output.textContent = "";
+    });
+  </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

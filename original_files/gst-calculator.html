@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST / Tax Calculator - Free Online Calculator | InfiniteForge</title>
+    <meta name="description" content="Calculate GST and tax amounts with our free online GST/Tax Calculator. Add or remove GST from amounts, calculate inclusive/exclusive tax, and get instant results. Perfect for businesses, freelancers, and tax calculations.">
+    <meta name="keywords" content="GST calculator, tax calculator, GST amount calculator, tax calculation, GST inclusive, GST exclusive, goods and services tax, tax computation, business tax calculator, GST rate calculator, tax percentage calculator, GST calculation online, free GST calculator, tax calculator online, GST tool, tax calculation tool">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/gst-calculator.html">
+    <meta property="og:title" content="GST / Tax Calculator - Free Online Calculator | InfiniteForge">
+    <meta property="og:description" content="Calculate GST and tax amounts with our free online GST/Tax Calculator. Add or remove GST from amounts, calculate inclusive/exclusive tax, and get instant results.">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge GST Calculator">
+    <meta property="og:site_name" content="InfiniteForge">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GST / Tax Calculator - Free Online Calculator | InfiniteForge">
+    <meta name="twitter:description" content="Calculate GST and tax amounts with our free online GST/Tax Calculator. Add or remove GST from amounts, calculate inclusive/exclusive tax, and get instant results.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge GST Calculator">
+
+    <!-- Additional Meta Tags -->
+    <meta name="author" content="InfinityForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://infiniteforge.tech/gst-calculator.html">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "GST / Tax Calculator",
+        "description": "Free online GST and tax calculator for calculating inclusive and exclusive GST amounts. Perfect for businesses and tax calculations.",
+        "url": "https://infiniteforge.tech/gst-calculator.html",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "GST Inclusive Calculation",
+            "GST Exclusive Calculation",
+            "Custom Tax Rate Support",
+            "Instant Results",
+            "Copy to Clipboard"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfiniteForge"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How does the GST Calculator work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our GST Calculator allows you to calculate GST in two ways: 1) Add GST to an amount (exclusive calculation) or 2) Remove GST from a total amount (inclusive calculation). Simply enter the amount, GST rate, and select your calculation type."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is GST inclusive vs exclusive?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "GST exclusive means the GST amount is added to the base price. GST inclusive means the total price already includes GST, and you want to calculate how much GST is in that total."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is this calculator free to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, our GST Calculator is completely free to use. No registration, no hidden fees, and no downloads required. All calculations are done in your browser."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://infiniteforge.tech"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "GST Calculator",
+                "item": "https://infiniteforge.tech/gst-calculator.html"
+            }
+        ]
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tool-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8">
+                        <span class="text-xl font-bold text-gray-800">InfiniteForge</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="features.html" class="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+                    <a href="about.html" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+        <div class="px-4 py-2 space-y-2">
+            <a href="index.html" class="block text-gray-600 hover:text-blue-600 py-2">Home</a>
+            <a href="features.html" class="block text-gray-600 hover:text-blue-600 py-2">Features</a>
+            <a href="about.html" class="block text-gray-600 hover:text-blue-600 py-2">About</a>
+            <a href="contact.html" class="block text-gray-600 hover:text-blue-600 py-2">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-sm font-medium text-blue-700 mb-6">
+                <i data-feather="settings" class="w-4 h-4 mr-2"></i>
+                Tax Calculator
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                GST / Tax <span class="gradient-text">Calculator</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Calculate GST amounts instantly. Add GST to amounts or remove GST from totals with our free online calculator.
+            </p>
+        </div>
+
+        <!-- Calculator Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 fade-in">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Input Section -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Calculate GST</h2>
+
+                    <!-- Amount Input -->
+                    <div class="mb-6">
+                        <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">
+                            Amount (₹)
+                        </label>
+                        <input
+                            type="number"
+                            id="amount"
+                            placeholder="Enter amount"
+                            class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            step="0.01"
+                            min="0"
+                        >
+                    </div>
+
+                    <!-- GST Rate Input -->
+                    <div class="mb-6">
+                        <label for="gst-rate" class="block text-sm font-medium text-gray-700 mb-2">
+                            GST Rate (%)
+                        </label>
+                        <select
+                            id="gst-rate"
+                            class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        >
+                            <option value="5">5% (Essential goods)</option>
+                            <option value="12">12% (Standard rate)</option>
+                            <option value="18" selected>18% (Standard rate)</option>
+                            <option value="28">28% (Luxury goods)</option>
+                            <option value="custom">Custom Rate</option>
+                        </select>
+                    </div>
+
+                    <!-- Custom Rate Input (Hidden by default) -->
+                    <div class="mb-6 hidden" id="custom-rate-container">
+                        <label for="custom-rate" class="block text-sm font-medium text-gray-700 mb-2">
+                            Custom GST Rate (%)
+                        </label>
+                        <input
+                            type="number"
+                            id="custom-rate"
+                            placeholder="Enter custom rate"
+                            class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            step="0.01"
+                            min="0"
+                            max="100"
+                        >
+                    </div>
+
+                    <!-- Calculation Type -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Calculation Type
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="calculation-type"
+                                    value="exclusive"
+                                    checked
+                                    class="mr-3 text-blue-600 focus:ring-blue-500"
+                                >
+                                <span class="text-gray-700">Add GST to amount (GST Exclusive)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="calculation-type"
+                                    value="inclusive"
+                                    class="mr-3 text-blue-600 focus:ring-blue-500"
+                                >
+                                <span class="text-gray-700">Remove GST from total (GST Inclusive)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-4">
+                        <button
+                            id="calculate-btn"
+                            class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        >
+                            <i data-feather="percent" class="w-4 h-4 mr-2 inline"></i>
+                            Calculate
+                        </button>
+                        <button
+                            id="clear-btn"
+                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                        >
+                            <i data-feather="refresh-cw" class="w-4 h-4 mr-2 inline"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Results</h2>
+
+                    <!-- Results Display -->
+                    <div id="results" class="hidden">
+                        <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Original Amount:</span>
+                                <span class="font-semibold text-gray-800" id="original-amount">₹0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">GST Rate:</span>
+                                <span class="font-semibold text-gray-800" id="gst-rate-display">18%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">GST Amount:</span>
+                                <span class="result-highlight text-lg" id="gst-amount">₹0.00</span>
+                            </div>
+                            <hr class="border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-800 font-medium">Total Amount:</span>
+                                <span class="result-highlight text-xl font-bold" id="total-amount">₹0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Copy Button -->
+                        <button
+                            id="copy-btn"
+                            class="mt-4 w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                            <i data-feather="copy" class="w-4 h-4 mr-2 inline"></i>
+                            Copy Results
+                        </button>
+                    </div>
+
+                    <!-- No Results Message -->
+                    <div id="no-results" class="text-center py-12">
+                        <i data-feather="percent" class="w-16 h-16 text-gray-300 mx-auto mb-4"></i>
+                        <p class="text-gray-500">Enter an amount and click Calculate to see results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">How It Works</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-feather="plus-circle" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">GST Exclusive</h3>
+                    <p class="text-gray-600">Enter the base amount and GST rate. The calculator will add the GST amount to give you the total price including tax.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-feather="minus-circle" class="w-8 h-8 text-green-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">GST Inclusive</h3>
+                    <p class="text-gray-600">Enter the total amount including GST and the rate. The calculator will separate the GST amount from the base price.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What is GST?</h3>
+                    <p class="text-gray-600">GST (Goods and Services Tax) is a comprehensive indirect tax levied on the supply of goods and services in many countries. It replaced multiple indirect taxes and is designed to create a unified market.</p>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What's the difference between GST inclusive and exclusive?</h3>
+                    <p class="text-gray-600">GST exclusive means the price quoted doesn't include GST - the tax is added separately. GST inclusive means the quoted price already includes the GST amount.</p>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What are the current GST rates in India?</h3>
+                    <p class="text-gray-600">The current GST rates in India are: 0% (essential goods), 5% (essential goods), 12% (standard rate), 18% (standard rate), and 28% (luxury and demerit goods).</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Is this calculator accurate?</h3>
+                    <p class="text-gray-600">Yes, our calculator uses standard GST calculation formulas and provides accurate results. However, always verify with official tax authorities for your specific situation.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8">
+                        <span class="text-xl font-bold">InfiniteForge</span>
+                    </div>
+                    <p class="text-gray-400">Free online tools for developers, businesses, and creators. No uploads, no watermarks, completely free.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="jwt-decoder.html" class="hover:text-white transition-colors">JWT Decoder</a></li>
+                        <li><a href="gst-calculator.html" class="hover:text-white transition-colors">GST Calculator</a></li>
+                        <li><a href="json-validator.html" class="hover:text-white transition-colors">JSON Validator</a></li>
+                        <li><a href="api-testing-tool.html" class="hover:text-white transition-colors">API Testing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="features.html" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.linkedin.com/in/mahibala-h" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://x.com/HMahibala42802" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@echo14-w3y" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="youtube" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 InfiniteForge. All rights reserved. Made with ❤️ by InfinityForge.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Initialize Feather Icons
+        function initFeatherIcons() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            } else {
+                // Retry after a short delay if feather is not loaded yet
+                setTimeout(initFeatherIcons, 100);
+            }
+        }
+
+        initFeatherIcons();
+
+        // DOM Elements
+        const amountInput = document.getElementById('amount');
+        const gstRateSelect = document.getElementById('gst-rate');
+        const customRateContainer = document.getElementById('custom-rate-container');
+        const customRateInput = document.getElementById('custom-rate');
+        const calculationTypeInputs = document.querySelectorAll('input[name="calculation-type"]');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const resultsDiv = document.getElementById('results');
+        const noResultsDiv = document.getElementById('no-results');
+        const originalAmountSpan = document.getElementById('original-amount');
+        const gstRateDisplaySpan = document.getElementById('gst-rate-display');
+        const gstAmountSpan = document.getElementById('gst-amount');
+        const totalAmountSpan = document.getElementById('total-amount');
+
+        let calculationResults = {};
+
+        // Show/hide custom rate input
+        gstRateSelect.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customRateContainer.classList.remove('hidden');
+            } else {
+                customRateContainer.classList.add('hidden');
+            }
+        });
+
+        // Calculate GST
+        function calculateGST() {
+            const amount = parseFloat(amountInput.value);
+            let gstRate;
+
+            if (gstRateSelect.value === 'custom') {
+                gstRate = parseFloat(customRateInput.value);
+            } else {
+                gstRate = parseFloat(gstRateSelect.value);
+            }
+
+            const calculationType = document.querySelector('input[name="calculation-type"]:checked').value;
+
+            if (isNaN(amount) || amount <= 0) {
+                showMessage('Please enter a valid amount greater than 0', 'error');
+                return;
+            }
+
+            if (isNaN(gstRate) || gstRate < 0 || gstRate > 100) {
+                showMessage('Please enter a valid GST rate between 0 and 100', 'error');
+                return;
+            }
+
+            let gstAmount, totalAmount, originalAmount;
+
+            if (calculationType === 'exclusive') {
+                // Add GST to amount
+                gstAmount = (amount * gstRate) / 100;
+                totalAmount = amount + gstAmount;
+                originalAmount = amount;
+            } else {
+                // Remove GST from total
+                gstAmount = (amount * gstRate) / (100 + gstRate);
+                originalAmount = amount - gstAmount;
+                totalAmount = amount;
+            }
+
+            calculationResults = {
+                originalAmount: originalAmount.toFixed(2),
+                gstRate: gstRate.toFixed(2),
+                gstAmount: gstAmount.toFixed(2),
+                totalAmount: totalAmount.toFixed(2),
+                calculationType: calculationType
+            };
+
+            displayResults();
+        }
+
+        // Display results
+        function displayResults() {
+            originalAmountSpan.textContent = '₹' + calculationResults.originalAmount;
+            gstRateDisplaySpan.textContent = calculationResults.gstRate + '%';
+            gstAmountSpan.textContent = '₹' + calculationResults.gstAmount;
+            totalAmountSpan.textContent = '₹' + calculationResults.totalAmount;
+
+            resultsDiv.classList.remove('hidden');
+            noResultsDiv.classList.add('hidden');
+        }
+
+        // Clear all inputs and results
+        function clearAll() {
+            amountInput.value = '';
+            gstRateSelect.value = '18';
+            customRateInput.value = '';
+            customRateContainer.classList.add('hidden');
+            document.querySelector('input[name="calculation-type"][value="exclusive"]').checked = true;
+
+            resultsDiv.classList.add('hidden');
+            noResultsDiv.classList.remove('hidden');
+            calculationResults = {};
+        }
+
+        // Copy results to clipboard
+        async function copyResults() {
+            const resultsText = `GST Calculation Results:
+Original Amount: ₹${calculationResults.originalAmount}
+GST Rate: ${calculationResults.gstRate}%
+GST Amount: ₹${calculationResults.gstAmount}
+Total Amount: ₹${calculationResults.totalAmount}
+Type: ${calculationResults.calculationType === 'exclusive' ? 'GST Exclusive' : 'GST Inclusive'}`;
+
+            try {
+                await navigator.clipboard.writeText(resultsText);
+                showMessage('Results copied to clipboard!', 'success');
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = resultsText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showMessage('Results copied to clipboard!', 'success');
+            }
+        }
+
+        // Show message to user
+        function showMessage(message, type) {
+            // Remove existing message
+            const existingMessage = document.querySelector('.message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            // Create new message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message fixed top-4 right-4 px-6 py-3 rounded-lg text-white font-medium z-50 ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
+            messageDiv.textContent = message;
+
+            document.body.appendChild(messageDiv);
+
+            // Remove message after 3 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 3000);
+        }
+
+        // Event listeners
+        calculateBtn.addEventListener('click', calculateGST);
+        clearBtn.addEventListener('click', clearAll);
+        copyBtn.addEventListener('click', copyResults);
+
+        // Enter key support
+        amountInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateGST();
+            }
+        });
+
+        customRateInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateGST();
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

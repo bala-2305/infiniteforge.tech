@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Loop Stress Tester — Daedalus | Free JavaScript Event Loop Performance Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Stress test your browser's event loop with intensive JavaScript operations. Measure event loop blocking, responsiveness, and performance degradation.">
+    <meta name="keywords"
+        content="event loop stress tester, JavaScript event loop, event loop blocking, browser performance, JavaScript responsiveness">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="Event Loop Stress Tester — Daedalus">
+    <meta property="og:description"
+        content="Stress test your browser's event loop and measure JavaScript execution performance under load.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/event-loop-stress-tester.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Event Loop Stress Tester — Daedalus">
+    <meta name="twitter:description" content="Test event loop performance and JavaScript responsiveness.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/event-loop-stress-tester.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .stress-display {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .stress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .stress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .stress-fill.blocked {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stress-fill.overloaded {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .stress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+
+        .chart-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #6366f1;
+            transition: all 0.3s ease;
+        }
+
+        .chart-point:hover {
+            width: 8px;
+            height: 8px;
+            transform: scale(1.5);
+        }
+
+        .chart-point.blocked {
+            background: #ef4444;
+        }
+
+        .chart-point.overloaded {
+            background: #f59e0b;
+        }
+
+        .operation-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .operation-card:hover {
+            border-color: #6366f1;
+            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
+        }
+
+        .operation-card.selected {
+            border-color: #6366f1;
+            background: #f8fafc;
+            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Event Loop Stress Tester</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Stress test your browser's event loop with intensive JavaScript operations and measure blocking behavior.</p>
+        </div>
+
+        <!-- Current Stress Display -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <div id="status-indicator" class="pulse-dot mr-3"></div>
+                    <span id="status-text" class="text-lg font-semibold text-gray-700">Ready to stress test</span>
+                </div>
+                <div class="stress-display mb-2">
+                    <span id="current-blocking">--</span> <span class="text-lg text-gray-500">ms</span>
+                </div>
+                <p class="text-gray-500" id="stress-description">Event loop blocking time</p>
+
+                <!-- Stress Level Bar -->
+                <div class="max-w-md mx-auto mt-6">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Normal</span>
+                        <span>Blocked</span>
+                    </div>
+                    <div class="stress-bar relative">
+                        <div class="stress-fill" id="stress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>0ms</span>
+                        <span>100ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operation Selection -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Select Stress Operations</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <div class="operation-card" data-operation="sync">
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="sync-ops" class="mr-3">
+                        <h4 class="font-semibold text-gray-800">Synchronous Operations</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Heavy CPU computations that block the event loop</p>
+                </div>
+
+                <div class="operation-card" data-operation="async">
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="async-ops" class="mr-3">
+                        <h4 class="font-semibold text-gray-800">Async Operations</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Promises and async functions with microtasks</p>
+                </div>
+
+                <div class="operation-card" data-operation="dom">
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="dom-ops" class="mr-3">
+                        <h4 class="font-semibold text-gray-800">DOM Manipulation</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Heavy DOM updates and reflows</p>
+                </div>
+
+                <div class="operation-card" data-operation="memory">
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="memory-ops" class="mr-3">
+                        <h4 class="font-semibold text-gray-800">Memory Operations</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Large object allocations and garbage collection</p>
+                </div>
+
+                <div class="operation-card" data-operation="network">
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="network-ops" class="mr-3">
+                        <h4 class="font-semibold text-gray-800">Network Simulation</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Simulated network requests and responses</p>
+                </div>
+
+                <div class="operation-card" data-operation="timers">
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="timer-ops" class="mr-3">
+                        <h4 class="font-semibold text-gray-800">Timer Operations</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Massive setTimeout/setInterval scheduling</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button id="start-stress" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="zap" class="w-4 h-4 mr-2"></i>
+                    Start Stress Test
+                </button>
+                <button id="stop-stress" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
+                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
+                    Stop Test
+                </button>
+                <button id="clear-results" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear Results
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Duration</label>
+                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="30">30 seconds</option>
+                        <option value="60" selected>1 minute</option>
+                        <option value="120">2 minutes</option>
+                        <option value="300">5 minutes</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stress Intensity</label>
+                    <select id="stress-intensity" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="low" selected>Low (10 ops/sec)</option>
+                        <option value="medium">Medium (50 ops/sec)</option>
+                        <option value="high">High (100 ops/sec)</option>
+                        <option value="extreme">Extreme (500 ops/sec)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">UI Responsiveness</label>
+                    <select id="ui-responsiveness" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="enabled" selected>Enabled</option>
+                        <option value="minimal">Minimal</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+            <!-- Current Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Current Session</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Operations:</span>
+                        <span id="current-operations" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Duration:</span>
+                        <span id="current-duration" class="font-mono">0s</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Avg Blocking:</span>
+                        <span id="current-avg-blocking" class="font-mono">--ms</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blocking Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Blocking Analysis</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Max Blocking:</span>
+                        <span id="max-blocking" class="font-mono">--ms</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Blocks >50ms:</span>
+                        <span id="blocking-events" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">UI Freezes:</span>
+                        <span id="ui-freezes" class="font-mono">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Rating -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Performance Rating</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Rating:</span>
+                        <span id="performance-rating" class="font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Score:</span>
+                        <span id="performance-score" class="font-mono">--/100</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Stability:</span>
+                        <span id="stability-rating" class="font-semibold">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">System Info</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Active Ops:</span>
+                        <span id="active-operations" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Memory Usage:</span>
+                        <span id="memory-usage" class="font-mono">--MB</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Event Queue:</span>
+                        <span id="event-queue" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stress Chart -->
+        <div class="result-box mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="activity" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                Event Loop Blocking History
+            </h3>
+            <div class="chart-container" id="stress-chart">
+                <div class="text-center text-gray-500 py-8">
+                    <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
+                    <p>Start stress test to see blocking data</p>
+                </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600 mt-4">
+                <span>Time (seconds)</span>
+                <span>Blocking Time (ms)</span>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How It Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This tool stresses your browser's event loop by executing various JavaScript operations that can block the main thread, simulating real-world performance issues.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Stress Operations:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Synchronous:</strong> Blocking CPU operations</li>
+                            <li><strong>Async:</strong> Promise chains and microtasks</li>
+                            <li><strong>DOM:</strong> Massive DOM manipulations</li>
+                            <li><strong>Memory:</strong> Large allocations and GC pressure</li>
+                            <li><strong>Network:</strong> Simulated async requests</li>
+                            <li><strong>Timers:</strong> Thousands of setTimeout calls</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">What It Measures:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Event Loop Blocking:</strong> Time spent blocking the main thread</li>
+                            <li><strong>UI Responsiveness:</strong> How the interface responds during stress</li>
+                            <li><strong>Memory Pressure:</strong> Impact on garbage collection</li>
+                            <li><strong>Performance Degradation:</strong> How performance degrades over time</li>
+                        </ul>
+                        <p class="text-sm mt-3 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                            <strong>Warning:</strong> This test can cause browser unresponsiveness. Use with caution and close other tabs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const startBtn = document.getElementById('start-stress');
+            const stopBtn = document.getElementById('stop-stress');
+            const clearBtn = document.getElementById('clear-results');
+            const currentBlockingEl = document.getElementById('current-blocking');
+            const statusIndicatorEl = document.getElementById('status-indicator');
+            const statusTextEl = document.getElementById('status-text');
+            const stressDescriptionEl = document.getElementById('stress-description');
+            const stressFillEl = document.getElementById('stress-fill');
+            const testDurationSelect = document.getElementById('test-duration');
+            const stressIntensitySelect = document.getElementById('stress-intensity');
+            const uiResponsivenessSelect = document.getElementById('ui-responsiveness');
+            const stressChartEl = document.getElementById('stress-chart');
+
+            // Operation checkboxes
+            const operationCheckboxes = {
+                sync: document.getElementById('sync-ops'),
+                async: document.getElementById('async-ops'),
+                dom: document.getElementById('dom-ops'),
+                memory: document.getElementById('memory-ops'),
+                network: document.getElementById('network-ops'),
+                timers: document.getElementById('timer-ops')
+            };
+
+            // Stats elements
+            const currentOperationsEl = document.getElementById('current-operations');
+            const currentDurationEl = document.getElementById('current-duration');
+            const currentAvgBlockingEl = document.getElementById('current-avg-blocking');
+            const maxBlockingEl = document.getElementById('max-blocking');
+            const blockingEventsEl = document.getElementById('blocking-events');
+            const uiFreezesEl = document.getElementById('ui-freezes');
+            const performanceRatingEl = document.getElementById('performance-rating');
+            const performanceScoreEl = document.getElementById('performance-score');
+            const stabilityRatingEl = document.getElementById('stability-rating');
+            const activeOperationsEl = document.getElementById('active-operations');
+            const memoryUsageEl = document.getElementById('memory-usage');
+            const eventQueueEl = document.getElementById('event-queue');
+
+            // State
+            let isStressing = false;
+            let stressIntervals = [];
+            let stressTimeouts = [];
+            let startTime = null;
+            let blockingHistory = [];
+            let maxChartPoints = 200;
+            let uiFreezeCount = 0;
+            let lastUIUpdate = Date.now();
+
+            // Stress operations
+            const stressOperations = {
+                sync: function(intensity) {
+                    // Synchronous CPU intensive operation
+                    const start = performance.now();
+                    let result = 0;
+                    const iterations = intensity * 1000;
+
+                    for (let i = 0; i < iterations; i++) {
+                        result += Math.sin(i) * Math.cos(i) + Math.sqrt(i);
+                        // Force some DOM interaction to make it more realistic
+                        if (i % 1000 === 0) {
+                            document.body.offsetHeight; // Force reflow
+                        }
+                    }
+
+                    return performance.now() - start;
+                },
+
+                async: function(intensity) {
+                    // Async operations with promises
+                    const promises = [];
+                    for (let i = 0; i < intensity; i++) {
+                        promises.push(new Promise(resolve => {
+                            setTimeout(() => {
+                                let result = 0;
+                                for (let j = 0; j < 1000; j++) {
+                                    result += Math.sin(j);
+                                }
+                                resolve(result);
+                            }, Math.random() * 10);
+                        }));
+                    }
+                    return Promise.all(promises);
+                },
+
+                dom: function(intensity) {
+                    // DOM manipulation stress
+                    const container = document.createElement('div');
+                    container.style.display = 'none';
+                    document.body.appendChild(container);
+
+                    for (let i = 0; i < intensity * 10; i++) {
+                        const element = document.createElement('div');
+                        element.textContent = 'Stress test element ' + i;
+                        element.style.cssText = `
+                            position: absolute;
+                            left: ${Math.random() * 100}px;
+                            top: ${Math.random() * 100}px;
+                            width: ${Math.random() * 100 + 50}px;
+                            height: ${Math.random() * 100 + 50}px;
+                            background: rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255});
+                        `;
+                        container.appendChild(element);
+                    }
+
+                    // Force reflow
+                    container.offsetHeight;
+
+                    // Clean up
+                    setTimeout(() => {
+                        if (container.parentNode) {
+                            container.parentNode.removeChild(container);
+                        }
+                    }, 100);
+                },
+
+                memory: function(intensity) {
+                    // Memory allocation stress
+                    const arrays = [];
+                    for (let i = 0; i < intensity; i++) {
+                        arrays.push(new Array(10000).fill(Math.random()));
+                    }
+
+                    // Force garbage collection hint
+                    if (window.gc) {
+                        setTimeout(() => window.gc(), 10);
+                    }
+
+                    // Clean up
+                    setTimeout(() => {
+                        arrays.length = 0;
+                    }, 100);
+                },
+
+                network: function(intensity) {
+                    // Simulated network requests
+                    for (let i = 0; i < intensity; i++) {
+                        fetch('data:text/plain;base64,' + btoa('simulated response ' + i))
+                            .then(response => response.text())
+                            .catch(() => {}); // Ignore errors
+                    }
+                },
+
+                timers: function(intensity) {
+                    // Timer scheduling stress
+                    for (let i = 0; i < intensity * 10; i++) {
+                        const timeout = setTimeout(() => {
+                            // Do minimal work
+                            Math.sin(i);
+                        }, Math.random() * 100);
+
+                        stressTimeouts.push(timeout);
+                    }
+                }
+            };
+
+            // Measure event loop blocking
+            function measureBlocking() {
+                return new Promise((resolve) => {
+                    const start = performance.now();
+                    setTimeout(() => {
+                        const blocking = performance.now() - start;
+                        resolve(blocking);
+                    }, 0);
+                });
+            }
+
+            // Update UI with blocking data
+            function updateBlockingDisplay(blocking) {
+                currentBlockingEl.textContent = blocking.toFixed(1);
+
+                // Update stress bar
+                const percentage = Math.min(blocking / 100 * 100, 100);
+                stressFillEl.style.width = `${percentage}%`;
+
+                // Color based on blocking severity
+                stressFillEl.className = 'stress-fill';
+                if (blocking > 50) {
+                    stressFillEl.classList.add('blocked');
+                    stressDescriptionEl.textContent = 'Event loop blocked!';
+                } else if (blocking > 16) {
+                    stressFillEl.classList.add('overloaded');
+                    stressDescriptionEl.textContent = 'Event loop overloaded';
+                } else {
+                    stressDescriptionEl.textContent = 'Event loop healthy';
+                }
+
+                // Check for UI freezes
+                const now = Date.now();
+                if (now - lastUIUpdate > 100) { // More than 100ms since last update
+                    uiFreezeCount++;
+                    uiFreezesEl.textContent = uiFreezeCount;
+                }
+                lastUIUpdate = now;
+            }
+
+            // Update statistics
+            function updateStatistics() {
+                if (blockingHistory.length === 0) return;
+
+                const currentHistory = blockingHistory.slice(-50);
+                const currentAvg = currentHistory.reduce((a, b) => a + b.blocking, 0) / currentHistory.length;
+
+                const operations = blockingHistory.length;
+                const maxBlocking = Math.max(...blockingHistory.map(b => b.blocking));
+                const blockingEvents = blockingHistory.filter(b => b.blocking > 50).length;
+
+                currentOperationsEl.textContent = operations;
+                currentAvgBlockingEl.textContent = `${currentAvg.toFixed(1)}ms`;
+                maxBlockingEl.textContent = `${maxBlocking.toFixed(1)}ms`;
+                blockingEventsEl.textContent = blockingEvents;
+
+                // Performance rating
+                let rating = 'Excellent';
+                let score = 95;
+
+                if (maxBlocking > 100) {
+                    rating = 'Poor';
+                    score = 30;
+                } else if (maxBlocking > 50) {
+                    rating = 'Fair';
+                    score = 60;
+                } else if (maxBlocking > 16) {
+                    rating = 'Good';
+                    score = 80;
+                }
+
+                performanceRatingEl.textContent = rating;
+                performanceRatingEl.className = `font-semibold ${
+                    rating === 'Excellent' ? 'text-green-600' :
+                    rating === 'Good' ? 'text-blue-600' :
+                    rating === 'Fair' ? 'text-yellow-600' : 'text-red-600'
+                }`;
+
+                performanceScoreEl.textContent = `${Math.round(score)}/100`;
+
+                // Stability rating
+                const variance = currentHistory.reduce((acc, val) => acc + Math.pow(val.blocking - currentAvg, 2), 0) / currentHistory.length;
+                const stdDev = Math.sqrt(variance);
+                const cv = (stdDev / currentAvg) * 100;
+
+                let stability = 'Stable';
+                if (cv > 50) stability = 'Unstable';
+                else if (cv > 25) stability = 'Moderate';
+
+                stabilityRatingEl.textContent = stability;
+                stabilityRatingEl.className = `font-semibold ${
+                    stability === 'Stable' ? 'text-green-600' :
+                    stability === 'Moderate' ? 'text-yellow-600' : 'text-red-600'
+                }`;
+
+                // System info
+                activeOperationsEl.textContent = stressIntervals.length;
+                memoryUsageEl.textContent = performance.memory ? `${Math.round(performance.memory.usedJSHeapSize / 1024 / 1024)}MB` : 'Unknown';
+                eventQueueEl.textContent = stressTimeouts.length;
+            }
+
+            // Update chart
+            function updateChart() {
+                if (blockingHistory.length < 2) return;
+
+                stressChartEl.innerHTML = '';
+
+                const chartWidth = stressChartEl.clientWidth;
+                const chartHeight = stressChartEl.clientHeight;
+                const maxBlocking = Math.max(...blockingHistory.map(b => b.blocking), 100);
+
+                // Draw grid lines
+                for (let i = 0; i <= 4; i++) {
+                    const y = (i / 4) * chartHeight;
+                    const line = document.createElement('div');
+                    line.style.position = 'absolute';
+                    line.style.left = '0';
+                    line.style.top = `${y}px`;
+                    line.style.width = '100%';
+                    line.style.height = '1px';
+                    line.style.background = '#e2e8f0';
+                    stressChartEl.appendChild(line);
+                }
+
+                // Draw points
+                blockingHistory.forEach((point, index) => {
+                    const x = (index / (blockingHistory.length - 1)) * chartWidth;
+                    const y = chartHeight - (point.blocking / maxBlocking) * chartHeight;
+
+                    const pointEl = document.createElement('div');
+                    pointEl.className = 'chart-point';
+                    pointEl.style.left = `${x - 2}px`;
+                    pointEl.style.top = `${y - 2}px`;
+                    pointEl.title = `${point.blocking.toFixed(1)}ms blocking at ${point.time}s`;
+
+                    // Color based on blocking severity
+                    if (point.blocking > 50) {
+                        pointEl.classList.add('blocked');
+                    } else if (point.blocking > 16) {
+                        pointEl.classList.add('overloaded');
+                    }
+
+                    stressChartEl.appendChild(pointEl);
+                });
+            }
+
+            // Get selected operations
+            function getSelectedOperations() {
+                return Object.keys(operationCheckboxes).filter(key => operationCheckboxes[key].checked);
+            }
+
+            // Start stress test
+            async function startStressTest() {
+                if (isStressing) return;
+
+                const selectedOps = getSelectedOperations();
+                if (selectedOps.length === 0) {
+                    alert('Please select at least one stress operation.');
+                    return;
+                }
+
+                isStressing = true;
+                blockingHistory = [];
+                uiFreezeCount = 0;
+                stressTimeouts = [];
+
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+
+                statusIndicatorEl.className = 'stress-dot';
+                statusTextEl.textContent = 'Stress testing...';
+
+                const testDuration = parseInt(testDurationSelect.value) * 1000;
+                const intensity = stressIntensitySelect.value;
+                const uiResponsiveness = uiResponsivenessSelect.value;
+
+                // Intensity multipliers
+                const intensityMultipliers = {
+                    low: 1,
+                    medium: 5,
+                    high: 10,
+                    extreme: 50
+                };
+
+                const multiplier = intensityMultipliers[intensity];
+
+                startTime = performance.now();
+
+                // Start stress operations
+                selectedOps.forEach(op => {
+                    if (stressOperations[op]) {
+                        const interval = setInterval(() => {
+                            try {
+                                stressOperations[op](multiplier);
+                            } catch (error) {
+                                console.warn(`Error in ${op} operation:`, error);
+                            }
+                        }, 100); // Run every 100ms
+
+                        stressIntervals.push(interval);
+                    }
+                });
+
+                // Start monitoring
+                const monitorInterval = setInterval(async () => {
+                    const currentTime = (performance.now() - startTime) / 1000;
+                    const blocking = await measureBlocking();
+
+                    blockingHistory.push({
+                        time: currentTime,
+                        blocking: blocking
+                    });
+
+                    // Update UI based on responsiveness setting
+                    if (uiResponsiveness !== 'disabled') {
+                        updateBlockingDisplay(blocking);
+                        if (uiResponsiveness === 'enabled') {
+                            updateStatistics();
+                            updateChart();
+                        }
+                    }
+
+                    // Update duration
+                    currentDurationEl.textContent = `${currentTime.toFixed(1)}s`;
+
+                    // Check if test should end
+                    if (currentTime >= testDuration / 1000) {
+                        stopStressTest();
+                        clearInterval(monitorInterval);
+                    }
+                }, 200); // Monitor every 200ms
+
+                stressIntervals.push(monitorInterval);
+
+                // Auto-stop after duration
+                setTimeout(() => {
+                    stopStressTest();
+                }, testDuration + 1000);
+            }
+
+            function stopStressTest() {
+                if (!isStressing) return;
+
+                isStressing = false;
+
+                // Clear all intervals and timeouts
+                stressIntervals.forEach(interval => clearInterval(interval));
+                stressTimeouts.forEach(timeout => clearTimeout(timeout));
+
+                stressIntervals = [];
+                stressTimeouts = [];
+
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+
+                statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-green-500';
+                statusTextEl.textContent = 'Test completed';
+
+                // Final UI update
+                updateStatistics();
+                updateChart();
+            }
+
+            function clearResults() {
+                blockingHistory = [];
+                uiFreezeCount = 0;
+
+                currentBlockingEl.textContent = '--';
+                statusTextEl.textContent = 'Ready to stress test';
+                stressDescriptionEl.textContent = 'Event loop blocking time';
+                stressFillEl.style.width = '0%';
+                stressFillEl.className = 'stress-fill';
+
+                currentOperationsEl.textContent = '0';
+                currentDurationEl.textContent = '0s';
+                currentAvgBlockingEl.textContent = '--ms';
+                maxBlockingEl.textContent = '--ms';
+                blockingEventsEl.textContent = '0';
+                uiFreezesEl.textContent = '0';
+                performanceRatingEl.textContent = '--';
+                performanceScoreEl.textContent = '--/100';
+                stabilityRatingEl.textContent = '--';
+                activeOperationsEl.textContent = '--';
+                memoryUsageEl.textContent = '--MB';
+                eventQueueEl.textContent = '--';
+
+                stressChartEl.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
+                        <p>Start stress test to see blocking data</p>
+                    </div>
+                `;
+                feather.replace();
+            }
+
+            // Operation card selection
+            Object.values(operationCheckboxes).forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const card = this.closest('.operation-card');
+                    if (this.checked) {
+                        card.classList.add('selected');
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                });
+            });
+
+            // Event listeners
+            startBtn.addEventListener('click', startStressTest);
+            stopBtn.addEventListener('click', stopStressTest);
+            clearBtn.addEventListener('click', clearResults);
+
+            // Initialize
+            clearResults();
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you need to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

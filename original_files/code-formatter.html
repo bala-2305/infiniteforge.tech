@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Formatter / Beautifier - InfiniteForge</title>
+    <meta name="description" content="Format and beautify code for multiple programming languages including JavaScript, Python, HTML, CSS, JSON, XML, SQL, and more. Free, fast, and privacy-focused.">
+    <meta name="keywords" content="code formatter, code beautifier, javascript formatter, python formatter, html formatter, css formatter, json formatter, xml formatter, sql formatter">
+    <meta name="author" content="InfiniteForge">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/code-formatter.html">
+    <meta property="og:title" content="Code Formatter / Beautifier - InfiniteForge">
+    <meta property="og:description" content="Format and beautify code for multiple programming languages. Free, fast, and privacy-focused.">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/images/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://infiniteforge.tech/code-formatter.html">
+    <meta property="twitter:title" content="Code Formatter / Beautifier - InfiniteForge">
+    <meta property="twitter:description" content="Format and beautify code for multiple programming languages. Free, fast, and privacy-focused.">
+    <meta property="twitter:image" content="https://infiniteforge.tech/assets/images/og-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://infiniteforge.tech/code-formatter.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/code-formatter.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- Code Formatting Libraries -->
+    <script src="https://unpkg.com/js-beautify@1.15.1/js/lib/beautify.js"></script>
+    <script src="https://unpkg.com/js-beautify@1.15.1/js/lib/beautify-css.js"></script>
+    <script src="https://unpkg.com/js-beautify@1.15.1/js/lib/beautify-html.js"></script>
+    <script src="https://unpkg.com/sql-formatter@15.3.2/dist/sql-formatter.min.js"></script>
+    <script src="https://unpkg.com/xml-formatter@3.4.0/dist/xml-formatter.min.js"></script>
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-xml-doc.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-input, .code-output {
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-input {
+            min-height: 300px;
+        }
+
+        .code-output {
+            min-height: 300px;
+            background-color: #f8f9fa;
+        }
+
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+
+        .tab-button.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .language-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .language-option:hover {
+            background-color: #f3f4f6;
+        }
+
+        .language-option.selected {
+            background-color: #dbeafe;
+            color: #1e40af;
+            font-weight: 500;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .success-message {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* Custom scrollbar */
+        .code-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .code-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .code-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .code-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Prism.js custom theme adjustments */
+        .token.comment,
+        .token.prolog,
+        .token.doctype,
+        .token.cdata {
+            color: #6a737d;
+        }
+
+        .token.punctuation {
+            color: #586069;
+        }
+
+        .token.property,
+        .token.tag,
+        .token.constant,
+        .token.symbol,
+        .token.deleted {
+            color: #22863a;
+        }
+
+        .token.boolean,
+        .token.number {
+            color: #005cc5;
+        }
+
+        .token.selector,
+        .token.attr-name,
+        .token.string,
+        .token.char,
+        .token.builtin,
+        .token.inserted {
+            color: #032f62;
+        }
+
+        .token.operator,
+        .token.entity,
+        .token.url,
+        .token.variable {
+            color: #d73a49;
+        }
+
+        .token.atrule,
+        .token.attr-value,
+        .token.function,
+        .token.class-name {
+            color: #6f42c1;
+        }
+
+        .token.keyword {
+            color: #d73a49;
+        }
+
+        .token.regex,
+        .token.important {
+            color: #e36209;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="h-8 w-8 mr-2">
+                        <span class="text-xl font-bold text-gray-900">InfiniteForge</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="features.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Tools</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Code Formatter / Beautifier</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Format and beautify code for multiple programming languages. Clean up your code with proper indentation,
+                spacing, and formatting. All processing happens locally in your browser for maximum privacy.
+            </p>
+        </div>
+
+        <!-- Language Selection -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Select Language</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                <div class="language-option selected" data-language="javascript">JavaScript</div>
+                <div class="language-option" data-language="typescript">TypeScript</div>
+                <div class="language-option" data-language="python">Python</div>
+                <div class="language-option" data-language="html">HTML</div>
+                <div class="language-option" data-language="css">CSS</div>
+                <div class="language-option" data-language="json">JSON</div>
+                <div class="language-option" data-language="xml">XML</div>
+                <div class="language-option" data-language="sql">SQL</div>
+                <div class="language-option" data-language="markdown">Markdown</div>
+                <div class="language-option" data-language="yaml">YAML</div>
+                <div class="language-option" data-language="php">PHP</div>
+                <div class="language-option" data-language="java">Java</div>
+            </div>
+        </div>
+
+        <!-- Formatting Options -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Formatting Options</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Indentation</label>
+                    <select id="indent-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="space">Spaces</option>
+                        <option value="tab">Tabs</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Indent Size</label>
+                    <select id="indent-size" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Line Width</label>
+                    <input type="number" id="line-width" value="80" min="40" max="200"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="semicolons" checked class="mr-2">
+                    <label for="semicolons" class="text-sm font-medium text-gray-700">Add semicolons</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Input/Output -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Input Section -->
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Input Code</h3>
+                        <div class="flex gap-2">
+                            <button id="paste-btn" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
+                                <i data-feather="clipboard" class="w-4 h-4 inline mr-1"></i>Paste
+                            </button>
+                            <button id="clear-input-btn" class="px-3 py-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-md transition-colors">
+                                <i data-feather="trash-2" class="w-4 h-4 inline mr-1"></i>Clear
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="code-input" class="code-input w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none code-container" placeholder="Paste your code here..."></textarea>
+                </div>
+
+                <!-- Output Section -->
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Formatted Code</h3>
+                        <div class="flex gap-2">
+                            <button id="copy-btn" class="px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md transition-colors" disabled>
+                                <i data-feather="copy" class="w-4 h-4 inline mr-1"></i>Copy
+                            </button>
+                            <button id="download-btn" class="px-3 py-1 text-sm bg-green-100 hover:bg-green-200 text-green-700 rounded-md transition-colors" disabled>
+                                <i data-feather="download" class="w-4 h-4 inline mr-1"></i>Download
+                            </button>
+                        </div>
+                    </div>
+                    <pre id="code-output" class="code-output w-full p-4 border border-gray-300 rounded-md code-container"><code class="language-javascript">Formatted code will appear here...</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center mb-8">
+            <button id="format-btn" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                <span id="format-text">Format Code</span>
+                <div id="loading-spinner" class="hidden loading-spinner inline-block ml-2"></div>
+            </button>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-container" class="hidden">
+            <!-- Messages will be inserted here -->
+        </div>
+
+        <!-- Features Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <i data-feather="code" class="w-12 h-12 text-blue-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Multiple Languages</h3>
+                    <p class="text-gray-600">Support for JavaScript, TypeScript, Python, HTML, CSS, JSON, XML, SQL, and more.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="shield" class="w-12 h-12 text-green-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Privacy First</h3>
+                    <p class="text-gray-600">All code formatting happens locally in your browser. No data is sent to servers.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="settings" class="w-12 h-12 text-purple-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Customizable</h3>
+                    <p class="text-gray-600">Configure indentation, line width, semicolons, and other formatting preferences.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="zap" class="w-12 h-12 text-yellow-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Fast & Free</h3>
+                    <p class="text-gray-600">Lightning-fast formatting with no usage limits or registration required.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="eye" class="w-12 h-12 text-indigo-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Syntax Highlighting</h3>
+                    <p class="text-gray-600">Beautiful syntax highlighting makes your code easier to read and understand.</p>
+                </div>
+                <div class="text-center">
+                    <i data-feather="download" class="w-12 h-12 text-red-500 mb-4 mx-auto"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Export Options</h3>
+                    <p class="text-gray-600">Copy formatted code to clipboard or download as a file for easy sharing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What programming languages are supported?</h3>
+                    <p class="text-gray-600">We support JavaScript, TypeScript, Python, HTML, CSS, JSON, XML, SQL, Markdown, YAML, PHP, Java, and more. We're constantly adding support for additional languages.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Is my code safe and private?</h3>
+                    <p class="text-gray-600">Absolutely! All code formatting happens locally in your browser using client-side JavaScript libraries. Your code never leaves your device or gets sent to any server.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Can I customize the formatting style?</h3>
+                    <p class="text-gray-600">Yes! You can configure indentation type (spaces or tabs), indent size, line width, and other options to match your preferred coding style.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Does this tool work offline?</h3>
+                    <p class="text-gray-600">Once the page is loaded, the formatting libraries are cached locally, so you can use the tool offline for subsequent formatting tasks.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">What if the code has syntax errors?</h3>
+                    <p class="text-gray-600">The formatter will attempt to format valid code. If there are syntax errors, the formatter may not work correctly. We recommend fixing syntax errors first before formatting.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="h-8 w-8 mr-2">
+                        <span class="text-xl font-bold">InfiniteForge</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Free, privacy-focused online tools for developers and content creators.
+                        All processing happens locally in your browser.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="youtube" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="twitter" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="features.html" class="text-gray-400 hover:text-white transition-colors">All Tools</a></li>
+                        <li><a href="imagecompressor.html" class="text-gray-400 hover:text-white transition-colors">Image Tools</a></li>
+                        <li><a href="pdftools.html" class="text-gray-400 hover:text-white transition-colors">PDF Tools</a></li>
+                        <li><a href="video-to-gif.html" class="text-gray-400 hover:text-white transition-colors">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors">Privacy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition-colors">Terms</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 InfiniteForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Code Formatter / Beautifier",
+        "description": "Format and beautify code for multiple programming languages including JavaScript, Python, HTML, CSS, JSON, XML, SQL, and more. Free, fast, and privacy-focused.",
+        "url": "https://infiniteforge.tech/code-formatter.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Multiple programming language support",
+            "Client-side processing for privacy",
+            "Customizable formatting options",
+            "Syntax highlighting",
+            "Copy and download functionality"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "InfiniteForge"
+        }
+    }
+    </script>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Global variables
+        let currentLanguage = 'javascript';
+        let formattedCode = '';
+
+        // DOM elements
+        const codeInput = document.getElementById('code-input');
+        const codeOutput = document.getElementById('code-output');
+        const formatBtn = document.getElementById('format-btn');
+        const formatText = document.getElementById('format-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const copyBtn = document.getElementById('copy-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const pasteBtn = document.getElementById('paste-btn');
+        const clearInputBtn = document.getElementById('clear-input-btn');
+        const statusContainer = document.getElementById('status-container');
+
+        // Language selection
+        const languageOptions = document.querySelectorAll('.language-option');
+
+        // Initialize the application
+        function init() {
+            // Wait for libraries to load
+            setTimeout(() => {
+                setupEventListeners();
+                updateLanguageDisplay();
+                loadSampleCode();
+            }, 1000); // Give libraries time to load
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Language selection
+            languageOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    selectLanguage(option.dataset.language);
+                });
+            });
+
+            // Format button
+            formatBtn.addEventListener('click', formatCode);
+
+            // Copy button
+            copyBtn.addEventListener('click', copyToClipboard);
+
+            // Download button
+            downloadBtn.addEventListener('click', downloadCode);
+
+            // Paste button
+            pasteBtn.addEventListener('click', pasteFromClipboard);
+
+            // Clear input button
+            clearInputBtn.addEventListener('click', clearInput);
+
+            // Mobile menu
+            document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
+
+            // Auto-format on input change (debounced)
+            let formatTimeout;
+            codeInput.addEventListener('input', () => {
+                clearTimeout(formatTimeout);
+                formatTimeout = setTimeout(() => {
+                    if (codeInput.value.trim()) {
+                        formatCode();
+                    }
+                }, 1000);
+            });
+        }
+
+        // Select language
+        function selectLanguage(language) {
+            currentLanguage = language;
+
+            // Update UI
+            languageOptions.forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.language === language) {
+                    option.classList.add('selected');
+                }
+            });
+
+            updateLanguageDisplay();
+            updateCodeOutput();
+        }
+
+        // Update language display
+        function updateLanguageDisplay() {
+            const codeElement = codeOutput.querySelector('code');
+            codeElement.className = `language-${currentLanguage}`;
+        }
+
+        // Load sample code based on selected language
+        function loadSampleCode() {
+            const samples = {
+                javascript: `function calculateTotal(items) {
+    let total = 0;
+    for (let i = 0; i < items.length; i++) {
+        total += items[i].price * items[i].quantity;
+    }
+    return total;
+}
+
+const items = [
+    { name: 'Apple', price: 1.50, quantity: 3 },
+    { name: 'Banana', price: 0.75, quantity: 2 }
+];
+
+console.log('Total:', calculateTotal(items));`,
+
+                python: `def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item['price'] * item['quantity']
+    return total
+
+items = [
+    {'name': 'Apple', 'price': 1.50, 'quantity': 3},
+    {'name': 'Banana', 'price': 0.75, 'quantity': 2}
+]
+
+print(f"Total: {calculate_total(items)}")`,
+
+                html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+    </header>
+    <main>
+        <p>This is a sample HTML page.</p>
+    </main>
+</body>
+</html>`,
+
+                css: `.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}`,
+
+                json: `{
+    "name": "John Doe",
+    "age": 30,
+    "email": "john.doe@example.com",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "zip": "12345"
+    },
+    "hobbies": ["reading", "coding", "gaming"]
+}`,
+
+                xml: `<?xml version="1.0" encoding="UTF-8"?>
+<users>
+    <user id="1">
+        <name>John Doe</name>
+        <email>john.doe@example.com</email>
+        <age>30</age>
+    </user>
+    <user id="2">
+        <name>Jane Smith</name>
+        <email>jane.smith@example.com</email>
+        <age>25</age>
+    </user>
+</users>`,
+
+                sql: `SELECT u.name, u.email, COUNT(o.id) as order_count
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE u.created_at >= '2023-01-01'
+GROUP BY u.id, u.name, u.email
+HAVING COUNT(o.id) > 0
+ORDER BY order_count DESC;`
+            };
+
+            if (samples[currentLanguage]) {
+                codeInput.value = samples[currentLanguage];
+                formatCode();
+            }
+        }
+
+        // Format code based on selected language
+        async function formatCode() {
+            const code = codeInput.value.trim();
+            if (!code) {
+                showMessage('Please enter some code to format.', 'error');
+                return;
+            }
+
+            // Show loading state
+            setLoadingState(true);
+            clearMessages();
+
+            try {
+                let formatted = '';
+
+                switch (currentLanguage) {
+                    case 'javascript':
+                    case 'typescript':
+                        formatted = await formatWithPrettier(code, currentLanguage);
+                        break;
+                    case 'html':
+                        formatted = formatHTML(code);
+                        break;
+                    case 'css':
+                        formatted = formatCSS(code);
+                        break;
+                    case 'json':
+                        formatted = formatJSON(code);
+                        break;
+                    case 'xml':
+                        formatted = formatXML(code);
+                        break;
+                    case 'sql':
+                        formatted = formatSQL(code);
+                        break;
+                    case 'python':
+                        formatted = formatPython(code);
+                        break;
+                    case 'markdown':
+                        formatted = await formatWithPrettier(code, 'markdown');
+                        break;
+                    case 'yaml':
+                        formatted = code; // YAML formatting is basic
+                        break;
+                    case 'php':
+                        formatted = formatPHP(code);
+                        break;
+                    case 'java':
+                        formatted = formatJava(code);
+                        break;
+                    default:
+                        formatted = code;
+                }
+
+                formattedCode = formatted;
+                updateCodeOutput();
+                enableExportButtons();
+
+                if (formatted !== code) {
+                    showMessage('Code formatted successfully!', 'success');
+                } else {
+                    showMessage('Code is already properly formatted.', 'success');
+                }
+
+            } catch (error) {
+                console.error('Formatting error:', error);
+                showMessage(`Formatting failed: ${error.message}`, 'error');
+                formattedCode = code;
+                updateCodeOutput();
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        // Format with Prettier
+        async function formatWithPrettier(code, language) {
+            try {
+                // For now, use js-beautify for JavaScript/TypeScript to avoid parser issues
+                // Prettier standalone has complex plugin requirements
+                if (language === 'javascript' || language === 'typescript') {
+                    if (typeof js_beautify !== 'undefined') {
+                        return js_beautify(code, {
+                            indent_size: parseInt(document.getElementById('indent-size').value),
+                            indent_char: document.getElementById('indent-type').value === 'tab' ? '\t' : ' ',
+                            max_preserve_newlines: 2,
+                            preserve_newlines: true,
+                            keep_array_indentation: false,
+                            break_chained_methods: false,
+                            indent_scripts: 'normal',
+                            brace_style: 'collapse',
+                            space_before_conditional: true,
+                            unescape_strings: false,
+                            jslint_happy: false,
+                            end_with_newline: false,
+                            wrap_line_length: parseInt(document.getElementById('line-width').value)
+                        });
+                    } else {
+                        throw new Error('js-beautify library not loaded');
+                    }
+                }
+
+                // For other languages, try basic formatting or fall back to original
+                if (language === 'markdown') {
+                    return code; // Basic markdown doesn't need much formatting
+                }
+
+                return code;
+            } catch (error) {
+                console.error('Prettier formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Format HTML
+        function formatHTML(code) {
+            try {
+                if (typeof html_beautify !== 'undefined') {
+                    return html_beautify(code, {
+                        indent_size: parseInt(document.getElementById('indent-size').value),
+                        indent_char: document.getElementById('indent-type').value === 'tab' ? '\t' : ' ',
+                        max_preserve_newlines: 2,
+                        preserve_newlines: true,
+                        keep_array_indentation: false,
+                        break_chained_methods: false,
+                        indent_scripts: 'normal',
+                        brace_style: 'collapse',
+                        space_before_conditional: true,
+                        unescape_strings: false,
+                        jslint_happy: false,
+                        end_with_newline: false,
+                        wrap_line_length: parseInt(document.getElementById('line-width').value)
+                    });
+                } else {
+                    throw new Error('html-beautify library not loaded');
+                }
+            } catch (error) {
+                console.error('HTML formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Format CSS
+        function formatCSS(code) {
+            try {
+                if (typeof css_beautify !== 'undefined') {
+                    return css_beautify(code, {
+                        indent_size: parseInt(document.getElementById('indent-size').value),
+                        indent_char: document.getElementById('indent-type').value === 'tab' ? '\t' : ' ',
+                        selector_separator_newline: true,
+                        end_with_newline: false
+                    });
+                } else {
+                    throw new Error('css-beautify library not loaded');
+                }
+            } catch (error) {
+                console.error('CSS formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Format JSON
+        function formatJSON(code) {
+            try {
+                const parsed = JSON.parse(code);
+                return JSON.stringify(parsed, null, document.getElementById('indent-type').value === 'tab' ? '\t' : parseInt(document.getElementById('indent-size').value));
+            } catch (e) {
+                throw new Error('Invalid JSON format');
+            }
+        }
+
+        // Format XML
+        function formatXML(code) {
+            try {
+                if (typeof xmlFormatter !== 'undefined') {
+                    return xmlFormatter.format(code, {
+                        indentation: document.getElementById('indent-type').value === 'tab' ? '\t' : ' '.repeat(parseInt(document.getElementById('indent-size').value)),
+                        filter: (node) => node.type !== 'Comment',
+                        collapseContent: true,
+                        lineSeparator: '\n'
+                    });
+                } else {
+                    throw new Error('xml-formatter library not loaded');
+                }
+            } catch (error) {
+                console.error('XML formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Format SQL
+        function formatSQL(code) {
+            try {
+                if (typeof sqlFormatter !== 'undefined') {
+                    return sqlFormatter.format(code, {
+                        language: 'sql',
+                        tabWidth: parseInt(document.getElementById('indent-size').value),
+                        useTabs: document.getElementById('indent-type').value === 'tab',
+                        keywordCase: 'upper',
+                        indentStyle: 'standard'
+                    });
+                } else {
+                    throw new Error('sql-formatter library not loaded');
+                }
+            } catch (error) {
+                console.error('SQL formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Format Python (basic indentation)
+        function formatPython(code) {
+            // This is a basic Python formatter - for production, consider using a more robust library
+            const lines = code.split('\n');
+            const formattedLines = [];
+            let indentLevel = 0;
+            const indentSize = parseInt(document.getElementById('indent-size').value);
+            const useTabs = document.getElementById('indent-type').value === 'tab';
+            const indentChar = useTabs ? '\t' : ' '.repeat(indentSize);
+
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) {
+                    formattedLines.push('');
+                    continue;
+                }
+
+                // Decrease indent for dedent keywords
+                if (/^(elif|else|except|finally|return|break|continue|pass|raise)$/.test(trimmed.split(/\s+/)[0])) {
+                    indentLevel = Math.max(0, indentLevel - 1);
+                }
+
+                // Add current indentation
+                const indentedLine = indentChar.repeat(indentLevel) + trimmed;
+                formattedLines.push(indentedLine);
+
+                // Increase indent after colon
+                if (trimmed.endsWith(':')) {
+                    indentLevel++;
+                }
+            }
+
+            return formattedLines.join('\n');
+        }
+
+        // Format PHP (basic)
+        function formatPHP(code) {
+            try {
+                if (typeof js_beautify !== 'undefined') {
+                    return js_beautify(code, {
+                        indent_size: parseInt(document.getElementById('indent-size').value),
+                        indent_char: document.getElementById('indent-type').value === 'tab' ? '\t' : ' ',
+                        preserve_newlines: true,
+                        max_preserve_newlines: 2
+                    });
+                } else {
+                    throw new Error('js-beautify library not loaded');
+                }
+            } catch (error) {
+                console.error('PHP formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Format Java (basic)
+        function formatJava(code) {
+            try {
+                if (typeof js_beautify !== 'undefined') {
+                    return js_beautify(code, {
+                        indent_size: parseInt(document.getElementById('indent-size').value),
+                        indent_char: document.getElementById('indent-type').value === 'tab' ? '\t' : ' ',
+                        preserve_newlines: true,
+                        max_preserve_newlines: 2
+                    });
+                } else {
+                    throw new Error('js-beautify library not loaded');
+                }
+            } catch (error) {
+                console.error('Java formatting error:', error);
+                throw error;
+            }
+        }
+
+        // Update code output display
+        function updateCodeOutput() {
+            const codeElement = codeOutput.querySelector('code');
+            codeElement.textContent = formattedCode || 'Formatted code will appear here...';
+            codeElement.className = `language-${currentLanguage}`;
+
+            // Re-highlight with Prism.js
+            Prism.highlightElement(codeElement);
+        }
+
+        // Enable export buttons
+        function enableExportButtons() {
+            copyBtn.disabled = false;
+            downloadBtn.disabled = false;
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard() {
+            try {
+                await navigator.clipboard.writeText(formattedCode);
+                showMessage('Code copied to clipboard!', 'success');
+            } catch (error) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = formattedCode;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showMessage('Code copied to clipboard!', 'success');
+            }
+        }
+
+        // Download code
+        function downloadCode() {
+            const blob = new Blob([formattedCode], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `formatted-code.${getFileExtension(currentLanguage)}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showMessage('Code downloaded successfully!', 'success');
+        }
+
+        // Get file extension for download
+        function getFileExtension(language) {
+            const extensions = {
+                javascript: 'js',
+                typescript: 'ts',
+                python: 'py',
+                html: 'html',
+                css: 'css',
+                json: 'json',
+                xml: 'xml',
+                sql: 'sql',
+                markdown: 'md',
+                yaml: 'yaml',
+                php: 'php',
+                java: 'java'
+            };
+            return extensions[language] || 'txt';
+        }
+
+        // Paste from clipboard
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                codeInput.value = text;
+                formatCode();
+            } catch (error) {
+                showMessage('Unable to paste from clipboard. Please paste manually.', 'error');
+            }
+        }
+
+        // Clear input
+        function clearInput() {
+            codeInput.value = '';
+            formattedCode = '';
+            updateCodeOutput();
+            copyBtn.disabled = true;
+            downloadBtn.disabled = true;
+            clearMessages();
+        }
+
+        // Set loading state
+        function setLoadingState(loading) {
+            formatBtn.disabled = loading;
+            if (loading) {
+                formatText.textContent = 'Formatting...';
+                loadingSpinner.classList.remove('hidden');
+            } else {
+                formatText.textContent = 'Format Code';
+                loadingSpinner.classList.add('hidden');
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            statusContainer.innerHTML = '';
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            messageDiv.innerHTML = `<i data-feather="${type === 'error' ? 'alert-circle' : 'check-circle'}" class="w-5 h-5 inline mr-2"></i>${message}`;
+            statusContainer.appendChild(messageDiv);
+            statusContainer.classList.remove('hidden');
+            feather.replace();
+
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.remove();
+                    if (!statusContainer.children.length) {
+                        statusContainer.classList.add('hidden');
+                    }
+                }, 5000);
+            }
+        }
+
+        // Clear messages
+        function clearMessages() {
+            statusContainer.innerHTML = '';
+            statusContainer.classList.add('hidden');
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = document.getElementById('mobile-menu').querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Close mobile menu when scrolling
+        window.addEventListener('scroll', () => {
+            const menu = document.getElementById('mobile-menu');
+            if (!menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Load sample code when language changes
+        document.addEventListener('languageChange', loadSampleCode);
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

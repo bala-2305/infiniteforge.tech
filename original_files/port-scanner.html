@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner - Test Network Ports | InfiniteForge Tools</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Scan network ports to check if they are open, closed, or filtered. Test TCP ports, common services, and network connectivity. Perfect for network administrators and security testing.">
+    <meta name="keywords" content="port scanner, network scanner, TCP port scan, port testing, network security, open ports, closed ports, port checker, network diagnostics, port scanning tool, TCP connect scan, service detection">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Port Scanner - Test Network Ports | InfiniteForge Tools">
+    <meta property="og:description" content="Scan network ports to check connectivity and service availability. Test common ports, custom ranges, and detect running services.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/port-scanner.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Port Scanner - Test Network Ports | InfiniteForge Tools">
+    <meta name="twitter:description" content="Scan network ports to check connectivity and service availability. Test common ports, custom ranges, and detect running services.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/port-scanner.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/port-scanner.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Port Scanner",
+        "description": "Network port scanning tool to test connectivity and detect open ports and services",
+        "url": "https://infiniteforge.tech/port-scanner.html",
+        "applicationCategory": "NetworkApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .animate-spin { animation: spin 1s linear infinite; }
+
+        .port-status-open {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .port-status-closed {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .port-status-filtered {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .port-status-timeout {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .service-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .scan-animation {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8, #3b82f6);
+            background-size: 200% 100%;
+            animation: gradientShift 2s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-xl shadow-lg w-full fixed top-0 left-0 z-50 border-b border-gray-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-3xl font-bold gradient-text hover:scale-105 transition-transform duration-300" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        Features
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50">
+            <a href="index.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Home</a>
+            <a href="features.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Features</a>
+            <a href="about.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">About</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-24 pb-12 px-4">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fadeIn">
+            <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-200/50 rounded-full text-sm font-medium text-blue-700 mb-6">
+                <i data-feather="search" class="w-4 h-4 mr-2"></i>
+                Network Security Tool
+            </div>
+
+            <h1 class="text-5xl sm:text-6xl font-black gradient-text mb-6">
+                Port Scanner
+            </h1>
+
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+                Scan network ports to check connectivity, detect open services, and analyze network security.
+                Test individual ports or scan ranges with detailed results and service identification.
+            </p>
+
+            <!-- Warning Banner -->
+            <div class="max-w-4xl mx-auto mb-8">
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                    <div class="flex items-start">
+                        <i data-feather="alert-triangle" class="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0"></i>
+                        <div>
+                            <h3 class="text-sm font-medium text-yellow-800">Browser Limitations</h3>
+                            <p class="text-sm text-yellow-700 mt-1">
+                                Due to browser security restrictions, this tool can only test ports that support HTTP/HTTPS or WebSocket connections.
+                                For comprehensive port scanning, use dedicated network tools.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scan Configuration -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 animate-fadeIn">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i data-feather="settings" class="w-6 h-6 mr-3 text-blue-600"></i>
+                Scan Configuration
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Target Input -->
+                <div>
+                    <label for="target-ip" class="block text-sm font-medium text-gray-700 mb-2">
+                        Target IP or Hostname
+                    </label>
+                    <input
+                        type="text"
+                        id="target-ip"
+                        placeholder="e.g., 192.168.1.1 or example.com"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Enter an IP address or hostname to scan</p>
+                </div>
+
+                <!-- Port Range -->
+                <div>
+                    <label for="port-range" class="block text-sm font-medium text-gray-700 mb-2">
+                        Port Range
+                    </label>
+                    <select id="port-range" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                        <option value="common">Common Ports (21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995)</option>
+                        <option value="web">Web Ports (80, 443, 8080, 8443)</option>
+                        <option value="mail">Mail Ports (25, 110, 143, 465, 587, 993, 995)</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Custom Port Range -->
+            <div id="custom-range" class="hidden mb-6">
+                <label for="custom-ports" class="block text-sm font-medium text-gray-700 mb-2">
+                    Custom Ports
+                </label>
+                <input
+                    type="text"
+                    id="custom-ports"
+                    placeholder="e.g., 22,80,443 or 1-100"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                >
+                <p class="text-xs text-gray-500 mt-1">Enter ports separated by commas or ranges (e.g., 1-100)</p>
+            </div>
+
+            <!-- Scan Options -->
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label for="scan-timeout" class="block text-sm font-medium text-gray-700 mb-2">
+                        Timeout (ms)
+                    </label>
+                    <select id="scan-timeout" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="1000">1000ms</option>
+                        <option value="2000">2000ms</option>
+                        <option value="5000" selected>5000ms</option>
+                        <option value="10000">10000ms</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="scan-method" class="block text-sm font-medium text-gray-700 mb-2">
+                        Scan Method
+                    </label>
+                    <select id="scan-method" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="connect">TCP Connect</option>
+                        <option value="http">HTTP Request</option>
+                        <option value="websocket">WebSocket</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="max-concurrent" class="block text-sm font-medium text-gray-700 mb-2">
+                        Max Concurrent
+                    </label>
+                    <select id="max-concurrent" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-4">
+                <button id="start-scan" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <i data-feather="play" class="w-5 h-5 inline mr-2"></i>
+                    Start Scan
+                </button>
+                <button id="stop-scan" class="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 hidden">
+                    <i data-feather="square" class="w-5 h-5 inline mr-2"></i>
+                    Stop Scan
+                </button>
+                <button id="clear-results" class="px-8 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <i data-feather="trash-2" class="w-5 h-5 inline mr-2"></i>
+                    Clear Results
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progress-container" class="bg-white rounded-2xl shadow-xl p-6 mb-8 hidden animate-fadeIn">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Scan Progress</h3>
+                <span id="progress-text" class="text-sm text-gray-600">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-4 text-sm text-gray-600">
+                <span id="current-port">Scanning port 0</span>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="bg-white rounded-2xl shadow-xl p-8 animate-fadeIn hidden">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                    <i data-feather="activity" class="w-6 h-6 mr-3 text-green-600"></i>
+                    Scan Results
+                </h2>
+                <button id="export-results" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i data-feather="download" class="w-4 h-4 inline mr-2"></i>
+                    Export
+                </button>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <div class="text-2xl font-bold text-green-600" id="open-count">0</div>
+                    <div class="text-sm text-green-700">Open Ports</div>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                    <div class="text-2xl font-bold text-red-600" id="closed-count">0</div>
+                    <div class="text-sm text-red-700">Closed Ports</div>
+                </div>
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <div class="text-2xl font-bold text-yellow-600" id="filtered-count">0</div>
+                    <div class="text-sm text-yellow-700">Filtered</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div class="text-2xl font-bold text-gray-600" id="timeout-count">0</div>
+                    <div class="text-sm text-gray-700">Timeout</div>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Port</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response Time</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table" class="bg-white divide-y divide-gray-200">
+                        <!-- Results will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- No Results Message -->
+            <div id="no-results" class="text-center py-12 hidden">
+                <i data-feather="search" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">No Results Yet</h3>
+                <p class="text-gray-500">Start a scan to see port status results</p>
+            </div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mt-8 animate-fadeIn">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i data-feather="info" class="w-6 h-6 mr-3 text-blue-600"></i>
+                How Port Scanning Works
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Port Status Meanings</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <div class="w-4 h-4 rounded-full port-status-open mt-1 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-medium text-gray-800">Open</div>
+                                <div class="text-sm text-gray-600">Port is accepting connections and a service is running</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-4 h-4 rounded-full port-status-closed mt-1 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-medium text-gray-800">Closed</div>
+                                <div class="text-sm text-gray-600">Port is reachable but no service is listening</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-4 h-4 rounded-full port-status-filtered mt-1 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-medium text-gray-800">Filtered</div>
+                                <div class="text-sm text-gray-600">Port is blocked by firewall or filtering device</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-4 h-4 rounded-full port-status-timeout mt-1 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-medium text-gray-800">Timeout</div>
+                                <div class="text-sm text-gray-600">No response received within timeout period</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Common Ports</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">HTTP</span>
+                            <span class="font-mono text-gray-800">80</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">HTTPS</span>
+                            <span class="font-mono text-gray-800">443</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">SSH</span>
+                            <span class="font-mono text-gray-800">22</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">FTP</span>
+                            <span class="font-mono text-gray-800">21</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">SMTP</span>
+                            <span class="font-mono text-gray-800">25</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">DNS</span>
+                            <span class="font-mono text-gray-800">53</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">MySQL</span>
+                            <span class="font-mono text-gray-800">3306</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">PostgreSQL</span>
+                            <span class="font-mono text-gray-800">5432</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h4 class="font-semibold text-blue-800 mb-2">Security Notice</h4>
+                <p class="text-blue-700 text-sm">
+                    Port scanning should only be performed on networks and systems you own or have explicit permission to test.
+                    Unauthorized port scanning may be illegal and can be considered a security violation.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="mb-4">
+                <a href="index.html" class="text-3xl font-bold gradient-text hover:scale-105 transition-transform duration-300 inline-block">InfiniteForge</a>
+            </div>
+            <div class="flex justify-center space-x-8 mb-6">
+                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a>
+                <a href="features.html" class="text-gray-300 hover:text-white transition-colors">Features</a>
+                <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+                <a href="contact.html" class="text-gray-300 hover:text-white transition-colors">Contact</a>
+            </div>
+            <div class="border-t border-gray-700 pt-6">
+                <p class="text-gray-400 text-sm">© 2025 InfiniteForge. Empowering creators with innovative digital tools.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Feather Icons
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+
+        // Port Scanner Implementation
+        class PortScanner {
+            constructor() {
+                this.isScanning = false;
+                this.abortController = null;
+                this.commonPorts = [21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995, 3306, 5432];
+                this.webPorts = [80, 443, 8080, 8443];
+                this.mailPorts = [25, 110, 143, 465, 587, 993, 995];
+
+                this.portServices = {
+                    21: 'FTP',
+                    22: 'SSH',
+                    23: 'Telnet',
+                    25: 'SMTP',
+                    53: 'DNS',
+                    80: 'HTTP',
+                    110: 'POP3',
+                    143: 'IMAP',
+                    443: 'HTTPS',
+                    465: 'SMTPS',
+                    587: 'SMTP',
+                    993: 'IMAPS',
+                    995: 'POP3S',
+                    3306: 'MySQL',
+                    5432: 'PostgreSQL',
+                    8080: 'HTTP-Alt',
+                    8443: 'HTTPS-Alt'
+                };
+
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                // Port range selector
+                document.getElementById('port-range').addEventListener('change', (e) => {
+                    const customRange = document.getElementById('custom-range');
+                    customRange.classList.toggle('hidden', e.target.value !== 'custom');
+                });
+
+                // Start scan button
+                document.getElementById('start-scan').addEventListener('click', () => this.startScan());
+
+                // Stop scan button
+                document.getElementById('stop-scan').addEventListener('click', () => this.stopScan());
+
+                // Clear results button
+                document.getElementById('clear-results').addEventListener('click', () => this.clearResults());
+
+                // Export results button
+                document.getElementById('export-results').addEventListener('click', () => this.exportResults());
+
+                // Mobile menu
+                document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.toggle('hidden');
+                });
+            }
+
+            async startScan() {
+                const target = document.getElementById('target-ip').value.trim();
+                if (!target) {
+                    this.showError('Please enter a target IP or hostname');
+                    return;
+                }
+
+                if (!this.isValidTarget(target)) {
+                    this.showError('Please enter a valid IP address or hostname');
+                    return;
+                }
+
+                const ports = this.getPortsToScan();
+                if (ports.length === 0) {
+                    this.showError('Please select ports to scan');
+                    return;
+                }
+
+                this.isScanning = true;
+                this.updateUIForScanning(true);
+                this.clearResults();
+                this.showProgress(true);
+
+                try {
+                    await this.scanPorts(target, ports);
+                } catch (error) {
+                    console.error('Scan error:', error);
+                    this.showError('Scan failed: ' + error.message);
+                } finally {
+                    this.isScanning = false;
+                    this.updateUIForScanning(false);
+                    this.showProgress(false);
+                }
+            }
+
+            stopScan() {
+                this.isScanning = false;
+                if (this.abortController) {
+                    this.abortController.abort();
+                }
+                this.updateUIForScanning(false);
+                this.showProgress(false);
+            }
+
+            updateUIForScanning(scanning) {
+                const startBtn = document.getElementById('start-scan');
+                const stopBtn = document.getElementById('stop-scan');
+
+                if (scanning) {
+                    startBtn.classList.add('hidden');
+                    stopBtn.classList.remove('hidden');
+                    startBtn.disabled = true;
+                } else {
+                    startBtn.classList.remove('hidden');
+                    stopBtn.classList.add('hidden');
+                    startBtn.disabled = false;
+                }
+            }
+
+            showProgress(show) {
+                const container = document.getElementById('progress-container');
+                container.classList.toggle('hidden', !show);
+            }
+
+            updateProgress(current, total, port) {
+                const percentage = Math.round((current / total) * 100);
+                document.getElementById('progress-bar').style.width = percentage + '%';
+                document.getElementById('progress-text').textContent = percentage + '%';
+                document.getElementById('current-port').textContent = `Scanning port ${port}`;
+            }
+
+            clearResults() {
+                const tbody = document.getElementById('results-table');
+                tbody.innerHTML = '';
+                document.getElementById('results-section').classList.add('hidden');
+                document.getElementById('no-results').classList.remove('hidden');
+                this.resetStats();
+            }
+
+            resetStats() {
+                document.getElementById('open-count').textContent = '0';
+                document.getElementById('closed-count').textContent = '0';
+                document.getElementById('filtered-count').textContent = '0';
+                document.getElementById('timeout-count').textContent = '0';
+            }
+
+            async scanPorts(target, ports) {
+                this.abortController = new AbortController();
+                const timeout = parseInt(document.getElementById('scan-timeout').value);
+                const maxConcurrent = parseInt(document.getElementById('max-concurrent').value);
+                const method = document.getElementById('scan-method').value;
+
+                const results = [];
+                let completed = 0;
+
+                // Process ports in batches
+                for (let i = 0; i < ports.length; i += maxConcurrent) {
+                    if (!this.isScanning) break;
+
+                    const batch = ports.slice(i, i + maxConcurrent);
+                    const batchPromises = batch.map(port => this.scanPort(target, port, timeout, method));
+
+                    try {
+                        const batchResults = await Promise.all(batchPromises);
+                        results.push(...batchResults);
+
+                        completed += batch.length;
+                        this.updateProgress(completed, ports.length, batch[batch.length - 1]);
+                        this.updateResults(results);
+                    } catch (error) {
+                        if (error.name === 'AbortError') break;
+                        console.error('Batch scan error:', error);
+                    }
+                }
+
+                this.updateResults(results);
+                document.getElementById('results-section').classList.remove('hidden');
+                document.getElementById('no-results').classList.add('hidden');
+            }
+
+            async scanPort(target, port, timeout, method) {
+                const startTime = Date.now();
+
+                try {
+                    let result;
+
+                    switch (method) {
+                        case 'websocket':
+                            result = await this.scanWebSocket(target, port, timeout);
+                            break;
+                        case 'http':
+                            result = await this.scanHTTP(target, port, timeout);
+                            break;
+                        default:
+                            result = await this.scanTCP(target, port, timeout);
+                    }
+
+                    const responseTime = Date.now() - startTime;
+                    return {
+                        port,
+                        status: result.status,
+                        service: this.portServices[port] || 'Unknown',
+                        responseTime,
+                        details: result.details || ''
+                    };
+                } catch (error) {
+                    const responseTime = Date.now() - startTime;
+                    return {
+                        port,
+                        status: 'timeout',
+                        service: this.portServices[port] || 'Unknown',
+                        responseTime,
+                        details: error.message
+                    };
+                }
+            }
+
+            async scanTCP(target, port, timeout) {
+                // For TCP connect scan, we'll try HTTP/HTTPS first as that's what browsers can do
+                if (port === 80 || port === 8080) {
+                    return this.scanHTTP(target, port, timeout);
+                } else if (port === 443 || port === 8443) {
+                    return this.scanHTTP(target, port, timeout, true);
+                } else {
+                    // For other ports, we'll simulate the scan
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve({
+                                status: 'filtered',
+                                details: 'Cannot test non-HTTP ports from browser'
+                            });
+                        }, Math.random() * 500 + 100);
+                    });
+                }
+            }
+
+            async scanHTTP(target, port, timeout, https = false) {
+                const protocol = https ? 'https' : 'http';
+                const url = `${protocol}://${target}:${port}`;
+
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+                    const response = await fetch(url, {
+                        method: 'HEAD',
+                        mode: 'no-cors',
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+                    return {
+                        status: 'open',
+                        details: `HTTP ${response.status || 'OK'}`
+                    };
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        return {
+                            status: 'timeout',
+                            details: 'Request timeout'
+                        };
+                    }
+                    return {
+                        status: 'closed',
+                        details: error.message
+                    };
+                }
+            }
+
+            async scanWebSocket(target, port, timeout) {
+                return new Promise((resolve) => {
+                    const protocol = port === 443 ? 'wss' : 'ws';
+                    const url = `${protocol}://${target}:${port}`;
+
+                    try {
+                        const ws = new WebSocket(url);
+                        const timeoutId = setTimeout(() => {
+                            ws.close();
+                            resolve({
+                                status: 'timeout',
+                                details: 'WebSocket timeout'
+                            });
+                        }, timeout);
+
+                        ws.onopen = () => {
+                            clearTimeout(timeoutId);
+                            ws.close();
+                            resolve({
+                                status: 'open',
+                                details: 'WebSocket connection successful'
+                            });
+                        };
+
+                        ws.onerror = () => {
+                            clearTimeout(timeoutId);
+                            resolve({
+                                status: 'closed',
+                                details: 'WebSocket connection failed'
+                            });
+                        };
+                    } catch (error) {
+                        resolve({
+                            status: 'filtered',
+                            details: 'WebSocket not supported on this port'
+                        });
+                    }
+                });
+            }
+
+            updateResults(results) {
+                const tbody = document.getElementById('results-table');
+                tbody.innerHTML = '';
+
+                const stats = { open: 0, closed: 0, filtered: 0, timeout: 0 };
+
+                results.forEach(result => {
+                    stats[result.status]++;
+                    const row = this.createResultRow(result);
+                    tbody.appendChild(row);
+                });
+
+                // Update stats
+                document.getElementById('open-count').textContent = stats.open;
+                document.getElementById('closed-count').textContent = stats.closed;
+                document.getElementById('filtered-count').textContent = stats.filtered;
+                document.getElementById('timeout-count').textContent = stats.timeout;
+            }
+
+            createResultRow(result) {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+
+                const statusClass = `port-status-${result.status}`;
+
+                row.innerHTML = `
+                    <td class="px-4 py-4 whitespace-nowrap">
+                        <div class="font-mono text-sm font-medium text-gray-900">${result.port}</div>
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap">
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${statusClass}">
+                            ${result.status.toUpperCase()}
+                        </span>
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${result.service}</div>
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">${result.responseTime}ms</div>
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${result.details}
+                    </td>
+                `;
+
+                return row;
+            }
+
+            exportResults() {
+                const results = this.getResultsData();
+                if (results.length === 0) {
+                    this.showError('No results to export');
+                    return;
+                }
+
+                const csv = this.convertToCSV(results);
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `port-scan-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            getResultsData() {
+                const rows = document.querySelectorAll('#results-table tr');
+                const results = [];
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length >= 5) {
+                        results.push({
+                            port: cells[0].textContent.trim(),
+                            status: cells[1].textContent.trim(),
+                            service: cells[2].textContent.trim(),
+                            responseTime: cells[3].textContent.trim(),
+                            details: cells[4].textContent.trim()
+                        });
+                    }
+                });
+
+                return results;
+            }
+
+            convertToCSV(results) {
+                const headers = ['Port', 'Status', 'Service', 'Response Time', 'Details'];
+                const csvRows = [headers.join(',')];
+
+                results.forEach(result => {
+                    const row = [
+                        result.port,
+                        result.status,
+                        result.service,
+                        result.responseTime,
+                        `"${result.details}"`
+                    ];
+                    csvRows.push(row.join(','));
+                });
+
+                return csvRows.join('\n');
+            }
+
+            getPortsToScan() {
+                const range = document.getElementById('port-range').value;
+
+                switch (range) {
+                    case 'common':
+                        return this.commonPorts;
+                    case 'web':
+                        return this.webPorts;
+                    case 'mail':
+                        return this.mailPorts;
+                    case 'custom':
+                        return this.parseCustomPorts();
+                    default:
+                        return this.commonPorts;
+                }
+            }
+
+            parseCustomPorts() {
+                const input = document.getElementById('custom-ports').value.trim();
+                const ports = new Set();
+
+                // Split by comma and process each part
+                const parts = input.split(',').map(p => p.trim());
+
+                parts.forEach(part => {
+                    if (part.includes('-')) {
+                        // Range like "1-100"
+                        const [start, end] = part.split('-').map(n => parseInt(n.trim()));
+                        if (!isNaN(start) && !isNaN(end) && start <= end && start > 0 && end <= 65535) {
+                            for (let i = start; i <= end; i++) {
+                                ports.add(i);
+                            }
+                        }
+                    } else {
+                        // Single port
+                        const port = parseInt(part);
+                        if (!isNaN(port) && port > 0 && port <= 65535) {
+                            ports.add(port);
+                        }
+                    }
+                });
+
+                return Array.from(ports).sort((a, b) => a - b);
+            }
+
+            isValidTarget(target) {
+                // Basic validation for IP or hostname
+                const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+                const hostnameRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                if (ipRegex.test(target)) {
+                    // Validate IP address ranges
+                    const parts = target.split('.');
+                    return parts.every(part => {
+                        const num = parseInt(part);
+                        return num >= 0 && num <= 255;
+                    });
+                }
+
+                return hostnameRegex.test(target) || target === 'localhost';
+            }
+
+            showError(message) {
+                // Create error toast
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fadeIn';
+                toast.innerHTML = `
+                    <div class="flex items-center">
+                        <i data-feather="alert-circle" class="w-5 h-5 mr-3"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+                document.body.appendChild(toast);
+
+                // Initialize feather icons for the toast
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+
+                // Remove after 5 seconds
+                setTimeout(() => {
+                    toast.remove();
+                }, 5000);
+            }
+        }
+
+        // Initialize the port scanner when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new PortScanner();
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

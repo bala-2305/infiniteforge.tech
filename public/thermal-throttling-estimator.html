@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermal Throttling Estimator — Daedalus | Free CPU Performance Test Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Test your system's thermal throttling and CPU performance degradation with our free online tool. Monitor temperature-related performance dips in real-time.">
+    <meta name="keywords"
+        content="thermal throttling estimator, CPU throttling test, performance degradation, thermal monitoring, CPU temperature test">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="Thermal Throttling Estimator — Daedalus">
+    <meta property="og:description"
+        content="Test your system's thermal throttling and monitor CPU performance degradation in real-time.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/thermal-throttling-estimator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Thermal Throttling Estimator — Daedalus">
+    <meta name="twitter:description" content="Test thermal throttling and CPU performance degradation.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/thermal-throttling-estimator.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .performance-display {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .performance-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .performance-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .performance-fill.throttled {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .performance-fill.degraded {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .throttling-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+
+        .chart-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #6366f1;
+            transition: all 0.3s ease;
+        }
+
+        .chart-point:hover {
+            width: 8px;
+            height: 8px;
+            transform: scale(1.5);
+        }
+
+        .chart-point.throttled {
+            background: #ef4444;
+        }
+
+        .chart-point.degraded {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Thermal Throttling Estimator</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Test your system's thermal throttling by monitoring CPU performance degradation under sustained load.</p>
+        </div>
+
+        <!-- Current Performance Display -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <div id="status-indicator" class="pulse-dot mr-3"></div>
+                    <span id="status-text" class="text-lg font-semibold text-gray-700">Ready to test</span>
+                </div>
+                <div class="performance-display mb-2">
+                    <span id="current-performance">--</span> <span class="text-lg text-gray-500">ops/sec</span>
+                </div>
+                <p class="text-gray-500" id="performance-description">Current performance</p>
+
+                <!-- Performance Quality Bar -->
+                <div class="max-w-md mx-auto mt-6">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Throttled</span>
+                        <span>Optimal</span>
+                    </div>
+                    <div class="performance-bar relative">
+                        <div class="performance-fill" id="performance-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span id="min-performance">0 ops/sec</span>
+                        <span id="max-performance">0 ops/sec</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button id="start-test" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
+                    Start Stress Test
+                </button>
+                <button id="stop-test" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
+                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
+                    Stop Test
+                </button>
+                <button id="clear-results" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear Results
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Duration</label>
+                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="60">1 minute</option>
+                        <option value="180" selected>3 minutes</option>
+                        <option value="300">5 minutes</option>
+                        <option value="600">10 minutes</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stress Intensity</label>
+                    <select id="stress-intensity" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="low" selected>Low (1 thread)</option>
+                        <option value="medium">Medium (2 threads)</option>
+                        <option value="high">High (4 threads)</option>
+                        <option value="extreme">Extreme (8 threads)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Mode</label>
+                    <select id="test-mode" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="cpu" selected>CPU Intensive</option>
+                        <option value="memory">Memory Intensive</option>
+                        <option value="mixed">Mixed Load</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+            <!-- Current Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Current Session</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Samples:</span>
+                        <span id="current-samples" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Duration:</span>
+                        <span id="current-duration" class="font-mono">0s</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Avg Performance:</span>
+                        <span id="current-avg" class="font-mono">-- ops/sec</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Throttling Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Throttling Analysis</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Throttling Events:</span>
+                        <span id="throttling-events" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Max Drop:</span>
+                        <span id="max-drop" class="font-mono">--%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Stability:</span>
+                        <span id="stability-rating" class="font-semibold">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Rating -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Performance Rating</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Rating:</span>
+                        <span id="performance-rating" class="font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Score:</span>
+                        <span id="performance-score" class="font-mono">--/100</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Thermal Status:</span>
+                        <span id="thermal-status" class="font-semibold">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">System Info</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Threads:</span>
+                        <span id="thread-count" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Test Mode:</span>
+                        <span id="current-mode" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Baseline:</span>
+                        <span id="baseline-performance" class="font-mono">-- ops/sec</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="result-box mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="activity" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                Performance History
+            </h3>
+            <div class="chart-container" id="performance-chart">
+                <div class="text-center text-gray-500 py-8">
+                    <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
+                    <p>Start stress test to see performance data</p>
+                </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600 mt-4">
+                <span>Time (seconds)</span>
+                <span>Performance (ops/sec)</span>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How It Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This tool simulates sustained computational load to test for thermal throttling, where CPU performance is reduced to prevent overheating.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">What is Thermal Throttling?</h4>
+                        <p class="text-sm mb-3">Thermal throttling occurs when a CPU reduces its clock speed and performance to stay within safe temperature limits, preventing hardware damage.</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Performance Drop:</strong> Sudden decrease in operations per second</li>
+                            <li><strong>Temperature Response:</strong> CPU protecting itself from overheating</li>
+                            <li><strong>Recovery:</strong> Performance may return to normal after cooling</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Test Modes:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>CPU Intensive:</strong> Pure computational load</li>
+                            <li><strong>Memory Intensive:</strong> Memory allocation and access patterns</li>
+                            <li><strong>Mixed Load:</strong> Combination of CPU and memory operations</li>
+                        </ul>
+                        <p class="text-sm mt-3 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                            <strong>Warning:</strong> This test generates significant heat and may cause throttling. Monitor your system temperature.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const startBtn = document.getElementById('start-test');
+            const stopBtn = document.getElementById('stop-test');
+            const clearBtn = document.getElementById('clear-results');
+            const currentPerformanceEl = document.getElementById('current-performance');
+            const statusIndicatorEl = document.getElementById('status-indicator');
+            const statusTextEl = document.getElementById('status-text');
+            const performanceDescriptionEl = document.getElementById('performance-description');
+            const performanceFillEl = document.getElementById('performance-fill');
+            const minPerformanceEl = document.getElementById('min-performance');
+            const maxPerformanceEl = document.getElementById('max-performance');
+            const testDurationSelect = document.getElementById('test-duration');
+            const stressIntensitySelect = document.getElementById('stress-intensity');
+            const testModeSelect = document.getElementById('test-mode');
+            const performanceChartEl = document.getElementById('performance-chart');
+
+            // Stats elements
+            const currentSamplesEl = document.getElementById('current-samples');
+            const currentDurationEl = document.getElementById('current-duration');
+            const currentAvgEl = document.getElementById('current-avg');
+            const throttlingEventsEl = document.getElementById('throttling-events');
+            const maxDropEl = document.getElementById('max-drop');
+            const stabilityRatingEl = document.getElementById('stability-rating');
+            const performanceRatingEl = document.getElementById('performance-rating');
+            const performanceScoreEl = document.getElementById('performance-score');
+            const thermalStatusEl = document.getElementById('thermal-status');
+            const threadCountEl = document.getElementById('thread-count');
+            const currentModeEl = document.getElementById('current-mode');
+            const baselinePerformanceEl = document.getElementById('baseline-performance');
+
+            // State
+            let isTesting = false;
+            let testWorkers = [];
+            let baselinePerformance = 0;
+            let performanceHistory = [];
+            let throttlingEvents = [];
+            let startTime = null;
+            let maxChartPoints = 200;
+
+            // Performance measurement
+            function measurePerformance() {
+                return new Promise((resolve) => {
+                    const start = performance.now();
+                    let operations = 0;
+
+                    // Perform calculations for 100ms
+                    const endTime = start + 100;
+                    while (performance.now() < endTime) {
+                        // Simple computational load
+                        let result = 0;
+                        for (let i = 0; i < 1000; i++) {
+                            result += Math.sin(i) * Math.cos(i);
+                            operations++;
+                        }
+                    }
+
+                    const end = performance.now();
+                    const opsPerSecond = (operations / (end - start)) * 1000;
+                    resolve(opsPerSecond);
+                });
+            }
+
+            // CPU intensive worker
+            function createCPUWorker() {
+                return new Promise((resolve) => {
+                    const worker = new Worker(URL.createObjectURL(new Blob([`
+                        self.onmessage = function(e) {
+                            const { intensity, duration } = e.data;
+                            const startTime = performance.now();
+                            let operations = 0;
+
+                            while (performance.now() - startTime < duration) {
+                                let result = 0;
+                                for (let i = 0; i < intensity; i++) {
+                                    result += Math.sin(i) * Math.cos(i) + Math.sqrt(i);
+                                    operations++;
+                                }
+                            }
+
+                            self.postMessage({ operations, duration: performance.now() - startTime });
+                        };
+                    `], { type: 'application/javascript' })));
+
+                    resolve(worker);
+                });
+            }
+
+            // Memory intensive worker
+            function createMemoryWorker() {
+                return new Promise((resolve) => {
+                    const worker = new Worker(URL.createObjectURL(new Blob([`
+                        self.onmessage = function(e) {
+                            const { intensity, duration } = e.data;
+                            const startTime = performance.now();
+                            let operations = 0;
+                            const arrays = [];
+
+                            while (performance.now() - startTime < duration) {
+                                // Allocate memory
+                                const arr = new Array(intensity).fill(0).map(() => Math.random());
+                                arrays.push(arr);
+
+                                // Access memory
+                                for (let i = 0; i < arr.length; i++) {
+                                    arr[i] = arr[i] * 2 + Math.sin(i);
+                                    operations++;
+                                }
+
+                                // Clean up periodically
+                                if (arrays.length > 10) {
+                                    arrays.shift();
+                                }
+                            }
+
+                            self.postMessage({ operations, duration: performance.now() - startTime });
+                        };
+                    `], { type: 'application/javascript' })));
+
+                    resolve(worker);
+                });
+            }
+
+            // Mixed load worker
+            function createMixedWorker() {
+                return new Promise((resolve) => {
+                    const worker = new Worker(URL.createObjectURL(new Blob([`
+                        self.onmessage = function(e) {
+                            const { intensity, duration } = e.data;
+                            const startTime = performance.now();
+                            let operations = 0;
+                            const data = new Map();
+
+                            while (performance.now() - startTime < duration) {
+                                // CPU operations
+                                let result = 0;
+                                for (let i = 0; i < intensity / 2; i++) {
+                                    result += Math.sin(i) * Math.cos(i);
+                                    operations++;
+                                }
+
+                                // Memory operations
+                                const key = 'key_' + Math.random();
+                                data.set(key, { value: result, array: new Array(100).fill(result) });
+
+                                if (data.size > 100) {
+                                    const keys = Array.from(data.keys()).slice(0, 10);
+                                    keys.forEach(k => data.delete(k));
+                                }
+                            }
+
+                            self.postMessage({ operations, duration: performance.now() - startTime });
+                        };
+                    `], { type: 'application/javascript' })));
+
+                    resolve(worker);
+                });
+            }
+
+            // Update UI with performance data
+            function updatePerformanceDisplay(performance) {
+                currentPerformanceEl.textContent = performance.toFixed(0);
+
+                if (baselinePerformance > 0) {
+                    const percentage = (performance / baselinePerformance) * 100;
+                    performanceDescriptionEl.textContent = `${percentage.toFixed(1)}% of baseline`;
+
+                    // Update bar
+                    const barPercentage = Math.min(percentage, 100);
+                    performanceFillEl.style.width = `${barPercentage}%`;
+
+                    // Color based on performance
+                    performanceFillEl.className = 'performance-fill';
+                    if (percentage < 50) {
+                        performanceFillEl.classList.add('throttled');
+                    } else if (percentage < 80) {
+                        performanceFillEl.classList.add('degraded');
+                    }
+                } else {
+                    performanceDescriptionEl.textContent = 'Establishing baseline...';
+                }
+            }
+
+            // Update statistics
+            function updateStatistics() {
+                if (performanceHistory.length === 0) return;
+
+                const currentHistory = performanceHistory.slice(-50); // Last 50 samples
+                const currentAvg = currentHistory.reduce((a, b) => a + b.performance, 0) / currentHistory.length;
+
+                currentSamplesEl.textContent = performanceHistory.length;
+                currentAvgEl.textContent = `${currentAvg.toFixed(0)} ops/sec`;
+
+                // Detect throttling events
+                throttlingEvents = [];
+                let maxDrop = 0;
+
+                if (baselinePerformance > 0) {
+                    for (let i = 1; i < performanceHistory.length; i++) {
+                        const current = performanceHistory[i].performance;
+                        const previous = performanceHistory[i - 1].performance;
+                        const drop = ((previous - current) / previous) * 100;
+
+                        if (drop > 20) { // 20% drop indicates throttling
+                            throttlingEvents.push({
+                                time: performanceHistory[i].time,
+                                drop: drop,
+                                performance: current
+                            });
+                            maxDrop = Math.max(maxDrop, drop);
+                        }
+                    }
+                }
+
+                throttlingEventsEl.textContent = throttlingEvents.length;
+                maxDropEl.textContent = maxDrop > 0 ? `${maxDrop.toFixed(1)}%` : '--';
+
+                // Calculate stability
+                if (currentHistory.length > 10) {
+                    const variances = currentHistory.map(p => Math.pow(p.performance - currentAvg, 2));
+                    const variance = variances.reduce((a, b) => a + b, 0) / variances.length;
+                    const stdDev = Math.sqrt(variance);
+                    const cv = (stdDev / currentAvg) * 100; // Coefficient of variation
+
+                    let stability = 'Stable';
+                    if (cv > 30) stability = 'Unstable';
+                    else if (cv > 15) stability = 'Moderate';
+
+                    stabilityRatingEl.textContent = stability;
+                    stabilityRatingEl.className = `font-semibold ${
+                        stability === 'Stable' ? 'text-green-600' :
+                        stability === 'Moderate' ? 'text-yellow-600' : 'text-red-600'
+                    }`;
+                }
+
+                // Performance rating
+                let rating = 'Good';
+                let score = 80;
+                let thermalStatus = 'Normal';
+
+                if (throttlingEvents.length > 5) {
+                    rating = 'Poor';
+                    score = 40;
+                    thermalStatus = 'Heavy Throttling';
+                } else if (throttlingEvents.length > 2) {
+                    rating = 'Fair';
+                    score = 60;
+                    thermalStatus = 'Moderate Throttling';
+                } else if (maxDrop > 10) {
+                    rating = 'Fair';
+                    score = 65;
+                    thermalStatus = 'Light Throttling';
+                } else {
+                    thermalStatus = 'No Throttling';
+                }
+
+                performanceRatingEl.textContent = rating;
+                performanceRatingEl.className = `font-semibold ${
+                    rating === 'Good' ? 'text-green-600' :
+                    rating === 'Fair' ? 'text-yellow-600' : 'text-red-600'
+                }`;
+
+                performanceScoreEl.textContent = `${Math.round(score)}/100`;
+                thermalStatusEl.textContent = thermalStatus;
+                thermalStatusEl.className = `font-semibold ${
+                    thermalStatus === 'No Throttling' ? 'text-green-600' :
+                    thermalStatus === 'Light Throttling' ? 'text-yellow-600' :
+                    thermalStatus === 'Moderate Throttling' ? 'text-orange-600' : 'text-red-600'
+                }`;
+
+                // Update min/max
+                const allPerformances = performanceHistory.map(p => p.performance);
+                const minPerf = Math.min(...allPerformances);
+                const maxPerf = Math.max(...allPerformances);
+
+                minPerformanceEl.textContent = `${minPerf.toFixed(0)} ops/sec`;
+                maxPerformanceEl.textContent = `${maxPerf.toFixed(0)} ops/sec`;
+            }
+
+            // Update chart
+            function updateChart() {
+                if (performanceHistory.length < 2) return;
+
+                performanceChartEl.innerHTML = '';
+
+                const chartWidth = performanceChartEl.clientWidth;
+                const chartHeight = performanceChartEl.clientHeight;
+                const maxPerformance = Math.max(...performanceHistory.map(p => p.performance), baselinePerformance * 1.2);
+
+                // Draw grid lines
+                for (let i = 0; i <= 4; i++) {
+                    const y = (i / 4) * chartHeight;
+                    const line = document.createElement('div');
+                    line.style.position = 'absolute';
+                    line.style.left = '0';
+                    line.style.top = `${y}px`;
+                    line.style.width = '100%';
+                    line.style.height = '1px';
+                    line.style.background = '#e2e8f0';
+                    performanceChartEl.appendChild(line);
+                }
+
+                // Draw baseline line
+                if (baselinePerformance > 0) {
+                    const baselineY = chartHeight - (baselinePerformance / maxPerformance) * chartHeight;
+                    const baselineLine = document.createElement('div');
+                    baselineLine.style.position = 'absolute';
+                    baselineLine.style.left = '0';
+                    baselineLine.style.top = `${baselineY}px`;
+                    baselineLine.style.width = '100%';
+                    baselineLine.style.height = '1px';
+                    baselineLine.style.background = '#10b981';
+                    baselineLine.style.opacity = '0.5';
+                    baselineLine.style.borderStyle = 'dashed';
+                    performanceChartEl.appendChild(baselineLine);
+                }
+
+                // Draw points
+                performanceHistory.forEach((point, index) => {
+                    const x = (index / (performanceHistory.length - 1)) * chartWidth;
+                    const y = chartHeight - (point.performance / maxPerformance) * chartHeight;
+
+                    const pointEl = document.createElement('div');
+                    pointEl.className = 'chart-point';
+                    pointEl.style.left = `${x - 2}px`;
+                    pointEl.style.top = `${y - 2}px`;
+                    pointEl.title = `${point.performance.toFixed(0)} ops/sec at ${point.time}s`;
+
+                    // Color based on throttling
+                    const isThrottled = throttlingEvents.some(te => Math.abs(te.time - point.time) < 1);
+                    if (isThrottled) {
+                        pointEl.classList.add('throttled');
+                    } else if (baselinePerformance > 0 && point.performance < baselinePerformance * 0.8) {
+                        pointEl.classList.add('degraded');
+                    }
+
+                    performanceChartEl.appendChild(pointEl);
+                });
+            }
+
+            // Establish baseline
+            async function establishBaseline() {
+                statusTextEl.textContent = 'Establishing baseline...';
+                const samples = [];
+
+                for (let i = 0; i < 5; i++) {
+                    const perf = await measurePerformance();
+                    samples.push(perf);
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+
+                baselinePerformance = samples.reduce((a, b) => a + b, 0) / samples.length;
+                baselinePerformanceEl.textContent = `${baselinePerformance.toFixed(0)} ops/sec`;
+
+                return baselinePerformance;
+            }
+
+            // Start stress test
+            async function startStressTest() {
+                if (isTesting) return;
+
+                isTesting = true;
+                performanceHistory = [];
+                throttlingEvents = [];
+
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+
+                statusIndicatorEl.className = 'pulse-dot';
+                statusTextEl.textContent = 'Running stress test...';
+
+                // Establish baseline first
+                await establishBaseline();
+
+                const testDuration = parseInt(testDurationSelect.value) * 1000; // Convert to ms
+                const intensity = stressIntensitySelect.value;
+                const mode = testModeSelect.value;
+
+                // Determine thread count
+                let threadCount = 1;
+                switch (intensity) {
+                    case 'low': threadCount = 1; break;
+                    case 'medium': threadCount = 2; break;
+                    case 'high': threadCount = 4; break;
+                    case 'extreme': threadCount = 8; break;
+                }
+
+                threadCountEl.textContent = threadCount;
+                currentModeEl.textContent = mode;
+
+                startTime = performance.now();
+
+                // Create workers
+                testWorkers = [];
+                for (let i = 0; i < threadCount; i++) {
+                    let worker;
+                    switch (mode) {
+                        case 'cpu':
+                            worker = await createCPUWorker();
+                            break;
+                        case 'memory':
+                            worker = await createMemoryWorker();
+                            break;
+                        case 'mixed':
+                            worker = await createMixedWorker();
+                            break;
+                    }
+
+                    worker.postMessage({
+                        intensity: 10000, // Base intensity
+                        duration: testDuration
+                    });
+
+                    testWorkers.push(worker);
+                }
+
+                // Start monitoring
+                const monitorInterval = setInterval(async () => {
+                    const currentTime = (performance.now() - startTime) / 1000;
+                    const performance = await measurePerformance();
+
+                    performanceHistory.push({
+                        time: currentTime,
+                        performance: performance
+                    });
+
+                    updatePerformanceDisplay(performance);
+                    updateStatistics();
+                    updateChart();
+
+                    // Update duration
+                    currentDurationEl.textContent = `${currentTime.toFixed(1)}s`;
+
+                    // Check if test should end
+                    if (currentTime >= testDuration / 1000) {
+                        stopStressTest();
+                        clearInterval(monitorInterval);
+                    }
+                }, 1000);
+
+                // Clean up workers when done
+                setTimeout(() => {
+                    stopStressTest();
+                    clearInterval(monitorInterval);
+                }, testDuration + 1000);
+            }
+
+            function stopStressTest() {
+                if (!isTesting) return;
+
+                isTesting = false;
+
+                // Terminate workers
+                testWorkers.forEach(worker => worker.terminate());
+                testWorkers = [];
+
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+
+                statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-green-500';
+                statusTextEl.textContent = 'Test completed';
+            }
+
+            function clearResults() {
+                performanceHistory = [];
+                throttlingEvents = [];
+                baselinePerformance = 0;
+
+                currentPerformanceEl.textContent = '--';
+                statusTextEl.textContent = 'Ready to test';
+                performanceDescriptionEl.textContent = 'Current performance';
+                performanceFillEl.style.width = '0%';
+                performanceFillEl.className = 'performance-fill';
+
+                currentSamplesEl.textContent = '0';
+                currentDurationEl.textContent = '0s';
+                currentAvgEl.textContent = '-- ops/sec';
+                throttlingEventsEl.textContent = '0';
+                maxDropEl.textContent = '--';
+                stabilityRatingEl.textContent = '--';
+                performanceRatingEl.textContent = '--';
+                performanceScoreEl.textContent = '--/100';
+                thermalStatusEl.textContent = '--';
+                baselinePerformanceEl.textContent = '-- ops/sec';
+                minPerformanceEl.textContent = '0 ops/sec';
+                maxPerformanceEl.textContent = '0 ops/sec';
+
+                performanceChartEl.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
+                        <p>Start stress test to see performance data</p>
+                    </div>
+                `;
+                feather.replace();
+            }
+
+            // Event listeners
+            startBtn.addEventListener('click', startStressTest);
+            stopBtn.addEventListener('click', stopStressTest);
+            clearBtn.addEventListener('click', clearResults);
+
+            // Initialize
+            clearResults();
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

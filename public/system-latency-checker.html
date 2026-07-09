@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Latency Checker — Daedalus | Free Event Loop Performance Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Test your system's event loop latency and responsiveness with our free online tool. Measure JavaScript execution delays and system performance in real-time.">
+    <meta name="keywords"
+        content="system latency checker, event loop delay, JavaScript latency, system responsiveness, performance monitoring, event loop latency">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="System Latency Checker — Daedalus">
+    <meta property="og:description"
+        content="Test your system's event loop latency and measure JavaScript execution delays in real-time.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/system-latency-checker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="System Latency Checker — Daedalus">
+    <meta name="twitter:description" content="Test your system's event loop latency and responsiveness.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/system-latency-checker.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .latency-display {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .latency-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .latency-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .latency-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            top: -2px;
+            transition: left 0.3s ease, background-color 0.3s ease;
+        }
+
+        .latency-excellent { background-color: #10b981; }
+        .latency-good { background-color: #3b82f6; }
+        .latency-fair { background-color: #f59e0b; }
+        .latency-poor { background-color: #ef4444; }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+
+        .chart-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #6366f1;
+            transition: all 0.3s ease;
+        }
+
+        .chart-point:hover {
+            width: 8px;
+            height: 8px;
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">System Latency Checker</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Measure your system's event loop latency and JavaScript execution responsiveness in real-time.</p>
+        </div>
+
+        <!-- Current Latency Display -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <div id="status-indicator" class="pulse-dot mr-3"></div>
+                    <span id="status-text" class="text-lg font-semibold text-gray-700">Ready to test</span>
+                </div>
+                <div class="latency-display mb-2">
+                    <span id="current-latency">--</span> <span class="text-lg text-gray-500">ms</span>
+                </div>
+                <p class="text-gray-500" id="latency-description">Event loop delay</p>
+
+                <!-- Latency Quality Bar -->
+                <div class="max-w-md mx-auto mt-6">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Excellent</span>
+                        <span>Poor</span>
+                    </div>
+                    <div class="latency-bar relative">
+                        <div class="latency-fill" id="latency-fill" style="width: 0%"></div>
+                        <div class="latency-indicator" id="latency-indicator" style="left: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>0ms</span>
+                        <span>100ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button id="start-test" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
+                    Start Monitoring
+                </button>
+                <button id="stop-test" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
+                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
+                    Stop Monitoring
+                </button>
+                <button id="clear-results" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear Results
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Duration</label>
+                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="10">10 seconds</option>
+                        <option value="30" selected>30 seconds</option>
+                        <option value="60">1 minute</option>
+                        <option value="300">5 minutes</option>
+                        <option value="continuous">Continuous</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Update Interval</label>
+                    <select id="update-interval" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="100">100ms (Fast)</option>
+                        <option value="250" selected>250ms</option>
+                        <option value="500">500ms</option>
+                        <option value="1000">1s (Slow)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Mode</label>
+                    <select id="test-mode" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="normal" selected>Normal</option>
+                        <option value="stress">Stress Test</option>
+                        <option value="background">Background Load</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+            <!-- Current Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Current Session</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Samples:</span>
+                        <span id="current-samples" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Duration:</span>
+                        <span id="current-duration" class="font-mono">0s</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Avg:</span>
+                        <span id="current-avg" class="font-mono">--ms</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overall Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Overall Statistics</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Min:</span>
+                        <span id="overall-min" class="font-mono">--ms</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Max:</span>
+                        <span id="overall-max" class="font-mono">--ms</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Avg:</span>
+                        <span id="overall-avg" class="font-mono">--ms</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Rating -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Performance Rating</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Rating:</span>
+                        <span id="performance-rating" class="font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Score:</span>
+                        <span id="performance-score" class="font-mono">--/100</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Stability:</span>
+                        <span id="stability-rating" class="font-semibold">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">System Info</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Browser:</span>
+                        <span id="browser-info" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Cores:</span>
+                        <span id="cores-info" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Memory:</span>
+                        <span id="memory-info" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latency Chart -->
+        <div class="result-box mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="activity" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                Latency History
+            </h3>
+            <div class="chart-container" id="latency-chart">
+                <div class="text-center text-gray-500 py-8">
+                    <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
+                    <p>Start monitoring to see latency data</p>
+                </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600 mt-4">
+                <span>Time (seconds)</span>
+                <span>Latency (ms)</span>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How It Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This tool measures the delay in your browser's event loop, which indicates how responsive your system is to JavaScript execution.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">What is Event Loop Latency?</h4>
+                        <p class="text-sm mb-3">The event loop latency measures how long it takes for scheduled callbacks (like setTimeout) to execute. Lower latency means better responsiveness.</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>0-16ms:</strong> Excellent (60+ FPS equivalent)</li>
+                            <li><strong>16-33ms:</strong> Good (30-60 FPS)</li>
+                            <li><strong>33-66ms:</strong> Fair (15-30 FPS)</li>
+                            <li><strong>66ms+:</strong> Poor (under 15 FPS)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Test Modes:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Normal:</strong> Standard latency measurement</li>
+                            <li><strong>Stress Test:</strong> Adds computational load</li>
+                            <li><strong>Background Load:</strong> Simulates typical usage</li>
+                        </ul>
+                        <p class="text-sm mt-3 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                            <strong>Tip:</strong> For best results, close other applications and browser tabs during testing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const startBtn = document.getElementById('start-test');
+            const stopBtn = document.getElementById('stop-test');
+            const clearBtn = document.getElementById('clear-results');
+            const currentLatencyEl = document.getElementById('current-latency');
+            const statusIndicatorEl = document.getElementById('status-indicator');
+            const statusTextEl = document.getElementById('status-text');
+            const latencyDescriptionEl = document.getElementById('latency-description');
+            const latencyFillEl = document.getElementById('latency-fill');
+            const latencyIndicatorEl = document.getElementById('latency-indicator');
+            const testDurationSelect = document.getElementById('test-duration');
+            const updateIntervalSelect = document.getElementById('update-interval');
+            const testModeSelect = document.getElementById('test-mode');
+            const latencyChartEl = document.getElementById('latency-chart');
+
+            // Stats elements
+            const currentSamplesEl = document.getElementById('current-samples');
+            const currentDurationEl = document.getElementById('current-duration');
+            const currentAvgEl = document.getElementById('current-avg');
+            const overallMinEl = document.getElementById('overall-min');
+            const overallMaxEl = document.getElementById('overall-max');
+            const overallAvgEl = document.getElementById('overall-avg');
+            const performanceRatingEl = document.getElementById('performance-rating');
+            const performanceScoreEl = document.getElementById('performance-score');
+            const stabilityRatingEl = document.getElementById('stability-rating');
+            const browserInfoEl = document.getElementById('browser-info');
+            const coresInfoEl = document.getElementById('cores-info');
+            const memoryInfoEl = document.getElementById('memory-info');
+
+            // State
+            let isMonitoring = false;
+            let monitoringInterval = null;
+            let stressInterval = null;
+            let startTime = null;
+            let latencies = [];
+            let chartPoints = [];
+            let maxChartPoints = 100;
+
+            // System info
+            function updateSystemInfo() {
+                const ua = navigator.userAgent;
+                let browser = 'Unknown';
+                if (ua.includes('Chrome')) browser = 'Chrome';
+                else if (ua.includes('Firefox')) browser = 'Firefox';
+                else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
+                else if (ua.includes('Edge')) browser = 'Edge';
+
+                browserInfoEl.textContent = browser;
+                coresInfoEl.textContent = navigator.hardwareConcurrency || 'Unknown';
+                memoryInfoEl.textContent = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown';
+            }
+
+            // Latency measurement
+            function measureLatency() {
+                return new Promise((resolve) => {
+                    const start = performance.now();
+                    setTimeout(() => {
+                        const end = performance.now();
+                        const latency = end - start;
+                        resolve(latency);
+                    }, 0);
+                });
+            }
+
+            // Update UI with latency data
+            function updateLatencyDisplay(latency) {
+                currentLatencyEl.textContent = latency.toFixed(1);
+
+                // Update quality bar
+                const percentage = Math.min(latency / 100 * 100, 100);
+                latencyFillEl.style.width = `${percentage}%`;
+                latencyIndicatorEl.style.left = `${percentage}%`;
+
+                // Update indicator color
+                latencyIndicatorEl.className = 'latency-indicator';
+                if (latency <= 16) {
+                    latencyIndicatorEl.classList.add('latency-excellent');
+                    latencyDescriptionEl.textContent = 'Excellent responsiveness';
+                } else if (latency <= 33) {
+                    latencyIndicatorEl.classList.add('latency-good');
+                    latencyDescriptionEl.textContent = 'Good responsiveness';
+                } else if (latency <= 66) {
+                    latencyIndicatorEl.classList.add('latency-fair');
+                    latencyDescriptionEl.textContent = 'Fair responsiveness';
+                } else {
+                    latencyIndicatorEl.classList.add('latency-poor');
+                    latencyDescriptionEl.textContent = 'Poor responsiveness';
+                }
+            }
+
+            // Update statistics
+            function updateStatistics() {
+                if (latencies.length === 0) return;
+
+                const currentLatencies = latencies.slice(-100); // Last 100 samples for current session
+                const currentAvg = currentLatencies.reduce((a, b) => a + b, 0) / currentLatencies.length;
+
+                const allMin = Math.min(...latencies);
+                const allMax = Math.max(...latencies);
+                const allAvg = latencies.reduce((a, b) => a + b, 0) / latencies.length;
+
+                currentSamplesEl.textContent = currentLatencies.length;
+                currentAvgEl.textContent = `${currentAvg.toFixed(1)}ms`;
+                overallMinEl.textContent = `${allMin.toFixed(1)}ms`;
+                overallMaxEl.textContent = `${allMax.toFixed(1)}ms`;
+                overallAvgEl.textContent = `${allAvg.toFixed(1)}ms`;
+
+                // Calculate performance rating
+                let rating = 'Poor';
+                let score = 0;
+                if (allAvg <= 16) {
+                    rating = 'Excellent';
+                    score = 95 + Math.random() * 5;
+                } else if (allAvg <= 33) {
+                    rating = 'Good';
+                    score = 80 + Math.random() * 15;
+                } else if (allAvg <= 66) {
+                    rating = 'Fair';
+                    score = 60 + Math.random() * 20;
+                } else {
+                    rating = 'Poor';
+                    score = 20 + Math.random() * 40;
+                }
+
+                performanceRatingEl.textContent = rating;
+                performanceRatingEl.className = `font-semibold ${
+                    rating === 'Excellent' ? 'text-green-600' :
+                    rating === 'Good' ? 'text-blue-600' :
+                    rating === 'Fair' ? 'text-yellow-600' : 'text-red-600'
+                }`;
+
+                performanceScoreEl.textContent = `${Math.round(score)}/100`;
+
+                // Calculate stability (lower variance = more stable)
+                const variance = currentLatencies.reduce((acc, val) => acc + Math.pow(val - currentAvg, 2), 0) / currentLatencies.length;
+                const stdDev = Math.sqrt(variance);
+                const stabilityScore = Math.max(0, 100 - (stdDev * 2));
+
+                let stabilityRating = 'Unstable';
+                if (stabilityScore >= 80) stabilityRating = 'Very Stable';
+                else if (stabilityScore >= 60) stabilityRating = 'Stable';
+                else if (stabilityScore >= 40) stabilityRating = 'Moderate';
+                else stabilityRating = 'Unstable';
+
+                stabilityRatingEl.textContent = stabilityRating;
+                stabilityRatingEl.className = `font-semibold ${
+                    stabilityRating === 'Very Stable' ? 'text-green-600' :
+                    stabilityRating === 'Stable' ? 'text-blue-600' :
+                    stabilityRating === 'Moderate' ? 'text-yellow-600' : 'text-red-600'
+                }`;
+            }
+
+            // Update chart
+            function updateChart(latency) {
+                chartPoints.push({ latency, time: Date.now() });
+
+                // Keep only recent points
+                if (chartPoints.length > maxChartPoints) {
+                    chartPoints.shift();
+                }
+
+                // Clear chart
+                latencyChartEl.innerHTML = '';
+
+                if (chartPoints.length < 2) return;
+
+                const chartWidth = latencyChartEl.clientWidth;
+                const chartHeight = latencyChartEl.clientHeight;
+                const maxLatency = Math.max(...chartPoints.map(p => p.latency), 100);
+
+                // Draw grid lines
+                for (let i = 0; i <= 4; i++) {
+                    const y = (i / 4) * chartHeight;
+                    const line = document.createElement('div');
+                    line.style.position = 'absolute';
+                    line.style.left = '0';
+                    line.style.top = `${y}px`;
+                    line.style.width = '100%';
+                    line.style.height = '1px';
+                    line.style.background = '#e2e8f0';
+                    latencyChartEl.appendChild(line);
+                }
+
+                // Draw points
+                chartPoints.forEach((point, index) => {
+                    const x = (index / (chartPoints.length - 1)) * chartWidth;
+                    const y = chartHeight - (point.latency / maxLatency) * chartHeight;
+
+                    const pointEl = document.createElement('div');
+                    pointEl.className = 'chart-point';
+                    pointEl.style.left = `${x - 2}px`;
+                    pointEl.style.top = `${y - 2}px`;
+                    pointEl.title = `${point.latency.toFixed(1)}ms`;
+                    latencyChartEl.appendChild(pointEl);
+                });
+            }
+
+            // Stress test functions
+            function startStressTest() {
+                stressInterval = setInterval(() => {
+                    // Simulate CPU load
+                    const start = performance.now();
+                    let result = 0;
+                    for (let i = 0; i < 10000; i++) {
+                        result += Math.sin(i) * Math.cos(i);
+                    }
+                    // Prevent optimization
+                    if (result < 0) console.log(result);
+                }, 10);
+            }
+
+            function stopStressTest() {
+                if (stressInterval) {
+                    clearInterval(stressInterval);
+                    stressInterval = null;
+                }
+            }
+
+            // Background load simulation
+            function startBackgroundLoad() {
+                stressInterval = setInterval(() => {
+                    // Simulate typical background activity
+                    setTimeout(() => {
+                        const div = document.createElement('div');
+                        div.style.display = 'none';
+                        document.body.appendChild(div);
+                        setTimeout(() => document.body.removeChild(div), 100);
+                    }, Math.random() * 50);
+                }, 200);
+            }
+
+            // Main monitoring function
+            async function startMonitoring() {
+                if (isMonitoring) return;
+
+                isMonitoring = true;
+                startTime = Date.now();
+                latencies = [];
+                chartPoints = [];
+
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+
+                statusIndicatorEl.className = 'pulse-dot';
+                statusTextEl.textContent = 'Monitoring...';
+
+                const updateInterval = parseInt(updateIntervalSelect.value);
+                const testMode = testModeSelect.value;
+                const testDuration = testDurationSelect.value;
+
+                // Start stress/background load if selected
+                if (testMode === 'stress') {
+                    startStressTest();
+                } else if (testMode === 'background') {
+                    startBackgroundLoad();
+                }
+
+                // Start monitoring loop
+                monitoringInterval = setInterval(async () => {
+                    const latency = await measureLatency();
+                    latencies.push(latency);
+
+                    updateLatencyDisplay(latency);
+                    updateStatistics();
+                    updateChart(latency);
+
+                    // Update duration
+                    const elapsed = (Date.now() - startTime) / 1000;
+                    currentDurationEl.textContent = `${elapsed.toFixed(1)}s`;
+
+                    // Check if test should end
+                    if (testDuration !== 'continuous') {
+                        const durationSeconds = parseInt(testDuration);
+                        if (elapsed >= durationSeconds) {
+                            stopMonitoring();
+                        }
+                    }
+                }, updateInterval);
+            }
+
+            function stopMonitoring() {
+                if (!isMonitoring) return;
+
+                isMonitoring = false;
+
+                if (monitoringInterval) {
+                    clearInterval(monitoringInterval);
+                    monitoringInterval = null;
+                }
+
+                stopStressTest();
+
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+
+                statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-gray-400';
+                statusTextEl.textContent = 'Monitoring stopped';
+            }
+
+            function clearResults() {
+                latencies = [];
+                chartPoints = [];
+                currentLatencyEl.textContent = '--';
+                statusTextEl.textContent = 'Ready to test';
+                latencyDescriptionEl.textContent = 'Event loop delay';
+                latencyFillEl.style.width = '0%';
+                latencyIndicatorEl.style.left = '0%';
+                latencyIndicatorEl.className = 'latency-indicator';
+
+                currentSamplesEl.textContent = '0';
+                currentDurationEl.textContent = '0s';
+                currentAvgEl.textContent = '--ms';
+                overallMinEl.textContent = '--ms';
+                overallMaxEl.textContent = '--ms';
+                overallAvgEl.textContent = '--ms';
+                performanceRatingEl.textContent = '--';
+                performanceScoreEl.textContent = '--/100';
+                stabilityRatingEl.textContent = '--';
+
+                latencyChartEl.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
+                        <p>Start monitoring to see latency data</p>
+                    </div>
+                `;
+                feather.replace();
+            }
+
+            // Event listeners
+            startBtn.addEventListener('click', startMonitoring);
+            stopBtn.addEventListener('click', stopMonitoring);
+            clearBtn.addEventListener('click', clearResults);
+
+            // Initialize
+            updateSystemInfo();
+            clearResults();
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

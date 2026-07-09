@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Song Lyrics Generator — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Generate creative song lyrics using AI. Create original lyrics for any genre, mood, or theme. Perfect for musicians, songwriters, and content creators.">
+    <meta name="keywords"
+        content="song lyrics generator, ai lyrics, music lyrics, songwriting, creative writing, ai music, lyrics creator, song generator">
+    <meta name="author" content="InfinityForge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <meta property="og:title" content="AI Song Lyrics Generator — InfiniteForge">
+    <meta property="og:description"
+        content="Generate creative song lyrics using AI. Create original lyrics for any genre, mood, or theme. Perfect for musicians and songwriters.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/ai-song-lyrics-generator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Song Lyrics Generator — InfiniteForge">
+    <meta name="twitter:description"
+        content="Generate creative song lyrics using AI. Create original lyrics for any genre, mood, or theme.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <link rel="canonical" href="https://infiniteforge.tech/ai-song-lyrics-generator.html">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="theme-color" content="#667eea">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "AI Song Lyrics Generator",
+        "description": "Generate creative song lyrics using AI. Create original lyrics for any genre, mood, or theme.",
+        "url": "https://infiniteforge.tech/ai-song-lyrics-generator.html",
+        "applicationCategory": "CreativeApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Multiple genre support",
+            "Custom mood and theme selection",
+            "Verse and chorus generation",
+            "Copy and download lyrics",
+            "Free to use"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+        }
+
+        .gen-input,
+        .gen-output {
+            font-family: inherit;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .lyrics-card {
+            background: linear-gradient(135deg, #f8fafc, #fff);
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .lyrics-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .verse-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chorus-section {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600"
+                    aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto pt-20 sm:pt-24 pb-12 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">AI Song Lyrics Generator</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Create original song lyrics using AI. Choose your genre, mood,
+                and theme to generate creative, memorable lyrics for your music.</p>
+        </div>
+
+        <!-- User Counter -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-8 max-w-md mx-auto">
+            <div class="flex items-center justify-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <i data-feather="users" class="w-5 h-5 text-blue-600"></i>
+                    <span class="text-gray-700 font-medium">Active Users:</span>
+                </div>
+                <div class="text-2xl font-bold text-blue-600" id="user-counter">Loading...</div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8">
+            <form id="lyrics-form" class="space-y-6">
+                <!-- Song Theme/Topic -->
+                <div>
+                    <label for="song-theme" class="block text-sm font-medium text-gray-700 mb-2">
+                        Song Theme/Topic <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="song-theme" rows="3"
+                        class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                        placeholder="Describe the main theme or story of your song. What emotions or message do you want to convey?"
+                        required aria-label="Song Theme"></textarea>
+                    <p class="text-xs text-gray-500 mt-1">Be specific about the topic, emotions, or story you want to
+                        tell</p>
+                </div>
+
+                <!-- Genre Selection -->
+                <div>
+                    <label for="genre" class="block text-sm font-medium text-gray-700 mb-2">
+                        Music Genre <span class="text-red-500">*</span>
+                    </label>
+                    <select id="genre"
+                        class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        required aria-label="Music Genre">
+                        <option value="">Select a genre</option>
+                        <option value="pop">Pop</option>
+                        <option value="rock">Rock</option>
+                        <option value="hip-hop">Hip-Hop/Rap</option>
+                        <option value="country">Country</option>
+                        <option value="r&b">R&B/Soul</option>
+                        <option value="electronic">Electronic/Dance</option>
+                        <option value="folk">Folk/Acoustic</option>
+                        <option value="indie">Indie/Alternative</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="classical">Classical</option>
+                        <option value="reggae">Reggae</option>
+                        <option value="blues">Blues</option>
+                        <option value="metal">Metal</option>
+                        <option value="punk">Punk</option>
+                    </select>
+                </div>
+
+                <!-- Mood/Emotion -->
+                <div>
+                    <label for="mood" class="block text-sm font-medium text-gray-700 mb-2">
+                        Mood/Emotion <span class="text-red-500">*</span>
+                    </label>
+                    <select id="mood"
+                        class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        required aria-label="Mood or Emotion">
+                        <option value="">Select a mood</option>
+                        <option value="happy">Happy & Uplifting</option>
+                        <option value="sad">Sad & Melancholic</option>
+                        <option value="romantic">Romantic & Loving</option>
+                        <option value="angry">Angry & Intense</option>
+                        <option value="hopeful">Hopeful & Inspirational</option>
+                        <option value="nostalgic">Nostalgic & Reflective</option>
+                        <option value="energetic">Energetic & Powerful</option>
+                        <option value="calm">Calm & Peaceful</option>
+                        <option value="mysterious">Mysterious & Intriguing</option>
+                        <option value="celebratory">Celebratory & Joyful</option>
+                        <option value="heartbroken">Heartbroken & Emotional</option>
+                    </select>
+                </div>
+
+                <!-- Target Audience -->
+                <div>
+                    <label for="target-audience" class="block text-sm font-medium text-gray-700 mb-2">
+                        Target Audience
+                    </label>
+                    <input type="text" id="target-audience"
+                        class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="e.g., Teenagers, Young adults, Music lovers, General audience"
+                        aria-label="Target Audience">
+                </div>
+
+                <!-- Song Structure -->
+                <div>
+                    <label for="song-structure" class="block text-sm font-medium text-gray-700 mb-2">
+                        Song Structure
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="include-verse"
+                                class="rounded border-gray-300 text-purple-600 focus:ring-purple-500" checked>
+                            <span class="ml-2 text-sm">Include Verses</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="include-chorus"
+                                class="rounded border-gray-300 text-purple-600 focus:ring-purple-500" checked>
+                            <span class="ml-2 text-sm">Include Chorus</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="include-bridge"
+                                class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                            <span class="ml-2 text-sm">Include Bridge</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="include-intro"
+                                class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                            <span class="ml-2 text-sm">Include Intro</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Number of Verses -->
+                <div>
+                    <label for="verse-count" class="block text-sm font-medium text-gray-700 mb-2">
+                        Number of Verses
+                    </label>
+                    <div class="flex items-center gap-4">
+                        <input type="range" id="verse-count" min="1" max="4" value="2" class="flex-1 cursor-pointer"
+                            aria-label="Number of Verses">
+                        <span id="verse-display" class="text-lg font-semibold text-purple-600 min-w-12">2</span>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="submit" id="generate-btn"
+                        class="generate-btn flex-1 py-4 px-6 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                        <span id="btn-text">Generate Lyrics</span>
+                        <div id="loading-spinner" class="hidden loading-spinner ml-2"></div>
+                    </button>
+                    <button type="button" id="clear-btn"
+                        class="flex-1 py-4 px-6 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                        Clear Form
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div class="flex items-center">
+                <i data-feather="alert-circle" class="w-5 h-5 text-red-500 mr-2"></i>
+                <span id="error-text" class="text-red-700"></span>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Generated Song Lyrics</h2>
+                    <div class="flex gap-2">
+                        <button id="regenerate-btn"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            <i data-feather="refresh-cw" class="w-4 h-4 inline mr-1"></i>
+                            Regenerate
+                        </button>
+                        <button id="download-btn"
+                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                            <i data-feather="download" class="w-4 h-4 inline mr-1"></i>
+                            Download
+                        </button>
+                    </div>
+                </div>
+
+                <div id="lyrics-container" class="space-y-4">
+                    <!-- Lyrics will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <details class="group border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
+                        How do I create the best song lyrics?
+                        <i data-feather="chevron-down"
+                            class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-600 text-sm">
+                        Be specific about your theme and emotions. Include details about the story, mood, and target
+                        audience. The more context you provide, the more personalized and meaningful your lyrics will
+                        be.
+                    </p>
+                </details>
+
+                <details class="group border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
+                        Can I use these lyrics commercially?
+                        <i data-feather="chevron-down"
+                            class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-600 text-sm">
+                        Yes! All lyrics generated by this tool are free for you to use commercially. You can record
+                        them, perform them, or use them in any creative project without any licensing restrictions.
+                    </p>
+                </details>
+
+                <details class="group border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
+                        What genres are supported?
+                        <i data-feather="chevron-down"
+                            class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-600 text-sm">
+                        We support a wide range of genres including Pop, Rock, Hip-Hop, Country, R&B, Electronic, Folk,
+                        Indie, Jazz, Classical, Reggae, Blues, Metal, and Punk. Each genre has its own lyrical style and
+                        vocabulary.
+                    </p>
+                </details>
+
+                <details class="group border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
+                        How can I improve the generated lyrics?
+                        <i data-feather="chevron-down"
+                            class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-600 text-sm">
+                        Use the Regenerate button to get new variations. You can also modify the theme, mood, or genre
+                        to get different results. Feel free to edit and personalize the lyrics to better fit your
+                        vision.
+                    </p>
+                </details>
+
+                <details class="group border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
+                        Can I download the lyrics?
+                        <i data-feather="chevron-down"
+                            class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-600 text-sm">
+                        Yes! Once you've generated lyrics, use the "Download" button to save them as a text file to your
+                        device. This is perfect for importing into music production software or sharing with
+                        collaborators.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">InfiniteForge</h3>
+                    <p class="text-gray-300 text-sm">Free online tools for creators, developers, and businesses. No
+                        uploads, no watermarks, completely free.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="features.html" class="hover:text-white transition-colors">All Tools</a></li>
+                        <li><a href="ai-business-name-generator.html" class="hover:text-white transition-colors">AI
+                                Business Name Generator</a></li>
+                        <li><a href="ai-hashtag-generator.html" class="hover:text-white transition-colors">AI Hashtag
+                                Generator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-300 hover:text-white transition-colors">
+                            <i data-feather="youtube" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-300 hover:text-white transition-colors">
+                            <i data-feather="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-300 hover:text-white transition-colors">
+                            <i data-feather="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank"
+                            rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">
+                            <i data-feather="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2025 InfiniteForge. Empowering creators with innovative digital tools.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script defer src="/js/shared-ui.js"></script>
+    <script>(function () { var _0x = ['aHR0cHM6Ly9uaW0tc2Vydi52ZXJjZWwuYXBwLw==']; window.API_URL = atob(_0x[0]); })();</script>
+    <script>
+        // Initialize user counter
+        async function initializeUserCounter() {
+            const counterElement = document.getElementById('user-counter');
+            if (!counterElement) return;
+
+            try {
+                const response = await fetch('https://api.counterapi.dev/v1/infiniteforge.tech/ai-song-lyrics-generator/up');
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
+                counterElement.textContent = data.count.toLocaleString();
+            } catch (error) {
+                console.error('Error fetching user count:', error);
+                counterElement.textContent = '10,000+';
+            }
+        }
+
+        // Initialize Feather Icons
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+
+        // Initialize user counter
+        initializeUserCounter();
+
+
+        // DOM Elements
+        const lyricsForm = document.getElementById('lyrics-form');
+        const songTheme = document.getElementById('song-theme');
+        const genre = document.getElementById('genre');
+        const mood = document.getElementById('mood');
+        const targetAudience = document.getElementById('target-audience');
+        const verseCount = document.getElementById('verse-count');
+        const verseDisplay = document.getElementById('verse-display');
+        const includeVerse = document.getElementById('include-verse');
+        const includeChorus = document.getElementById('include-chorus');
+        const includeBridge = document.getElementById('include-bridge');
+        const includeIntro = document.getElementById('include-intro');
+        const generateBtn = document.getElementById('generate-btn');
+        const btnText = document.getElementById('btn-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const clearBtn = document.getElementById('clear-btn');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const resultsSection = document.getElementById('results-section');
+        const lyricsContainer = document.getElementById('lyrics-container');
+        const regenerateBtn = document.getElementById('regenerate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+
+        let lastResults = '';
+
+        // Update verse count display when slider changes
+        verseCount.addEventListener('input', () => {
+            verseDisplay.textContent = verseCount.value;
+        });
+
+        // Show loading state
+        function showLoading() {
+            generateBtn.disabled = true;
+            btnText.textContent = 'Generating...';
+            loadingSpinner.classList.remove('hidden');
+        }
+
+        // Hide loading state
+        function hideLoading() {
+            generateBtn.disabled = false;
+            btnText.textContent = 'Generate Lyrics';
+            loadingSpinner.classList.add('hidden');
+        }
+
+        // Show error message
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.remove('hidden');
+            setTimeout(() => {
+                errorMessage.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Generate song lyrics using AI
+        async function generateLyrics() {
+            const theme = songTheme.value.trim();
+            if (!theme) {
+                showError('Please enter a song theme or topic.');
+                return;
+            }
+
+            const selectedGenre = genre.value;
+            if (!selectedGenre) {
+                showError('Please select a music genre.');
+                return;
+            }
+
+            const selectedMood = mood.value;
+            if (!selectedMood) {
+                showError('Please select a mood/emotion.');
+                return;
+            }
+
+            showLoading();
+
+            // Build structure requirements
+            let structureRequirements = [];
+            if (includeIntro.checked) structureRequirements.push('intro');
+            if (includeVerse.checked) structureRequirements.push(`${verseCount.value} verses`);
+            if (includeChorus.checked) structureRequirements.push('chorus');
+            if (includeBridge.checked) structureRequirements.push('bridge');
+
+            const prompt = `Create original song lyrics with the following specifications:
+
+Theme/Topic: ${theme}
+Genre: ${selectedGenre}
+Mood/Emotion: ${selectedMood}
+${targetAudience.value ? `Target Audience: ${targetAudience.value}` : ''}
+Structure: ${structureRequirements.join(', ')}
+
+Requirements:
+- Write lyrics that match the specified genre's style and vocabulary
+- Capture the emotional tone throughout the song
+- Create a cohesive story or message
+- Use appropriate rhyme schemes and rhythm for the genre
+- Make the lyrics creative, original, and engaging
+- Structure the song with clear sections (verses, chorus, bridge, etc.)
+- Keep the lyrics appropriate for the target audience
+
+Format the lyrics clearly with section headers like [Verse 1], [Chorus], [Verse 2], etc.`;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: "system", content: "You are a creative AI songwriter specializing in crafting original, engaging lyrics across all music genres. Create compelling, well-structured song lyrics that capture emotions and tell stories effectively." },
+                            { role: "user", content: prompt }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const lyrics = (data.reply || "").trim();
+
+                if (!lyrics || lyrics.length < 50) {
+                    throw new Error('Unable to generate lyrics. Please try with different parameters.');
+                }
+
+                lastResults = lyrics;
+                renderResults(lyrics);
+                resultsSection.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error generating lyrics:', error);
+                showError(error.message || 'Failed to generate lyrics. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Render results
+        function renderResults(lyrics) {
+            lyricsContainer.innerHTML = '';
+
+            // Split lyrics into sections and format them
+            const sections = parseLyricsSections(lyrics);
+
+            sections.forEach((section, index) => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'lyrics-section fadeIn';
+
+                let sectionClass = 'verse-section';
+                if (section.type.toLowerCase().includes('chorus')) {
+                    sectionClass = 'chorus-section';
+                }
+
+                sectionDiv.innerHTML = `
+                    <div class="${sectionClass}">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-bold text-white">${section.type}</h3>
+                            <button class="copy-section-btn px-3 py-1 bg-white/20 text-white rounded hover:bg-white/30 transition-colors text-sm" data-lyrics="${section.content}">
+                                <i data-feather="copy" class="w-4 h-4 inline mr-1"></i>
+                                Copy
+                            </button>
+                        </div>
+                        <div class="lyrics-text whitespace-pre-line text-white leading-relaxed">
+                            ${section.content}
+                        </div>
+                    </div>
+                `;
+                lyricsContainer.appendChild(sectionDiv);
+            });
+
+            // Add event listeners for copy buttons
+            document.querySelectorAll('.copy-section-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const lyrics = e.currentTarget.getAttribute('data-lyrics');
+                    try {
+                        await navigator.clipboard.writeText(lyrics);
+                        const originalText = e.currentTarget.innerHTML;
+                        e.currentTarget.innerHTML = '<i data-feather="check" class="w-4 h-4 inline mr-1"></i>Copied!';
+                        if (typeof feather !== 'undefined') feather.replace();
+                        setTimeout(() => {
+                            e.currentTarget.innerHTML = originalText;
+                            if (typeof feather !== 'undefined') feather.replace();
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Copy failed:', err);
+                        showError('Failed to copy to clipboard');
+                    }
+                });
+            });
+
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        }
+
+        // Parse lyrics into sections
+        function parseLyricsSections(lyrics) {
+            const sections = [];
+            const lines = lyrics.split('\n');
+            let currentSection = null;
+            let currentContent = [];
+
+            for (const line of lines) {
+                const trimmedLine = line.trim();
+
+                // Check if this is a section header
+                if (trimmedLine.match(/^\[.*\]$/)) {
+                    // Save previous section if exists
+                    if (currentSection && currentContent.length > 0) {
+                        sections.push({
+                            type: currentSection,
+                            content: currentContent.join('\n').trim()
+                        });
+                    }
+
+                    // Start new section
+                    currentSection = trimmedLine.replace(/[\[\]]/g, '');
+                    currentContent = [];
+                } else if (currentSection) {
+                    currentContent.push(line);
+                } else if (trimmedLine) {
+                    // If no section header yet, treat as verse
+                    if (!currentSection) {
+                        currentSection = 'Verse 1';
+                    }
+                    currentContent.push(line);
+                }
+            }
+
+            // Add the last section
+            if (currentSection && currentContent.length > 0) {
+                sections.push({
+                    type: currentSection,
+                    content: currentContent.join('\n').trim()
+                });
+            }
+
+            // If no sections were found, treat the whole thing as one section
+            if (sections.length === 0 && lyrics.trim()) {
+                sections.push({
+                    type: 'Lyrics',
+                    content: lyrics.trim()
+                });
+            }
+
+            return sections;
+        }
+
+        // Form submission
+        lyricsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            generateLyrics();
+        });
+
+        // Clear form
+        clearBtn.addEventListener('click', () => {
+            songTheme.value = '';
+            genre.value = '';
+            mood.value = '';
+            targetAudience.value = '';
+            verseCount.value = 2;
+            verseDisplay.textContent = '2';
+            includeVerse.checked = true;
+            includeChorus.checked = true;
+            includeBridge.checked = false;
+            includeIntro.checked = false;
+            lastResults = '';
+            resultsSection.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+        });
+
+        // Regenerate lyrics
+        regenerateBtn.addEventListener('click', () => {
+            if (songTheme.value.trim()) {
+                generateLyrics();
+            } else {
+                showError('Please fill in the song theme first.');
+            }
+        });
+
+        // Download results
+        downloadBtn.addEventListener('click', () => {
+            if (!lastResults) {
+                showError('Please generate lyrics first.');
+                return;
+            }
+
+            const theme = songTheme.value.trim() || 'song';
+            const selectedGenre = genre.value || 'lyrics';
+            const filename = `${theme.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${selectedGenre}_lyrics.txt`;
+
+            const blob = new Blob([lastResults], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Developer Tools Protection
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+            alert('Right-click is disabled for security reasons.');
+        });
+
+        document.addEventListener('keydown', function (e) {
+            // Disable F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                alert('Developer tools are disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+                e.preventDefault();
+                alert('Developer tools are disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+U (view source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                alert('View source is disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+Shift+K (Firefox developer tools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 75) {
+                e.preventDefault();
+                alert('Developer tools are disabled for security reasons.');
+                return false;
+            }
+
+            // Disable Ctrl+S (save page)
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                alert('Saving page is disabled for security reasons.');
+                return false;
+            }
+        });
+
+        // Additional protection against developer tools
+        let devtools = { open: false, orientation: null };
+        const threshold = 160;
+
+        setInterval(() => {
+            if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
+                if (!devtools.open) {
+                    devtools.open = true;
+                    alert('Developer tools detected! Please close them to continue using this website.');
+                    // Disable website functionality
+                    document.body.style.display = 'none';
+                    document.body.innerHTML = '<div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-family: Arial, sans-serif;"><h1 style="color: red; font-size: 24px;">⚠️ Developer Tools Detected</h1><p style="color: #666; font-size: 18px;">Please close developer tools to continue using this website.</p><button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Reload Page</button></div>';
+                }
+            } else {
+                devtools.open = false;
+                // Re-enable if closed
+                if (document.body.style.display === 'none') {
+                    location.reload();
+                }
+            }
+        }, 500);
+
+        // Disable selection for protection
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function (e) {
+            e.preventDefault();
+        });
+
+        // Prevent viewing source through other methods
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        };
+
+        // Override console methods to prevent debugging
+        console.log = function () { };
+        console.warn = function () { };
+        console.error = function () { };
+        console.info = function () { };
+
+        // Prevent opening developer tools
+        window.onbeforeunload = function () {
+            // This will show a confirmation dialog when trying to leave/close
+            return "Are you sure you want to leave?";
+        };
+
+        // Additional source protection
+        (function () {
+            'use strict';
+            const _z = btoa(Math.random().toString()).substr(10, 5);
+            window[_z] = {
+                open: window.open,
+                alert: window.alert,
+                confirm: window.confirm,
+                prompt: window.prompt
+            };
+        })();
+    </script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

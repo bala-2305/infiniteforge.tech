@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Slip Generator - Create Professional Pay Slips | InfiniteForge Tools</title>
+    <meta name="description" content="Generate professional salary slips with employee details, salary breakdown, allowances, deductions, and tax calculations. Create, customize, and export pay slips instantly.">
+    <meta name="keywords" content="salary slip generator, pay slip maker, salary calculator, employee payslip, payroll slip, salary breakdown, allowance calculator, deduction calculator, tax calculation, professional payslip, salary statement, compensation slip">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Salary Slip Generator - Create Professional Pay Slips | InfiniteForge Tools">
+    <meta property="og:description" content="Generate professional salary slips with detailed breakdown of earnings, deductions, and net pay. Perfect for HR departments and small businesses.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/salary-slip-generator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Salary Slip Generator - Create Professional Pay Slips | InfiniteForge Tools">
+    <meta name="twitter:description" content="Generate professional salary slips with detailed breakdown of earnings, deductions, and net pay. Perfect for HR departments and small businesses.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/salary-slip-generator.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/salary-slip-generator.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Salary Slip Generator",
+        "description": "Professional salary slip generator with detailed payroll calculations and export functionality",
+        "url": "https://infiniteforge.tech/salary-slip-generator.html",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .salary-slip {
+            font-family: 'Courier New', monospace;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .salary-slip-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .salary-slip-body {
+            padding: 20px;
+        }
+
+        .salary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        .salary-table th,
+        .salary-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .salary-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .total-row {
+            background-color: #f3f4f6;
+            font-weight: bold;
+        }
+
+        .net-pay {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 8px;
+            color: #3b82f6;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .salary-slip {
+                font-size: 12px;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .salary-slip-header {
+                padding: 15px;
+            }
+
+            .salary-slip-body {
+                padding: 15px;
+            }
+
+            .salary-table {
+                font-size: 11px;
+            }
+
+            .salary-table th,
+            .salary-table td {
+                padding: 6px 8px;
+            }
+
+            .net-pay {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .net-pay .text-2xl {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+
+            .hero-features {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .hero-features > div {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .salary-slip {
+                font-size: 10px;
+            }
+
+            .salary-table {
+                font-size: 10px;
+            }
+
+            .salary-table th,
+            .salary-table td {
+                padding: 4px 6px;
+            }
+
+            .net-pay {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .net-pay .text-2xl {
+                font-size: 18px;
+            }
+
+            .salary-slip-header h1 {
+                font-size: 18px;
+            }
+
+            .salary-slip-header h2 {
+                font-size: 16px;
+            }
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        .feather-icon::before {
+            content: attr(data-feather);
+            font-weight: bold;
+            font-size: 12px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            background: #e5e7eb;
+            border-radius: 3px;
+            line-height: 20px;
+        }
+
+        /* Hide fallback text when feather icons are loaded */
+        .feather-icon.feather-replaced::before {
+            display: none;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-['Poppins']">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-white font-bold text-xl">D</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-800">InfiniteForge</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="features.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 p-2">
+                        <i data-feather="menu" class="w-6 h-6 feather-icon"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="features.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fadeIn">
+                Salary Slip Generator
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90 animate-slideIn">
+                Create professional salary slips with detailed breakdown of earnings, deductions, and net pay
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center hero-features">
+                <div class="flex items-center text-lg">
+                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
+                    Professional formatting
+                </div>
+                <div class="flex items-center text-lg">
+                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
+                    Automatic calculations
+                </div>
+                <div class="flex items-center text-lg">
+                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
+                    PDF export available
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <!-- Input Form -->
+            <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 animate-fadeIn">
+                <h2 class="section-title">
+                    <i data-feather="user" class="feather-icon"></i>
+                    Employee & Company Details
+                </h2>
+
+                <!-- Company Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Company Information</h3>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label for="companyName">Company Name *</label>
+                            <input type="text" id="companyName" placeholder="Enter company name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="companyAddress">Company Address</label>
+                            <input type="text" id="companyAddress" placeholder="Enter company address">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employee Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Employee Information</h3>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label for="employeeName">Employee Name *</label>
+                            <input type="text" id="employeeName" placeholder="Enter employee name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="employeeId">Employee ID *</label>
+                            <input type="text" id="employeeId" placeholder="Enter employee ID" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" placeholder="Enter department">
+                        </div>
+                        <div class="input-group">
+                            <label for="designation">Designation</label>
+                            <input type="text" id="designation" placeholder="Enter designation">
+                        </div>
+                        <div class="input-group">
+                            <label for="panNumber">PAN Number</label>
+                            <input type="text" id="panNumber" placeholder="Enter PAN number">
+                        </div>
+                        <div class="input-group">
+                            <label for="bankAccount">Bank Account Number</label>
+                            <input type="text" id="bankAccount" placeholder="Enter bank account number">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salary Period -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Salary Period</h3>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label for="payPeriod">Pay Period</label>
+                            <select id="payPeriod">
+                                <option value="Monthly">Monthly</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Bi-weekly">Bi-weekly</option>
+                                <option value="Semi-monthly">Semi-monthly</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="paymentDate">Payment Date</label>
+                            <input type="date" id="paymentDate">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Earnings</h3>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label for="basicSalary">Basic Salary *</label>
+                            <input type="number" id="basicSalary" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="houseRentAllowance">House Rent Allowance (HRA)</label>
+                            <input type="number" id="houseRentAllowance" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="conveyanceAllowance">Conveyance Allowance</label>
+                            <input type="number" id="conveyanceAllowance" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="medicalAllowance">Medical Allowance</label>
+                            <input type="number" id="medicalAllowance" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="lta">Leave Travel Allowance (LTA)</label>
+                            <input type="number" id="lta" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="otherAllowances">Other Allowances</label>
+                            <input type="number" id="otherAllowances" placeholder="0.00" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deductions -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Deductions</h3>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label for="providentFund">Provident Fund (PF)</label>
+                            <input type="number" id="providentFund" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="professionalTax">Professional Tax</label>
+                            <input type="number" id="professionalTax" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="incomeTax">Income Tax (TDS)</label>
+                            <input type="number" id="incomeTax" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="esi">Employee State Insurance (ESI)</label>
+                            <input type="number" id="esi" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="loanDeduction">Loan Deduction</label>
+                            <input type="number" id="loanDeduction" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="otherDeductions">Other Deductions</label>
+                            <input type="number" id="otherDeductions" placeholder="0.00" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button id="generateSlip" class="btn-primary flex-1">
+                        <i data-feather="file-text" class="w-5 h-5 inline mr-2 feather-icon"></i>
+                        Generate Salary Slip
+                    </button>
+                    <button id="resetForm" class="btn-secondary flex-1">
+                        <i data-feather="refresh-cw" class="w-5 h-5 inline mr-2 feather-icon"></i>
+                        Reset Form
+                    </button>
+                </div>
+            </div>
+
+            <!-- Salary Slip Preview -->
+            <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 animate-slideIn">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="section-title mb-0">
+                        <i data-feather="eye" class="feather-icon"></i>
+                        Salary Slip Preview
+                    </h2>
+                    <div class="flex flex-col sm:flex-row gap-2 no-print">
+                        <button id="printSlip" class="btn-secondary text-sm px-4 py-2 flex-1 sm:flex-initial">
+                            <i data-feather="printer" class="w-4 h-4 inline mr-1 feather-icon"></i>
+                            Print
+                        </button>
+                        <button id="downloadPDF" class="btn-primary text-sm px-4 py-2 flex-1 sm:flex-initial">
+                            <i data-feather="download" class="w-4 h-4 inline mr-1 feather-icon"></i>
+                            Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Salary Slip -->
+                <div id="salarySlip" class="salary-slip print-only">
+                    <!-- Header -->
+                    <div class="salary-slip-header">
+                        <div class="text-center">
+                            <h1 class="text-2xl font-bold mb-2" id="companyNameDisplay">Company Name</h1>
+                            <p class="text-sm opacity-90" id="companyAddressDisplay">Company Address</p>
+                            <h2 class="text-xl font-semibold mt-4">SALARY SLIP</h2>
+                            <p class="text-sm opacity-90" id="payPeriodDisplay">Pay Period: Monthly</p>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="salary-slip-body">
+                        <!-- Employee Details -->
+                        <div class="grid-2 mb-6">
+                            <div>
+                                <p><strong>Employee Name:</strong> <span id="employeeNameDisplay">-</span></p>
+                                <p><strong>Employee ID:</strong> <span id="employeeIdDisplay">-</span></p>
+                                <p><strong>Department:</strong> <span id="departmentDisplay">-</span></p>
+                            </div>
+                            <div>
+                                <p><strong>Designation:</strong> <span id="designationDisplay">-</span></p>
+                                <p><strong>PAN Number:</strong> <span id="panNumberDisplay">-</span></p>
+                                <p><strong>Payment Date:</strong> <span id="paymentDateDisplay">-</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Earnings Table -->
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Earnings</h3>
+                        <table class="salary-table mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-right">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="earningsTable">
+                                <tr>
+                                    <td>Basic Salary</td>
+                                    <td class="text-right" id="basicSalaryDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>House Rent Allowance</td>
+                                    <td class="text-right" id="hraDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Conveyance Allowance</td>
+                                    <td class="text-right" id="conveyanceDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Medical Allowance</td>
+                                    <td class="text-right" id="medicalDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Leave Travel Allowance</td>
+                                    <td class="text-right" id="ltaDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Other Allowances</td>
+                                    <td class="text-right" id="otherAllowancesDisplay">0.00</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td><strong>Total Earnings</strong></td>
+                                    <td class="text-right" id="totalEarningsDisplay"><strong>0.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Deductions Table -->
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Deductions</h3>
+                        <table class="salary-table mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-right">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deductionsTable">
+                                <tr>
+                                    <td>Provident Fund</td>
+                                    <td class="text-right" id="pfDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Professional Tax</td>
+                                    <td class="text-right" id="professionalTaxDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Income Tax (TDS)</td>
+                                    <td class="text-right" id="incomeTaxDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Employee State Insurance</td>
+                                    <td class="text-right" id="esiDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Loan Deduction</td>
+                                    <td class="text-right" id="loanDeductionDisplay">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Other Deductions</td>
+                                    <td class="text-right" id="otherDeductionsDisplay">0.00</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td><strong>Total Deductions</strong></td>
+                                    <td class="text-right" id="totalDeductionsDisplay"><strong>0.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Net Pay -->
+                        <div class="net-pay">
+                            <div class="text-sm opacity-90 mb-1">Net Pay</div>
+                            <div class="text-2xl font-bold" id="netPayDisplay">₹ 0.00</div>
+                            <div class="text-sm opacity-90 mt-1" id="netPayWords">Zero Rupees Only</div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="mt-6 text-center text-sm text-gray-600">
+                            <p>This is a computer-generated salary slip and does not require signature.</p>
+                            <p class="mt-2">Generated on: <span id="generatedDate"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-12">
+                    <i data-feather="file-text" class="w-16 h-16 text-gray-300 mx-auto mb-4 feather-icon"></i>
+                    <h3 class="text-lg font-semibold text-gray-600 mb-2">No Salary Slip Generated</h3>
+                    <p class="text-gray-500">Fill in the employee details and click "Generate Salary Slip" to create a professional salary slip.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-white font-bold text-xl">D</span>
+                        </div>
+                        <span class="text-xl font-bold">InfiniteForge</span>
+                    </div>
+                    <p class="text-gray-400">Free online tools for developers, designers, and businesses. No signup required.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="features.html" class="hover:text-white transition-colors">All Tools</a></li>
+                        <li><a href="imageconverter.html" class="hover:text-white transition-colors">Image Tools</a></li>
+                        <li><a href="pdfconverter.html" class="hover:text-white transition-colors">PDF Tools</a></li>
+                        <li><a href="json-validator.html" class="hover:text-white transition-colors">Developer Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="github" class="w-5 h-5 feather-icon"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="twitter" class="w-5 h-5 feather-icon"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-feather="linkedin" class="w-5 h-5 feather-icon"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 InfinityForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        class SalarySlipGenerator {
+            constructor() {
+                this.initializeElements();
+                this.attachEventListeners();
+                this.setDefaultValues();
+            }
+
+            initializeElements() {
+                // Form inputs
+                this.companyName = document.getElementById('companyName');
+                this.companyAddress = document.getElementById('companyAddress');
+                this.employeeName = document.getElementById('employeeName');
+                this.employeeId = document.getElementById('employeeId');
+                this.department = document.getElementById('department');
+                this.designation = document.getElementById('designation');
+                this.panNumber = document.getElementById('panNumber');
+                this.bankAccount = document.getElementById('bankAccount');
+                this.payPeriod = document.getElementById('payPeriod');
+                this.paymentDate = document.getElementById('paymentDate');
+
+                // Earnings
+                this.basicSalary = document.getElementById('basicSalary');
+                this.houseRentAllowance = document.getElementById('houseRentAllowance');
+                this.conveyanceAllowance = document.getElementById('conveyanceAllowance');
+                this.medicalAllowance = document.getElementById('medicalAllowance');
+                this.lta = document.getElementById('lta');
+                this.otherAllowances = document.getElementById('otherAllowances');
+
+                // Deductions
+                this.providentFund = document.getElementById('providentFund');
+                this.professionalTax = document.getElementById('professionalTax');
+                this.incomeTax = document.getElementById('incomeTax');
+                this.esi = document.getElementById('esi');
+                this.loanDeduction = document.getElementById('loanDeduction');
+                this.otherDeductions = document.getElementById('otherDeductions');
+
+                // Buttons
+                this.generateSlipBtn = document.getElementById('generateSlip');
+                this.resetFormBtn = document.getElementById('resetForm');
+                this.printSlipBtn = document.getElementById('printSlip');
+                this.downloadPDFBtn = document.getElementById('downloadPDF');
+
+                // Display elements
+                this.salarySlip = document.getElementById('salarySlip');
+                this.emptyState = document.getElementById('emptyState');
+                this.companyNameDisplay = document.getElementById('companyNameDisplay');
+                this.companyAddressDisplay = document.getElementById('companyAddressDisplay');
+                this.payPeriodDisplay = document.getElementById('payPeriodDisplay');
+                this.employeeNameDisplay = document.getElementById('employeeNameDisplay');
+                this.employeeIdDisplay = document.getElementById('employeeIdDisplay');
+                this.departmentDisplay = document.getElementById('departmentDisplay');
+                this.designationDisplay = document.getElementById('designationDisplay');
+                this.panNumberDisplay = document.getElementById('panNumberDisplay');
+                this.paymentDateDisplay = document.getElementById('paymentDateDisplay');
+                this.generatedDate = document.getElementById('generatedDate');
+
+                // Salary displays
+                this.basicSalaryDisplay = document.getElementById('basicSalaryDisplay');
+                this.hraDisplay = document.getElementById('hraDisplay');
+                this.conveyanceDisplay = document.getElementById('conveyanceDisplay');
+                this.medicalDisplay = document.getElementById('medicalDisplay');
+                this.ltaDisplay = document.getElementById('ltaDisplay');
+                this.otherAllowancesDisplay = document.getElementById('otherAllowancesDisplay');
+                this.totalEarningsDisplay = document.getElementById('totalEarningsDisplay');
+
+                this.pfDisplay = document.getElementById('pfDisplay');
+                this.professionalTaxDisplay = document.getElementById('professionalTaxDisplay');
+                this.incomeTaxDisplay = document.getElementById('incomeTaxDisplay');
+                this.esiDisplay = document.getElementById('esiDisplay');
+                this.loanDeductionDisplay = document.getElementById('loanDeductionDisplay');
+                this.otherDeductionsDisplay = document.getElementById('otherDeductionsDisplay');
+                this.totalDeductionsDisplay = document.getElementById('totalDeductionsDisplay');
+
+                this.netPayDisplay = document.getElementById('netPayDisplay');
+                this.netPayWords = document.getElementById('netPayWords');
+            }
+
+            attachEventListeners() {
+                this.generateSlipBtn.addEventListener('click', () => this.generateSalarySlip());
+                this.resetFormBtn.addEventListener('click', () => this.resetForm());
+                this.printSlipBtn.addEventListener('click', () => this.printSalarySlip());
+                this.downloadPDFBtn.addEventListener('click', () => this.downloadPDF());
+
+                // Auto-calculate on input change
+                const inputs = [this.basicSalary, this.houseRentAllowance, this.conveyanceAllowance,
+                              this.medicalAllowance, this.lta, this.otherAllowances,
+                              this.providentFund, this.professionalTax, this.incomeTax,
+                              this.esi, this.loanDeduction, this.otherDeductions];
+
+                inputs.forEach(input => {
+                    input.addEventListener('input', () => {
+                        if (this.salarySlip.style.display !== 'none') {
+                            this.updateCalculations();
+                        }
+                    });
+                });
+            }
+
+            setDefaultValues() {
+                // Set current date as default payment date
+                const today = new Date().toISOString().split('T')[0];
+                this.paymentDate.value = today;
+
+                // Hide salary slip initially
+                this.salarySlip.style.display = 'none';
+                this.emptyState.style.display = 'block';
+            }
+
+            generateSalarySlip() {
+                if (!this.validateForm()) {
+                    return;
+                }
+
+                this.updateSalarySlipDisplay();
+                this.updateCalculations();
+
+                // Show salary slip, hide empty state
+                this.salarySlip.style.display = 'block';
+                this.emptyState.style.display = 'none';
+
+                this.showSuccessMessage('Salary slip generated successfully!');
+            }
+
+            validateForm() {
+                const requiredFields = [
+                    { field: this.companyName, name: 'Company Name' },
+                    { field: this.employeeName, name: 'Employee Name' },
+                    { field: this.employeeId, name: 'Employee ID' },
+                    { field: this.basicSalary, name: 'Basic Salary' }
+                ];
+
+                for (const { field, name } of requiredFields) {
+                    if (!field.value.trim()) {
+                        this.showError(`${name} is required`);
+                        field.focus();
+                        return false;
+                    }
+                }
+
+                const basicSalary = parseFloat(this.basicSalary.value);
+                if (isNaN(basicSalary) || basicSalary <= 0) {
+                    this.showError('Basic Salary must be a positive number');
+                    this.basicSalary.focus();
+                    return false;
+                }
+
+                return true;
+            }
+
+            updateSalarySlipDisplay() {
+                // Company details
+                this.companyNameDisplay.textContent = this.companyName.value || 'Company Name';
+                this.companyAddressDisplay.textContent = this.companyAddress.value || 'Company Address';
+                this.payPeriodDisplay.textContent = `Pay Period: ${this.payPeriod.value}`;
+
+                // Employee details
+                this.employeeNameDisplay.textContent = this.employeeName.value;
+                this.employeeIdDisplay.textContent = this.employeeId.value;
+                this.departmentDisplay.textContent = this.department.value || '-';
+                this.designationDisplay.textContent = this.designation.value || '-';
+                this.panNumberDisplay.textContent = this.panNumber.value || '-';
+                this.paymentDateDisplay.textContent = this.formatDate(this.paymentDate.value);
+
+                // Generated date
+                this.generatedDate.textContent = new Date().toLocaleDateString();
+            }
+
+            updateCalculations() {
+                // Get values
+                const basicSalary = parseFloat(this.basicSalary.value) || 0;
+                const hra = parseFloat(this.houseRentAllowance.value) || 0;
+                const conveyance = parseFloat(this.conveyanceAllowance.value) || 0;
+                const medical = parseFloat(this.medicalAllowance.value) || 0;
+                const lta = parseFloat(this.lta.value) || 0;
+                const otherAllowances = parseFloat(this.otherAllowances.value) || 0;
+
+                const pf = parseFloat(this.providentFund.value) || 0;
+                const professionalTax = parseFloat(this.professionalTax.value) || 0;
+                const incomeTax = parseFloat(this.incomeTax.value) || 0;
+                const esi = parseFloat(this.esi.value) || 0;
+                const loanDeduction = parseFloat(this.loanDeduction.value) || 0;
+                const otherDeductions = parseFloat(this.otherDeductions.value) || 0;
+
+                // Calculate totals
+                const totalEarnings = basicSalary + hra + conveyance + medical + lta + otherAllowances;
+                const totalDeductions = pf + professionalTax + incomeTax + esi + loanDeduction + otherDeductions;
+                const netPay = totalEarnings - totalDeductions;
+
+                // Update display
+                this.basicSalaryDisplay.textContent = this.formatCurrency(basicSalary);
+                this.hraDisplay.textContent = this.formatCurrency(hra);
+                this.conveyanceDisplay.textContent = this.formatCurrency(conveyance);
+                this.medicalDisplay.textContent = this.formatCurrency(medical);
+                this.ltaDisplay.textContent = this.formatCurrency(lta);
+                this.otherAllowancesDisplay.textContent = this.formatCurrency(otherAllowances);
+                this.totalEarningsDisplay.textContent = this.formatCurrency(totalEarnings);
+
+                this.pfDisplay.textContent = this.formatCurrency(pf);
+                this.professionalTaxDisplay.textContent = this.formatCurrency(professionalTax);
+                this.incomeTaxDisplay.textContent = this.formatCurrency(incomeTax);
+                this.esiDisplay.textContent = this.formatCurrency(esi);
+                this.loanDeductionDisplay.textContent = this.formatCurrency(loanDeduction);
+                this.otherDeductionsDisplay.textContent = this.formatCurrency(otherDeductions);
+                this.totalDeductionsDisplay.textContent = this.formatCurrency(totalDeductions);
+
+                this.netPayDisplay.textContent = `₹ ${this.formatCurrency(netPay)}`;
+                this.netPayWords.textContent = this.numberToWords(netPay) + ' Only';
+            }
+
+            formatCurrency(amount) {
+                return amount.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            formatDate(dateString) {
+                if (!dateString) return '-';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+
+            numberToWords(amount) {
+                if (amount === 0) return 'Zero Rupees';
+
+                const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+                const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+                const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+                function convertToWords(num) {
+                    if (num === 0) return '';
+                    if (num < 10) return ones[num];
+                    if (num < 20) return teens[num - 10];
+                    if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ' ' + ones[num % 10] : '');
+                    if (num < 1000) return ones[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ' ' + convertToWords(num % 100) : '');
+                    if (num < 100000) return convertToWords(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 !== 0 ? ' ' + convertToWords(num % 1000) : '');
+                    if (num < 10000000) return convertToWords(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 !== 0 ? ' ' + convertToWords(num % 100000) : '');
+                    return convertToWords(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 !== 0 ? ' ' + convertToWords(num % 10000000) : '');
+                }
+
+                const rupees = Math.floor(amount);
+                const paise = Math.round((amount - rupees) * 100);
+
+                let result = convertToWords(rupees) + ' Rupees';
+                if (paise > 0) {
+                    result += ' and ' + convertToWords(paise) + ' Paise';
+                }
+
+                return result;
+            }
+
+            resetForm() {
+                // Reset all form inputs
+                const inputs = document.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    if (input.type === 'date') {
+                        input.value = new Date().toISOString().split('T')[0];
+                    } else {
+                        input.value = '';
+                    }
+                });
+
+                // Hide salary slip, show empty state
+                this.salarySlip.style.display = 'none';
+                this.emptyState.style.display = 'block';
+
+                this.showSuccessMessage('Form reset successfully!');
+            }
+
+            printSalarySlip() {
+                if (this.salarySlip.style.display === 'none') {
+                    this.showError('Please generate a salary slip first');
+                    return;
+                }
+
+                window.print();
+            }
+
+            downloadPDF() {
+                if (this.salarySlip.style.display === 'none') {
+                    this.showError('Please generate a salary slip first');
+                    return;
+                }
+
+                try {
+                    // Create new jsPDF instance with A4 size
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF('p', 'mm', 'a4'); // portrait, millimeters, A4
+
+                    // Set font
+                    doc.setFont('helvetica');
+
+                    // Company header - more compact
+                    doc.setFontSize(18);
+                    doc.setFont('helvetica', 'bold');
+                    const companyName = this.companyNameDisplay.textContent || 'Company Name';
+                    doc.text(companyName, 105, 20, { align: 'center' });
+
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'normal');
+                    const companyAddress = this.companyAddressDisplay.textContent || '';
+                    if (companyAddress) {
+                        doc.text(companyAddress, 105, 28, { align: 'center' });
+                    }
+
+                    // Title
+                    doc.setFontSize(14);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('SALARY SLIP', 105, 38, { align: 'center' });
+
+                    // Pay period
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'normal');
+                    const payPeriod = this.payPeriodDisplay.textContent || 'Monthly';
+                    doc.text(payPeriod, 105, 45, { align: 'center' });
+
+                    // Employee details - more compact layout
+                    let yPos = 55;
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('Employee Details:', 15, yPos);
+
+                    yPos += 8;
+                    doc.setFont('helvetica', 'normal');
+
+                    const employeeDetails = [
+                        ['Employee Name:', this.employeeNameDisplay.textContent || '-'],
+                        ['Employee ID:', this.employeeIdDisplay.textContent || '-'],
+                        ['Department:', this.departmentDisplay.textContent || '-'],
+                        ['Designation:', this.designationDisplay.textContent || '-'],
+                        ['PAN Number:', this.panNumberDisplay.textContent || '-'],
+                        ['Payment Date:', this.paymentDateDisplay.textContent || '-']
+                    ];
+
+                    employeeDetails.forEach(([label, value]) => {
+                        doc.text(label, 20, yPos);
+                        doc.text(value, 70, yPos);
+                        yPos += 6;
+                    });
+
+                    yPos += 3;
+
+                    // Earnings table - more compact
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(11);
+                    doc.text('Earnings', 15, yPos);
+                    yPos += 8;
+
+                    // Table headers
+                    doc.setFontSize(9);
+                    doc.text('Description', 20, yPos);
+                    doc.text('Amount (₹)', 170, yPos, { align: 'right' });
+                    yPos += 4;
+
+                    // Underline
+                    doc.line(15, yPos, 185, yPos);
+                    yPos += 6;
+
+                    // Earnings data - tighter spacing
+                    doc.setFont('helvetica', 'normal');
+                    const earnings = [
+                        ['Basic Salary', this.basicSalaryDisplay.textContent],
+                        ['House Rent Allowance', this.hraDisplay.textContent],
+                        ['Conveyance Allowance', this.conveyanceDisplay.textContent],
+                        ['Medical Allowance', this.medicalDisplay.textContent],
+                        ['Leave Travel Allowance', this.ltaDisplay.textContent],
+                        ['Other Allowances', this.otherAllowancesDisplay.textContent],
+                        ['Total Earnings', this.totalEarningsDisplay.textContent]
+                    ];
+
+                    earnings.forEach(([desc, amount]) => {
+                        doc.text(desc, 20, yPos);
+                        doc.text(amount, 180, yPos, { align: 'right' });
+                        yPos += 5;
+                    });
+
+                    yPos += 3;
+
+                    // Deductions table - more compact
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(11);
+                    doc.text('Deductions', 15, yPos);
+                    yPos += 8;
+
+                    // Table headers
+                    doc.setFontSize(9);
+                    doc.text('Description', 20, yPos);
+                    doc.text('Amount (₹)', 170, yPos, { align: 'right' });
+                    yPos += 4;
+
+                    // Underline
+                    doc.line(15, yPos, 185, yPos);
+                    yPos += 6;
+
+                    // Deductions data - tighter spacing
+                    doc.setFont('helvetica', 'normal');
+                    const deductions = [
+                        ['Provident Fund', this.pfDisplay.textContent],
+                        ['Professional Tax', this.professionalTaxDisplay.textContent],
+                        ['Income Tax (TDS)', this.incomeTaxDisplay.textContent],
+                        ['Employee State Insurance', this.esiDisplay.textContent],
+                        ['Loan Deduction', this.loanDeductionDisplay.textContent],
+                        ['Other Deductions', this.otherDeductionsDisplay.textContent],
+                        ['Total Deductions', this.totalDeductionsDisplay.textContent]
+                    ];
+
+                    deductions.forEach(([desc, amount]) => {
+                        doc.text(desc, 20, yPos);
+                        doc.text(amount, 180, yPos, { align: 'right' });
+                        yPos += 5;
+                    });
+
+                    yPos += 8;
+
+                    // Net Pay - more prominent
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(12);
+                    doc.text('Net Pay:', 15, yPos);
+                    doc.setFontSize(14);
+                    doc.text(this.netPayDisplay.textContent, 180, yPos, { align: 'right' });
+
+                    yPos += 8;
+                    doc.setFontSize(9);
+                    doc.setFont('helvetica', 'normal');
+                    const netPayWords = this.netPayWords.textContent;
+                    // Split long text into multiple lines if needed
+                    const words = netPayWords.split(' ');
+                    let line = '';
+                    let lineY = yPos;
+                    words.forEach(word => {
+                        const testLine = line + word + ' ';
+                        const metrics = doc.getTextWidth(testLine);
+                        if (metrics > 160 && line !== '') {
+                            doc.text(line, 15, lineY);
+                            line = word + ' ';
+                            lineY += 5;
+                        } else {
+                            line = testLine;
+                        }
+                    });
+                    doc.text(line, 15, lineY);
+
+                    yPos = lineY + 10;
+
+                    // Footer - more compact
+                    doc.setFontSize(8);
+                    doc.text('This is a computer-generated salary slip and does not require signature.', 105, yPos, { align: 'center' });
+
+                    yPos += 6;
+                    const generatedDate = this.generatedDate.textContent;
+                    doc.text(`Generated on: ${generatedDate}`, 105, yPos, { align: 'center' });
+
+                    // Save the PDF
+                    const fileName = `salary-slip-${this.employeeIdDisplay.textContent || 'employee'}-${new Date().toISOString().split('T')[0]}.pdf`;
+                    doc.save(fileName);
+
+                    this.showSuccessMessage('PDF downloaded successfully!');
+
+                } catch (error) {
+                    console.error('PDF generation failed:', error);
+                    this.showError('Failed to generate PDF. Please try again.');
+                }
+            }
+
+            showSuccessMessage(message) {
+                this.showToast(message, 'success');
+            }
+
+            showError(message) {
+                this.showToast(message, 'error');
+            }
+
+            showInfo(message) {
+                this.showToast(message, 'info');
+            }
+
+            showToast(message, type) {
+                const toast = document.createElement('div');
+                toast.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 animate-fadeIn text-white`;
+
+                let bgColor = 'bg-green-500';
+                let icon = 'check-circle';
+
+                if (type === 'error') {
+                    bgColor = 'bg-red-500';
+                    icon = 'alert-circle';
+                } else if (type === 'info') {
+                    bgColor = 'bg-blue-500';
+                    icon = 'info';
+                }
+
+                toast.className += ` ${bgColor}`;
+
+                toast.innerHTML = `
+                    <div class="flex items-center">
+                        <i data-feather="${icon}" class="w-5 h-5 mr-3"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+                document.body.appendChild(toast);
+
+                // Initialize feather icons
+                initializeFeatherIcons();
+
+                // Remove after 5 seconds
+                setTimeout(() => {
+                    toast.remove();
+                }, 5000);
+            }
+        }
+
+        // Initialize the salary slip generator when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize feather icons first
+            initializeFeatherIcons();
+
+            new SalarySlipGenerator();
+
+            // Mobile menu functionality
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = mobileMenuButton.querySelector('i');
+                    if (icon) {
+                        icon.setAttribute('data-feather', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+                        initializeFeatherIcons();
+                    }
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        if (icon) {
+                            icon.setAttribute('data-feather', 'menu');
+                            initializeFeatherIcons();
+                        }
+                    }
+                });
+
+                // Close mobile menu when scrolling
+                window.addEventListener('scroll', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        if (icon) {
+                            icon.setAttribute('data-feather', 'menu');
+                            initializeFeatherIcons();
+                        }
+                    }
+                });
+            }
+        });
+
+        // Also initialize on window load to ensure feather script is loaded
+        window.addEventListener('load', () => {
+            initializeFeatherIcons();
+        });
+
+        // Function to initialize feather icons
+        function initializeFeatherIcons() {
+            if (typeof feather !== 'undefined') {
+                try {
+                    feather.replace();
+                    // Add class to indicate icons have been replaced
+                    document.querySelectorAll('[data-feather]').forEach(icon => {
+                        icon.classList.add('feather-replaced');
+                    });
+                } catch (error) {
+                    console.warn('Feather icons initialization failed:', error);
+                }
+            } else {
+                console.warn('Feather icons library not loaded');
+            }
+        }
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

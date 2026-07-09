@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Tracker - Real-time Stock Prices & Charts | InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Free stock market tracker with real-time stock prices, interactive charts, market indices, and portfolio tracking. Track stocks like AAPL, GOOGL, TSLA, and more with live data.">
+    <meta name="keywords" content="stock market tracker, stock prices, real-time stocks, stock charts, AAPL, GOOGL, TSLA, NASDAQ, NYSE, stock portfolio, stock watchlist, market indices, S&P 500, Dow Jones, financial data">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Stock Market Tracker - Real-time Stock Prices & Charts | InfiniteForge">
+    <meta property="og:description" content="Track stocks with real-time prices, interactive charts, and market data. Free stock market tracker for investors and traders.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/stock-market-tracker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Stock Market Tracker - Real-time Stock Prices & Charts | InfiniteForge">
+    <meta name="twitter:description" content="Track stocks with real-time prices, interactive charts, and market data. Free stock market tracker for investors and traders.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/stock-market-tracker.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/stock-market-tracker.html">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .stock-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .stock-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .search-container:focus-within::before {
+            left: 100%;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .floating-animation {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slideInUp {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        /* Stock specific styles */
+        .stock-input {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+            width: 100%;
+        }
+
+        .stock-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .price-change {
+            font-size: 0.875rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .price-change.positive {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .price-change.negative {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #2563eb;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .watchlist-item {
+            transition: all 0.2s ease;
+        }
+
+        .watchlist-item:hover {
+            background: #f8fafc;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 640px) {
+            .stock-input {
+                padding: 10px 12px;
+                font-size: 16px;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+    </style>
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Stock Market Tracker",
+        "description": "Free stock market tracker with real-time stock prices, interactive charts, market indices, and portfolio tracking. Track stocks like AAPL, GOOGL, TSLA with live financial data.",
+        "url": "https://infiniteforge.tech/stock-market-tracker.html",
+        "applicationCategory": "Financial",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        }
+    }</script>
+    <!-- Google tag (gtag.js) -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md w-full fixed top-0 left-0 z-50" aria-label="Main Navigation">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="flex items-center">
+                    <a href="index.html" class="hidden md:inline-block ml-6 text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="sitemap.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Sitemap</a>
+                    <a href="contact.html" class="hidden md:inline-block ml-6 text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                    <!-- Mobile menu button -->
+                    <button id="mobileMenuBtn" class="md:hidden ml-4 text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data-feather="menu" class="w-7 h-7" aria-label="Mobile menu"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40 hidden">
+                <!-- Navigation -->
+                <div class="px-4 py-2">
+                    <a href="index.html" class="block px-2 py-2 text-blue-600 rounded">Home</a>
+                    <a href="features.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Features</a>
+                    <a href="about.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">About</a>
+                    <a href="sitemap.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Sitemap</a>
+                    <a href="contact.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-6xl mx-auto pt-20 px-4 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/WebPage">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-green-800 rounded-3xl mb-16">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="absolute inset-0">
+                <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute bottom-10 right-10 w-32 h-32 bg-white bg-opacity-10 rounded-full blur-xl"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white bg-opacity-5 rounded-full blur-2xl"></div>
+            </div>
+            <div class="relative z-10 py-20 px-6 text-center text-white">
+                <div class="flex justify-center items-center mb-6">
+                    <i data-feather="trending-up" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
+                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent" itemprop="headline">
+                        Stock Market Tracker
+                    </h1>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100">Real-time Stock Prices & Charts</h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
+                    Track stocks with real-time prices, interactive charts, market indices, and portfolio management. Free stock market tracker for investors and traders.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="#stock-search" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Search Stocks Now
+                        <i data-feather="search" class="w-5 h-5 ml-2 inline"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stock Search Section -->
+        <section id="stock-search" class="mb-20">
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Stock Search</h2>
+                    <p class="text-lg text-gray-600">Search for any stock symbol to get real-time data and charts</p>
+                </div>
+
+                <!-- Search Form -->
+                <div class="max-w-md mx-auto mb-8">
+                    <div class="search-container relative">
+                        <input type="text" id="stock-symbol" class="stock-input pr-12" placeholder="Enter stock symbol (e.g., AAPL, GOOGL, TSLA)" autocomplete="off">
+                        <button id="search-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i data-feather="search" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stock Data Display -->
+                <div id="stock-data" class="hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <!-- Stock Info -->
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 id="stock-name" class="text-2xl font-bold text-gray-800">Apple Inc.</h3>
+                                    <p id="stock-symbol-display" class="text-lg text-gray-600">AAPL</p>
+                                </div>
+                                <div class="text-right">
+                                    <div id="current-price" class="text-3xl font-bold text-gray-800">$150.25</div>
+                                    <div id="price-change" class="price-change positive">+2.45 (+1.66%)</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-600">Open:</span>
+                                    <span id="open-price" class="font-semibold">$148.50</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">High:</span>
+                                    <span id="high-price" class="font-semibold">$151.20</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Low:</span>
+                                    <span id="low-price" class="font-semibold">$147.80</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Volume:</span>
+                                    <span id="volume" class="font-semibold">45.2M</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart -->
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4">Price Chart</h4>
+                            <div class="chart-container">
+                                <canvas id="stock-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add to Watchlist -->
+                    <div class="text-center mb-8">
+                        <button id="add-watchlist-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i data-feather="plus" class="w-5 h-5 mr-2 inline"></i>
+                            Add to Watchlist
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-message" class="error-message hidden mt-6"></div>
+            </div>
+        </section>
+
+        <!-- Market Indices -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Market Indices</h2>
+                <p class="text-lg text-gray-600">Track major market indices performance</p>
+            </div>
+
+            <div id="market-indices" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Indices will be populated here -->
+            </div>
+        </section>
+
+        <!-- Popular Stocks -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Popular Stocks</h2>
+                <p class="text-lg text-gray-600">Track the most popular stocks in real-time</p>
+            </div>
+
+            <div id="popular-stocks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <!-- Popular stocks will be populated here -->
+            </div>
+        </section>
+
+        <!-- Watchlist -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Your Watchlist</h2>
+                <p class="text-lg text-gray-600">Keep track of your favorite stocks</p>
+            </div>
+
+            <div id="watchlist" class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                <div id="watchlist-empty" class="text-center py-12">
+                    <i data-feather="star" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">Your watchlist is empty</h3>
+                    <p class="text-gray-500">Search for stocks above and add them to your watchlist to track them here.</p>
+                </div>
+
+                <div id="watchlist-items" class="hidden">
+                    <div class="space-y-4" id="watchlist-content">
+                        <!-- Watchlist items will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Choose Our Stock Tracker?</h2>
+                    <p class="text-lg text-gray-600">Professional-grade stock market tools for informed investing</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="activity" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Real-time Data</h3>
+                        <p class="text-gray-600">Get live stock prices and market data updated throughout the trading day.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="bar-chart-2" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Interactive Charts</h3>
+                        <p class="text-gray-600">View detailed price charts with historical data and technical indicators.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="star" class="w-8 h-8 text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Watchlist Management</h3>
+                        <p class="text-gray-600">Create and manage your personal watchlist to track favorite stocks easily.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-400">© 2025 InfiniteForge. Made with <span class="text-red-400">♥</span> for investors worldwide by <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" class="hover:text-white transition-colors">InfinityForge</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Stock Market Tracker functionality
+        let watchlist = JSON.parse(localStorage.getItem('stockWatchlist') || '[]');
+        let currentStockData = null;
+        let stockChart = null;
+
+        // Popular stocks to display
+        const popularStocks = [
+            { symbol: 'AAPL', name: 'Apple Inc.' },
+            { symbol: 'GOOGL', name: 'Alphabet Inc.' },
+            { symbol: 'MSFT', name: 'Microsoft Corporation' },
+            { symbol: 'TSLA', name: 'Tesla Inc.' },
+            { symbol: 'AMZN', name: 'Amazon.com Inc.' },
+            { symbol: 'NVDA', name: 'NVIDIA Corporation' },
+            { symbol: 'META', name: 'Meta Platforms Inc.' },
+            { symbol: 'NFLX', name: 'Netflix Inc.' },
+            { symbol: 'AMD', name: 'Advanced Micro Devices' },
+            { symbol: 'INTC', name: 'Intel Corporation' }
+        ];
+
+        // Market indices
+        const marketIndices = [
+            { symbol: 'SPY', name: 'S&P 500', description: 'Large-cap U.S. stocks' },
+            { symbol: 'QQQ', name: 'Nasdaq 100', description: 'Technology-heavy index' },
+            { symbol: 'DIA', name: 'Dow Jones', description: 'Blue-chip stocks' },
+            { symbol: 'IWM', name: 'Russell 2000', description: 'Small-cap stocks' }
+        ];
+
+        // Initialize the stock tracker
+        function initStockTracker() {
+            setupEventListeners();
+            loadMarketIndices();
+            displayPopularStocks();
+            displayWatchlist();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search button
+            document.getElementById('search-btn').addEventListener('click', searchStock);
+            document.getElementById('stock-symbol').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchStock();
+                }
+            });
+
+            // Add to watchlist button
+            document.getElementById('add-watchlist-btn').addEventListener('click', addToWatchlist);
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking links
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                });
+            });
+        }
+
+        // Search for stock
+        async function searchStock() {
+            const symbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
+
+            if (!symbol) {
+                showError('Please enter a stock symbol');
+                return;
+            }
+
+            showLoading(true);
+            hideError();
+
+            try {
+                // Using Alpha Vantage API (you'll need to get a free API key)
+                // For demo purposes, we'll use mock data
+                const stockData = await getStockData(symbol);
+
+                if (stockData) {
+                    displayStockData(stockData);
+                    document.getElementById('stock-data').classList.remove('hidden');
+                } else {
+                    throw new Error('Stock not found');
+                }
+            } catch (error) {
+                console.error('Error searching stock:', error);
+                showError('Failed to fetch stock data. Please try again.');
+                document.getElementById('stock-data').classList.add('hidden');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Get stock data (mock implementation - replace with real API)
+        async function getStockData(symbol) {
+            // Mock data for demonstration
+            const mockStocks = {
+                'AAPL': {
+                    symbol: 'AAPL',
+                    name: 'Apple Inc.',
+                    price: 175.43,
+                    change: 2.45,
+                    changePercent: 1.41,
+                    open: 173.50,
+                    high: 176.20,
+                    low: 172.80,
+                    volume: '45.2M',
+                    chartData: [170, 172, 169, 173, 175, 178, 176, 179, 177, 175, 178, 180, 182, 179, 175]
+                },
+                'GOOGL': {
+                    symbol: 'GOOGL',
+                    name: 'Alphabet Inc.',
+                    price: 142.56,
+                    change: -1.23,
+                    changePercent: -0.85,
+                    open: 143.80,
+                    high: 144.50,
+                    low: 141.20,
+                    volume: '28.5M',
+                    chartData: [145, 143, 146, 144, 142, 140, 143, 145, 142, 141, 143, 142, 140, 142, 142]
+                },
+                'MSFT': {
+                    symbol: 'MSFT',
+                    name: 'Microsoft Corporation',
+                    price: 378.85,
+                    change: 4.67,
+                    changePercent: 1.25,
+                    open: 375.20,
+                    high: 380.50,
+                    low: 373.80,
+                    volume: '32.1M',
+                    chartData: [370, 375, 372, 378, 376, 380, 378, 382, 379, 375, 378, 380, 382, 378, 378]
+                },
+                'TSLA': {
+                    symbol: 'TSLA',
+                    name: 'Tesla Inc.',
+                    price: 248.42,
+                    change: 8.67,
+                    changePercent: 3.62,
+                    open: 240.50,
+                    high: 250.80,
+                    low: 238.90,
+                    volume: '89.3M',
+                    chartData: [235, 240, 238, 245, 242, 250, 248, 252, 249, 245, 248, 250, 252, 248, 248]
+                },
+                'AMZN': {
+                    symbol: 'AMZN',
+                    name: 'Amazon.com Inc.',
+                    price: 155.89,
+                    change: -2.34,
+                    changePercent: -1.48,
+                    open: 158.40,
+                    high: 159.20,
+                    low: 154.50,
+                    volume: '41.7M',
+                    chartData: [160, 158, 161, 159, 157, 155, 158, 160, 157, 156, 158, 157, 155, 157, 155]
+                },
+                'NVDA': {
+                    symbol: 'NVDA',
+                    name: 'NVIDIA Corporation',
+                    price: 875.28,
+                    change: 15.42,
+                    changePercent: 1.79,
+                    open: 862.50,
+                    high: 880.90,
+                    low: 858.20,
+                    volume: '67.8M',
+                    chartData: [850, 860, 855, 870, 865, 875, 870, 880, 875, 870, 875, 878, 880, 875, 875]
+                },
+                'META': {
+                    symbol: 'META',
+                    name: 'Meta Platforms Inc.',
+                    price: 484.67,
+                    change: -5.89,
+                    changePercent: -1.20,
+                    open: 490.80,
+                    high: 492.30,
+                    low: 482.10,
+                    volume: '18.9M',
+                    chartData: [495, 490, 493, 488, 485, 480, 485, 490, 485, 483, 487, 485, 482, 485, 484]
+                },
+                'NFLX': {
+                    symbol: 'NFLX',
+                    name: 'Netflix Inc.',
+                    price: 589.27,
+                    change: 7.34,
+                    changePercent: 1.26,
+                    open: 583.40,
+                    high: 592.80,
+                    low: 580.50,
+                    volume: '8.2M',
+                    chartData: [575, 580, 578, 585, 582, 590, 585, 592, 588, 583, 587, 589, 591, 587, 589]
+                },
+                'AMD': {
+                    symbol: 'AMD',
+                    name: 'Advanced Micro Devices',
+                    price: 122.84,
+                    change: 3.21,
+                    changePercent: 2.68,
+                    open: 120.30,
+                    high: 124.50,
+                    low: 119.80,
+                    volume: '52.3M',
+                    chartData: [118, 120, 119, 122, 121, 124, 122, 125, 123, 120, 122, 123, 124, 122, 122]
+                },
+                'INTC': {
+                    symbol: 'INTC',
+                    name: 'Intel Corporation',
+                    price: 21.45,
+                    change: -0.67,
+                    changePercent: -3.03,
+                    open: 22.20,
+                    high: 22.40,
+                    low: 21.10,
+                    volume: '78.6M',
+                    chartData: [23, 22, 22.5, 22, 21.5, 21, 21.5, 22, 21.5, 21.2, 21.8, 21.5, 21.2, 21.5, 21]
+                }
+            };
+
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            return mockStocks[symbol] || null;
+        }
+
+        // Display stock data
+        function displayStockData(data) {
+            currentStockData = data;
+
+            document.getElementById('stock-name').textContent = data.name;
+            document.getElementById('stock-symbol-display').textContent = data.symbol;
+            document.getElementById('current-price').textContent = `$${data.price.toFixed(2)}`;
+
+            const changeElement = document.getElementById('price-change');
+            changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePercent >= 0 ? '+' : ''}${data.changePercent.toFixed(2)}%)`;
+            changeElement.className = `price-change ${data.change >= 0 ? 'positive' : 'negative'}`;
+
+            document.getElementById('open-price').textContent = `$${data.open.toFixed(2)}`;
+            document.getElementById('high-price').textContent = `$${data.high.toFixed(2)}`;
+            document.getElementById('low-price').textContent = `$${data.low.toFixed(2)}`;
+            document.getElementById('volume').textContent = data.volume;
+
+            // Update chart
+            updateChart(data.chartData);
+        }
+
+        // Update chart
+        function updateChart(data) {
+            const ctx = document.getElementById('stock-chart').getContext('2d');
+
+            if (stockChart) {
+                stockChart.destroy();
+            }
+
+            stockChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: data.length}, (_, i) => `Day ${i + 1}`),
+                    datasets: [{
+                        label: 'Stock Price',
+                        data: data,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 0,
+                            hoverRadius: 6
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load market indices
+        async function loadMarketIndices() {
+            const container = document.getElementById('market-indices');
+
+            for (const index of marketIndices) {
+                const card = document.createElement('div');
+                card.className = 'stock-card bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">${index.name}</h4>
+                            <p class="text-sm text-gray-600">${index.symbol}</p>
+                        </div>
+                        <div class="loading-spinner" id="spinner-${index.symbol}"></div>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800" id="index-price-${index.symbol}">Loading...</div>
+                    <div class="price-change positive" id="index-change-${index.symbol}">--</div>
+                    <p class="text-xs text-gray-500 mt-1">${index.description}</p>
+                `;
+
+                container.appendChild(card);
+
+                // Load index data (mock)
+                setTimeout(() => {
+                    const mockData = {
+                        'SPY': { price: 450.25, change: 5.67, changePercent: 1.28 },
+                        'QQQ': { price: 380.80, change: -2.34, changePercent: -0.61 },
+                        'DIA': { price: 340.15, change: 3.21, changePercent: 0.95 },
+                        'IWM': { price: 185.60, change: 1.45, changePercent: 0.79 }
+                    };
+
+                    const data = mockData[index.symbol];
+                    if (data) {
+                        document.getElementById(`index-price-${index.symbol}`).textContent = `$${data.price.toFixed(2)}`;
+                        const changeElement = document.getElementById(`index-change-${index.symbol}`);
+                        changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePercent >= 0 ? '+' : ''}${data.changePercent.toFixed(2)}%)`;
+                        changeElement.className = `price-change ${data.change >= 0 ? 'positive' : 'negative'}`;
+                        document.getElementById(`spinner-${index.symbol}`).style.display = 'none';
+                    }
+                }, Math.random() * 2000 + 500);
+            }
+        }
+
+        // Display popular stocks
+        function displayPopularStocks() {
+            const container = document.getElementById('popular-stocks');
+
+            popularStocks.forEach((stock, index) => {
+                const card = document.createElement('div');
+                card.className = 'stock-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer';
+                card.onclick = () => selectStock(stock.symbol);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">${stock.name}</h4>
+                            <p class="text-sm text-gray-600">${stock.symbol}</p>
+                        </div>
+                        <div class="loading-spinner" id="spinner-${stock.symbol}"></div>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800" id="price-${stock.symbol}">Loading...</div>
+                    <div class="price-change positive mt-1" id="change-${stock.symbol}">--</div>
+                `;
+
+                container.appendChild(card);
+
+                // Load stock data (mock) with staggered timing
+                setTimeout(async () => {
+                    try {
+                        const data = await getStockData(stock.symbol);
+                        if (data) {
+                            document.getElementById(`price-${stock.symbol}`).textContent = `$${data.price.toFixed(2)}`;
+                            const changeElement = document.getElementById(`change-${stock.symbol}`);
+                            changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePercent >= 0 ? '+' : ''}${data.changePercent.toFixed(2)}%)`;
+                            changeElement.className = `price-change ${data.change >= 0 ? 'positive' : 'negative'}`;
+                        } else {
+                            // Handle case where stock data is not found
+                            document.getElementById(`price-${stock.symbol}`).textContent = 'N/A';
+                            document.getElementById(`change-${stock.symbol}`).textContent = '--';
+                        }
+                        // Always hide the spinner
+                        const spinner = document.getElementById(`spinner-${stock.symbol}`);
+                        if (spinner) {
+                            spinner.style.display = 'none';
+                        }
+                    } catch (error) {
+                        console.error('Error loading stock data for', stock.symbol, error);
+                        document.getElementById(`price-${stock.symbol}`).textContent = 'Error';
+                        document.getElementById(`change-${stock.symbol}`).textContent = '--';
+                        const spinner = document.getElementById(`spinner-${stock.symbol}`);
+                        if (spinner) {
+                            spinner.style.display = 'none';
+                        }
+                    }
+                }, index * 200); // Stagger loading by 200ms per stock
+            });
+        }
+
+        // Select stock from popular stocks
+        function selectStock(symbol) {
+            document.getElementById('stock-symbol').value = symbol;
+            searchStock();
+            // Scroll to search section
+            document.getElementById('stock-search').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add to watchlist
+        function addToWatchlist() {
+            if (!currentStockData) return;
+
+            const exists = watchlist.find(item => item.symbol === currentStockData.symbol);
+            if (exists) {
+                showError('Stock is already in your watchlist');
+                return;
+            }
+
+            watchlist.push({
+                symbol: currentStockData.symbol,
+                name: currentStockData.name,
+                price: currentStockData.price,
+                change: currentStockData.change,
+                changePercent: currentStockData.changePercent
+            });
+
+            saveWatchlist();
+            displayWatchlist();
+            showSuccess('Stock added to watchlist!');
+        }
+
+        // Remove from watchlist
+        function removeFromWatchlist(symbol) {
+            watchlist = watchlist.filter(item => item.symbol !== symbol);
+            saveWatchlist();
+            displayWatchlist();
+        }
+
+        // Save watchlist to localStorage
+        function saveWatchlist() {
+            localStorage.setItem('stockWatchlist', JSON.stringify(watchlist));
+        }
+
+        // Display watchlist
+        function displayWatchlist() {
+            const container = document.getElementById('watchlist-content');
+            const emptyState = document.getElementById('watchlist-empty');
+            const itemsContainer = document.getElementById('watchlist-items');
+
+            if (watchlist.length === 0) {
+                emptyState.classList.remove('hidden');
+                itemsContainer.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            itemsContainer.classList.remove('hidden');
+
+            container.innerHTML = '';
+
+            watchlist.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'watchlist-item flex justify-between items-center p-4 bg-gray-50 rounded-lg';
+
+                itemElement.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800">${item.name}</h4>
+                        <p class="text-sm text-gray-600">${item.symbol}</p>
+                    </div>
+                    <div class="text-right mr-4">
+                        <div class="font-bold text-gray-800">$${item.price.toFixed(2)}</div>
+                        <div class="price-change ${item.change >= 0 ? 'positive' : 'negative'}">
+                            ${item.change >= 0 ? '+' : ''}${item.change.toFixed(2)} (${item.changePercent >= 0 ? '+' : ''}${item.changePercent.toFixed(2)}%)
+                        </div>
+                    </div>
+                    <button onclick="removeFromWatchlist('${item.symbol}')" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors">
+                        <i data-feather="trash-2" class="w-5 h-5"></i>
+                    </button>
+                `;
+
+                container.appendChild(itemElement);
+            });
+
+            // Reinitialize feather icons
+            setTimeout(() => {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            }, 10);
+        }
+
+        // Show loading state
+        function showLoading(show) {
+            const searchBtn = document.getElementById('search-btn');
+            const icon = searchBtn.querySelector('i');
+
+            if (show) {
+                searchBtn.disabled = true;
+                searchBtn.innerHTML = '<div class="loading-spinner"></div>';
+            } else {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = '<i data-feather="search" class="w-5 h-5"></i>';
+                // Reinitialize feather icons
+                setTimeout(() => {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                }, 10);
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Hide error message
+        function hideError() {
+            document.getElementById('error-message').classList.add('hidden');
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message fixed top-20 right-4 z-50 max-w-sm';
+            successDiv.textContent = message;
+
+            document.body.appendChild(successDiv);
+
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initStockTracker();
+        });
+
+        // Initialize Feather icons when window loads
+        window.addEventListener('load', function() {
+            feather.replace();
+        });
+
+        // Refresh data every 5 minutes
+        setInterval(() => {
+            loadMarketIndices();
+            displayPopularStocks();
+            displayWatchlist();
+        }, 5 * 60 * 1000);
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

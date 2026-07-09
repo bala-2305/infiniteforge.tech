@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design Tester — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Test your website's responsive design across different screen sizes and devices. Preview how your site looks on mobile, tablet, and desktop breakpoints. Perfect for web developers and designers.">
+    <meta name="keywords" content="responsive design tester, mobile preview, device testing, breakpoint testing, web development tools, responsive design, screen size testing, viewport testing">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Responsive Design Tester — InfiniteForge">
+    <meta property="og:description" content="Test your website's responsive design across different screen sizes and devices. Preview how your site looks on mobile, tablet, and desktop breakpoints.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/responsive-design-tester.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Responsive Design Tester — InfiniteForge">
+    <meta name="twitter:description" content="Test your website's responsive design across different screen sizes and devices.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/responsive-design-tester.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/responsive-design-tester.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Responsive Design Tester — InfiniteForge",
+        "description": "Test your website's responsive design across different screen sizes and devices. Preview how your site looks on mobile, tablet, and desktop breakpoints.",
+        "url": "https://infiniteforge.tech/responsive-design-tester.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-18",
+        "dateModified": "2025-10-18"
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .device-frame {
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .device-frame:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .device-iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            background: #f8fafc;
+        }
+
+        .device-button {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .device-button:hover {
+            border-color: #3b82f6;
+            background: #f0f9ff;
+        }
+
+        .device-button.active {
+            border-color: #3b82f6;
+            background: #3b82f6;
+            color: white;
+        }
+
+        .size-input {
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .size-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .device-container {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .device-header {
+            background: #1f2937;
+            color: white;
+            padding: 8px 16px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .device-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .device-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4b5563;
+        }
+
+        .device-url {
+            flex: 1;
+            text-align: center;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            color: #9ca3af;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+<!-- End Google Tag Manager -->
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<body class="bg-gray-50 font-poppins overflow-x-hidden">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data="feather" class="menu w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden sm:hidden pb-4">
+                <a href="index.html" class="block px-2 py-2 text-blue-600 rounded">Home</a>
+                <a href="features.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">Features</a>
+                <a href="about.html" class="block px-2 py-2 text-gray-700 hover:bg-blue-50 rounded">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                    Responsive Design <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Tester</span>
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                    Test your website's responsive design across different screen sizes and devices. Preview how your site looks on mobile, tablet, and desktop breakpoints.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">Device Preview</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium">Breakpoint Testing</span>
+                    <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">Custom Sizes</span>
+                    <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">Real-time Testing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Tester -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- URL Input -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
+                        <input type="url" id="websiteUrl" placeholder="https://example.com"
+                            class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            value="https://infiniteforge.tech">
+                    </div>
+                    <div class="flex items-end">
+                        <button id="loadBtn" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-medium">
+                            <i data-feather="play" class="w-5 h-5 mr-2 inline"></i>
+                            Load Website
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Device Controls -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Device Presets</h3>
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <button class="device-button active" data-width="375" data-height="667" data-name="iPhone SE">📱 iPhone SE (375×667)</button>
+                    <button class="device-button" data-width="390" data-height="844" data-name="iPhone 12">📱 iPhone 12 (390×844)</button>
+                    <button class="device-button" data-width="768" data-height="1024" data-name="iPad">📱 iPad (768×1024)</button>
+                    <button class="device-button" data-width="1024" data-height="768" data-name="iPad Landscape">💻 iPad Landscape (1024×768)</button>
+                    <button class="device-button" data-width="1920" data-height="1080" data-name="Desktop FHD">🖥️ Desktop FHD (1920×1080)</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Custom Width (px)</label>
+                        <input type="number" id="customWidth" placeholder="1200" class="size-input w-full" min="320" max="3840">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Custom Height (px)</label>
+                        <input type="number" id="customHeight" placeholder="800" class="size-input w-full" min="240" max="2160">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button id="applyCustomBtn" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                        Apply Custom Size
+                    </button>
+                </div>
+            </div>
+
+            <!-- Device Preview -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Live Preview</h3>
+                    <div class="flex items-center space-x-4">
+                        <span id="currentSize" class="text-sm text-gray-600">375 × 667 px</span>
+                        <button id="rotateBtn" class="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600 transition-colors" title="Rotate Device">
+                            <i data-feather="rotate-cw" class="w-4 h-4"></i>
+                        </button>
+                        <button id="refreshBtn" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors" title="Refresh">
+                            <i data-feather="refresh-cw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="device-container">
+                    <div class="device-header">
+                        <div class="device-controls">
+                            <div class="device-dot"></div>
+                            <div class="device-dot"></div>
+                            <div class="device-dot"></div>
+                        </div>
+                        <div id="deviceUrl" class="device-url">https://infiniteforge.tech</div>
+                        <div class="device-controls">
+                            <div class="device-dot" style="background: #ef4444;"></div>
+                        </div>
+                    </div>
+                    <div id="deviceFrame" class="device-frame" style="width: 375px; height: 667px; margin: 0 auto;">
+                        <div id="loadingIndicator" class="flex items-center justify-center h-full bg-gray-100">
+                            <div class="text-center">
+                                <div class="loading-spinner mb-4"></div>
+                                <p class="text-gray-600">Loading website...</p>
+                            </div>
+                        </div>
+                        <iframe id="previewIframe" class="device-iframe" src="about:blank"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm mt-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">How to Use</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Device Testing</h4>
+                        <ul class="text-gray-600 space-y-1 text-sm">
+                            <li>• Click device presets to test common screen sizes</li>
+                            <li>• Use custom width/height for specific testing</li>
+                            <li>• Rotate device to test landscape/portrait modes</li>
+                            <li>• Refresh to reload the current website</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Best Practices</h4>
+                        <ul class="text-gray-600 space-y-1 text-sm">
+                            <li>• Test on mobile (320px+), tablet (768px+), and desktop (1024px+)</li>
+                            <li>• Check touch targets are at least 44px on mobile</li>
+                            <li>• Verify text remains readable at all sizes</li>
+                            <li>• Test forms and interactive elements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex justify-center items-center mb-4">
+                    <div class="text-2xl font-bold text-blue-400">InfiniteForge</div>
+                </div>
+                <p class="text-gray-400 mb-6">Free online tools for creators and developers</p>
+                <div class="flex justify-center space-x-6">
+                    <a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a>
+                    <a href="features.html" class="text-gray-400 hover:text-white transition-colors">Features</a>
+                    <a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+                </div>
+                <div class="mt-8 pt-8 border-t border-gray-800">
+                    <p class="text-gray-500 text-sm">&copy; 2025 InfiniteForge. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Feather icons
+        function initFeatherIcons() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initFeatherIcons);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFeatherIcons);
+        } else {
+            initFeatherIcons();
+        }
+        setTimeout(initFeatherIcons, 100);
+
+        // DOM elements
+        const websiteUrl = document.getElementById('websiteUrl');
+        const loadBtn = document.getElementById('loadBtn');
+        const deviceFrame = document.getElementById('deviceFrame');
+        const previewIframe = document.getElementById('previewIframe');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const currentSize = document.getElementById('currentSize');
+        const deviceUrl = document.getElementById('deviceUrl');
+        const rotateBtn = document.getElementById('rotateBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const customWidth = document.getElementById('customWidth');
+        const customHeight = document.getElementById('customHeight');
+        const applyCustomBtn = document.getElementById('applyCustomBtn');
+        const deviceButtons = document.querySelectorAll('.device-button');
+
+        let currentWidth = 375;
+        let currentHeight = 667;
+        let currentUrl = 'https://infiniteforge.tech';
+
+        // Initialize
+        loadWebsite();
+
+        // Event listeners
+        loadBtn.addEventListener('click', () => {
+            loadWebsite();
+        });
+
+        websiteUrl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadWebsite();
+            }
+        });
+
+        deviceButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const width = parseInt(e.target.dataset.width);
+                const height = parseInt(e.target.dataset.height);
+
+                setDeviceSize(width, height);
+
+                // Update active button
+                deviceButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+            });
+        });
+
+        applyCustomBtn.addEventListener('click', () => {
+            const width = parseInt(customWidth.value);
+            const height = parseInt(customHeight.value);
+
+            if (width && height && width >= 320 && height >= 240) {
+                setDeviceSize(width, height);
+                deviceButtons.forEach(btn => btn.classList.remove('active'));
+            } else {
+                alert('Please enter valid dimensions (min 320×240px)');
+            }
+        });
+
+        rotateBtn.addEventListener('click', () => {
+            const temp = currentWidth;
+            currentWidth = currentHeight;
+            currentHeight = temp;
+            updateDeviceSize();
+        });
+
+        refreshBtn.addEventListener('click', () => {
+            loadWebsite();
+        });
+
+        // Mobile menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Functions
+        function loadWebsite() {
+            const url = websiteUrl.value.trim();
+            if (!url) {
+                alert('Please enter a valid URL');
+                return;
+            }
+
+            // Add https if not present
+            let fullUrl = url;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                fullUrl = 'https://' + url;
+            }
+
+            currentUrl = fullUrl;
+            deviceUrl.textContent = fullUrl;
+
+            // Show loading
+            loadingIndicator.style.display = 'flex';
+            previewIframe.style.display = 'none';
+
+            // Load the website
+            previewIframe.src = fullUrl;
+
+            // Hide loading when iframe loads
+            previewIframe.onload = () => {
+                loadingIndicator.style.display = 'none';
+                previewIframe.style.display = 'block';
+            };
+
+            previewIframe.onerror = () => {
+                loadingIndicator.innerHTML = `
+                    <div class="text-center">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        <p class="text-red-600 font-medium">Failed to load website</p>
+                        <p class="text-gray-500 text-sm mt-2">Check the URL and try again</p>
+                    </div>
+                `;
+            };
+        }
+
+        function setDeviceSize(width, height) {
+            currentWidth = width;
+            currentHeight = height;
+            updateDeviceSize();
+        }
+
+        function updateDeviceSize() {
+            // Limit maximum dimensions for usability
+            const maxWidth = Math.min(currentWidth, 1200);
+            const maxHeight = Math.min(currentHeight, 800);
+
+            deviceFrame.style.width = maxWidth + 'px';
+            deviceFrame.style.height = maxHeight + 'px';
+            currentSize.textContent = currentWidth + ' × ' + currentHeight + ' px';
+
+            // Center the frame
+            deviceFrame.style.margin = '0 auto';
+        }
+
+        // Initialize with default size
+        updateDeviceSize();
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disk Space Calculator — Daedalus | Free Storage Calculator Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Calculate disk space requirements for files, photos, videos, music, and documents with our free online storage calculator. Plan your storage needs accurately.">
+    <meta name="keywords"
+        content="disk space calculator, storage calculator, file size calculator, storage requirements, disk space planning">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="Disk Space Calculator — Daedalus">
+    <meta property="og:description"
+        content="Calculate how much disk space you need for your files with our comprehensive storage calculator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/disk-space-calculator.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Disk Space Calculator — Daedalus">
+    <meta name="twitter:description" content="Calculate disk space requirements for your files.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/disk-space-calculator.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .space-display {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .file-type-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .file-type-card:hover {
+            border-color: #6366f1;
+            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
+        }
+
+        .file-type-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring__circle {
+            transition: stroke-dasharray 0.3s ease;
+        }
+
+        .storage-breakdown {
+            position: relative;
+            height: 200px;
+        }
+
+        .breakdown-item {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .breakdown-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Disk Space Calculator</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Calculate storage requirements for your files, plan backups, and estimate disk space needs accurately.</p>
+        </div>
+
+        <!-- Total Space Display -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <div id="status-indicator" class="pulse-dot mr-3"></div>
+                    <span id="status-text" class="text-lg font-semibold text-gray-700">Ready to calculate</span>
+                </div>
+                <div class="space-display mb-2">
+                    <span id="total-space">--</span> <span class="text-lg text-gray-500" id="total-unit">GB</span>
+                </div>
+                <p class="text-gray-500" id="space-description">Total estimated storage space</p>
+
+                <!-- Storage Breakdown Visualization -->
+                <div class="max-w-2xl mx-auto mt-8">
+                    <div class="storage-breakdown relative" id="storage-breakdown">
+                        <div class="text-center text-gray-500 py-8">
+                            <i data-feather="pie-chart" class="w-12 h-12 mb-4"></i>
+                            <p>Add files to see storage breakdown</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Type Calculators -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Photos -->
+            <div class="file-type-card">
+                <div class="file-type-icon bg-blue-100 text-blue-600">
+                    <i data-feather="image" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Photos</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Number of photos</label>
+                        <input type="number" id="photo-count" class="gen-input w-full p-2 rounded" placeholder="1000" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Average quality</label>
+                        <select id="photo-quality" class="gen-input w-full p-2 rounded">
+                            <option value="low">Low (500KB)</option>
+                            <option value="medium" selected>Medium (2MB)</option>
+                            <option value="high">High (8MB)</option>
+                            <option value="raw">RAW (25MB)</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Space: <span id="photo-space">0 MB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Videos -->
+            <div class="file-type-card">
+                <div class="file-type-icon bg-red-100 text-red-600">
+                    <i data-feather="video" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Videos</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Number of videos</label>
+                        <input type="number" id="video-count" class="gen-input w-full p-2 rounded" placeholder="100" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Average length (minutes)</label>
+                        <input type="number" id="video-length" class="gen-input w-full p-2 rounded" placeholder="5" min="0" step="0.5">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Quality</label>
+                        <select id="video-quality" class="gen-input w-full p-2 rounded">
+                            <option value="low">480p (50MB/hr)</option>
+                            <option value="medium" selected>720p (100MB/hr)</option>
+                            <option value="high">1080p (200MB/hr)</option>
+                            <option value="4k">4K (400MB/hr)</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Space: <span id="video-space">0 MB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Music -->
+            <div class="file-type-card">
+                <div class="file-type-icon bg-green-100 text-green-600">
+                    <i data-feather="music" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Music</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Number of songs</label>
+                        <input type="number" id="music-count" class="gen-input w-full p-2 rounded" placeholder="1000" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Average length (minutes)</label>
+                        <input type="number" id="music-length" class="gen-input w-full p-2 rounded" placeholder="4" min="0" step="0.5">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Format</label>
+                        <select id="music-format" class="gen-input w-full p-2 rounded">
+                            <option value="mp3-128" selected>MP3 128kbps (1MB/min)</option>
+                            <option value="mp3-320">MP3 320kbps (2.4MB/min)</option>
+                            <option value="flac">FLAC (10MB/min)</option>
+                            <option value="wav">WAV (50MB/min)</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Space: <span id="music-space">0 MB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents -->
+            <div class="file-type-card">
+                <div class="file-type-icon bg-yellow-100 text-yellow-600">
+                    <i data-feather="file-text" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Documents</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Number of documents</label>
+                        <input type="number" id="document-count" class="gen-input w-full p-2 rounded" placeholder="500" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Average size</label>
+                        <select id="document-size" class="gen-input w-full p-2 rounded">
+                            <option value="small" selected>Small (50KB)</option>
+                            <option value="medium">Medium (500KB)</option>
+                            <option value="large">Large (2MB)</option>
+                            <option value="presentation">Presentation (10MB)</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Space: <span id="document-space">0 MB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications -->
+            <div class="file-type-card">
+                <div class="file-type-icon bg-purple-100 text-purple-600">
+                    <i data-feather="package" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Applications</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Number of apps</label>
+                        <input type="number" id="app-count" class="gen-input w-full p-2 rounded" placeholder="10" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Average size</label>
+                        <select id="app-size" class="gen-input w-full p-2 rounded">
+                            <option value="small" selected>Small (50MB)</option>
+                            <option value="medium">Medium (200MB)</option>
+                            <option value="large">Large (1GB)</option>
+                            <option value="game">Game (10GB)</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Space: <span id="app-space">0 MB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Files -->
+            <div class="file-type-card">
+                <div class="file-type-icon bg-gray-100 text-gray-600">
+                    <i data-feather="plus" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Custom</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Number of files</label>
+                        <input type="number" id="custom-count" class="gen-input w-full p-2 rounded" placeholder="100" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Size per file</label>
+                        <div class="flex">
+                            <input type="number" id="custom-size" class="gen-input flex-1 p-2 rounded-l" placeholder="10" min="0" step="0.1">
+                            <select id="custom-unit" class="gen-input p-2 rounded-r border-l-0">
+                                <option value="mb" selected>MB</option>
+                                <option value="gb">GB</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Space: <span id="custom-space">0 MB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button id="calculate-space" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="calculator" class="w-4 h-4 mr-2"></i>
+                    Calculate Total
+                </button>
+                <button id="clear-all" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear All
+                </button>
+                <button id="save-calculation" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="save" class="w-4 h-4 mr-2"></i>
+                    Save Calculation
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Display Unit</label>
+                    <select id="display-unit" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="mb">Megabytes (MB)</option>
+                        <option value="gb" selected>Gigabytes (GB)</option>
+                        <option value="tb">Terabytes (TB)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Redundancy Factor</label>
+                    <select id="redundancy-factor" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="1" selected>No redundancy (1x)</option>
+                        <option value="1.5">RAID 5 (1.5x)</option>
+                        <option value="2">RAID 1/10 (2x)</option>
+                        <option value="3">Triple redundancy (3x)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+            <!-- Summary Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Storage Summary</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Total Files:</span>
+                        <span id="total-files" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">File Types:</span>
+                        <span id="file-types" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">With Redundancy:</span>
+                        <span id="with-redundancy" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Recommendations</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Suggested Drive:</span>
+                        <span id="suggested-drive" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Backup Strategy:</span>
+                        <span id="backup-strategy" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Growth Buffer:</span>
+                        <span id="growth-buffer" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Estimation -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Cost Estimation</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">HDD Cost:</span>
+                        <span id="hdd-cost" class="font-mono">$--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">SSD Cost:</span>
+                        <span id="ssd-cost" class="font-mono">$--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Cloud Cost:</span>
+                        <span id="cloud-cost" class="font-mono">$--/mo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Breakdown -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Largest Categories</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">1st:</span>
+                        <span id="largest-category" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">2nd:</span>
+                        <span id="second-category" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">3rd:</span>
+                        <span id="third-category" class="font-mono text-xs">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How It Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This calculator helps you estimate storage requirements based on typical file sizes for different media types and use cases.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">File Size Estimates:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Photos:</strong> Based on JPEG compression and resolution</li>
+                            <li><strong>Videos:</strong> Calculated by bitrate and duration</li>
+                            <li><strong>Music:</strong> Depends on format and quality settings</li>
+                            <li><strong>Documents:</strong> Typical sizes for office documents</li>
+                            <li><strong>Applications:</strong> Installed program sizes</li>
+                        </ul>
+                        <p class="text-sm mt-3">All estimates are averages and actual sizes may vary.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Features:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Real-time Calculation:</strong> Updates as you enter values</li>
+                            <li><strong>Redundancy Planning:</strong> Account for RAID and backups</li>
+                            <li><strong>Cost Estimation:</strong> Compare storage options</li>
+                            <li><strong>Visual Breakdown:</strong> See space distribution</li>
+                            <li><strong>Save Calculations:</strong> Store your estimates</li>
+                        </ul>
+                        <p class="text-sm mt-3 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                            <strong>Tip:</strong> Add 20-50% extra space for future growth and temporary files.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const calculateBtn = document.getElementById('calculate-space');
+            const clearBtn = document.getElementById('clear-all');
+            const saveBtn = document.getElementById('save-calculation');
+            const totalSpaceEl = document.getElementById('total-space');
+            const totalUnitEl = document.getElementById('total-unit');
+            const statusIndicatorEl = document.getElementById('status-indicator');
+            const statusTextEl = document.getElementById('status-text');
+            const spaceDescriptionEl = document.getElementById('space-description');
+            const displayUnitSelect = document.getElementById('display-unit');
+            const redundancySelect = document.getElementById('redundancy-factor');
+            const storageBreakdownEl = document.getElementById('storage-breakdown');
+
+            // File input elements
+            const photoCountEl = document.getElementById('photo-count');
+            const photoQualityEl = document.getElementById('photo-quality');
+            const videoCountEl = document.getElementById('video-count');
+            const videoLengthEl = document.getElementById('video-length');
+            const videoQualityEl = document.getElementById('video-quality');
+            const musicCountEl = document.getElementById('music-count');
+            const musicLengthEl = document.getElementById('music-length');
+            const musicFormatEl = document.getElementById('music-format');
+            const documentCountEl = document.getElementById('document-count');
+            const documentSizeEl = document.getElementById('document-size');
+            const appCountEl = document.getElementById('app-count');
+            const appSizeEl = document.getElementById('app-size');
+            const customCountEl = document.getElementById('custom-count');
+            const customSizeEl = document.getElementById('custom-size');
+            const customUnitEl = document.getElementById('custom-unit');
+
+            // Space display elements
+            const photoSpaceEl = document.getElementById('photo-space');
+            const videoSpaceEl = document.getElementById('video-space');
+            const musicSpaceEl = document.getElementById('music-space');
+            const documentSpaceEl = document.getElementById('document-space');
+            const appSpaceEl = document.getElementById('app-space');
+            const customSpaceEl = document.getElementById('custom-space');
+
+            // Stats elements
+            const totalFilesEl = document.getElementById('total-files');
+            const fileTypesEl = document.getElementById('file-types');
+            const withRedundancyEl = document.getElementById('with-redundancy');
+            const suggestedDriveEl = document.getElementById('suggested-drive');
+            const backupStrategyEl = document.getElementById('backup-strategy');
+            const growthBufferEl = document.getElementById('growth-buffer');
+            const hddCostEl = document.getElementById('hdd-cost');
+            const ssdCostEl = document.getElementById('ssd-cost');
+            const cloudCostEl = document.getElementById('cloud-cost');
+            const largestCategoryEl = document.getElementById('largest-category');
+            const secondCategoryEl = document.getElementById('second-category');
+            const thirdCategoryEl = document.getElementById('third-category');
+
+            // State
+            let calculations = {
+                photos: 0,
+                videos: 0,
+                music: 0,
+                documents: 0,
+                apps: 0,
+                custom: 0
+            };
+
+            // File size constants (in MB)
+            const fileSizes = {
+                photos: {
+                    low: 0.5,      // 500KB
+                    medium: 2,     // 2MB
+                    high: 8,       // 8MB
+                    raw: 25        // 25MB
+                },
+                videos: {
+                    low: 50,       // 50MB per hour
+                    medium: 100,   // 100MB per hour
+                    high: 200,     // 200MB per hour
+                    '4k': 400      // 400MB per hour
+                },
+                music: {
+                    'mp3-128': 1,  // 1MB per minute
+                    'mp3-320': 2.4,// 2.4MB per minute
+                    flac: 10,      // 10MB per minute
+                    wav: 50        // 50MB per minute
+                },
+                documents: {
+                    small: 0.05,   // 50KB
+                    medium: 0.5,   // 500KB
+                    large: 2,      // 2MB
+                    presentation: 10 // 10MB
+                },
+                apps: {
+                    small: 50,     // 50MB
+                    medium: 200,   // 200MB
+                    large: 1024,   // 1GB
+                    game: 10240    // 10GB
+                }
+            };
+
+            // Format size
+            function formatSize(bytes, unit = 'mb') {
+                const mb = bytes;
+                const gb = mb / 1024;
+                const tb = gb / 1024;
+
+                switch (unit) {
+                    case 'mb':
+                        return mb < 1024 ? `${mb.toFixed(1)} MB` : `${gb.toFixed(1)} GB`;
+                    case 'gb':
+                        return gb < 1024 ? `${gb.toFixed(1)} GB` : `${tb.toFixed(1)} TB`;
+                    case 'tb':
+                        return `${tb.toFixed(1)} TB`;
+                    default:
+                        return `${mb.toFixed(1)} MB`;
+                }
+            }
+
+            // Calculate individual category
+            function calculateCategory(type) {
+                let size = 0;
+                let count = 0;
+
+                switch (type) {
+                    case 'photos':
+                        count = parseFloat(photoCountEl.value) || 0;
+                        const photoQuality = photoQualityEl.value;
+                        size = count * fileSizes.photos[photoQuality];
+                        break;
+                    case 'videos':
+                        count = parseFloat(videoCountEl.value) || 0;
+                        const videoLength = parseFloat(videoLengthEl.value) || 0;
+                        const videoQuality = videoQualityEl.value;
+                        size = count * (videoLength / 60) * fileSizes.videos[videoQuality];
+                        break;
+                    case 'music':
+                        count = parseFloat(musicCountEl.value) || 0;
+                        const musicLength = parseFloat(musicLengthEl.value) || 0;
+                        const musicFormat = musicFormatEl.value;
+                        size = count * musicLength * fileSizes.music[musicFormat];
+                        break;
+                    case 'documents':
+                        count = parseFloat(documentCountEl.value) || 0;
+                        const documentSize = documentSizeEl.value;
+                        size = count * fileSizes.documents[documentSize];
+                        break;
+                    case 'apps':
+                        count = parseFloat(appCountEl.value) || 0;
+                        const appSize = appSizeEl.value;
+                        size = count * fileSizes.apps[appSize];
+                        break;
+                    case 'custom':
+                        count = parseFloat(customCountEl.value) || 0;
+                        const customSize = parseFloat(customSizeEl.value) || 0;
+                        const customUnit = customUnitEl.value;
+                        size = count * customSize * (customUnit === 'gb' ? 1024 : 1);
+                        break;
+                }
+
+                calculations[type] = size;
+                return { size, count };
+            }
+
+            // Update individual displays
+            function updateIndividualDisplays() {
+                const photoResult = calculateCategory('photos');
+                photoSpaceEl.textContent = formatSize(photoResult.size);
+
+                const videoResult = calculateCategory('videos');
+                videoSpaceEl.textContent = formatSize(videoResult.size);
+
+                const musicResult = calculateCategory('music');
+                musicSpaceEl.textContent = formatSize(musicResult.size);
+
+                const documentResult = calculateCategory('documents');
+                documentSpaceEl.textContent = formatSize(documentResult.size);
+
+                const appResult = calculateCategory('apps');
+                appSpaceEl.textContent = formatSize(appResult.size);
+
+                const customResult = calculateCategory('custom');
+                customSpaceEl.textContent = formatSize(customResult.size);
+            }
+
+            // Calculate total
+            function calculateTotal() {
+                updateIndividualDisplays();
+
+                const totalMB = Object.values(calculations).reduce((sum, size) => sum + size, 0);
+                const redundancy = parseFloat(redundancySelect.value);
+                const totalWithRedundancy = totalMB * redundancy;
+
+                // Update main display
+                const displayUnit = displayUnitSelect.value;
+                let displayValue, displayUnitText;
+
+                switch (displayUnit) {
+                    case 'mb':
+                        displayValue = totalMB;
+                        displayUnitText = totalMB < 1024 ? 'MB' : 'GB';
+                        if (totalMB >= 1024) displayValue = totalMB / 1024;
+                        break;
+                    case 'gb':
+                        displayValue = totalMB / 1024;
+                        displayUnitText = displayValue < 1024 ? 'GB' : 'TB';
+                        if (displayValue >= 1024) displayValue = displayValue / 1024;
+                        break;
+                    case 'tb':
+                        displayValue = totalMB / (1024 * 1024);
+                        displayUnitText = 'TB';
+                        break;
+                }
+
+                totalSpaceEl.textContent = displayValue.toFixed(1);
+                totalUnitEl.textContent = displayUnitText;
+
+                // Update status
+                statusTextEl.textContent = totalMB > 0 ? 'Calculation complete' : 'Ready to calculate';
+                spaceDescriptionEl.textContent = totalMB > 0 ? `Total estimated storage space (${redundancy}x redundancy)` : 'Total estimated storage space';
+
+                // Update statistics
+                const totalFiles = [photoCountEl, videoCountEl, musicCountEl, documentCountEl, appCountEl, customCountEl]
+                    .reduce((sum, el) => sum + (parseFloat(el.value) || 0), 0);
+
+                const fileTypes = Object.values(calculations).filter(size => size > 0).length;
+
+                totalFilesEl.textContent = totalFiles;
+                fileTypesEl.textContent = fileTypes;
+                withRedundancyEl.textContent = formatSize(totalWithRedundancy);
+
+                // Recommendations
+                let suggestedDrive = 'None needed';
+                if (totalWithRedundancy > 0) {
+                    if (totalWithRedundancy < 1024) suggestedDrive = '32GB-128GB';
+                    else if (totalWithRedundancy < 1024 * 5) suggestedDrive = '256GB-1TB';
+                    else if (totalWithRedundancy < 1024 * 20) suggestedDrive = '2TB-4TB';
+                    else suggestedDrive = '8TB+';
+                }
+
+                let backupStrategy = 'None';
+                if (totalMB > 1024) backupStrategy = 'External HDD';
+                if (totalMB > 1024 * 10) backupStrategy = 'NAS/Cloud';
+
+                const growthBuffer = formatSize(totalWithRedundancy * 0.3);
+
+                suggestedDriveEl.textContent = suggestedDrive;
+                backupStrategyEl.textContent = backupStrategy;
+                growthBufferEl.textContent = growthBuffer;
+
+                // Cost estimation (rough estimates)
+                const costPerGB = { hdd: 0.03, ssd: 0.15, cloud: 0.02 }; // Monthly for cloud
+                const totalGB = totalWithRedundancy / 1024;
+
+                hddCostEl.textContent = `$${(totalGB * costPerGB.hdd).toFixed(0)}`;
+                ssdCostEl.textContent = `$${(totalGB * costPerGB.ssd).toFixed(0)}`;
+                cloudCostEl.textContent = `$${(totalGB * costPerGB.cloud).toFixed(2)}/mo`;
+
+                // Largest categories
+                const categories = [
+                    { name: 'Photos', size: calculations.photos },
+                    { name: 'Videos', size: calculations.videos },
+                    { name: 'Music', size: calculations.music },
+                    { name: 'Documents', size: calculations.documents },
+                    { name: 'Apps', size: calculations.apps },
+                    { name: 'Custom', size: calculations.custom }
+                ].filter(cat => cat.size > 0).sort((a, b) => b.size - a.size);
+
+                largestCategoryEl.textContent = categories[0] ? `${categories[0].name} (${formatSize(categories[0].size)})` : '--';
+                secondCategoryEl.textContent = categories[1] ? `${categories[1].name} (${formatSize(categories[1].size)})` : '--';
+                thirdCategoryEl.textContent = categories[2] ? `${categories[2].name} (${formatSize(categories[2].size)})` : '--';
+
+                // Update visualization
+                updateVisualization(categories, totalMB);
+            }
+
+            // Update visualization
+            function updateVisualization(categories, totalMB) {
+                storageBreakdownEl.innerHTML = '';
+
+                if (totalMB === 0) {
+                    storageBreakdownEl.innerHTML = `
+                        <div class="text-center text-gray-500 py-8">
+                            <i data-feather="pie-chart" class="w-12 h-12 mb-4"></i>
+                            <p>Add files to see storage breakdown</p>
+                        </div>
+                    `;
+                    feather.replace();
+                    return;
+                }
+
+                const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+                let currentAngle = 0;
+
+                categories.forEach((category, index) => {
+                    const percentage = (category.size / totalMB) * 100;
+                    if (percentage < 1) return; // Skip very small categories
+
+                    const angle = (percentage / 100) * 360;
+                    const color = colors[index % colors.length];
+
+                    // Create pie slice
+                    const slice = document.createElement('div');
+                    slice.className = 'breakdown-item';
+                    slice.style.background = color;
+                    slice.style.clipPath = `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos((currentAngle * Math.PI) / 180)}% ${50 - 50 * Math.sin((currentAngle * Math.PI) / 180)}%, ${50 + 50 * Math.cos(((currentAngle + angle) * Math.PI) / 180)}% ${50 - 50 * Math.sin(((currentAngle + angle) * Math.PI) / 180)}%)`;
+                    slice.style.left = '50%';
+                    slice.style.top = '50%';
+                    slice.style.transform = 'translate(-50%, -50%)';
+                    slice.title = `${category.name}: ${percentage.toFixed(1)}% (${formatSize(category.size)})`;
+
+                    storageBreakdownEl.appendChild(slice);
+                    currentAngle += angle;
+                });
+
+                // Add center label
+                const centerLabel = document.createElement('div');
+                centerLabel.className = 'absolute inset-0 flex items-center justify-center';
+                centerLabel.innerHTML = `
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-gray-800">${formatSize(totalMB)}</div>
+                        <div class="text-sm text-gray-500">Total Space</div>
+                    </div>
+                `;
+                storageBreakdownEl.appendChild(centerLabel);
+            }
+
+            // Clear all
+            function clearAll() {
+                [photoCountEl, videoCountEl, musicCountEl, documentCountEl, appCountEl, customCountEl, customSizeEl].forEach(el => el.value = '');
+                [videoLengthEl, musicLengthEl].forEach(el => el.value = '');
+
+                calculateTotal();
+            }
+
+            // Save calculation
+            function saveCalculation() {
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    calculations: { ...calculations },
+                    inputs: {
+                        photos: { count: photoCountEl.value, quality: photoQualityEl.value },
+                        videos: { count: videoCountEl.value, length: videoLengthEl.value, quality: videoQualityEl.value },
+                        music: { count: musicCountEl.value, length: musicLengthEl.value, format: musicFormatEl.value },
+                        documents: { count: documentCountEl.value, size: documentSizeEl.value },
+                        apps: { count: appCountEl.value, size: appSizeEl.value },
+                        custom: { count: customCountEl.value, size: customSizeEl.value, unit: customUnitEl.value }
+                    },
+                    totalMB: Object.values(calculations).reduce((sum, size) => sum + size, 0),
+                    redundancy: parseFloat(redundancySelect.value)
+                };
+
+                // Save to localStorage
+                const saved = JSON.parse(localStorage.getItem('disk-calculations') || '[]');
+                saved.push(data);
+                if (saved.length > 10) saved.shift(); // Keep only last 10
+                localStorage.setItem('disk-calculations', JSON.stringify(saved));
+
+                alert('Calculation saved! You can access it later from your browser storage.');
+            }
+
+            // Event listeners
+            calculateBtn.addEventListener('click', calculateTotal);
+            clearBtn.addEventListener('click', clearAll);
+            saveBtn.addEventListener('click', saveCalculation);
+
+            // Auto-calculate on input changes
+            [photoCountEl, photoQualityEl, videoCountEl, videoLengthEl, videoQualityEl,
+             musicCountEl, musicLengthEl, musicFormatEl, documentCountEl, documentSizeEl,
+             appCountEl, appSizeEl, customCountEl, customSizeEl, customUnitEl,
+             displayUnitSelect, redundancySelect].forEach(el => {
+                el.addEventListener('input', updateIndividualDisplays);
+                el.addEventListener('change', updateIndividualDisplays);
+            });
+
+            // Initialize
+            updateIndividualDisplays();
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

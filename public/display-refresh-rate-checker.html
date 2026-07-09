@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Refresh Rate Checker — Daedalus | Free Monitor Testing Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Test your display's refresh rate with our free online tool. Measure monitor refresh rates, frame rates, and display performance in real-time.">
+    <meta name="keywords"
+        content="display refresh rate checker, monitor refresh rate, fps test, display performance, screen refresh, monitor test, frame rate">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="Display Refresh Rate Checker — Daedalus">
+    <meta property="og:description"
+        content="Test your display's refresh rate and measure monitor performance in real-time.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/display-refresh-rate-checker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Display Refresh Rate Checker — Daedalus">
+    <meta name="twitter:description" content="Test your display refresh rate and monitor performance.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/display-refresh-rate-checker.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .refresh-display {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .test-pattern {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000);
+            background-size: 400% 400%;
+            animation: gradientShift 2s ease infinite;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .spinning-square {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-gradient);
+            animation: spin 1s linear infinite;
+            border-radius: 0.5rem;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .flicker-test {
+            width: 100%;
+            height: 100px;
+            background: white;
+            animation: flicker 0.1s infinite alternate;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        @keyframes flicker {
+            0% { background: white; color: #1e293b; }
+            100% { background: black; color: white; }
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Display Refresh Rate Checker</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Test your monitor's refresh rate and display performance. Measure FPS and screen update frequency in real-time.</p>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="bg-white p-6 sm:p-10 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center mr-3">
+                    <i data-feather="monitor" class="w-4 h-4"></i>
+                </span>
+                Test Controls
+            </h2>
+
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button id="start-test" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
+                    Start Test
+                </button>
+                <button id="stop-test" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
+                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
+                    Stop Test
+                </button>
+                <button id="reset-stats" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="rotate-ccw" class="w-4 h-4 mr-2"></i>
+                    Reset Stats
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Duration (seconds)</label>
+                    <input id="test-duration" type="number" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white"
+                        placeholder="30" value="30" min="5" max="300">
+                    <p class="text-xs text-gray-500 mt-1">How long to run the refresh rate test (5-300 seconds)</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Display Mode</label>
+                    <select id="display-mode" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="spinning">Spinning Square</option>
+                        <option value="gradient">Gradient Animation</option>
+                        <option value="flicker">Flicker Test</option>
+                        <option value="none">No Animation</option>
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Choose a visual test pattern</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+            <!-- Current Refresh Rate -->
+            <div class="stats-card">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold text-gray-700">Refresh Rate</h3>
+                    <div id="test-status" class="flex items-center">
+                        <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+                    </div>
+                </div>
+                <div class="refresh-display text-center">
+                    <span id="current-refresh">--</span> <span class="text-sm text-gray-500">Hz</span>
+                </div>
+            </div>
+
+            <!-- Frame Time -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Frame Time</h3>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900" id="frame-time">--</div>
+                    <div class="text-xs text-gray-500">milliseconds</div>
+                </div>
+            </div>
+
+            <!-- FPS -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">FPS</h3>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900" id="fps">--</div>
+                    <div class="text-xs text-gray-500">frames/second</div>
+                </div>
+            </div>
+
+            <!-- Test Progress -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Test Progress</h3>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900" id="test-progress">0%</div>
+                    <div class="text-xs text-gray-500" id="time-remaining">--s</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="result-box">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <i data-feather="bar-chart-2" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                    Statistics
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Average Refresh Rate:</span>
+                        <span id="avg-refresh" class="font-mono font-semibold">-- Hz</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Minimum Refresh Rate:</span>
+                        <span id="min-refresh" class="font-mono font-semibold">-- Hz</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Maximum Refresh Rate:</span>
+                        <span id="max-refresh" class="font-mono font-semibold">-- Hz</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Standard Deviation:</span>
+                        <span id="std-dev" class="font-mono font-semibold">-- Hz</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Total Frames Measured:</span>
+                        <span id="total-frames" class="font-mono font-semibold">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-box">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <i data-feather="info" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                    Display Info
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Screen Resolution:</span>
+                        <span id="screen-resolution" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Color Depth:</span>
+                        <span id="color-depth" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Device Pixel Ratio:</span>
+                        <span id="pixel-ratio" class="font-mono font-semibold">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Browser:</span>
+                        <span id="browser-info" class="font-mono font-semibold text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Test Method:</span>
+                        <span class="font-mono font-semibold text-xs">requestAnimationFrame</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Test Area -->
+        <div class="result-box mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="eye" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                Visual Test Pattern
+            </h3>
+            <div id="visual-test" class="flex items-center justify-center">
+                <div class="text-center text-gray-500">
+                    <i data-feather="play-circle" class="w-16 h-16 mb-4"></i>
+                    <p>Start the test to see the visual pattern</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How It Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This tool measures your display's refresh rate using the browser's <code>requestAnimationFrame</code> API, which synchronizes with your monitor's refresh cycle.</p>
+                <ul class="list-disc list-inside space-y-1 mb-3">
+                    <li><strong>Refresh Rate:</strong> How many times per second your display updates (typically 60Hz, 120Hz, 144Hz, etc.)</li>
+                    <li><strong>Frame Time:</strong> Time between frames in milliseconds (1000ms / refresh rate)</li>
+                    <li><strong>FPS:</strong> Frames per second your browser can render (may be limited by refresh rate)</li>
+                    <li><strong>Accuracy:</strong> Results are most accurate when the browser tab is focused and active</li>
+                </ul>
+                <p class="text-sm text-amber-600 bg-amber-50 p-3 rounded-lg">
+                    <strong>Note:</strong> This measures the effective refresh rate as seen by the browser. Actual hardware refresh rates may vary slightly due to browser limitations and system load.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const startBtn = document.getElementById('start-test');
+            const stopBtn = document.getElementById('stop-test');
+            const resetBtn = document.getElementById('reset-stats');
+            const testDurationInput = document.getElementById('test-duration');
+            const displayModeSelect = document.getElementById('display-mode');
+            const currentRefreshEl = document.getElementById('current-refresh');
+            const frameTimeEl = document.getElementById('frame-time');
+            const fpsEl = document.getElementById('fps');
+            const testProgressEl = document.getElementById('test-progress');
+            const timeRemainingEl = document.getElementById('time-remaining');
+            const testStatusEl = document.getElementById('test-status');
+            const avgRefreshEl = document.getElementById('avg-refresh');
+            const minRefreshEl = document.getElementById('min-refresh');
+            const maxRefreshEl = document.getElementById('max-refresh');
+            const stdDevEl = document.getElementById('std-dev');
+            const totalFramesEl = document.getElementById('total-frames');
+            const screenResolutionEl = document.getElementById('screen-resolution');
+            const colorDepthEl = document.getElementById('color-depth');
+            const pixelRatioEl = document.getElementById('pixel-ratio');
+            const browserInfoEl = document.getElementById('browser-info');
+            const visualTestEl = document.getElementById('visual-test');
+
+            // State
+            let isTesting = false;
+            let animationId = null;
+            let startTime = null;
+            let endTime = null;
+            let frameCount = 0;
+            let lastFrameTime = 0;
+            let refreshRates = [];
+            let testDuration = 30; // seconds
+
+            // Display info
+            function updateDisplayInfo() {
+                screenResolutionEl.textContent = `${screen.width} × ${screen.height}`;
+                colorDepthEl.textContent = `${screen.colorDepth}-bit`;
+                pixelRatioEl.textContent = window.devicePixelRatio.toFixed(1);
+
+                // Browser detection
+                const ua = navigator.userAgent;
+                let browser = 'Unknown';
+                if (ua.includes('Chrome')) browser = 'Chrome';
+                else if (ua.includes('Firefox')) browser = 'Firefox';
+                else if (ua.includes('Safari')) browser = 'Safari';
+                else if (ua.includes('Edge')) browser = 'Edge';
+
+                browserInfoEl.textContent = browser;
+            }
+
+            // Visual test patterns
+            function createSpinningSquare() {
+                const square = document.createElement('div');
+                square.className = 'spinning-square';
+                return square;
+            }
+
+            function createGradientAnimation() {
+                const gradient = document.createElement('div');
+                gradient.className = 'test-pattern';
+                return gradient;
+            }
+
+            function createFlickerTest() {
+                const flicker = document.createElement('div');
+                flicker.className = 'flicker-test';
+                flicker.textContent = 'FLICKER TEST';
+                return flicker;
+            }
+
+            function updateVisualTest() {
+                visualTestEl.innerHTML = '';
+
+                if (!isTesting) {
+                    visualTestEl.innerHTML = `
+                        <div class="text-center text-gray-500">
+                            <i data-feather="play-circle" class="w-16 h-16 mb-4"></i>
+                            <p>Start the test to see the visual pattern</p>
+                        </div>
+                    `;
+                    feather.replace();
+                    return;
+                }
+
+                const mode = displayModeSelect.value;
+                let element;
+
+                switch (mode) {
+                    case 'spinning':
+                        element = createSpinningSquare();
+                        break;
+                    case 'gradient':
+                        element = createGradientAnimation();
+                        break;
+                    case 'flicker':
+                        element = createFlickerTest();
+                        break;
+                    case 'none':
+                    default:
+                        element = document.createElement('div');
+                        element.className = 'text-center text-gray-500 p-8';
+                        element.innerHTML = '<p>No visual pattern selected</p>';
+                        break;
+                }
+
+                visualTestEl.appendChild(element);
+            }
+
+            // Statistics calculations
+            function calculateStats() {
+                if (refreshRates.length === 0) return;
+
+                const sum = refreshRates.reduce((a, b) => a + b, 0);
+                const avg = sum / refreshRates.length;
+                const min = Math.min(...refreshRates);
+                const max = Math.max(...refreshRates);
+
+                // Standard deviation
+                const variance = refreshRates.reduce((acc, rate) => acc + Math.pow(rate - avg, 2), 0) / refreshRates.length;
+                const stdDev = Math.sqrt(variance);
+
+                avgRefreshEl.textContent = `${avg.toFixed(1)} Hz`;
+                minRefreshEl.textContent = `${min.toFixed(1)} Hz`;
+                maxRefreshEl.textContent = `${max.toFixed(1)} Hz`;
+                stdDevEl.textContent = `${stdDev.toFixed(1)} Hz`;
+                totalFramesEl.textContent = refreshRates.length.toString();
+            }
+
+            // Animation frame callback
+            function measureFrame(currentTime) {
+                if (!isTesting) return;
+
+                frameCount++;
+
+                if (lastFrameTime !== 0) {
+                    const frameTime = currentTime - lastFrameTime;
+                    const refreshRate = 1000 / frameTime;
+
+                    // Only record reasonable refresh rates (30-400 Hz)
+                    if (refreshRate >= 30 && refreshRate <= 400) {
+                        refreshRates.push(refreshRate);
+
+                        // Update current values
+                        currentRefreshEl.textContent = refreshRate.toFixed(1);
+                        frameTimeEl.textContent = frameTime.toFixed(2);
+                        fpsEl.textContent = refreshRate.toFixed(1);
+                    }
+                }
+
+                lastFrameTime = currentTime;
+
+                // Update progress
+                const elapsed = (currentTime - startTime) / 1000;
+                const progress = Math.min((elapsed / testDuration) * 100, 100);
+                testProgressEl.textContent = `${progress.toFixed(1)}%`;
+                timeRemainingEl.textContent = `${Math.max(0, (testDuration - elapsed)).toFixed(1)}s`;
+
+                // Check if test should end
+                if (elapsed >= testDuration) {
+                    stopTest();
+                    return;
+                }
+
+                animationId = requestAnimationFrame(measureFrame);
+            }
+
+            // Test controls
+            function startTest() {
+                if (isTesting) return;
+
+                isTesting = true;
+                startTime = performance.now();
+                frameCount = 0;
+                lastFrameTime = 0;
+                refreshRates = [];
+
+                testDuration = parseInt(testDurationInput.value) || 30;
+
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+
+                testStatusEl.querySelector('div').className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
+
+                updateVisualTest();
+                animationId = requestAnimationFrame(measureFrame);
+            }
+
+            function stopTest() {
+                if (!isTesting) return;
+
+                isTesting = false;
+                endTime = performance.now();
+
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+
+                testStatusEl.querySelector('div').className = 'w-2 h-2 rounded-full bg-gray-400';
+
+                calculateStats();
+                updateVisualTest();
+            }
+
+            function resetStats() {
+                refreshRates = [];
+                frameCount = 0;
+                currentRefreshEl.textContent = '--';
+                frameTimeEl.textContent = '--';
+                fpsEl.textContent = '--';
+                testProgressEl.textContent = '0%';
+                timeRemainingEl.textContent = '--s';
+                avgRefreshEl.textContent = '-- Hz';
+                minRefreshEl.textContent = '-- Hz';
+                maxRefreshEl.textContent = '-- Hz';
+                stdDevEl.textContent = '-- Hz';
+                totalFramesEl.textContent = '0';
+                updateVisualTest();
+            }
+
+            // Event listeners
+            startBtn.addEventListener('click', startTest);
+            stopBtn.addEventListener('click', stopTest);
+            resetBtn.addEventListener('click', resetStats);
+            displayModeSelect.addEventListener('change', updateVisualTest);
+
+            // Input validation
+            testDurationInput.addEventListener('input', function() {
+                const value = parseInt(this.value);
+                if (value < 5) this.value = 5;
+                if (value > 300) this.value = 300;
+            });
+
+            // Initialize
+            updateDisplayInfo();
+            updateVisualTest();
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', function() {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            });
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

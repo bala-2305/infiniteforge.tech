@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repo Visualizer | InfiniteForge - Free Online Tools</title>
+    <meta name="description" content="Visualize GitHub repository data with interactive charts and statistics. Analyze contributors, commits, languages, and repository metrics. Free online tool.">
+    <meta name="keywords" content="github visualizer, repository analyzer, git statistics, contributor analysis, code metrics, github api, repository insights, InfiniteForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    <meta property="og:title" content="GitHub Repo Visualizer | InfiniteForge - Free Online Tools">
+    <meta property="og:description" content="Analyze and visualize GitHub repository data with interactive charts. Get insights on contributors, commits, languages, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/github-visualizer.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <link rel="canonical" href="https://infiniteforge.tech/github-visualizer.html">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Initialize Feather Icons with multiple attempts
+        function initFeatherIcons() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+                return true;
+            }
+            return false;
+        }
+
+        // Try to initialize immediately
+        if (!initFeatherIcons()) {
+            // If feather isn't loaded yet, wait for it
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds max
+            const checkInterval = setInterval(() => {
+                attempts++;
+                if (initFeatherIcons() || attempts >= maxAttempts) {
+                    clearInterval(checkInterval);
+                }
+            }, 100);
+        }
+
+        // Also initialize on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', initFeatherIcons);
+
+        // Initialize again after any dynamic content changes
+        const originalFeatherReplace = feather ? feather.replace : null;
+        if (originalFeatherReplace) {
+            feather.replace = function() {
+                const result = originalFeatherReplace.apply(this, arguments);
+                // Re-run after a short delay to catch any newly added icons
+                setTimeout(() => originalFeatherReplace.apply(this, arguments), 50);
+                return result;
+            };
+        }
+    </script>
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .contributor-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .contributor-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .language-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .repo-input {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .repo-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-poppins">
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden sm:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+            <a href="contact.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Contact</a>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebApplication">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-3">
+                <span class="text-blue-600">GitHub</span> Repo Visualizer
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Analyze and visualize GitHub repository data with interactive charts and comprehensive statistics.
+                Get deep insights into your project's health and activity.
+            </p>
+        </div>
+
+        <!-- Repository Input -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <div class="max-w-2xl mx-auto">
+                <label for="repoInput" class="block text-lg font-semibold text-gray-800 mb-4">
+                    Enter GitHub Repository URL or owner/repo
+                </label>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="text" id="repoInput" placeholder="e.g., facebook/react or https://github.com/facebook/react"
+                           class="repo-input flex-1 text-gray-700 placeholder-gray-400">
+                    <button id="analyzeButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center sm:justify-start w-full sm:w-auto">
+                        <i data-feather="search" class="w-5 h-5 mr-2"></i>
+                        Analyze
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">
+                    Examples: facebook/react, microsoft/vscode, torvalds/linux
+                </p>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden bg-white rounded-2xl shadow-xl p-8 mb-8 text-center">
+            <div class="loading-spinner mb-4"></div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Analyzing Repository</h3>
+            <p class="text-gray-600">Fetching data from GitHub API...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden bg-red-50 border border-red-200 rounded-2xl p-8 mb-8">
+            <div class="flex items-center mb-4">
+                <i data-feather="alert-circle" class="w-6 h-6 text-red-500 mr-3"></i>
+                <h3 class="text-xl font-semibold text-red-800">Error Loading Repository</h3>
+            </div>
+            <p id="errorMessage" class="text-red-700 mb-4"></p>
+            <button id="retryButton" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
+                Try Again
+            </button>
+        </div>
+
+        <!-- Repository Overview -->
+        <div id="repoOverview" class="hidden mb-8">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="flex items-center mb-6">
+                    <img id="repoAvatar" class="w-16 h-16 rounded-lg mr-4" alt="Repository avatar">
+                    <div>
+                        <h2 id="repoName" class="text-2xl font-bold text-gray-800"></h2>
+                        <p id="repoDescription" class="text-gray-600 mt-1"></p>
+                        <div class="flex items-center mt-2 text-sm text-gray-500">
+                            <i data-feather="user" class="w-4 h-4 mr-1"></i>
+                            <span id="repoOwner"></span>
+                            <span class="mx-2">•</span>
+                            <i data-feather="calendar" class="w-4 h-4 mr-1"></i>
+                            <span id="repoCreated"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repository Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="stat-card text-center">
+                        <div class="text-2xl font-bold text-blue-600" id="starsCount">-</div>
+                        <div class="text-gray-600">Stars</div>
+                    </div>
+                    <div class="stat-card text-center">
+                        <div class="text-2xl font-bold text-green-600" id="forksCount">-</div>
+                        <div class="text-gray-600">Forks</div>
+                    </div>
+                    <div class="stat-card text-center">
+                        <div class="text-2xl font-bold text-purple-600" id="issuesCount">-</div>
+                        <div class="text-gray-600">Issues</div>
+                    </div>
+                    <div class="stat-card text-center">
+                        <div class="text-2xl font-bold text-orange-600" id="prsCount">-</div>
+                        <div class="text-gray-600">Pull Requests</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div id="chartsSection" class="hidden grid md:grid-cols-2 gap-8 mb-8">
+            <!-- Languages Chart -->
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="code" class="w-6 h-6 mr-2 text-blue-500"></i>
+                    Languages
+                </h3>
+                <div class="chart-container">
+                    <canvas id="languagesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Commit Activity Chart -->
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="activity" class="w-6 h-6 mr-2 text-green-500"></i>
+                    Commit Activity (Last 12 Months)
+                </h3>
+                <div class="chart-container">
+                    <canvas id="commitsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contributors Section -->
+        <div id="contributorsSection" class="hidden bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <i data-feather="users" class="w-6 h-6 mr-2 text-purple-500"></i>
+                Top Contributors
+            </h3>
+            <div id="contributorsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- Repository Details -->
+        <div id="repoDetails" class="hidden grid md:grid-cols-2 gap-8 mb-8">
+            <!-- Repository Info -->
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="info" class="w-6 h-6 mr-2 text-blue-500"></i>
+                    Repository Details
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600">License</span>
+                        <span id="repoLicense" class="font-medium">-</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Size</span>
+                        <span id="repoSize" class="font-medium">-</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Last Updated</span>
+                        <span id="repoUpdated" class="font-medium">-</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Default Branch</span>
+                        <span id="repoBranch" class="font-medium">-</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-600">Topics</span>
+                        <div id="repoTopics" class="flex flex-wrap gap-1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i data-feather="clock" class="w-6 h-6 mr-2 text-green-500"></i>
+                    Recent Activity
+                </h3>
+                <div id="recentActivity" class="space-y-4">
+                    <!-- Activity items will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid sm:grid-cols-3 gap-6 mt-10">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-feather="bar-chart" class="text-blue-500 w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Interactive Charts</h3>
+                <p class="text-gray-600">Visualize repository data with beautiful, interactive charts and graphs.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-feather="users" class="text-purple-500 w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Contributor Analysis</h3>
+                <p class="text-gray-600">See who contributes most to the project and their contribution patterns.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-feather="trending-up" class="text-green-500 w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Activity Tracking</h3>
+                <p class="text-gray-600">Monitor repository activity, commits, and growth over time.</p>
+            </div>
+        </div>
+
+        <!-- Social Sharing Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share GitHub Visualizer</h2>
+            <p class="text-gray-600 text-center mb-6">Help others discover this powerful GitHub analysis tool</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+                <a href="https://twitter.com/intent/tweet?text=Analyze%20GitHub%20repositories%20with%20interactive%20charts%20and%20statistics!&url=https://infiniteforge.tech/github-visualizer.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="twitter" class="w-5 h-5"></i>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/github-visualizer.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="facebook" class="w-5 h-5"></i>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/github-visualizer.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                    <span>Share on LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Close mobile menu when scrolling
+        window.addEventListener('scroll', () => {
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // DOM Elements
+        const repoInput = document.getElementById('repoInput');
+        const analyzeButton = document.getElementById('analyzeButton');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const repoOverview = document.getElementById('repoOverview');
+        const chartsSection = document.getElementById('chartsSection');
+        const contributorsSection = document.getElementById('contributorsSection');
+        const repoDetails = document.getElementById('repoDetails');
+
+        let currentRepo = null;
+
+        // GitHub API functions
+        async function fetchGitHubData(endpoint) {
+            const response = await fetch(`https://api.github.com${endpoint}`);
+            if (!response.ok) {
+                throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        }
+
+        function parseRepoUrl(input) {
+            // Remove trailing slash and .git extension
+            input = input.replace(/\/$/, '').replace(/\.git$/, '');
+
+            // Check if it's a full URL
+            const urlMatch = input.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+            if (urlMatch) {
+                return { owner: urlMatch[1], repo: urlMatch[2] };
+            }
+
+            // Check if it's owner/repo format
+            const repoMatch = input.match(/^([^\/]+)\/([^\/]+)$/);
+            if (repoMatch) {
+                return { owner: repoMatch[1], repo: repoMatch[2] };
+            }
+
+            throw new Error('Invalid repository format. Use owner/repo or https://github.com/owner/repo');
+        }
+
+        async function analyzeRepository() {
+            const input = repoInput.value.trim();
+            if (!input) {
+                showToast('Please enter a repository URL or owner/repo');
+                return;
+            }
+
+            try {
+                const repoInfo = parseRepoUrl(input);
+                currentRepo = repoInfo;
+
+                // Show loading state
+                showLoading();
+
+                // Fetch repository data with error handling
+                const repoData = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}`);
+                
+                // Fetch additional data with individual error handling
+                let languages = {}, contributors = [], commits = [];
+                
+                try {
+                    languages = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}/languages`);
+                } catch (error) {
+                    console.warn('Could not fetch languages data:', error.message);
+                    languages = {};
+                }
+                
+                try {
+                    contributors = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}/contributors?per_page=10`);
+                } catch (error) {
+                    console.warn('Could not fetch contributors data:', error.message);
+                    contributors = [];
+                }
+                
+                try {
+                    commits = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}/stats/commit_activity`);
+                } catch (error) {
+                    console.warn('Could not fetch commit activity data:', error.message);
+                    commits = [];
+                }
+
+                // Display data
+                displayRepositoryData(repoData, languages, contributors, commits);
+                hideLoading();
+
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        function displayRepositoryData(repo, languages, contributors, commits) {
+            // Repository Overview
+            document.getElementById('repoAvatar').src = repo.owner.avatar_url;
+            document.getElementById('repoName').textContent = repo.name;
+            document.getElementById('repoDescription').textContent = repo.description || 'No description available';
+            document.getElementById('repoOwner').textContent = repo.owner.login;
+            document.getElementById('repoCreated').textContent = new Date(repo.created_at).toLocaleDateString();
+
+            document.getElementById('starsCount').textContent = repo.stargazers_count.toLocaleString();
+            document.getElementById('forksCount').textContent = repo.forks_count.toLocaleString();
+            document.getElementById('issuesCount').textContent = repo.open_issues_count.toLocaleString();
+            document.getElementById('prsCount').textContent = 'N/A'; // Would need separate API call
+
+            // Repository Details
+            document.getElementById('repoLicense').textContent = repo.license ? repo.license.name : 'No license';
+            document.getElementById('repoSize').textContent = formatBytes(repo.size * 1024);
+            document.getElementById('repoUpdated').textContent = new Date(repo.updated_at).toLocaleDateString();
+            document.getElementById('repoBranch').textContent = repo.default_branch;
+
+            // Topics
+            const topicsContainer = document.getElementById('repoTopics');
+            topicsContainer.innerHTML = '';
+            if (repo.topics && repo.topics.length > 0) {
+                repo.topics.forEach(topic => {
+                    const topicTag = document.createElement('span');
+                    topicTag.className = 'bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full';
+                    topicTag.textContent = topic;
+                    topicsContainer.appendChild(topicTag);
+                });
+            } else {
+                topicsContainer.innerHTML = '<span class="text-gray-500">No topics</span>';
+            }
+
+            // Languages Chart
+            createLanguagesChart(languages);
+
+            // Commits Chart
+            createCommitsChart(commits);
+
+            // Contributors
+            displayContributors(contributors);
+
+            // Show all sections
+            repoOverview.classList.remove('hidden');
+            chartsSection.classList.remove('hidden');
+            contributorsSection.classList.remove('hidden');
+            repoDetails.classList.remove('hidden');
+            
+            // Re-initialize Feather icons after showing content
+            setTimeout(() => {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            }, 100);
+        }
+
+        function createLanguagesChart(languages) {
+            // Handle case where languages data is not available
+            if (!languages || typeof languages !== 'object' || Object.keys(languages).length === 0) {
+                const ctx = document.getElementById('languagesChart').getContext('2d');
+                const chartContainer = document.getElementById('languagesChart').parentElement;
+                
+                // Show message instead of chart
+                chartContainer.innerHTML = `
+                    <div class="flex items-center justify-center h-full text-gray-500">
+                        <div class="text-center">
+                            <i data-feather="code" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
+                            <p>No language data available</p>
+                            <p class="text-sm">This repository may be empty</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Re-initialize feather icons for the new content
+                setTimeout(() => {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                }, 50);
+                return;
+            }
+
+            const ctx = document.getElementById('languagesChart').getContext('2d');
+            const data = Object.entries(languages).map(([lang, bytes]) => ({
+                label: lang,
+                value: bytes
+            })).sort((a, b) => b.value - a.value).slice(0, 10);
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(d => d.label),
+                    datasets: [{
+                        data: data.map(d => d.value),
+                        backgroundColor: [
+                            '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6',
+                            '#06B6D4', '#84CC16', '#F97316', '#EC4899', '#6B7280'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCommitsChart(commits) {
+            // Handle case where commits data is not available
+            if (!commits || !Array.isArray(commits) || commits.length === 0) {
+                const ctx = document.getElementById('commitsChart').getContext('2d');
+                const chartContainer = document.getElementById('commitsChart').parentElement;
+                
+                // Show message instead of chart
+                chartContainer.innerHTML = `
+                    <div class="flex items-center justify-center h-full text-gray-500">
+                        <div class="text-center">
+                            <i data-feather="calendar" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
+                            <p>No commit activity data available</p>
+                            <p class="text-sm">This repository may be empty or too new</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Re-initialize feather icons for the new content
+                setTimeout(() => {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                }, 50);
+                return;
+            }
+
+            const ctx = document.getElementById('commitsChart').getContext('2d');
+            const labels = commits.map((week, index) => {
+                const date = new Date();
+                date.setDate(date.getDate() - (51 - index) * 7);
+                return date.toLocaleDateString();
+            });
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Commits',
+                        data: commits.map(week => week.total),
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayContributors(contributors) {
+            const container = document.getElementById('contributorsGrid');
+            
+            // Handle case where contributors data is not available
+            if (!contributors || !Array.isArray(contributors) || contributors.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full flex items-center justify-center py-8 text-gray-500">
+                        <div class="text-center">
+                            <i data-feather="users" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
+                            <p>No contributors data available</p>
+                            <p class="text-sm">This repository may be empty or private</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Re-initialize feather icons for the new content
+                setTimeout(() => {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                }, 50);
+                return;
+            }
+
+            container.innerHTML = '';
+
+            contributors.forEach(contributor => {
+                const card = document.createElement('div');
+                card.className = 'contributor-card';
+                card.innerHTML = `
+                    <div class="flex items-center mb-3">
+                        <img src="${contributor.avatar_url}" alt="${contributor.login}"
+                             class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">${contributor.login}</h4>
+                            <p class="text-sm text-gray-600">${contributor.contributions} contributions</p>
+                        </div>
+                    </div>
+                    <div class="language-bar">
+                        <div class="h-full bg-blue-500" style="width: ${Math.min(contributor.contributions / contributors[0].contributions * 100, 100)}%"></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showLoading() {
+            loadingState.classList.remove('hidden');
+            errorState.classList.add('hidden');
+            repoOverview.classList.add('hidden');
+            chartsSection.classList.add('hidden');
+            contributorsSection.classList.add('hidden');
+            repoDetails.classList.add('hidden');
+        }
+
+        function hideLoading() {
+            loadingState.classList.add('hidden');
+        }
+
+        function showError(message) {
+            hideLoading();
+            document.getElementById('errorMessage').textContent = message;
+            errorState.classList.remove('hidden');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Event listeners
+        analyzeButton.addEventListener('click', analyzeRepository);
+        repoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                analyzeRepository();
+            }
+        });
+
+        document.getElementById('retryButton').addEventListener('click', () => {
+            errorState.classList.add('hidden');
+            analyzeRepository();
+        });
+
+        // Example repositories
+        const examples = ['facebook/react', 'microsoft/vscode', 'torvalds/linux', 'nodejs/node'];
+        let exampleIndex = 0;
+
+        setInterval(() => {
+            if (!repoInput.value) {
+                repoInput.placeholder = `e.g., ${examples[exampleIndex]}`;
+                exampleIndex = (exampleIndex + 1) % examples.length;
+            }
+        }, 3000);
+    </script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

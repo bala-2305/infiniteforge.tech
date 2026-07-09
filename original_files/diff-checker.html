@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diff Checker — Compare Code or Text Files — InfiniteForge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Compare two text files or code snippets and highlight differences. Free online diff checker with side-by-side and unified views.">
+    <meta name="keywords" content="diff checker, text comparison, code comparison, file diff, text diff, compare files, diff tool, code diff, unified diff, side by side diff">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Diff Checker — Compare Code or Text Files — InfiniteForge">
+    <meta property="og:description" content="Compare two text files or code snippets and highlight differences. Free online diff checker with side-by-side and unified views.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/diff-checker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Diff Checker — Compare Code or Text Files — InfiniteForge">
+    <meta name="twitter:description" content="Compare two text files or code snippets and highlight differences. Free online diff checker with side-by-side and unified views.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/diff-checker.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/diff-checker.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Diff Checker — Compare Code or Text Files — InfiniteForge",
+        "description": "Compare two text files or code snippets and highlight differences. Free online diff checker with side-by-side and unified views.",
+        "url": "https://infiniteforge.tech/diff-checker.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge",
+            "url": "https://infiniteforge.tech"
+        },
+        "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://infiniteforge.tech/assets/letter-d.png"
+        },
+        "datePublished": "2025-10-12",
+        "dateModified": "2025-10-12"
+    }</script>
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://infiniteforge.tech"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Diff Checker",
+                "item": "https://infiniteforge.tech/diff-checker.html"
+            }
+        ]
+    }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Fallback for Feather Icons
+        window.addEventListener('load', function() {
+            if (typeof feather === 'undefined') {
+                // Load feather icons from alternative CDN if primary fails
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js';
+                script.onload = function() {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        });
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('consent', 'default', {
+            'analytics_storage': 'granted'
+        });
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .diff-input, .diff-output {
+            min-height: 300px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .diff-added {
+            background-color: #d1fae5;
+            border-left: 3px solid #10b981;
+        }
+
+        .diff-removed {
+            background-color: #fee2e2;
+            border-left: 3px solid #ef4444;
+        }
+
+        .diff-changed {
+            background-color: #fef3c7;
+            border-left: 3px solid #f59e0b;
+        }
+
+        .diff-unchanged {
+            background-color: #f9fafb;
+        }
+
+        .line-number {
+            color: #6b7280;
+            font-size: 12px;
+            user-select: none;
+            padding-right: 8px;
+            border-right: 1px solid #e5e7eb;
+            margin-right: 8px;
+        }
+
+        .tab-active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .tab-inactive:hover {
+            background-color: #e5e7eb;
+        }
+
+        @media (max-width: 768px) {
+            .diff-input, .diff-output {
+                min-height: 250px;
+                font-size: 12px;
+            }
+
+            .diff-container {
+                flex-direction: column;
+            }
+
+            .diff-panel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="flex items-center">
+                            <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8 mr-3">
+                            <span class="text-xl font-bold text-gray-900">InfiniteForge</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600" aria-label="Toggle menu">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="features.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Tools</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Diff Checker</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Compare two text files or code snippets and highlight the differences between them.
+                Perfect for code reviews, version control, and text comparison.
+            </p>
+        </div>
+
+        <!-- Diff Interface -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <!-- Input Section -->
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Input Texts</h2>
+                <div class="diff-container flex gap-4 mb-4">
+                    <div class="diff-panel flex-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Original Text</label>
+                        <textarea id="original-text" class="diff-input w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical" placeholder="Paste your original text or code here..."></textarea>
+                    </div>
+                    <div class="diff-panel flex-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Modified Text</label>
+                        <textarea id="modified-text" class="diff-input w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical" placeholder="Paste your modified text or code here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex flex-wrap gap-4 items-center justify-between">
+                    <div class="flex gap-2">
+                        <button id="load-sample-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+                            Load Sample
+                        </button>
+                        <button id="clear-btn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors">
+                            Clear All
+                        </button>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <select id="diff-mode" class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="unified">Unified View</option>
+                            <option value="side-by-side">Side by Side</option>
+                        </select>
+                        <button id="compare-btn" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition-colors">
+                            <span id="compare-text">Compare Texts</span>
+                            <span id="compare-spinner" class="hidden ml-2">
+                                <i data-feather="loader" class="w-4 h-4 animate-spin"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div id="output-section" class="hidden">
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-gray-900">Differences</h3>
+                        <div class="flex gap-2">
+                            <button id="copy-diff-btn" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition-colors">
+                                Copy Diff
+                            </button>
+                            <button id="download-diff-btn" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition-colors">
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="flex gap-4 mb-4 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 bg-green-100 border border-green-500 rounded"></div>
+                            <span>Added</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 bg-red-100 border border-red-500 rounded"></div>
+                            <span>Removed</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 bg-yellow-100 border border-yellow-500 rounded"></div>
+                            <span>Changed</span>
+                        </div>
+                    </div>
+
+                    <!-- Diff Output -->
+                    <div id="diff-output" class="diff-output w-full border border-gray-300 rounded-lg p-4 bg-gray-50 font-mono text-sm overflow-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center mb-4">
+                    <i data-feather="code" class="w-8 h-8 text-blue-600 mr-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-900">Code Comparison</h3>
+                </div>
+                <p class="text-gray-600">Perfect for comparing code snippets, functions, or entire files with syntax highlighting support.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center mb-4">
+                    <i data-feather="file-text" class="w-8 h-8 text-green-600 mr-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-900">Text Files</h3>
+                </div>
+                <p class="text-gray-600">Compare any text-based files including documents, configuration files, and data files.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center mb-4">
+                    <i data-feather="eye" class="w-8 h-8 text-purple-600 mr-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-900">Multiple Views</h3>
+                </div>
+                <p class="text-gray-600">Choose between unified view for compact diffs or side-by-side view for detailed comparison.</p>
+            </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">How to Use</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-2">1. Input Your Texts</h4>
+                    <p class="text-gray-600 mb-4">Paste your original text in the left box and the modified text in the right box.</p>
+
+                    <h4 class="font-semibold text-gray-900 mb-2">2. Choose View Mode</h4>
+                    <p class="text-gray-600 mb-4">Select unified view for a compact diff or side-by-side for detailed comparison.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-2">3. Compare</h4>
+                    <p class="text-gray-600 mb-4">Click "Compare Texts" to generate the diff highlighting additions, deletions, and changes.</p>
+
+                    <h4 class="font-semibold text-gray-900 mb-2">4. Export Results</h4>
+                    <p class="text-gray-600">Copy the diff to clipboard or download it as a file for sharing or documentation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status-container" class="fixed bottom-4 right-4 z-50 hidden">
+        <!-- Status messages will be inserted here -->
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent"
+        class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 z-50 transform translate-y-full transition-transform duration-300"
+        style="display: none;">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-4 md:mb-0 md:mr-4">
+                <p class="text-sm">
+                    We use cookies to enhance your experience and analyze site traffic. By continuing to use this site,
+                    you consent to our use of cookies.
+                    <a href="privacy.html" class="underline hover:no-underline">Learn more</a>
+                </p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decline-cookies" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+                    Decline
+                </button>
+                <button id="accept-cookies" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+                    Accept
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather Icons and main functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Sample data
+            const sampleOriginal = `function calculateSum(a, b) {
+    return a + b;
+}
+
+console.log(calculateSum(5, 3));`;
+
+            const sampleModified = `function calculateSum(a, b) {
+    if (typeof a !== 'number' || typeof b !== 'number') {
+        throw new Error('Both arguments must be numbers');
+    }
+    return a + b;
+}
+
+console.log(calculateSum(5, 3));
+console.log(calculateSum(10, 20));`;
+
+            // DOM elements
+            const originalText = document.getElementById('original-text');
+            const modifiedText = document.getElementById('modified-text');
+            const diffOutput = document.getElementById('diff-output');
+            const compareBtn = document.getElementById('compare-btn');
+            const compareText = document.getElementById('compare-text');
+            const compareSpinner = document.getElementById('compare-spinner');
+            const outputSection = document.getElementById('output-section');
+            const diffMode = document.getElementById('diff-mode');
+
+            // Initialize with sample data
+            originalText.value = sampleOriginal;
+            modifiedText.value = sampleModified;
+
+            // Auto-generate diff on load
+            setTimeout(() => {
+                generateDiff();
+            }, 100);
+
+            // Event listeners
+            compareBtn.addEventListener('click', generateDiff);
+            diffMode.addEventListener('change', generateDiff);
+
+            document.getElementById('load-sample-btn').addEventListener('click', () => {
+                originalText.value = sampleOriginal;
+                modifiedText.value = sampleModified;
+                generateDiff();
+                showStatus('Sample data loaded', 'success');
+            });
+
+            document.getElementById('clear-btn').addEventListener('click', () => {
+                originalText.value = '';
+                modifiedText.value = '';
+                diffOutput.innerHTML = '';
+                outputSection.classList.add('hidden');
+                showStatus('Cleared', 'info');
+            });
+
+            document.getElementById('copy-diff-btn').addEventListener('click', () => {
+                const text = diffOutput.textContent;
+                if (text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showStatus('Diff copied to clipboard', 'success');
+                    }).catch(() => {
+                        showStatus('Failed to copy diff', 'error');
+                    });
+                } else {
+                    showStatus('No diff to copy', 'warning');
+                }
+            });
+
+            document.getElementById('download-diff-btn').addEventListener('click', () => {
+                const text = diffOutput.textContent;
+                if (text) {
+                    const blob = new Blob([text], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'diff-comparison.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showStatus('Diff downloaded', 'success');
+                } else {
+                    showStatus('No diff to download', 'warning');
+                }
+            });
+
+            // Mobile menu
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+
+            // Auto-close mobile menu on scroll or link click
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            function generateDiff() {
+                const original = originalText.value;
+                const modified = modifiedText.value;
+                const mode = diffMode.value;
+
+                if (!original && !modified) {
+                    showStatus('Please enter text in at least one field', 'warning');
+                    return;
+                }
+
+                // Show loading
+                compareSpinner.classList.remove('hidden');
+                compareText.textContent = 'Comparing...';
+                compareBtn.disabled = true;
+
+                try {
+                    const diffResult = computeDiff(original, modified, mode);
+                    diffOutput.innerHTML = diffResult;
+                    outputSection.classList.remove('hidden');
+
+                    // Scroll to output
+                    outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    showStatus('Diff generated successfully', 'success');
+                } catch (error) {
+                    showStatus('Error generating diff: ' + error.message, 'error');
+                    diffOutput.innerHTML = '<div class="text-red-600">Error: ' + error.message + '</div>';
+                    outputSection.classList.remove('hidden');
+                }
+
+                // Hide loading
+                compareSpinner.classList.add('hidden');
+                compareText.textContent = 'Compare Texts';
+                compareBtn.disabled = false;
+            }
+
+            function computeDiff(original, modified, mode) {
+                const originalLines = original.split('\n');
+                const modifiedLines = modified.split('\n');
+
+                if (mode === 'unified') {
+                    return generateUnifiedDiff(originalLines, modifiedLines);
+                } else {
+                    return generateSideBySideDiff(originalLines, modifiedLines);
+                }
+            }
+
+            function generateUnifiedDiff(originalLines, modifiedLines) {
+                const diff = [];
+                const maxLines = Math.max(originalLines.length, modifiedLines.length);
+
+                diff.push('<div class="font-mono text-sm">');
+
+                for (let i = 0; i < maxLines; i++) {
+                    const origLine = originalLines[i] || '';
+                    const modLine = modifiedLines[i] || '';
+
+                    if (origLine === modLine) {
+                        // Unchanged line
+                        diff.push(`<div class="diff-unchanged"><span class="line-number">${i + 1}</span>${escapeHtml(origLine)}</div>`);
+                    } else if (!origLine && modLine) {
+                        // Added line
+                        diff.push(`<div class="diff-added"><span class="line-number">+</span>${escapeHtml(modLine)}</div>`);
+                    } else if (origLine && !modLine) {
+                        // Removed line
+                        diff.push(`<div class="diff-removed"><span class="line-number">-</span>${escapeHtml(origLine)}</div>`);
+                    } else {
+                        // Changed line - show both
+                        diff.push(`<div class="diff-removed"><span class="line-number">-</span>${escapeHtml(origLine)}</div>`);
+                        diff.push(`<div class="diff-added"><span class="line-number">+</span>${escapeHtml(modLine)}</div>`);
+                    }
+                }
+
+                diff.push('</div>');
+                return diff.join('');
+            }
+
+            function generateSideBySideDiff(originalLines, modifiedLines) {
+                const diff = [];
+                const maxLines = Math.max(originalLines.length, modifiedLines.length);
+
+                diff.push('<div class="grid grid-cols-2 gap-4 font-mono text-sm">');
+                diff.push('<div><h4 class="font-semibold mb-2 text-gray-700">Original</h4>');
+
+                for (let i = 0; i < maxLines; i++) {
+                    const origLine = originalLines[i] || '';
+                    const modLine = modifiedLines[i] || '';
+
+                    if (origLine === modLine) {
+                        diff.push(`<div class="diff-unchanged"><span class="line-number">${i + 1}</span>${escapeHtml(origLine)}</div>`);
+                    } else if (origLine && !modLine) {
+                        diff.push(`<div class="diff-removed"><span class="line-number">${i + 1}</span>${escapeHtml(origLine)}</div>`);
+                    } else {
+                        diff.push(`<div class="diff-unchanged"><span class="line-number">${i + 1}</span>${escapeHtml(origLine)}</div>`);
+                    }
+                }
+
+                diff.push('</div><div><h4 class="font-semibold mb-2 text-gray-700">Modified</h4>');
+
+                for (let i = 0; i < maxLines; i++) {
+                    const origLine = originalLines[i] || '';
+                    const modLine = modifiedLines[i] || '';
+
+                    if (origLine === modLine) {
+                        diff.push(`<div class="diff-unchanged"><span class="line-number">${i + 1}</span>${escapeHtml(modLine)}</div>`);
+                    } else if (!origLine && modLine) {
+                        diff.push(`<div class="diff-added"><span class="line-number">${i + 1}</span>${escapeHtml(modLine)}</div>`);
+                    } else if (origLine !== modLine) {
+                        diff.push(`<div class="diff-changed"><span class="line-number">${i + 1}</span>${escapeHtml(modLine)}</div>`);
+                    } else {
+                        diff.push(`<div class="diff-unchanged"><span class="line-number">${i + 1}</span>${escapeHtml(modLine)}</div>`);
+                    }
+                }
+
+                diff.push('</div></div>');
+                return diff.join('');
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function showStatus(message, type) {
+                const container = document.getElementById('status-container');
+                const className = type === 'success' ? 'bg-green-100 text-green-800 border-green-200' :
+                                 type === 'error' ? 'bg-red-100 text-red-800 border-red-200' :
+                                 type === 'warning' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                                 'bg-blue-100 text-blue-800 border-blue-200';
+
+                container.innerHTML = `<div class="${className} border px-4 py-3 rounded-lg shadow-lg">
+                    <div class="flex items-center">
+                        <i data-feather="${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : type === 'warning' ? 'alert-triangle' : 'info'}" class="w-5 h-5 mr-2"></i>
+                        <span>${message}</span>
+                        <button onclick="this.parentElement.parentElement.classList.add('hidden')" class="ml-auto text-gray-500 hover:text-gray-700">
+                            <i data-feather="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>`;
+                container.classList.remove('hidden');
+
+                // Re-initialize feather icons for the status message
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+
+                setTimeout(() => {
+                    container.classList.add('hidden');
+                }, 5000);
+            }
+        });
+
+        // Cookie consent functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookie-consent');
+            const acceptCookies = document.getElementById('accept-cookies');
+            const declineCookies = document.getElementById('decline-cookies');
+
+            // Show cookie consent if not already accepted/declined
+            if (!localStorage.getItem('cookie-consent')) {
+                setTimeout(() => {
+                    cookieConsent.style.display = 'block';
+                    setTimeout(() => {
+                        cookieConsent.classList.remove('translate-y-full');
+                    }, 100);
+                }, 1000);
+            }
+
+            acceptCookies.addEventListener('click', function() {
+                localStorage.setItem('cookie-consent', 'accepted');
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted'
+                });
+                cookieConsent.classList.add('translate-y-full');
+                setTimeout(() => {
+                    cookieConsent.style.display = 'none';
+                }, 300);
+            });
+
+            declineCookies.addEventListener('click', function() {
+                localStorage.setItem('cookie-consent', 'declined');
+                cookieConsent.classList.add('translate-y-full');
+                setTimeout(() => {
+                    cookieConsent.style.display = 'none';
+                }, 300);
+            });
+        });
+    </script>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

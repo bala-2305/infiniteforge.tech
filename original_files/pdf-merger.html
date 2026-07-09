@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Merger - InfiniteForge | Free Online PDF Tools</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Merge multiple PDF files into a single document online. Free tool to combine PDFs with custom ordering and page selection. No uploads, no watermarks, completely free.">
+    <meta name="keywords" content="PDF merger, merge PDFs, combine PDFs, PDF combiner, join PDFs, concatenate PDFs, free online tool, PDF tools">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="PDF Merger - InfiniteForge | Free Online PDF Tools">
+    <meta property="og:description" content="Merge multiple PDF files into a single document with custom ordering. Free, fast, and privacy-focused.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/pdf-merger.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="author" content="InfinityForge">
+    <meta name="theme-color" content="#2563eb">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Logo">
+    <meta property="og:site_name" content="InfiniteForge">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Merger - InfiniteForge | Free Online PDF Tools">
+    <meta name="twitter:description" content="Merge multiple PDF files into a single document with custom ordering. Free, fast, and privacy-focused.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Logo">
+    <link rel="canonical" href="https://infiniteforge.tech/pdf-merger.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/pdf-merger.html">
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PDF Merger",
+        "url": "https://infiniteforge.tech/pdf-merger.html",
+        "description": "Free online tool to merge multiple PDF files into a single document",
+        "applicationCategory": "Utility",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "provider": {
+            "@type": "Organization",
+            "name": "InfiniteForge"
+        }
+    }</script>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8 mr-2">
+                        <span class="text-xl font-bold text-gray-900">InfiniteForge</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 transition-colors">Tools</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="features.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Tools</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">PDF Merger</h1>
+            <p class="text-xl text-gray-600">Merge multiple PDF files into a single document with custom ordering</p>
+        </div>
+
+        <!-- Tool Container -->
+        <div class="tool-container bg-white rounded-xl shadow-lg p-8">
+            <!-- File Upload Area -->
+            <div id="drop-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-6 text-center hover:border-blue-400 transition-colors">
+                <div class="mb-4">
+                    <i data-feather="upload-cloud" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                    <p class="text-lg text-gray-700 mb-2">Drop PDF files here or click to browse</p>
+                    <p class="text-sm text-gray-500">Select multiple PDF files to merge them together</p>
+                </div>
+                <input type="file" id="file-input" accept=".pdf" multiple class="hidden">
+                <button id="browse-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    Browse Files
+                </button>
+            </div>
+
+            <!-- File List -->
+            <div id="file-list" class="mb-6 hidden">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Files to Merge</h3>
+                <div id="file-items" class="space-y-3">
+                    <!-- File items will be added here -->
+                </div>
+                <div class="mt-4 text-sm text-gray-600">
+                    <p>Drag files to reorder them. Files will be merged in the order shown above.</p>
+                </div>
+            </div>
+
+            <!-- Merge Options -->
+            <div id="options" class="mb-6 hidden">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Merge Options</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Output File Name</label>
+                        <input type="text" id="output-filename" value="merged_document.pdf" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="preserve-bookmarks" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="preserve-bookmarks" class="ml-2 text-sm text-gray-700">Preserve bookmarks and table of contents</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div id="action-buttons" class="flex flex-col sm:flex-row gap-4 hidden">
+                <button id="merge-btn" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex-1">
+                    <i data-feather="merge" class="w-5 h-5 inline mr-2"></i>Merge PDFs
+                </button>
+                <button id="clear-btn" class="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                    <i data-feather="trash-2" class="w-5 h-5 inline mr-2"></i>Clear All
+                </button>
+            </div>
+
+            <!-- Progress -->
+            <div id="progress-container" class="mb-6 hidden">
+                <div class="bg-gray-200 rounded-full h-2 mb-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p id="progress-text" class="text-sm text-gray-600 text-center">Preparing files...</p>
+            </div>
+
+            <!-- Download Button -->
+            <div id="download-section" class="text-center hidden">
+                <button id="download-btn" class="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <i data-feather="download" class="w-5 h-5 inline mr-2"></i>Download Merged PDF
+                </button>
+                <p class="text-sm text-gray-600 mt-2">Your merged PDF is ready for download</p>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="mt-12 grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <i data-feather="layers" class="w-10 h-10 text-green-500 mb-4"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Multiple Files</h3>
+                <p class="text-gray-600 text-sm">Merge up to 20 PDF files at once with custom ordering.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <i data-feather="shuffle" class="w-10 h-10 text-blue-500 mb-4"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Drag & Drop</h3>
+                <p class="text-gray-600 text-sm">Easily reorder files by dragging them to change merge order.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <i data-feather="shield" class="w-10 h-10 text-purple-500 mb-4"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Privacy First</h3>
+                <p class="text-gray-600 text-sm">All processing happens in your browser. Files never leave your device.</p>
+            </div>
+        </div>
+
+        <!-- Social Share -->
+        <div class="mt-12 bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Share This Tool</h3>
+            <div class="flex justify-center space-x-4">
+                <a href="https://twitter.com/intent/tweet?text=Check%20out%20InfiniteForge%20PDF%20Merger%20-%20Free%20online%20tool%20to%20merge%20multiple%20PDFs%20into%20one!&url=https%3A//infiniteforge.tech/pdf-merger.html&via=infiniteforgetools"
+                   target="_blank"
+                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm sm:text-base">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                    <span class="hidden sm:inline">Share on </span>Twitter
+                </a>
+
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//infiniteforge.tech/pdf-merger.html"
+                   target="_blank"
+                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors duration-200 text-sm sm:text-base">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <span class="hidden sm:inline">Share on </span>Facebook
+                </a>
+
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//infiniteforge.tech/pdf-merger.html"
+                   target="_blank"
+                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span class="hidden sm:inline">Share on </span>LinkedIn
+                </a>
+
+                <a href="https://wa.me/?text=Check%20out%20InfiniteForge%20PDF%20Merger%20-%20Free%20online%20tool%20to%20merge%20multiple%20PDFs%20into%20one!%20https%3A//infiniteforge.tech/pdf-merger.html"
+                   target="_blank"
+                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm sm:text-base">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                    </svg>
+                    <span class="hidden sm:inline">Share on </span>WhatsApp
+                </a>
+            </div>
+
+            <div class="text-sm text-gray-500 mt-4">
+                <p>Help us grow by sharing our PDF merger with your network!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8 mr-2">
+                    <span class="text-xl font-bold">InfiniteForge</span>
+                </div>
+                <p class="text-gray-400 mb-4">Free online tools for data processing, image editing, and document conversion.</p>
+                <p class="text-sm text-gray-500">© 2025 InfiniteForge. All rights reserved. | Privacy-focused, no uploads required.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // DOM elements
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const fileList = document.getElementById('file-list');
+        const fileItems = document.getElementById('file-items');
+        const options = document.getElementById('options');
+        const actionButtons = document.getElementById('action-buttons');
+        const mergeBtn = document.getElementById('merge-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const downloadSection = document.getElementById('download-section');
+        const downloadBtn = document.getElementById('download-btn');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        let selectedFiles = [];
+        let mergedPdfBlob = null;
+
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Auto-close mobile menu on scroll or link click
+        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // File handling functions
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.type === 'application/pdf' && !selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            }
+            updateFileList();
+        }
+
+        function updateFileList() {
+            if (selectedFiles.length === 0) {
+                fileList.classList.add('hidden');
+                options.classList.add('hidden');
+                actionButtons.classList.add('hidden');
+                return;
+            }
+
+            fileList.classList.remove('hidden');
+            options.classList.remove('hidden');
+            actionButtons.classList.remove('hidden');
+
+            fileItems.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'flex items-center justify-between bg-gray-50 p-3 rounded-lg cursor-move';
+                fileItem.draggable = true;
+                fileItem.dataset.index = index;
+
+                fileItem.innerHTML = `
+                    <div class="flex items-center">
+                        <i data-feather="file-text" class="w-5 h-5 text-red-500 mr-3"></i>
+                        <div>
+                            <p class="font-medium text-gray-800">${file.name}</p>
+                            <p class="text-sm text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                    </div>
+                    <button class="remove-file text-red-500 hover:text-red-700" data-index="${index}">
+                        <i data-feather="x" class="w-5 h-5"></i>
+                    </button>
+                `;
+
+                fileItem.addEventListener('dragstart', handleDragStart);
+                fileItem.addEventListener('dragover', handleDragOver);
+                fileItem.addEventListener('drop', handleDrop);
+
+                fileItems.appendChild(fileItem);
+            });
+
+            feather.replace();
+        }
+
+        // Drag and drop functionality
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.index);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const toIndex = parseInt(e.target.closest('[data-index]').dataset.index);
+
+            if (fromIndex !== toIndex) {
+                const [movedFile] = selectedFiles.splice(fromIndex, 1);
+                selectedFiles.splice(toIndex, 0, movedFile);
+                updateFileList();
+            }
+        }
+
+        // Event listeners
+        dropArea.addEventListener('click', () => fileInput.click());
+        browseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('border-blue-400');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('border-blue-400');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('border-blue-400');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        // Remove file
+        fileItems.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-file')) {
+                const index = parseInt(e.target.closest('.remove-file').dataset.index);
+                selectedFiles.splice(index, 1);
+                updateFileList();
+            }
+        });
+
+        // Clear all files
+        clearBtn.addEventListener('click', () => {
+            selectedFiles = [];
+            updateFileList();
+            downloadSection.classList.add('hidden');
+            mergedPdfBlob = null;
+        });
+
+        // Merge PDFs
+        mergeBtn.addEventListener('click', async () => {
+            if (selectedFiles.length < 2) {
+                alert('Please select at least 2 PDF files to merge.');
+                return;
+            }
+
+            try {
+                mergeBtn.disabled = true;
+                mergeBtn.innerHTML = '<i data-feather="loader" class="w-5 h-5 inline mr-2 animate-spin"></i>Merging...';
+                feather.replace();
+
+                progressContainer.classList.remove('hidden');
+                progressBar.style.width = '0%';
+                progressText.textContent = '0% - Initializing...';
+
+                // Check if pdf-lib is available
+                if (typeof PDFLib === 'undefined') {
+                    throw new Error('PDF library not loaded. Please refresh the page.');
+                }
+
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    progressBar.style.width = `${(i / selectedFiles.length) * 80}%`;
+                    progressText.textContent = `${Math.round((i / selectedFiles.length) * 80)}% - Processing ${selectedFiles[i].name}...`;
+
+                    const fileBuffer = await selectedFiles[i].arrayBuffer();
+                    const pdf = await PDFDocument.load(fileBuffer);
+
+                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    pages.forEach(page => mergedPdf.addPage(page));
+                }
+
+                progressBar.style.width = '90%';
+                progressText.textContent = '90% - Finalizing...';
+
+                const mergedPdfBytes = await mergedPdf.save();
+                mergedPdfBlob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+
+                progressBar.style.width = '100%';
+                progressText.textContent = '100% - Complete!';
+
+                setTimeout(() => {
+                    progressContainer.classList.add('hidden');
+                    downloadSection.classList.remove('hidden');
+                    mergeBtn.disabled = false;
+                    mergeBtn.innerHTML = '<i data-feather="merge" class="w-5 h-5 inline mr-2"></i>Merge PDFs';
+                    feather.replace();
+                }, 500);
+
+            } catch (error) {
+                console.error('Merge error:', error);
+                alert('Error merging PDFs: ' + error.message);
+                mergeBtn.disabled = false;
+                mergeBtn.innerHTML = '<i data-feather="merge" class="w-5 h-5 inline mr-2"></i>Merge PDFs';
+                feather.replace();
+                progressContainer.classList.add('hidden');
+            }
+        });
+
+        // Download merged PDF
+        downloadBtn.addEventListener('click', () => {
+            if (mergedPdfBlob) {
+                const fileName = document.getElementById('output-filename').value || 'merged_document.pdf';
+                saveAs(mergedPdfBlob, fileName);
+            }
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image color adjustment tools. Enhance, adjust, and transform your images with professional color editing features. Brightness, contrast, saturation control and more.">
+    <meta name="keywords" content="image color editor, photo color adjustment, image enhancement, color filter, brightness adjustment, contrast tool, online image editor">
+    <meta name="author" content="InfiniteForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Online Image Color Tools - Free Image Color Adjustment">
+    <meta property="og:description" content="Professional image color adjustment tools. Enhance your photos with advanced color editing features. Free and easy to use.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/imagecolortools.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="InfiniteForge Tools">
+    <link rel="canonical" href="https://infiniteforge.tech/imagecolortools.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Online Image Color Tools - Free Image Color Adjustment">
+    <meta name="twitter:description" content="Professional image color adjustment tools. Enhance your photos with advanced color editing features. Free and easy to use.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:site" content="@InfiniteForgeTools">
+    <title>Image Color Tools - Free Online Color Adjustment</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <!-- Loading Spinner CSS -->
+    <style>
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #3b82f6;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+
+    <!-- Comprehensive Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Image Color Tools",
+        "description": "Free online tool for adjusting image colors, brightness, contrast, saturation, and applying professional color filters",
+        "url": "https://infiniteforge.tech/imagecolortools.html",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Modern web browser with HTML5 Canvas support",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "featureList": [
+            "Brightness adjustment",
+            "Contrast control",
+            "Saturation modification",
+            "Hue shifting",
+            "Color temperature adjustment",
+            "Real-time preview",
+            "Batch processing support"
+        ],
+        "screenshot": "https://infiniteforge.tech/assets/letter-d.png"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "InfiniteForge Tools",
+        "url": "https://infiniteforge.tech",
+        "logo": "https://infiniteforge.tech/assets/letter-d.png",
+        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
+        "foundingDate": "2024",
+        "sameAs": [
+            "https://www.youtube.com/@echo14-w3y",
+            "https://x.com/HMahibala42802",
+            "https://www.linkedin.com/in/mahibala-h",
+            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
+            "https://www.facebook.com/61557410529583/"
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "InfiniteForge Tools",
+        "url": "https://infiniteforge.tech",
+        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfiniteForge Tools"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://infiniteforge.tech/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Image Color Tools - Free Online Color Adjustment",
+        "description": "Professional image color adjustment tools. Enhance your photos with advanced color editing features. Free and easy to use.",
+        "url": "https://infiniteforge.tech/imagecolortools.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge Tools",
+            "url": "https://infiniteforge.tech"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://infiniteforge.tech"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Image Color Tools",
+                    "item": "https://infiniteforge.tech/imagecolortools.html"
+                }
+            ]
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I adjust the brightness of my image?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use the brightness slider in the color adjustment panel. Drag the slider to increase or decrease brightness. Values above 0 increase brightness, while values below 0 decrease it."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I adjust contrast and saturation together?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can adjust contrast, saturation, and other color properties simultaneously. The changes are applied in real-time, allowing you to see the combined effect of all adjustments."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is my image data secure when using this tool?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, all image processing happens locally in your browser. Your images never leave your device, ensuring complete privacy and security."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What image formats are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The tool supports all common image formats including JPEG, PNG, WebP, BMP, and GIF. Images are processed using HTML5 Canvas technology."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 font-poppins min-h-screen">
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-blue-600 font-medium hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        </div>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="text-center">
+            <div class="spinner mx-auto mb-2"></div>
+            <p class="text-gray-600">Processing your image...</p>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-8 mt-16">
+        <h1 class="text-4xl font-bold text-center mb-8 pt-8">Image Color Tools</h1>
+        
+        
+        <div class="mx-auto text-center mb-8">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="your-client-id"
+                data-ad-slot="your-ad-slot"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        
+        
+        <section class="mb-8 text-center max-w-2xl mx-auto">
+            <p class="text-gray-600 mb-4">
+                Transform your images with our professional color adjustment tools. Enhance colors, adjust brightness,
+                apply filters, and perfect your photos with our easy-to-use interface.
+            </p>
+        </section>
+
+        <!-- Image Upload Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="border-dashed border-2 border-gray-300 rounded-lg p-8 text-center" id="dropZone">
+                <input type="file" id="imageInput" accept="image/*" class="hidden">
+                <label for="imageInput" class="cursor-pointer">
+                    <div class="mb-4">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <p class="text-gray-600">Drag and drop an image here or click to upload</p>
+                </label>
+            </div>
+        </section>
+
+        <!-- Image Editor Section -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Canvas Area -->
+            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <canvas id="imageCanvas" class="w-full border rounded-lg"></canvas>
+            </div>
+
+            <!-- Controls Area -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <!-- Color Adjustments -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Color Adjustments</h3>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Brightness</label>
+                        <input type="range" min="-100" max="100" value="0" class="w-full" id="brightnessSlider">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Contrast</label>
+                        <input type="range" min="-100" max="100" value="0" class="w-full" id="contrastSlider">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Saturation</label>
+                        <input type="range" min="-100" max="100" value="0" class="w-full" id="saturationSlider">
+                    </div>
+                </div>
+
+                <!-- Color Filters -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Filters</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="applyFilter('grayscale')">Grayscale</button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="applyFilter('sepia')">Sepia</button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="applyFilter('invert')">Invert</button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="applyFilter('vintage')">Vintage</button>
+                    </div>
+                </div>
+
+                <!-- Color Picker and Replace -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Color Tools</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <input type="color" id="colorPicker" class="w-12 h-12">
+                            <div>
+                                <div class="mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Selected Color:</span>
+                                    <span class="color-preview ml-2" id="selectedColorPreview"></span>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded text-sm" onclick="startColorPick()">Pick Color</button>
+                                    <button class="bg-green-500 text-white px-4 py-2 rounded text-sm" onclick="replaceColor()">Replace Color</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="text-sm font-medium text-gray-700">Tolerance:</label>
+                            <input type="range" min="0" max="100" value="30" class="flex-grow" id="toleranceSlider">
+                            <span id="toleranceValue" class="text-sm text-gray-600">30%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-2">
+                    <button class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="saveImage()">Save Image</button>
+                    <button class="w-full bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="resetImage()">Reset Changes</button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="mt-8 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4">About Image Color Tools</h2>
+            <div class="prose max-w-none">
+                <p class="mb-4">
+                    Our Image Color Tools provide professional-grade color adjustment capabilities right in your browser.
+                    Perfect for photographers, designers, and anyone looking to enhance their images.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>Adjust brightness, contrast, and saturation with precision</li>
+                    <li>Apply professional filters with one click</li>
+                    <li>Pick and replace colors using our advanced color picker</li>
+                    <li>Save your edited images in high quality</li>
+                </ul>
+                <p class="text-sm text-gray-600">
+                    By using this tool, you agree to our <a href="privacy.html" class="text-blue-600 hover:underline">Privacy Policy</a>
+                    and <a href="terms.html" class="text-blue-600 hover:underline">Terms of Service</a>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Ad Placeholder 111 -->
+        <div class="mt-10 flex justify-center">
+            
+        </div>
+
+        <!-- Social Sharing Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share Our Image Color Tools</h2>
+            <p class="text-gray-600 text-center mb-6">Help others discover our free image color adjustment tools</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="https://twitter.com/intent/tweet?text=Adjust%20image%20colors%20for%20free%20with%20InfiniteForge%20-%20brightness%2C%20contrast%2C%20saturation%20controls&url=https://infiniteforge.tech/imagecolortools.html&via=InfiniteForgeTools"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="twitter" class="w-5 h-5"></i>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/imagecolortools.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="facebook" class="w-5 h-5"></i>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/imagecolortools.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                    <span>Share on LinkedIn</span>
+                </a>
+                <a href="https://wa.me/?text=Check%20out%20these%20free%20image%20color%20adjustment%20tools:%20https://infiniteforge.tech/imagecolortools.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="message-circle" class="w-5 h-5"></i>
+                    <span>Share on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Newsletter Signup Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mt-10">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Stay Updated</h2>
+                <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
+                </p>
+                <form class="max-w-md mx-auto flex gap-3">
+                    <input type="email" placeholder="Enter your email"
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
+            </div>
+        </div>
+        
+    </main>
+
+    <script>
+        // Initialize Fabric.js canvas
+        const canvas = new fabric.Canvas('imageCanvas');
+        let originalImage = null;
+
+        // Set up drag and drop
+        const dropZone = document.getElementById('dropZone');
+        const imageInput = document.getElementById('imageInput');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-blue-500');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-blue-500');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-500');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                loadImage(file);
+            }
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        });
+
+        function loadImage(file) {
+            if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                alert('File size too large. Please choose an image under 10MB.');
+                return;
+            }
+
+            showLoading();
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                fabric.Image.fromURL(e.target.result, (img) => {
+                    // Scale image to fit canvas
+                    const scale = Math.min(
+                        canvas.width / img.width,
+                        canvas.height / img.height
+                    );
+                    img.scale(scale);
+                    
+                    canvas.clear();
+                    canvas.add(img);
+                    canvas.centerObject(img);
+                    originalImage = img;
+                    canvas.renderAll();
+                    hideLoading();
+
+                    // Reset all controls
+                    document.getElementById('brightnessSlider').value = 0;
+                    document.getElementById('contrastSlider').value = 0;
+                    document.getElementById('saturationSlider').value = 0;
+                    document.getElementById('toleranceSlider').value = 30;
+                    document.getElementById('toleranceValue').textContent = '30%';
+                    selectedColor = null;
+                    document.getElementById('selectedColorPreview').style.backgroundColor = 'transparent';
+                });
+            };
+
+            reader.onerror = () => {
+                hideLoading();
+                alert('Error loading image. Please try again.');
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        // Color adjustment functions
+        document.getElementById('brightnessSlider').addEventListener('input', updateFilters);
+        document.getElementById('contrastSlider').addEventListener('input', updateFilters);
+        document.getElementById('saturationSlider').addEventListener('input', updateFilters);
+
+        function updateFilters() {
+            if (!originalImage) return;
+
+            const brightness = parseFloat(document.getElementById('brightnessSlider').value);
+            const contrast = parseFloat(document.getElementById('contrastSlider').value);
+            const saturation = parseFloat(document.getElementById('saturationSlider').value);
+
+            originalImage.filters = [];
+
+            if (brightness !== 0) {
+                originalImage.filters.push(new fabric.Image.filters.Brightness({
+                    brightness: brightness / 100
+                }));
+            }
+
+            if (contrast !== 0) {
+                originalImage.filters.push(new fabric.Image.filters.Contrast({
+                    contrast: contrast / 100
+                }));
+            }
+
+            if (saturation !== 0) {
+                originalImage.filters.push(new fabric.Image.filters.Saturation({
+                    saturation: saturation / 100
+                }));
+            }
+
+            originalImage.applyFilters();
+            canvas.renderAll();
+        }
+
+        function applyFilter(filterType) {
+            if (!originalImage) return;
+
+            switch (filterType) {
+                case 'grayscale':
+                    originalImage.filters.push(new fabric.Image.filters.Grayscale());
+                    break;
+                case 'sepia':
+                    originalImage.filters.push(new fabric.Image.filters.Sepia());
+                    break;
+                case 'invert':
+                    originalImage.filters.push(new fabric.Image.filters.Invert());
+                    break;
+                case 'vintage':
+                    // Custom vintage filter
+                    originalImage.filters.push(
+                        new fabric.Image.filters.Sepia(),
+                        new fabric.Image.filters.Contrast({ contrast: 0.15 }),
+                        new fabric.Image.filters.Saturation({ saturation: -0.5 })
+                    );
+                    break;
+            }
+
+            originalImage.applyFilters();
+            canvas.renderAll();
+        }
+
+        let isPickingColor = false;
+        let selectedColor = null;
+        let originalImageData = null;
+
+        function startColorPick() {
+            isPickingColor = true;
+            canvas.defaultCursor = 'crosshair';
+            canvas.selection = false;
+            
+            // Store original image data
+            if (originalImage) {
+                originalImageData = originalImage.toDataURL();
+            }
+            
+            canvas.on('mouse:move', showColorPreview);
+            canvas.on('mouse:down', pickColor);
+        }
+
+        function showColorPreview(event) {
+            if (!isPickingColor || !originalImage) return;
+            
+            const pointer = canvas.getPointer(event.e);
+            const context = canvas.getContext('2d');
+            const pixelData = context.getImageData(pointer.x, pointer.y, 1, 1).data;
+            const color = `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`;
+            
+            document.getElementById('selectedColorPreview').style.backgroundColor = color;
+        }
+
+        function pickColor(event) {
+            if (!isPickingColor || !originalImage) return;
+            
+            const pointer = canvas.getPointer(event.e);
+            const context = canvas.getContext('2d');
+            const pixelData = context.getImageData(pointer.x, pointer.y, 1, 1).data;
+            selectedColor = { r: pixelData[0], g: pixelData[1], b: pixelData[2] };
+            
+            // Update color picker and preview
+            const hexColor = rgbToHex(selectedColor.r, selectedColor.g, selectedColor.b);
+            document.getElementById('colorPicker').value = hexColor;
+            document.getElementById('selectedColorPreview').style.backgroundColor = hexColor;
+            
+            // Clean up
+            isPickingColor = false;
+            canvas.defaultCursor = 'default';
+            canvas.selection = true;
+            canvas.off('mouse:move', showColorPreview);
+            canvas.off('mouse:down', pickColor);
+        }
+
+        function replaceColor() {
+            if (!selectedColor || !originalImage) return;
+            
+            showLoading();
+            
+            const targetColor = hexToRgb(document.getElementById('colorPicker').value);
+            const tolerance = parseInt(document.getElementById('toleranceSlider').value) / 100;
+            
+            // Create a temporary canvas to manipulate pixel data
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = originalImage.width;
+            tempCanvas.height = originalImage.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Draw the original image to get its pixel data
+            originalImage.render(tempCtx);
+            const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            const pixels = imageData.data;
+            
+            // Replace colors within tolerance
+            for (let i = 0; i < pixels.length; i += 4) {
+                const r = pixels[i];
+                const g = pixels[i + 1];
+                const b = pixels[i + 2];
+                
+                const colorDiff = colorDistance(r, g, b, selectedColor.r, selectedColor.g, selectedColor.b);
+                
+                if (colorDiff <= tolerance * 255) {
+                    pixels[i] = targetColor.r;
+                    pixels[i + 1] = targetColor.g;
+                    pixels[i + 2] = targetColor.b;
+                }
+            }
+            
+            tempCtx.putImageData(imageData, 0, 0);
+            
+            // Update the canvas with the new image
+            fabric.Image.fromURL(tempCanvas.toDataURL(), function(img) {
+                canvas.clear();
+                canvas.add(img);
+                canvas.centerObject(img);
+                originalImage = img;
+                hideLoading();
+            });
+        }
+
+        function colorDistance(r1, g1, b1, r2, g2, b2) {
+            return Math.sqrt(
+                Math.pow(r1 - r2, 2) +
+                Math.pow(g1 - g2, 2) +
+                Math.pow(b1 - b2, 2)
+            ) / Math.sqrt(195075); // Normalized to [0,1]
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        function saveImage() {
+            const dataURL = canvas.toDataURL({
+                format: 'png',
+                quality: 1
+            });
+            const link = document.createElement('a');
+            link.download = 'edited-image.png';
+            link.href = dataURL;
+            link.click();
+        }
+
+        function resetImage() {
+            if (!originalImage) return;
+            
+            // Reset all sliders
+            document.getElementById('brightnessSlider').value = 0;
+            document.getElementById('contrastSlider').value = 0;
+            document.getElementById('saturationSlider').value = 0;
+
+            // Clear filters
+            originalImage.filters = [];
+            originalImage.applyFilters();
+            canvas.renderAll();
+        }
+
+        // Tolerance slider update
+        document.getElementById('toleranceSlider').addEventListener('input', function(e) {
+            document.getElementById('toleranceValue').textContent = e.target.value + '%';
+        });
+
+        // Initialize canvas size
+        function resizeCanvas() {
+            const container = canvas.wrapperEl.parentNode;
+            const width = container.clientWidth;
+            canvas.setDimensions({ width: width, height: width * 0.75 });
+            
+            // Re-center image if it exists
+            if (originalImage) {
+                canvas.centerObject(originalImage);
+                canvas.renderAll();
+            }
+        }
+
+        // Error handling for canvas operations
+        canvas.on('error', function(err) {
+            console.error('Canvas error:', err);
+            hideLoading();
+            alert('An error occurred while processing the image. Please try again.');
+        });
+
+        window.addEventListener('resize', debounce(resizeCanvas, 250));
+        resizeCanvas();
+
+        // Utility function for debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        };
+    </script>
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Auto-close mobile menu on scroll or link click
+        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+
+        <div class="bg-white rounded-lg shadow-lg p-4 border">
+            <div class="flex flex-col space-y-3">
+                <button id="shareToggle" class="text-gray-600 hover:text-blue-600 transition-colors">
+                    <i data-feather="share-2" class="w-6 h-6"></i>
+                </button>
+                <div id="shareButtons" class="hidden flex flex-col space-y-2">
+                    <a href="https://twitter.com/intent/tweet?text=Adjust%20image%20colors%20for%20free%20with%20InfiniteForge%20-%20brightness%2C%20contrast%2C%20saturation%20controls&url=https://infiniteforge.tech/imagecolortools.html&via=InfiniteForgeTools"
+                       target="_blank" rel="noopener noreferrer"
+                       class="text-blue-400 hover:text-blue-500 transition-colors p-2 rounded hover:bg-blue-50"
+                       title="Share on Twitter">
+                        <i data-feather="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/imagecolortools.html"
+                       target="_blank" rel="noopener noreferrer"
+                       class="text-blue-600 hover:text-blue-700 transition-colors p-2 rounded hover:bg-blue-50"
+                       title="Share on Facebook">
+                        <i data-feather="facebook" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/imagecolortools.html"
+                       target="_blank" rel="noopener noreferrer"
+                       class="text-blue-700 hover:text-blue-800 transition-colors p-2 rounded hover:bg-blue-50"
+                       title="Share on LinkedIn">
+                        <i data-feather="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://wa.me/?text=Check%20out%20these%20free%20image%20color%20adjustment%20tools:%20https://infiniteforge.tech/imagecolortools.html"
+                       target="_blank" rel="noopener noreferrer"
+                       class="text-green-500 hover:text-green-600 transition-colors p-2 rounded hover:bg-green-50"
+                       title="Share on WhatsApp">
+                        <i data-feather="message-circle" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Floating Share Widget Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareToggle = document.getElementById('shareToggle');
+            const shareButtons = document.getElementById('shareButtons');
+            const floatingWidget = document.getElementById('floatingShareWidget');
+
+            // Show widget after scrolling
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    floatingWidget.classList.remove('hidden');
+                } else {
+                    floatingWidget.classList.add('hidden');
+                    shareButtons.classList.add('hidden');
+                }
+            });
+
+            // Toggle share buttons
+            shareToggle.addEventListener('click', function() {
+                shareButtons.classList.toggle('hidden');
+            });
+
+            // Re-initialize Feather icons for the widget
+            setTimeout(() => {
+                feather.replace();
+            }, 100);
+        });
+    </script>
+<a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener" style="margin:0 6px">Linkedin</a> <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener" style="margin:0 6px">Twitter</a> <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener" style="margin:0 6px">Youtube</a> <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener" style="margin:0 6px">Instagram</a> <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener" style="margin:0 6px">Facebook</a></div>
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>
+
+
+

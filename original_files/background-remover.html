@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfiniteForge - Background Remover | Free Online Image Tools</title>
+    <meta name="description"
+        content="Remove backgrounds from images instantly in your browser with InfiniteForge. No uploads, no watermarks, completely free. Perfect for creators and designers.">
+    <meta name="keywords"
+        content="background remover, free online tools, privacy, InfiniteForge, browser-based, no watermark, image editing">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="InfiniteForge - Free Online Background Remover">
+    <meta property="og:description"
+        content="Remove image backgrounds instantly in your browser. No uploads, no watermarks, completely free.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/background-remover.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="InfiniteForge Tools">
+    <link rel="canonical" href="https://infiniteforge.tech/background-remover.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/background-remover.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="InfiniteForge - Free Online Background Remover">
+    <meta name="twitter:description" content="Remove image backgrounds instantly in your browser. No uploads, no watermarks, completely free.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta name="twitter:site" content="@InfiniteForgeTools">
+    <meta name="author" content="InfiniteForge">
+    <meta name="publisher" content="InfiniteForge">
+    <meta name="language" content="en-US">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="InfiniteForge Background Remover">
+    <meta name="application-name" content="InfiniteForge Background Remover">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" as="script">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Responsive social sharing section */
+        @media (max-width: 640px) {
+            .share-buttons-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .share-button {
+                width: 100%;
+            }
+        }
+        @media (min-width: 641px) and (max-width: 768px) {
+            .share-buttons-container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .share-button {
+                flex: 1 1 calc(50% - 0.5rem);
+            }
+        }
+    </style><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
+    <!-- Load TensorFlow scripts with defer to prevent render blocking -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0/dist/body-pix.min.js" defer></script>
+
+    <style>
+        .processing::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        body {
+            font-size: var(--fluid-font-size);
+        }
+
+        h1 { font-size: var(--fluid-h1) !important; }
+        h2 { font-size: var(--fluid-h2) !important; }
+        h3 { font-size: var(--fluid-h3) !important; }
+        p { font-size: var(--fluid-p) !important; }
+
+        @media (max-width: 640px) {
+            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+
+    <!-- Comprehensive Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Background Remover",
+        "description": "Free online tool for removing image backgrounds using AI-powered segmentation. Process images locally in your browser with no uploads required.",
+        "url": "https://infiniteforge.tech/background-remover.html",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Modern web browser with WebGL support",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "featureList": [
+            "AI-powered background removal",
+            "Real-time processing",
+            "Multiple output formats",
+            "Privacy-first design",
+            "No watermarks",
+            "High-quality results"
+        ],
+        "screenshot": "https://infiniteforge.tech/assets/letter-d.png"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "InfiniteForge Tools",
+        "url": "https://infiniteforge.tech",
+        "logo": "https://infiniteforge.tech/assets/letter-d.png",
+        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
+        "foundingDate": "2024",
+        "sameAs": [
+            "https://www.youtube.com/@echo14-w3y",
+            "https://x.com/HMahibala42802",
+            "https://www.linkedin.com/in/mahibala-h",
+            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
+            "https://www.facebook.com/61557410529583/"
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "InfiniteForge Tools",
+        "url": "https://infiniteforge.tech",
+        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfiniteForge Tools"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://infiniteforge.tech/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "InfiniteForge - Background Remover | Free Online Image Tools",
+        "description": "Remove backgrounds from images instantly in your browser with InfiniteForge. No uploads, no watermarks, completely free. Perfect for creators and designers.",
+        "url": "https://infiniteforge.tech/background-remover.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "InfiniteForge Tools",
+            "url": "https://infiniteforge.tech"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://infiniteforge.tech"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Background Remover",
+                    "item": "https://infiniteforge.tech/background-remover.html"
+                }
+            ]
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How does the background remover work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our tool uses AI-powered image segmentation to automatically detect and remove backgrounds from images. It processes everything locally in your browser using TensorFlow.js and BodyPix model."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is my image data secure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, all image processing happens locally in your browser. Your images never leave your device, ensuring complete privacy and security."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What image formats are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The tool supports all common image formats including JPEG, PNG, WebP, and BMP. Images are processed using HTML5 Canvas technology."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are there any watermarks on the processed images?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No, our tool produces clean images without any watermarks. All processing is done for free with no quality limitations."
+                }
+            }
+        ]
+    }
+    </script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+<!-- End Google Tag Manager -->
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+<body class="bg-gray-50 font-poppins">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-blue-600 font-medium hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+            <a href="contact.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Contact</a>
+        </div>
+    </nav>
+    <main class="w-full max-w-4xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="Breadcrumb" class="mb-6">
+            <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <li>
+                    <a href="index.html" class="hover:text-blue-600 transition-colors">
+                        <i data-feather="home" class="w-4 h-4 inline mr-1"></i>
+                        Home
+                    </a>
+                </li>
+                <li><i data-feather="chevron-right" class="w-4 h-4"></i></li>
+                <li aria-current="page" class="text-gray-700 font-medium">Background Remover</li>
+            </ol>
+        </nav>
+
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-3" itemprop="headline">
+                <span class="text-blue-600">InfiniteForge</span> Background Remover
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto" itemprop="description">
+                Remove backgrounds from your images instantly in your browser. No uploads, no watermarks, completely free. Perfect for
+                creators and designers.
+            </p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="grid md:grid-cols-2">
+                <div class="p-8 border-b md:border-b-0 md:border-r border-gray-100">
+                    <div id="dropZone"
+                        class="file-upload rounded-xl p-8 text-center cursor-pointer transition-all duration-300">
+                        <div class="mx-auto w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                            <i data-feather="upload" class="text-blue-500 w-8 h-8" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Drag & Drop Image</h3>
+                        <p class="text-gray-600 mb-4">or click to browse files</p>
+                        <label for="fileInput"
+                            class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 shadow-md">Select
+                            Image</label>
+                        <input type="file" id="fileInput" class="hidden" accept="image/*">
+                        <p id="fileName" class="mt-4 text-sm text-gray-600 truncate max-w-full">No file selected</p>
+                    </div>
+                    <div id="settingsPanel" class="mt-8 hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
+                            Processing Options
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="pt-2">
+                                <button id="removeButton" disabled
+                                    class="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center cursor-not-allowed">
+                                    <i data-feather="scissors" class="w-5 h-5 mr-2"></i>
+                                    Loading Library...
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 bg-gray-50">
+                    <div id="previewPlaceholder" class="text-center py-12">
+                        <div class="mx-auto w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                            <i data-feather="image" class="text-gray-400 w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Image Preview</h3>
+                        <p class="text-gray-400">Your background-removed image will appear here</p>
+                    </div>
+                    <div id="previewContainer" class="hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                                <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-500"></i>
+                                Background Removed
+                            </h3>
+                            <span id="dimensionsDisplay" class="text-sm text-gray-600"></span>
+                        </div>
+                        <div class="relative bg-white p-4 rounded-lg shadow-inner border border-gray-200 mb-4 max-w-full overflow-auto">
+                            <canvas id="canvas" class="max-w-full h-auto rounded-lg"></canvas>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a id="downloadButton" href="#" download="background-removed.png"
+                                class="flex-1 bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center">
+                                <i data-feather="download" class="w-5 h-5 mr-2"></i>
+                                Download
+                            </a>
+                            <button id="resetButton"
+                                class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center">
+                                <i data-feather="trash-2" class="w-5 h-5 mr-2"></i>
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-10 text-center text-gray-600 text-sm">
+            <p>Made with <span class="text-red-400">♥</span> for creators worldwide</p>
+        </div>
+
+        <!-- Ad Placeholder 111 -->
+        <div class="mt-10 flex justify-center">
+            
+        </div>
+
+        <!-- Social Sharing Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10 social-sharing-section">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share Our Background Remover</h2>
+            <p class="text-gray-600 text-center mb-6">Help others discover our free AI-powered background removal tool</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+                <a href="https://twitter.com/intent/tweet?text=Remove%20image%20backgrounds%20for%20free%20with%20InfiniteForge%20-%20AI-powered%2C%20no%20uploads%2C%20no%20watermarks&url=https://infiniteforge.tech/background-remover.html&via=InfiniteForgeTools"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="twitter" class="w-5 h-5"></i>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/background-remover.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="facebook" class="w-5 h-5"></i>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/background-remover.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                    <span>Share on LinkedIn</span>
+                </a>
+                <a href="https://wa.me/?text=Check%20out%20this%20free%20AI-powered%20background%20remover:%20https://infiniteforge.tech/background-remover.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="message-circle" class="w-5 h-5"></i>
+                    <span>Share on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Newsletter Signup Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mt-10">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Stay Updated</h2>
+                <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
+                </p>
+                <form class="max-w-md mx-auto flex gap-3">
+                    <input type="email" placeholder="Enter your email"
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- About Background Removal Section -->
+    <section class="max-w-4xl mx-auto px-4 py-12">
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">About Background Removal</h2>
+            <div class="prose max-w-none">
+                <p class="mb-4 text-gray-700">
+                    Background removal is a powerful image editing technique that allows you to isolate subjects from their backgrounds.
+                    Our free online tool uses advanced AI-powered algorithms to automatically detect and remove backgrounds,
+                    making it easy to create professional-looking images with transparent or custom backgrounds.
+                </p>
+
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">How Background Removal Works</h3>
+                <p class="mb-4 text-gray-700">
+                    Our background remover uses sophisticated machine learning models trained on millions of images to:
+                </p>
+                <ul class="list-disc pl-6 mb-4 text-gray-700">
+                    <li><strong>Edge Detection:</strong> Identifies the boundaries between foreground and background</li>
+                    <li><strong>Pixel Classification:</strong> Determines which pixels belong to the subject vs. background</li>
+                    <li><strong>Refinement:</strong> Applies smoothing and refinement to create clean, professional results</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Benefits of Background Removal</h3>
+                <p class="mb-4 text-gray-700">
+                    Removing backgrounds from images offers numerous advantages:
+                </p>
+                <ul class="list-disc pl-6 mb-4 text-gray-700">
+                    <li><strong>Professional Product Photos:</strong> Create clean product images for e-commerce</li>
+                    <li><strong>Custom Backgrounds:</strong> Place subjects on any background color or image</li>
+                    <li><strong>Logo Creation:</strong> Extract logos and graphics for branding</li>
+                    <li><strong>Social Media:</strong> Prepare images for platforms requiring transparent backgrounds</li>
+                    <li><strong>Graphic Design:</strong> Composite images and create layered designs</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Supported Formats and Compatibility</h3>
+                <p class="mb-4 text-gray-700">
+                    Our tool works with all major image formats:
+                </p>
+                <ul class="list-disc pl-6 mb-4 text-gray-700">
+                    <li><strong>JPEG/JPG:</strong> Standard photo format (output as PNG with transparency)</li>
+                    <li><strong>PNG:</strong> Supports transparency and works well with detailed images</li>
+                    <li><strong>WebP:</strong> Modern format with good compression</li>
+                    <li><strong>BMP/TIFF:</strong> High-quality formats for professional use</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Privacy and Security</h3>
+                <p class="mb-4 text-gray-700">
+                    Your image privacy is our top priority. All processing happens directly in your web browser using
+                    client-side AI models, meaning your images never leave your device or get uploaded to any external servers.
+                    This approach ensures complete confidentiality for sensitive business images, personal photos, and creative projects.
+                </p>
+
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Best Practices for Background Removal</h3>
+                <p class="mb-4 text-gray-700">
+                    To achieve optimal results with background removal:
+                </p>
+                <ul class="list-disc pl-6 mb-4 text-gray-700">
+                    <li>Use high-contrast images with clear subject-background separation</li>
+                    <li>Avoid busy or complex backgrounds that may confuse the algorithm</li>
+                    <li>Ensure good lighting and focus on the subject</li>
+                    <li>Consider manual refinement for complex subjects</li>
+                    <li>Test with different image types to understand limitations</li>
+                </ul>
+
+                <p class="text-sm text-gray-600">
+                    By using our background remover, you agree to our <a href="privacy.html" class="text-blue-600 hover:underline">Privacy Policy</a>
+                    and <a href="terms.html" class="text-blue-600 hover:underline">Terms of Service</a>.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">How does the background remover work?</h3>
+                    <p class="text-gray-700">Our background remover uses advanced AI technology powered by TensorFlow.js and BodyPix to automatically detect and remove backgrounds from images. The AI analyzes your image to identify the main subject (typically people) and creates a precise mask to separate it from the background. All processing happens directly in your browser for maximum privacy and speed.</p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Is my data safe and private?</h3>
+                    <p class="text-gray-700">Absolutely! Your privacy is our top priority. All image processing happens locally in your web browser using client-side AI models. Your images never leave your device, are never uploaded to our servers, and no data is stored or transmitted. This approach ensures complete confidentiality for your personal photos and business images.</p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">What image formats are supported?</h3>
+                    <p class="text-gray-700">We support all major image formats commonly used on the web, including JPEG, PNG, WebP, BMP, and TIFF. The processed image is saved as a PNG file with transparency, making it perfect for use in graphic design, e-commerce, or any application requiring transparent backgrounds.</p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Is there a file size limit?</h3>
+                    <p class="text-gray-700">While there's no strict file size limit, very large images (over 10MB) may take longer to process due to the computational requirements of AI processing. For optimal performance, we recommend images under 5MB. The processing time depends on your device's capabilities and the complexity of the image.</p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Why does the first use take longer?</h3>
+                    <p class="text-gray-700">The first time you use the background remover, our AI model needs to download (approximately 8MB of model data). This download happens only once and is cached in your browser for future use. Subsequent processing is much faster, typically taking just a few seconds depending on your image size and device performance.</p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">What types of images work best?</h3>
+                    <p class="text-gray-700">The AI works best with images containing people or clear subjects with good contrast against the background. Images with complex backgrounds, multiple subjects, or low contrast may require some manual refinement. For best results, use high-quality images with good lighting and clear subject-background separation.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Can I use the processed images commercially?</h3>
+                    <p class="text-gray-700">Yes! You retain all rights to your original images and the processed results. Our tool simply helps you remove backgrounds - you own the copyright to your images. The processed images are yours to use for any personal or commercial purpose, including e-commerce, marketing materials, social media, and more.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Related Tools</h2>
+            <p class="text-gray-700 text-center mb-8 max-w-2xl mx-auto">
+                Explore our other free image processing tools to enhance your creative workflow.
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="imagecompressor.html" class="block p-6 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="compress" class="w-6 h-6 text-blue-500 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800">Image Compressor</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Reduce image file sizes while maintaining quality for faster web loading.</p>
+                </a>
+
+                <a href="imageresizer.html" class="block p-6 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="maximize" class="w-6 h-6 text-blue-500 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800">Image Resizer</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Resize images to specific dimensions for social media, print, or web use.</p>
+                </a>
+
+                <a href="imageconverter.html" class="block p-6 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="refresh-cw" class="w-6 h-6 text-blue-500 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800">Image Converter</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Convert between different image formats (JPEG, PNG, WebP, etc.).</p>
+                </a>
+
+                <a href="imagefilters.html" class="block p-6 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="filter" class="w-6 h-6 text-blue-500 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800">Image Filters</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Apply artistic filters and effects to enhance your images.</p>
+                </a>
+
+                <a href="imageenhancement.html" class="block p-6 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="zap" class="w-6 h-6 text-blue-500 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800">Image Enhancement</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Improve image quality with AI-powered enhancement tools.</p>
+                </a>
+
+                <a href="ocr.html" class="block p-6 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="file-text" class="w-6 h-6 text-blue-500 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800">OCR Tool</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Extract text from images using optical character recognition.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Follow Us on Social Media</h2>
+            <p class="text-gray-700 text-center mb-8 max-w-2xl mx-auto">
+                Stay updated with the latest image editing tips, new features, and digital media insights
+                from InfiniteForge. Join our community of creators and professionals.
+            </p>
+            <div class="flex justify-center space-x-8">
+                <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer" class="text-red-600 hover:text-red-800 transition-colors">
+                    <i data-feather="youtube" class="w-10 h-10" aria-label="YouTube"></i>
+                </a>
+                <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 transition-colors">
+                    <i data-feather="twitter" class="w-10 h-10" aria-label="Twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 transition-colors">
+                    <i data-feather="linkedin" class="w-10 h-10" aria-label="LinkedIn"></i>
+                </a>
+                <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener noreferrer" class="text-pink-600 hover:text-pink-800 transition-colors">
+                    <i data-feather="instagram" class="w-10 h-10" aria-label="Instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition-colors">
+                    <i data-feather="facebook" class="w-10 h-10" aria-label="Facebook"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script>
+        let bodyPixNet = null;
+        let isModelLoading = true;
+
+        // Initialize BodyPix model
+        async function loadModel() {
+            try {
+                console.log('Loading BodyPix model...');
+                const removeButton = document.getElementById('removeButton');
+                bodyPixNet = await bodyPix.load({
+                    architecture: 'MobileNetV1',
+                    outputStride: 16,
+                    multiplier: 0.75,
+                    quantBytes: 2
+                });
+                isModelLoading = false;
+                console.log('Model loaded successfully');
+                
+                if (removeButton) {
+                    removeButton.disabled = false;
+                    removeButton.className = removeButton.className.replace('bg-gray-400 hover:bg-gray-500 cursor-not-allowed', 'bg-blue-500 hover:bg-blue-600');
+                    removeButton.innerHTML = '<i data-feather="scissors" class="w-5 h-5 mr-2"></i>Remove Background';
+                    feather.replace();
+                }
+            } catch (error) {
+                console.error('Failed to load BodyPix model:', error);
+                showToast('Failed to load background removal model. Please check your internet connection and refresh the page.');
+            }
+        }
+
+        // Start loading the model when the page loads
+        loadModel();
+
+        window.addEventListener('load', function() {
+            feather.replace();
+            AOS.init({ duration: 800, once: true });
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Close mobile menu when scrolling
+            window.addEventListener('scroll', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            const fileInput = document.getElementById('fileInput');
+            const fileNameSpan = document.getElementById('fileName');
+            const dropZone = document.getElementById('dropZone');
+            const settingsPanel = document.getElementById('settingsPanel');
+            const removeButton = document.getElementById('removeButton');
+            const previewPlaceholder = document.getElementById('previewPlaceholder');
+            const previewContainer = document.getElementById('previewContainer');
+            const canvas = document.getElementById('canvas');
+            const downloadButton = document.getElementById('downloadButton');
+            const resetButton = document.getElementById('resetButton');
+            const dimensionsDisplay = document.getElementById('dimensionsDisplay');
+            const ctx = canvas.getContext('2d');
+            let originalImage = null;
+            let originalWidth = 0;
+            let originalHeight = 0;
+
+            fileInput.addEventListener('change', handleFileSelect);
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() { dropZone.classList.add('dragover'); }
+            function unhighlight() { dropZone.classList.remove('dragover'); }
+
+            dropZone.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length) {
+                    fileInput.files = files;
+                    handleFileSelect({ target: fileInput });
+                }
+            }
+
+            function handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (!file.type.match('image.*')) {
+                    showToast('Please select an image file (JPEG, PNG, etc.)');
+                    return;
+                }
+                fileNameSpan.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        originalImage = img;
+                        originalWidth = img.naturalWidth;
+                        originalHeight = img.naturalHeight;
+                        settingsPanel.classList.remove('hidden');
+                        previewPlaceholder.classList.add('hidden');
+                        previewContainer.classList.remove('hidden');
+                        canvas.width = originalWidth;
+                        canvas.height = originalHeight;
+                        ctx.drawImage(img, 0, 0, originalWidth, originalHeight);
+                        dimensionsDisplay.textContent = `${originalWidth} × ${originalHeight} px`;
+                        // Enable button if library is loaded
+                        removeButton.disabled = !libraryLoaded;
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            removeButton.addEventListener('click', async () => {
+                if (!originalImage) {
+                    showToast('Please select an image first');
+                    return;
+                }
+                if (isModelLoading || !bodyPixNet) {
+                    showToast('Background removal model is still loading. Please wait a moment and try again.');
+                    return;
+                }
+                removeButton.disabled = true;
+                removeButton.innerHTML = '<span class="loader mr-2"></span>Removing Background...';
+
+                try {
+                    // Process the image with BodyPix
+                    const segmentation = await bodyPixNet.segmentPerson(originalImage, {
+                        flipHorizontal: false,
+                        internalResolution: 'medium',
+                        segmentationThreshold: 0.7
+                    });
+
+                    // Create a transparent canvas for the output
+                    const outputCanvas = document.createElement('canvas');
+                    outputCanvas.width = originalWidth;
+                    outputCanvas.height = originalHeight;
+                    const outputCtx = outputCanvas.getContext('2d');
+
+                    // Create a temporary canvas for the foreground
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = originalWidth;
+                    tempCanvas.height = originalHeight;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.drawImage(originalImage, 0, 0);
+
+                    // Get image data
+                    const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                    const pixels = imageData.data;
+
+                    // Apply the mask
+                    for (let i = 0; i < segmentation.data.length; i++) {
+                        const pixelIndex = i * 4;
+                        if (!segmentation.data[i]) { // If not a person, make transparent
+                            pixels[pixelIndex + 3] = 0;
+                        }
+                    }
+
+                    // Draw the processed image data
+                    outputCtx.putImageData(imageData, 0, 0);
+
+                    // Update the main canvas
+                    canvas.width = originalWidth;
+                    canvas.height = originalHeight;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(outputCanvas, 0, 0);
+
+                    // Update download button
+                    const dataUrl = outputCanvas.toDataURL('image/png');
+                    downloadButton.href = dataUrl;
+                    downloadButton.download = 'background-removed.png';
+
+                    dimensionsDisplay.textContent = `${originalWidth} × ${originalHeight} px`;
+                    showToast('Background removed successfully!');
+
+                } catch (error) {
+                    console.error('Error processing image:', error);
+                    showToast('Error removing background. Please try again.');
+                } finally {
+                    removeButton.disabled = false;
+                    removeButton.innerHTML = '<i data-feather="scissors" class="w-5 h-5 mr-2"></i>Remove Background';
+                    feather.replace();
+                }
+            });
+
+            resetButton.addEventListener('click', () => {
+                fileInput.value = '';
+                fileNameSpan.textContent = 'No file selected';
+                settingsPanel.classList.add('hidden');
+                previewPlaceholder.classList.remove('hidden');
+                previewContainer.classList.add('hidden');
+                originalImage = null;
+            });
+
+            // Toast notification system
+            function showToast(message) {
+                let toast = document.getElementById('toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast';
+                    toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center z-50';
+                    document.body.appendChild(toast);
+                }
+                toast.textContent = message;
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 2500);
+            }
+        });
+    </script>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>
+
+
+

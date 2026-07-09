@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Compressor - Free Online Tool to Reduce PDF File Size</title>
+    <meta name="description" content="Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.">
+    <meta name="keywords" content="pdf compressor, reduce pdf size, compress pdf, free pdf compressor, online tool, InfiniteForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <meta property="og:title" content="InfiniteForge - PDF Compressor">
+    <meta property="og:description" content="Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/pdf-compressor.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
+    <link rel="canonical" href="https://infiniteforge.tech/pdf-compressor.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="InfiniteForge - PDF Compressor">
+    <meta name="twitter:description" content="Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+        body {
+            font-size: var(--fluid-font-size);
+        }
+        h1 {
+            font-size: var(--fluid-h1) !important;
+        }
+        h2 {
+            font-size: var(--fluid-h2) !important;
+        }
+        h3 {
+            font-size: var(--fluid-h3) !important;
+        }
+        p {
+            font-size: var(--fluid-p) !important;
+        }
+        @media (max-width: 640px) {
+            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Loading spinner */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2563EB;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom styles for range slider */
+        input[type=range] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #DBEAFE;
+            border-radius: 5px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2563EB;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -8px;
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #DBEAFE;
+            border-radius: 5px;
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2563EB;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "InfiniteForge", "url": "https://infiniteforge.tech", "logo": "https://infiniteforge.tech/assets/letter-d.png", "sameAs": ["https://www.linkedin.com/in/mahibala-h", "https://x.com/HMahibala42802", "https://www.youtube.com/@echo14-w3y", "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy", "https://www.facebook.com/61557410529583/"]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "InfiniteForge - Free Online Tools", "url": "https://infiniteforge.tech", "description": "Free online tools for PDF editing, image processing, and document conversion. Organize PDFs, resize images, convert formats, and more.", "publisher": {"@type": "Organization", "name": "InfiniteForge"}, "potentialAction": {"@type": "SearchAction", "target": "https://infiniteforge.tech/search?q={search_term_string}", "query-input": "required name=search_term_string"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PDF Compressor - Free Online Tool to Reduce PDF File Size", "description": "Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.", "url": "https://infiniteforge.tech/pdf-compressor.html", "isPartOf": {"@type": "WebSite", "name": "InfiniteForge - Free Online Tools", "url": "https://infiniteforge.tech"}, "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Compressor", "item": "https://infiniteforge.tech/pdf-compressor.html"}]}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Compressor", "item": "https://infiniteforge.tech/pdf-compressor.html"}]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much can I compress a PDF file?", "acceptedAnswer": {"@type": "Answer", "text": "Compression depends on the original PDF content. Text-heavy PDFs may reduce by 20-50%, while image-heavy PDFs can compress by 50-80% or more."}}, {"@type": "Question", "name": "Will PDF compression affect quality?", "acceptedAnswer": {"@type": "Answer", "text": "Our tool maintains good quality while reducing file size. You can adjust compression levels to balance size reduction with quality preservation."}}, {"@type": "Question", "name": "Is PDF compression secure?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, all processing happens in your browser. Your PDF files are never uploaded to our servers, ensuring complete privacy and security."}}, {"@type": "Question", "name": "What file size limits apply?", "acceptedAnswer": {"@type": "Answer", "text": "You can compress PDFs up to 50MB in size. For larger files, consider splitting them first using our PDF tools."}}]}</script>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-blue-50 font-poppins overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="sm:hidden hidden bg-white border-t shadow-lg">
+            <div class="px-4 py-4 space-y-2">
+                <a href="index.html" class="block text-blue-600 font-medium">Home</a>
+                <a href="features.html" class="block text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                <a href="about.html" class="block text-gray-700 hover:text-blue-600 font-medium">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-4xl mx-auto pt-24 px-4">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl sm:text-5xl font-bold text-gray-800 mb-4">PDF Compressor</h1>
+            <p class="text-md sm:text-lg text-gray-600 max-w-3xl mx-auto">Reduce the file size of your PDFs while optimizing for maximal quality.</p>
+        </div>
+
+        <div class="bg-white/60 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden p-4 sm:p-8">
+            <div id="compressor-tool">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Upload your PDF</h3>
+                <p class="text-gray-600 mb-6">Select a PDF file to get started. The compression process runs securely in your browser.</p>
+                
+                <input type="file" id="pdf-file" accept=".pdf" class="block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer"/>
+                
+                <div id="file-info" class="mt-4 text-center hidden">
+                    <p class="font-semibold text-gray-700">File: <span id="file-name"></span></p>
+                    <p class="text-gray-600">Size: <span id="file-size"></span></p>
+                </div>
+
+                <div id="preview-section" class="mt-6 hidden">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2 text-center">PDF Preview (First Page)</h4>
+                    <canvas id="pdf-preview" class="border rounded-lg mx-auto w-full max-w-md"></canvas>
+                </div>
+
+                <div id="quality-section" class="mt-8 hidden">
+                    <label for="quality-slider" class="block text-lg font-semibold text-gray-800 mb-2">Compression Level</label>
+                    <p class="text-gray-600 mb-4">Lower quality results in a smaller file size.</p>
+                    <input type="range" id="quality-slider" min="0.1" max="1.0" step="0.1" value="0.7" class="w-full">
+                    <div class="flex justify-between text-sm text-gray-600 mt-2">
+                        <span>Low</span>
+                        <span>Medium</span>
+                        <span>High</span>
+                    </div>
+                    <div class="text-center mt-4">
+                        <p class="text-gray-800 font-semibold">Estimated Size: <span id="estimated-size" class="text-blue-600"></span></p>
+                    </div>
+                </div>
+
+                <button id="compress-btn" class="mt-8 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105" disabled>
+                    <i data-feather="minimize-2" class="inline-block mr-2"></i>Compress PDF
+                </button>
+
+                <div id="results-section" class="mt-8 text-center hidden p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <h4 class="text-xl font-bold text-green-800 mb-2">Compression Complete!</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-gray-700">
+                        <div>
+                            <p class="font-semibold">Original Size</p>
+                            <p id="original-size"></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Compressed Size</p>
+                            <p id="compressed-size"></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Reduction</p>
+                            <p id="reduction-percentage" class="text-green-600 font-bold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="loading-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                <div class="loader mx-auto"></div>
+                <p id="loading-message" class="mt-4 text-lg font-semibold text-gray-700">Processing...</p>
+            </div>
+        </div>
+
+        <!-- Ad Placeholder 111 -->
+        <div class="mt-10 flex justify-center">
+            
+        </div>
+
+        <!-- Social Sharing Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share Our PDF Compressor</h2>
+            <p class="text-gray-600 text-center mb-6">Help others discover our free PDF compression tool</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="https://twitter.com/intent/tweet?text=Compress%20PDF%20files%20online%20for%20free%20with%20InfiniteForge%20-%20Reduce%20file%20size%20without%20losing%20quality&url=https://infiniteforge.tech/pdf-compressor.html&via=InfiniteForgeTools"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="twitter" class="w-5 h-5"></i>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/pdf-compressor.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="facebook" class="w-5 h-5"></i>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/pdf-compressor.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                    <span>Share on LinkedIn</span>
+                </a>
+                <a href="https://wa.me/?text=Check%20out%20this%20free%20PDF%20compressor:%20https://infiniteforge.tech/pdf-compressor.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="message-circle" class="w-5 h-5"></i>
+                    <span>Share on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Newsletter Signup Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mt-10">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Stay Updated</h2>
+                <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
+                </p>
+                <form class="max-w-md mx-auto flex gap-3">
+                    <input type="email" placeholder="Enter your email"
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
+            </div>
+        </div>
+        
+    </main>    <footer class="bg-white/80 backdrop-blur-lg mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600">
+            <p class="font-semibold">&copy; 2025 InfiniteForge Tools. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Your privacy is our priority. All tools run directly in your browser, meaning your files are never uploaded to our servers.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Close mobile menu when scrolling
+            window.addEventListener('scroll', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            const pdfFileInput = document.getElementById('pdf-file');
+            const fileInfo = document.getElementById('file-info');
+            const fileNameSpan = document.getElementById('file-name');
+            const fileSizeSpan = document.getElementById('file-size');
+            const qualitySection = document.getElementById('quality-section');
+            const qualitySlider = document.getElementById('quality-slider');
+            const compressBtn = document.getElementById('compress-btn');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingMessage = document.getElementById('loading-message');
+            const estimatedSizeSpan = document.getElementById('estimated-size');
+
+            const previewSection = document.getElementById('preview-section');
+            const pdfPreviewCanvas = document.getElementById('pdf-preview');
+            const resultsSection = document.getElementById('results-section');
+            const originalSizeEl = document.getElementById('original-size');
+            const compressedSizeEl = document.getElementById('compressed-size');
+            const reductionEl = document.getElementById('reduction-percentage');
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js`;
+
+            let selectedFile = null;
+
+            function updateEstimatedSize() {
+                if (!selectedFile) return;
+                const quality = parseFloat(qualitySlider.value);
+                // This is a rough estimation. A more accurate one would require deeper analysis.
+                const estimated = selectedFile.size * quality * 0.5; // Assuming JPEG compression reduces size significantly
+                estimatedSizeSpan.textContent = `~${(estimated / 1024 / 1024).toFixed(2)} MB`;
+            }
+
+            pdfFileInput.addEventListener('change', (e) => {
+                selectedFile = e.target.files[0];
+                if (selectedFile) {
+                    fileNameSpan.textContent = selectedFile.name;
+                    fileSizeSpan.textContent = `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`;
+                    fileInfo.classList.remove('hidden');
+                    qualitySection.classList.remove('hidden');
+                    compressBtn.disabled = false;
+                    updateEstimatedSize();
+
+                    // Render preview of first page
+                    previewSection.style.visibility = 'hidden';
+                    previewSection.classList.remove('hidden');
+                    pdfPreviewCanvas.width = 1; pdfPreviewCanvas.height = 1;
+                    const reader = new FileReader();
+                    reader.onload = async function(e) {
+                        try {
+                            const pdfData = new Uint8Array(e.target.result);
+                            const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                            const pdf = await loadingTask.promise;
+                            const page = await pdf.getPage(1);
+                            
+                            // Temporarily unhide to measure, but keep it invisible
+                            previewSection.style.visibility = 'hidden';
+                            previewSection.classList.remove('hidden');
+                            
+                            const containerWidth = pdfPreviewCanvas.clientWidth;
+                            const scale = containerWidth / page.getViewport({ scale: 1.0 }).width;
+                            const viewport = page.getViewport({ scale: scale });
+                            
+                            const context = pdfPreviewCanvas.getContext('2d');
+                            pdfPreviewCanvas.width = viewport.width;
+                            pdfPreviewCanvas.height = viewport.height;
+                            
+                            await page.render({ canvasContext: context, viewport: viewport }).promise;
+                            
+                            // Make it visible now that it's rendered
+                            previewSection.style.visibility = 'visible';
+                        } catch (err) {
+                            console.error("Error rendering PDF preview:", err);
+                            previewSection.classList.add('hidden'); // Hide on error
+                            alert("Could not preview the selected PDF. It might be corrupted.");
+                        }
+                    };
+                    reader.readAsArrayBuffer(selectedFile);
+
+                    // Hide results section on new file
+                    resultsSection.classList.add('hidden');
+                } else {
+                    fileInfo.classList.add('hidden');
+                    qualitySection.classList.add('hidden');
+                    compressBtn.disabled = true;
+                    previewSection.classList.add('hidden');
+                    resultsSection.classList.add('hidden');
+                }
+            });
+
+            qualitySlider.addEventListener('input', updateEstimatedSize);
+
+            function showLoading(message) {
+                loadingMessage.textContent = message;
+                loadingOverlay.classList.remove('hidden');
+            }
+
+            function hideLoading() {
+                loadingOverlay.classList.add('hidden');
+            }
+
+            compressBtn.addEventListener('click', async () => {
+                if (!selectedFile) {
+                    alert('Please select a PDF file first.');
+                    return;
+                }
+
+                showLoading(`Compressing PDF... (0%)`);
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    const existingPdfBytes = await selectedFile.arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+                    const compressedPdfDoc = await PDFDocument.create();
+                    const numPages = pdfDoc.getPageCount();
+                    const quality = parseFloat(qualitySlider.value);
+
+                    const reader = new FileReader();
+                    reader.readAsArrayBuffer(selectedFile);
+                    
+                    reader.onload = async function(e) {
+                        const pdfData = new Uint8Array(e.target.result);
+                        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                        const pdf = await loadingTask.promise;
+
+                        for (let i = 0; i < numPages; i++) {
+                            const page = await pdf.getPage(i + 1);
+                            const viewport = page.getViewport({ scale: 1.0 });
+                            
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+
+                            await page.render({ canvasContext: context, viewport: viewport }).promise;
+                            
+                            const imageDataUrl = canvas.toDataURL('image/jpeg', quality);
+                            const imageBytes = await fetch(imageDataUrl).then(res => res.arrayBuffer());
+                            
+                            const image = await compressedPdfDoc.embedJpg(imageBytes);
+                            const newPage = compressedPdfDoc.addPage([image.width, image.height]);
+                            newPage.drawImage(image, {
+                                x: 0,
+                                y: 0,
+                                width: image.width,
+                                height: image.height,
+                            });
+                            
+                            const progress = Math.round(((i + 1) / numPages) * 100);
+                            showLoading(`Compressing PDF... (${progress}%)`);
+                        }
+
+                        const pdfBytes = await compressedPdfDoc.save();
+                        
+                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                        const originalSize = selectedFile.size;
+                        const compressedSize = blob.size;
+                        const reduction = (((originalSize - compressedSize) / originalSize) * 100).toFixed(2);
+
+                        if (typeof saveAs !== 'undefined') {
+                            saveAs(blob, `compressed-${selectedFile.name}`);
+                        } else {
+                            const link = document.createElement('a');
+                            link.href = URL.createObjectURL(blob);
+                            link.download = `compressed-${selectedFile.name}`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                        
+                        hideLoading();
+                        // Show results section
+                        originalSizeEl.textContent = `${(originalSize / 1024 / 1024).toFixed(2)} MB`;
+                        compressedSizeEl.textContent = `${(compressedSize / 1024 / 1024).toFixed(2)} MB`;
+                        reductionEl.textContent = `${reduction}%`;
+                        resultsSection.classList.remove('hidden');
+                    };
+
+                } catch (error) {
+                    console.error('Error compressing PDF:', error);
+                    hideLoading();
+                    alert('An error occurred during compression. The PDF might be encrypted or corrupted.');
+                }
+            });
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>
+
+
+

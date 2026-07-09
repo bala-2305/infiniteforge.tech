@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Maker & Editor | InfiniteForge - Free Online Tools</title>
+    <meta name="description" content="Create and edit GIF animations online with our free GIF maker. Combine multiple images, adjust timing, add effects, and customize your animations. No upload limits, no watermarks.">
+    <meta name="keywords" content="gif maker, gif editor, animation creator, gif generator, free online tools, gif animation, gif effects, InfiniteForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <meta property="og:title" content="GIF Maker & Editor | InfiniteForge - Free Online Tools">
+    <meta property="og:description" content="Create and edit GIF animations online. Combine images, adjust timing, add effects - all in your browser, no upload needed.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/gif-maker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <link rel="canonical" href="https://infiniteforge.tech/gif-maker.html">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/gif-maker.css">
+    <script src="https://unpkg.com/gif.js-upgrade/dist/gif.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .file-upload {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        .file-upload:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        .file-upload.dragover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        .preview-frame {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+        .frame-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+        }
+        .frame-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .frame-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .frame-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .frame-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 font-poppins">
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden sm:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
+            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+            <a href="contact.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Contact</a>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-4xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebApplication">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-3">
+                <span class="text-blue-600">GIF</span> Maker & Editor
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Create and edit GIF animations right in your browser. Combine images, adjust timing, add effects, and more.
+                No upload limits, no watermarks, completely free.
+            </p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="grid md:grid-cols-2">
+                <!-- Upload Section -->
+                <div class="p-8 border-b md:border-b-0 md:border-r border-gray-100">
+                    <div id="dropZone" class="file-upload rounded-xl p-8 text-center cursor-pointer transition-all duration-300">
+                        <div class="mx-auto w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                            <i data-feather="image" class="text-blue-500 w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Drag & Drop Images</h3>
+                        <p class="text-gray-600 mb-4">or click to browse files</p>
+                        <label for="fileInput" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 shadow-md">
+                            Select Images
+                        </label>
+                        <input type="file" id="fileInput" class="hidden" accept="image/*" multiple>
+                        <p class="mt-2 text-sm text-gray-500">Supports PNG, JPEG, WebP</p>
+                    </div>
+
+                    <!-- Settings Panel -->
+                    <div id="settingsPanel" class="mt-8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
+                            GIF Settings
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Frame Duration -->
+                            <div>
+                                <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Frame Duration (ms)
+                                </label>
+                                <input type="number" id="duration" value="500" min="50" max="5000" step="50"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+
+                            <!-- Loop Count -->
+                            <div>
+                                <label for="loops" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Loop Count (0 for infinite)
+                                </label>
+                                <input type="number" id="loops" value="0" min="0" max="100"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+
+                            <!-- Quality -->
+                            <div>
+                                <label for="quality" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Quality (1-10)
+                                </label>
+                                <input type="range" id="quality" min="1" max="10" value="7"
+                                    class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Lower Size</span>
+                                    <span>Better Quality</span>
+                                </div>
+                            </div>
+
+                            <!-- Create Button -->
+                            <button id="createGifButton" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center">
+                                <i data-feather="film" class="w-5 h-5 mr-2"></i>
+                                Create GIF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="p-8 bg-gray-50">
+                    <div id="previewPlaceholder" class="text-center py-12">
+                        <div class="mx-auto w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                            <i data-feather="image" class="text-gray-400 w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Frame Preview</h3>
+                        <p class="text-gray-400">Your selected frames will appear here</p>
+                    </div>
+
+                    <div id="framesPreview" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <i data-feather="layers" class="w-5 h-5 mr-2 text-blue-500"></i>
+                            Selected Frames
+                        </h3>
+                        
+                        <div class="frame-container mb-4"></div>
+
+                        <div id="gifPreview" class="hidden">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <i data-feather="play-circle" class="w-5 h-5 mr-2 text-green-500"></i>
+                                GIF Preview
+                            </h3>
+                            <div class="bg-white p-4 rounded-lg shadow-inner border border-gray-200 flex justify-center">
+                                <img id="gifResult" class="max-w-full h-auto rounded-lg">
+                            </div>
+                            <div class="flex gap-3 mt-4">
+                                <button id="downloadButton" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center">
+                                    <i data-feather="download" class="w-5 h-5 mr-2"></i>
+                                    Download GIF
+                                </button>
+                                <button id="resetButton" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center">
+                                    <i data-feather="trash-2" class="w-5 h-5 mr-2"></i>
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid sm:grid-cols-3 gap-6 mt-10">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-feather="zap" class="text-blue-500 w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Fast Processing</h3>
+                <p class="text-gray-600">Create GIFs instantly in your browser with our optimized engine. No waiting for uploads or server processing.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-feather="sliders" class="text-purple-500 w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Full Control</h3>
+                <p class="text-gray-600">Adjust frame timing, quality, and loop settings. Create the perfect animation for your needs.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-feather="shield" class="text-green-500 w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Privacy First</h3>
+                <p class="text-gray-600">All processing happens locally in your browser. Your images never leave your device.</p>
+            </div>
+        </div>
+
+        <!-- Usage Guide -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">How to Create a GIF</h2>
+            <div class="space-y-4">
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-blue-600 font-semibold">1</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Select Images</h3>
+                        <p class="text-gray-600">Drag and drop your images or click to browse. You can select multiple images at once.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-blue-600 font-semibold">2</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Adjust Settings</h3>
+                        <p class="text-gray-600">Set the frame duration, number of loops, and quality settings to your preference.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-blue-600 font-semibold">3</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Create & Download</h3>
+                        <p class="text-gray-600">Click 'Create GIF' to generate your animation, then download it when ready.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Sharing Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share GIF Maker</h2>
+            <p class="text-gray-600 text-center mb-6">Help others discover our free GIF creation tool</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+                <a href="https://twitter.com/intent/tweet?text=Create%20GIFs%20instantly%20with%20this%20free%20online%20tool!&url=https://infiniteforge.tech/gif-maker.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="twitter" class="w-5 h-5"></i>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/gif-maker.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="facebook" class="w-5 h-5"></i>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/gif-maker.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                    <span>Share on LinkedIn</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mt-10">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Stay Updated</h2>
+                <p class="text-gray-600 mb-6">Get notified about new features and updates.</p>
+                <form class="max-w-md mx-auto flex gap-3">
+                    <input type="email" placeholder="Enter your email"
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Processing Overlay -->
+    <div id="processingOverlay" class="processing-overlay hidden">
+        <div class="processing-content">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Creating GIF</h3>
+            <div class="loading-progress mb-4">
+                <div id="progressBar" class="loading-progress-bar" style="width: 0%"></div>
+            </div>
+            <p id="progressText" class="text-gray-600">Processing frames: 0%</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Close mobile menu when scrolling
+        window.addEventListener('scroll', () => {
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const framesPreview = document.getElementById('framesPreview');
+        const previewPlaceholder = document.getElementById('previewPlaceholder');
+        const frameContainer = document.querySelector('.frame-container');
+        const createGifButton = document.getElementById('createGifButton');
+        const gifPreview = document.getElementById('gifPreview');
+        const gifResult = document.getElementById('gifResult');
+        const downloadButton = document.getElementById('downloadButton');
+        const resetButton = document.getElementById('resetButton');
+        const durationInput = document.getElementById('duration');
+        const loopsInput = document.getElementById('loops');
+        const qualityInput = document.getElementById('quality');
+
+        let selectedFiles = [];
+
+        // File handling functions
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files || e.dataTransfer.files);
+            if (!files.length) return;
+
+            // Filter for images
+            const imageFiles = files.filter(file => file.type.startsWith('image/'));
+            if (imageFiles.length === 0) {
+                showToast('Please select image files only (PNG, JPEG, WebP)');
+                return;
+            }
+
+            selectedFiles = imageFiles;
+            displayFrames();
+        }
+
+        function displayFrames() {
+            frameContainer.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-frame';
+                    frameContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            previewPlaceholder.classList.add('hidden');
+            framesPreview.classList.remove('hidden');
+        }
+
+        // GIF creation
+        createGifButton.addEventListener('click', async () => {
+            if (selectedFiles.length === 0) {
+                showToast('Please select at least one image');
+                return;
+            }
+
+            createGifButton.disabled = true;
+            createGifButton.innerHTML = '<i data-feather="loader" class="w-5 h-5 mr-2 animate-spin"></i>Creating GIF...';
+            feather.replace();
+
+            const gif = new GIF({
+                workers: 4,
+                quality: parseInt(qualityInput.value),
+                width: 800,
+                height: 600,
+                workerScript: '/js/gif.worker.js',
+                dither: false
+            });
+
+            // Add frames to GIF
+            const totalFiles = selectedFiles.length;
+            let processedFiles = 0;
+            
+            // Process files in batches
+            const batchSize = 5;
+            for (let i = 0; i < totalFiles; i += batchSize) {
+                const batch = selectedFiles.slice(i, i + batchSize);
+                const batchPromises = batch.map(file => createImageFromFile(file));
+                const images = await Promise.all(batchPromises);
+                
+                for (const img of images) {
+                    gif.addFrame(img, { delay: parseInt(durationInput.value) });
+                    processedFiles++;
+                    updateProgress(Math.round((processedFiles / totalFiles) * 100));
+                }
+            }
+
+            gif.on('finished', function(blob) {
+                gifResult.src = URL.createObjectURL(blob);
+                gifPreview.classList.remove('hidden');
+                downloadButton.onclick = () => saveAs(blob, 'animation.gif');
+                createGifButton.disabled = false;
+                createGifButton.innerHTML = '<i data-feather="film" class="w-5 h-5 mr-2"></i>Create GIF';
+                feather.replace();
+                showToast('GIF created successfully!');
+            });
+
+            gif.render();
+        });
+
+        async function createImageFromFile(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Reset functionality
+        resetButton.addEventListener('click', () => {
+            selectedFiles = [];
+            fileInput.value = '';
+            frameContainer.innerHTML = '';
+            gifResult.src = '';
+            gifPreview.classList.add('hidden');
+            framesPreview.classList.add('hidden');
+            previewPlaceholder.classList.remove('hidden');
+        });
+
+        // Drag and drop handlers
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('dragover');
+        }
+
+        dropZone.addEventListener('drop', handleFileSelect, false);
+        fileInput.addEventListener('change', handleFileSelect, false);
+
+        // Toast notification
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const processingOverlay = document.getElementById('processingOverlay');
+            
+            progressBar.style.width = `${percent}%`;
+            progressText.textContent = `Processing frames: ${percent}%`;
+            
+            if (!processingOverlay.classList.contains('hidden')) {
+                processingOverlay.classList.remove('hidden');
+            }
+            
+            if (percent >= 100) {
+                setTimeout(() => {
+                    processingOverlay.classList.add('hidden');
+                }, 500);
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

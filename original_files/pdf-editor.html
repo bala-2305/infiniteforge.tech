@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize, Number, and Watermark PDFs - Free Online PDF Editor</title>
+    <meta name="description" content="Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.">
+    <meta name="keywords" content="organize pdf, reorder pdf pages, rotate pdf pages, delete pdf pages, add page numbers to pdf, watermark pdf, pdf editor, free online tools, InfiniteForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <meta property="og:title" content="InfiniteForge - PDF Editor">
+    <meta property="og:description" content="Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/pdf-editor.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
+    <link rel="canonical" href="https://infiniteforge.tech/pdf-editor.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="InfiniteForge - PDF Editor">
+    <meta name="twitter:description" content="Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fluid scaling styles */
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
+            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
+            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
+            --fluid-p: clamp(0.875rem, 2vw, 1rem);
+        }
+        body { font-size: var(--fluid-font-size); }
+        h1 { font-size: var(--fluid-h1) !important; }
+        h2 { font-size: var(--fluid-h2) !important; }
+        h3 { font-size: var(--fluid-h3) !important; }
+        p { font-size: var(--fluid-p) !important; }
+        @media (max-width: 640px) {
+            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
+                max-width: 95vw !important;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Tab button styles */
+        .tab-button {
+            transition: all 0.3s ease-in-out;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button:hover {
+            background-color: #EFF6FF; /* blue-50 */
+        }
+        .tab-active {
+            background-color: #DBEAFE; /* blue-100 */
+            border-bottom-color: #3B82F6; /* blue-500 */
+            color: #1E40AF; /* blue-800 */
+        }
+        .tab-panel {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .page-thumbnail {
+            cursor: grab;
+        }
+        .page-thumbnail:active {
+            cursor: grabbing;
+        }
+        .ghost {
+            opacity: 0.4;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "InfinityForge",
+        "url": "https://infiniteforge.tech",
+        "logo": "https://infiniteforge.tech/assets/letter-d.png",
+        "sameAs": [
+            "https://www.linkedin.com/in/mahibala-h",
+            "https://x.com/HMahibala42802",
+            "https://www.youtube.com/@echo14-w3y",
+            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
+            "https://www.facebook.com/61557410529583/"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "InfiniteForge", "url": "https://infiniteforge.tech", "logo": "https://infiniteforge.tech/assets/letter-d.png", "sameAs": ["https://www.linkedin.com/in/mahibala-h", "https://x.com/HMahibala42802", "https://www.youtube.com/@echo14-w3y", "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy", "https://www.facebook.com/61557410529583/"]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "InfiniteForge - Free Online Tools", "url": "https://infiniteforge.tech", "description": "Free online tools for PDF editing, image processing, and document conversion. Organize PDFs, resize images, convert formats, and more.", "publisher": {"@type": "Organization", "name": "InfiniteForge"}, "potentialAction": {"@type": "SearchAction", "target": "https://infiniteforge.tech/search?q={search_term_string}", "query-input": "required name=search_term_string"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Advanced PDF Editor - Organize, Number, and Watermark PDFs", "description": "Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.", "url": "https://infiniteforge.tech/pdf-editor.html", "isPartOf": {"@type": "WebSite", "name": "InfiniteForge - Free Online Tools", "url": "https://infiniteforge.tech"}, "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Editor", "item": "https://infiniteforge.tech/pdf-editor.html"}]}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Editor", "item": "https://infiniteforge.tech/pdf-editor.html"}]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I reorder PDF pages?", "acceptedAnswer": {"@type": "Answer", "text": "Simply drag and drop the page thumbnails in the order you want. The visual interface makes it easy to rearrange your PDF pages."}}, {"@type": "Question", "name": "Can I rotate PDF pages?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, you can rotate individual pages by 90, 180, or 270 degrees using the rotation controls for each page."}}, {"@type": "Question", "name": "How do I add page numbers to my PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Use the page numbering feature to automatically add page numbers to your PDF. Choose from various positioning and formatting options."}}, {"@type": "Question", "name": "Can I add watermarks to my PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, you can add both text and image watermarks to your PDF files. Customize the position, opacity, and appearance of your watermarks."}}]}</script>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-blue-50 font-poppins overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-blue-600" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-6">
+                    <a href="index.html" class="text-blue-600 font-medium">Home</a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="sm:hidden hidden bg-white border-t shadow-lg">
+            <div class="px-4 py-4 space-y-2">
+                <a href="index.html" class="block text-blue-600 font-medium">Home</a>
+                <a href="features.html" class="block text-gray-700 hover:text-blue-600 font-medium">Features</a>
+                <a href="about.html" class="block text-gray-700 hover:text-blue-600 font-medium">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-6xl mx-auto pt-24 px-4">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl sm:text-5xl font-bold text-gray-800 mb-4">Advanced PDF Editor</h1>
+            <p class="text-md sm:text-lg text-gray-600 max-w-3xl mx-auto">Visually organize, number, and watermark your PDF files with these powerful, easy-to-use tools.</p>
+        </div>
+
+        <div class="bg-white/60 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden">
+            <!-- Tab Buttons -->
+            <div class="border-b border-gray-200/80">
+                <div class="flex flex-col sm:flex-row" role="tablist">
+                    <button role="tab" class="tab-button tab-active flex-1 flex items-center justify-center py-4 px-2 sm:px-6 font-semibold text-gray-700 focus:outline-none" data-target="organize">
+                        <i data-feather="move" class="mr-2"></i><span class="truncate">Organize PDF</span>
+                    </button>
+                    <button role="tab" class="tab-button flex-1 flex items-center justify-center py-4 px-2 sm:px-6 font-semibold text-gray-600 hover:text-gray-700 focus:outline-none" data-target="page-numbers">
+                        <i data-feather="hash" class="mr-2"></i><span class="truncate">Add Page Numbers</span>
+                    </button>
+                    <button role="tab" class="tab-button flex-1 flex items-center justify-center py-4 px-2 sm:px-6 font-semibold text-gray-600 hover:text-gray-700 focus:outline-none" data-target="watermark">
+                        <i data-feather="droplet" class="mr-2"></i><span class="truncate">Watermark PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Panels -->
+            <div class="p-4 sm:p-8">
+                <!-- Organize PDF Panel -->
+                <div id="organize" role="tabpanel" class="tab-panel">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Organize PDF Pages</h3>
+                    <p class="text-gray-600 mb-6">Click and drag pages to reorder them. Use the buttons on each page to rotate or delete.</p>
+                    <input type="file" id="organize-file" accept=".pdf" class="block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer"/>
+                    <div id="organize-preview" class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+                    <button id="organize-save-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105 hidden">
+                        <i data-feather="save" class="inline-block mr-2"></i>Save Changes
+                    </button>
+                </div>
+
+                <!-- Add Page Numbers Panel -->
+                <div id="page-numbers" role="tabpanel" class="tab-panel hidden">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Add Page Numbers</h3>
+                    <p class="text-gray-600 mb-6">Upload a PDF, choose your settings, and see a live preview on the first page.</p>
+                    <input type="file" id="number-file" accept=".pdf" class="block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer"/>
+                    
+                    <div id="number-options" class="mt-6 hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="number-position" class="block text-sm font-medium text-gray-700">Position</label>
+                                        <select id="number-position" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500">
+                                            <option value="bottom-center">Bottom Center</option>
+                                            <option value="bottom-left">Bottom Left</option>
+                                            <option value="bottom-right">Bottom Right</option>
+                                            <option value="top-center">Top Center</option>
+                                            <option value="top-left">Top Left</option>
+                                            <option value="top-right">Top Right</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="number-size" class="block text-sm font-medium text-gray-700">Font Size</label>
+                                        <input type="number" id="number-size" value="12" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="number-range" class="block text-sm font-medium text-gray-700">Page Range (e.g., "1-5, 8" or "all")</label>
+                                    <input type="text" id="number-range" value="all" placeholder="all" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <div class="relative bg-gray-100 rounded-lg border flex items-center justify-center p-2">
+                                <canvas id="number-preview-canvas"></canvas>
+                            </div>
+                        </div>
+                        <button id="number-add-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105">
+                            <i data-feather="hash" class="inline-block mr-2"></i>Add Page Numbers
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Watermark PDF Panel -->
+                <div id="watermark" role="tabpanel" class="tab-panel hidden">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Add Watermark</h3>
+                    <p class="text-gray-600 mb-6">Apply a text or image watermark and see a live preview on the first page.</p>
+                    <input type="file" id="watermark-file" accept=".pdf" class="block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer"/>
+                    
+                    <div id="watermark-options" class="mt-6 hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="watermark-type" value="text" class="form-radio text-blue-600" checked>
+                                        <span class="ml-2">Text</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="watermark-type" value="image" class="form-radio text-blue-600">
+                                        <span class="ml-2">Image</span>
+                                    </label>
+                                </div>
+
+                                <div id="watermark-text-options">
+                                    <div>
+                                        <label for="watermark-text" class="block text-sm font-medium text-gray-700">Watermark Text</label>
+                                        <input type="text" id="watermark-text" value="CONFIDENTIAL" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 mt-4">
+                                        <div>
+                                            <label for="watermark-font-size" class="block text-sm font-medium text-gray-700">Font Size</label>
+                                            <input type="number" id="watermark-font-size" value="50" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                        </div>
+                                        <div>
+                                            <label for="watermark-color" class="block text-sm font-medium text-gray-700">Color</label>
+                                            <input type="color" id="watermark-color" value="#ff0000" class="mt-1 block w-full h-12 p-1 border border-gray-300 rounded-lg">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="watermark-image-options" class="hidden">
+                                    <label for="watermark-image" class="block text-sm font-medium text-gray-700">Watermark Image</label>
+                                    <input type="file" id="watermark-image" accept="image/png, image/jpeg" class="mt-1 block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer"/>
+                                </div>
+                                
+                                <div>
+                                    <label for="watermark-opacity" class="block text-sm font-medium text-gray-700">Opacity</label>
+                                    <input type="range" id="watermark-opacity" min="0" max="1" step="0.1" value="0.5" class="w-full">
+                                </div>
+                            </div>
+                            <div class="relative bg-gray-100 rounded-lg border flex items-center justify-center p-2">
+                                <canvas id="watermark-preview-canvas"></canvas>
+                            </div>
+                        </div>
+                        <button id="watermark-add-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105">
+                            <i data-feather="droplet" class="inline-block mr-2"></i>Add Watermark
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Placeholder 111 -->
+        <div class="mt-10 flex justify-center">
+            
+        </div>
+
+        <!-- Social Sharing Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share Our PDF Editor</h2>
+            <p class="text-gray-600 text-center mb-6">Help others discover our free PDF editing tools</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="https://twitter.com/intent/tweet?text=Edit%20PDFs%20online%20for%20free%20with%20InfiniteForge%20-%20Organize%2C%20number%2C%20and%20watermark%20PDFs&url=https://infiniteforge.tech/pdf-editor.html&via=InfiniteForgeTools"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="twitter" class="w-5 h-5"></i>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/pdf-editor.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="facebook" class="w-5 h-5"></i>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/pdf-editor.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="linkedin" class="w-5 h-5"></i>
+                    <span>Share on LinkedIn</span>
+                </a>
+                <a href="https://wa.me/?text=Check%20out%20this%20free%20PDF%20editor:%20https://infiniteforge.tech/pdf-editor.html"
+                   target="_blank" rel="noopener noreferrer"
+                   class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
+                    <i data-feather="message-circle" class="w-5 h-5"></i>
+                    <span>Share on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Newsletter Signup Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mt-10">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Stay Updated</h2>
+                <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
+                </p>
+                <form class="max-w-md mx-auto flex gap-3">
+                    <input type="email" placeholder="Enter your email"
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
+            </div>
+        </div>
+        
+    </main>
+
+    <footer class="bg-white/80 backdrop-blur-lg mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600">
+            <p class="font-semibold">&copy; 2025 InfiniteForge Tools. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Your privacy is our priority. All tools run directly in your browser, meaning your files are never uploaded to our servers.</p>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Close mobile menu when scrolling
+        window.addEventListener('scroll', () => {
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab-button');
+        const panels = document.querySelectorAll('.tab-panel');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('tab-active');
+                    t.classList.add('text-gray-600', 'hover:text-gray-700');
+                });
+                panels.forEach(p => p.classList.add('hidden'));
+
+                tab.classList.add('tab-active');
+                tab.classList.remove('text-gray-600', 'hover:text-gray-700');
+                
+                const target = tab.getAttribute('data-target');
+                const targetPanel = document.getElementById(target);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden');
+                }
+            });
+        });
+
+        const { PDFDocument, rgb, degrees } = PDFLib;
+        const { saveAs } = FileSaver;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+
+        let originalPdfBytes = null;
+
+        // --- Organize PDF ---
+        const organizeFileInput = document.getElementById('organize-file');
+        const organizePreview = document.getElementById('organize-preview');
+        const organizeSaveBtn = document.getElementById('organize-save-btn');
+
+        organizeFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            organizePreview.innerHTML = '<div class="col-span-full text-center"><div class="loader inline-block"></div><p class="mt-2">Loading PDF...</p></div>';
+            organizeSaveBtn.classList.add('hidden');
+
+            const buffer = await file.arrayBuffer();
+            originalPdfBytes = buffer.slice(0);
+            renderPdfThumbnails(originalPdfBytes.slice(0));
+        });
+
+        async function renderPdfThumbnails(pdfBytes) {
+            organizePreview.innerHTML = '';
+            const pdfDoc = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.5 });
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'page-thumbnail relative border rounded-lg overflow-hidden bg-white shadow group';
+                wrapper.dataset.originalIndex = i - 1;
+                wrapper.dataset.rotation = 0;
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                
+                const pageNumber = document.createElement('div');
+                pageNumber.className = 'absolute top-1 left-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold';
+                pageNumber.textContent = i;
+
+                const controls = document.createElement('div');
+                controls.className = 'absolute bottom-0 left-0 right-0 bg-black/50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity p-1';
+                
+                controls.innerHTML = `
+                    <button class="rotate-left text-white p-1 hover:bg-white/20 rounded-full"><i data-feather="rotate-ccw" class="w-4 h-4"></i></button>
+                    <button class="delete-page text-white p-1 hover:bg-white/20 rounded-full"><i data-feather="trash-2" class="w-4 h-4"></i></button>
+                    <button class="rotate-right text-white p-1 hover:bg-white/20 rounded-full"><i data-feather="rotate-cw" class="w-4 h-4"></i></button>
+                `;
+
+                wrapper.appendChild(canvas);
+                wrapper.appendChild(pageNumber);
+                wrapper.appendChild(controls);
+                organizePreview.appendChild(wrapper);
+            }
+
+            feather.replace();
+            organizeSaveBtn.classList.remove('hidden');
+            
+            new Sortable(organizePreview, {
+                animation: 150,
+                ghostClass: 'ghost'
+            });
+        }
+
+        organizePreview.addEventListener('click', (e) => {
+            const button = e.target.closest('button');
+            if (!button) return;
+            
+            const pageWrapper = button.closest('.page-thumbnail');
+            if (!pageWrapper) return;
+
+            if (button.classList.contains('delete-page')) {
+                pageWrapper.remove();
+            } else if (button.classList.contains('rotate-left') || button.classList.contains('rotate-right')) {
+                const canvas = pageWrapper.querySelector('canvas');
+                let rotation = parseInt(pageWrapper.dataset.rotation, 10);
+                rotation += button.classList.contains('rotate-right') ? 90 : -90;
+                pageWrapper.dataset.rotation = rotation;
+                canvas.style.transform = `rotate(${rotation}deg)`;
+            }
+        });
+
+        organizeSaveBtn.addEventListener('click', async () => {
+            if (!originalPdfBytes) {
+                alert('Please load a PDF first.');
+                return;
+            }
+
+            organizeSaveBtn.disabled = true;
+            organizeSaveBtn.innerHTML = '<i data-feather="loader" class="animate-spin inline-block mr-2"></i>Saving...';
+            feather.replace();
+
+            try {
+                const sourcePdfDoc = await PDFDocument.load(originalPdfBytes.slice(0), { ignoreEncryption: true });
+                const newPdfDoc = await PDFDocument.create();
+                
+                const pageElements = Array.from(organizePreview.querySelectorAll('.page-thumbnail'));
+                const originalIndices = pageElements.map(p => parseInt(p.dataset.originalIndex, 10));
+                
+                const copiedPages = await newPdfDoc.copyPages(sourcePdfDoc, originalIndices);
+
+                pageElements.forEach((pageEl, index) => {
+                    const newPage = newPdfDoc.addPage(copiedPages[index]);
+                    const rotation = parseInt(pageEl.dataset.rotation, 10);
+                    newPage.setRotation(degrees(rotation));
+                });
+
+                const newPdfBytes = await newPdfDoc.save();
+                if (typeof saveAs !== 'undefined') {
+                    saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'InfiniteForge_organized.pdf');
+                } else {
+                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'InfiniteForge_organized.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                }
+
+            } catch (e) {
+                console.error('PDF save error:', e);
+                alert('An error occurred while saving the PDF: ' + (e.message || 'Unknown error'));
+            } finally {
+                organizeSaveBtn.disabled = false;
+                organizeSaveBtn.innerHTML = '<i data-feather="save" class="inline-block mr-2"></i>Save Changes';
+                feather.replace();
+            }
+        });
+
+        let numberPdfBytes = null;
+        let watermarkPdfBytes = null;
+        let watermarkImage = { bytes: null, type: null };
+
+        // --- Add Page Numbers ---
+        const numberFileInput = document.getElementById('number-file');
+        const numberOptions = document.getElementById('number-options');
+        const numberAddBtn = document.getElementById('number-add-btn');
+        const numberPreviewCanvas = document.getElementById('number-preview-canvas');
+        const numberControls = ['number-position', 'number-size', 'number-range'];
+
+        numberFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+                const buffer = await file.arrayBuffer();
+                numberPdfBytes = buffer.slice(0);
+                const hasFile = numberPdfBytes && numberPdfBytes.byteLength > 0;
+                numberAddBtn.disabled = !hasFile;
+                numberOptions.classList.toggle('hidden', !hasFile);
+                if(hasFile) updateNumberPreview();
+            } catch (err) {
+                console.error('Error loading PDF file:', err);
+                alert('Error loading PDF file. Please try again.');
+            }
+        });
+
+        numberControls.forEach(id => document.getElementById(id).addEventListener('input', updateNumberPreview));
+
+        async function updateNumberPreview() {
+            if (!numberPdfBytes) return;
+            const pdfDoc = await pdfjsLib.getDocument({ data: numberPdfBytes.slice(0) }).promise;
+            const page = await pdfDoc.getPage(1);
+            const viewport = page.getViewport({ scale: 1 });
+            
+            const canvas = numberPreviewCanvas;
+            const context = canvas.getContext('2d');
+            const scale = Math.min(250 / viewport.width, 250 / viewport.height);
+            const scaledViewport = page.getViewport({ scale });
+            canvas.height = scaledViewport.height;
+            canvas.width = scaledViewport.width;
+
+            await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+
+            const position = document.getElementById('number-position').value;
+            const size = parseInt(document.getElementById('number-size').value, 10) * scale;
+            
+            let x, y;
+            const margin = 10 * scale;
+            context.font = `${size}px Helvetica`;
+            context.fillStyle = '#000000';
+
+            switch (position) {
+                case 'bottom-left': x = margin; y = canvas.height - margin; break;
+                case 'bottom-right': x = canvas.width - margin; context.textAlign = 'right'; y = canvas.height - margin; break;
+                case 'top-center': x = canvas.width / 2; context.textAlign = 'center'; y = margin + size; break;
+                case 'top-left': x = margin; y = margin + size; break;
+                case 'top-right': x = canvas.width - margin; context.textAlign = 'right'; y = margin + size; break;
+                default: /* bottom-center */ x = canvas.width / 2; context.textAlign = 'center'; y = canvas.height - margin; break;
+            }
+            context.fillText('1', x, y);
+        }
+
+        numberAddBtn.addEventListener('click', async () => {
+            if (!numberPdfBytes) return;
+
+            numberAddBtn.disabled = true;
+            numberAddBtn.innerHTML = '<i data-feather="loader" class="animate-spin inline-block mr-2"></i>Adding Numbers...';
+            feather.replace();
+
+            try {
+                const pdfDoc = await PDFDocument.load(numberPdfBytes.slice(0), { ignoreEncryption: true });
+                const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+                
+                const position = document.getElementById('number-position').value;
+                const size = parseInt(document.getElementById('number-size').value, 10) || 12;
+                const rangeStr = document.getElementById('number-range').value || 'all';
+                
+                const totalPages = pdfDoc.getPageCount();
+                let pagesToNumber = [];
+
+                if (rangeStr.toLowerCase() === 'all') {
+                    pagesToNumber = Array.from({ length: totalPages }, (_, i) => i);
+                } else {
+                    pagesToNumber = rangeStr.replace(/\s/g, '').split(',').flatMap(range => {
+                        if (range.includes('-')) {
+                            const [start, end] = range.split('-').map(Number);
+                            return Array.from({ length: end - start + 1 }, (_, i) => start + i - 1);
+                        }
+                        return Number(range) - 1;
+                    }).filter(index => index >= 0 && index < totalPages);
+                }
+
+                for (const pageIndex of pagesToNumber) {
+                    const page = pdfDoc.getPage(pageIndex);
+                    const { width, height } = page.getSize();
+                    const pageNum = pageIndex + 1;
+                    const text = `${pageNum}`;
+                    const textWidth = font.widthOfTextAtSize(text, size);
+
+                    let x, y;
+                    const margin = 30;
+
+                    switch (position) {
+                        case 'bottom-left': x = margin; y = margin; break;
+                        case 'bottom-right': x = width - margin - textWidth; y = margin; break;
+                        case 'top-center': x = width / 2 - textWidth / 2; y = height - margin - size; break;
+                        case 'top-left': x = margin; y = height - margin - size; break;
+                        case 'top-right': x = width - margin - textWidth; y = height - margin - size; break;
+                        default: /* bottom-center */ x = width / 2 - textWidth / 2; y = margin; break;
+                    }
+
+                    try {
+                        page.drawText(text, { 
+                            x: Math.max(0, x), 
+                            y: Math.max(0, y), 
+                            size: size, 
+                            font: font, 
+                            color: rgb(0.2, 0.2, 0.2) 
+                        });
+                    } catch (err) {
+                        console.warn(`Failed to add page number to page ${pageNum}:`, err);
+                    }
+                }
+
+                const newPdfBytes = await pdfDoc.save();
+                if (typeof saveAs !== 'undefined') {
+                    saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'InfiniteForge_numbered.pdf');
+                } else {
+                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'InfiniteForge_numbered.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                }
+
+            } catch (e) {
+                console.error('Page numbering error:', e);
+                alert('An error occurred while adding page numbers: ' + (e.message || 'Unknown error. Check console for details.'));
+            } finally {
+                numberAddBtn.disabled = false;
+                numberAddBtn.innerHTML = '<i data-feather="hash" class="inline-block mr-2"></i>Add Page Numbers';
+                feather.replace();
+            }
+        });
+
+        // --- Watermark PDF ---
+        const watermarkFileInput = document.getElementById('watermark-file');
+        const watermarkOptions = document.getElementById('watermark-options');
+        const watermarkAddBtn = document.getElementById('watermark-add-btn');
+        const watermarkPreviewCanvas = document.getElementById('watermark-preview-canvas');
+        const watermarkImageInput = document.getElementById('watermark-image');
+        const watermarkTextOptions = document.getElementById('watermark-text-options');
+        const watermarkImageOptions = document.getElementById('watermark-image-options');
+        const watermarkTypeRadios = document.querySelectorAll('input[name="watermark-type"]');
+        const watermarkControls = ['watermark-text', 'watermark-font-size', 'watermark-color', 'watermark-opacity'];
+
+        watermarkFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const buffer = await file.arrayBuffer();
+            watermarkPdfBytes = buffer.slice(0);
+            const hasFile = watermarkPdfBytes && watermarkPdfBytes.byteLength > 0;
+            watermarkAddBtn.disabled = !hasFile;
+            watermarkOptions.classList.toggle('hidden', !hasFile);
+            if(hasFile) updateWatermarkPreview();
+        });
+
+        watermarkImageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) {
+                watermarkImage = { bytes: null, type: null };
+                return;
+            };
+            watermarkImage.bytes = await file.arrayBuffer();
+            watermarkImage.type = file.type;
+            updateWatermarkPreview();
+        });
+
+        watermarkTypeRadios.forEach(radio => radio.addEventListener('change', () => {
+            const isText = document.querySelector('input[name="watermark-type"]:checked').value === 'text';
+            watermarkTextOptions.classList.toggle('hidden', !isText);
+            watermarkImageOptions.classList.toggle('hidden', isText);
+            updateWatermarkPreview();
+        }));
+
+        watermarkControls.forEach(id => document.getElementById(id).addEventListener('input', updateWatermarkPreview));
+
+        async function updateWatermarkPreview() {
+            if (!watermarkPdfBytes) return;
+            const pdfDoc = await pdfjsLib.getDocument({ data: watermarkPdfBytes.slice(0) }).promise;
+            const page = await pdfDoc.getPage(1);
+            const viewport = page.getViewport({ scale: 1 });
+            
+            const canvas = watermarkPreviewCanvas;
+            const context = canvas.getContext('2d');
+            const scale = Math.min(250 / viewport.width, 250 / viewport.height);
+            const scaledViewport = page.getViewport({ scale });
+            canvas.height = scaledViewport.height;
+            canvas.width = scaledViewport.width;
+
+            await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+
+            const opacity = parseFloat(document.getElementById('watermark-opacity').value);
+            context.globalAlpha = opacity;
+
+            const isText = document.querySelector('input[name="watermark-type"]:checked').value === 'text';
+
+            if (isText) {
+                const text = document.getElementById('watermark-text').value;
+                const fontSize = parseInt(document.getElementById('watermark-font-size').value, 10) * scale;
+                const color = document.getElementById('watermark-color').value;
+                
+                context.font = `bold ${fontSize}px Helvetica`;
+                context.fillStyle = color;
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+
+                context.save();
+                context.translate(canvas.width / 2, canvas.height / 2);
+                context.rotate(-0.25 * Math.PI);
+                context.fillText(text, 0, 0);
+                context.restore();
+            } else if (watermarkImage.bytes) {
+                const image = await (new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = URL.createObjectURL(new Blob([watermarkImage.bytes]));
+                }));
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            }
+            context.globalAlpha = 1.0;
+        }
+
+        watermarkAddBtn.addEventListener('click', async () => {
+            if (!watermarkPdfBytes) return;
+            const isText = document.querySelector('input[name="watermark-type"]:checked').value === 'text';
+            if (!isText && !watermarkImage.bytes) {
+                alert('Please select an image for the watermark.');
+                return;
+            }
+
+            watermarkAddBtn.disabled = true;
+            watermarkAddBtn.innerHTML = '<i data-feather="loader" class="animate-spin inline-block mr-2"></i>Adding Watermark...';
+            feather.replace();
+
+            try {
+                const pdfDoc = await PDFDocument.load(watermarkPdfBytes.slice(0), { ignoreEncryption: true });
+                const pages = pdfDoc.getPages();
+                const opacity = parseFloat(document.getElementById('watermark-opacity').value);
+
+                if (isText) {
+                    const text = document.getElementById('watermark-text').value;
+                    const fontSize = parseInt(document.getElementById('watermark-font-size').value, 10);
+                    const colorHex = document.getElementById('watermark-color').value;
+                    const color = rgb(
+                        parseInt(colorHex.slice(1, 3), 16) / 255,
+                        parseInt(colorHex.slice(3, 5), 16) / 255,
+                        parseInt(colorHex.slice(5, 7), 16) / 255
+                    );
+                    const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+                    for (const page of pages) {
+                        const { width, height } = page.getSize();
+                        page.drawText(text, {
+                            x: width / 2,
+                            y: height / 2,
+                            size: fontSize,
+                            font,
+                            color,
+                            rotate: degrees(-45),
+                            xSkew: degrees(0),
+                            ySkew: degrees(0),
+                        });
+                    }
+                } else {
+                    let embeddedImage;
+                    if (watermarkImage.type === 'image/png') {
+                        embeddedImage = await pdfDoc.embedPng(watermarkImage.bytes);
+                    } else if (watermarkImage.type === 'image/jpeg') {
+                        embeddedImage = await pdfDoc.embedJpg(watermarkImage.bytes);
+                    } else {
+                        throw new Error('Unsupported image type. Please use PNG or JPG.');
+                    }
+
+                    for (const page of pages) {
+                        const { width, height } = page.getSize();
+                        page.drawImage(embeddedImage, {
+                            x: 0,
+                            y: 0,
+                            width: width,
+                            height: height,
+                            opacity,
+                        });
+                    }
+                }
+
+                const newPdfBytes = await pdfDoc.save();
+                if (typeof saveAs !== 'undefined') {
+                    saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'InfiniteForge_watermarked.pdf');
+                } else {
+                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'InfiniteForge_watermarked.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                }
+
+            } catch (e) {
+                alert('An error occurred while adding the watermark: ' + e.message);
+                console.error(e);
+            } finally {
+                watermarkAddBtn.disabled = false;
+                watermarkAddBtn.innerHTML = '<i data-feather="droplet" class="inline-block mr-2"></i>Add Watermark';
+                feather.replace();
+            }
+        });
+
+        // Security features
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts for developer tools
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                (e.ctrlKey && e.key === 'U') ||
+                (e.ctrlKey && e.key === 'S')) {
+                e.preventDefault();
+            }
+        });
+
+        // Detect developer tools
+        let devtools = {open: false, orientation: null};
+        const threshold = 160;
+        setInterval(() => {
+            if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
+                if (!devtools.open) {
+                    devtools.open = true;
+                    alert('Developer tools detected! This action is not allowed.');
+                }
+            } else {
+                devtools.open = false;
+            }
+        }, 500);
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>
+
+
+

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator - Create Professional Invoices Online | InfiniteForge</title>
+    <meta name="description" content="Create professional invoices online with our free Invoice Generator. Add line items, calculate taxes, customize templates, and download PDF invoices instantly. Perfect for freelancers and businesses.">
+    <meta name="keywords" content="invoice generator, create invoice, professional invoice, invoice template, PDF invoice, invoice maker, billing software, invoice creator, free invoice generator, online invoice, business invoice, freelancer invoice, tax invoice, invoice calculator">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/invoice-generator.html">
+    <meta property="og:title" content="Invoice Generator - Create Professional Invoices Online | InfiniteForge">
+    <meta property="og:description" content="Create professional invoices online with our free Invoice Generator. Add line items, calculate taxes, customize templates, and download PDF invoices instantly.">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="InfiniteForge Invoice Generator">
+    <meta property="og:site_name" content="InfiniteForge">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Invoice Generator - Create Professional Invoices Online | InfiniteForge">
+    <meta name="twitter:description" content="Create professional invoices online with our free Invoice Generator. Add line items, calculate taxes, customize templates, and download PDF invoices instantly.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:image:alt" content="InfiniteForge Invoice Generator">
+
+    <!-- Additional Meta Tags -->
+    <meta name="author" content="InfinityForge">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://infiniteforge.tech/invoice-generator.html">
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Invoice Generator",
+        "description": "Free online invoice generator for creating professional invoices. Add line items, calculate taxes, customize templates, and download PDF invoices.",
+        "url": "https://infiniteforge.tech/invoice-generator.html",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Professional Invoice Templates",
+            "Line Item Management",
+            "Tax Calculation",
+            "PDF Download",
+            "Invoice Templates",
+            "Custom Branding",
+            "Multi-currency Support",
+            "Due Date Tracking"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "InfinityForge"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InfiniteForge"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I create an invoice?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Fill in your business details, client information, add line items with descriptions, quantities, and rates. The invoice will automatically calculate totals including taxes. You can then download it as a PDF."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I customize the invoice template?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can customize colors, add your logo, change currency, and modify tax rates. The invoice generator supports multiple templates and branding options."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is the invoice generator free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, our invoice generator is completely free to use. No registration required, no watermarks, and no limitations on the number of invoices you can create."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I save invoice templates?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can save your business information and frequently used line items as templates for quick invoice creation in the future."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .invoice-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .line-item {
+            transition: all 0.3s ease;
+        }
+
+        .line-item:hover {
+            background: #f8fafc;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .invoice-preview {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            min-height: 600px;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+
+<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-xl shadow-lg w-full fixed top-0 left-0 z-50 border-b border-gray-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-3xl font-bold gradient-text hover:scale-105 transition-transform duration-300" aria-label="InfiniteForge Home">InfiniteForge</a>
+                <div class="hidden sm:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        Features
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50">
+            <a href="index.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Home</a>
+            <a href="features.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Features</a>
+            <a href="about.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">About</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto pt-24 pb-12 px-4">
+        <!-- Header Section -->
+        <div class="text-center mb-12 animate-fadeIn">
+            <div class="inline-flex items-center px-4 py-2 bg-white/20 border border-white/30 rounded-full text-white font-medium mb-6">
+                <i data-feather="file-text" class="w-4 h-4 mr-2"></i>
+                Invoice Generator
+            </div>
+
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight">
+                Professional <span class="gradient-text">Invoices</span>
+            </h1>
+
+            <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed mb-8">
+                Create professional invoices in minutes. Add line items, calculate taxes,
+                customize templates, and download PDF invoices instantly.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Invoice Form -->
+            <div class="space-y-6">
+                <!-- Business Details -->
+                <div class="invoice-card">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i data-feather="building" class="w-6 h-6 mr-3 text-blue-600"></i>
+                        Business Details
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
+                            <input type="text" id="businessName" placeholder="Your Business Name" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="businessEmail" placeholder="business@example.com" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                            <input type="tel" id="businessPhone" placeholder="+1 (555) 123-4567" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                            <textarea id="businessAddress" placeholder="123 Business St, City, State 12345" rows="2" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Details -->
+                <div class="invoice-card">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i data-feather="user" class="w-6 h-6 mr-3 text-green-600"></i>
+                        Client Details
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Client Name</label>
+                            <input type="text" id="clientName" placeholder="Client Company Name" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="clientEmail" placeholder="client@example.com" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                            <input type="tel" id="clientPhone" placeholder="+1 (555) 987-6543" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                            <textarea id="clientAddress" placeholder="456 Client Ave, City, State 67890" rows="2" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Details -->
+                <div class="invoice-card">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i data-feather="calendar" class="w-6 h-6 mr-3 text-purple-600"></i>
+                        Invoice Details
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Invoice Number</label>
+                            <input type="text" id="invoiceNumber" placeholder="INV-001" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Issue Date</label>
+                            <input type="date" id="issueDate" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                            <input type="date" id="dueDate" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
+                        <select id="currency" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="CAD">CAD (C$)</option>
+                            <option value="AUD">AUD (A$)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Line Items -->
+                <div class="invoice-card">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i data-feather="list" class="w-6 h-6 mr-3 text-orange-600"></i>
+                            Line Items
+                        </h3>
+                        <button id="addItemBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                            <i data-feather="plus" class="w-4 h-4 mr-2"></i>
+                            Add Item
+                        </button>
+                    </div>
+
+                    <div id="lineItems" class="space-y-4">
+                        <!-- Line items will be added here -->
+                    </div>
+
+                    <!-- Tax Settings -->
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tax Rate (%)</label>
+                                <input type="number" id="taxRate" placeholder="0" step="0.01" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Discount (%)</label>
+                                <input type="number" id="discountRate" placeholder="0" step="0.01" class="input-focus w-full px-3 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-4">
+                    <button id="generateBtn" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i data-feather="eye" class="w-5 h-5 mr-2"></i>
+                        Generate Invoice
+                    </button>
+                    <button id="downloadBtn" class="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i data-feather="download" class="w-5 h-5 mr-2"></i>
+                        Download PDF
+                    </button>
+                    <button id="saveTemplateBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+                        <i data-feather="save" class="w-5 h-5 mr-2"></i>
+                        Save Template
+                    </button>
+                </div>
+            </div>
+
+            <!-- Invoice Preview -->
+            <div class="space-y-6">
+                <div class="invoice-card">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i data-feather="eye" class="w-6 h-6 mr-3 text-indigo-600"></i>
+                        Invoice Preview
+                    </h3>
+                    <div id="invoicePreview" class="invoice-preview">
+                        <!-- Invoice preview will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            <div class="invoice-card text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-feather="file-text" class="text-blue-600 w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Professional Templates</h3>
+                <p class="text-gray-600">Choose from multiple professional invoice templates with customizable branding.</p>
+            </div>
+            <div class="invoice-card text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-feather="calculator" class="text-green-600 w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Auto Calculations</h3>
+                <p class="text-gray-600">Automatic tax calculations, subtotals, and totals with support for multiple tax rates.</p>
+            </div>
+            <div class="invoice-card text-center">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-feather="download" class="text-purple-600 w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">PDF Download</h3>
+                <p class="text-gray-600">Download professional PDF invoices that look great on any device or printer.</p>
+            </div>
+            <div class="invoice-card text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-feather="save" class="text-orange-600 w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Save Templates</h3>
+                <p class="text-gray-600">Save your business information and common line items as reusable templates.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="invoice-card mt-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">How do I create a professional invoice?</h3>
+                    <p class="text-gray-600">Fill in your business details, client information, and add line items with descriptions, quantities, and rates. The invoice generator will automatically calculate totals including taxes, and you can download it as a PDF.</p>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Can I customize the invoice template?</h3>
+                    <p class="text-gray-600">Yes, you can customize colors, add your business logo, change currency settings, and modify tax rates. Multiple professional templates are available to choose from.</p>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Is the invoice generator free to use?</h3>
+                    <p class="text-gray-600">Yes, our invoice generator is completely free to use. No registration required, no watermarks, and no limitations on the number of invoices you can create.</p>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Can I save invoice templates for future use?</h3>
+                    <p class="text-gray-600">Yes, you can save your business information and frequently used line items as templates. This allows you to quickly create invoices for repeat clients or similar projects.</p>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">What currencies are supported?</h3>
+                    <p class="text-gray-600">We support multiple currencies including USD, EUR, GBP, INR, CAD, and AUD. You can easily switch between currencies for international clients.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto text-center px-4">
+            <p class="text-gray-400">&copy; 2025 InfiniteForge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Close mobile menu when scrolling
+        window.addEventListener('scroll', () => {
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Initialize Feather Icons
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+
+        // Invoice Generator Logic
+        let lineItems = [];
+        let itemCounter = 0;
+
+        // Initialize dates
+        const today = new Date();
+        const dueDate = new Date();
+        dueDate.setDate(today.getDate() + 30);
+
+        document.getElementById('issueDate').value = today.toISOString().split('T')[0];
+        document.getElementById('dueDate').value = dueDate.toISOString().split('T')[0];
+
+        // Add line item
+        document.getElementById('addItemBtn').addEventListener('click', addLineItem);
+
+        function addLineItem(description = '', quantity = 1, rate = 0) {
+            itemCounter++;
+            const itemId = `item-${itemCounter}`;
+
+            const itemHTML = `
+                <div class="line-item bg-gray-50 p-4 rounded-lg" data-id="${itemId}">
+                    <div class="grid md:grid-cols-12 gap-4 items-end">
+                        <div class="md:col-span-5">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <input type="text" class="item-description input-focus w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Item description" value="${description}">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Qty</label>
+                            <input type="number" class="item-quantity input-focus w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="1" min="1" value="${quantity}">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Rate</label>
+                            <input type="number" class="item-rate input-focus w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="0.00" step="0.01" value="${rate}">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Amount</label>
+                            <input type="text" class="item-amount w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-lg" readonly>
+                        </div>
+                        <div class="md:col-span-1">
+                            <button class="remove-item bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors" data-id="${itemId}">
+                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('lineItems').insertAdjacentHTML('beforeend', itemHTML);
+
+            // Add event listeners
+            const newItem = document.querySelector(`[data-id="${itemId}"]`);
+            const descriptionInput = newItem.querySelector('.item-description');
+            const quantityInput = newItem.querySelector('.item-quantity');
+            const rateInput = newItem.querySelector('.item-rate');
+            const amountInput = newItem.querySelector('.item-amount');
+            const removeBtn = newItem.querySelector('.remove-item');
+
+            function updateAmount() {
+                const quantity = parseFloat(quantityInput.value) || 0;
+                const rate = parseFloat(rateInput.value) || 0;
+                const amount = quantity * rate;
+                amountInput.value = amount.toFixed(2);
+                updateTotals();
+            }
+
+            quantityInput.addEventListener('input', updateAmount);
+            rateInput.addEventListener('input', updateAmount);
+
+            removeBtn.addEventListener('click', () => {
+                newItem.remove();
+                updateTotals();
+            });
+
+            // Initialize amount
+            updateAmount();
+
+            // Re-initialize Feather icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        }
+
+        // Update totals
+        function updateTotals() {
+            let subtotal = 0;
+            document.querySelectorAll('.item-amount').forEach(input => {
+                subtotal += parseFloat(input.value) || 0;
+            });
+
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
+
+            const discountAmount = subtotal * (discountRate / 100);
+            const taxableAmount = subtotal - discountAmount;
+            const taxAmount = taxableAmount * (taxRate / 100);
+            const total = taxableAmount + taxAmount;
+
+            // Update preview if it exists
+            updateInvoicePreview();
+        }
+
+        // Generate invoice preview
+        document.getElementById('generateBtn').addEventListener('click', generateInvoice);
+
+        function generateInvoice() {
+            updateInvoicePreview();
+            showToast('Invoice generated successfully!');
+        }
+
+        function updateInvoicePreview() {
+            const currency = document.getElementById('currency').value;
+            const currencySymbol = getCurrencySymbol(currency);
+
+            // Calculate totals
+            let subtotal = 0;
+            const items = [];
+            document.querySelectorAll('.line-item').forEach(item => {
+                const description = item.querySelector('.item-description').value;
+                const quantity = parseFloat(item.querySelector('.item-quantity').value) || 0;
+                const rate = parseFloat(item.querySelector('.item-rate').value) || 0;
+                const amount = quantity * rate;
+
+                if (description.trim()) {
+                    items.push({ description, quantity, rate, amount });
+                    subtotal += amount;
+                }
+            });
+
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
+
+            const discountAmount = subtotal * (discountRate / 100);
+            const taxableAmount = subtotal - discountAmount;
+            const taxAmount = taxableAmount * (taxRate / 100);
+            const total = taxableAmount + taxAmount;
+
+            const previewHTML = `
+                <div class="invoice-header border-b-2 border-gray-300 pb-6 mb-6">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-2">INVOICE</h1>
+                            <p class="text-gray-600">#${document.getElementById('invoiceNumber').value || 'INV-001'}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-gray-600">Issue Date: ${formatDate(document.getElementById('issueDate').value)}</p>
+                            <p class="text-gray-600">Due Date: ${formatDate(document.getElementById('dueDate').value)}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">From:</h3>
+                            <div class="text-gray-700">
+                                <p class="font-semibold">${document.getElementById('businessName').value || 'Your Business Name'}</p>
+                                <p>${document.getElementById('businessEmail').value || 'business@example.com'}</p>
+                                <p>${document.getElementById('businessPhone').value || '+1 (555) 123-4567'}</p>
+                                <p>${document.getElementById('businessAddress').value.replace(/\n/g, '<br>') || '123 Business St<br>City, State 12345'}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Bill To:</h3>
+                            <div class="text-gray-700">
+                                <p class="font-semibold">${document.getElementById('clientName').value || 'Client Company Name'}</p>
+                                <p>${document.getElementById('clientEmail').value || 'client@example.com'}</p>
+                                <p>${document.getElementById('clientPhone').value || '+1 (555) 987-6543'}</p>
+                                <p>${document.getElementById('clientAddress').value.replace(/\n/g, '<br>') || '456 Client Ave<br>City, State 67890'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-items mb-6">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-gray-300">
+                                <th class="text-left py-3 font-semibold text-gray-800">Description</th>
+                                <th class="text-center py-3 font-semibold text-gray-800">Qty</th>
+                                <th class="text-right py-3 font-semibold text-gray-800">Rate</th>
+                                <th class="text-right py-3 font-semibold text-gray-800">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map(item => `
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 text-gray-700">${item.description}</td>
+                                    <td class="py-3 text-center text-gray-700">${item.quantity}</td>
+                                    <td class="py-3 text-right text-gray-700">${currencySymbol}${item.rate.toFixed(2)}</td>
+                                    <td class="py-3 text-right text-gray-700">${currencySymbol}${item.amount.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="invoice-totals flex justify-end">
+                    <div class="w-64">
+                        <div class="flex justify-between py-2 border-b border-gray-200">
+                            <span class="text-gray-700">Subtotal:</span>
+                            <span class="text-gray-700">${currencySymbol}${subtotal.toFixed(2)}</span>
+                        </div>
+                        ${discountRate > 0 ? `
+                        <div class="flex justify-between py-2 border-b border-gray-200">
+                            <span class="text-gray-700">Discount (${discountRate}%):</span>
+                            <span class="text-gray-700">-${currencySymbol}${discountAmount.toFixed(2)}</span>
+                        </div>
+                        ` : ''}
+                        <div class="flex justify-between py-2 border-b border-gray-200">
+                            <span class="text-gray-700">Tax (${taxRate}%):</span>
+                            <span class="text-gray-700">${currencySymbol}${taxAmount.toFixed(2)}</span>
+                        </div>
+                        <div class="flex justify-between py-3 text-xl font-bold text-gray-800 border-t-2 border-gray-300 mt-2">
+                            <span>Total:</span>
+                            <span>${currencySymbol}${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('invoicePreview').innerHTML = previewHTML;
+        }
+
+        // Download PDF
+        document.getElementById('downloadBtn').addEventListener('click', downloadPDF);
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Get invoice data
+            const invoiceNumber = document.getElementById('invoiceNumber').value || 'INV-001';
+            const businessName = document.getElementById('businessName').value || 'Your Business Name';
+            const clientName = document.getElementById('clientName').value || 'Client Company Name';
+            const currency = document.getElementById('currency').value;
+            const currencySymbol = getCurrencySymbol(currency);
+
+            // Calculate totals
+            let subtotal = 0;
+            const items = [];
+            document.querySelectorAll('.line-item').forEach(item => {
+                const description = item.querySelector('.item-description').value;
+                const quantity = parseFloat(item.querySelector('.item-quantity').value) || 0;
+                const rate = parseFloat(item.querySelector('.item-rate').value) || 0;
+                const amount = quantity * rate;
+
+                if (description.trim()) {
+                    items.push({ description, quantity, rate, amount });
+                    subtotal += amount;
+                }
+            });
+
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
+
+            const discountAmount = subtotal * (discountRate / 100);
+            const taxableAmount = subtotal - discountAmount;
+            const taxAmount = taxableAmount * (taxRate / 100);
+            const total = taxableAmount + taxAmount;
+
+            // Generate PDF
+            doc.setFontSize(24);
+            doc.text('INVOICE', 20, 30);
+
+            doc.setFontSize(12);
+            doc.text(`Invoice #: ${invoiceNumber}`, 20, 50);
+            doc.text(`Date: ${formatDate(document.getElementById('issueDate').value)}`, 20, 60);
+            doc.text(`Due Date: ${formatDate(document.getElementById('dueDate').value)}`, 20, 70);
+
+            // Business details
+            doc.text('From:', 20, 90);
+            doc.setFont('helvetica', 'bold');
+            doc.text(businessName, 20, 100);
+            doc.setFont('helvetica', 'normal');
+            doc.text(document.getElementById('businessEmail').value || 'business@example.com', 20, 110);
+            doc.text(document.getElementById('businessPhone').value || '+1 (555) 123-4567', 20, 120);
+
+            // Client details
+            doc.text('Bill To:', 120, 90);
+            doc.setFont('helvetica', 'bold');
+            doc.text(clientName, 120, 100);
+            doc.setFont('helvetica', 'normal');
+            doc.text(document.getElementById('clientEmail').value || 'client@example.com', 120, 110);
+            doc.text(document.getElementById('clientPhone').value || '+1 (555) 987-6543', 120, 120);
+
+            // Items table
+            let yPos = 150;
+            doc.setFont('helvetica', 'bold');
+            doc.text('Description', 20, yPos);
+            doc.text('Qty', 120, yPos);
+            doc.text('Rate', 150, yPos);
+            doc.text('Amount', 180, yPos);
+
+            doc.line(20, yPos + 2, 190, yPos + 2);
+
+            doc.setFont('helvetica', 'normal');
+            yPos += 10;
+
+            items.forEach(item => {
+                doc.text(item.description.substring(0, 40), 20, yPos);
+                doc.text(item.quantity.toString(), 120, yPos);
+                doc.text(`${currencySymbol}${item.rate.toFixed(2)}`, 150, yPos);
+                doc.text(`${currencySymbol}${item.amount.toFixed(2)}`, 180, yPos);
+                yPos += 10;
+            });
+
+            // Totals
+            yPos += 10;
+            doc.text(`Subtotal: ${currencySymbol}${subtotal.toFixed(2)}`, 150, yPos);
+            if (discountRate > 0) {
+                yPos += 10;
+                doc.text(`Discount (${discountRate}%): -${currencySymbol}${discountAmount.toFixed(2)}`, 150, yPos);
+            }
+            yPos += 10;
+            doc.text(`Tax (${taxRate}%): ${currencySymbol}${taxAmount.toFixed(2)}`, 150, yPos);
+            yPos += 15;
+            doc.setFont('helvetica', 'bold');
+            doc.text(`Total: ${currencySymbol}${total.toFixed(2)}`, 150, yPos);
+
+            // Save PDF
+            doc.save(`invoice-${invoiceNumber}.pdf`);
+            showToast('Invoice downloaded successfully!');
+        }
+
+        // Save template
+        document.getElementById('saveTemplateBtn').addEventListener('click', saveTemplate);
+
+        function saveTemplate() {
+            const template = {
+                businessName: document.getElementById('businessName').value,
+                businessEmail: document.getElementById('businessEmail').value,
+                businessPhone: document.getElementById('businessPhone').value,
+                businessAddress: document.getElementById('businessAddress').value,
+                currency: document.getElementById('currency').value,
+                taxRate: document.getElementById('taxRate').value,
+                discountRate: document.getElementById('discountRate').value
+            };
+
+            localStorage.setItem('invoiceTemplate', JSON.stringify(template));
+            showToast('Template saved successfully!');
+        }
+
+        // Load template on page load
+        window.addEventListener('load', () => {
+            const template = localStorage.getItem('invoiceTemplate');
+            if (template) {
+                const data = JSON.parse(template);
+                document.getElementById('businessName').value = data.businessName || '';
+                document.getElementById('businessEmail').value = data.businessEmail || '';
+                document.getElementById('businessPhone').value = data.businessPhone || '';
+                document.getElementById('businessAddress').value = data.businessAddress || '';
+                document.getElementById('currency').value = data.currency || 'USD';
+                document.getElementById('taxRate').value = data.taxRate || '';
+                document.getElementById('discountRate').value = data.discountRate || '';
+            }
+
+            // Add initial line item
+            addLineItem();
+        });
+
+        // Utility functions
+        function getCurrencySymbol(currency) {
+            const symbols = {
+                'USD': '$',
+                'EUR': '€',
+                'GBP': '£',
+                'INR': '₹',
+                'CAD': 'C$',
+                'AUD': 'A$'
+            };
+            return symbols[currency] || '$';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Add event listeners for real-time updates
+        ['taxRate', 'discountRate'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateTotals);
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>

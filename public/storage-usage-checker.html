@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Storage Usage Checker — Daedalus | Free Local Storage Analyzer Tool</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description"
+        content="Check your browser's local storage usage, quota limits, and manage stored data with our free online tool. Analyze storage consumption and clear unnecessary data.">
+    <meta name="keywords"
+        content="storage usage checker, local storage analyzer, browser storage, quota limits, storage management, localStorage usage">
+    <meta name="author" content="InfinityForge">
+    <meta property="og:title" content="Browser Storage Usage Checker — Daedalus">
+    <meta property="og:description"
+        content="Analyze your browser's local storage usage and manage stored data effectively.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/storage-usage-checker.html">
+    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Browser Storage Usage Checker — Daedalus">
+    <meta name="twitter:description" content="Check browser local storage usage and manage stored data.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://infiniteforge.tech/storage-usage-checker.html">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="/css/responsive-fix.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <style>
+        :root {
+            --fluid-font-size: clamp(14px, 2vw, 18px);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: var(--fluid-font-size);
+            background-color: #f8fafc;
+        }
+
+        .gen-input {
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gen-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            opacity: 0.9;
+        }
+
+        .result-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .storage-display {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .storage-bar {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .storage-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .storage-fill.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .storage-fill.danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .storage-item {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: #f8fafc;
+        }
+
+        .storage-item:hover {
+            background: #f1f5f9;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FQ082B7887');
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+    <noscript>
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
+            <div style="text-align: center; max-width: 600px; padding: 40px;">
+                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
+                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
+                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
+                    settings and reload the page to continue.
+                </p>
+                <div style="font-size: 14px; color: #ccc;">
+                    <p>If you continue to see this message, try:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>• Enabling JavaScript in your browser</li>
+                        <li>• Disabling any ad blockers or script blockers</li>
+                        <li>• Clearing your browser cache</li>
+                        <li>• Using a different browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
+                </a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="features.html" class="nav-link">Features</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Storage Usage Checker</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Analyze your browser's local storage usage, check quota limits, and manage stored data effectively.</p>
+        </div>
+
+        <!-- Current Storage Display -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <div id="status-indicator" class="pulse-dot mr-3"></div>
+                    <span id="status-text" class="text-lg font-semibold text-gray-700">Analyzing storage...</span>
+                </div>
+                <div class="storage-display mb-2">
+                    <span id="current-usage">--</span> <span class="text-lg text-gray-500">MB</span>
+                </div>
+                <p class="text-gray-500" id="storage-description">Local storage usage</p>
+
+                <!-- Storage Usage Bar -->
+                <div class="max-w-md mx-auto mt-6">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Used</span>
+                        <span>Available</span>
+                    </div>
+                    <div class="storage-bar relative">
+                        <div class="storage-fill" id="storage-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span id="used-text">0 MB</span>
+                        <span id="available-text">0 MB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button id="analyze-storage" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="search" class="w-4 h-4 mr-2"></i>
+                    Analyze Storage
+                </button>
+                <button id="clear-storage" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center">
+                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear All Storage
+                </button>
+                <button id="export-data" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                    <i data-feather="download" class="w-4 h-4 mr-2"></i>
+                    Export Data
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Storage Type</label>
+                    <select id="storage-type" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="localStorage" selected>localStorage</option>
+                        <option value="sessionStorage">sessionStorage</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Display Format</label>
+                    <select id="display-format" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                        <option value="bytes" selected>Bytes</option>
+                        <option value="kb">Kilobytes (KB)</option>
+                        <option value="mb">Megabytes (MB)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+            <!-- Storage Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Storage Overview</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Items:</span>
+                        <span id="total-items" class="font-mono">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Used:</span>
+                        <span id="used-space" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Quota:</span>
+                        <span id="quota-limit" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Stats -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Usage Statistics</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Available:</span>
+                        <span id="available-space" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Usage %:</span>
+                        <span id="usage-percentage" class="font-mono">--%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Status:</span>
+                        <span id="storage-status" class="font-semibold">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Largest Items -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Largest Items</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Biggest:</span>
+                        <span id="largest-item" class="font-mono text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Size:</span>
+                        <span id="largest-size" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Average:</span>
+                        <span id="average-size" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Browser Info -->
+            <div class="stats-card">
+                <h3 class="text-sm font-semibold text-gray-700 mb-4">Browser Support</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">localStorage:</span>
+                        <span id="localstorage-support" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Quota API:</span>
+                        <span id="quota-support" class="font-mono">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Storage Events:</span>
+                        <span id="events-support" class="font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage Items List -->
+        <div class="result-box mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="database" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                Stored Items
+            </h3>
+            <div id="storage-items" class="max-h-96 overflow-y-auto">
+                <div class="text-center text-gray-500 py-8">
+                    <i data-feather="database" class="w-12 h-12 mb-4"></i>
+                    <p>Click "Analyze Storage" to view stored items</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="result-box">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
+                How It Works
+            </h3>
+            <div class="prose prose-sm max-w-none text-gray-600">
+                <p class="mb-3">This tool analyzes your browser's local storage and session storage usage, providing detailed information about stored data and available space.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Storage Types:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>localStorage:</strong> Persistent storage that survives browser restarts</li>
+                            <li><strong>sessionStorage:</strong> Temporary storage cleared when tab is closed</li>
+                        </ul>
+                        <p class="text-sm mt-3">Typical quota limits range from 5-10MB per origin, but can vary by browser.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Features:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li><strong>Real-time Analysis:</strong> Get instant storage usage information</li>
+                            <li><strong>Item Breakdown:</strong> See individual stored items and their sizes</li>
+                            <li><strong>Export Data:</strong> Download storage contents as JSON</li>
+                            <li><strong>Clear Storage:</strong> Remove all stored data with one click</li>
+                        </ul>
+                        <p class="text-sm mt-3 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                            <strong>Warning:</strong> Clearing storage will remove all locally stored data for this site.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+
+            // Elements
+            const analyzeBtn = document.getElementById('analyze-storage');
+            const clearBtn = document.getElementById('clear-storage');
+            const exportBtn = document.getElementById('export-data');
+            const currentUsageEl = document.getElementById('current-usage');
+            const statusIndicatorEl = document.getElementById('status-indicator');
+            const statusTextEl = document.getElementById('status-text');
+            const storageDescriptionEl = document.getElementById('storage-description');
+            const storageFillEl = document.getElementById('storage-fill');
+            const usedTextEl = document.getElementById('used-text');
+            const availableTextEl = document.getElementById('available-text');
+            const storageTypeSelect = document.getElementById('storage-type');
+            const displayFormatSelect = document.getElementById('display-format');
+            const storageItemsEl = document.getElementById('storage-items');
+
+            // Stats elements
+            const totalItemsEl = document.getElementById('total-items');
+            const usedSpaceEl = document.getElementById('used-space');
+            const quotaLimitEl = document.getElementById('quota-limit');
+            const availableSpaceEl = document.getElementById('available-space');
+            const usagePercentageEl = document.getElementById('usage-percentage');
+            const storageStatusEl = document.getElementById('storage-status');
+            const largestItemEl = document.getElementById('largest-item');
+            const largestSizeEl = document.getElementById('largest-size');
+            const averageSizeEl = document.getElementById('average-size');
+            const localStorageSupportEl = document.getElementById('localstorage-support');
+            const quotaSupportEl = document.getElementById('quota-support');
+            const eventsSupportEl = document.getElementById('events-support');
+
+            // State
+            let currentStorageData = [];
+            let currentQuota = null;
+            let currentUsage = 0;
+
+            // Check browser support
+            function checkBrowserSupport() {
+                const localStorageSupport = typeof Storage !== 'undefined';
+                const quotaSupport = navigator.storage && navigator.storage.estimate;
+                const eventsSupport = typeof StorageEvent !== 'undefined';
+
+                localStorageSupportEl.textContent = localStorageSupport ? '✅' : '❌';
+                quotaSupportEl.textContent = quotaSupport ? '✅' : '❌';
+                eventsSupportEl.textContent = eventsSupport ? '✅' : '❌';
+
+                return { localStorageSupport, quotaSupport, eventsSupport };
+            }
+
+            // Get storage object
+            function getStorage() {
+                const type = storageTypeSelect.value;
+                return type === 'localStorage' ? localStorage : sessionStorage;
+            }
+
+            // Calculate string size in bytes
+            function getStringSize(str) {
+                return new Blob([str]).size;
+            }
+
+            // Format size
+            function formatSize(bytes, format = null) {
+                if (format === null) format = displayFormatSelect.value;
+
+                switch (format) {
+                    case 'bytes':
+                        return `${bytes} B`;
+                    case 'kb':
+                        return `${(bytes / 1024).toFixed(2)} KB`;
+                    case 'mb':
+                        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+                    default:
+                        return `${bytes} B`;
+                }
+            }
+
+            // Get storage quota and usage
+            async function getStorageInfo() {
+                if (!navigator.storage || !navigator.storage.estimate) {
+                    return { quota: null, usage: null };
+                }
+
+                try {
+                    const estimate = await navigator.storage.estimate();
+                    return {
+                        quota: estimate.quota,
+                        usage: estimate.usage
+                    };
+                } catch (error) {
+                    console.warn('Storage estimate failed:', error);
+                    return { quota: null, usage: null };
+                }
+            }
+
+            // Analyze storage
+            async function analyzeStorage() {
+                const storage = getStorage();
+                const items = [];
+                let totalSize = 0;
+
+                // Get all items
+                for (let i = 0; i < storage.length; i++) {
+                    const key = storage.key(i);
+                    const value = storage.getItem(key);
+                    const size = getStringSize(key + value);
+
+                    items.push({
+                        key,
+                        value,
+                        size,
+                        formattedSize: formatSize(size)
+                    });
+
+                    totalSize += size;
+                }
+
+                // Sort by size (largest first)
+                items.sort((a, b) => b.size - a.size);
+
+                // Get quota info
+                const storageInfo = await getStorageInfo();
+
+                currentStorageData = items;
+                currentQuota = storageInfo.quota;
+                currentUsage = totalSize;
+
+                return { items, totalSize, quota: storageInfo.quota, usage: storageInfo.usage };
+            }
+
+            // Update UI
+            function updateUI(data) {
+                const { items, totalSize, quota, usage } = data;
+
+                // Update main display
+                const displaySize = totalSize / (1024 * 1024); // MB
+                currentUsageEl.textContent = displaySize.toFixed(2);
+
+                // Update storage bar
+                let percentage = 0;
+                let status = 'Unknown';
+                let statusColor = '';
+
+                if (quota) {
+                    percentage = (totalSize / quota) * 100;
+                    if (percentage < 50) {
+                        status = 'Good';
+                        statusColor = 'text-green-600';
+                    } else if (percentage < 80) {
+                        status = 'Warning';
+                        statusColor = 'text-yellow-600';
+                        storageFillEl.classList.add('warning');
+                    } else {
+                        status = 'Critical';
+                        statusColor = 'text-red-600';
+                        storageFillEl.classList.add('danger');
+                    }
+                } else {
+                    // Estimate based on typical limits
+                    if (totalSize < 2 * 1024 * 1024) { // < 2MB
+                        percentage = (totalSize / (5 * 1024 * 1024)) * 100; // Assume 5MB limit
+                        status = 'Good';
+                        statusColor = 'text-green-600';
+                    } else if (totalSize < 4 * 1024 * 1024) { // < 4MB
+                        percentage = (totalSize / (5 * 1024 * 1024)) * 100;
+                        status = 'Warning';
+                        statusColor = 'text-yellow-600';
+                        storageFillEl.classList.add('warning');
+                    } else {
+                        percentage = 90;
+                        status = 'Critical';
+                        statusColor = 'text-red-600';
+                        storageFillEl.classList.add('danger');
+                    }
+                }
+
+                storageFillEl.style.width = `${Math.min(percentage, 100)}%`;
+                storageDescriptionEl.textContent = `Storage usage - ${status}`;
+
+                // Update bar texts
+                usedTextEl.textContent = formatSize(totalSize, 'mb');
+                availableTextEl.textContent = quota ? formatSize(quota - totalSize, 'mb') : 'Unknown';
+
+                // Update stats
+                totalItemsEl.textContent = items.length;
+                usedSpaceEl.textContent = formatSize(totalSize);
+                quotaLimitEl.textContent = quota ? formatSize(quota) : 'Unknown';
+                availableSpaceEl.textContent = quota ? formatSize(quota - totalSize) : 'Unknown';
+                usagePercentageEl.textContent = percentage.toFixed(1) + '%';
+                storageStatusEl.textContent = status;
+                storageStatusEl.className = `font-semibold ${statusColor}`;
+
+                // Update largest items
+                if (items.length > 0) {
+                    const largest = items[0];
+                    largestItemEl.textContent = largest.key.length > 15 ? largest.key.substring(0, 15) + '...' : largest.key;
+                    largestSizeEl.textContent = largest.formattedSize;
+                    averageSizeEl.textContent = formatSize(totalSize / items.length);
+                } else {
+                    largestItemEl.textContent = 'None';
+                    largestSizeEl.textContent = '0 B';
+                    averageSizeEl.textContent = '0 B';
+                }
+
+                // Update items list
+                updateItemsList(items);
+            }
+
+            // Update items list
+            function updateItemsList(items) {
+                if (items.length === 0) {
+                    storageItemsEl.innerHTML = `
+                        <div class="text-center text-gray-500 py-8">
+                            <i data-feather="database" class="w-12 h-12 mb-4"></i>
+                            <p>No items stored in ${storageTypeSelect.value}</p>
+                        </div>
+                    `;
+                    feather.replace();
+                    return;
+                }
+
+                const itemsHtml = items.map((item, index) => `
+                    <div class="storage-item">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1 min-w-0">
+                                <div class="font-mono text-sm text-gray-800 truncate" title="${item.key}">${item.key}</div>
+                                <div class="text-xs text-gray-500 mt-1">${item.formattedSize}</div>
+                            </div>
+                            <button class="delete-item text-red-500 hover:text-red-700 ml-2" data-index="${index}">
+                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="text-xs text-gray-600 bg-gray-50 p-2 rounded max-h-20 overflow-hidden" style="word-break: break-all;">
+                            ${item.value.length > 100 ? item.value.substring(0, 100) + '...' : item.value}
+                        </div>
+                    </div>
+                `).join('');
+
+                storageItemsEl.innerHTML = itemsHtml;
+                feather.replace();
+
+                // Add delete event listeners
+                document.querySelectorAll('.delete-item').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        const item = items[index];
+                        if (confirm(`Delete item "${item.key}"?`)) {
+                            const storage = getStorage();
+                            storage.removeItem(item.key);
+                            analyzeStorage().then(updateUI);
+                        }
+                    });
+                });
+            }
+
+            // Clear all storage
+            function clearAllStorage() {
+                if (!confirm('Are you sure you want to clear all stored data? This action cannot be undone.')) {
+                    return;
+                }
+
+                const storage = getStorage();
+                storage.clear();
+                analyzeStorage().then(updateUI);
+            }
+
+            // Export data
+            function exportData() {
+                const data = {
+                    storageType: storageTypeSelect.value,
+                    timestamp: new Date().toISOString(),
+                    items: currentStorageData,
+                    summary: {
+                        totalItems: currentStorageData.length,
+                        totalSize: currentUsage,
+                        quota: currentQuota
+                    }
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `storage-export-${storageTypeSelect.value}-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Event listeners
+            analyzeBtn.addEventListener('click', async function() {
+                statusTextEl.textContent = 'Analyzing...';
+                statusIndicatorEl.className = 'pulse-dot';
+
+                try {
+                    const data = await analyzeStorage();
+                    updateUI(data);
+                    statusTextEl.textContent = 'Analysis complete';
+                    statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-green-500';
+                } catch (error) {
+                    console.error('Analysis failed:', error);
+                    statusTextEl.textContent = 'Analysis failed';
+                    statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-red-500';
+                }
+            });
+
+            clearBtn.addEventListener('click', clearAllStorage);
+            exportBtn.addEventListener('click', exportData);
+
+            storageTypeSelect.addEventListener('change', function() {
+                if (currentStorageData.length > 0) {
+                    analyzeStorage().then(updateUI);
+                }
+            });
+
+            displayFormatSelect.addEventListener('change', function() {
+                if (currentStorageData.length > 0) {
+                    updateUI({ items: currentStorageData, totalSize: currentUsage, quota: currentQuota });
+                }
+            });
+
+            // Initialize
+            checkBrowserSupport();
+            analyzeStorage().then(updateUI);
+        });
+    </script>
+    <script defer src="/js/shared-ui.js"></script>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
+      authDomain: "infiniteforge-1302.firebaseapp.com",
+      projectId: "infiniteforge-1302",
+      storageBucket: "infiniteforge-1302.firebasestorage.app",
+      messagingSenderId: "778668365162",
+      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
+      measurementId: "G-C5WMNCN7P0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</html>
