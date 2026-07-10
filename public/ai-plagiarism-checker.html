@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -98,11 +98,97 @@
     <link rel="stylesheet" href="/css/ui-enhancements.css">
     <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <link rel="stylesheet" href="/css/responsive-fix.css">
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
 
-<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-<body class="bg-gray-50 font-poppins overflow-x-hidden">
+
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <noscript>
         <div
             style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
@@ -124,50 +210,45 @@
             </div>
         </div>
     </noscript>
-    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="text-2xl font-bold text-blue-600"
-                    aria-label="InfiniteForge Home">InfiniteForge</a>
-                <div class="hidden sm:flex items-center space-x-6">
-                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
-                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-                </div>
-                <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden">
-            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
-            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
-            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <main class="max-w-7xl mx-auto pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8" itemscope
         itemtype="https://schema.org/WebPage">
         <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">AI Plagiarism Checker</h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto" itemprop="description">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4" itemprop="headline">AI Plagiarism Checker</h1>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto" itemprop="description">
                 Detect plagiarism in your text using advanced AI technology. Get detailed similarity reports and
                 originality scores instantly.
             </p>
         </div>
 
         <!-- User Counter -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-8 max-w-md mx-auto">
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-4 mb-8 max-w-md mx-auto">
             <div class="flex items-center justify-center space-x-4">
                 <div class="flex items-center space-x-2">
                     <i data-feather="users" class="w-5 h-5 text-blue-600"></i>
-                    <span class="text-gray-700 font-medium">Active Users:</span>
+                    <span class="text-gray-300 font-medium">Active Users:</span>
                 </div>
                 <div class="text-2xl font-bold text-blue-600" id="user-counter">Loading...</div>
             </div>
@@ -177,14 +258,14 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 <!-- Configuration Panel -->
                 <div class="lg:col-span-1 order-2 lg:order-1">
-                    <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md lg:sticky lg:top-24">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Check Settings</h3>
+                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md lg:sticky lg:top-24">
+                        <h3 class="text-lg font-semibold text-gray-100 mb-4">Check Settings</h3>
 
                         <!-- Check Type -->
                         <div class="mb-4 sm:mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Check Type</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Check Type</label>
                             <select id="check-type-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
+                                class="w-full px-3 py-2 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
                                 <option value="comprehensive">Comprehensive Check</option>
                                 <option value="quick">Quick Scan</option>
                                 <option value="detailed">Detailed Analysis</option>
@@ -193,9 +274,9 @@
 
                         <!-- Sensitivity Level -->
                         <div class="mb-4 sm:mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Sensitivity Level</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Sensitivity Level</label>
                             <select id="sensitivity-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
+                                class="w-full px-3 py-2 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
                                 <option value="low">Low (90%+ similarity)</option>
                                 <option value="medium">Medium (80%+ similarity)</option>
                                 <option value="high">High (70%+ similarity)</option>
@@ -208,7 +289,7 @@
                             <label class="flex items-center">
                                 <input type="checkbox" id="exclude-quotes" class="form-checkbox h-4 w-4 text-blue-600"
                                     checked>
-                                <span class="ml-2 text-sm text-gray-700">Exclude quoted text</span>
+                                <span class="ml-2 text-sm text-gray-300">Exclude quoted text</span>
                             </label>
                         </div>
 
@@ -217,7 +298,7 @@
                             <label class="flex items-center">
                                 <input type="checkbox" id="exclude-references"
                                     class="form-checkbox h-4 w-4 text-blue-600" checked>
-                                <span class="ml-2 text-sm text-gray-700">Exclude references/citations</span>
+                                <span class="ml-2 text-sm text-gray-300">Exclude references/citations</span>
                             </label>
                         </div>
 
@@ -228,23 +309,23 @@
                         </button>
 
                         <!-- Quick Actions -->
-                        <div class="pt-4 sm:pt-6 border-t border-gray-200">
-                            <h4 class="text-sm font-medium text-gray-700 mb-3">Quick Actions</h4>
+                        <div class="pt-4 sm:pt-6 border-t border-white/10">
+                            <h4 class="text-sm font-medium text-gray-300 mb-3">Quick Actions</h4>
                             <div class="grid grid-cols-2 gap-2 sm:space-y-2 sm:grid-cols-1">
                                 <button id="copy-report-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Copy Report
                                 </button>
                                 <button id="clear-input-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Clear Input
                                 </button>
                                 <button id="load-sample-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Load Sample
                                 </button>
                                 <button id="download-report-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Download Report
                                 </button>
                             </div>
@@ -256,32 +337,32 @@
                 <div class="lg:col-span-2 order-1 lg:order-2">
                     <div class="space-y-6">
                         <!-- Text Input -->
-                        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md">
+                        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Input Text</h3>
+                                <h3 class="text-lg font-semibold text-gray-100">Input Text</h3>
                                 <div class="flex space-x-2">
                                     <button id="paste-btn"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         Paste
                                     </button>
                                     <button id="clear-input-btn-main"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         Clear
                                     </button>
                                 </div>
                             </div>
                             <textarea id="text-input" placeholder="Enter the text you want to check for plagiarism..."
-                                class="w-full h-64 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
+                                class="w-full h-64 px-3 py-2 bg-dark-900/40 text-gray-200 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
                                 spellcheck="true"></textarea>
                         </div>
 
                         <!-- Results Panel -->
-                        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md">
+                        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Plagiarism Report</h3>
+                                <h3 class="text-lg font-semibold text-gray-100">Plagiarism Report</h3>
                                 <div class="flex space-x-2">
                                     <button id="view-details-btn"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         View Details
                                     </button>
                                 </div>
@@ -295,10 +376,10 @@
                                     </div>
                                 </div>
                                 <div id="loading-overlay"
-                                    class="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center rounded-md hidden">
+                                    class="absolute inset-0 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-90 flex items-center justify-center rounded-md hidden">
                                     <div class="flex flex-col items-center space-y-3">
                                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                                        <p class="text-sm text-gray-600">Analyzing text for plagiarism...</p>
+                                        <p class="text-sm text-gray-400">Analyzing text for plagiarism...</p>
                                     </div>
                                 </div>
                             </div>
@@ -309,32 +390,32 @@
 
             <!-- Statistics -->
             <div class="mt-6 lg:mt-8 grid grid-cols-1 sm:grid-cols-4 gap-4 lg:gap-6">
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-blue-600 mb-2" id="total-words">0</div>
-                    <div class="text-sm sm:text-base text-gray-600">Total Words</div>
+                    <div class="text-sm sm:text-base text-gray-400">Total Words</div>
                 </div>
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-green-600 mb-2" id="original-words">0</div>
-                    <div class="text-sm sm:text-base text-gray-600">Original Words</div>
+                    <div class="text-sm sm:text-base text-gray-400">Original Words</div>
                 </div>
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-red-600 mb-2" id="plagiarized-words">0</div>
-                    <div class="text-sm sm:text-base text-gray-600">Similar Words</div>
+                    <div class="text-sm sm:text-base text-gray-400">Similar Words</div>
                 </div>
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-orange-600 mb-2" id="similarity-score">0%</div>
-                    <div class="text-sm sm:text-base text-gray-600">Similarity Score</div>
+                    <div class="text-sm sm:text-base text-gray-400">Similarity Score</div>
                 </div>
             </div>
 
             <!-- Detailed Results Modal -->
-            <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+            <div id="details-modal" class="fixed inset-0 bg-black bg-dark-900/40 backdrop-blur-md hidden z-50">
                 <div class="flex items-center justify-center min-h-screen p-4">
-                    <div class="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto">
+                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Detailed Plagiarism Report</h3>
-                                <button id="close-details" class="text-gray-500 hover:text-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-100">Detailed Plagiarism Report</h3>
+                                <button id="close-details" class="text-gray-500 hover:text-gray-300">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M6 18L18 6M6 6l12 12"></path>
@@ -349,7 +430,7 @@
                 </div>
             </div>
 
-            <div id="message" class="mt-4 text-center text-sm text-gray-600 px-4"></div>
+            <div id="message" class="mt-4 text-center text-sm text-gray-400 px-4"></div>
         </div>
     </main>
     <script>(function () { var _0x = ['aHR0cHM6Ly9uaW0tc2Vydi52ZXJjZWwuYXBwL2NoYXQ=']; window.API_URL = atob(_0x[0]); })();</script>
@@ -533,7 +614,7 @@ Please provide a detailed JSON response with the following structure:
     "similar_words": "number",
     "risk_level": "low/medium/high",
     "sources_found": ["source1", "source2"],
-    "highlighted_text": "text with <mark class='bg-yellow-200'>highlighted</mark> similar sections",
+    "highlighted_text": "text with <mark class='bg-dark-700/60 backdrop-blur-md'>highlighted</mark> similar sections",
     "recommendations": ["recommendation1", "recommendation2"],
     "detailed_matches": [
         {
@@ -588,7 +669,7 @@ Ensure the response is valid JSON only, no additional text or formatting.`;
                 // Highlight some random words as similar
                 const words = text.split(' ');
                 const highlightedWords = words.map(word =>
-                    Math.random() > 0.8 ? `<mark class="bg-yellow-200">${word}</mark>` : word
+                    Math.random() > 0.8 ? `<mark class="bg-dark-700/60 backdrop-blur-md">${word}</mark>` : word
                 );
                 const highlighted_text = highlightedWords.join(' ');
 
@@ -634,29 +715,29 @@ Ensure the response is valid JSON only, no additional text or formatting.`;
                             <h4 class="text-lg font-semibold text-${riskColor}-600">${riskText}</h4>
                             <span class="text-2xl font-bold text-${riskColor}-600">${results.overall_similarity}%</span>
                         </div>
-                        <p class="text-sm text-gray-600 mb-2">Overall Similarity Score</p>
+                        <p class="text-sm text-gray-400 mb-2">Overall Similarity Score</p>
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="font-semibold text-gray-800 mb-2">Analysis Summary</h4>
-                        <div class="bg-gray-50 p-3 rounded-md">
-                            <p class="text-sm text-gray-700">${results.recommendations.join('. ')}</p>
+                        <h4 class="font-semibold text-gray-100 mb-2">Analysis Summary</h4>
+                        <div class="bg-dark-900/40 text-gray-200 p-3 rounded-md">
+                            <p class="text-sm text-gray-300">${results.recommendations.join('. ')}</p>
                         </div>
                     </div>
 
                     ${results.sources_found.length > 0 ? `
                     <div class="mb-4">
-                        <h4 class="font-semibold text-gray-800 mb-2">Potential Sources Found</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <h4 class="font-semibold text-gray-100 mb-2">Potential Sources Found</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-400 space-y-1">
                             ${results.sources_found.map(source => `<li>${source}</li>`).join('')}
                         </ul>
                     </div>
                     ` : ''}
 
                     <div class="mb-4">
-                        <h4 class="font-semibold text-gray-800 mb-2">Highlighted Text</h4>
-                        <div class="bg-gray-50 p-3 rounded-md max-h-48 overflow-y-auto">
-                            <p class="text-sm text-gray-700 leading-relaxed">${results.highlighted_text}</p>
+                        <h4 class="font-semibold text-gray-100 mb-2">Highlighted Text</h4>
+                        <div class="bg-dark-900/40 text-gray-200 p-3 rounded-md max-h-48 overflow-y-auto">
+                            <p class="text-sm text-gray-300 leading-relaxed">${results.highlighted_text}</p>
                         </div>
                     </div>
                 `;
@@ -677,35 +758,35 @@ Ensure the response is valid JSON only, no additional text or formatting.`;
 
                 let html = `
                     <div class="mb-4">
-                        <h4 class="font-semibold text-gray-800 mb-2">Detailed Matches</h4>
+                        <h4 class="font-semibold text-gray-100 mb-2">Detailed Matches</h4>
                 `;
 
                 if (this.detailedResults.detailed_matches.length > 0) {
                     html += '<div class="space-y-3">';
                     this.detailedResults.detailed_matches.forEach((match, index) => {
                         html += `
-                            <div class="border border-gray-200 rounded-md p-3">
+                            <div class="border border-white/10 rounded-md p-3">
                                 <div class="flex justify-between items-start mb-2">
-                                    <span class="font-medium text-sm text-gray-800">Match ${index + 1}</span>
+                                    <span class="font-medium text-sm text-gray-100">Match ${index + 1}</span>
                                     <span class="text-sm font-semibold text-red-600">${match.similarity} similar</span>
                                 </div>
-                                <p class="text-sm text-gray-600 mb-2"><strong>Source:</strong> ${match.source}</p>
-                                <p class="text-sm text-gray-700 mb-2"><strong>Matched Text:</strong> "${match.matched_text}"</p>
-                                <p class="text-sm text-gray-600"><strong>Explanation:</strong> ${match.explanation}</p>
+                                <p class="text-sm text-gray-400 mb-2"><strong>Source:</strong> ${match.source}</p>
+                                <p class="text-sm text-gray-300 mb-2"><strong>Matched Text:</strong> "${match.matched_text}"</p>
+                                <p class="text-sm text-gray-400"><strong>Explanation:</strong> ${match.explanation}</p>
                             </div>
                         `;
                     });
                     html += '</div>';
                 } else {
-                    html += '<p class="text-sm text-gray-600">No detailed matches found.</p>';
+                    html += '<p class="text-sm text-gray-400">No detailed matches found.</p>';
                 }
 
                 html += `
                     </div>
 
                     <div class="mb-4">
-                        <h4 class="font-semibold text-gray-800 mb-2">Recommendations</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <h4 class="font-semibold text-gray-100 mb-2">Recommendations</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-400 space-y-1">
                             ${this.detailedResults.recommendations.map(rec => `<li>${rec}</li>`).join('')}
                         </ul>
                     </div>
@@ -844,7 +925,7 @@ Ensure the response is valid JSON only, no additional text or formatting.`;
                 messageEl.textContent = message;
                 messageEl.className = `mt-4 text-center text-sm px-4 ${type === 'success' ? 'text-green-600' :
                         type === 'error' ? 'text-red-600' :
-                            'text-gray-600'
+                            'text-gray-400'
                     }`;
 
                 // Clear message after 3 seconds
@@ -1072,7 +1153,7 @@ Ensure the response is valid JSON only, no additional text or formatting.`;
 
     <style>
         .json-active {
-            background-color: white;
+            background-color: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             color: #2563eb;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
@@ -1099,30 +1180,18 @@ Ensure the response is valid JSON only, no additional text or formatting.`;
         }
     </style>
     <script defer src="/js/shared-ui.js"></script>
-</body>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
+</body>
 
 </html>

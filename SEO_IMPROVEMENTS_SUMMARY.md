@@ -1,9 +1,9 @@
-# SEO Improvements for AI Business Idea Validator
+﻿# SEO Improvements for AI Business Idea Validator
 
 ## Summary of Changes Made
 
 ### 1. **Enhanced Meta Tags**
-- ✅ **Title Tag**: Updated from "AI Business Idea Validator — Daedalus" to "AI Business Idea Validator | Free Startup Analysis Tool | Daedalus"
+- ✅ **Title Tag**: Updated from "AI Business Idea Validator — Infiniteforge" to "AI Business Idea Validator | Free Startup Analysis Tool | Infiniteforge"
   - Added targeted keywords (Free, Startup Analysis Tool)
   - Better length for search results display (58 characters)
 
@@ -37,7 +37,7 @@
   - Unlimited snippet length in search results
   - Allows large image previews
   
-- ✅ **Canonical Tag**: Added `https://daedalus.tools/ai-business-idea-validator.html`
+- ✅ **Canonical Tag**: Added `https://infiniteforge.tools/ai-business-idea-validator.html`
   - Prevents duplicate content issues
   - Clarifies the preferred URL version
 

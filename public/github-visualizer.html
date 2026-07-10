@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Repo Visualizer | Daedalus - Free Online Tools</title>
+    <title>GitHub Repo Visualizer | Infiniteforge - Free Online Tools</title>
     <meta name="description" content="Visualize GitHub repository data with interactive charts and statistics. Analyze contributors, commits, languages, and repository metrics. Free online tool.">
-    <meta name="keywords" content="github visualizer, repository analyzer, git statistics, contributor analysis, code metrics, github api, repository insights, Daedalus">
+    <meta name="keywords" content="github visualizer, repository analyzer, git statistics, contributor analysis, code metrics, github api, repository insights, Infiniteforge">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
-    <meta property="og:title" content="GitHub Repo Visualizer | Daedalus - Free Online Tools">
+    <meta property="og:title" content="GitHub Repo Visualizer | Infiniteforge - Free Online Tools">
     <meta property="og:description" content="Analyze and visualize GitHub repository data with interactive charts. Get insights on contributors, commits, languages, and more.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/github-visualizer.html">
@@ -68,7 +68,7 @@
         }
 
         .stat-card {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -102,7 +102,7 @@
         }
 
         .contributor-card {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             padding: 1rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -121,7 +121,7 @@
         }
 
         .repo-input {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border: 2px solid #e2e8f0;
             border-radius: 0.5rem;
             padding: 1rem;
@@ -134,9 +134,87 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
     </style>
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
 
-<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
@@ -148,55 +226,60 @@
   gtag('config', 'G-FQ082B7887');
 </script>
 
-<body class="bg-gray-50 font-poppins">
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <!-- Navbar -->
-    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="text-2xl font-bold text-blue-600">Daedalus</a>
-                <div class="hidden sm:flex items-center space-x-6">
-                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
-                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
-                </div>
-                <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
-                        <i data-feather="menu" class="w-6 h-6"></i>
-                    </button>
-                </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden sm:hidden">
-            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
-            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
-            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
-            <a href="contact.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Contact</a>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebApplication">
         <!-- Header -->
         <div class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-3">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-3">
                 <span class="text-blue-600">GitHub</span> Repo Visualizer
             </h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
                 Analyze and visualize GitHub repository data with interactive charts and comprehensive statistics.
                 Get deep insights into your project's health and activity.
             </p>
         </div>
 
         <!-- Repository Input -->
-        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8">
             <div class="max-w-2xl mx-auto">
-                <label for="repoInput" class="block text-lg font-semibold text-gray-800 mb-4">
+                <label for="repoInput" class="block text-lg font-semibold text-gray-100 mb-4">
                     Enter GitHub Repository URL or owner/repo
                 </label>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <input type="text" id="repoInput" placeholder="e.g., facebook/react or https://github.com/facebook/react"
-                           class="repo-input flex-1 text-gray-700 placeholder-gray-400">
+                           class="repo-input flex-1 text-gray-300 placeholder-gray-400">
                     <button id="analyzeButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center sm:justify-start w-full sm:w-auto">
                         <i data-feather="search" class="w-5 h-5 mr-2"></i>
                         Analyze
@@ -209,17 +292,17 @@
         </div>
 
         <!-- Loading State -->
-        <div id="loadingState" class="hidden bg-white rounded-2xl shadow-xl p-8 mb-8 text-center">
+        <div id="loadingState" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8 text-center">
             <div class="loading-spinner mb-4"></div>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">Analyzing Repository</h3>
-            <p class="text-gray-600">Fetching data from GitHub API...</p>
+            <h3 class="text-xl font-semibold text-gray-100 mb-2">Analyzing Repository</h3>
+            <p class="text-gray-400">Fetching data from GitHub API...</p>
         </div>
 
         <!-- Error State -->
-        <div id="errorState" class="hidden bg-red-50 border border-red-200 rounded-2xl p-8 mb-8">
+        <div id="errorState" class="hidden bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 mb-8">
             <div class="flex items-center mb-4">
                 <i data-feather="alert-circle" class="w-6 h-6 text-red-500 mr-3"></i>
-                <h3 class="text-xl font-semibold text-red-800">Error Loading Repository</h3>
+                <h3 class="text-xl font-semibold text-red-300">Error Loading Repository</h3>
             </div>
             <p id="errorMessage" class="text-red-700 mb-4"></p>
             <button id="retryButton" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
@@ -229,12 +312,12 @@
 
         <!-- Repository Overview -->
         <div id="repoOverview" class="hidden mb-8">
-            <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
                 <div class="flex items-center mb-6">
                     <img id="repoAvatar" class="w-16 h-16 rounded-lg mr-4" alt="Repository avatar">
                     <div>
-                        <h2 id="repoName" class="text-2xl font-bold text-gray-800"></h2>
-                        <p id="repoDescription" class="text-gray-600 mt-1"></p>
+                        <h2 id="repoName" class="text-2xl font-bold text-gray-100"></h2>
+                        <p id="repoDescription" class="text-gray-400 mt-1"></p>
                         <div class="flex items-center mt-2 text-sm text-gray-500">
                             <i data-feather="user" class="w-4 h-4 mr-1"></i>
                             <span id="repoOwner"></span>
@@ -249,19 +332,19 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="stat-card text-center">
                         <div class="text-2xl font-bold text-blue-600" id="starsCount">-</div>
-                        <div class="text-gray-600">Stars</div>
+                        <div class="text-gray-400">Stars</div>
                     </div>
                     <div class="stat-card text-center">
                         <div class="text-2xl font-bold text-green-600" id="forksCount">-</div>
-                        <div class="text-gray-600">Forks</div>
+                        <div class="text-gray-400">Forks</div>
                     </div>
                     <div class="stat-card text-center">
                         <div class="text-2xl font-bold text-purple-600" id="issuesCount">-</div>
-                        <div class="text-gray-600">Issues</div>
+                        <div class="text-gray-400">Issues</div>
                     </div>
                     <div class="stat-card text-center">
                         <div class="text-2xl font-bold text-orange-600" id="prsCount">-</div>
-                        <div class="text-gray-600">Pull Requests</div>
+                        <div class="text-gray-400">Pull Requests</div>
                     </div>
                 </div>
             </div>
@@ -270,8 +353,8 @@
         <!-- Charts Section -->
         <div id="chartsSection" class="hidden grid md:grid-cols-2 gap-8 mb-8">
             <!-- Languages Chart -->
-            <div class="bg-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
                     <i data-feather="code" class="w-6 h-6 mr-2 text-blue-500"></i>
                     Languages
                 </h3>
@@ -281,8 +364,8 @@
             </div>
 
             <!-- Commit Activity Chart -->
-            <div class="bg-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
                     <i data-feather="activity" class="w-6 h-6 mr-2 text-green-500"></i>
                     Commit Activity (Last 12 Months)
                 </h3>
@@ -293,8 +376,8 @@
         </div>
 
         <!-- Contributors Section -->
-        <div id="contributorsSection" class="hidden bg-white rounded-2xl shadow-xl p-8 mb-8">
-            <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+        <div id="contributorsSection" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8">
+            <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
                 <i data-feather="users" class="w-6 h-6 mr-2 text-purple-500"></i>
                 Top Contributors
             </h3>
@@ -304,38 +387,38 @@
         <!-- Repository Details -->
         <div id="repoDetails" class="hidden grid md:grid-cols-2 gap-8 mb-8">
             <!-- Repository Info -->
-            <div class="bg-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
                     <i data-feather="info" class="w-6 h-6 mr-2 text-blue-500"></i>
                     Repository Details
                 </h3>
                 <div class="space-y-4">
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600">License</span>
+                        <span class="text-gray-400">License</span>
                         <span id="repoLicense" class="font-medium">-</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600">Size</span>
+                        <span class="text-gray-400">Size</span>
                         <span id="repoSize" class="font-medium">-</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600">Last Updated</span>
+                        <span class="text-gray-400">Last Updated</span>
                         <span id="repoUpdated" class="font-medium">-</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-600">Default Branch</span>
+                        <span class="text-gray-400">Default Branch</span>
                         <span id="repoBranch" class="font-medium">-</span>
                     </div>
                     <div class="flex justify-between items-center py-2">
-                        <span class="text-gray-600">Topics</span>
+                        <span class="text-gray-400">Topics</span>
                         <div id="repoTopics" class="flex flex-wrap gap-1"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Recent Activity -->
-            <div class="bg-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
                     <i data-feather="clock" class="w-6 h-6 mr-2 text-green-500"></i>
                     Recent Activity
                 </h3>
@@ -347,33 +430,33 @@
 
         <!-- Features Section -->
         <div class="grid sm:grid-cols-3 gap-6 mt-10">
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="bar-chart" class="text-blue-500 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Interactive Charts</h3>
-                <p class="text-gray-600">Visualize repository data with beautiful, interactive charts and graphs.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Interactive Charts</h3>
+                <p class="text-gray-400">Visualize repository data with beautiful, interactive charts and graphs.</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center mb-4">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="users" class="text-purple-500 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Contributor Analysis</h3>
-                <p class="text-gray-600">See who contributes most to the project and their contribution patterns.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Contributor Analysis</h3>
+                <p class="text-gray-400">See who contributes most to the project and their contribution patterns.</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mb-4">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
+                <div class="w-12 h-12 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="trending-up" class="text-green-500 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Activity Tracking</h3>
-                <p class="text-gray-600">Monitor repository activity, commits, and growth over time.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Activity Tracking</h3>
+                <p class="text-gray-400">Monitor repository activity, commits, and growth over time.</p>
             </div>
         </div>
 
         <!-- Social Sharing Section -->
-        <div class="bg-white rounded-xl shadow-lg p-8 mt-10">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Share GitHub Visualizer</h2>
-            <p class="text-gray-600 text-center mb-6">Help others discover this powerful GitHub analysis tool</p>
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mt-10">
+            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share GitHub Visualizer</h2>
+            <p class="text-gray-400 text-center mb-6">Help others discover this powerful GitHub analysis tool</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
                 <a href="https://twitter.com/intent/tweet?text=Analyze%20GitHub%20repositories%20with%20interactive%20charts%20and%20statistics!&url=https://infiniteforge.tech/github-visualizer.html"
                    target="_blank" rel="noopener noreferrer"
@@ -397,11 +480,23 @@
         </div>
     </main>
 
-    <footer class="bg-gray-800 text-white py-4 mt-8">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 Remote Rise. All rights reserved.</p>
+    
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 Infiniteforge. Built for creators worldwide.
+            </div>
         </div>
     </footer>
+
+
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden">
@@ -412,7 +507,8 @@
         // Mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
@@ -430,6 +526,8 @@
                 mobileMenu.classList.add('hidden');
             }
         });
+        }
+
 
         // DOM Elements
         const repoInput = document.getElementById('repoInput');
@@ -546,7 +644,7 @@
             if (repo.topics && repo.topics.length > 0) {
                 repo.topics.forEach(topic => {
                     const topicTag = document.createElement('span');
-                    topicTag.className = 'bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full';
+                    topicTag.className = 'bg-dark-800/60 backdrop-blur-md text-blue-300 text-xs px-2 py-1 rounded-full';
                     topicTag.textContent = topic;
                     topicsContainer.appendChild(topicTag);
                 });
@@ -734,8 +832,8 @@
                         <img src="${contributor.avatar_url}" alt="${contributor.login}"
                              class="w-10 h-10 rounded-full mr-3">
                         <div>
-                            <h4 class="font-semibold text-gray-800">${contributor.login}</h4>
-                            <p class="text-sm text-gray-600">${contributor.contributions} contributions</p>
+                            <h4 class="font-semibold text-gray-100">${contributor.login}</h4>
+                            <p class="text-sm text-gray-400">${contributor.contributions} contributions</p>
                         </div>
                     </div>
                     <div class="language-bar">
@@ -806,30 +904,18 @@
             }
         }, 3000);
     </script>
-</body>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
+</body>
 
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -169,11 +169,97 @@
         ]
     }</script>
     <link rel="stylesheet" href="/css/ui-enhancements.css">
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
 
-<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-<body class="bg-gray-50 min-h-screen">
+
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <noscript>
         <div
             style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
@@ -196,34 +282,32 @@
         </div>
     </noscript>
     <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center group">
-                        <div
-                            class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mr-3 transform group-hover:rotate-12 transition-transform shadow-lg shadow-indigo-200">
-                            <span class="text-white font-bold text-lg">IF</span>
-                        </div>
-                        <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
-                    </a>
-                </div>
-
-                <div class="flex items-center space-x-4 md:space-x-8">
-                    <a href="/" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Home</a>
-                    <a href="/features.html" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Tools</a>
-                    <a href="/about.html" class="hidden sm:block text-gray-600 hover:text-indigo-600 font-medium transition-colors">About</a>
-                    <a href="/contact.html" class="hidden sm:block text-gray-600 hover:text-indigo-600 font-medium transition-colors">Contact</a>
-                </div>
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
+        </div>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <!-- Hero Section -->
     <section class="gradient-bg py-20 relative overflow-hidden">
         <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center justify-center p-3 bg-white/10 backdrop-blur-xl rounded-2xl mb-6 mb-4 animate-bounce">
+            <div class="inline-flex items-center justify-center p-3 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10 backdrop-blur-xl rounded-2xl mb-6 mb-4 animate-bounce">
                 <i data-feather="file-text" class="w-8 h-8 text-white"></i>
             </div>
             <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
@@ -234,11 +318,11 @@
                 papers, and organized content creation.
             </p>
             <div class="flex items-center justify-center space-x-4">
-                <div class="flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white text-sm border border-white/20">
+                <div class="flex items-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white text-sm border border-white/20">
                     <i data-feather="users" class="w-4 h-4 mr-2"></i>
                     <span id="user-counter" class="font-bold mr-1">10,000+</span> users
                 </div>
-                <div class="flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white text-sm border border-white/20">
+                <div class="flex items-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white text-sm border border-white/20">
                     <i data-feather="star" class="w-4 h-4 mr-2 text-yellow-300"></i>
                     <span class="font-bold">4.9/5</span> rating
                 </div>
@@ -251,29 +335,29 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Configuration Panel -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-lg p-6 sticky top-24">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 sticky top-24">
+                    <h3 class="text-xl font-semibold text-gray-100 mb-6 flex items-center">
                         <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
                         Configuration
                     </h3>
 
                     <!-- Essay Topic -->
                     <div class="mb-6">
-                        <label for="essay-topic" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="essay-topic" class="block text-sm font-medium text-gray-300 mb-2">
                             Essay Topic *
                         </label>
                         <textarea id="essay-topic" placeholder="Enter your essay topic or thesis statement..."
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                            class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                             rows="4"></textarea>
                     </div>
 
                     <!-- Essay Type -->
                     <div class="mb-6">
-                        <label for="essay-type" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="essay-type" class="block text-sm font-medium text-gray-300 mb-2">
                             Essay Type
                         </label>
                         <select id="essay-type"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="academic">Academic Essay</option>
                             <option value="research">Research Paper</option>
                             <option value="persuasive">Persuasive Essay</option>
@@ -287,11 +371,11 @@
 
                     <!-- Academic Level -->
                     <div class="mb-6">
-                        <label for="academic-level" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="academic-level" class="block text-sm font-medium text-gray-300 mb-2">
                             Academic Level
                         </label>
                         <select id="academic-level"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="high-school">High School</option>
                             <option value="undergraduate">Undergraduate</option>
                             <option value="graduate">Graduate</option>
@@ -301,11 +385,11 @@
 
                     <!-- Essay Length -->
                     <div class="mb-6">
-                        <label for="essay-length" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="essay-length" class="block text-sm font-medium text-gray-300 mb-2">
                             Target Length
                         </label>
                         <select id="essay-length"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="short">Short (500-1000 words)</option>
                             <option value="medium">Medium (1000-2000 words)</option>
                             <option value="long">Long (2000-3000 words)</option>
@@ -315,29 +399,29 @@
 
                     <!-- Include Options -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <label class="block text-sm font-medium text-gray-300 mb-3">
                             Include in Outline
                         </label>
                         <div class="space-y-2">
                             <label class="flex items-center">
                                 <input type="checkbox" id="include-thesis" checked
-                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Thesis Statement</span>
+                                    class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-300">Thesis Statement</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="checkbox" id="include-intro" checked
-                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Introduction</span>
+                                    class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-300">Introduction</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="checkbox" id="include-conclusion" checked
-                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Conclusion</span>
+                                    class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-300">Conclusion</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="checkbox" id="include-references"
-                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">References Section</span>
+                                    class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-300">References Section</span>
                             </label>
                         </div>
                     </div>
@@ -351,7 +435,7 @@
                         </button>
 
                         <button id="clear-btn"
-                            class="w-full bg-gray-100 text-gray-600 py-3 px-4 rounded-xl hover:bg-gray-200 transition-colors font-medium flex items-center justify-center">
+                            class="w-full bg-dark-800/80 text-gray-200 text-gray-400 py-3 px-4 rounded-xl hover:bg-dark-700/60 backdrop-blur-md transition-colors font-medium flex items-center justify-center">
                             <i data-feather="rotate-ccw" class="w-4 h-4 mr-2"></i>
                             Reset Form
                         </button>
@@ -361,24 +445,24 @@
 
             <!-- Results Panel -->
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 min-h-[600px] flex flex-col relative overflow-hidden">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 border border-gray-100 min-h-[600px] flex flex-col relative overflow-hidden">
                     <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-6">
                         <div class="flex items-center">
-                            <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                            <div class="w-10 h-10 bg-dark-800/60 backdrop-blur-md rounded-lg flex items-center justify-center mr-4">
                                 <i data-feather="list" class="w-6 h-6 text-indigo-600"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900">Generated Outline</h3>
+                            <h3 class="text-2xl font-bold text-white">Generated Outline</h3>
                         </div>
 
                         <!-- Quick Actions -->
                         <div class="flex space-x-3" id="quick-actions" style="display: none;">
                             <button id="copy-outline-btn"
-                                class="flex items-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors font-semibold shadow-sm">
+                                class="flex items-center px-4 py-2 bg-dark-900/40 backdrop-blur-md text-indigo-600 rounded-lg hover:bg-dark-800/60 backdrop-blur-md transition-colors font-semibold shadow-sm">
                                 <i data-feather="copy" class="w-4 h-4 mr-2"></i>
                                 Copy
                             </button>
                             <button id="download-outline-btn"
-                                class="flex items-center px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors font-semibold shadow-sm">
+                                class="flex items-center px-4 py-2 bg-dark-900/40 backdrop-blur-md text-purple-600 rounded-lg hover:bg-dark-800/60 backdrop-blur-md transition-colors font-semibold shadow-sm">
                                 <i data-feather="download" class="w-4 h-4 mr-2"></i>
                                 Save
                             </button>
@@ -387,13 +471,13 @@
 
                     <!-- Loading Overlay -->
                     <div id="loading-overlay"
-                        class="hidden absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded-2xl z-20">
+                        class="hidden absolute inset-0 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/90 backdrop-blur-sm flex items-center justify-center rounded-2xl z-20">
                         <div class="text-center">
                             <div class="relative w-20 h-20 mx-auto mb-6">
                                 <div class="absolute inset-0 border-4 border-indigo-100 rounded-full"></div>
                                 <div class="absolute inset-0 border-4 border-indigo-600 rounded-full border-t-transparent animate-spin"></div>
                             </div>
-                            <h4 class="text-xl font-bold text-gray-900 mb-2">Architecting Ideas...</h4>
+                            <h4 class="text-xl font-bold text-white mb-2">Architecting Ideas...</h4>
                             <p class="text-gray-500">Our AI is structuring your essay outline</p>
                         </div>
                     </div>
@@ -401,10 +485,10 @@
                     <!-- Results Content -->
                     <div id="results-content" class="flex-grow">
                         <div class="flex flex-col items-center justify-center h-full text-center py-20 px-10">
-                            <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                            <div class="w-24 h-24 bg-dark-900/40 text-gray-200 rounded-full flex items-center justify-center mb-6">
                                 <i data-feather="edit-3" class="w-12 h-12 text-gray-300"></i>
                             </div>
-                            <h4 class="text-2xl font-bold text-gray-800 mb-3">Ready to Start?</h4>
+                            <h4 class="text-2xl font-bold text-gray-100 mb-3">Ready to Start?</h4>
                             <p class="text-gray-500 max-w-sm">Provide your topic and criteria in the sidebar to generate a professional essay outline.</p>
                         </div>
                     </div>
@@ -415,55 +499,55 @@
         <!-- Recommended Tools -->
         <div class="mt-20">
             <div class="flex items-center justify-between mb-10">
-                <h2 class="text-3xl font-extrabold text-gray-900">Recommended <span class="text-indigo-600">AI Tools</span></h2>
-                <a href="features.html" class="text-indigo-600 font-semibold hover:text-indigo-800 flex items-center">
+                <h2 class="text-3xl font-extrabold text-white">Recommended <span class="text-indigo-600">AI Tools</span></h2>
+                <a href="features.html" class="text-indigo-600 font-semibold hover:text-indigo-300 flex items-center">
                     Browse All <i data-feather="arrow-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Tool 1: Content Generator -->
-                <a href="ai-content-generator.html" class="tool-card bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
+                <a href="ai-content-generator.html" class="tool-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-xl flex items-center justify-center mb-6">
                         <i data-feather="feather" class="w-6 h-6 text-indigo-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">AI Writing Pad</h3>
-                    <p class="text-gray-600 text-sm mb-4">Transform ideas into polished articles instantly.</p>
+                    <h3 class="text-xl font-bold text-white mb-2">AI Writing Pad</h3>
+                    <p class="text-gray-400 text-sm mb-4">Transform ideas into polished articles instantly.</p>
                     <div class="flex items-center text-indigo-600 font-bold text-sm">
                         Try Now <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
                     </div>
                 </a>
 
                 <!-- Tool 2: Story Writer -->
-                <a href="ai-story-script-writer.html" class="tool-card bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
-                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                <a href="ai-story-script-writer.html" class="tool-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-xl flex items-center justify-center mb-6">
                         <i data-feather="book-open" class="w-6 h-6 text-purple-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Story Craft</h3>
-                    <p class="text-gray-600 text-sm mb-4">Generate compelling stories and scripts with AI.</p>
+                    <h3 class="text-xl font-bold text-white mb-2">Story Craft</h3>
+                    <p class="text-gray-400 text-sm mb-4">Generate compelling stories and scripts with AI.</p>
                     <div class="flex items-center text-purple-600 font-bold text-sm">
                         Try Now <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
                     </div>
                 </a>
 
                 <!-- Tool 3: Hashtags -->
-                <a href="ai-hashtag-generator.html" class="tool-card bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
-                    <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-6">
+                <a href="ai-hashtag-generator.html" class="tool-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-xl flex items-center justify-center mb-6">
                         <i data-feather="hash" class="w-6 h-6 text-pink-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Social Spark</h3>
-                    <p class="text-gray-600 text-sm mb-4">Viral-ready hashtags for all social platforms.</p>
+                    <h3 class="text-xl font-bold text-white mb-2">Social Spark</h3>
+                    <p class="text-gray-400 text-sm mb-4">Viral-ready hashtags for all social platforms.</p>
                     <div class="flex items-center text-pink-600 font-bold text-sm">
                         Try Now <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
                     </div>
                 </a>
 
                 <!-- Tool 4: Study Buddy -->
-                <a href="ai-learning-assistant.html" class="tool-card bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-6">
+                <a href="ai-learning-assistant.html" class="tool-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-xl flex items-center justify-center mb-6">
                         <i data-feather="award" class="w-6 h-6 text-emerald-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Study Buddy</h3>
-                    <p class="text-gray-600 text-sm mb-4">Your personal AI tutor for 24/7 learning support.</p>
+                    <h3 class="text-xl font-bold text-white mb-2">Study Buddy</h3>
+                    <p class="text-gray-400 text-sm mb-4">Your personal AI tutor for 24/7 learning support.</p>
                     <div class="flex items-center text-emerald-600 font-bold text-sm">
                         Try Now <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
                     </div>
@@ -825,8 +909,8 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
                 let html = `
                     <!-- Essay Title -->
                     <div class="mb-6">
-                        <h4 class="text-2xl font-bold text-gray-800 mb-2">${outline.title}</h4>
-                        ${outline.thesis_statement ? `<p class="text-gray-600 italic">${outline.thesis_statement}</p>` : ''}
+                        <h4 class="text-2xl font-bold text-gray-100 mb-2">${outline.title}</h4>
+                        ${outline.thesis_statement ? `<p class="text-gray-400 italic">${outline.thesis_statement}</p>` : ''}
                     </div>
 
                     <!-- Sections -->
@@ -835,21 +919,21 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
 
                 outline.sections.forEach((section, sectionIndex) => {
                     html += `
-                        <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="border border-white/10 rounded-lg p-4">
                             <div class="flex items-start justify-between mb-3">
                                 <div class="flex-1">
-                                    <h5 class="text-lg font-semibold text-gray-800">${section.title}</h5>
-                                    <p class="text-sm text-gray-600 mt-1">${section.description}</p>
+                                    <h5 class="text-lg font-semibold text-gray-100">${section.title}</h5>
+                                    <p class="text-sm text-gray-400 mt-1">${section.description}</p>
                                 </div>
-                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">${section.word_estimate} words</span>
+                                <span class="text-xs bg-dark-800/60 backdrop-blur-md text-blue-300 px-2 py-1 rounded">${section.word_estimate} words</span>
                             </div>
 
                             ${section.subsections ? section.subsections.map(subsection => `
-                                <div class="ml-4 mt-4 border-l-2 border-gray-200 pl-4">
-                                    <h6 class="font-medium text-gray-700 mb-2">${subsection.title}</h6>
+                                <div class="ml-4 mt-4 border-l-2 border-white/10 pl-4">
+                                    <h6 class="font-medium text-gray-300 mb-2">${subsection.title}</h6>
                                     <ul class="space-y-1 mb-2">
                                         ${subsection.key_points.map(point => `
-                                            <li class="text-sm text-gray-600 flex items-start">
+                                            <li class="text-sm text-gray-400 flex items-start">
                                                 <span class="text-gray-400 mr-2">•</span>
                                                 <span>${point}</span>
                                             </li>
@@ -865,14 +949,14 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
                 // Conclusion
                 if (outline.conclusion && (outline.conclusion.summary_points.length > 0 || outline.conclusion.final_thoughts)) {
                     html += `
-                        <div class="border border-gray-200 rounded-lg p-4">
-                            <h5 class="text-lg font-semibold text-gray-800 mb-3">Conclusion</h5>
+                        <div class="border border-white/10 rounded-lg p-4">
+                            <h5 class="text-lg font-semibold text-gray-100 mb-3">Conclusion</h5>
                             ${outline.conclusion.summary_points.length > 0 ? `
                                 <div class="mb-3">
-                                    <h6 class="font-medium text-gray-700 mb-2">Summary Points:</h6>
+                                    <h6 class="font-medium text-gray-300 mb-2">Summary Points:</h6>
                                     <ul class="space-y-1">
                                         ${outline.conclusion.summary_points.map(point => `
-                                            <li class="text-sm text-gray-600 flex items-start">
+                                            <li class="text-sm text-gray-400 flex items-start">
                                                 <span class="text-gray-400 mr-2">•</span>
                                                 <span>${point}</span>
                                             </li>
@@ -882,8 +966,8 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
                             ` : ''}
                             ${outline.conclusion.final_thoughts ? `
                                 <div>
-                                    <h6 class="font-medium text-gray-700 mb-2">Final Thoughts:</h6>
-                                    <p class="text-sm text-gray-600 italic">${outline.conclusion.final_thoughts}</p>
+                                    <h6 class="font-medium text-gray-300 mb-2">Final Thoughts:</h6>
+                                    <p class="text-sm text-gray-400 italic">${outline.conclusion.final_thoughts}</p>
                                 </div>
                             ` : ''}
                         </div>
@@ -893,11 +977,11 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
                 // References
                 if (outline.references && outline.references.length > 0) {
                     html += `
-                        <div class="border border-gray-200 rounded-lg p-4">
-                            <h5 class="text-lg font-semibold text-gray-800 mb-3">References</h5>
+                        <div class="border border-white/10 rounded-lg p-4">
+                            <h5 class="text-lg font-semibold text-gray-100 mb-3">References</h5>
                             <ol class="space-y-2">
                                 ${outline.references.map((ref, index) => `
-                                    <li class="text-sm text-gray-600">
+                                    <li class="text-sm text-gray-400">
                                         <span class="text-gray-400 mr-2">${index + 1}.</span>
                                         ${ref}
                                     </li>
@@ -912,11 +996,11 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
                     </div>
 
                     <!-- Quality Score -->
-                    <div class="mt-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-4">
+                    <div class="mt-6 bg-gradient-to-r from-dark-800/30 to-dark-900/30 border border-white/10 rounded-lg p-4">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h6 class="font-medium text-gray-800">Outline Quality Score</h6>
-                                <p class="text-sm text-gray-600">Based on structure, completeness, and academic standards</p>
+                                <h6 class="font-medium text-gray-100">Outline Quality Score</h6>
+                                <p class="text-sm text-gray-400">Based on structure, completeness, and academic standards</p>
                             </div>
                             <div class="text-right">
                                 <div class="text-3xl font-bold text-green-600">${outline.outline_quality_score}%</div>
@@ -1026,7 +1110,7 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
                 document.getElementById('results-content').innerHTML = `
                     <div class="text-center text-gray-500 py-16">
                         <i data-feather="file-text" class="w-16 h-16 mx-auto mb-4 text-gray-300"></i>
-                        <h4 class="text-lg font-medium text-gray-700 mb-2">Ready to Create Your Outline</h4>
+                        <h4 class="text-lg font-medium text-gray-300 mb-2">Ready to Create Your Outline</h4>
                         <p class="text-sm">Enter your essay topic in the configuration panel and click "Generate Outline" to get started.</p>
                     </div>
                 `;
@@ -1197,7 +1281,7 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(31, 40, 51, 0.4);
         }
 
         ::-webkit-scrollbar-thumb {
@@ -1210,30 +1294,18 @@ Ensure the response is valid JSON only, no additional text or formatting. Create
         }
     </style>
     <script defer src="/js/shared-ui.js"></script>
+
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
 </body>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
-  
 </html>

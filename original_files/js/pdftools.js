@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Try to use FileSaver.js first
                     if (typeof saveAs !== 'undefined') {
-                        saveAs(new Blob([mergedPdfBytes], { type: 'application/pdf' }), 'Daedalus_merged.pdf');
+                        saveAs(new Blob([mergedPdfBytes], { type: 'application/pdf' }), 'Infiniteforge_merged.pdf');
                     } else {
                         // Fallback: Use native browser download
                         const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const a = document.createElement('a');
                         a.style.display = 'none';
                         a.href = url;
-                        a.download = 'Daedalus_merged.pdf';
+                        a.download = 'Infiniteforge_merged.pdf';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
@@ -347,14 +347,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newPdfBytes = await newPdf.save();
                     
                     if (typeof saveAs !== 'undefined') {
-                        saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'Daedalus_split.pdf');
+                        saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'Infiniteforge_split.pdf');
                     } else {
                         const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
                         const url = window.URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.style.display = 'none';
                         a.href = url;
-                        a.download = 'Daedalus_split.pdf';
+                        a.download = 'Infiniteforge_split.pdf';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
@@ -425,14 +425,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     const pdfBytes = await pdfDoc.save();
                     if (typeof saveAs !== 'undefined') {
-                        saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), 'Daedalus_converted.pdf');
+                        saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), 'Infiniteforge_converted.pdf');
                     } else {
                         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                         const url = window.URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.style.display = 'none';
                         a.href = url;
-                        a.download = 'Daedalus_converted.pdf';
+                        a.download = 'Infiniteforge_converted.pdf';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
@@ -495,14 +495,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Saving the document without a password effectively removes it.
                     const pdfDocBytes = await pdfDoc.save();
                     if (typeof saveAs !== 'undefined') {
-                        saveAs(new Blob([pdfDocBytes], { type: 'application/pdf' }), 'Daedalus_unlocked.pdf');
+                        saveAs(new Blob([pdfDocBytes], { type: 'application/pdf' }), 'Infiniteforge_unlocked.pdf');
                     } else {
                         const blob = new Blob([pdfDocBytes], { type: 'application/pdf' });
                         const url = window.URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.style.display = 'none';
                         a.href = url;
-                        a.download = 'Daedalus_unlocked.pdf';
+                        a.download = 'Infiniteforge_unlocked.pdf';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);

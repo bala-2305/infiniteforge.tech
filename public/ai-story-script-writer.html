@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -99,11 +99,97 @@
     <link rel="stylesheet" href="/css/responsive-fix.css">
     <link rel="stylesheet" href="/css/ui-enhancements.css">
     <link rel="stylesheet" href="/css/ui-enhancements.css">
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
 
-<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-<body class="bg-gray-50 font-poppins overflow-x-hidden">
+
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <noscript>
         <div
             style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
@@ -125,51 +211,46 @@
             </div>
         </div>
     </noscript>
-    <nav class="bg-white/80 backdrop-blur-lg shadow-sm w-full fixed top-0 left-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="text-2xl font-bold text-blue-600"
-                    aria-label="InfiniteForge Home">InfiniteForge</a>
-                <div class="hidden sm:flex items-center space-x-6">
-                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium">Features</a>
-                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-                </div>
-                <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden">
-            <a href="index.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Home</a>
-            <a href="features.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">Features</a>
-            <a href="about.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-blue-50">About</a>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <main class="max-w-7xl mx-auto pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8" itemscope
         itemtype="https://schema.org/WebPage">
         <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4" itemprop="headline">AI Story & Script Writer
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4" itemprop="headline">AI Story & Script Writer
             </h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto" itemprop="description">
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto" itemprop="description">
                 Generate creative stories, screenplays, and scripts using AI. Choose from different genres, tones, and
                 formats to create compelling narratives.
             </p>
         </div>
 
         <!-- User Counter -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-8 max-w-md mx-auto">
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-4 mb-8 max-w-md mx-auto">
             <div class="flex items-center justify-center space-x-4">
                 <div class="flex items-center space-x-2">
                     <i data-feather="users" class="w-5 h-5 text-blue-600"></i>
-                    <span class="text-gray-700 font-medium">Active Users:</span>
+                    <span class="text-gray-300 font-medium">Active Users:</span>
                 </div>
                 <div class="text-2xl font-bold text-blue-600" id="user-counter">Loading...</div>
             </div>
@@ -179,14 +260,14 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 <!-- Configuration Panel -->
                 <div class="lg:col-span-1 order-2 lg:order-1">
-                    <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md lg:sticky lg:top-24">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Configuration</h3>
+                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md lg:sticky lg:top-24">
+                        <h3 class="text-lg font-semibold text-gray-100 mb-4">Configuration</h3>
 
                         <!-- Content Type -->
                         <div class="mb-4 sm:mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Content Type</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Content Type</label>
                             <select id="content-type-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
+                                class="w-full px-3 py-2 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
                                 <option value="short-story">Short Story</option>
                                 <option value="screenplay">Screenplay Scene</option>
                                 <option value="novel-chapter">Novel Chapter</option>
@@ -198,9 +279,9 @@
 
                         <!-- Genre -->
                         <div class="mb-4 sm:mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Genre</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Genre</label>
                             <select id="genre-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
+                                class="w-full px-3 py-2 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
                                 <option value="fantasy">Fantasy</option>
                                 <option value="sci-fi">Science Fiction</option>
                                 <option value="mystery">Mystery</option>
@@ -216,9 +297,9 @@
 
                         <!-- Tone -->
                         <div class="mb-4 sm:mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Tone</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Tone</label>
                             <select id="tone-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
+                                class="w-full px-3 py-2 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
                                 <option value="neutral">Neutral</option>
                                 <option value="dramatic">Dramatic</option>
                                 <option value="humorous">Humorous</option>
@@ -232,9 +313,9 @@
 
                         <!-- Length -->
                         <div class="mb-4 sm:mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Length</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Length</label>
                             <select id="length-select"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
+                                class="w-full px-3 py-2 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base">
                                 <option value="short">Short (200-500 words)</option>
                                 <option value="medium">Medium (500-1000 words)</option>
                                 <option value="long">Long (1000-2000 words)</option>
@@ -247,7 +328,7 @@
                             <label class="flex items-center">
                                 <input type="checkbox" id="include-characters"
                                     class="form-checkbox h-4 w-4 text-blue-600" checked>
-                                <span class="ml-2 text-sm text-gray-700">Include character descriptions</span>
+                                <span class="ml-2 text-sm text-gray-300">Include character descriptions</span>
                             </label>
                         </div>
 
@@ -258,23 +339,23 @@
                         </button>
 
                         <!-- Quick Actions -->
-                        <div class="pt-4 sm:pt-6 border-t border-gray-200">
-                            <h4 class="text-sm font-medium text-gray-700 mb-3">Quick Actions</h4>
+                        <div class="pt-4 sm:pt-6 border-t border-white/10">
+                            <h4 class="text-sm font-medium text-gray-300 mb-3">Quick Actions</h4>
                             <div class="grid grid-cols-2 gap-2 sm:space-y-2 sm:grid-cols-1">
                                 <button id="copy-result-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Copy Result
                                 </button>
                                 <button id="clear-input-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Clear Input
                                 </button>
                                 <button id="load-sample-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Load Sample
                                 </button>
                                 <button id="download-result-btn"
-                                    class="text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-colors">
+                                    class="text-left px-3 py-2 text-sm text-gray-400 hover:bg-dark-900/40 text-gray-200 rounded-md transition-colors">
                                     Download
                                 </button>
                             </div>
@@ -286,50 +367,50 @@
                 <div class="lg:col-span-2 order-1 lg:order-2">
                     <div class="space-y-6">
                         <!-- Text Input -->
-                        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md">
+                        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Story Prompt</h3>
+                                <h3 class="text-lg font-semibold text-gray-100">Story Prompt</h3>
                                 <div class="flex space-x-2">
                                     <button id="paste-btn"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         Paste
                                     </button>
                                     <button id="clear-input-btn-main"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         Clear
                                     </button>
                                 </div>
                             </div>
                             <textarea id="text-input"
                                 placeholder="Enter a story prompt, characters, setting, or plot idea... (optional - AI can generate from scratch)"
-                                class="w-full h-32 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
+                                class="w-full h-32 px-3 py-2 bg-dark-900/40 text-gray-200 border border-white/20 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
                                 spellcheck="true"></textarea>
                         </div>
 
                         <!-- Text Output -->
-                        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md">
+                        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg font-semibold text-gray-800">Generated Story</h3>
+                                <h3 class="text-lg font-semibold text-gray-100">Generated Story</h3>
                                 <div class="flex space-x-2">
                                     <button id="copy-output-btn"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         Copy
                                     </button>
                                     <button id="regenerate-btn"
-                                        class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 text-gray-300 rounded-md hover:bg-dark-700/60 backdrop-blur-md transition-colors">
                                         Regenerate
                                     </button>
                                 </div>
                             </div>
                             <div id="output-container" class="relative">
                                 <div id="text-output"
-                                    class="w-full min-h-96 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md text-sm whitespace-pre-wrap">
+                                    class="w-full min-h-96 px-3 py-2 bg-dark-900/40 text-gray-200 border border-white/20 rounded-md text-sm whitespace-pre-wrap">
                                 </div>
                                 <div id="loading-overlay"
-                                    class="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center rounded-md hidden">
+                                    class="absolute inset-0 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-90 flex items-center justify-center rounded-md hidden">
                                     <div class="flex flex-col items-center space-y-3">
                                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                                        <p class="text-sm text-gray-600">Generating story...</p>
+                                        <p class="text-sm text-gray-400">Generating story...</p>
                                     </div>
                                 </div>
                             </div>
@@ -340,25 +421,25 @@
 
             <!-- Statistics -->
             <div class="mt-6 lg:mt-8 grid grid-cols-1 sm:grid-cols-4 gap-4 lg:gap-6">
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-blue-600 mb-2" id="input-words">0</div>
-                    <div class="text-sm sm:text-base text-gray-600">Prompt Words</div>
+                    <div class="text-sm sm:text-base text-gray-400">Prompt Words</div>
                 </div>
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-green-600 mb-2" id="output-words">0</div>
-                    <div class="text-sm sm:text-base text-gray-600">Story Words</div>
+                    <div class="text-sm sm:text-base text-gray-400">Story Words</div>
                 </div>
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-purple-600 mb-2" id="reading-time">0 min</div>
-                    <div class="text-sm sm:text-base text-gray-600">Reading Time</div>
+                    <div class="text-sm sm:text-base text-gray-400">Reading Time</div>
                 </div>
-                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md text-center">
+                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 sm:p-6 rounded-xl shadow-md text-center">
                     <div class="text-xl sm:text-2xl font-bold text-orange-600 mb-2" id="processing-time">0ms</div>
-                    <div class="text-sm sm:text-base text-gray-600">Processing Time</div>
+                    <div class="text-sm sm:text-base text-gray-400">Processing Time</div>
                 </div>
             </div>
 
-            <div id="message" class="mt-4 text-center text-sm text-gray-600 px-4"></div>
+            <div id="message" class="mt-4 text-center text-sm text-gray-400 px-4"></div>
         </div>
     </main>
 
@@ -647,7 +728,7 @@
                 messageEl.textContent = message;
                 messageEl.className = `mt-4 text-center text-sm px-4 ${type === 'success' ? 'text-green-600' :
                         type === 'error' ? 'text-red-600' :
-                            'text-gray-600'
+                            'text-gray-400'
                     }`;
 
                 // Clear message after 3 seconds
@@ -877,7 +958,7 @@
 
     <style>
         .json-active {
-            background-color: white;
+            background-color: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             color: #2563eb;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
@@ -904,30 +985,18 @@
         }
     </style>
     <script defer src="/js/shared-ui.js"></script>
-</body>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
+</body>
 
 </html>

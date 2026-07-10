@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,16 +7,118 @@
     <meta name="description" content="A production-ready AI agent SDK for React applications with plug-and-play chat UI, API integration, and an intelligent interaction layer.">
     <link rel="stylesheet" href="aura/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <canvas id="starfield"></canvas>
 
-    <nav>
-        <div class="logo">AURA <span>VOYAGER</span></div>
-        <div class="links">
-            <a href="https://www.npmjs.com/package/aura-voyager" target="_blank">NPM</a>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
+            </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
+        </div>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <header class="hero">
         <div class="hero-content">
@@ -75,14 +177,37 @@
         </div>
     </section>
 
-    <footer>
-        <p>© 2026 Aura Voyager. All rights reserved.</p>
-        <div class="footer-bottom">
-            <a href="https://infiniteforge.tech" target="_blank">A Project by Infinite Forge</a>
+    
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 Infiniteforge. Built for creators worldwide.
+            </div>
         </div>
     </footer>
 
+
+
     <script src="aura/script.js"></script>
+    
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
 </body>
 </html>
 

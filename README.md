@@ -1,8 +1,8 @@
-﻿# infiniteforge.tech
+# infiniteforge.tech
 
 <div align="center">
 
-# 🛠️ Daedalus - Free Online Tools Suite
+# 🛠️ Infiniteforge - Free Online Tools Suite
 
 [![Website](https://img.shields.io/badge/Website-infiniteforge.tech-blue?style=for-the-badge&logo=firefox)](https://infiniteforge.tech)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=open-source-initiative)](LICENSE)
@@ -13,17 +13,17 @@
 
 *A comprehensive collection of free online tools for developers, designers, and content creators. No uploads, no watermarks, completely free.*
 
-[🌐 Visit Daedalus](https://infiniteforge.tech) • [📋 Features](https://infiniteforge.tech/features.html) • [📞 Contact](https://infiniteforge.tech/contact.html)
+[🌐 Visit Infiniteforge](https://infiniteforge.tech) • [📋 Features](https://infiniteforge.tech/features.html) • [📞 Contact](https://infiniteforge.tech/contact.html)
 
-![Daedalus Banner](https://infiniteforge.tech/images/letter-d.png)
+![Infiniteforge Banner](https://infiniteforge.tech/images/letter-d.png)
 
 </div>
 
 ---
 
-## ✨ What is Daedalus?
+## ✨ What is Infiniteforge?
 
-Daedalus is a modern, privacy-focused web application that provides a comprehensive suite of free online tools. Built with cutting-edge web technologies, Daedalus offers everything you need for image processing, document conversion, data validation, and more - all running directly in your browser.
+Infiniteforge is a modern, privacy-focused web application that provides a comprehensive suite of free online tools. Built with cutting-edge web technologies, Infiniteforge offers everything you need for image processing, document conversion, data validation, and more - all running directly in your browser.
 
 ### 🚀 Key Features
 

@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitDocify - Repository Documentation Generator | Daedalus - Free Online Tools</title>
+    <title>GitDocify - Repository Documentation Generator | Infiniteforge - Free Online Tools</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="description" content="Generate comprehensive documentation for GitHub repositories automatically. Create API docs, setup guides, and usage examples from your code. Free online tool.">
-    <meta name="keywords" content="repository documentation, github docs, api documentation, code documentation, readme generator, documentation tool, gitdocify, Daedalus">
+    <meta name="keywords" content="repository documentation, github docs, api documentation, code documentation, readme generator, documentation tool, gitdocify, Infiniteforge">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
-    <meta property="og:title" content="GitDocify - Repository Documentation Generator | Daedalus - Free Online Tools">
+    <meta property="og:title" content="GitDocify - Repository Documentation Generator | Infiniteforge - Free Online Tools">
     <meta property="og:description" content="Automatically generate comprehensive documentation for GitHub repositories. Create API docs, setup guides, and usage examples from your code.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/gitdocify.html">
@@ -52,7 +52,7 @@
         }
 
         .doc-section {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             padding: 2rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -75,7 +75,7 @@
         }
 
         .code-block {
-            background: #f8f9fa;
+            background: rgba(31, 40, 51, 0.4);
             border: 1px solid #e9ecef;
             border-radius: 0.5rem;
             padding: 1rem;
@@ -85,7 +85,7 @@
         }
 
         .feature-card {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -128,52 +128,124 @@
             }
         }
     </style>
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
 
-<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-<body class="text-gray-800">
+
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <!-- Navigation -->
-    <nav class="bg-white/90 backdrop-blur-xl shadow-lg w-full fixed top-0 left-0 z-50 border-b border-gray-200/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="text-3xl font-bold gradient-text hover:scale-105 transition-transform duration-300" aria-label="Daedalus Home">Daedalus</a>
-                <div class="hidden sm:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
-                        Home
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                    <a href="features.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
-                        Features
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 relative group">
-                        About
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                </div>
-                <div class="sm:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50">
-            <a href="index.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Home</a>
-            <a href="features.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">Features</a>
-            <a href="about.html" class="block py-3 px-6 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300">About</a>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto pt-24 pb-12 px-4">
         <!-- Header Section -->
         <div class="text-center mb-12 animate-fadeIn">
-            <div class="inline-flex items-center px-4 py-2 bg-white/20 border border-white/30 rounded-full text-white font-medium mb-6">
+            <div class="inline-flex items-center px-4 py-2 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/20 border border-white/30 rounded-full text-white font-medium mb-6">
                 <i data-feather="file-text" class="w-4 h-4 mr-2"></i>
                 Repository Documentation Generator
             </div>
@@ -188,16 +260,16 @@
             </p>
 
             <!-- Input Section -->
-            <div class="bg-white rounded-2xl shadow-2xl p-8 mb-8 max-w-2xl mx-auto">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-2xl p-8 mb-8 max-w-2xl mx-auto">
                 <div class="mb-6">
-                    <label for="repoInput" class="block text-lg font-semibold text-gray-800 mb-2">
+                    <label for="repoInput" class="block text-lg font-semibold text-gray-100 mb-2">
                         GitHub Repository URL
                     </label>
                     <input
                         type="text"
                         id="repoInput"
                         placeholder="https://github.com/owner/repository"
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all duration-300 text-lg"
+                        class="w-full px-4 py-3 border-2 border-white/10 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all duration-300 text-lg"
                     >
                     <p class="text-sm text-gray-500 mt-2">
                         Enter a GitHub repository URL or use the format: owner/repository
@@ -217,8 +289,8 @@
         <!-- Loading State -->
         <div id="loadingState" class="hidden doc-section text-center">
             <div class="loading-spinner mb-4"></div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-2">Analyzing Repository</h3>
-            <p class="text-gray-600">Extracting code structure, README content, and generating documentation...</p>
+            <h3 class="text-2xl font-bold text-gray-100 mb-2">Analyzing Repository</h3>
+            <p class="text-gray-400">Extracting code structure, README content, and generating documentation...</p>
             <div class="mt-4 text-sm text-gray-500">
                 <div class="flex justify-center items-center space-x-4">
                     <span id="loadingStep">Initializing analysis...</span>
@@ -230,7 +302,7 @@
         <div id="errorState" class="hidden doc-section">
             <div class="flex items-center mb-4">
                 <i data-feather="alert-circle" class="w-8 h-8 text-red-500 mr-3"></i>
-                <h3 class="text-2xl font-bold text-red-800">Documentation Generation Failed</h3>
+                <h3 class="text-2xl font-bold text-red-300">Documentation Generation Failed</h3>
             </div>
             <p id="errorMessage" class="text-red-700 mb-4"></p>
             <button id="retryButton" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
@@ -245,8 +317,8 @@
                 <div class="flex items-center mb-6">
                     <img id="repoAvatar" class="w-16 h-16 rounded-lg mr-4" alt="Repository avatar">
                     <div>
-                        <h2 id="repoName" class="text-3xl font-bold text-gray-800"></h2>
-                        <p id="repoDescription" class="text-gray-600 mt-1"></p>
+                        <h2 id="repoName" class="text-3xl font-bold text-gray-100"></h2>
+                        <p id="repoDescription" class="text-gray-400 mt-1"></p>
                         <div class="flex items-center mt-2 text-sm text-gray-500">
                             <i data-feather="user" class="w-4 h-4 mr-1"></i>
                             <span id="repoOwner"></span>
@@ -268,24 +340,24 @@
 
             <!-- Documentation Tabs -->
             <div class="doc-section">
-                <div class="flex flex-wrap border-b border-gray-200 mb-6">
-                    <button class="tab-button active px-6 py-3 font-medium text-gray-700 border-b-2 border-purple-500" data-tab="overview">
+                <div class="flex flex-wrap border-b border-white/10 mb-6">
+                    <button class="tab-button active px-6 py-3 font-medium text-gray-300 border-b-2 border-purple-500" data-tab="overview">
                         <i data-feather="book" class="w-4 h-4 mr-2"></i>
                         Overview
                     </button>
-                    <button class="tab-button px-6 py-3 font-medium text-gray-700" data-tab="api">
+                    <button class="tab-button px-6 py-3 font-medium text-gray-300" data-tab="api">
                         <i data-feather="code" class="w-4 h-4 mr-2"></i>
                         API Reference
                     </button>
-                    <button class="tab-button px-6 py-3 font-medium text-gray-700" data-tab="setup">
+                    <button class="tab-button px-6 py-3 font-medium text-gray-300" data-tab="setup">
                         <i data-feather="settings" class="w-4 h-4 mr-2"></i>
                         Setup & Installation
                     </button>
-                    <button class="tab-button px-6 py-3 font-medium text-gray-700" data-tab="usage">
+                    <button class="tab-button px-6 py-3 font-medium text-gray-300" data-tab="usage">
                         <i data-feather="play" class="w-4 h-4 mr-2"></i>
                         Usage Examples
                     </button>
-                    <button class="tab-button px-6 py-3 font-medium text-gray-700" data-tab="contributing">
+                    <button class="tab-button px-6 py-3 font-medium text-gray-300" data-tab="contributing">
                         <i data-feather="users" class="w-4 h-4 mr-2"></i>
                         Contributing
                     </button>
@@ -295,7 +367,7 @@
                 <div id="tabContent">
                     <!-- Overview Tab -->
                     <div id="overviewTab" class="tab-content">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Project Overview</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 mb-4">Project Overview</h3>
                         <div id="overviewContent" class="prose max-w-none">
                             <!-- Content will be populated by JavaScript -->
                         </div>
@@ -303,7 +375,7 @@
 
                     <!-- API Reference Tab -->
                     <div id="apiTab" class="tab-content hidden">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">API Reference</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 mb-4">API Reference</h3>
                         <div id="apiContent">
                             <!-- API documentation will be populated here -->
                         </div>
@@ -311,7 +383,7 @@
 
                     <!-- Setup Tab -->
                     <div id="setupTab" class="tab-content hidden">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Setup & Installation</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 mb-4">Setup & Installation</h3>
                         <div id="setupContent">
                             <!-- Setup instructions will be populated here -->
                         </div>
@@ -319,7 +391,7 @@
 
                     <!-- Usage Tab -->
                     <div id="usageTab" class="tab-content hidden">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Usage Examples</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 mb-4">Usage Examples</h3>
                         <div id="usageContent">
                             <!-- Usage examples will be populated here -->
                         </div>
@@ -327,7 +399,7 @@
 
                     <!-- Contributing Tab -->
                     <div id="contributingTab" class="tab-content hidden">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Contributing Guidelines</h3>
+                        <h3 class="text-2xl font-bold text-gray-100 mb-4">Contributing Guidelines</h3>
                         <div id="contributingContent">
                             <!-- Contributing guidelines will be populated here -->
                         </div>
@@ -339,83 +411,93 @@
         <!-- Features Section -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             <div class="feature-card">
-                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="file-text" class="text-purple-600 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Automatic README Generation</h3>
-                <p class="text-gray-600">Generate comprehensive README files with project description, features, and installation instructions.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Automatic README Generation</h3>
+                <p class="text-gray-400">Generate comprehensive README files with project description, features, and installation instructions.</p>
             </div>
             <div class="feature-card">
-                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="code" class="text-blue-600 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">API Documentation</h3>
-                <p class="text-gray-600">Extract and document APIs, functions, classes, and methods from your codebase automatically.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">API Documentation</h3>
+                <p class="text-gray-400">Extract and document APIs, functions, classes, and methods from your codebase automatically.</p>
             </div>
             <div class="feature-card">
-                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="settings" class="text-green-600 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Setup Guides</h3>
-                <p class="text-gray-600">Create detailed installation and setup instructions for different environments and platforms.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Setup Guides</h3>
+                <p class="text-gray-400">Create detailed installation and setup instructions for different environments and platforms.</p>
             </div>
             <div class="feature-card">
-                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="play" class="text-yellow-600 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Usage Examples</h3>
-                <p class="text-gray-600">Generate practical code examples and usage patterns for your library or application.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Usage Examples</h3>
+                <p class="text-gray-400">Generate practical code examples and usage patterns for your library or application.</p>
             </div>
             <div class="feature-card">
-                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="users" class="text-red-600 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Contributing Guidelines</h3>
-                <p class="text-gray-600">Create contributor guidelines, coding standards, and development workflow documentation.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Contributing Guidelines</h3>
+                <p class="text-gray-400">Create contributor guidelines, coding standards, and development workflow documentation.</p>
             </div>
             <div class="feature-card">
-                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                <div class="w-12 h-12 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
                     <i data-feather="globe" class="text-indigo-600 w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Multi-Language Support</h3>
-                <p class="text-gray-600">Supports documentation generation for JavaScript, Python, Java, Go, and many other programming languages.</p>
+                <h3 class="text-lg font-semibold text-gray-100 mb-2">Multi-Language Support</h3>
+                <p class="text-gray-400">Supports documentation generation for JavaScript, Python, Java, Go, and many other programming languages.</p>
             </div>
         </div>
 
         <!-- FAQ Section -->
         <div class="doc-section mt-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Frequently Asked Questions</h2>
+            <h2 class="text-3xl font-bold text-gray-100 mb-8 text-center">Frequently Asked Questions</h2>
             <div class="space-y-6">
-                <div class="border-b border-gray-200 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">What types of repositories can GitDocify document?</h3>
-                    <p class="text-gray-600">GitDocify works with any public GitHub repository. It analyzes code structure, README files, package configurations, and documentation to generate comprehensive docs.</p>
+                <div class="border-b border-white/10 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">What types of repositories can GitDocify document?</h3>
+                    <p class="text-gray-400">GitDocify works with any public GitHub repository. It analyzes code structure, README files, package configurations, and documentation to generate comprehensive docs.</p>
                 </div>
-                <div class="border-b border-gray-200 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Is the generated documentation accurate?</h3>
-                    <p class="text-gray-600">The documentation is generated based on code analysis and existing documentation. While comprehensive, you should review and customize it for your specific needs.</p>
+                <div class="border-b border-white/10 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Is the generated documentation accurate?</h3>
+                    <p class="text-gray-400">The documentation is generated based on code analysis and existing documentation. While comprehensive, you should review and customize it for your specific needs.</p>
                 </div>
-                <div class="border-b border-gray-200 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Can I download the generated documentation?</h3>
-                    <p class="text-gray-600">Yes! You can download the complete documentation as Markdown files or HTML, making it easy to integrate into your repository or documentation site.</p>
+                <div class="border-b border-white/10 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Can I download the generated documentation?</h3>
+                    <p class="text-gray-400">Yes! You can download the complete documentation as Markdown files or HTML, making it easy to integrate into your repository or documentation site.</p>
                 </div>
-                <div class="border-b border-gray-200 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Does it support private repositories?</h3>
-                    <p class="text-gray-600">Currently, GitDocify only works with public repositories due to GitHub API limitations. Private repository support may be added in future updates.</p>
+                <div class="border-b border-white/10 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Does it support private repositories?</h3>
+                    <p class="text-gray-400">Currently, GitDocify only works with public repositories due to GitHub API limitations. Private repository support may be added in future updates.</p>
                 </div>
-                <div class="border-b border-gray-200 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">What programming languages are supported?</h3>
-                    <p class="text-gray-600">GitDocify supports major programming languages including JavaScript, Python, Java, Go, Rust, PHP, Ruby, and many others through intelligent code analysis.</p>
+                <div class="border-b border-white/10 pb-6">
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">What programming languages are supported?</h3>
+                    <p class="text-gray-400">GitDocify supports major programming languages including JavaScript, Python, Java, Go, Rust, PHP, Ruby, and many others through intelligent code analysis.</p>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-        <div class="max-w-6xl mx-auto text-center px-4">
-            <p class="text-gray-400">&copy; 2025 Daedalus. All rights reserved.</p>
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 Infiniteforge. Built for creators worldwide.
+            </div>
         </div>
     </footer>
+
+
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
@@ -426,7 +508,8 @@
         // Mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
@@ -444,6 +527,8 @@
                 mobileMenu.classList.add('hidden');
             }
         });
+        }
+
 
         // Initialize Feather Icons
         if (typeof feather !== 'undefined') {
@@ -600,13 +685,13 @@
             const html = `
                 <div class="space-y-6">
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Description</h4>
-                        <p class="text-gray-600">${repoData.description || 'No description available.'}</p>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Description</h4>
+                        <p class="text-gray-400">${repoData.description || 'No description available.'}</p>
                     </div>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Key Information</h4>
-                            <ul class="space-y-2 text-gray-600">
+                            <h4 class="text-lg font-semibold text-gray-100 mb-2">Key Information</h4>
+                            <ul class="space-y-2 text-gray-400">
                                 <li><strong>Language:</strong> ${repoData.language || 'Not specified'}</li>
                                 <li><strong>License:</strong> ${repoData.license ? repoData.license.name : 'Not specified'}</li>
                                 <li><strong>Created:</strong> ${new Date(repoData.created_at).toLocaleDateString()}</li>
@@ -614,8 +699,8 @@
                             </ul>
                         </div>
                         <div>
-                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Repository Stats</h4>
-                            <ul class="space-y-2 text-gray-600">
+                            <h4 class="text-lg font-semibold text-gray-100 mb-2">Repository Stats</h4>
+                            <ul class="space-y-2 text-gray-400">
                                 <li><strong>Stars:</strong> ${repoData.stargazers_count.toLocaleString()}</li>
                                 <li><strong>Forks:</strong> ${repoData.forks_count.toLocaleString()}</li>
                                 <li><strong>Issues:</strong> ${repoData.open_issues_count.toLocaleString()}</li>
@@ -625,9 +710,9 @@
                     </div>
                     ${readme && readme.status === 'fulfilled' ? `
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">README Content</h4>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <pre class="text-sm text-gray-700 whitespace-pre-wrap">${readme.value.length > 1500 ? readme.value.substring(0, 1500) + '...' : readme.value}</pre>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">README Content</h4>
+                        <div class="bg-dark-900/40 text-gray-200 p-4 rounded-lg">
+                            <pre class="text-sm text-gray-300 whitespace-pre-wrap">${readme.value.length > 1500 ? readme.value.substring(0, 1500) + '...' : readme.value}</pre>
                         </div>
                     </div>
                     ` : ''}
@@ -682,21 +767,21 @@
                 <div class="space-y-6">
                     ${languages.status === 'fulfilled' && languages.value ? `
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Supported Languages</h4>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Supported Languages</h4>
                         <div class="flex flex-wrap gap-2">
-                            ${Object.keys(languages.value).map(lang => `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${lang}</span>`).join('')}
+                            ${Object.keys(languages.value).map(lang => `<span class="bg-dark-800/60 backdrop-blur-md text-blue-300 px-3 py-1 rounded-full text-sm">${lang}</span>`).join('')}
                         </div>
                     </div>
                     ` : ''}
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">API Structure</h4>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <pre class="text-sm text-gray-700 whitespace-pre-wrap">${apiContent}</pre>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">API Structure</h4>
+                        <div class="bg-dark-900/40 text-gray-200 p-4 rounded-lg">
+                            <pre class="text-sm text-gray-300 whitespace-pre-wrap">${apiContent}</pre>
                         </div>
-                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-4">
+                        <div class="bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg p-4 mt-4">
                             <div class="flex items-center mb-2">
                                 <i data-feather="alert-triangle" class="w-5 h-5 text-yellow-600 mr-2"></i>
-                                <span class="font-medium text-yellow-800">Note</span>
+                                <span class="font-medium text-yellow-300">Note</span>
                             </div>
                             <p class="text-yellow-700 text-sm">API documentation generation requires code analysis. For best results, ensure your code includes proper documentation comments.</p>
                         </div>
@@ -744,8 +829,8 @@ ${languages.status === 'fulfilled' && languages.value.JavaScript ? 'npm start' :
 const html = `
 <div class="space-y-6">
 <div>
-    <h4 class="text-lg font-semibold text-gray-800 mb-2">Prerequisites</h4>
-    <ul class="list-disc list-inside space-y-1 text-gray-600">
+    <h4 class="text-lg font-semibold text-gray-100 mb-2">Prerequisites</h4>
+    <ul class="list-disc list-inside space-y-1 text-gray-400">
         <li>Git (for cloning the repository)</li>
         <li>Node.js ${languages.status === 'fulfilled' && languages.value.JavaScript ? '(for JavaScript projects)' : ''}</li>
         <li>Python ${languages.status === 'fulfilled' && languages.value.Python ? '(for Python projects)' : ''}</li>
@@ -753,7 +838,7 @@ const html = `
     </ul>
 </div>
 <div>
-<h4 class="text-lg font-semibold text-gray-800 mb-2">Installation Steps</h4>
+<h4 class="text-lg font-semibold text-gray-100 mb-2">Installation Steps</h4>
 <div class="code-block">
 # Clone the repository
 git clone https://github.com/${repoData.owner.login}/${repoData.name}.git
@@ -765,7 +850,7 @@ ${languages.status === 'fulfilled' && languages.value.Python ? 'pip install -r r
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Quick Start</h4>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Quick Start</h4>
                         <div class="code-block">
 # Run the application
 ${languages.status === 'fulfilled' && languages.value.JavaScript ? 'npm start' : 'python main.py'}
@@ -877,15 +962,15 @@ ${advancedExample}
             const html = `
                 <div class="space-y-6">
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Basic Usage</h4>
-                        <p class="text-gray-600 mb-4">Here are some common usage patterns for ${repoData.name}:</p>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Basic Usage</h4>
+                        <p class="text-gray-400 mb-4">Here are some common usage patterns for ${repoData.name}:</p>
                         <div class="code-block">
 ${basicExample}
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Advanced Examples</h4>
-                        <p class="text-gray-600 mb-4">More complex usage scenarios:</p>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Advanced Examples</h4>
+                        <p class="text-gray-400 mb-4">More complex usage scenarios:</p>
                         <div class="code-block">
 ${advancedExample}
                         </div>
@@ -943,8 +1028,8 @@ git push origin feature/your-feature-name
             const html = `
                 <div class="space-y-6">
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">How to Contribute</h4>
-                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">How to Contribute</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-400">
                             <li>Fork the repository on GitHub</li>
                             <li>Create a new branch for your feature or bug fix</li>
                             <li>Make your changes and test thoroughly</li>
@@ -953,7 +1038,7 @@ git push origin feature/your-feature-name
                         </ol>
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Development Setup</h4>
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Development Setup</h4>
                         <div class="code-block">
 # Fork and clone
 git clone https://github.com/YOUR_USERNAME/${repoData.name}.git
@@ -971,8 +1056,8 @@ git push origin feature/your-feature-name
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Code Standards</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-600">
+                        <h4 class="text-lg font-semibold text-gray-100 mb-2">Code Standards</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400">
                             <li>Follow the existing code style and conventions</li>
                             <li>Write clear, concise commit messages</li>
                             <li>Add tests for new features</li>
@@ -1104,30 +1189,17 @@ git push origin feature/your-feature-name
             }
         }, 3000);
     </script>
+
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
 </body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
-
-
 </html>

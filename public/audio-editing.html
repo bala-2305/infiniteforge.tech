@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -47,7 +47,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .control-slider::-webkit-slider-thumb {
@@ -71,7 +71,7 @@
         .timeline {
             position: relative;
             height: 60px;
-            background: #f1f5f9;
+            background: rgba(31, 40, 51, 0.4);
             border-radius: 8px;
             cursor: pointer;
         }
@@ -97,7 +97,7 @@
         }
 
         .tool-card {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             border: 1px solid #e5e7eb;
             transition: all 0.3s ease;
@@ -125,7 +125,7 @@
         }
 
         .btn-secondary {
-            background: #f3f4f6;
+            background: rgba(31, 40, 51, 0.4);
             color: #374151;
             padding: 12px 24px;
             border-radius: 8px;
@@ -154,80 +154,152 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
     </style>
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
 </head>
 
-<script>(function(s){s.dataset.zone='10030137',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
 
-<body class="bg-gray-50 min-h-screen">
+
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center">
-                        <div class="flex items-center">
-                            <img src="images/letter-d.png" alt="InfiniteForge Logo" class="w-8 h-8 mr-3" style="display: none;">
-                            <span class="text-xl font-bold text-gray-900">InfiniteForge</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
-                    <a href="features.html" class="text-gray-700 hover:text-blue-600 transition-colors">Tools</a>
-                    <a href="about.html" class="text-gray-700 hover:text-blue-600 transition-colors">About</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600" aria-label="Toggle menu">
-                        <i data-feather="menu" class="w-6 h-6"></i>
-                    </button>
-                </div>
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
-                <a href="features.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Tools</a>
-                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
-                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
-            </div>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
+
+
 
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Basic Audio Editing Tools</h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h1 class="text-4xl font-bold text-white mb-4">Basic Audio Editing Tools</h1>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
                 Trim, cut, add fade effects, and edit your audio files online. No software installation required.
             </p>
         </div>
 
         <!-- Upload Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6 mb-6">
             <div class="text-center">
-<div class="p-8 mb-4" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 8px; border: 2px dashed #cbd5e1;">
+<div class="p-8 mb-4" style="background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; border: 2px dashed #cbd5e1;">
                     <i data-feather="upload" class="w-16 h-16 text-gray-400 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Upload Your Audio File</h3>
+                    <h3 class="text-xl font-semibold text-gray-300 mb-2">Upload Your Audio File</h3>
                     <p class="text-gray-500 mb-4">Supports MP3, WAV, OGG, and M4A formats (max 50MB)</p>
                     <input type="file" id="audio-file" accept="audio/*" class="hidden" />
                     <button id="upload-btn" class="btn-primary">
                         Choose Audio File
                     </button>
                 </div>
-                <div id="file-info" class="hidden text-sm text-gray-600">
+                <div id="file-info" class="hidden text-sm text-gray-400">
                     <span id="file-name"></span> • <span id="file-size"></span> • <span id="file-duration"></span>
                 </div>
             </div>
         </div>
 
         <!-- Audio Player & Controls -->
-        <div id="editor-section" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div id="editor-section" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6 mb-6">
             <div class="mb-6">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <h2 class="text-2xl font-semibold text-white mb-4 flex items-center gap-2">
                     <i data-feather="play-circle" class="w-5 h-5 text-blue-500"></i>
                     Audio Player
                 </h2>
@@ -254,7 +326,7 @@
                 <!-- Volume & Speed Controls -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Volume</label>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Volume</label>
                         <input type="range" id="volume-slider" class="control-slider w-full" min="0" max="1" step="0.1" value="1">
                         <div class="flex justify-between text-xs text-gray-500 mt-1">
                             <span>0%</span>
@@ -263,7 +335,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Speed</label>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Speed</label>
                         <input type="range" id="speed-slider" class="control-slider w-full" min="0.5" max="2" step="0.1" value="1">
                         <div class="flex justify-between text-xs text-gray-500 mt-1">
                             <span>0.5x</span>
@@ -276,8 +348,8 @@
         </div>
 
         <!-- Editing Tools -->
-        <div id="tools-section" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+        <div id="tools-section" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
                 <i data-feather="settings" class="w-5 h-5 text-blue-500"></i>
                 Editing Tools
             </h2>
@@ -287,15 +359,15 @@
                 <div class="tool-card p-4">
                     <div class="flex items-center gap-2 mb-3">
                         <i data-feather="scissors" class="w-5 h-5 text-blue-500"></i>
-                        <h3 class="font-semibold text-gray-800">Trim Audio</h3>
+                        <h3 class="font-semibold text-gray-100">Trim Audio</h3>
                     </div>
                     <div class="space-y-2">
                         <div>
-                            <label class="block text-xs text-gray-600 mb-1">Start Time (seconds)</label>
+                            <label class="block text-xs text-gray-400 mb-1">Start Time (seconds)</label>
                             <input type="number" id="trim-start" class="input-field" min="0" step="0.1">
                         </div>
                         <div>
-                            <label class="block text-xs text-gray-600 mb-1">End Time (seconds)</label>
+                            <label class="block text-xs text-gray-400 mb-1">End Time (seconds)</label>
                             <input type="number" id="trim-end" class="input-field" min="0" step="0.1">
                         </div>
                         <button id="trim-btn" class="btn-primary w-full">
@@ -308,7 +380,7 @@
                 <div class="tool-card p-4">
                     <div class="flex items-center gap-2 mb-3">
                         <i data-feather="volume-2" class="w-5 h-5 text-green-500"></i>
-                        <h3 class="font-semibold text-gray-800">Fade Effects</h3>
+                        <h3 class="font-semibold text-gray-100">Fade Effects</h3>
                     </div>
                     <div class="space-y-2">
                         <button id="fade-in-btn" class="btn-secondary w-full">
@@ -327,7 +399,7 @@
                 <div class="tool-card p-4">
                     <div class="flex items-center gap-2 mb-3">
                         <i data-feather="filter" class="w-5 h-5 text-purple-500"></i>
-                        <h3 class="font-semibold text-gray-800">Audio Filters</h3>
+                        <h3 class="font-semibold text-gray-100">Audio Filters</h3>
                     </div>
                     <div class="space-y-2">
                         <button id="normalize-btn" class="btn-secondary w-full">
@@ -345,8 +417,8 @@
         </div>
 
         <!-- Export Section -->
-        <div id="export-section" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+        <div id="export-section" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
+            <h2 class="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
                 <i data-feather="download" class="w-5 h-5 text-blue-500"></i>
                 Export Audio
             </h2>
@@ -363,55 +435,55 @@
                 </button>
             </div>
 
-            <div id="export-status" class="mt-4 text-center text-sm text-gray-600 hidden">
+            <div id="export-status" class="mt-4 text-center text-sm text-gray-400 hidden">
                 Processing your audio... This may take a few moments.
             </div>
         </div>
 
         <!-- Features -->
         <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
                 <div class="flex items-center mb-4">
                     <i data-feather="scissors" class="w-8 h-8 text-blue-600 mr-3"></i>
-                    <h3 class="text-lg font-semibold text-gray-900">Trim & Cut</h3>
+                    <h3 class="text-lg font-semibold text-white">Trim & Cut</h3>
                 </div>
-                <p class="text-gray-600">Precisely trim and cut your audio files with start and end time controls.</p>
+                <p class="text-gray-400">Precisely trim and cut your audio files with start and end time controls.</p>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
                 <div class="flex items-center mb-4">
                     <i data-feather="volume-2" class="w-8 h-8 text-green-600 mr-3"></i>
-                    <h3 class="text-lg font-semibold text-gray-900">Audio Effects</h3>
+                    <h3 class="text-lg font-semibold text-white">Audio Effects</h3>
                 </div>
-                <p class="text-gray-600">Add fade in/out effects, normalize volume, and apply various audio enhancements.</p>
+                <p class="text-gray-400">Add fade in/out effects, normalize volume, and apply various audio enhancements.</p>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
                 <div class="flex items-center mb-4">
                     <i data-feather="play-circle" class="w-8 h-8 text-purple-600 mr-3"></i>
-                    <h3 class="text-lg font-semibold text-gray-900">Real-time Playback</h3>
+                    <h3 class="text-lg font-semibold text-white">Real-time Playback</h3>
                 </div>
-                <p class="text-gray-600">Preview your edits instantly with adjustable volume and playback speed controls.</p>
+                <p class="text-gray-400">Preview your edits instantly with adjustable volume and playback speed controls.</p>
             </div>
         </div>
 
         <!-- How to Use -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">How to Use</h3>
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
+            <h3 class="text-xl font-semibold text-white mb-4">How to Use</h3>
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                    <h4 class="font-semibold text-gray-900 mb-2">1. Upload Audio</h4>
-                    <p class="text-gray-600 mb-4">Choose your audio file (MP3, WAV, OGG, M4A) from your device.</p>
+                    <h4 class="font-semibold text-white mb-2">1. Upload Audio</h4>
+                    <p class="text-gray-400 mb-4">Choose your audio file (MP3, WAV, OGG, M4A) from your device.</p>
 
-                    <h4 class="font-semibold text-gray-900 mb-2">2. Preview & Edit</h4>
-                    <p class="text-gray-600 mb-4">Use the audio player to preview and apply various editing tools.</p>
+                    <h4 class="font-semibold text-white mb-2">2. Preview & Edit</h4>
+                    <p class="text-gray-400 mb-4">Use the audio player to preview and apply various editing tools.</p>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-gray-900 mb-2">3. Apply Effects</h4>
-                    <p class="text-gray-600 mb-4">Trim sections, add fade effects, adjust volume and speed.</p>
+                    <h4 class="font-semibold text-white mb-2">3. Apply Effects</h4>
+                    <p class="text-gray-400 mb-4">Trim sections, add fade effects, adjust volume and speed.</p>
 
-                    <h4 class="font-semibold text-gray-900 mb-2">4. Export</h4>
-                    <p class="text-gray-600">Download your edited audio in your preferred format.</p>
+                    <h4 class="font-semibold text-white mb-2">4. Export</h4>
+                    <p class="text-gray-400">Download your edited audio in your preferred format.</p>
                 </div>
             </div>
         </div>
@@ -446,11 +518,21 @@
     </div>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-4 mt-8">
-    <div class="container mx-auto text-center">
-      <p>&copy; 2025 InfiniteForge. All rights reserved.</p>
-    </div>
-  </footer>
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 Infiniteforge. Built for creators worldwide.
+            </div>
+        </div>
+    </footer>
+
+
 
   <script>
     // Audio editing variables
@@ -858,16 +940,16 @@
 
     function showStatus(message, type) {
       const container = document.getElementById('status-container');
-      const className = type === 'success' ? 'bg-green-100 text-green-800 border-green-200' :
-                       type === 'error' ? 'bg-red-100 text-red-800 border-red-200' :
-                       type === 'warning' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
-                       'bg-blue-100 text-blue-800 border-blue-200';
+      const className = type === 'success' ? 'bg-dark-800/60 backdrop-blur-md text-green-300 border-white/10' :
+                       type === 'error' ? 'bg-dark-800/60 backdrop-blur-md text-red-300 border-white/10' :
+                       type === 'warning' ? 'bg-dark-800/60 backdrop-blur-md text-yellow-300 border-white/10' :
+                       'bg-dark-800/60 backdrop-blur-md text-blue-300 border-white/10';
 
       container.innerHTML = `<div class="${className} border px-4 py-3 rounded-lg shadow-lg">
           <div class="flex items-center">
               <i data-feather="${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : type === 'warning' ? 'alert-triangle' : 'info'}" class="w-5 h-5 mr-2"></i>
               <span>${message}</span>
-              <button onclick="this.parentElement.parentElement.classList.add('hidden')" class="ml-auto text-gray-500 hover:text-gray-700">
+              <button onclick="this.parentElement.parentElement.classList.add('hidden')" class="ml-auto text-gray-500 hover:text-gray-300">
                   <i data-feather="x" class="w-4 h-4"></i>
               </button>
           </div>
@@ -917,30 +999,18 @@
       });
     });
   </script>
-</body>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778668365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
+</body>
 
 </html>

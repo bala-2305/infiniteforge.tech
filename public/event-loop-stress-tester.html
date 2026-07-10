@@ -1,24 +1,24 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Loop Stress Tester — Daedalus | Free JavaScript Event Loop Performance Tool</title>
+    <title>Event Loop Stress Tester — Infiniteforge | Free JavaScript Event Loop Performance Tool</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="description"
         content="Stress test your browser's event loop with intensive JavaScript operations. Measure event loop blocking, responsiveness, and performance degradation.">
     <meta name="keywords"
         content="event loop stress tester, JavaScript event loop, event loop blocking, browser performance, JavaScript responsiveness">
     <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="Event Loop Stress Tester — Daedalus">
+    <meta property="og:title" content="Event Loop Stress Tester — Infiniteforge">
     <meta property="og:description"
         content="Stress test your browser's event loop and measure JavaScript execution performance under load.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/event-loop-stress-tester.html">
     <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Event Loop Stress Tester — Daedalus">
+    <meta name="twitter:title" content="Event Loop Stress Tester — Infiniteforge">
     <meta name="twitter:description" content="Test event loop performance and JavaScript responsiveness.">
     <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -38,7 +38,7 @@
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
             font-size: var(--fluid-font-size);
-            background-color: #f8fafc;
+            background-color: rgba(31, 40, 51, 0.4);
         }
 
         .gen-input {
@@ -77,7 +77,7 @@
         }
 
         .result-box {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border: 1px solid #e2e8f0;
             padding: 1.5rem;
             border-radius: 1rem;
@@ -92,7 +92,7 @@
         }
 
         .stats-card {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border: 1px solid #e2e8f0;
             padding: 1rem;
             border-radius: 0.75rem;
@@ -198,11 +198,11 @@
         }
 
         .chart-point.overloaded {
-            background: #f59e0b;
+            background: rgba(31, 40, 51, 0.4);
         }
 
         .operation-card {
-            background: white;
+            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border: 1px solid #e2e8f0;
             padding: 1rem;
             border-radius: 0.75rem;
@@ -217,13 +217,91 @@
 
         .operation-card.selected {
             border-color: #6366f1;
-            background: #f8fafc;
+            background: rgba(31, 40, 51, 0.4);
             box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
+        }
+    </style>
+
+    <!-- GLOBAL STYLE INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
+                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    
+        /* Global Form Fixes for Dark Mode */
+        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
+            background-color: rgba(31, 40, 51, 0.8) !important; 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        label {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        /* Specific overrides for any remaining harsh light borders */
+        .border-white\/10, .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+    </style>
+
+    <style>
+        .github-glitter {
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc !important;
+            border-color: rgba(192, 192, 192, 0.6) !important;
+        }
+        .github-glitter::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glitter 3s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes glitter {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
     </style>
 </head>
 
-<script>(function (s) { s.dataset.zone = '10030137', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
@@ -235,7 +313,15 @@
     gtag('config', 'G-FQ082B7887');
 </script>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <noscript>
         <div
             style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
@@ -258,33 +344,41 @@
         </div>
     </noscript>
 
-    <nav class="bg-white border-b border-gray-100 w-full fixed top-0 left-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="flex items-center">
-                    <span class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">InfiniteForge</span>
-                </a>
-                <div class="flex items-center space-x-8">
-                    <a href="index.html" class="nav-link">Home</a>
-                    <a href="features.html" class="nav-link">Features</a>
-                    <a href="about.html" class="nav-link">About</a>
-                </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
+        </a>
+        <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
+            <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
+            <a href="index.html#featured" class="hover:text-brand-primary transition-colors">Featured Tools</a>
+            <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
+        </div>
+        <div>
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+                <i data-feather="github" class="w-4 h-4"></i> GitHub
+            </a>
         </div>
     </nav>
 
+
+
     <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
         <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Event Loop Stress Tester</h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Stress test your browser's event loop with intensive JavaScript operations and measure blocking behavior.</p>
+            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">Event Loop Stress Tester</h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Stress test your browser's event loop with intensive JavaScript operations and measure blocking behavior.</p>
         </div>
 
         <!-- Current Stress Display -->
-        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
             <div class="text-center">
                 <div class="flex items-center justify-center mb-4">
                     <div id="status-indicator" class="pulse-dot mr-3"></div>
-                    <span id="status-text" class="text-lg font-semibold text-gray-700">Ready to stress test</span>
+                    <span id="status-text" class="text-lg font-semibold text-gray-300">Ready to stress test</span>
                 </div>
                 <div class="stress-display mb-2">
                     <span id="current-blocking">--</span> <span class="text-lg text-gray-500">ms</span>
@@ -293,7 +387,7 @@
 
                 <!-- Stress Level Bar -->
                 <div class="max-w-md mx-auto mt-6">
-                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <div class="flex justify-between text-sm text-gray-400 mb-1">
                         <span>Normal</span>
                         <span>Blocked</span>
                     </div>
@@ -309,61 +403,61 @@
         </div>
 
         <!-- Operation Selection -->
-        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Select Stress Operations</h3>
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+            <h3 class="text-lg font-semibold text-white mb-4">Select Stress Operations</h3>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 <div class="operation-card" data-operation="sync">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="sync-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-800">Synchronous Operations</h4>
+                        <h4 class="font-semibold text-gray-100">Synchronous Operations</h4>
                     </div>
-                    <p class="text-sm text-gray-600">Heavy CPU computations that block the event loop</p>
+                    <p class="text-sm text-gray-400">Heavy CPU computations that block the event loop</p>
                 </div>
 
                 <div class="operation-card" data-operation="async">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="async-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-800">Async Operations</h4>
+                        <h4 class="font-semibold text-gray-100">Async Operations</h4>
                     </div>
-                    <p class="text-sm text-gray-600">Promises and async functions with microtasks</p>
+                    <p class="text-sm text-gray-400">Promises and async functions with microtasks</p>
                 </div>
 
                 <div class="operation-card" data-operation="dom">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="dom-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-800">DOM Manipulation</h4>
+                        <h4 class="font-semibold text-gray-100">DOM Manipulation</h4>
                     </div>
-                    <p class="text-sm text-gray-600">Heavy DOM updates and reflows</p>
+                    <p class="text-sm text-gray-400">Heavy DOM updates and reflows</p>
                 </div>
 
                 <div class="operation-card" data-operation="memory">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="memory-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-800">Memory Operations</h4>
+                        <h4 class="font-semibold text-gray-100">Memory Operations</h4>
                     </div>
-                    <p class="text-sm text-gray-600">Large object allocations and garbage collection</p>
+                    <p class="text-sm text-gray-400">Large object allocations and garbage collection</p>
                 </div>
 
                 <div class="operation-card" data-operation="network">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="network-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-800">Network Simulation</h4>
+                        <h4 class="font-semibold text-gray-100">Network Simulation</h4>
                     </div>
-                    <p class="text-sm text-gray-600">Simulated network requests and responses</p>
+                    <p class="text-sm text-gray-400">Simulated network requests and responses</p>
                 </div>
 
                 <div class="operation-card" data-operation="timers">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="timer-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-800">Timer Operations</h4>
+                        <h4 class="font-semibold text-gray-100">Timer Operations</h4>
                     </div>
-                    <p class="text-sm text-gray-600">Massive setTimeout/setInterval scheduling</p>
+                    <p class="text-sm text-gray-400">Massive setTimeout/setInterval scheduling</p>
                 </div>
             </div>
         </div>
 
         <!-- Controls -->
-        <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
             <div class="flex flex-wrap justify-center gap-4 mb-6">
                 <button id="start-stress" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
                     <i data-feather="zap" class="w-4 h-4 mr-2"></i>
@@ -373,7 +467,7 @@
                     <i data-feather="square" class="w-4 h-4 mr-2"></i>
                     Stop Test
                 </button>
-                <button id="clear-results" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
+                <button id="clear-results" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
                     <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
                     Clear Results
                 </button>
@@ -381,8 +475,8 @@
 
             <div class="grid md:grid-cols-3 gap-6">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Test Duration</label>
-                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Test Duration</label>
+                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
                         <option value="30">30 seconds</option>
                         <option value="60" selected>1 minute</option>
                         <option value="120">2 minutes</option>
@@ -391,8 +485,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stress Intensity</label>
-                    <select id="stress-intensity" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Stress Intensity</label>
+                    <select id="stress-intensity" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
                         <option value="low" selected>Low (10 ops/sec)</option>
                         <option value="medium">Medium (50 ops/sec)</option>
                         <option value="high">High (100 ops/sec)</option>
@@ -401,8 +495,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">UI Responsiveness</label>
-                    <select id="ui-responsiveness" class="gen-input w-full p-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white">
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">UI Responsiveness</label>
+                    <select id="ui-responsiveness" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
                         <option value="enabled" selected>Enabled</option>
                         <option value="minimal">Minimal</option>
                         <option value="disabled">Disabled</option>
@@ -415,18 +509,18 @@
         <div class="grid lg:grid-cols-4 gap-6 mb-8">
             <!-- Current Stats -->
             <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4">Current Session</h3>
+                <h3 class="text-sm font-semibold text-gray-300 mb-4">Current Session</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Operations:</span>
+                        <span class="text-gray-400">Operations:</span>
                         <span id="current-operations" class="font-mono">0</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Duration:</span>
+                        <span class="text-gray-400">Duration:</span>
                         <span id="current-duration" class="font-mono">0s</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Avg Blocking:</span>
+                        <span class="text-gray-400">Avg Blocking:</span>
                         <span id="current-avg-blocking" class="font-mono">--ms</span>
                     </div>
                 </div>
@@ -434,18 +528,18 @@
 
             <!-- Blocking Stats -->
             <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4">Blocking Analysis</h3>
+                <h3 class="text-sm font-semibold text-gray-300 mb-4">Blocking Analysis</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Max Blocking:</span>
+                        <span class="text-gray-400">Max Blocking:</span>
                         <span id="max-blocking" class="font-mono">--ms</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Blocks >50ms:</span>
+                        <span class="text-gray-400">Blocks >50ms:</span>
                         <span id="blocking-events" class="font-mono">0</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">UI Freezes:</span>
+                        <span class="text-gray-400">UI Freezes:</span>
                         <span id="ui-freezes" class="font-mono">0</span>
                     </div>
                 </div>
@@ -453,18 +547,18 @@
 
             <!-- Performance Rating -->
             <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4">Performance Rating</h3>
+                <h3 class="text-sm font-semibold text-gray-300 mb-4">Performance Rating</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Rating:</span>
+                        <span class="text-gray-400">Rating:</span>
                         <span id="performance-rating" class="font-semibold">--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Score:</span>
+                        <span class="text-gray-400">Score:</span>
                         <span id="performance-score" class="font-mono">--/100</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Stability:</span>
+                        <span class="text-gray-400">Stability:</span>
                         <span id="stability-rating" class="font-semibold">--</span>
                     </div>
                 </div>
@@ -472,18 +566,18 @@
 
             <!-- System Info -->
             <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4">System Info</h3>
+                <h3 class="text-sm font-semibold text-gray-300 mb-4">System Info</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Active Ops:</span>
+                        <span class="text-gray-400">Active Ops:</span>
                         <span id="active-operations" class="font-mono">--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Memory Usage:</span>
+                        <span class="text-gray-400">Memory Usage:</span>
                         <span id="memory-usage" class="font-mono">--MB</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Event Queue:</span>
+                        <span class="text-gray-400">Event Queue:</span>
                         <span id="event-queue" class="font-mono">--</span>
                     </div>
                 </div>
@@ -492,7 +586,7 @@
 
         <!-- Stress Chart -->
         <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
                 <i data-feather="activity" class="w-5 h-5 mr-2 text-indigo-600"></i>
                 Event Loop Blocking History
             </h3>
@@ -502,7 +596,7 @@
                     <p>Start stress test to see blocking data</p>
                 </div>
             </div>
-            <div class="flex justify-between text-sm text-gray-600 mt-4">
+            <div class="flex justify-between text-sm text-gray-400 mt-4">
                 <span>Time (seconds)</span>
                 <span>Blocking Time (ms)</span>
             </div>
@@ -510,15 +604,15 @@
 
         <!-- Instructions -->
         <div class="result-box">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
                 <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
                 How It Works
             </h3>
-            <div class="prose prose-sm max-w-none text-gray-600">
+            <div class="prose prose-sm max-w-none text-gray-400">
                 <p class="mb-3">This tool stresses your browser's event loop by executing various JavaScript operations that can block the main thread, simulating real-world performance issues.</p>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <h4 class="font-semibold text-gray-800 mb-2">Stress Operations:</h4>
+                        <h4 class="font-semibold text-gray-100 mb-2">Stress Operations:</h4>
                         <ul class="list-disc list-inside space-y-1 text-sm">
                             <li><strong>Synchronous:</strong> Blocking CPU operations</li>
                             <li><strong>Async:</strong> Promise chains and microtasks</li>
@@ -529,14 +623,14 @@
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-gray-800 mb-2">What It Measures:</h4>
+                        <h4 class="font-semibold text-gray-100 mb-2">What It Measures:</h4>
                         <ul class="list-disc list-inside space-y-1 text-sm">
                             <li><strong>Event Loop Blocking:</strong> Time spent blocking the main thread</li>
                             <li><strong>UI Responsiveness:</strong> How the interface responds during stress</li>
                             <li><strong>Memory Pressure:</strong> Impact on garbage collection</li>
                             <li><strong>Performance Degradation:</strong> How performance degrades over time</li>
                         </ul>
-                        <p class="text-sm mt-3 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                        <p class="text-sm mt-3 text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg">
                             <strong>Warning:</strong> This test can cause browser unresponsiveness. Use with caution and close other tabs.
                         </p>
                     </div>
@@ -1021,30 +1115,18 @@
         });
     </script>
     <script defer src="/js/shared-ui.js"></script>
+
+    <!-- Guaranteed Feather Icons Execution -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+        // Fallback if DOMContentLoaded already fired
+        if(typeof feather !== "undefined") {
+            feather.replace();
+        }
+    </script>
 </body>
-
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you need to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFMxEQOTWBk-0ANuss7u3LureZ0FuL6sA",
-      authDomain: "infiniteforge-1302.firebaseapp.com",
-      projectId: "infiniteforge-1302",
-      storageBucket: "infiniteforge-1302.firebasestorage.app",
-      messagingSenderId: "778668365162",
-      appId: "1:778365162:web:05c1a0602318a1ac3c8113",
-      measurementId: "G-C5WMNCN7P0"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
 
 </html>
