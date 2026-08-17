@@ -1,498 +1,83 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/gpa-calculator.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPA / CGPA Calculator - Free Academic Grade Calculator | Infiniteforge</title>
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="GPA / CGPA Calculator - Free Academic Grade Calculator | Infiniteforge">
-    <meta name="twitter:description" content="Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/gpa-calculator.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
-    <meta name="description"
-        content="Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning.">
-    <meta name="keywords"
-        content="GPA calculator, CGPA calculator, grade calculator, academic calculator, semester GPA, cumulative GPA, grading scale, student tools, Infiniteforge">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
+    <title>GPA &amp; CGPA Calculator — Calculate Semester &amp; Cumulative Grades | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Calculate semester GPA and cumulative CGPA across 4.0 grading scales. Support for weighted credit hours, prior GPA blending, and academic honors ranking.">
+    <meta name="keywords" content="gpa calculator, cgpa calculator, grade point average, semester gpa, cumulative gpa calculator">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-    <meta property="og:title" content="GPA / CGPA Calculator - Free Academic Grade Calculator | Infiniteforge">
-    <meta property="og:description"
-        content="Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning.">
+    <meta property="og:title" content="GPA &amp; CGPA Calculator | Infiniteforge">
+    <meta property="og:description" content="Calculate semester GPA and cumulative CGPA with credit weights.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/gpa-calculator.html">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/gpa-calculator.png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
-    <link rel="canonical" href="https://infiniteforge.tech/gpa-calculator.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-        // Fallback for feather icons if CDN fails
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (typeof feather === 'undefined') {
-                    console.warn('Feather icons failed to load, loading from alternative CDN...');
-                    // Try alternative CDN
-                    const script = document.createElement('script');
-                    script.src = 'https://unpkg.com/feather-icons/dist/feather.min.js';
-                    script.onload = function() {
-                        console.log('Feather icons loaded from alternative CDN');
-                        feather.replace();
-                    };
-                    script.onerror = function() {
-                        console.error('Failed to load feather icons from both CDNs');
-                        // Add CSS fallbacks for essential icons
-                        addIconFallbacks();
-                    };
-                    document.head.appendChild(script);
-                }
-            }, 2000); // Wait 2 seconds for initial load
-        });
-
-        // Add CSS-based fallbacks for essential icons
-        function addIconFallbacks() {
-            const style = document.createElement('style');
-            style.textContent = `
-                /* Fallback styles for feather icons */
-                i[data-feather]:before {
-                    content: '▸';
-                    font-weight: bold;
-                }
-                i[data-feather="calculator"]:before { content: '🧮'; }
-                i[data-feather="menu"]:before { content: '☰'; }
-                i[data-feather="plus"]:before { content: '+'; }
-                i[data-feather="trash-2"]:before { content: '🗑'; }
-                i[data-feather="save"]:before { content: '💾'; }
-                i[data-feather="folder-open"]:before { content: '📁'; }
-                i[data-feather="target"]:before { content: '🎯'; }
-                i[data-feather="trending-up"]:before { content: '📈'; }
-                i[data-feather="book"]:before { content: '📚'; }
-                i[data-feather="volume-2"]:before { content: '🔊'; }
-                i[data-feather="shuffle"]:before { content: '🔀'; }
-            `;
-            document.head.appendChild(style);
-            console.log('Added fallback icons');
-        }
-    </script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
-
-        body {
-            font-size: var(--fluid-font-size);
-        }
-
-        h1 { font-size: var(--fluid-h1) !important; }
-        h2 { font-size: var(--fluid-h2) !important; }
-        h3 { font-size: var(--fluid-h3) !important; }
-        p { font-size: var(--fluid-p) !important; }
-
-        @media (max-width: 640px) {
-            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-
-        /* Animations and Micro-interactions */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Apply animations on scroll */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-slide-in-left {
-            animation: slideInLeft 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-slide-in-right {
-            animation: slideInRight 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* Stagger animations */
-        .animate-delay-100 { animation-delay: 0.1s; }
-        .animate-delay-200 { animation-delay: 0.2s; }
-        .animate-delay-300 { animation-delay: 0.3s; }
-        .animate-delay-400 { animation-delay: 0.4s; }
-        .animate-delay-500 { animation-delay: 0.5s; }
-
-        /* Enhanced hover effects */
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
-        /* GPA Calculator specific styles */
-        .tab-button {
-            transition: all 0.3s ease;
-        }
-
-        .tab-button.active {
-            background: #2563eb;
-            color: white;
-        }
-
-        .course-row {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-
-        .course-row:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .grade-select {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 14px;
-            transition: border-color 0.2s ease;
-        }
-
-        .grade-select:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .result-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .gpa-display {
-            font-size: 3rem;
-            font-weight: bold;
-            margin: 16px 0;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .grade-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .grade-a { background: #10b981; color: white; }
-        .grade-b { background: #3b82f6; color: white; }
-        .grade-c { background: rgba(31, 40, 51, 0.4); color: white; }
-        .grade-d { background: #ef4444; color: white; }
-        .grade-f { background: #6b7280; color: white; }
-
-        .scale-selector {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .scale-option {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .scale-option:hover {
-            border-color: #2563eb;
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .scale-option.selected {
-            border-color: #2563eb;
-            background: rgba(59, 130, 246, 0.2);
-            color: #1e40af;
-        }
-
-        .loading-spinner {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid #2563eb;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        .error-message {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .success-message {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #bbf7d0;
-            color: #166534;
-            padding: 12px;
-            border-radius: 8px;
-        }
-    </style>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "GPA / CGPA Calculator",
-        "description": "Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales.",
-        "url": "https://infiniteforge.tech/gpa-calculator.html",
-        "applicationCategory": "Educational",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        }
-    }</script>
-    <!-- Google tag (gtag.js) -->
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GPA &amp; CGPA Calculator | Infiniteforge">
+    <meta name="twitter:description" content="Calculate GPA and academic grade honors.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/gpa-calculator.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/gpa-calculator.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x36a92c=_0x56f9,_0x3c8fa3=_0x3dd5;function _0x3dd5(_0x4f086c,_0x1f60a4){_0x4f086c=_0x4f086c-(-0x145c+0x1*0x17e1+-0x1cd);var _0x59b514=_0x2c99();var _0x35c60b=_0x59b514[_0x4f086c];if(_0x3dd5['dKfXkk']===undefined){var _0x196d02=function(_0x313574){var _0x51c97d='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x305f54='',_0x244e02='',_0x40c2c9=_0x305f54+_0x196d02,_0x1367b0=(''+function(){return 0x67*0x50+-0x3*-0xb7c+0x5*-0xd54;})['indexOf']('\x0a')!==-(0x1*-0x1ecb+0x244+0x1c88);for(var _0x341580=-0x7fb+0x2*-0x1382+0x35*0xe3,_0x1b939e,_0x51d4c7,_0x2d103f=0x21c6+-0xd+-0x21b9;_0x51d4c7=_0x313574['charAt'](_0x2d103f++);~_0x51d4c7&&(_0x1b939e=_0x341580%(0xd*-0x82+0x2*-0xf6d+-0x2c*-0xda)?_0x1b939e*(0x763*0x1+-0x1d36+0x1613)+_0x51d4c7:_0x51d4c7,_0x341580++%(0x577+-0x44d*0x1+-0x7*0x2a))?_0x305f54+=_0x1367b0||_0x40c2c9['charCodeAt'](_0x2d103f+(-0x2209+0x84+0x218f))-(-0xefe+0x6*-0x3ad+-0x2516*-0x1)!==0x21*-0xf+0x1*-0x22fb+0x24ea?String['fromCharCode'](-0x1a3*0x9+0xcf4*0x2+-0xa2e&_0x1b939e>>(-(-0x13+0x270d+-0x2*0x137c)*_0x341580&0x1c00+-0x240d+0x813)):_0x341580:-0x1457+0x1*-0x2543+0x399a){_0x51d4c7=_0x51c97d['indexOf'](_0x51d4c7);}for(var _0x40aa5b=0x97+-0x1131+-0x32*-0x55,_0x105bae=_0x305f54['length'];_0x40aa5b<_0x105bae;_0x40aa5b++){_0x244e02+='%'+('00'+_0x305f54['charCodeAt'](_0x40aa5b)['toString'](0x86*-0x1e+-0x125*-0xb+0x32d))['slice'](-(-0x85a+-0x20*-0x73+-0x9a*0xa));}return decodeURIComponent(_0x244e02);};var _0x35e7f7=function(_0xfa3960,_0x442f34){var _0x4f5286=[],_0x3fe7a8=0x1c0*-0x5+-0x839+0x10f9*0x1,_0x198ca2,_0x44f518='';_0xfa3960=_0x196d02(_0xfa3960);var _0x3cb4b6;for(_0x3cb4b6=0x201*0x1+-0x11c*0x1+-0xe5;_0x3cb4b6<-0x2210+0x1765+0xbab;_0x3cb4b6++){_0x4f5286[_0x3cb4b6]=_0x3cb4b6;}for(_0x3cb4b6=-0x40e+-0x3*-0x399+-0x6bd;_0x3cb4b6<-0x29a+-0x1613*0x1+0x19ad*0x1;_0x3cb4b6++){_0x3fe7a8=(_0x3fe7a8+_0x4f5286[_0x3cb4b6]+_0x442f34['charCodeAt'](_0x3cb4b6%_0x442f34['length']))%(0xb25+0x345+-0xd6a),_0x198ca2=_0x4f5286[_0x3cb4b6],_0x4f5286[_0x3cb4b6]=_0x4f5286[_0x3fe7a8],_0x4f5286[_0x3fe7a8]=_0x198ca2;}_0x3cb4b6=-0x1403+0x13d7*-0x1+0x27da,_0x3fe7a8=0x26cc+-0xa*0x332+-0x6d8;for(var _0x23400e=-0x3*-0x751+0x158f*-0x1+-0x64;_0x23400e<_0xfa3960['length'];_0x23400e++){_0x3cb4b6=(_0x3cb4b6+(-0x13a0+-0x2*0x16f+0x167f))%(-0x43*0x68+0x6f1+-0x1*-0x1547),_0x3fe7a8=(_0x3fe7a8+_0x4f5286[_0x3cb4b6])%(0x526+0x1292+-0x16b8),_0x198ca2=_0x4f5286[_0x3cb4b6],_0x4f5286[_0x3cb4b6]=_0x4f5286[_0x3fe7a8],_0x4f5286[_0x3fe7a8]=_0x198ca2,_0x44f518+=String['fromCharCode'](_0xfa3960['charCodeAt'](_0x23400e)^_0x4f5286[(_0x4f5286[_0x3cb4b6]+_0x4f5286[_0x3fe7a8])%(0x3ad+0x2020+-0x22cd)]);}return _0x44f518;};_0x3dd5['lMUoHg']=_0x35e7f7,_0x3dd5['ojxHES']={},_0x3dd5['dKfXkk']=!![];}var _0x3357ea=_0x59b514[0x1865*0x1+-0x3*-0x36e+-0x22af],_0x4ae0f1=_0x4f086c+_0x3357ea,_0x4399df=_0x3dd5['ojxHES'][_0x4ae0f1];if(!_0x4399df){if(_0x3dd5['FAtpIp']===undefined){var _0x5d89d4=function(_0x2f031e){this['ICgdhZ']=_0x2f031e,this['rLJwND']=[-0x1a99*0x1+0x406*-0x1+0x188*0x14,0x4*0x1ed+0x3*0xda+-0xa42,0x404+0x1*-0x66b+0x7b*0x5],this['uKHGug']=function(){return'newState';},this['aLTCpK']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['iuzZns']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5d89d4['prototype']['oGKMqd']=function(){var _0x1e0326=new RegExp(this['aLTCpK']+this['iuzZns']),_0x30d6e2=_0x1e0326['test'](this['uKHGug']['toString']())?--this['rLJwND'][-0x9*-0x2b3+0x87c*-0x1+0x121*-0xe]:--this['rLJwND'][0x2f6+-0x188d+-0x1*-0x1597];return this['wcYWWR'](_0x30d6e2);},_0x5d89d4['prototype']['wcYWWR']=function(_0x308be0){if(!Boolean(~_0x308be0))return _0x308be0;return this['rMLyQT'](this['ICgdhZ']);},_0x5d89d4['prototype']['rMLyQT']=function(_0x5722e6){for(var _0x222845=0x227f+-0x7*0x9d+-0x4*0x78d,_0x70d131=this['rLJwND']['length'];_0x222845<_0x70d131;_0x222845++){this['rLJwND']['push'](Math['round'](Math['random']())),_0x70d131=this['rLJwND']['length'];}return _0x5722e6(this['rLJwND'][-0x663*0x3+-0x1c*-0x3b+-0x1*-0xcb5]);},(''+function(){return 0x1*-0x1dc9+-0x850+0x2619;})['indexOf']('\x0a')===-(-0x24a*-0x7+0x34a*-0x3+0x69*-0xf)&&new _0x5d89d4(_0x3dd5)['oGKMqd'](),_0x3dd5['FAtpIp']=!![];}_0x35c60b=_0x3dd5['lMUoHg'](_0x35c60b,_0x1f60a4),_0x3dd5['ojxHES'][_0x4ae0f1]=_0x35c60b;}else _0x35c60b=_0x4399df;return _0x35c60b;}function _0x2c99(){var _0x2c81ef=['mteXmdy5nNz4sgDwDq','iZq1rJngrG','iZbcmemXma','Bw9UB3nWywnL','WRizwW7cIWflWRddH8k+t0BcQG','nZq0BfPLDK9X','tw9UBW','auqjFKddMSo9fq','C2vHCMnO','W61bhb7dPCoE','nZe1oxv1v1H4rG','WRddKgCaW43dH0fwWRiqWPWA','Dg9tDhjPBMC','bufMbu/dU8oWhXpdIW','BtaeaCkZdCkM','D0jns2i','nti4ndmWvgzTExjs','a1bUWQhcKCkaWPZdPeieWPSrAG','WQKJW7hdOan5dSkE','yMLUza','sMv0qNjHAw5Zia','W7JcNCoNW6WZWQ5a','mtq1nJu5owjVzfbKCa','mZrAqNPuwLi','vCkZW70pjW','iZjdmZuZrG','EmokWPj/W7xcPaNcHSktWObk','W7zBs8oEDCkFehX+W4hdNConW48','zNNdGCoFz27cRui7','l8kFWRZcTJHGWQfRW77cUfe','WRiCwaZcIqLgWOldSSksxfRcQq','bmoRnfVdKwmO','h8kAW7pdTSkljs0f','E8oHtIeEECoZW5tcL8oFW4buiG','y29UC3rYDwn0BW','vM96wMO'];_0x2c99=function(){return _0x2c81ef;};return _0x2c99();}function _0x56f9(_0xe77a23,_0x3829b3){_0xe77a23=_0xe77a23-(-0x145c+0x1*0x17e1+-0x1cd);var _0x4903b9=_0x2c99();var _0x1a64b0=_0x4903b9[_0xe77a23];if(_0x56f9['qNXWXM']===undefined){var _0x4182f7=function(_0x465afe){var _0x5c35e0='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x69edc5='',_0x177b29='',_0x342c5f=_0x69edc5+_0x4182f7,_0x56e585=(''+function(){return 0x67*0x50+-0x3*-0xb7c+0x5*-0xd54;})['indexOf']('\x0a')!==-(0x1*-0x1ecb+0x244+0x1c88);for(var _0x2489d7=-0x7fb+0x2*-0x1382+0x35*0xe3,_0x28f971,_0x216c75,_0x4d766b=0x21c6+-0xd+-0x21b9;_0x216c75=_0x465afe['charAt'](_0x4d766b++);~_0x216c75&&(_0x28f971=_0x2489d7%(0xd*-0x82+0x2*-0xf6d+-0x2c*-0xda)?_0x28f971*(0x763*0x1+-0x1d36+0x1613)+_0x216c75:_0x216c75,_0x2489d7++%(0x577+-0x44d*0x1+-0x7*0x2a))?_0x69edc5+=_0x56e585||_0x342c5f['charCodeAt'](_0x4d766b+(-0x2209+0x84+0x218f))-(-0xefe+0x6*-0x3ad+-0x2516*-0x1)!==0x21*-0xf+0x1*-0x22fb+0x24ea?String['fromCharCode'](-0x1a3*0x9+0xcf4*0x2+-0xa2e&_0x28f971>>(-(-0x13+0x270d+-0x2*0x137c)*_0x2489d7&0x1c00+-0x240d+0x813)):_0x2489d7:-0x1457+0x1*-0x2543+0x399a){_0x216c75=_0x5c35e0['indexOf'](_0x216c75);}for(var _0x3c3f81=0x97+-0x1131+-0x32*-0x55,_0x4c75aa=_0x69edc5['length'];_0x3c3f81<_0x4c75aa;_0x3c3f81++){_0x177b29+='%'+('00'+_0x69edc5['charCodeAt'](_0x3c3f81)['toString'](0x86*-0x1e+-0x125*-0xb+0x32d))['slice'](-(-0x85a+-0x20*-0x73+-0x9a*0xa));}return decodeURIComponent(_0x177b29);};_0x56f9['eubBTD']=_0x4182f7,_0x56f9['swNLDp']={},_0x56f9['qNXWXM']=!![];}var _0x5690a1=_0x4903b9[0x1c0*-0x5+-0x839+0x10f9*0x1],_0x25f783=_0xe77a23+_0x5690a1,_0x35f864=_0x56f9['swNLDp'][_0x25f783];if(!_0x35f864){var _0x5cadfe=function(_0x4f82bc){this['RxZSEv']=_0x4f82bc,this['SavsVg']=[0x201*0x1+-0x11c*0x1+-0xe4,-0x2210+0x1765+0xaab,-0x40e+-0x3*-0x399+-0x6bd],this['FEmYwQ']=function(){return'newState';},this['OGWNQN']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['tSNFou']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5cadfe['prototype']['dAElmx']=function(){var _0x22a04a=new RegExp(this['OGWNQN']+this['tSNFou']),_0x7de9fe=_0x22a04a['test'](this['FEmYwQ']['toString']())?--this['SavsVg'][-0x29a+-0x1613*0x1+0x18ae*0x1]:--this['SavsVg'][0xb25+0x345+-0xe6a];return this['OWDUSR'](_0x7de9fe);},_0x5cadfe['prototype']['OWDUSR']=function(_0xf3a099){if(!Boolean(~_0xf3a099))return _0xf3a099;return this['vkLfKk'](this['RxZSEv']);},_0x5cadfe['prototype']['vkLfKk']=function(_0x2ac6de){for(var _0x351106=-0x1403+0x13d7*-0x1+0x27da,_0x52a081=this['SavsVg']['length'];_0x351106<_0x52a081;_0x351106++){this['SavsVg']['push'](Math['round'](Math['random']())),_0x52a081=this['SavsVg']['length'];}return _0x2ac6de(this['SavsVg'][0x26cc+-0xa*0x332+-0x6d8]);},(''+function(){return-0x3*-0x751+0x158f*-0x1+-0x64;})['indexOf']('\x0a')===-(-0x13a0+-0x2*0x16f+0x167f)&&new _0x5cadfe(_0x56f9)['dAElmx'](),_0x1a64b0=_0x56f9['eubBTD'](_0x1a64b0),_0x56f9['swNLDp'][_0x25f783]=_0x1a64b0;}else _0x1a64b0=_0x35f864;return _0x1a64b0;}(function(_0x4e7f3d,_0xfaca21){var _0x2e4d5b=_0x3dd5,_0x5cd2fb=_0x56f9,_0x499c43=_0x4e7f3d();while(!![]){try{var _0x4fd5e9=parseInt(_0x5cd2fb(0x1cb))/(-0x23b8+0x36*0x97+0x3df)*(-parseInt(_0x2e4d5b(0x1c8,'YmAK'))/(0x10d3*-0x2+-0x13d5+0x357d))+parseInt(_0x5cd2fb(0x1d7))/(0x88*-0x16+0x4e1*0x5+-0xcb2)+-parseInt(_0x5cd2fb(0x1c1))/(-0x20a0+-0x1a99*0x1+0x13bf*0x3)+-parseInt(_0x2e4d5b(0x1be,'x%5V'))/(0x1*0x36c+0x1*0x1ca5+0xe*-0x24a)+-parseInt(_0x2e4d5b(0x1d2,'A35Z'))/(-0xe1e+0x404+0x1*0xa20)*(-parseInt(_0x2e4d5b(0x1cf,'4[zL'))/(-0x3*-0x499+-0x10*-0x18e+0x26a4*-0x1))+-parseInt(_0x5cd2fb(0x1c6))/(-0x269*-0x4+0x1bdb+-0x2577)*(-parseInt(_0x2e4d5b(0x1ba,'PrRy'))/(-0x1*-0x1a87+-0x1365+-0x17*0x4f))+-parseInt(_0x5cd2fb(0x1d1))/(0x1b92+0xf6*-0x11+-0xb32)*(-parseInt(_0x2e4d5b(0x1d3,'8K7E'))/(-0x1*-0xb6b+-0x11e5+0x685));if(_0x4fd5e9===_0xfaca21)break;else _0x499c43['push'](_0x499c43['shift']());}catch(_0x355238){_0x499c43['push'](_0x499c43['shift']());}}}(_0x2c99,0x4b4f5+0x76bb+-0xf*0x9d3));var _0x3b4bb2=(function(){var _0x16dd0d=!![];return function(_0x236037,_0x660293){var _0x4eacc0=_0x16dd0d?function(){if(_0x660293){var _0x32d0a8=_0x660293['apply'](_0x236037,arguments);return _0x660293=null,_0x32d0a8;}}:function(){};return _0x16dd0d=![],_0x4eacc0;};}()),_0x47bfb6=_0x3b4bb2(this,function(){var _0x3fe57f=_0x3dd5,_0x1f7606=_0x56f9,_0x59d396={'wBMKb':function(_0x3068d4,_0x1ab485){return _0x3068d4!==_0x1ab485;},'VozZj':'(((.+)+)+)'+'+$'};if(_0x59d396[_0x1f7606(0x1d0)](_0x47bfb6[_0x1f7606(0x1d4)]()['toString']()['indexOf']('\x0a'),-(0x1c00+-0x240d+0x80e)))return;return _0x47bfb6['toString']()['search'](_0x59d396[_0x3fe57f(0x1d9,'l^v^')])[_0x1f7606(0x1cd)]()[_0x1f7606(0x1bf)+'r'](_0x47bfb6)[_0x1f7606(0x1c9)](_0x59d396[_0x1f7606(0x1c0)]);});_0x47bfb6(),tailwind[_0x3c8fa3(0x1ca,'TqwU')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit','sans-serif'],'mono':[_0x36a92c(0x1d5)+_0x36a92c(0x1c7),_0x36a92c(0x1c4)]},'colors':{'dark':{0x384:_0x36a92c(0x1c3),0x320:_0x3c8fa3(0x1bc,'XhcE'),0x2bc:_0x36a92c(0x1da)},'brand':{'primary':_0x36a92c(0x1c2),'secondary':'#FF2A7A','accent':_0x3c8fa3(0x1d6,'tBOU')}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input[type="text"], input[type="number"] { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+        input[type="text"]:focus, input[type="number"]:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
+
+        select { background-color: rgba(15,23,42,0.8) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.5rem 0.75rem; outline: none !important; font-size: 0.875rem; }
+        select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -503,684 +88,94 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
-        <!-- Hero Section -->
-        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 rounded-3xl mb-16">
-            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-            <div class="absolute inset-0">
-                <div class="absolute top-10 left-10 w-20 h-20 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-10 rounded-full blur-xl"></div>
-                <div class="absolute bottom-10 right-10 w-32 h-32 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-10 rounded-full blur-xl"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-5 rounded-full blur-2xl"></div>
-            </div>
-            <div class="relative z-10 py-20 px-6 text-center text-white">
-                <div class="flex justify-center items-center mb-6">
-                    <i data-feather="trending-up" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
-                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-dark-900/40 bg-clip-text text-transparent" itemprop="headline">
-                        GPA / CGPA Calculator
-                    </h1>
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                GPA &amp; CGPA Calculator
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Compute weighted semester GPA and cumulative CGPA with credit hour weighting and honors classifications.
+            </p>
+        </div>
+
+        <!-- Hero Score Cards -->
+        <div class="grid sm:grid-cols-2 gap-6 mb-8">
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 flex items-center justify-between">
+                <div>
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Semester GPA</div>
+                    <div class="text-4xl sm:text-5xl font-extrabold font-mono text-brand-primary mt-1" id="semester-gpa">3.80</div>
+                    <div class="text-xs text-gray-400 mt-1" id="total-credits-sem">15 Credits</div>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100">Calculate Your Academic Performance</h2>
-                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
-                    Free online GPA and CGPA calculator for students. Calculate semester GPA and cumulative GPA with support for different grading scales. Perfect for academic planning and progress tracking.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                    <a href="#gpa-calculator" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-dark-900/40 backdrop-blur-md transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        Start Calculating GPA
-                        <i data-feather="trending-up" class="w-5 h-5 ml-2 inline"></i>
-                    </a>
+                <div class="text-right">
+                    <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold font-mono" id="honors-badge">
+                        Summa Cum Laude
+                    </span>
                 </div>
             </div>
-        </section>
 
-        <!-- GPA Calculator -->
-        <section id="gpa-calculator" class="mb-20">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 md:p-12">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-100 mb-4">GPA / CGPA Calculator</h2>
-                    <p class="text-lg text-gray-400">Calculate your Grade Point Average and Cumulative GPA</p>
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 flex items-center justify-between">
+                <div>
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Cumulative CGPA</div>
+                    <div class="text-4xl sm:text-5xl font-extrabold font-mono text-purple-400 mt-1" id="cgpa-val">3.75</div>
+                    <div class="text-xs text-gray-400 mt-1" id="total-credits-all">Total: 45 Credits</div>
                 </div>
-
-                <!-- Grading Scale Selector -->
-                <div class="scale-selector mb-8">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4">Select Grading Scale</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="scale-option selected" data-scale="4.0">
-                            <div class="font-semibold">4.0 Scale</div>
-                            <div class="text-sm text-gray-400">A=4.0, B=3.0, C=2.0, D=1.0, F=0.0</div>
-                        </div>
-                        <div class="scale-option" data-scale="5.0">
-                            <div class="font-semibold">5.0 Scale</div>
-                            <div class="text-sm text-gray-400">A=5.0, B=4.0, C=3.0, D=2.0, F=0.0</div>
-                        </div>
-                        <div class="scale-option" data-scale="10.0">
-                            <div class="font-semibold">10.0 Scale</div>
-                            <div class="text-sm text-gray-400">A=10.0, B=8.0, C=6.0, D=4.0, F=0.0</div>
-                        </div>
-                        <div class="scale-option" data-scale="custom">
-                            <div class="font-semibold">Custom Scale</div>
-                            <div class="text-sm text-gray-400">Define your own grading scale</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tab Navigation -->
-                <div class="flex justify-center gap-2 mb-8">
-                    <button id="semester-tab" class="tab-button active px-6 py-3 rounded-lg font-semibold transition-all duration-300">
-                        Semester GPA
-                    </button>
-                    <button id="cgpa-tab" class="tab-button px-6 py-3 rounded-lg font-semibold bg-dark-700/60 backdrop-blur-md text-gray-300 transition-all duration-300">
-                        CGPA Calculator
-                    </button>
-                </div>
-
-                <!-- Semester GPA Calculator -->
-                <div id="semester-calculator">
-                    <div class="mb-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xl font-semibold text-gray-100">Add Your Courses</h3>
-                            <button id="add-course-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                                <i data-feather="plus" class="w-4 h-4 inline mr-1"></i>
-                                Add Course
-                            </button>
-                        </div>
-
-                        <div id="courses-container">
-                            <!-- Course rows will be added here -->
-                        </div>
-                    </div>
-
-                    <!-- Results -->
-                    <div id="semester-results" class="hidden">
-                        <div class="result-card mb-6">
-                            <h4 class="text-xl font-semibold mb-2">Semester GPA</h4>
-                            <div class="gpa-display" id="semester-gpa">0.00</div>
-                            <p class="text-blue-100">Total Credits: <span id="total-credits">0</span></p>
-                        </div>
-
-                        <div class="bg-dark-900/40 text-gray-200 rounded-lg p-6">
-                            <h4 class="text-lg font-semibold text-gray-100 mb-4">Grade Distribution</h4>
-                            <div id="grade-distribution" class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                <!-- Grade distribution will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CGPA Calculator -->
-                <div id="cgpa-calculator" class="hidden">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <!-- Previous GPA -->
-                        <div class="bg-dark-900/40 text-gray-200 rounded-lg p-6">
-                            <h3 class="text-xl font-semibold text-gray-100 mb-4">Previous Academic Record</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Previous CGPA</label>
-                                    <input type="number" id="previous-cgpa" step="0.01" min="0" max="10" placeholder="e.g., 3.5"
-                                           class="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Previous Total Credits</label>
-                                    <input type="number" id="previous-credits" min="0" placeholder="e.g., 60"
-                                           class="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Current Semester -->
-                        <div class="bg-dark-900/40 text-gray-200 rounded-lg p-6">
-                            <h3 class="text-xl font-semibold text-gray-100 mb-4">Current Semester</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Current Semester GPA</label>
-                                    <input type="number" id="current-semester-gpa" step="0.01" min="0" max="10" placeholder="e.g., 3.8"
-                                           class="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Current Semester Credits</label>
-                                    <input type="number" id="current-semester-credits" min="0" placeholder="e.g., 15"
-                                           class="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CGPA Results -->
-                    <div id="cgpa-results" class="hidden mt-8">
-                        <div class="result-card">
-                            <h4 class="text-xl font-semibold mb-2">Cumulative GPA (CGPA)</h4>
-                            <div class="gpa-display" id="cgpa-result">0.00</div>
-                            <div class="text-blue-100 mt-4 space-y-1">
-                                <p>Total Credits: <span id="cgpa-total-credits">0</span></p>
-                                <p>Previous Credits: <span id="cgpa-previous-credits">0</span></p>
-                                <p>Current Credits: <span id="cgpa-current-credits">0</span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-6">
-                        <button id="calculate-cgpa-btn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-                            Calculate CGPA
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Save/Load Data -->
-                <div class="mt-12 border-t pt-8">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-4">Save Your Data</h3>
-                    <div class="flex flex-wrap gap-4">
-                        <button id="save-data-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i data-feather="save" class="w-4 h-4 inline mr-1"></i>
-                            Save Data
-                        </button>
-                        <button id="load-data-btn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i data-feather="folder-open" class="w-4 h-4 inline mr-1"></i>
-                            Load Data
-                        </button>
-                        <button id="clear-data-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i data-feather="trash-2" class="w-4 h-4 inline mr-1"></i>
-                            Clear All
-                        </button>
-                    </div>
-                    <div id="data-message" class="mt-4 hidden"></div>
+                <div class="text-right">
+                    <span class="text-xs font-mono text-gray-400 block">Scale: 4.0</span>
+                    <span class="text-xs text-emerald-400 font-semibold mt-1 block">Good Standing</span>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Features Section -->
-        <section class="py-16 bg-gradient-to-br from-dark-800/30 to-dark-900/30">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-100 mb-4">Why Use Our GPA Calculator?</h2>
-                    <p class="text-lg text-gray-400">Comprehensive academic performance calculation tools</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="target" class="w-8 h-8 text-blue-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Multiple Grading Scales</h3>
-                        <p class="text-gray-400">Support for 4.0, 5.0, 10.0 scales and custom grading systems used worldwide.</p>
-                    </div>
-
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="trending-up" class="w-8 h-8 text-green-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">CGPA Calculation</h3>
-                        <p class="text-gray-400">Calculate cumulative GPA by combining previous academic performance with current semester.</p>
-                    </div>
-
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="save" class="w-8 h-8 text-purple-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Save & Load Data</h3>
-                        <p class="text-gray-400">Save your course data locally and load it anytime for future calculations.</p>
-                    </div>
-                </div>
+        <!-- Optional Prior CGPA blending -->
+        <div class="glass-panel p-5 rounded-2xl border border-white/10 mb-8 grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase mb-1.5">Previous Cumulative GPA</label>
+                <input type="number" id="prior-gpa" min="0" max="4.0" step="0.01" value="3.72" class="w-full font-mono">
             </div>
-        </section>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase mb-1.5">Previous Total Credits Earned</label>
+                <input type="number" id="prior-credits" min="0" step="1" value="30" class="w-full font-mono">
+            </div>
+        </div>
+
+        <!-- Courses Table -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4 mb-8">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i data-feather="book-open" class="w-4 h-4 text-brand-primary"></i> Current Semester Courses
+                </h3>
+                <button id="add-course-btn" class="glass-panel px-4 py-1.5 rounded-xl text-xs font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 flex items-center gap-1">
+                    <i data-feather="plus" class="w-3.5 h-3.5"></i> Add Course
+                </button>
+            </div>
+
+            <div class="space-y-3" id="courses-list">
+                <!-- Dynamic Course Rows -->
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x599cbe=_0x2b70,_0x3e8ef9=_0x26fa;function _0x2b70(_0x361eff,_0x4edfd6){_0x361eff=_0x361eff-(-0x1*0x153b+0xbee+-0x1*-0xabf);const _0x39959c=_0x42fa();let _0x3ed31c=_0x39959c[_0x361eff];if(_0x2b70['JJHmUb']===undefined){var _0x134e46=function(_0x5e127c){const _0x4ae4b7='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x159fbf='',_0x10b768='',_0x184483=_0x159fbf+_0x134e46,_0x4d8ef1=(''+function(){return 0x53f+0x1*-0x1967+0x1428;})['indexOf']('\x0a')!==-(-0x15*0x57+-0x21d4+0x28f8);for(let _0x17d621=0x1db9+0x4c+0x1e05*-0x1,_0x4ddd55,_0x103be4,_0x422eac=0x19bb*0x1+0x243e+0x3df9*-0x1;_0x103be4=_0x5e127c['charAt'](_0x422eac++);~_0x103be4&&(_0x4ddd55=_0x17d621%(0x45a+0x183a+-0x1c90)?_0x4ddd55*(0x2*-0x84a+-0xc44*0x2+-0x1*-0x295c)+_0x103be4:_0x103be4,_0x17d621++%(-0x3*-0x9f7+-0xa06+-0x13db))?_0x159fbf+=_0x4d8ef1||_0x184483['charCodeAt'](_0x422eac+(0xebd*-0x1+-0x3a6*-0xa+-0x1*0x15b5))-(0x1e18+-0x1ab2+0x4*-0xd7)!==0x1dd*-0x3+0x23*-0x41+-0x73d*-0x2?String['fromCharCode'](-0x53*0x27+0xa8f+-0x3*-0x107&_0x4ddd55>>(-(-0x174f+0xb45*-0x1+0x2296)*_0x17d621&-0x16ea+-0x6d*0x4c+0x374c)):_0x17d621:0xd08*-0x1+-0x258d+0x17*0x233){_0x103be4=_0x4ae4b7['indexOf'](_0x103be4);}for(let _0x35dfce=0x2*-0x10a1+-0x21f3+0x4335,_0x4f6cfa=_0x159fbf['length'];_0x35dfce<_0x4f6cfa;_0x35dfce++){_0x10b768+='%'+('00'+_0x159fbf['charCodeAt'](_0x35dfce)['toString'](0x4*-0x5c0+0x1db*0xd+-0x10f))['slice'](-(0x1e14+0x9ed+-0x27ff));}return decodeURIComponent(_0x10b768);};_0x2b70['TFhvpH']=_0x134e46,_0x2b70['iRkenv']={},_0x2b70['JJHmUb']=!![];}const _0x140eb6=_0x39959c[0x249b*0x1+-0x1*0x511+-0x1f8a],_0x394d2b=_0x361eff+_0x140eb6,_0x14845c=_0x2b70['iRkenv'][_0x394d2b];if(!_0x14845c){const _0xca4fe6=function(_0x42a734){this['edcZDo']=_0x42a734,this['nImUsj']=[-0xd*-0x2a+-0x87b+0x65a,0x23b*-0xc+-0x1e51*-0x1+-0x38d,-0x2*0x84f+-0x2673+0x3*0x125b],this['zzGaOI']=function(){return'newState';},this['ghaDch']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['VEjEEE']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xca4fe6['prototype']['dAJvBF']=function(){const _0x2a77af=new RegExp(this['ghaDch']+this['VEjEEE']),_0x57ba81=_0x2a77af['test'](this['zzGaOI']['toString']())?--this['nImUsj'][-0x188b+0x5*0xb3+0x13d*0x11]:--this['nImUsj'][-0x13a7+-0x23*0x19+0xb89*0x2];return this['paLeqD'](_0x57ba81);},_0xca4fe6['prototype']['paLeqD']=function(_0x5535c0){if(!Boolean(~_0x5535c0))return _0x5535c0;return this['VDfzlG'](this['edcZDo']);},_0xca4fe6['prototype']['VDfzlG']=function(_0x6ae617){for(let _0x51fc54=-0x451*-0x7+-0xca*-0x16+0x281*-0x13,_0x6a9460=this['nImUsj']['length'];_0x51fc54<_0x6a9460;_0x51fc54++){this['nImUsj']['push'](Math['round'](Math['random']())),_0x6a9460=this['nImUsj']['length'];}return _0x6ae617(this['nImUsj'][-0x723+0x44f+0x2d4]);},(''+function(){return-0x5*-0x351+-0x1*0xc3a+0x1*-0x45b;})['indexOf']('\x0a')===-(-0xd7d+-0x232f+0x30ad)&&new _0xca4fe6(_0x2b70)['dAJvBF'](),_0x3ed31c=_0x2b70['TFhvpH'](_0x3ed31c),_0x2b70['iRkenv'][_0x394d2b]=_0x3ed31c;}else _0x3ed31c=_0x14845c;return _0x3ed31c;}(function(_0x1c4bea,_0x30aaeb){const _0x3ae70f=_0x2b70,_0x281519=_0x26fa,_0x3d4ae4=_0x1c4bea();while(!![]){try{const _0x4423a1=-parseInt(_0x281519(0x1d5,'r$rv'))/(0xc9*0x21+-0xff5+-0x9f3)+-parseInt(_0x3ae70f(0x185))/(-0x4*0x8fd+0x11c3*0x2+0x2*0x38)*(parseInt(_0x3ae70f(0x23e))/(0x34*-0x3b+0x771+0x48e))+parseInt(_0x3ae70f(0x238))/(-0x10c3+-0xb*0x23f+-0x24*-0x127)*(-parseInt(_0x281519(0x19a,'BEEq'))/(0x1706+-0x1*0x25eb+0xeea))+-parseInt(_0x281519(0x254,'Z8F$'))/(-0x1999*-0x1+0x1eca+0x2f*-0x133)+-parseInt(_0x281519(0x215,'Brp]'))/(0xa3*-0x1f+-0x41b+0x15*0x123)+-parseInt(_0x3ae70f(0x1f9))/(0x2*-0x89d+0x1bc9+-0xa87)*(parseInt(_0x281519(0x1a3,'Wm!x'))/(0x4*0x844+-0x225d+-0x12*-0x13))+-parseInt(_0x3ae70f(0x172))/(0x68e*0x2+0x89f+-0x15b1)*(-parseInt(_0x281519(0x174,'jh(Q'))/(-0x35f+0x1a11+-0x1*0x16a7));if(_0x4423a1===_0x30aaeb)break;else _0x3d4ae4['push'](_0x3d4ae4['shift']());}catch(_0x4acc23){_0x3d4ae4['push'](_0x3d4ae4['shift']());}}}(_0x42fa,-0x10570c+0x10e24+0x18d40e),feather[_0x3e8ef9(0x21f,'Brp]')]());function showMessage(_0x173bb1,_0x24f852=_0x599cbe(0x18f)){const _0x5706da=_0x3e8ef9,_0x192452=_0x599cbe,_0x46d72b={'cljnQ':_0x192452(0x18c),'iKDRg':function(_0xfeb3aa,_0x276fb6){return _0xfeb3aa+_0x276fb6;},'UdSdu':function(_0x501567,_0x35d8d0){return _0x501567+_0x35d8d0;},'YvcWP':_0x192452(0x18f),'BzgzH':_0x5706da(0x182,'NDdI')+'le','ggunK':function(_0x42558e,_0x5047ee){return _0x42558e===_0x5047ee;},'mrynF':'alert-circ'+'le','OCppW':_0x5706da(0x1e0,'or@x'),'jyzuQ':'show\x20','svBQQ':function(_0x29200c,_0x26a30e){return _0x29200c(_0x26a30e);},'tFnIO':function(_0x256938,_0xa6db6f,_0x3c9b1c){return _0x256938(_0xa6db6f,_0x3c9b1c);}},_0x30794b=document[_0x192452(0x230)+_0x192452(0x21e)](_0x46d72b['cljnQ']);if(!_0x30794b)return;_0x30794b[_0x5706da(0x1b2,'15AY')]=_0x46d72b[_0x192452(0x1f7)](_0x46d72b[_0x5706da(0x203,'#rA$')]('<i\x20data-fe'+'ather=\x22'+(_0x24f852===_0x46d72b['YvcWP']?_0x46d72b[_0x5706da(0x22e,'Z8F$')]:_0x46d72b[_0x192452(0x243)](_0x24f852,_0x192452(0x1f4))?_0x46d72b[_0x192452(0x25c)]:'info'),_0x5706da(0x206,'or@x')+'-4\x20h-4\x22></'+_0x192452(0x188))+_0x173bb1,_0x46d72b['OCppW']),_0x30794b['className']=_0x46d72b[_0x192452(0x1f7)](_0x46d72b[_0x5706da(0x18a,'^Asj')],_0x24f852),feather[_0x5706da(0x225,'&U)*')](),_0x46d72b[_0x5706da(0x210,'svB#')](clearTimeout,_0x30794b[_0x5706da(0x1db,'4[gd')]),_0x30794b[_0x192452(0x1cf)]=_0x46d72b[_0x5706da(0x240,'!(Jj')](setTimeout,()=>{const _0x51992c=_0x192452;_0x30794b[_0x51992c(0x193)]=_0x24f852;},0x2b7+-0x1813+-0x98*-0x3b);}const gradePoints={'A+':0x4,'A':0x4,'A-':3.7,'B+':3.3,'B':0x3,'B-':2.7,'C+':2.3,'C':0x2,'C-':1.7,'D+':1.3,'D':0x1,'F':0x0};function _0x42fa(){const _0x170153=['W6aEANvA','pN7cJwSrWRahWRqdyW','Bxj5BKy','fKakWP15D3hcV2jp','AxrZlwfSBa','WOv3rmkLxCo2B8ofcGy','ltKWmc82mcbIBW','ltuWmc8Ymcb0zq','CNnLka','W45XWPX5Aa','ndyWnZaXndb4rKjowhC','q29TChv0zxiGuW','W41aktFcKN/dPfq','WOzkW7vyhSk0W6jlWOD/','zM9YrwfJAa','Ff3dGmo5ECkEW7e','C3m9iMnVBc1ZCa','u3vTBweGq3vTia','p27cJxDuWQa','BdRdIdKrW7jiW6zhjG','s0zZsfK','WRtdRSkSW5xcLmkRW4K','ksiGy2XHC3m9iG','fCk5W5qhqCkNgmkLuYq','W6jtc8kt','qmkMj1FcSSo4zrZcJCoS','W70nharOzCk8W6dcKtW','B3jKzxiTyNjHBG','fhHLaG','mtbjDwPPBwC','W4uTW4tdNthdUCoZWPldRCoc','DxrNvNm','At48C3bHBJ4','W4eZCxm','W7eWW74KCq','W5ydW6nbbmoXWQWsW5y8','Dg9HC3q','zcbMB250lw1VBG','W48RtxnR','C3vJy2vZCW','WOrKWPBcKNi','tmopWR1jW5G9Er1Ixa','psbkvSkKg8kgcMhcMa','y2XHC3noyw1L','Dgv4DenVBNrLBG','WOb9W7VdLSoOWR/dLmkKzsq','ALRcHmk6bHhcPeFdQNC','CM91BMrLzc1MDq','BgWGyMCTCgLUAW','Dgv4Dc1Jzw50zq','WR8GcWJcO8kQEJi4kxpdVG','y2XPy2S','icaGica8l3nLBa','iIbVBMLUChv0pq','vG3dNmkxW6axyXJcKmkF','WRK8W7q1qCoQhmkIuN8','lcaNBMfTzsCSia','BgWGyMCTzw1LCG','BgrLCJ0Iq291CG','WPCzE8ofWP1hW7ZdQ2NcTmovyCoo','gmohWPldGmkPs3JdMqum','W68SW7WLy8oXf8kvwgq','WPzGWQ3cK2BcPCkbemkmuq','igBcQwxcLeDrWRRdHxi','WQVcK8oTkW','qCosWOxcKq','y3jLzgL0CW','ESkMbh4nWPyNWPv0WRa','qCk5oYRcV8k+mfddGCoS','BLvtwuK','rN7cJSkAW6SiCHK','WOddGwD9eq','tc/dPYddLrvrW5S','W6NcJSorWO/dOCkyW7RdTby','W45YCSkgefFdRmoFAG','Dgv4Dc1YzwqTna','Dg9gAxHLza','gLSjWOC8W6/dOvq3W5m','ihrLEhqTzw1LCG','W6qVtfjIWOtdVIVdOYS','ywrKrxzLBNrmAq','l8oMFYbnFmokWOpcP20','emkqW5tdI0dcLCkDkYe','Dc14CYbMB250lq','W5jfn8kzW44BWQdcV2VcHa','ohxcU21dWRSgWQe','WQTcCCkPAa','t3zgz2K','WPJcJNpcJ8ozi8oFlwZcQq','zxiGyM9YzgvYlq','W7CVqgnnWO7dVtRdQde','W5rSW7RdKSooW63cMmkKzti','Aw5WDxq','WOrhWRmrbCo1W7KAW4q9','zSoYW5r8jtfcaCodva','cIaGicaGicaGia','W4Dyk8ktWOOzWRBdU2NdNa','idXKAxyGy2XHCW','yxbWBhK','W4CsWQdcS8oiW4jzW5qJWO8','rgf0ysbtDhj1yW','lqFdMSo1aaFdSvhcPMS','BguTntaWlZeWia','x3rPBwvY','ChjPB3iTy3jLza','icaGicaGicaGia','icaG','ksiGCgXHy2vOBW','hfazW68GW7JdPvW4W5u','W7ddHCk8Ct5ksgFdKW9+wa','CI1LBwvYywXKlq','W5jZWPmEW48','icaGica8l2rPDG','W4vvW65YWOKZWPGOW70','n8o2wh1uW5POWPfSWQK','xCkRW41Jks4','W7PQWOOJgmosFZFdOMy','BgWGyMCTyNjHBG','igzVBNqTBw9UBW','jYWGDgHPCY52yq','zCkmWPFdKCkMrIm','kcGOlISPkYKRkq','WOzSWQm','ChGTmYbWEs0Xia','Aw5N','bSkZW6yRvCkNeq','zw1VDMvdB3vYCW','W65iW7DeWPm','hqGnWQH0FdhdQs4f','W6zQWPXI','lwj0BG','W51DW5j0WPiUWP4I','W6KTW6eJamo8fSktww8','WPfGW7xcQutcP8kkrSojxa','W5GdW67cHH/dGmkYWRKFWQ4','ChvYCgXLltuWma','u0vOzMC','W5/cGCkpWPpcIJRcVG','EsbIB3jKzxiGyG','W4SgW4W','zxjYB3i','W7KvW5lcKa','WOjDB8krW58sWQJcSdpdUW','AuTeuMC','zCk6W5blidLofSoudW','oeHZvKLdzG','vgvJAg5Py2fSia','W4j7rLpdOHZcOs7cUJy','oSk0ztbtFSoxWONdTtG','W7umWP4FWPy','A2v5CW','Dgv4Dc1WDxjWBa','kCoRFdfuBCksWO7dVa','WPJdKCkKweiYlSktASk0','FSk6fbyjWPyTW4WlW6K','m1NcR8kBW7O','s2vQs0y','WRy/W48QgSosphVcOZu','E8kdWOFdJCkMw27cGaC6','W5a1W7xcK0dcSSkBsCkrta','W61cFrZdHmo8W67cUh7cPq','iNvWzgf0zunVDq','yM9SzcbMB250lq','ChjPB3iTz3bH','Bw9UBW','W70xhaz3lCkAW6xcHJi','Dg90ywWTy3jLza','B3jKzxiTCgLUAW','W5rSWQu4W6K','B25JBgLJAZ0ICG','lwjVBgqGzM9UDa','W5qEfCkKWPhcRI7cImkA','tc/dPYddLrvrW5VcItu','W5O3W6FdLXddU8oCpSkyt8oQW4/dKW','ifrPzxiP','cxXLaSkiiYXYomo4','EhjkfmoRsCoctZpcLq','W6VcHSouW5hdSCk5W67dQWdcPa','lZiWihrLEhqTEa','DMfSDwu','WPTkWQRdO8kAW5DeWPbMW5W','DhvYzxmGtgfI','qNLjza','WPbGWQxcI0tcQCkk','A8kRW5C','WPhdRCk4W5lcSq','AxrZlxnLBq','C2vSzwn0zwq','W689WROXWQ8','WQxdUCk5W53cNmk8W58','WOL1qSkVwCk7rCotr3e','C3rLBMvY','zw50zxiIpGOGia','z3jHzgu','BI0XihrLEhqTyW','BgWGyMCTChvYCa','WQuTWQNcSv3cOslcRmouWPFdNXu','uCojWQrpWOi','W6TiW6z6WQG','W5P+WPPUx8osna/dRgu','z2v0rwXLBwvUDa','p8o+uhnFW5nJWPHNWQa','ywXKltuWmc8Xma','Aw5Uzxjive1m','WOvGWQhcOKNcR8kcaCkhsW','yMLUza','gc3dP3BcLfKeWP7cLdC','icaGica8Aw5WDq','mtzuwfb3Eu0','vCoHBrJdVSk9kfNdG8k4','lcaNz3jHzguNla','yw4TmIbZBtPJBW','WRmHW4v4W4NcQmoMWP5xiG','xCkAW7zpWOyVEqvYEG','mZK4mdKXu294yxrJ','a3RcTxpcKb0','tmoHWRPZWRK','zci+jNrPBwvZoW','W4GWWP06WQFdOSoawLOB','z2D1BKS','W5efW6pdTmofW59pWPD9WO8','ica8zgL2ignSyq','mtfprfbdzvO','sw8Ef8oOaCkg','W5XcW6vHWPqIWRmQW7Sz','WO1hlCkzW4u','zwjYyq','WP1qw8oHW5/dIr7cRmkGlW','W60agbvGia','W5VdGJldNmkktCkEycK','A8k7ccDsWOm2W4O3W6W','WOD1WQpdJd1CtfhcMCkdeCkW','jaRcNmkOn8oLW4jlC041WP8','mZC3nJK0mfvuCunJBq','WP8daXFcQ0JdSG','CZ0Iy29SlxnWyq','WPOfWRy2W5LZW4aqW5OAfq3cRq','CSk/aa','W5CPW7xcIgeFp07dJmor','zc1WCMLTyxj5lW','WPH8WRersmk0WQehW4yS','p2RcHhbsWRC'];_0x42fa=function(){return _0x170153;};return _0x42fa();}let courses=[{'name':_0x599cbe(0x173)+'cience\x20Cor'+'e','grade':'A','credits':0x4},{'name':_0x3e8ef9(0x1a4,'or@x')+_0x3e8ef9(0x1d9,'Z8F$'),'grade':'A-','credits':0x3},{'name':_0x3e8ef9(0x1a7,'Eb4v')+_0x599cbe(0x24a),'grade':'A','credits':0x4},{'name':_0x599cbe(0x1cc)+_0x599cbe(0x21d),'grade':'A+','credits':0x2},{'name':_0x599cbe(0x1fa)+'Writing','grade':'B+','credits':0x2}];function _0x26fa(_0x27e6b7,_0x332251){_0x27e6b7=_0x27e6b7-(-0x1*0x153b+0xbee+-0x1*-0xabf);const _0x4d71e5=_0x42fa();let _0x4df82d=_0x4d71e5[_0x27e6b7];if(_0x26fa['uaFXHW']===undefined){var _0xc8905c=function(_0x3f87e4){const _0x4a6ca6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x469309='',_0x590d72='',_0x5a4943=_0x469309+_0xc8905c,_0x3b817d=(''+function(){return 0x53f+0x1*-0x1967+0x1428;})['indexOf']('\x0a')!==-(-0x15*0x57+-0x21d4+0x28f8);for(let _0x24d46d=0x1db9+0x4c+0x1e05*-0x1,_0x359f45,_0x3c44a0,_0x1c445a=0x19bb*0x1+0x243e+0x3df9*-0x1;_0x3c44a0=_0x3f87e4['charAt'](_0x1c445a++);~_0x3c44a0&&(_0x359f45=_0x24d46d%(0x45a+0x183a+-0x1c90)?_0x359f45*(0x2*-0x84a+-0xc44*0x2+-0x1*-0x295c)+_0x3c44a0:_0x3c44a0,_0x24d46d++%(-0x3*-0x9f7+-0xa06+-0x13db))?_0x469309+=_0x3b817d||_0x5a4943['charCodeAt'](_0x1c445a+(0xebd*-0x1+-0x3a6*-0xa+-0x1*0x15b5))-(0x1e18+-0x1ab2+0x4*-0xd7)!==0x1dd*-0x3+0x23*-0x41+-0x73d*-0x2?String['fromCharCode'](-0x53*0x27+0xa8f+-0x3*-0x107&_0x359f45>>(-(-0x174f+0xb45*-0x1+0x2296)*_0x24d46d&-0x16ea+-0x6d*0x4c+0x374c)):_0x24d46d:0xd08*-0x1+-0x258d+0x17*0x233){_0x3c44a0=_0x4a6ca6['indexOf'](_0x3c44a0);}for(let _0x4005cf=0x2*-0x10a1+-0x21f3+0x4335,_0x445fa5=_0x469309['length'];_0x4005cf<_0x445fa5;_0x4005cf++){_0x590d72+='%'+('00'+_0x469309['charCodeAt'](_0x4005cf)['toString'](0x4*-0x5c0+0x1db*0xd+-0x10f))['slice'](-(0x1e14+0x9ed+-0x27ff));}return decodeURIComponent(_0x590d72);};const _0x18f3a3=function(_0x1fbc43,_0x224a36){let _0x334271=[],_0x39521d=0x249b*0x1+-0x1*0x511+-0x1f8a,_0x500675,_0x323594='';_0x1fbc43=_0xc8905c(_0x1fbc43);let _0x286ad7;for(_0x286ad7=-0xd*-0x2a+-0x87b+0x659;_0x286ad7<0x23b*-0xc+-0x1e51*-0x1+-0x28d;_0x286ad7++){_0x334271[_0x286ad7]=_0x286ad7;}for(_0x286ad7=-0x2*0x84f+-0x2673+0x3*0x125b;_0x286ad7<-0x188b+0x5*0xb3+0x53*0x44;_0x286ad7++){_0x39521d=(_0x39521d+_0x334271[_0x286ad7]+_0x224a36['charCodeAt'](_0x286ad7%_0x224a36['length']))%(-0x13a7+-0x23*0x19+0xed*0x1a),_0x500675=_0x334271[_0x286ad7],_0x334271[_0x286ad7]=_0x334271[_0x39521d],_0x334271[_0x39521d]=_0x500675;}_0x286ad7=-0x451*-0x7+-0xca*-0x16+0x281*-0x13,_0x39521d=-0x723+0x44f+0x2d4;for(let _0x5c7c83=-0x5*-0x351+-0x1*0xc3a+0x1*-0x45b;_0x5c7c83<_0x1fbc43['length'];_0x5c7c83++){_0x286ad7=(_0x286ad7+(-0xd7d+-0x232f+0x30ad))%(0x13*0x47+0x198d+-0x1dd2),_0x39521d=(_0x39521d+_0x334271[_0x286ad7])%(-0x1f8*-0x4+-0x1643+0xf63),_0x500675=_0x334271[_0x286ad7],_0x334271[_0x286ad7]=_0x334271[_0x39521d],_0x334271[_0x39521d]=_0x500675,_0x323594+=String['fromCharCode'](_0x1fbc43['charCodeAt'](_0x5c7c83)^_0x334271[(_0x334271[_0x286ad7]+_0x334271[_0x39521d])%(-0x1330+-0x37f*-0x7+0x1*-0x449)]);}return _0x323594;};_0x26fa['DJeIGo']=_0x18f3a3,_0x26fa['tDRuWY']={},_0x26fa['uaFXHW']=!![];}const _0x10688d=_0x4d71e5[-0x1*-0x1a01+0x20d*-0xe+0x2b5],_0x2399d7=_0x27e6b7+_0x10688d,_0x3a0dbc=_0x26fa['tDRuWY'][_0x2399d7];if(!_0x3a0dbc){if(_0x26fa['YuUeVH']===undefined){const _0x588efb=function(_0xdd660b){this['TQOkzi']=_0xdd660b,this['CgsBNs']=[0x1c1a+0x6b9*-0x5+-0x2c2*-0x2,-0x192e+0x242a+0x4c*-0x25,-0x1*0x1f74+0x1974+0x600],this['nCoHyT']=function(){return'newState';},this['PJvScS']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ilPzDY']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x588efb['prototype']['MFYKlr']=function(){const _0x3cb194=new RegExp(this['PJvScS']+this['ilPzDY']),_0xa5a764=_0x3cb194['test'](this['nCoHyT']['toString']())?--this['CgsBNs'][-0x193*-0x7+-0xb86+0x82]:--this['CgsBNs'][-0x3*0x635+0x1045+0x25a];return this['lczJyX'](_0xa5a764);},_0x588efb['prototype']['lczJyX']=function(_0x27ec28){if(!Boolean(~_0x27ec28))return _0x27ec28;return this['XSKOGk'](this['TQOkzi']);},_0x588efb['prototype']['XSKOGk']=function(_0x3faf47){for(let _0x54f60b=-0xc5c+0x14a*-0x2+-0xef*-0x10,_0x2dbf9f=this['CgsBNs']['length'];_0x54f60b<_0x2dbf9f;_0x54f60b++){this['CgsBNs']['push'](Math['round'](Math['random']())),_0x2dbf9f=this['CgsBNs']['length'];}return _0x3faf47(this['CgsBNs'][-0x13*0x19+0x15c9+-0x2*0x9f7]);},(''+function(){return-0x25e+-0xcb*0x23+0x1e1f;})['indexOf']('\x0a')===-(-0x5d*0x2+-0x85f+-0x5*-0x1d2)&&new _0x588efb(_0x26fa)['MFYKlr'](),_0x26fa['YuUeVH']=!![];}_0x4df82d=_0x26fa['DJeIGo'](_0x4df82d,_0x332251),_0x26fa['tDRuWY'][_0x2399d7]=_0x4df82d;}else _0x4df82d=_0x3a0dbc;return _0x4df82d;}const coursesList=document[_0x3e8ef9(0x1b7,'WnzF')+_0x599cbe(0x21e)](_0x3e8ef9(0x1ee,'1n#X')+'st'),semGpaEl=document[_0x3e8ef9(0x1f8,'4[gd')+_0x599cbe(0x21e)](_0x3e8ef9(0x217,'CH[7')+'pa'),cgpaEl=document[_0x3e8ef9(0x17f,'$NuH')+'ById']('cgpa-val'),semCreditsEl=document[_0x3e8ef9(0x239,'$djV')+'ById']('total-cred'+_0x599cbe(0x222)),allCreditsEl=document['getElement'+_0x3e8ef9(0x180,'Wm!x')](_0x599cbe(0x20e)+_0x599cbe(0x25e)),honorsBadge=document['getElement'+_0x599cbe(0x21e)](_0x3e8ef9(0x196,'RM$h')+'ge'),priorGpaInput=document[_0x3e8ef9(0x234,'Brp]')+_0x3e8ef9(0x1f5,'1n#X')](_0x599cbe(0x20b)),priorCreditsInput=document[_0x3e8ef9(0x1e8,'b!D^')+_0x3e8ef9(0x189,'WnzF')](_0x599cbe(0x1d0)+_0x3e8ef9(0x220,'4[gd'));function renderCourses(){const _0x33f7f5=_0x599cbe,_0x3dc1eb=_0x3e8ef9,_0x20badd={'JjTFH':_0x3dc1eb(0x1da,'ukln')+'+$','SGHFq':'px-3\x20py-1\x20'+'rounded-fu'+_0x33f7f5(0x22b)+_0x33f7f5(0x1ce)+_0x3dc1eb(0x24e,'ukln')+'e-400\x20bord'+_0x3dc1eb(0x218,'SZ1e')+_0x33f7f5(0x1ef)+_0x3dc1eb(0x1cd,'RM$h')+_0x3dc1eb(0x201,'IQB(')+_0x33f7f5(0x18d)+'o','dEAMq':function(_0x29824d,_0x50d6c4){return _0x29824d!==_0x50d6c4;},'cTRbT':'RvCzt','fLUEN':_0x3dc1eb(0x1e2,'Brp]'),'FqqcL':_0x3dc1eb(0x1c8,'Wm!x')+'cols-12\x20ga'+'p-2\x20items-'+_0x3dc1eb(0x256,'yDUV')+'\x20rounded-2'+'xl\x20bg-dark'+_0x33f7f5(0x260)+_0x3dc1eb(0x1ec,'^Asj')+_0x3dc1eb(0x200,'VaQ1'),'UbRel':function(_0x591d58){return _0x591d58();}},_0x28c14f=(function(){let _0x538133=!![];return function(_0x4d719c,_0x34effb){const _0x3baa8e=_0x538133?function(){const _0x43aa36=_0x2b70;if(_0x34effb){const _0x257521=_0x34effb[_0x43aa36(0x1ca)](_0x4d719c,arguments);return _0x34effb=null,_0x257521;}}:function(){};return _0x538133=![],_0x3baa8e;};}()),_0x4c8e63=_0x28c14f(this,function(){const _0x1dab68=_0x3dc1eb,_0x1684a5=_0x33f7f5;if(_0x4c8e63[_0x1684a5(0x235)]()[_0x1dab68(0x1bd,'n8HO')]()[_0x1dab68(0x177,'^KtG')]('\x0a')!==-(0x1*-0x196b+-0x24e7+0x3e53))return;return _0x4c8e63[_0x1dab68(0x1eb,'Z8F$')]()[_0x1dab68(0x24c,'NDdI')](_0x1684a5(0x1e1)+'+$')['toString']()['constructo'+'r'](_0x4c8e63)['search'](_0x20badd['JjTFH']);});_0x20badd[_0x3dc1eb(0x224,'VIfh')](_0x4c8e63),coursesList[_0x3dc1eb(0x213,'9170')]='',courses['forEach']((_0x4dbafa,_0x149200)=>{const _0x117c00=_0x33f7f5,_0x2d2cc7=_0x3dc1eb,_0x2fa268={'faCuW':_0x20badd[_0x2d2cc7(0x1af,'F$^L')]};if(_0x20badd['dEAMq'](_0x20badd[_0x2d2cc7(0x1be,'qD]Y')],_0x20badd[_0x2d2cc7(0x25a,'WnzF')]))_0x3e0d15[_0x2d2cc7(0x1c2,'WnzF')+'t']='Good\x20Stand'+'ing',_0x2f9325['className']=_0x2fa268[_0x2d2cc7(0x190,'Brp]')];else{const _0x47358b=document[_0x2d2cc7(0x20d,'NDdI')+_0x2d2cc7(0x1f3,'QKRT')](_0x20badd['fLUEN']);_0x47358b[_0x2d2cc7(0x1ba,'Z!&N')]=_0x20badd[_0x2d2cc7(0x221,'&U)*')],_0x47358b[_0x117c00(0x233)]=_0x117c00(0x1c7)+_0x117c00(0x1d1)+_0x2d2cc7(0x175,'maTo')+'s=\x22col-spa'+'n-6\x20sm:col'+'-span-6\x22>\x0a'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x117c00(0x1d1)+'\x20\x20\x20\x20<input'+_0x2d2cc7(0x1c3,'cnsf')+_0x2d2cc7(0x236,'Eb4v')+_0x4dbafa[_0x2d2cc7(0x184,'CH[7')]+(_0x117c00(0x19d)+_0x2d2cc7(0x19f,'^Asj')+_0x117c00(0x262))+_0x149200+(_0x117c00(0x1a0)+_0x2d2cc7(0x191,'!(Jj')+_0x117c00(0x1d3)+_0x117c00(0x1a2)+_0x2d2cc7(0x1ed,'Brp]')+'lass=\x22w-fu'+'ll\x22>\x0a\x20\x20\x20\x20\x20'+_0x2d2cc7(0x192,'SZ1e')+_0x117c00(0x1d8)+_0x2d2cc7(0x1fb,'jh(Q')+_0x2d2cc7(0x1c0,'7*$Q')+_0x117c00(0x245)+'ss=\x22col-sp'+'an-3\x20sm:co'+_0x2d2cc7(0x25d,'b!D^')+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2d2cc7(0x208,'bJcG')+'\x20\x20\x20\x20\x20<sele'+'ct\x20onchang'+_0x2d2cc7(0x23d,'!(Jj')+_0x2d2cc7(0x23f,'Eb4v'))+_0x149200+(_0x117c00(0x23a)+'\x20this.valu'+_0x2d2cc7(0x186,'d]w3')+_0x2d2cc7(0x1f6,'Wm!x')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2d2cc7(0x205,'BqA!')+_0x2d2cc7(0x1b0,'Eb4v'))+Object[_0x117c00(0x1fe)](gradePoints)[_0x2d2cc7(0x255,'ukln')](_0x48d5b0=>'<option\x20va'+'lue=\x22'+_0x48d5b0+'\x22\x20'+(_0x48d5b0===_0x4dbafa[_0x117c00(0x229)]?_0x117c00(0x223):'')+'>'+_0x48d5b0+'\x20('+gradePoints[_0x48d5b0]+')</option>')[_0x2d2cc7(0x1a8,'r$rv')]('')+(_0x117c00(0x1c7)+_0x2d2cc7(0x214,'Eb4v')+_0x117c00(0x19c)+'ect>\x0a\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x117c00(0x1d8)+_0x2d2cc7(0x258,'maTo')+_0x2d2cc7(0x17b,'n8HO')+_0x117c00(0x245)+_0x117c00(0x178)+_0x117c00(0x23b)+'l-span-2\x22>'+_0x117c00(0x1c7)+_0x2d2cc7(0x231,'ukln')+_0x117c00(0x237)+_0x2d2cc7(0x1b9,'VaQ1')+_0x2d2cc7(0x23c,'SwgE')+_0x2d2cc7(0x1c5,'maTo')+'0\x22\x20value=\x22')+_0x4dbafa[_0x2d2cc7(0x252,'jh(Q')]+(_0x117c00(0x19d)+_0x117c00(0x209)+_0x117c00(0x262))+_0x149200+(_0x2d2cc7(0x21c,'RsEv')+_0x117c00(0x1df)+_0x2d2cc7(0x1dc,'BqA!')+_0x2d2cc7(0x1ac,'$djV')+_0x2d2cc7(0x244,'RsEv')+_0x117c00(0x199)+_0x2d2cc7(0x181,'$djV')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2d2cc7(0x24b,'9170')+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x117c00(0x1d1)+_0x117c00(0x1c9)+_0x117c00(0x253)+_0x117c00(0x22a)+_0x117c00(0x228)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20<button\x20'+_0x117c00(0x211)+_0x117c00(0x1e6)+'e(')+_0x149200+(_0x117c00(0x17e)+_0x117c00(0x1b3)+_0x2d2cc7(0x19e,'#rA$')+_0x2d2cc7(0x1ab,'ukln')+'0\x20font-bol'+_0x117c00(0x241)+'</button>\x0a'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x117c00(0x1d1)+'</div>\x0a\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x117c00(0x1d2)),coursesList['appendChil'+'d'](_0x47358b);}}),calculateGPA();}window[_0x3e8ef9(0x248,'Z8F$')+'se']=function(_0x4b2281,_0x52fd7f,_0x2d7e2f){const _0xed0a2f=_0x3e8ef9,_0x59efa9=_0x599cbe,_0x5eb94d={'GzvDs':function(_0x5a7041,_0x15d51c){return _0x5a7041(_0x15d51c);},'OSvKU':function(_0x3b339d){return _0x3b339d();}};if(_0x52fd7f===_0x59efa9(0x1aa))courses[_0x4b2281][_0x52fd7f]=_0x5eb94d[_0xed0a2f(0x1e7,'Z8F$')](parseFloat,_0x2d7e2f)||-0x3a5+-0x15a4+-0x1a*-0xf9;else courses[_0x4b2281][_0x52fd7f]=_0x2d7e2f;_0x5eb94d[_0xed0a2f(0x1fd,'VIfh')](calculateGPA);},window['removeCour'+'se']=function(_0x3a2d4a){const _0x19de94=_0x599cbe,_0x5ce522=_0x3e8ef9,_0x4e9f9e={'KFsHY':function(_0x3cc46d){return _0x3cc46d();}};courses[_0x5ce522(0x259,'n8HO')](_0x3a2d4a,-0x599*0x4+0x1591+-0x1*-0xd4),_0x4e9f9e[_0x19de94(0x17c)](renderCourses);},document[_0x3e8ef9(0x1b5,'hvJJ')+_0x599cbe(0x21e)](_0x3e8ef9(0x219,'elMd')+_0x599cbe(0x1ea))[_0x3e8ef9(0x202,'ukln')+_0x3e8ef9(0x17a,'n8HO')](_0x599cbe(0x19b),()=>{const _0x265ec3=_0x599cbe,_0x3eec3=_0x3e8ef9,_0x33a843={'OvFgi':'New\x20Course','SEhfg':function(_0x13f399){return _0x13f399();}};courses[_0x3eec3(0x1e9,'BqA!')]({'name':_0x33a843[_0x265ec3(0x1bf)],'grade':'A','credits':0x3}),_0x33a843[_0x265ec3(0x1f0)](renderCourses),feather['replace']();});function calculateGPA(){const _0xebe5fe=_0x3e8ef9,_0x3bc2a6=_0x599cbe,_0x4921f1={'utgVs':function(_0x268398,_0x3b54e8){return _0x268398>=_0x3b54e8;},'luiOb':_0x3bc2a6(0x1e3)+_0x3bc2a6(0x197)+_0x3bc2a6(0x1a1)+_0x3bc2a6(0x232)+_0x3bc2a6(0x1b6)+'ald-400\x20bo'+_0xebe5fe(0x25b,'n8HO')+_0x3bc2a6(0x1d6)+'500/20\x20tex'+_0x3bc2a6(0x1bb)+_0x3bc2a6(0x20a)+_0x3bc2a6(0x20c),'ATWoZ':_0xebe5fe(0x25f,'qD]Y')+_0xebe5fe(0x18e,'WnzF'),'XnssR':function(_0x9a6d0c,_0x580e79){return _0x9a6d0c>=_0x580e79;},'KejKF':_0xebe5fe(0x226,'qD]Y')+_0xebe5fe(0x1fc,'VaQ1')+_0xebe5fe(0x1a9,'Z!&N'),'RNOFw':_0xebe5fe(0x1cb,'RsEv')+_0x3bc2a6(0x197)+_0x3bc2a6(0x198)+'-500/10\x20te'+'xt-pink-40'+'0\x20border\x20b'+_0x3bc2a6(0x20f)+_0x3bc2a6(0x261)+'xt-xs\x20font'+_0x3bc2a6(0x212)+_0xebe5fe(0x249,'Wm!x'),'cbjHd':function(_0x33f62e,_0x42fed6){return _0x33f62e>_0x42fed6;},'nUSYI':function(_0x5f7006,_0x2efff7){return _0x5f7006*_0x2efff7;},'GrkBr':function(_0x21fa30,_0x1c2fb0){return _0x21fa30/_0x1c2fb0;},'uitww':function(_0x480b8f,_0x419f76){return _0x480b8f+_0x419f76;}};let _0x45123f=0x932+0x14e*-0x1d+0x1a*0x11a,_0x2f129a=0x1113+-0xe7b+-0x53*0x8;courses[_0x3bc2a6(0x176)](_0x322359=>{const _0x560f70=_0xebe5fe,_0x53f96b=_0x3bc2a6,_0x4f60c3=gradePoints[_0x322359[_0x53f96b(0x229)]]||-0x389+0x6*-0x2ac+0x1391;_0x45123f+=_0x4f60c3*_0x322359[_0x53f96b(0x1aa)],_0x2f129a+=_0x322359[_0x560f70(0x17d,'&U)*')];});const _0x5ec1c3=_0x2f129a>-0x22d*-0x4+-0x1aa0+-0x47b*-0x4?_0x45123f/_0x2f129a:0x122e+-0x1dc4+0xb96;semGpaEl[_0xebe5fe(0x1a6,'Brp]')+'t']=_0x5ec1c3[_0x3bc2a6(0x1b4)](0x2241+-0x2607+-0x4*-0xf2),semCreditsEl[_0x3bc2a6(0x194)+'t']=_0x2f129a+_0xebe5fe(0x1ae,'#rA$');if(_0x4921f1[_0x3bc2a6(0x187)](_0x5ec1c3,0x245c+-0x1f50+-0x1*0x509+0.7999999999999998))honorsBadge[_0x3bc2a6(0x194)+'t']=_0x3bc2a6(0x179)+_0xebe5fe(0x22f,'BqA!')+_0x3bc2a6(0x216),honorsBadge[_0xebe5fe(0x1b1,'elMd')]=_0x4921f1['luiOb'];else{if(_0x5ec1c3>=-0x1369+-0x1*0xab5+0x1*0x1e21+0.5)honorsBadge[_0x3bc2a6(0x194)+'t']=_0x4921f1['ATWoZ'],honorsBadge[_0xebe5fe(0x24d,'7*$Q')]=_0x3bc2a6(0x1e3)+_0xebe5fe(0x1bc,'Wm!x')+_0x3bc2a6(0x1dd)+_0x3bc2a6(0x257)+'10\x20text-br'+_0xebe5fe(0x1d4,'hvJJ')+_0x3bc2a6(0x1f2)+_0x3bc2a6(0x183)+_0xebe5fe(0x1c6,'4[gd')+_0xebe5fe(0x207,'Brp]')+'\x20font-bold'+_0x3bc2a6(0x1de);else _0x4921f1[_0xebe5fe(0x263,'BqA!')](_0x5ec1c3,0x19bb+0x1*-0x1173+0x49*-0x1d)?(honorsBadge[_0xebe5fe(0x1a6,'Brp]')+'t']='Good\x20Stand'+_0x3bc2a6(0x1e4),honorsBadge['className']='px-3\x20py-1\x20'+_0xebe5fe(0x242,'VIfh')+'ll\x20bg-purp'+_0x3bc2a6(0x1ce)+_0x3bc2a6(0x1ff)+'e-400\x20bord'+_0x3bc2a6(0x1c1)+_0xebe5fe(0x18b,'maTo')+_0x3bc2a6(0x21a)+'s\x20font-bol'+_0x3bc2a6(0x18d)+'o'):(honorsBadge['textConten'+'t']=_0x4921f1[_0x3bc2a6(0x204)],honorsBadge['className']=_0x4921f1['RNOFw']);}const _0x2b2c9a=parseFloat(priorGpaInput[_0x3bc2a6(0x21b)])||-0x828+-0x1107+0x192f*0x1,_0x4cb8c4=parseFloat(priorCreditsInput['value'])||0x2138+-0x75f*-0x1+-0x2897*0x1,_0x3062ed=_0x4cb8c4+_0x2f129a;let _0x43e4cd=_0x5ec1c3;if(_0x4921f1['cbjHd'](_0x3062ed,-0x1e7b+0x21c*-0x5+0x2907)){const _0x10e1d6=_0x4921f1[_0x3bc2a6(0x1ad)](_0x2b2c9a,_0x4cb8c4);_0x43e4cd=_0x4921f1['GrkBr'](_0x4921f1[_0xebe5fe(0x1d7,'svB#')](_0x10e1d6,_0x45123f),_0x3062ed);}cgpaEl[_0xebe5fe(0x1a5,'^Asj')+'t']=_0x43e4cd[_0xebe5fe(0x1e5,'$NuH')](0x2*0x3b5+-0x1902+0x119a*0x1),allCreditsEl[_0xebe5fe(0x195,'cnsf')+'t']=_0xebe5fe(0x247,'SZ1e')+_0x3062ed+'\x20Credits';}priorGpaInput[_0x599cbe(0x1b8)+_0x599cbe(0x227)](_0x599cbe(0x1c4),calculateGPA),priorCreditsInput[_0x599cbe(0x1b8)+_0x599cbe(0x227)](_0x3e8ef9(0x22d,'!(Jj'),calculateGPA),renderCourses();</script>
 
-
-    <script>
-        // GPA Calculator functionality
-        let courses = [];
-        let currentScale = '4.0';
-        let gradingScales = {
-            '4.0': {
-                'A+': 4.0, 'A': 4.0, 'A-': 3.7,
-                'B+': 3.3, 'B': 3.0, 'B-': 2.7,
-                'C+': 2.3, 'C': 2.0, 'C-': 1.7,
-                'D+': 1.3, 'D': 1.0, 'D-': 0.7,
-                'F': 0.0
-            },
-            '5.0': {
-                'A+': 5.0, 'A': 5.0, 'A-': 4.5,
-                'B+': 4.0, 'B': 3.5, 'B-': 3.0,
-                'C+': 2.5, 'C': 2.0, 'C-': 1.5,
-                'D+': 1.0, 'D': 0.5, 'D-': 0.0,
-                'F': 0.0
-            },
-            '10.0': {
-                'A+': 10.0, 'A': 9.0, 'A-': 8.0,
-                'B+': 7.0, 'B': 6.0, 'B-': 5.0,
-                'C+': 4.0, 'C': 3.0, 'C-': 2.0,
-                'D+': 1.0, 'D': 0.5, 'D-': 0.0,
-                'F': 0.0
-            },
-            'custom': {}
-        };
-
-        // Initialize the calculator
-        function initGPACalculator() {
-            setupEventListeners();
-            addCourseRow(); // Add initial course row
-            loadSavedData();
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Tab switching
-            document.getElementById('semester-tab').addEventListener('click', () => switchTab('semester'));
-            document.getElementById('cgpa-tab').addEventListener('click', () => switchTab('cgpa'));
-
-            // Add course button
-            document.getElementById('add-course-btn').addEventListener('click', addCourseRow);
-
-            // Grading scale selection
-            document.querySelectorAll('.scale-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    selectGradingScale(this.dataset.scale);
-                });
-            });
-
-            // CGPA calculation
-            document.getElementById('calculate-cgpa-btn').addEventListener('click', calculateCGPA);
-
-            // CGPA input listeners for real-time calculation
-            document.getElementById('previous-cgpa').addEventListener('input', updateCGPAResults);
-            document.getElementById('previous-credits').addEventListener('input', updateCGPAResults);
-            document.getElementById('current-semester-gpa').addEventListener('input', updateCGPAResults);
-            document.getElementById('current-semester-credits').addEventListener('input', updateCGPAResults);
-
-            // Save/Load/Clear data
-            document.getElementById('save-data-btn').addEventListener('click', saveData);
-            document.getElementById('load-data-btn').addEventListener('click', loadData);
-            document.getElementById('clear-data-btn').addEventListener('click', clearData);
-
-            // Mobile menu
-            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-                document.getElementById('mobileMenu').classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking links
-            document.querySelectorAll('#mobileMenu a').forEach(link => {
-                link.addEventListener('click', function() {
-                    document.getElementById('mobileMenu').classList.add('hidden');
-                });
-            });
-        }
-
-        // Switch between tabs
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active', 'bg-blue-600', 'text-white');
-                btn.classList.add('bg-dark-700/60', 'backdrop-blur-md', 'text-gray-300');
-            });
-
-            document.getElementById(`${tab}-tab`).classList.add('active', 'bg-blue-600', 'text-white');
-            document.getElementById(`${tab}-tab`).classList.remove('bg-dark-700/60', 'backdrop-blur-md', 'text-gray-300');
-
-            document.getElementById('semester-calculator').classList.toggle('hidden', tab !== 'semester');
-            document.getElementById('cgpa-calculator').classList.toggle('hidden', tab !== 'cgpa');
-        }
-
-        // Select grading scale
-        function selectGradingScale(scale) {
-            currentScale = scale;
-
-            // Update UI
-            document.querySelectorAll('.scale-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            document.querySelector(`[data-scale="${scale}"]`).classList.add('selected');
-
-            // Update all grade selects
-            updateGradeSelects();
-
-            // Recalculate GPA
-            calculateGPA();
-        }
-
-        // Update grade select options
-        function updateGradeSelects() {
-            const gradeSelects = document.querySelectorAll('.grade-select');
-            const grades = Object.keys(gradingScales[currentScale]);
-
-            gradeSelects.forEach(select => {
-                const currentValue = select.value;
-                select.innerHTML = '<option value="">Select Grade</option>';
-
-                grades.forEach(grade => {
-                    const option = document.createElement('option');
-                    option.value = grade;
-                    option.textContent = `${grade} (${gradingScales[currentScale][grade]})`;
-                    select.appendChild(option);
-                });
-
-                // Restore previous selection if it exists
-                if (currentValue && grades.includes(currentValue)) {
-                    select.value = currentValue;
-                }
-            });
-        }
-
-        // Add course row
-        function addCourseRow(courseData = null) {
-            const container = document.getElementById('courses-container');
-            const courseIndex = courses.length;
-
-            const courseRow = document.createElement('div');
-            courseRow.className = 'course-row p-4 mb-4';
-            courseRow.dataset.index = courseIndex;
-
-            courseRow.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-1">Course Name</label>
-                        <input type="text" class="course-name w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                               placeholder="e.g., Mathematics 101" value="${courseData?.name || ''}">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-1">Credits</label>
-                        <input type="number" class="course-credits w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                               min="0" step="0.5" placeholder="e.g., 3" value="${courseData?.credits || ''}">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-1">Grade</label>
-                        <select class="grade-select course-grade w-full">
-                            <option value="">Select Grade</option>
-                        </select>
-                    </div>
-                    <div class="flex gap-2">
-                        <button class="remove-course-btn bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition-colors" title="Remove Course">
-                            <i data-feather="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            container.appendChild(courseRow);
-
-            // Add course to data array
-            courses.push({
-                name: courseData?.name || '',
-                credits: courseData?.credits || 0,
-                grade: courseData?.grade || ''
-            });
-
-            // Setup event listeners for this row
-            setupCourseRowListeners(courseRow, courseIndex);
-
-            // Update grade select for this row
-            updateGradeSelects();
-
-            // Set grade if provided
-            if (courseData?.grade) {
-                courseRow.querySelector('.course-grade').value = courseData.grade;
-            }
-
-            // Replace feather icons in the new row
-            setTimeout(() => {
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                }
-            }, 10);
-        }
-
-        // Setup listeners for course row
-        function setupCourseRowListeners(row, index) {
-            const nameInput = row.querySelector('.course-name');
-            const creditsInput = row.querySelector('.course-credits');
-            const gradeSelect = row.querySelector('.course-grade');
-            const removeBtn = row.querySelector('.remove-course-btn');
-
-            // Update course data on input
-            nameInput.addEventListener('input', () => {
-                courses[index].name = nameInput.value;
-                calculateGPA();
-            });
-
-            creditsInput.addEventListener('input', () => {
-                courses[index].credits = parseFloat(creditsInput.value) || 0;
-                calculateGPA();
-            });
-
-            gradeSelect.addEventListener('change', () => {
-                courses[index].grade = gradeSelect.value;
-                calculateGPA();
-            });
-
-            // Remove course
-            removeBtn.addEventListener('click', () => {
-                courses.splice(index, 1);
-                row.remove();
-                updateCourseIndices();
-                calculateGPA();
-            });
-        }
-
-        // Update course indices after removal
-        function updateCourseIndices() {
-            document.querySelectorAll('.course-row').forEach((row, index) => {
-                row.dataset.index = index;
-                setupCourseRowListeners(row, index);
-            });
-        }
-
-        // Calculate GPA
-        function calculateGPA() {
-            let totalPoints = 0;
-            let totalCredits = 0;
-            let gradeCounts = {};
-
-            courses.forEach(course => {
-                if (course.credits > 0 && course.grade) {
-                    const gradePoints = gradingScales[currentScale][course.grade] || 0;
-                    totalPoints += gradePoints * course.credits;
-                    totalCredits += course.credits;
-
-                    // Count grades
-                    gradeCounts[course.grade] = (gradeCounts[course.grade] || 0) + 1;
-                }
-            });
-
-            const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
-
-            // Update results
-            if (totalCredits > 0) {
-                document.getElementById('semester-gpa').textContent = gpa;
-                document.getElementById('total-credits').textContent = totalCredits;
-                document.getElementById('semester-results').classList.remove('hidden');
-                updateGradeDistribution(gradeCounts);
-            } else {
-                document.getElementById('semester-results').classList.add('hidden');
-            }
-        }
-
-        // Update grade distribution display
-        function updateGradeDistribution(gradeCounts) {
-            const container = document.getElementById('grade-distribution');
-            container.innerHTML = '';
-
-            Object.entries(gradeCounts).forEach(([grade, count]) => {
-                const gradeElement = document.createElement('div');
-                gradeElement.className = `text-center p-3 rounded-lg bg-dark-800/80 text-gray-200`;
-                gradeElement.innerHTML = `
-                    <div class="font-semibold text-lg">${grade}</div>
-                    <div class="text-sm text-gray-400">${count} course${count > 1 ? 's' : ''}</div>
-                `;
-                container.appendChild(gradeElement);
-            });
-        }
-
-        // Calculate CGPA
-        function calculateCGPA() {
-            const prevCGPA = parseFloat(document.getElementById('previous-cgpa').value) || 0;
-            const prevCredits = parseFloat(document.getElementById('previous-credits').value) || 0;
-            const currentGPA = parseFloat(document.getElementById('current-semester-gpa').value) || 0;
-            const currentCredits = parseFloat(document.getElementById('current-semester-credits').value) || 0;
-
-            if (prevCredits === 0 && currentCredits === 0) {
-                document.getElementById('cgpa-results').classList.add('hidden');
-                return;
-            }
-
-            const totalCredits = prevCredits + currentCredits;
-            const totalPoints = (prevCGPA * prevCredits) + (currentGPA * currentCredits);
-            const cgpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
-
-            document.getElementById('cgpa-result').textContent = cgpa;
-            document.getElementById('cgpa-total-credits').textContent = totalCredits;
-            document.getElementById('cgpa-previous-credits').textContent = prevCredits;
-            document.getElementById('cgpa-current-credits').textContent = currentCredits;
-            document.getElementById('cgpa-results').classList.remove('hidden');
-        }
-
-        // Update CGPA results in real-time
-        function updateCGPAResults() {
-            calculateCGPA();
-        }
-
-        // Save data to localStorage
-        function saveData() {
-            const data = {
-                courses: courses,
-                scale: currentScale,
-                timestamp: new Date().toISOString()
-            };
-
-            localStorage.setItem('gpaCalculatorData', JSON.stringify(data));
-            showMessage('Data saved successfully!', 'success');
-        }
-
-        // Load data from localStorage
-        function loadData() {
-            const saved = localStorage.getItem('gpaCalculatorData');
-            if (saved) {
-                const data = JSON.parse(saved);
-
-                // Clear existing courses
-                document.getElementById('courses-container').innerHTML = '';
-                courses = [];
-
-                // Load scale
-                if (data.scale) {
-                    selectGradingScale(data.scale);
-                }
-
-                // Load courses
-                if (data.courses && data.courses.length > 0) {
-                    data.courses.forEach(course => {
-                        addCourseRow(course);
-                    });
-                }
-
-                showMessage('Data loaded successfully!', 'success');
-            } else {
-                showMessage('No saved data found.', 'error');
-            }
-        }
-
-        // Load saved data on page load
-        function loadSavedData() {
-            const saved = localStorage.getItem('gpaCalculatorData');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    if (data.courses && data.courses.length > 0) {
-                        // Clear existing courses
-                        document.getElementById('courses-container').innerHTML = '';
-                        courses = [];
-
-                        // Load courses
-                        data.courses.forEach(course => {
-                            addCourseRow(course);
-                        });
-
-                        // Load scale if available
-                        if (data.scale) {
-                            selectGradingScale(data.scale);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error loading saved data:', error);
-                }
-            }
-        }
-
-        // Clear all data
-        function clearData() {
-            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
-                courses = [];
-                document.getElementById('courses-container').innerHTML = '';
-                document.getElementById('semester-results').classList.add('hidden');
-                localStorage.removeItem('gpaCalculatorData');
-                addCourseRow(); // Add one empty row
-                showMessage('All data cleared.', 'success');
-            }
-        }
-
-        // Show message
-        function showMessage(message, type) {
-            const messageDiv = document.getElementById('data-message');
-            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-            messageDiv.textContent = message;
-            messageDiv.classList.remove('hidden');
-
-            setTimeout(() => {
-                messageDiv.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initGPACalculator();
-            
-            // Initialize feather icons with retry mechanism
-            function initFeatherIcons(retryCount = 0) {
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                    console.log('Feather icons initialized successfully');
-                } else if (retryCount < 10) {
-                    // Retry up to 10 times with increasing delay
-                    setTimeout(() => initFeatherIcons(retryCount + 1), 100 * (retryCount + 1));
-                } else {
-                    console.warn('Feather icons library failed to load after multiple attempts');
-                }
-            }
-            
-            initFeatherIcons();
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

@@ -1,225 +1,95 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organize, Number, and Watermark PDFs - Free Online PDF Editor</title>
-    <meta name="description" content="Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.">
-    <meta name="keywords" content="organize pdf, reorder pdf pages, rotate pdf pages, delete pdf pages, add page numbers to pdf, watermark pdf, pdf editor, free online tools, Infiniteforge">
+    <title>PDF Editor — Organize, Rotate, Number &amp; Watermark PDFs | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Organize PDF pages, rotate orientations, remove unwanted pages, add customizable page numbers, and stamp custom watermarks. 100% free and processed in your browser.">
+    <meta name="keywords" content="PDF editor, organize PDF, rotate PDF, delete PDF pages, add page numbers to PDF, watermark PDF, free online PDF tools">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-    <meta property="og:title" content="Infiniteforge - PDF Editor">
-    <meta property="og:description" content="Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.">
+    <meta property="og:title" content="PDF Editor | Infiniteforge">
+    <meta property="og:description" content="Visually reorder, rotate, number, and watermark your PDF files in browser.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/pdf-editor.html">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
-    <link rel="canonical" href="https://infiniteforge.tech/pdf-editor.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Infiniteforge - PDF Editor">
-    <meta name="twitter:description" content="Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
+    <meta name="twitter:title" content="PDF Editor | Infiniteforge">
+    <meta name="twitter:description" content="Edit, rotate, number and watermark PDF pages online.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
-        body { font-size: var(--fluid-font-size); }
-        h1 { font-size: var(--fluid-h1) !important; }
-        h2 { font-size: var(--fluid-h2) !important; }
-        h3 { font-size: var(--fluid-h3) !important; }
-        p { font-size: var(--fluid-p) !important; }
-        @media (max-width: 640px) {
-            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
+    <link rel="canonical" href="https://infiniteforge.tech/pdf-editor.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/pdf-editor.html">
 
-        /* Tab button styles */
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1); /* blue-50 */
-        }
-        .tab-active {
-            background-color: rgba(59, 130, 246, 0.2); /* blue-100 */
-            border-bottom-color: #3B82F6; /* blue-500 */
-            color: #1E40AF; /* blue-800 */
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .page-thumbnail {
-            cursor: grab;
-        }
-        .page-thumbnail:active {
-            cursor: grabbing;
-        }
-        .ghost {
-            opacity: 0.4;
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- PDF Lib, PDF.js, FileSaver -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "InfinityForge",
-        "url": "https://infiniteforge.tech",
-        "logo": "https://infiniteforge.tech/assets/letter-d.png",
-        "sameAs": [
-            "https://www.linkedin.com/in/mahibala-h",
-            "https://x.com/HMahibala42802",
-            "https://www.youtube.com/@echo14-w3y",
-            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
-            "https://www.facebook.com/61557410529583/"
-        ]
-    }
-    </script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Infiniteforge", "url": "https://infiniteforge.tech", "logo": "https://infiniteforge.tech/assets/letter-d.png", "sameAs": ["https://www.linkedin.com/in/mahibala-h", "https://x.com/HMahibala42802", "https://www.youtube.com/@echo14-w3y", "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy", "https://www.facebook.com/61557410529583/"]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Infiniteforge - Free Online Tools", "url": "https://infiniteforge.tech", "description": "Free online tools for PDF editing, image processing, and document conversion. Organize PDFs, resize images, convert formats, and more.", "publisher": {"@type": "Organization", "name": "Infiniteforge"}, "potentialAction": {"@type": "SearchAction", "target": "https://infiniteforge.tech/search?q={search_term_string}", "query-input": "required name=search_term_string"}}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Advanced PDF Editor - Organize, Number, and Watermark PDFs", "description": "Easily organize your PDF files. Visually reorder, rotate, and delete pages. Add page numbers and apply text or image watermarks for free, right in your browser.", "url": "https://infiniteforge.tech/pdf-editor.html", "isPartOf": {"@type": "WebSite", "name": "Infiniteforge - Free Online Tools", "url": "https://infiniteforge.tech"}, "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Editor", "item": "https://infiniteforge.tech/pdf-editor.html"}]}}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Editor", "item": "https://infiniteforge.tech/pdf-editor.html"}]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I reorder PDF pages?", "acceptedAnswer": {"@type": "Answer", "text": "Simply drag and drop the page thumbnails in the order you want. The visual interface makes it easy to rearrange your PDF pages."}}, {"@type": "Question", "name": "Can I rotate PDF pages?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, you can rotate individual pages by 90, 180, or 270 degrees using the rotation controls for each page."}}, {"@type": "Question", "name": "How do I add page numbers to my PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Use the page numbering feature to automatically add page numbers to your PDF. Choose from various positioning and formatting options."}}, {"@type": "Question", "name": "Can I add watermarks to my PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, you can add both text and image watermarks to your PDF files. Customize the position, opacity, and appearance of your watermarks."}}]}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>function _0x168d(_0x144af6,_0x32a214){_0x144af6=_0x144af6-(-0x1a*0x124+0x40f*-0x7+0x3bf6);var _0x3070b3=_0x50b6();var _0x4bee20=_0x3070b3[_0x144af6];if(_0x168d['rqyjtx']===undefined){var _0x2b8899=function(_0x2872fe){var _0x30ac23='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5d09b2='',_0x1ca581='',_0x3ab754=_0x5d09b2+_0x2b8899,_0x462219=(''+function(){return 0x1b1c+-0xbf2+0x3*-0x50e;})['indexOf']('\x0a')!==-(0x49*-0x13+0x128b*-0x1+-0x5*-0x4cb);for(var _0x40269b=-0x1e11+-0x18f*0x10+-0x3701*-0x1,_0x4acb84,_0x5987d7,_0x1caf99=0xd*-0xa8+0x223f+-0x19b7;_0x5987d7=_0x2872fe['charAt'](_0x1caf99++);~_0x5987d7&&(_0x4acb84=_0x40269b%(-0x1978+0xc54*0x3+-0xb80)?_0x4acb84*(0xa*0x39+-0x1*-0x1e65+-0x205f)+_0x5987d7:_0x5987d7,_0x40269b++%(-0x1f78+-0x179f+0x371b))?_0x5d09b2+=_0x462219||_0x3ab754['charCodeAt'](_0x1caf99+(-0x1a79+0x1a20+-0x9*-0xb))-(0x2*0x349+0x1ba6+0xe*-0x271)!==0x1046+0x19d2+-0x2a18?String['fromCharCode'](-0x1*-0x1df+0x2*-0x6c5+0x655*0x2&_0x4acb84>>(-(0x11de+-0x2a3*0x9+0x5df)*_0x40269b&0x202b+-0xf46+-0x10df)):_0x40269b:0x25e*-0x9+0x1*0x34b+0x1203){_0x5987d7=_0x30ac23['indexOf'](_0x5987d7);}for(var _0x495c52=-0x2*0x6d3+0xb51*-0x1+0x18f7,_0xbbabf1=_0x5d09b2['length'];_0x495c52<_0xbbabf1;_0x495c52++){_0x1ca581+='%'+('00'+_0x5d09b2['charCodeAt'](_0x495c52)['toString'](0x412*0x1+-0x7*-0x15b+-0xd7f))['slice'](-(-0x238*0xc+-0x26df+0x4181));}return decodeURIComponent(_0x1ca581);};_0x168d['PvSySw']=_0x2b8899,_0x168d['aWIWzx']={},_0x168d['rqyjtx']=!![];}var _0x7ce5ae=_0x3070b3[-0x21b2+-0x1*0xacb+0x7*0x65b],_0x46a0b0=_0x144af6+_0x7ce5ae,_0x1515cd=_0x168d['aWIWzx'][_0x46a0b0];if(!_0x1515cd){var _0xb181ba=function(_0x1cb132){this['jfSmEu']=_0x1cb132,this['AOQjyi']=[-0xf7f+0x125f*-0x1+0x21df*0x1,0x22cc+0x3*0x33b+-0x7*0x65b,0x2*0xc71+-0xdb+0x1*-0x1807],this['mGXrGl']=function(){return'newState';},this['XhCFJr']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['sJVCPd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xb181ba['prototype']['VKwDbG']=function(){var _0x31d7be=new RegExp(this['XhCFJr']+this['sJVCPd']),_0x3c0c9a=_0x31d7be['test'](this['mGXrGl']['toString']())?--this['AOQjyi'][-0x899+0xc41*-0x2+-0x1a*-0x146]:--this['AOQjyi'][-0x4*-0x4f0+0x166d+0xe0f*-0x3];return this['RUtYom'](_0x3c0c9a);},_0xb181ba['prototype']['RUtYom']=function(_0xadd515){if(!Boolean(~_0xadd515))return _0xadd515;return this['ztjZhN'](this['jfSmEu']);},_0xb181ba['prototype']['ztjZhN']=function(_0x562887){for(var _0x5dcadf=0x1*0x4e+0xa*-0x313+0x79c*0x4,_0x29e17b=this['AOQjyi']['length'];_0x5dcadf<_0x29e17b;_0x5dcadf++){this['AOQjyi']['push'](Math['round'](Math['random']())),_0x29e17b=this['AOQjyi']['length'];}return _0x562887(this['AOQjyi'][0x240d+0xabb+-0x2ec8]);},(''+function(){return-0x1ea2+0x63a+0x11c*0x16;})['indexOf']('\x0a')===-(0x195b+-0x3*-0xa63+-0x3883)&&new _0xb181ba(_0x168d)['VKwDbG'](),_0x4bee20=_0x168d['PvSySw'](_0x4bee20),_0x168d['aWIWzx'][_0x46a0b0]=_0x4bee20;}else _0x4bee20=_0x1515cd;return _0x4bee20;}var _0x5e57d4=_0x168d,_0x3cc190=_0x2913;function _0x2913(_0x4bdea2,_0x618ca8){_0x4bdea2=_0x4bdea2-(-0x1a*0x124+0x40f*-0x7+0x3bf6);var _0x53182b=_0x50b6();var _0x364eca=_0x53182b[_0x4bdea2];if(_0x2913['uttBkx']===undefined){var _0x45c1c2=function(_0x52155e){var _0x24042f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x1ddd72='',_0x46574a='',_0x22d31f=_0x1ddd72+_0x45c1c2,_0x5498da=(''+function(){return 0x1b1c+-0xbf2+0x3*-0x50e;})['indexOf']('\x0a')!==-(0x49*-0x13+0x128b*-0x1+-0x5*-0x4cb);for(var _0x3c7a2f=-0x1e11+-0x18f*0x10+-0x3701*-0x1,_0x5cebbf,_0x15535f,_0x4ff98c=0xd*-0xa8+0x223f+-0x19b7;_0x15535f=_0x52155e['charAt'](_0x4ff98c++);~_0x15535f&&(_0x5cebbf=_0x3c7a2f%(-0x1978+0xc54*0x3+-0xb80)?_0x5cebbf*(0xa*0x39+-0x1*-0x1e65+-0x205f)+_0x15535f:_0x15535f,_0x3c7a2f++%(-0x1f78+-0x179f+0x371b))?_0x1ddd72+=_0x5498da||_0x22d31f['charCodeAt'](_0x4ff98c+(-0x1a79+0x1a20+-0x9*-0xb))-(0x2*0x349+0x1ba6+0xe*-0x271)!==0x1046+0x19d2+-0x2a18?String['fromCharCode'](-0x1*-0x1df+0x2*-0x6c5+0x655*0x2&_0x5cebbf>>(-(0x11de+-0x2a3*0x9+0x5df)*_0x3c7a2f&0x202b+-0xf46+-0x10df)):_0x3c7a2f:0x25e*-0x9+0x1*0x34b+0x1203){_0x15535f=_0x24042f['indexOf'](_0x15535f);}for(var _0x4ccf86=-0x2*0x6d3+0xb51*-0x1+0x18f7,_0x2ca2d4=_0x1ddd72['length'];_0x4ccf86<_0x2ca2d4;_0x4ccf86++){_0x46574a+='%'+('00'+_0x1ddd72['charCodeAt'](_0x4ccf86)['toString'](0x412*0x1+-0x7*-0x15b+-0xd7f))['slice'](-(-0x238*0xc+-0x26df+0x4181));}return decodeURIComponent(_0x46574a);};var _0x3eca8e=function(_0x5b5631,_0x5f1c61){var _0x601b22=[],_0x11c010=-0x21b2+-0x1*0xacb+0x7*0x65b,_0x55c139,_0x31deec='';_0x5b5631=_0x45c1c2(_0x5b5631);var _0x28094a;for(_0x28094a=-0xf7f+0x125f*-0x1+0x21de*0x1;_0x28094a<0x22cc+0x3*0x33b+-0x3*0xe7f;_0x28094a++){_0x601b22[_0x28094a]=_0x28094a;}for(_0x28094a=0x2*0xc71+-0xdb+0x1*-0x1807;_0x28094a<-0x899+0xc41*-0x2+-0x1*-0x221b;_0x28094a++){_0x11c010=(_0x11c010+_0x601b22[_0x28094a]+_0x5f1c61['charCodeAt'](_0x28094a%_0x5f1c61['length']))%(-0x4*-0x4f0+0x166d+0x292d*-0x1),_0x55c139=_0x601b22[_0x28094a],_0x601b22[_0x28094a]=_0x601b22[_0x11c010],_0x601b22[_0x11c010]=_0x55c139;}_0x28094a=0x1*0x4e+0xa*-0x313+0x79c*0x4,_0x11c010=0x240d+0xabb+-0x2ec8;for(var _0x5293dc=-0x1ea2+0x63a+0x11c*0x16;_0x5293dc<_0x5b5631['length'];_0x5293dc++){_0x28094a=(_0x28094a+(0x195b+-0x3*-0xa63+-0x3883))%(0xdd*-0x1a+0x26a+0x1508),_0x11c010=(_0x11c010+_0x601b22[_0x28094a])%(0x12cb+0xae6*-0x2+0x401),_0x55c139=_0x601b22[_0x28094a],_0x601b22[_0x28094a]=_0x601b22[_0x11c010],_0x601b22[_0x11c010]=_0x55c139,_0x31deec+=String['fromCharCode'](_0x5b5631['charCodeAt'](_0x5293dc)^_0x601b22[(_0x601b22[_0x28094a]+_0x601b22[_0x11c010])%(0x101*0x9+-0x1f*0x125+-0xdb9*-0x2)]);}return _0x31deec;};_0x2913['EcOErJ']=_0x3eca8e,_0x2913['uSjsbg']={},_0x2913['uttBkx']=!![];}var _0x264cc8=_0x53182b[0x13*-0x194+-0xf90+0x2d8c*0x1],_0x12e5c3=_0x4bdea2+_0x264cc8,_0x45b1fa=_0x2913['uSjsbg'][_0x12e5c3];if(!_0x45b1fa){if(_0x2913['nBYMJs']===undefined){var _0x282706=function(_0x505e6d){this['XyHsxZ']=_0x505e6d,this['ouNJws']=[-0x2a*0x1d+0x217b+-0x1cb8,-0x167+-0x54c+0x7*0xf5,-0x1aa7+-0x1925+0x297*0x14],this['ilWqns']=function(){return'newState';},this['lnjRdA']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['VCqgmP']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x282706['prototype']['ZnSZFW']=function(){var _0x48e403=new RegExp(this['lnjRdA']+this['VCqgmP']),_0x21ba79=_0x48e403['test'](this['ilWqns']['toString']())?--this['ouNJws'][-0x1811+-0x30d*0x2+-0x2*-0xf16]:--this['ouNJws'][-0x2626+-0x34d+0xdd1*0x3];return this['UkAsBO'](_0x21ba79);},_0x282706['prototype']['UkAsBO']=function(_0x14705e){if(!Boolean(~_0x14705e))return _0x14705e;return this['XkcUPN'](this['XyHsxZ']);},_0x282706['prototype']['XkcUPN']=function(_0xea92e5){for(var _0x4fadc6=0x2*0x36f+0x113b+-0x1819,_0x3f0a93=this['ouNJws']['length'];_0x4fadc6<_0x3f0a93;_0x4fadc6++){this['ouNJws']['push'](Math['round'](Math['random']())),_0x3f0a93=this['ouNJws']['length'];}return _0xea92e5(this['ouNJws'][0x15c2+0x1051+-0x2613]);},(''+function(){return-0x18fe+-0xb8b+0x2489;})['indexOf']('\x0a')===-(-0xaa6+-0x20de+0x2b85*0x1)&&new _0x282706(_0x2913)['ZnSZFW'](),_0x2913['nBYMJs']=!![];}_0x364eca=_0x2913['EcOErJ'](_0x364eca,_0x618ca8),_0x2913['uSjsbg'][_0x12e5c3]=_0x364eca;}else _0x364eca=_0x45b1fa;return _0x364eca;}(function(_0x4a3e61,_0x439acf){var _0x571d13=_0x2913,_0x1616a7=_0x168d,_0x15c1e1=_0x4a3e61();while(!![]){try{var _0x19f014=parseInt(_0x1616a7(0x200))/(0x6d*-0x43+0xed7*-0x1+0x2b5f)+parseInt(_0x571d13(0x1ec,'lkhk'))/(0x249b+-0x12a8+0x1*-0x11f1)+-parseInt(_0x571d13(0x1f7,')RxR'))/(0x1724+-0x106*0x24+0xdb7)*(-parseInt(_0x1616a7(0x1e8))/(0xce+-0x1294*-0x2+0x653*-0x6))+parseInt(_0x1616a7(0x1f3))/(-0x1124*-0x2+-0xf92+-0x12b1)*(parseInt(_0x1616a7(0x203))/(0x1c4+0xa21*0x1+-0xbdf))+parseInt(_0x1616a7(0x1f2))/(0x217b+0x22ec+-0x4460)+parseInt(_0x571d13(0x1e6,'N&7H'))/(-0x167+-0x54c+0x1*0x6bb)*(-parseInt(_0x1616a7(0x202))/(-0x1aa7+-0x1925+0x33d5*0x1))+parseInt(_0x571d13(0x1ea,'5tLK'))/(-0x1811+-0x30d*0x2+-0x13*-0x197)*(-parseInt(_0x1616a7(0x1e7))/(-0x2626+-0x34d+0x14bf*0x2));if(_0x19f014===_0x439acf)break;else _0x15c1e1['push'](_0x15c1e1['shift']());}catch(_0x1c4bd6){_0x15c1e1['push'](_0x15c1e1['shift']());}}}(_0x50b6,0x9*0x2e7b+0x4197b+-0x1161d));function _0x50b6(){var _0x408993=['BmkNeSoxW77dJSkiW60','zmovW53cJwnYrHVdIwO7eW','tw9UBW','c0eWwa','W79qWO7cJutdKfm','iZbcmemXma','Bw9UB3nWywnL','nJCZmdi5sNvQyuDt','mtaZoda4nuDHtKLnCW','WQRcGSoaWR0C','mLVdT8ktW6NdUq','W6FdIbSAW5XR','W7hdRCktW67dISolW7dcKG','mtjhEu9jCg4','W7FdHHSpWPH/W4ZcHdZcHG','Dg9tDhjPBMC','kcGOlISPkYKRkq','yxbWBhK','W7Hoxe/cR3OI','WP/dGSkozG1xkq','WQHFANj0W4xdLSk7mxW','nteZmZnnChnPyvG','sMv0qNjHAw5Zia','mtmYotKZDLPwqwzo','nLf6wun1tG','ntaZotu0z3DXzhnI','f8kBoX9ThNpdVG','mtfiExr0zKu','ndq0mtCYBuPuvfPy','mtzqCe5pqNu','bSozrtNdVrpcQ8oVm3JcVCkcWPq'];_0x50b6=function(){return _0x408993;};return _0x50b6();}var _0x3adb4d=(function(){var _0x17676c=!![];return function(_0x56f3c7,_0x1d0bd0){var _0x2d8c98=_0x17676c?function(){var _0x58758a=_0x168d;if(_0x1d0bd0){var _0xa975d1=_0x1d0bd0[_0x58758a(0x1fc)](_0x56f3c7,arguments);return _0x1d0bd0=null,_0xa975d1;}}:function(){};return _0x17676c=![],_0x2d8c98;};}()),_0x1df62c=_0x3adb4d(this,function(){var _0x45a6b6=_0x168d,_0x4e27b2=_0x2913,_0x1dfd78={'qYoEK':_0x4e27b2(0x1ff,'#d1o')+'+$'};if(_0x1df62c[_0x4e27b2(0x1ee,'B@2B')]()['toString']()['indexOf']('\x0a')!==-(0x19e2+0x11de+-0x2bbf*0x1))return;return _0x1df62c[_0x45a6b6(0x1fa)]()[_0x4e27b2(0x1f5,'Oz5k')](_0x1dfd78[_0x4e27b2(0x1f4,'kcB4')])[_0x45a6b6(0x1fa)]()['constructo'+'r'](_0x1df62c)['search'](_0x45a6b6(0x1fb)+'+$');});_0x1df62c(),tailwind[_0x3cc190(0x1f6,'or3o')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x3cc190(0x1f9,'or3o')],'mono':[_0x5e57d4(0x201)+_0x5e57d4(0x1ed),_0x5e57d4(0x1f1)]},'colors':{'dark':{0x384:_0x5e57d4(0x1f0),0x320:_0x3cc190(0x1fe,'zeT0'),0x2bc:'#2C353F'},'brand':{'primary':_0x3cc190(0x1ef,'4!vB'),'secondary':_0x3cc190(0x1fd,'(eKu'),'accent':'#7A00FF'}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.6rem 0.85rem; outline: none !important; font-size: 0.875rem; }
+        input:focus, select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
+
+        .tab-btn { padding: 0.75rem 1.25rem; font-weight: 600; font-size: 0.875rem; color: #94a3b8; border-bottom: 2px solid transparent; transition: all 0.2s ease; cursor: pointer; }
+        .tab-btn:hover { color: #fff; }
+        .tab-btn.active { color: #45F3FF; border-bottom-color: #45F3FF; }
+
+        .page-card { transition: all 0.2s ease; }
+        .page-card:hover { transform: translateY(-2px); border-color: rgba(69,243,255,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -230,788 +100,173 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="w-full max-w-6xl mx-auto pt-24 px-4">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl sm:text-5xl font-bold text-gray-100 mb-4">Advanced PDF Editor</h1>
-            <p class="text-md sm:text-lg text-gray-400 max-w-3xl mx-auto">Visually organize, number, and watermark your PDF files with these powerful, easy-to-use tools.</p>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Advanced PDF Editor
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Visually reorder pages, rotate orientations, delete pages, add headers/footers with page numbering, and stamp security watermarks.
+            </p>
         </div>
 
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/60 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden">
-            <!-- Tab Buttons -->
-            <div class="border-b border-white/10/80">
-                <div class="flex flex-col sm:flex-row" role="tablist">
-                    <button role="tab" class="tab-button tab-active flex-1 flex items-center justify-center py-4 px-2 sm:px-6 font-semibold text-gray-300 focus:outline-none" data-target="organize">
-                        <i data-feather="move" class="mr-2"></i><span class="truncate">Organize PDF</span>
-                    </button>
-                    <button role="tab" class="tab-button flex-1 flex items-center justify-center py-4 px-2 sm:px-6 font-semibold text-gray-400 hover:text-gray-300 focus:outline-none" data-target="page-numbers">
-                        <i data-feather="hash" class="mr-2"></i><span class="truncate">Add Page Numbers</span>
-                    </button>
-                    <button role="tab" class="tab-button flex-1 flex items-center justify-center py-4 px-2 sm:px-6 font-semibold text-gray-400 hover:text-gray-300 focus:outline-none" data-target="watermark">
-                        <i data-feather="droplet" class="mr-2"></i><span class="truncate">Watermark PDF</span>
-                    </button>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept=".pdf" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="edit-3" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop a PDF file here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select any PDF document to edit pages and apply watermarks</p>
+        </div>
+
+        <!-- Loaded Editor Area -->
+        <div id="editor-section" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <!-- File Info Header -->
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 shrink-0">
+                        <i data-feather="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="file-name">document.pdf</div>
+                        <div class="text-xs text-gray-400 font-mono" id="file-meta">0 MB • 0 pages</div>
+                    </div>
                 </div>
+                <button id="remove-file-btn" class="text-gray-400 hover:text-red-400 p-2">
+                    <i data-feather="x" class="w-5 h-5"></i>
+                </button>
             </div>
 
-            <!-- Tab Panels -->
-            <div class="p-4 sm:p-8">
-                <!-- Organize PDF Panel -->
-                <div id="organize" role="tabpanel" class="tab-panel">
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-100 mb-2">Organize PDF Pages</h3>
-                    <p class="text-gray-400 mb-6">Click and drag pages to reorder them. Use the buttons on each page to rotate or delete.</p>
-                    <input type="file" id="organize-file" accept=".pdf" class="block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-dark-800/60 backdrop-blur-md file:text-blue-700 hover:file:bg-dark-700/60 backdrop-blur-md cursor-pointer"/>
-                    <div id="organize-preview" class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-                    <button id="organize-save-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105 hidden">
-                        <i data-feather="save" class="inline-block mr-2"></i>Save Changes
-                    </button>
-                </div>
+            <!-- Tab Navigation -->
+            <div class="flex items-center gap-4 border-b border-white/10 mb-6">
+                <button class="tab-btn active" data-tab="organize"><i data-feather="grid" class="w-4 h-4 inline mr-1.5"></i> Organize &amp; Rotate</button>
+                <button class="tab-btn" data-tab="numbering"><i data-feather="hash" class="w-4 h-4 inline mr-1.5"></i> Page Numbers</button>
+                <button class="tab-btn" data-tab="watermark"><i data-feather="shield" class="w-4 h-4 inline mr-1.5"></i> Watermark</button>
+            </div>
 
-                <!-- Add Page Numbers Panel -->
-                <div id="page-numbers" role="tabpanel" class="tab-panel hidden">
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-100 mb-2">Add Page Numbers</h3>
-                    <p class="text-gray-400 mb-6">Upload a PDF, choose your settings, and see a live preview on the first page.</p>
-                    <input type="file" id="number-file" accept=".pdf" class="block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-dark-800/60 backdrop-blur-md file:text-blue-700 hover:file:bg-dark-700/60 backdrop-blur-md cursor-pointer"/>
-                    
-                    <div id="number-options" class="mt-6 hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-4">
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="number-position" class="block text-sm font-medium text-gray-300">Position</label>
-                                        <select id="number-position" class="mt-1 block w-full p-3 border border-white/20 rounded-lg bg-dark-800/60 backdrop-blur-md border border-white/10 text-white focus:ring-2 focus:ring-blue-500">
-                                            <option value="bottom-center">Bottom Center</option>
-                                            <option value="bottom-left">Bottom Left</option>
-                                            <option value="bottom-right">Bottom Right</option>
-                                            <option value="top-center">Top Center</option>
-                                            <option value="top-left">Top Left</option>
-                                            <option value="top-right">Top Right</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="number-size" class="block text-sm font-medium text-gray-300">Font Size</label>
-                                        <input type="number" id="number-size" value="12" class="mt-1 block w-full p-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="number-range" class="block text-sm font-medium text-gray-300">Page Range (e.g., "1-5, 8" or "all")</label>
-                                    <input type="text" id="number-range" value="all" placeholder="all" class="mt-1 block w-full p-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                </div>
-                            </div>
-                            <div class="relative bg-dark-800/80 text-gray-200 rounded-lg border flex items-center justify-center p-2">
-                                <canvas id="number-preview-canvas"></canvas>
-                            </div>
-                        </div>
-                        <button id="number-add-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105">
-                            <i data-feather="hash" class="inline-block mr-2"></i>Add Page Numbers
-                        </button>
+            <!-- Tab 1: Organize Pages Grid -->
+            <div id="tab-organize-panel" class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="text-xs text-gray-400 font-medium">Use the arrows to move pages, rotate 90°, or remove pages.</div>
+                    <div class="flex items-center gap-2">
+                        <button id="rotate-all-btn" class="text-xs text-brand-primary hover:underline font-semibold">Rotate All 90°</button>
                     </div>
                 </div>
 
-                <!-- Watermark PDF Panel -->
-                <div id="watermark" role="tabpanel" class="tab-panel hidden">
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-100 mb-2">Add Watermark</h3>
-                    <p class="text-gray-400 mb-6">Apply a text or image watermark and see a live preview on the first page.</p>
-                    <input type="file" id="watermark-file" accept=".pdf" class="block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-dark-800/60 backdrop-blur-md file:text-blue-700 hover:file:bg-dark-700/60 backdrop-blur-md cursor-pointer"/>
-                    
-                    <div id="watermark-options" class="mt-6 hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-4">
-                                <div class="flex items-center space-x-4">
-                                    <label class="flex items-center">
-                                        <input type="radio" name="watermark-type" value="text" class="form-radio text-blue-600" checked>
-                                        <span class="ml-2">Text</span>
-                                    </label>
-                                    <label class="flex items-center">
-                                        <input type="radio" name="watermark-type" value="image" class="form-radio text-blue-600">
-                                        <span class="ml-2">Image</span>
-                                    </label>
-                                </div>
+                <div id="pages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Page thumbnail cards generated dynamically -->
+                </div>
+            </div>
 
-                                <div id="watermark-text-options">
-                                    <div>
-                                        <label for="watermark-text" class="block text-sm font-medium text-gray-300">Watermark Text</label>
-                                        <input type="text" id="watermark-text" value="CONFIDENTIAL" class="mt-1 block w-full p-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4 mt-4">
-                                        <div>
-                                            <label for="watermark-font-size" class="block text-sm font-medium text-gray-300">Font Size</label>
-                                            <input type="number" id="watermark-font-size" value="50" class="mt-1 block w-full p-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                        </div>
-                                        <div>
-                                            <label for="watermark-color" class="block text-sm font-medium text-gray-300">Color</label>
-                                            <input type="color" id="watermark-color" value="#ff0000" class="mt-1 block w-full h-12 p-1 border border-white/20 rounded-lg">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="watermark-image-options" class="hidden">
-                                    <label for="watermark-image" class="block text-sm font-medium text-gray-300">Watermark Image</label>
-                                    <input type="file" id="watermark-image" accept="image/png, image/jpeg" class="mt-1 block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-dark-800/60 backdrop-blur-md file:text-blue-700 hover:file:bg-dark-700/60 backdrop-blur-md cursor-pointer"/>
-                                </div>
-                                
-                                <div>
-                                    <label for="watermark-opacity" class="block text-sm font-medium text-gray-300">Opacity</label>
-                                    <input type="range" id="watermark-opacity" min="0" max="1" step="0.1" value="0.5" class="w-full">
-                                </div>
-                            </div>
-                            <div class="relative bg-dark-800/80 text-gray-200 rounded-lg border flex items-center justify-center p-2">
-                                <canvas id="watermark-preview-canvas"></canvas>
-                            </div>
-                        </div>
-                        <button id="watermark-add-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105">
-                            <i data-feather="droplet" class="inline-block mr-2"></i>Add Watermark
-                        </button>
+            <!-- Tab 2: Page Numbering Settings -->
+            <div id="tab-numbering-panel" class="space-y-6 hidden">
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="num-format" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Number Format</label>
+                        <select id="num-format" class="w-full">
+                            <option value="1">1, 2, 3...</option>
+                            <option value="page_n">Page 1, Page 2...</option>
+                            <option value="page_n_of_total" selected="">Page 1 of {total}</option>
+                            <option value="hyphen">- 1 -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="num-pos" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Position</label>
+                        <select id="num-pos" class="w-full">
+                            <option value="bottom-center" selected="">Bottom Center</option>
+                            <option value="bottom-right">Bottom Right</option>
+                            <option value="bottom-left">Bottom Left</option>
+                            <option value="top-right">Top Right</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="num-size" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Font Size (pt)</label>
+                        <input type="number" id="num-size" class="w-full" value="10" min="6" max="24">
+                    </div>
+                    <div class="flex items-center pt-6">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-300">
+                            <input type="checkbox" id="enable-numbering" checked="" class="w-4 h-4 rounded text-brand-primary">
+                            <span>Enable Page Numbers on Export</span>
+                        </label>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Ad Placeholder 111 -->
-        <div class="mt-10 flex justify-center">
-            
-        </div>
+            <!-- Tab 3: Watermark Settings -->
+            <div id="tab-watermark-panel" class="space-y-6 hidden">
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="wm-text" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Watermark Text</label>
+                        <input type="text" id="wm-text" class="w-full" placeholder="e.g. CONFIDENTIAL / DRAFT" value="CONFIDENTIAL">
+                    </div>
+                    <div>
+                        <label for="wm-opacity" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Opacity</label>
+                        <select id="wm-opacity" class="w-full">
+                            <option value="0.15">Subtle (15%)</option>
+                            <option value="0.3" selected="">Medium (30%)</option>
+                            <option value="0.5">Bold (50%)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="wm-size" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Font Size (pt)</label>
+                        <input type="number" id="wm-size" class="w-full" value="48" min="16" max="96">
+                    </div>
+                    <div class="flex items-center pt-6">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-300">
+                            <input type="checkbox" id="enable-watermark" class="w-4 h-4 rounded text-brand-primary">
+                            <span>Enable Diagonal Watermark on Export</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Social Sharing Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mt-10">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share Our PDF Editor</h2>
-            <p class="text-gray-400 text-center mb-6">Help others discover our free PDF editing tools</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="https://twitter.com/intent/tweet?text=Edit%20PDFs%20online%20for%20free%20with%20Infiniteforge%20-%20Organize%2C%20number%2C%20and%20watermark%20PDFs&url=https://infiniteforge.tech/pdf-editor.html&via=InfiniteforgeTools"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="twitter" class="w-5 h-5"></i>
-                    <span>Share on Twitter</span>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/pdf-editor.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="facebook" class="w-5 h-5"></i>
-                    <span>Share on Facebook</span>
-                </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/pdf-editor.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="linkedin" class="w-5 h-5"></i>
-                    <span>Share on LinkedIn</span>
-                </a>
-                <a href="https://wa.me/?text=Check%20out%20this%20free%20PDF%20editor:%20https://infiniteforge.tech/pdf-editor.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="message-circle" class="w-5 h-5"></i>
-                    <span>Share on WhatsApp</span>
-                </a>
+            <!-- Progress Bar -->
+            <div id="progress-container" class="mt-8 mb-6 hidden">
+                <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                    <span id="progress-status">Exporting PDF...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-dark-900 overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-primary transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <!-- Export Actions -->
+            <div class="pt-8 border-t border-white/10 mt-8 flex flex-wrap gap-4">
+                <button id="save-pdf-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all">
+                    <i data-feather="download" class="w-4 h-4"></i> Export Edited PDF
+                </button>
             </div>
         </div>
-
-        <!-- Newsletter Signup Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-8 mt-10">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Stay Updated</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
-                </p>
-                <form class="max-w-md mx-auto flex gap-3">
-                    <input type="email" placeholder="Enter your email"
-                           class="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-                    <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
-            </div>
-        </div>
-        
     </main>
 
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x31c9ee=_0x12d1,_0x40bde9=_0x1a57;function _0x12d1(_0x201ee2,_0x34a088){_0x201ee2=_0x201ee2-(0x17fe+-0x203c+0x179*0x6);const _0x10c1f1=_0x559e();let _0x22364d=_0x10c1f1[_0x201ee2];if(_0x12d1['VHpDFS']===undefined){var _0x565e0b=function(_0x4653ae){const _0xa9a6b3='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x116911='',_0x482eeb='',_0x31dff1=_0x116911+_0x565e0b,_0x29a033=(''+function(){return-0x17a7+0x17f4+-0x7*0xb;})['indexOf']('\x0a')!==-(0xb86+0x8bf*-0x2+-0x5f9*-0x1);for(let _0x4e092=-0x1*-0x13b4+-0x195e+-0x32*-0x1d,_0x2f34e5,_0x263225,_0x421cf1=0x1cc9+0x23ba+0x44d*-0xf;_0x263225=_0x4653ae['charAt'](_0x421cf1++);~_0x263225&&(_0x2f34e5=_0x4e092%(-0x1d0+0x1*-0x1d95+0x1f69)?_0x2f34e5*(0xe08+0x11f0+-0x1fb8)+_0x263225:_0x263225,_0x4e092++%(-0x1*0x14d1+-0x35*0x27+0x1ce8))?_0x116911+=_0x29a033||_0x31dff1['charCodeAt'](_0x421cf1+(-0x1a1f+0xb*-0x187+0xea*0x2f))-(0x1*-0x469+0x8*-0xe9+0x3e9*0x3)!==0x47*-0x49+-0x5d*0x1f+-0x1*-0x1f82?String['fromCharCode'](-0x1563+0x2*0xc91+-0x10*0x2c&_0x2f34e5>>(-(-0x664+0x45*-0x8f+0x2cf1)*_0x4e092&0x214*-0x2+-0xe3*0x1a+0x1b3c)):_0x4e092:0x1f97+-0x166d+-0x45*0x22){_0x263225=_0xa9a6b3['indexOf'](_0x263225);}for(let _0x7b883b=0x2f*-0x61+-0x1e25*0x1+-0x5d*-0x84,_0x248e3f=_0x116911['length'];_0x7b883b<_0x248e3f;_0x7b883b++){_0x482eeb+='%'+('00'+_0x116911['charCodeAt'](_0x7b883b)['toString'](-0x1a9a+0x369+-0x1*-0x1741))['slice'](-(-0xb*-0x73+0x51*-0x29+0x80a));}return decodeURIComponent(_0x482eeb);};_0x12d1['pHqrVP']=_0x565e0b,_0x12d1['rJbkTg']={},_0x12d1['VHpDFS']=!![];}const _0x521bc7=_0x10c1f1[0x194e+-0x1698+-0x1*0x2b6],_0x103557=_0x201ee2+_0x521bc7,_0x197c29=_0x12d1['rJbkTg'][_0x103557];if(!_0x197c29){const _0x7574e6=function(_0x9fa514){this['bAxgui']=_0x9fa514,this['hQBNVK']=[-0x2021+0x844+0x17de,0x21af+0x1*0xb47+-0x2cf6,0x11dc+0x11e9*0x1+-0x23c5],this['TjCPEL']=function(){return'newState';},this['WSCQcH']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['zdxpwe']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x7574e6['prototype']['OwTgfF']=function(){const _0x3a28c3=new RegExp(this['WSCQcH']+this['zdxpwe']),_0x32a5a8=_0x3a28c3['test'](this['TjCPEL']['toString']())?--this['hQBNVK'][-0x1678+-0x20e9+-0x3*-0x1276]:--this['hQBNVK'][-0xd40+-0x1388*-0x2+-0x19d0];return this['hzvItf'](_0x32a5a8);},_0x7574e6['prototype']['hzvItf']=function(_0x409c84){if(!Boolean(~_0x409c84))return _0x409c84;return this['wlJbwo'](this['bAxgui']);},_0x7574e6['prototype']['wlJbwo']=function(_0x34e56d){for(let _0x1a5c10=0x3*-0x84f+0x5e7*0x2+0xd1f*0x1,_0x55fe0e=this['hQBNVK']['length'];_0x1a5c10<_0x55fe0e;_0x1a5c10++){this['hQBNVK']['push'](Math['round'](Math['random']())),_0x55fe0e=this['hQBNVK']['length'];}return _0x34e56d(this['hQBNVK'][0x2015+0x16*-0x19+-0x1def]);},(''+function(){return 0x70c*-0x2+-0x22*0xe8+0x2ce8;})['indexOf']('\x0a')===-(-0x7*-0x79+-0x169f*-0x1+0x19ed*-0x1)&&new _0x7574e6(_0x12d1)['OwTgfF'](),_0x22364d=_0x12d1['pHqrVP'](_0x22364d),_0x12d1['rJbkTg'][_0x103557]=_0x22364d;}else _0x22364d=_0x197c29;return _0x22364d;}(function(_0x4ffef3,_0x132251){const _0x228125=_0x1a57,_0x1d837e=_0x12d1,_0x476122=_0x4ffef3();while(!![]){try{const _0x4c29ec=-parseInt(_0x1d837e(0x205))/(0x81*-0x1+0x82c+-0x7aa)*(-parseInt(_0x1d837e(0x1f2))/(0x116c+0x29+-0x1193))+-parseInt(_0x1d837e(0xc0))/(-0x1bb5+-0x6c1+-0x161*-0x19)*(-parseInt(_0x228125(0x103,'H02['))/(-0xece+0x8cb+-0x1*-0x607))+parseInt(_0x1d837e(0x18e))/(-0x2158+0x1435+0x2*0x694)+-parseInt(_0x1d837e(0x1e6))/(0x25b6+-0xcb5*0x1+-0x18fb*0x1)*(parseInt(_0x1d837e(0x21b))/(-0x1*0x1ae5+0x3*0x295+-0x1*-0x132d))+-parseInt(_0x228125(0x1ca,'wXyp'))/(0x19d3+-0x1*0x157a+-0x451)*(-parseInt(_0x1d837e(0x1e9))/(-0x43*0x5d+-0x1a1c+0x327c))+parseInt(_0x228125(0x272,'H02['))/(-0x1*-0x20e7+-0x97b*0x1+-0xbb1*0x2)*(parseInt(_0x1d837e(0xe0))/(-0x6d*0xb+-0x3a*-0x81+-0x1880))+parseInt(_0x1d837e(0xb6))/(-0x21ab+-0x5e7*-0x2+-0x4f*-0x47)*(-parseInt(_0x1d837e(0x203))/(-0x3d7*0x6+0xa4d+0xcca));if(_0x4c29ec===_0x132251)break;else _0x476122['push'](_0x476122['shift']());}catch(_0x112bad){_0x476122['push'](_0x476122['shift']());}}}(_0x559e,-0x4e020+-0x97d68+-0x8a08*-0x2c));const _0x334dda=(function(){let _0x5a49f4=!![];return function(_0x7b8a04,_0x436a0b){const _0xcd0a92=_0x5a49f4?function(){const _0xd52922=_0x1a57;if(_0x436a0b){const _0x45d4e3=_0x436a0b[_0xd52922(0x124,'!o(m')](_0x7b8a04,arguments);return _0x436a0b=null,_0x45d4e3;}}:function(){};return _0x5a49f4=![],_0xcd0a92;};}()),_0xc78209=_0x334dda(this,function(){const _0xc4bd4c=_0x12d1,_0x4cff33=_0x1a57,_0xa695ec={'fiIEi':function(_0x38f7f5,_0x3deb10){return _0x38f7f5!==_0x3deb10;},'QekAF':'(((.+)+)+)'+'+$'};if(_0xa695ec[_0x4cff33(0x260,'*frY')](_0xc78209[_0x4cff33(0x1fe,'r]!F')]()[_0x4cff33(0x1a4,'EUYQ')]()[_0xc4bd4c(0xf9)]('\x0a'),-(0x1f02+0x1881+0xf5*-0x3a)))return;return _0xc78209[_0xc4bd4c(0x199)]()[_0xc4bd4c(0x1dd)](_0xa695ec[_0x4cff33(0x232,'0YDD')])[_0x4cff33(0xe2,'[$vG')]()[_0xc4bd4c(0x221)+'r'](_0xc78209)['search'](_0x4cff33(0xdc,'*anE')+'+$');});_0xc78209(),feather[_0x40bde9(0x15b,'5#*f')](),pdfjsLib[_0x40bde9(0x209,'[$vG')+_0x31c9ee(0x242)][_0x40bde9(0x17c,')8%%')]=_0x40bde9(0x1f0,'RrdE')+_0x40bde9(0x19d,'(ucg')+_0x31c9ee(0x148)+_0x31c9ee(0xf4)+'df.js/2.14'+'.305/pdf.w'+_0x40bde9(0x263,'D8[8')+'js';function showMessage(_0x46f1d0,_0x22c712=_0x31c9ee(0x130)){const _0x1bddc8=_0x31c9ee,_0x2e5d8c=_0x40bde9,_0x426cb0={'VIyVm':_0x2e5d8c(0x110,'0YDD'),'WHGqy':function(_0x33ac9a,_0x37755b){return _0x33ac9a+_0x37755b;},'xpzFj':function(_0x19dcdc,_0x50d39d){return _0x19dcdc+_0x50d39d;},'LyiLi':_0x1bddc8(0x1a8)+_0x1bddc8(0x25d),'qMzWw':_0x1bddc8(0x130),'hbPiF':_0x2e5d8c(0x114,'rBB)')+'le','lDHcC':function(_0x18d459,_0x2b9b1f){return _0x18d459===_0x2b9b1f;},'EDJXO':_0x2e5d8c(0x20f,'mR7M')+'le','RYobg':_0x1bddc8(0x1ce),'XJnNl':function(_0x30281a,_0x433a5b){return _0x30281a(_0x433a5b);}},_0x209325=document[_0x1bddc8(0x156)+_0x1bddc8(0xdb)](_0x426cb0[_0x2e5d8c(0x1ac,'*mtM')]);if(!_0x209325)return;_0x209325['innerHTML']=_0x426cb0[_0x2e5d8c(0x11c,')8%%')](_0x426cb0['xpzFj'](_0x426cb0['LyiLi']+(_0x22c712===_0x426cb0[_0x1bddc8(0x176)]?_0x426cb0[_0x1bddc8(0x1eb)]:_0x426cb0[_0x2e5d8c(0x20b,'2iK2')](_0x22c712,_0x1bddc8(0x1a1))?_0x426cb0[_0x2e5d8c(0x122,'Lz4x')]:_0x426cb0['RYobg']),_0x2e5d8c(0xb4,'@MuB')+_0x1bddc8(0x1be)+_0x1bddc8(0x236))+_0x46f1d0,_0x1bddc8(0x131)),_0x209325[_0x1bddc8(0x23c)]=_0x426cb0[_0x1bddc8(0x1b3)](_0x1bddc8(0xd3),_0x22c712),feather['replace'](),_0x426cb0['XJnNl'](clearTimeout,_0x209325[_0x1bddc8(0xe7)]),_0x209325[_0x2e5d8c(0x172,'&zwR')]=setTimeout(()=>{const _0x1634a5=_0x1bddc8;_0x209325[_0x1634a5(0x23c)]=_0x22c712;},0x5da+0x1d*-0xf1+0x231f);}let currentFile=null,pdfDataArray=null,pageList=[];const dropZone=document['getElement'+_0x31c9ee(0xdb)](_0x40bde9(0x18f,'5#*f')),fileInput=document[_0x40bde9(0x255,'5#*f')+_0x40bde9(0x111,'r]!F')](_0x40bde9(0x177,'N(te')),editorSection=document[_0x40bde9(0x237,'2$o^')+'ById'](_0x31c9ee(0x264)+'tion'),fileNameEl=document['getElement'+'ById'](_0x40bde9(0xa0,'rszj')),fileMetaEl=document[_0x40bde9(0x247,'LuZi')+'ById'](_0x40bde9(0xfb,'w^Rv')),pagesGrid=document[_0x31c9ee(0x156)+_0x40bde9(0xd9,'aLVl')](_0x40bde9(0x1dc,'GJc%')),savePdfBtn=document[_0x31c9ee(0x156)+_0x40bde9(0x1da,'H02[')](_0x31c9ee(0x210)+'tn'),progressContainer=document[_0x40bde9(0x25c,'kaFC')+'ById']('progress-c'+'ontainer'),progressBar=document[_0x40bde9(0x15a,')8%%')+_0x31c9ee(0xdb)](_0x40bde9(0x200,'kaFC')+'ar'),progressStatus=document[_0x31c9ee(0x156)+'ById'](_0x31c9ee(0xa4)+_0x40bde9(0x168,'2$o^')),progressPercent=document[_0x40bde9(0x135,'N(te')+_0x40bde9(0x1e7,'@MuB')](_0x40bde9(0x22e,'RrdE')+'ercent');dropZone[_0x40bde9(0xfa,'jEwm')+_0x40bde9(0x105,'Lz4x')](_0x31c9ee(0x14a),()=>fileInput[_0x40bde9(0xd5,'5#*f')]()),dropZone[_0x31c9ee(0x146)+_0x40bde9(0x1ef,'C2Xj')]('dragover',_0x4e59b1=>{const _0x19fac8=_0x31c9ee,_0x2eb3fb=_0x40bde9;_0x4e59b1[_0x2eb3fb(0x1a0,'M69Q')+_0x19fac8(0x1ba)](),dropZone[_0x19fac8(0xb2)][_0x2eb3fb(0x10e,'aLVl')]('dragover');}),dropZone[_0x31c9ee(0x146)+_0x31c9ee(0xab)](_0x31c9ee(0xb7),()=>{const _0x5d09dc=_0x31c9ee,_0x4bcc71=_0x40bde9;dropZone[_0x4bcc71(0xf3,'[$vG')][_0x5d09dc(0x1b6)](_0x4bcc71(0x1f6,'*frY'));}),dropZone[_0x31c9ee(0x146)+'stener']('drop',_0x4c5746=>{const _0x2e982b=_0x31c9ee,_0x3d71f7=_0x40bde9,_0x2fa2e5={'vFbee':_0x3d71f7(0x25f,'!o(m')};_0x4c5746['preventDef'+_0x2e982b(0x1ba)](),dropZone[_0x2e982b(0xb2)][_0x2e982b(0x1b6)](_0x3d71f7(0x273,'r]!F')),_0x4c5746[_0x2e982b(0xc6)+'er'][_0x3d71f7(0x1bd,'2iK2')][_0x2e982b(0xa5)]>-0xc*-0x1e0+0x14bb+-0xe69*0x3&&(_0x2fa2e5['vFbee']!==_0x3d71f7(0x1d6,'Lz4x')?_0x15a549[_0x2e982b(0x23c)]=_0x184c6f:loadFile(_0x4c5746[_0x3d71f7(0x102,'0YDD')+'er'][_0x2e982b(0x22a)][0xbaf*-0x1+-0x7*-0x389+-0xd10]));}),fileInput[_0x40bde9(0x167,'kObr')+_0x40bde9(0x1a3,'zN1X')](_0x40bde9(0xfe,'1y!z'),_0x247160=>{const _0x17feb6=_0x40bde9,_0x48e0e0={'GWntA':function(_0x3f3e07,_0x45c39f){return _0x3f3e07(_0x45c39f);}};_0x247160[_0x17feb6(0x158,'wXyp')][_0x17feb6(0x12f,'ABKB')]['length']>-0x1*0x156f+0x2a2+0x12cd&&_0x48e0e0['GWntA'](loadFile,_0x247160[_0x17feb6(0x9c,'rszj')]['files'][-0x957+0x1b1+0x7a6]),fileInput[_0x17feb6(0x21e,'LuZi')]='';});function _0x559e(){const _0x3989a5=['aCoLW7pdKgfKW6u','vu1VruO','fSkXW5xdVqpcLCoTm8olmq','EgruBuS','CMvTB3zLlwzPBa','ica8yNv0Dg9Uia','q29TCgXLDguH','qudcPH8','WQ7dHmkdgq','WPb0i8ofkW','WR5mWPurWOPkWRufnZG','dZBcNsnMWRfiDsxdTG','BsLTEW/cP8ofW57dM8kB','W6RdISk7WPdcJa','B3jPz2LUywXjBG','BwCGC3jJpsi','W6RdHXO7W4tcQaayemoH','DMfSDwu','zxGGAxrLBxmTyW','W7RdGSk5W5VdTCoVBCkRW7zx','WQzZmSk7tYGDW5nEWPe','ica8zgL2ignSyq','zxjTyxjR','W6b5lu5fWQ8','tg9HzgvKia','W6q4CSkHFarRd8k3W7u','CMrLCIbIB3jKzq','Cu16v3C','cdVcLqm9WR1iCrZdQW','WQ/dUgrzbey','W5zigwOYaIddNSoaW4G','WOTldg4dca','W5LKkezt','WOhdNmozfYXJWPpdJYm','ydddS0BcQsC','WPJdMmkYcwvOW5ydWQzr','W5jSnLOcW6pdHG','BIbJBgfZCZ0IDa','W4VcUmkltJ/cRq','WQDwWPCkWPa','WRVdRq9qzG','c8kPwW','WOLpg2C9bwG','Awr4psi','DhjPBq','sCkIWOKil8oscCkB','z1SFgSoaW6zuWPNcQM4','cd3cIYnXWRDo','iIb0AxrSzt0IuG','yxrPB24TmZaWiG','W4HKifDiWPlcG2xdU2G','ndqWnZKXnwXSsenLCa','f8oYW6ZdJc19W69NWRm','W6pcUSkjfCo8','rxHWB3j0igvYCG','zgf0yxnLDa','yw5ZzM9YBtOGCG','WP/dSMjrhKqwFSoFW5O','W4BcNYpdNLldUmkhkWTO','uhv6ufe','D2LKDgG','WOqwEhFdUmoKtNP1fG','Dg9tDhjPBMC','ihbHz2vZigLUDa','ywrKugfNzq','W4/cImosW6Lt','W5XeWRtdG8o6Fh/dLrxcPW','WRjbWQ8pW6ddVcuPDSoH','ltiGChKTmsbYBW','WQbnWPyiWP1jW6eLjYW','zxjYB3i','q2fUBM90igrLBa','W5DYdqeqxa','lmoJW5/dQqagsmkT','tfpdP8kIbefZW4RcV8oz','WP5piG','rhriEva','pgKGzgf0ys1Mzq','C3bSAwnL','WR/dJmkfmxm','icaGicaGphnWyq','W4y4bSo4Eq','wmkpqbJcLYKrWPO','zxrLihrOzsbVBG','zxH0lwDYyxKTna','lmondSoOjComW7G','W4zbWOVcGSoUDwldOXdcSG','WQD3lmoIfwCpW4GsWOK','v0HhCxK','yxjYyxLcDwzMzq','BhKH','CMvTB3zL','BcbWywDLlwnHCG','cIaGicaGicaGia','y2HLy2TLza','yxvSDa','BwvZC2fNzq','B25JBgLJAW','W6dcOCkxh8o9','ltqGAc00iJ48lW','wberbSov','WPryusS','iIbJBgfZCZ0IDW','WPpcL8kaoSk8WQddGNqSW6y','W4qrzX3cGa','lNrHyI1IDg4','zXqjfmogW6TEWOu','WObcpNtcVq','CH4jmmoEW6DCWO7dQw0','WP/cP8kyAdBcSG','zgL2pGOGicaGia','W6FdVwiLWO5CWRBdMIzXW5nD','BthdUq','WRlcNdz7W6i','W55lW6K','Aw5MBW','CxvLCNLtzwXLyW','sgvSDMv0AwnH','Dgv4DenVBNrLBG','DNHjtu0','WO/cRCks','iCkknSoMWOK','Dw5KzwqGyMCTDW','W5BcHCoHW6vx','kCoofCoolW','i8kwW793W63dMCoM','WRnhemkncW','BdFcPCo2','CJP0zxH0lxDOAq','WOxdQ8kUxHddM2yKW5SG','C2vHCMnO','zcbWltmGCM91BG','Avn3uvu','vKLXDNK','lwj0BG','WQBdGmoFWQVdPmo3W7xcKSkMpW','WRrwWOaFWPPlW7af','icaGidWVyNv0Da','DxjyEvi','nLrpBg5Jua','vWi0eq','WOBdV8kQwaBcHxiWW4CO','otLlAxrgExG','WQLinmohymoiW5DI','AgjqAuy','FCkNW5L8W6VdJG','BNvTyMvYAw5N','pJWVAt4kicaGia','WRLImCkHbZG','WQxdQwjagrTDCCoDW5i','z2v0rg9JDw1LBG','mM12EgzIDa','W7KvbW','lcVcSai','CM90yxrLlwfSBa','WR3cM058W4pdS1ze','svryANm','hdFcLaLMWRe','zgLZywjSzwqGCW','BYbLzgL0B3iU','BI9Wzgy','W7vJzG','WRZdQfGuxKpcJwj5WP8','ueJcVH4','WQhdJbn8rG','WPFdPCoZW7xdVu19W7PFW6S','D3juDfC','j8oZgCoaiG','nJCYnJa3vMf1tNPp','zwvUig1IltiIpG','ntK1mte3t3bSqMjp','qSkkW79WW7m','yM90Dg9TlxjPzW','W5hcVCohW5Ose8kacw45','WQVdKCkLh0DRW68yWRfu','y29SigL0zw1Zlq','W6RcJmkZgCon','W5JcRmowW75BeCkwcsX6','WQ7dSxDdgw0BlCok','Bg9Hza','WQv0n8oZkaKOrSoLWRy','C2f2zs1WzgyTyG','qmoSWPFcPmk0','ignSyxnZpsjKzq','kCkSb8oLWRf1vq','FhJcRapdVsTfg8oWyG','zcbqreyGzMLSzq','WQxdPSkLtGC','ytRdS07dV3fRhCo4ka','ruD4v2O','WQBdPx0/','DhLSzt0IB3bHyW','nZC2mJmYmxLLB2vAzq','C8kKWQ9voq','iSkhW6BdLmoYCxZdH8kMuG','mmkJcmo8WR0','Dg9Nz2XL','WQNcImokWQNdQmo3W6i','y29UC3rYDwn0BW','W5aDzrZcLHO','hmoDau/dO2XjW45acW','icaGica8l2rPDG','WRNdUg5eku4CkSoBW5G','W6ZdHmk7WOtcI8kMiSoL','vhnlCgu','C251A2S','rxjYB3iGCMvHza','zMLSzxm','WOVdRSk8W6ddQKvVW6aCW6a','W55xlfdcIqFcGZVdJSkd','z2v0q29UDgv4Da','WR3dR3LxgeqblCktW4y','W4FdKSonACkXW6pcHZP4WQm','ig9IAMvJDc1JBW','yJtdLKtcPq','WRRcRCkbAbW','WO/dPf9u','uM90yxrLzcbHBa','yxjRltKWmc84ma','At48C3bHBJ4','W7NdJSk7WQdcK8kQimoUWRGd','omoXWP4UWQpdKSkBW6uZW7e','C2v0uM90yxrPBW','p8oPW7JdMb4ks8kVW5tdLa','WP/cU8onW51Cemkehw5W','y2XHC3noyw1L','W73dTHnotWZcNW','C3L+WPddK8ojgG','WOhcNCkFdmoWWQddJW','WR0CemoaE8kUW4H1gd0','WQDZWOu5WQ4','zxjpChrPB25Z','vCkYWOLkkSoE','dqFcRSo0qq','WPHfowZcVmoHua','WOhdMb1dra','iCkNemomWRrZu8kdWQWe','W4JcKs0','WQnkW7SEW7FcPdTXFCoM','F8kYWOLJnG','CrijemowWQjHWQ/dGtK','B2PbruW','gbZcQCk8lKfZW4RcV8oz','W5RcSCowWOvfhmkidsyO','CMf5ltuWmcbOBW','icaGicaGica8yG','yxnZpsjTB3zLlq','Dg9YqwXS','WR5tWQSjWPS','zw5HyMXLlxDHDa','fmoLW7FdUwXIW61SWRJcVq','C2L0Aw9UlxrYyq','WRb5mmkSm1yStSo5WRW','WQjfW7SAW5hdTJbQFCo0','W7VdHCk7','cmk7W6r0ngXzW4bXWQW','WOZdQCkCstS','WOddSSoOW5FdO01JW6WCW70','yxrOzxi9iG','B3rHDguO','W5b+g0/cGW','WR/cGgzEW4u','p8kfWRlcHSkZiJtdISk0ua','WRrlW7SAW7hdRt5Q','v8o5WQ95ktrrW5SLW7y','zwrPDg9YlxnLyW','WQNcSCkJtq','CM90yxrPB24','W5DOluriWQK','qIVcGSo1fSo5','zgvKltj4BcbIBW','zwn0igeGDMfSAq','smoqqXVcRq','s0Lirg4','dmoZW7lcGcyvrG','W5qzzW3cLG','v3HLwu4','WPTongFcOCoQ','W4TYcrSqdGWWtv8','h33dNmoMcmo+W6qVW5m','vLpcSr3cJcVcJmog','s8kqdbZcQJym','WOJcPmkdsJe','b8oHW6hcKw5YW61RWRpcUW','u2f2Aw5NifberG','WRlcRIDuW5SpWRldHqvQ','W6pdVgeNWODDWONdGr5qW5Ht','WQ3dQCk6yZy','WQfYoSk6ca0','tslcJCoHeCoDW6WeW5q','umk6W4LklmoAemkxmmob','WOjyk1JdK0JdVGSCCq','WRn6jmk4qbFdP8krFa','pwxcUa','AgL0zs81ig1Ilq','n8oAW6ZdKwy','ChjVz3jLC3mTCW','BgvUz3rO','zw1IzwrgB250','mSk1W4RdRga','lwnLBNrLCIbQDq','tSoQWQHPpG','DgeTAwr4psi','C3rLBMvY','W454ivfzWO7cGf3dU3m','rgrqvM0','nvTDvCksWR5vWOldStK','WP9cpMtcSmoS','zwqU','aSo1W6BdJNLuW6vLWRpcQG','y2XHC3nmAxn0','c8k6W4RcQrdcVSofFCko','n1SEgCotW7fcW5BcPw4','C2L6zq','mta4r1ncuhrp','zhjHz2XLyxzL','uamngSoaW7zuWO/cP3W','y2vUDgvYihjLBa','qNzuDfi','zMXLEcbMBgv4lq','WOxdH8ooeIXJ','y3jLyxrLrwXLBq','mSkJsCoVWR13sSkoWQCc','WRRcKSokWRZdPSo8W7ldTSo6Aq','ntiXntC0zhLHzevo','q2XLyxjLzcbMAq','W5/dRSkvWPZcTa','wLLknbqzW4a','v1NcPfFcUgZdMCoeAmoI','W5xdVCoKxrBcMM12W5GX','zgf0yvrYyw5ZzG','WPjoeW','ywn0AxzL','WP7dMSopgcX/','aHlcQSoN','D2LKDgHpzLrLEa','pc9ZCgfUpGOGia','reDJrKC','BNvTlwzVCM1HDa','f8oHW7FdNxnIW7q','icaGpgj1DhrVBG','twfJrhC','pCopuCoziCoxW6q','C2HVDYa','BcbWywDLCYa5ma','emoSW6RdN2S','Aw5Uzxjive1m','qGhcQmo2rru2W4FdR8ky','mtaWjq','zCkUWQ1b','DNLiu04','qNLjza','W6ldImkhW6tcQmk7WQ3cM8k0jG','WP8TzamCWRtdHvxdV2q','fv7dS8kYfee7WOxdQCkC','WQLewG','mtuWndi1DKnpyNvn','zgL2','WPJdKSkzcvrUW5yq','EmoJW6RcVq','WOldR8oOWR/dUebNW70xWQK','iILSuHZcTSooWOFdP8kt','nq8ydCogWQ9wWPNdPMa','x3rPBwvY','zwXLDguGugfNzq','qvxcQrBcHG','W55xleFcIHBcJYRdICky','mUkhHCkHdSk/oLaBW74H','AgLKzgvU','hmoDau/dOW','uMvIDwLSzgLUzW','lwjVBgqGDgv4Da','xKtcVH3cLZu','pgj1DhrVBIbJBa','pSoJcmo+lCovW7u','WO/dKCkRdLvlW5eeWRC','AMf4l2XPyNmVCa','CCkWW5f8W6ZdJmotWQq','kCoqgCommmok','icaGica8AsbKyq','WQxcUtX8W54zWRO','Aw5KzxHpzG','a8kPrWKaEM7cH8oOWOm','W4qrzX3dNGxcU19D','W5FdSSoYdazmW5r/kKa','WOjeBXhcHuJcVuDDiG','kCokhCodi8ok','icaGicaGicaGia','Def0u2L6zq','W7/cNmkidCoB','WO/cQCkEsa7cRchdOepcRW','gH3cQCo3lmoOW7a','W4TIaejuWRZcSgpdKG','W4ZcVCohW4zxbG','pGOGicaGicaGia','W5BdVSoPxokbQZhcKSoylSoP','W4FcG8ktoXPtWPddIq8','W7NcJu5VW43cQfPsxCo+','z2uTyNrU','Bw1Iz2m','Awnju0G','CgfNzv9Ux29MxW','rSkZWOa','W6RdGmkpW6RcO8kYWQBcKSk/lW','WP/cP8klwI4','CfJcMr4','W4elBXBcUq','A0XLv2q','DSkQW5v4W6JcL8ovWR9VWQC','vutdVrJcLZm','W6j0WP7cG8ol','ywrK','EmoirmkPW7G2hSogW6jq','DHCCbSobWR8tWOBdQg8','ChjVBwLZzq','W5GDjGJcKGBcU0C','WQhdU8oSdta','vCk4WPbekmoshmkq','ChvZAa','WPFcK8kklmk8WQhdK3r4W7C','v0tcVLJdNvFdICkummkF','icaGicaGica8lW','W7RcJCoOW7b9','WPRdUmkUwG3cN3SZ','W5Hckg7cNW','W7RdMCkUWPlcQ8kQnCo/','zs1IDg4','Dg9gAxHLza','WQJcPCkudmoRW57dV8k/WOfb','Bgv0zs1WywDLlq','W4VcQ8kgscNcRx3cRetcRa','BMfTzq','WRlcM8k+h8oaWORdUa','zKPXAvi','W6/cU0uwcu7dIZC1W5m','WP1db24V','C3vJy2vZCW','pc9ZCgfUpG','WOhdPCk5fHhcN2y+W4y','BsFdTGZcRs5kcSo9','WOVcJmk8dfijWOWRjWC','ctFcJsn8WRflzaFdQW','WP3cRhPQW5S','mtmWDgPVyvHZ','nJXUWQhdHSopuSoRACkv','ugfNzsbKzwXLDa','vgXXrhC','imkSW6xdQrCcvCoNW5NdHq','W6/dQqPdrWRcJNm1WPe','zw5KC1DPDgG','C3rPzNKTyMv0DW','WOi1svJIG5fi','ihaTmsbIB3jKzq','zKXdsKy','FK9Xfq','y2fUDMfZ','BcbVDMvYzMXVDW','b8o0W63dGIq','ywrKrxzLBNrmAq','W5VdNCkEoCoWWQ3cMrb4WQm','BgfYzs5JB20Vyq','x8krqbZcSaaaWP0u','y2XPy2S','Awz5lwnLBNrLCG','W4bVgW4xqLbK','fSo7WQb6','WOjyk1JdK1tcRvTDpW','zM9YrwfJAa','Dgv4Dc14CYbWEa','z2XHC3mTCgfUzq','Be5Qvfy','WORcHCkpAXa','W5erCr0','dSoFh2xdO2XjW45acW','z2v0rwXLBwvUDa','AujNuNu','WQhcQIf2W5iE','CI13AgL0zs81ia','WPhdLSoFosv0WQ3dMc7dUq'];_0x559e=function(){return _0x3989a5;};return _0x559e();}function _0x1a57(_0x4b5f84,_0x41979b){_0x4b5f84=_0x4b5f84-(0x17fe+-0x203c+0x179*0x6);const _0x352c2d=_0x559e();let _0x17f9b9=_0x352c2d[_0x4b5f84];if(_0x1a57['XhWflm']===undefined){var _0x373cfe=function(_0x58ded2){const _0x4d62ef='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1eec79='',_0x3411d8='',_0xc3374c=_0x1eec79+_0x373cfe,_0x30897d=(''+function(){return-0x17a7+0x17f4+-0x7*0xb;})['indexOf']('\x0a')!==-(0xb86+0x8bf*-0x2+-0x5f9*-0x1);for(let _0x4a886e=-0x1*-0x13b4+-0x195e+-0x32*-0x1d,_0x486092,_0x2e31b7,_0x96e0be=0x1cc9+0x23ba+0x44d*-0xf;_0x2e31b7=_0x58ded2['charAt'](_0x96e0be++);~_0x2e31b7&&(_0x486092=_0x4a886e%(-0x1d0+0x1*-0x1d95+0x1f69)?_0x486092*(0xe08+0x11f0+-0x1fb8)+_0x2e31b7:_0x2e31b7,_0x4a886e++%(-0x1*0x14d1+-0x35*0x27+0x1ce8))?_0x1eec79+=_0x30897d||_0xc3374c['charCodeAt'](_0x96e0be+(-0x1a1f+0xb*-0x187+0xea*0x2f))-(0x1*-0x469+0x8*-0xe9+0x3e9*0x3)!==0x47*-0x49+-0x5d*0x1f+-0x1*-0x1f82?String['fromCharCode'](-0x1563+0x2*0xc91+-0x10*0x2c&_0x486092>>(-(-0x664+0x45*-0x8f+0x2cf1)*_0x4a886e&0x214*-0x2+-0xe3*0x1a+0x1b3c)):_0x4a886e:0x1f97+-0x166d+-0x45*0x22){_0x2e31b7=_0x4d62ef['indexOf'](_0x2e31b7);}for(let _0x5e3368=0x2f*-0x61+-0x1e25*0x1+-0x5d*-0x84,_0x42dd61=_0x1eec79['length'];_0x5e3368<_0x42dd61;_0x5e3368++){_0x3411d8+='%'+('00'+_0x1eec79['charCodeAt'](_0x5e3368)['toString'](-0x1a9a+0x369+-0x1*-0x1741))['slice'](-(-0xb*-0x73+0x51*-0x29+0x80a));}return decodeURIComponent(_0x3411d8);};const _0x100a3e=function(_0x490d27,_0x4545f5){let _0x595ff4=[],_0x67d968=0x194e+-0x1698+-0x1*0x2b6,_0x5b5925,_0x4e8924='';_0x490d27=_0x373cfe(_0x490d27);let _0x1e497e;for(_0x1e497e=-0x2021+0x844+0x17dd;_0x1e497e<0x21af+0x1*0xb47+-0x2bf6;_0x1e497e++){_0x595ff4[_0x1e497e]=_0x1e497e;}for(_0x1e497e=0x11dc+0x11e9*0x1+-0x23c5;_0x1e497e<-0x1678+-0x20e9+-0x3*-0x12cb;_0x1e497e++){_0x67d968=(_0x67d968+_0x595ff4[_0x1e497e]+_0x4545f5['charCodeAt'](_0x1e497e%_0x4545f5['length']))%(-0xd40+-0x1388*-0x2+-0x18d0),_0x5b5925=_0x595ff4[_0x1e497e],_0x595ff4[_0x1e497e]=_0x595ff4[_0x67d968],_0x595ff4[_0x67d968]=_0x5b5925;}_0x1e497e=0x3*-0x84f+0x5e7*0x2+0xd1f*0x1,_0x67d968=0x2015+0x16*-0x19+-0x1def;for(let _0x331972=0x70c*-0x2+-0x22*0xe8+0x2ce8;_0x331972<_0x490d27['length'];_0x331972++){_0x1e497e=(_0x1e497e+(-0x7*-0x79+-0x169f*-0x1+0x19ed*-0x1))%(-0xcc1+0x40c+0x163*0x7),_0x67d968=(_0x67d968+_0x595ff4[_0x1e497e])%(-0x899*0x3+-0x1231+0x1*0x2cfc),_0x5b5925=_0x595ff4[_0x1e497e],_0x595ff4[_0x1e497e]=_0x595ff4[_0x67d968],_0x595ff4[_0x67d968]=_0x5b5925,_0x4e8924+=String['fromCharCode'](_0x490d27['charCodeAt'](_0x331972)^_0x595ff4[(_0x595ff4[_0x1e497e]+_0x595ff4[_0x67d968])%(-0x4f8+-0x26d3+-0x2ccb*-0x1)]);}return _0x4e8924;};_0x1a57['XVdQPH']=_0x100a3e,_0x1a57['eFfOBs']={},_0x1a57['XhWflm']=!![];}const _0x34a930=_0x352c2d[-0x91f+0x1*-0x210f+0x1*0x2a2e],_0x2531c1=_0x4b5f84+_0x34a930,_0x1a7c76=_0x1a57['eFfOBs'][_0x2531c1];if(!_0x1a7c76){if(_0x1a57['mUVCIv']===undefined){const _0x54321a=function(_0x2f294a){this['gSSiVu']=_0x2f294a,this['rfzOxb']=[0x1*-0x117a+0x4e*0x67+-0xde7,-0x1*-0x482+0x1da4+0x2*-0x1113,0x1*-0x503+0x7*-0x535+0x2976],this['oPWrAE']=function(){return'newState';},this['pvMVnO']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['FqNQzm']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x54321a['prototype']['qiGquU']=function(){const _0x1144a6=new RegExp(this['pvMVnO']+this['FqNQzm']),_0x53444b=_0x1144a6['test'](this['oPWrAE']['toString']())?--this['rfzOxb'][-0x1eb4+-0x18a0+0xb11*0x5]:--this['rfzOxb'][0x987*-0x3+0x1*-0x1af3+-0x1bc4*-0x2];return this['FNxkhT'](_0x53444b);},_0x54321a['prototype']['FNxkhT']=function(_0x21ba29){if(!Boolean(~_0x21ba29))return _0x21ba29;return this['BeMtKz'](this['gSSiVu']);},_0x54321a['prototype']['BeMtKz']=function(_0x203d4a){for(let _0x225f68=0x496*-0x5+-0x1063+0x2751,_0x6d5983=this['rfzOxb']['length'];_0x225f68<_0x6d5983;_0x225f68++){this['rfzOxb']['push'](Math['round'](Math['random']())),_0x6d5983=this['rfzOxb']['length'];}return _0x203d4a(this['rfzOxb'][-0x244f+0x11a2+0x12ad]);},(''+function(){return 0x17*-0x9f+0x19fa+0x1*-0xbb1;})['indexOf']('\x0a')===-(-0x1*-0x11e3+0x7*0x101+-0x18e9)&&new _0x54321a(_0x1a57)['qiGquU'](),_0x1a57['mUVCIv']=!![];}_0x17f9b9=_0x1a57['XVdQPH'](_0x17f9b9,_0x41979b),_0x1a57['eFfOBs'][_0x2531c1]=_0x17f9b9;}else _0x17f9b9=_0x1a7c76;return _0x17f9b9;}async function loadFile(_0x1d99f1){const _0x3ea24e=_0x31c9ee,_0x2a6041=_0x40bde9,_0x4fe272={'ZWRwa':function(_0x527d1c,_0x4a41d8){return _0x527d1c/_0x4a41d8;},'ytrdM':function(_0xcd0ce9,_0x539dd0){return _0xcd0ce9/_0x539dd0;},'WHOkp':function(_0x3e92e1,_0x37c3e5){return _0x3e92e1-_0x37c3e5;},'ITXjs':function(_0x8a5f96,_0x5a610a){return _0x8a5f96+_0x5a610a;}};if(!_0x1d99f1[_0x2a6041(0xca,'@n4q')][_0x2a6041(0x1b1,'(ucg')+'e']()[_0x3ea24e(0x13d)](_0x2a6041(0x14d,'D8[8'))){showMessage('Please\x20sel'+_0x3ea24e(0x26a)+_0x3ea24e(0x215)+'.','error');return;}try{currentFile=_0x1d99f1;const _0x1958f2=await _0x1d99f1[_0x3ea24e(0x1b4)+'r']();pdfDataArray=new Uint8Array(_0x1958f2),fileNameEl[_0x2a6041(0x225,'RrdE')+'t']=_0x1d99f1['name'],fileMetaEl[_0x3ea24e(0x1d1)+'t']=_0x4fe272['ZWRwa'](_0x4fe272['ytrdM'](_0x1d99f1[_0x2a6041(0x154,'w^Rv')],0x1ee7+-0x1*-0x935+0x2*-0x120e),0xb32+-0x751*-0x2+0x1*-0x15d4)[_0x3ea24e(0x127)](-0xcce+0xaa9+0x227)+(_0x2a6041(0x107,')8%%')+'ering\x20page'+_0x2a6041(0x219,'wXyp')),editorSection[_0x2a6041(0x149,'WRdF')]['remove'](_0x2a6041(0xaf,'P6$N'));const _0x54fd97=await pdfjsLib[_0x3ea24e(0x1f1)+'t']({'data':pdfDataArray})[_0x2a6041(0xf8,'wXyp')],_0x183f46=_0x54fd97['numPages'];fileMetaEl['textConten'+'t']=(_0x1d99f1[_0x3ea24e(0xb5)]/(0x29b+-0x171b+0x1880)/(0x203f+0x1e6f+-0x3aae))[_0x3ea24e(0x127)](-0x1fe+-0x771+0x971)+_0x2a6041(0x13f,'w^Rv')+_0x183f46+_0x2a6041(0x181,'0YDD'),pageList=[];for(let _0x13f9e0=-0x13b9+-0xb9*0x12+0x20bc*0x1;_0x13f9e0<=_0x183f46;_0x13f9e0++){const _0x1fad83=await _0x54fd97[_0x2a6041(0x23e,'Hr8T')](_0x13f9e0),_0x101f30=_0x1fad83[_0x2a6041(0x20c,'Lz4x')+'t']({'scale':0.35}),_0x51e5a2=document['createElem'+_0x2a6041(0x259,'2$o^')](_0x3ea24e(0x143));_0x51e5a2[_0x2a6041(0x182,'M69Q')]=_0x101f30[_0x3ea24e(0x197)],_0x51e5a2[_0x2a6041(0x1ec,'rBB)')]=_0x101f30[_0x2a6041(0x267,'&zwR')];const _0x410456=_0x51e5a2[_0x3ea24e(0x22d)]('2d');await _0x1fad83[_0x2a6041(0x222,'w^Rv')]({'canvasContext':_0x410456,'viewport':_0x101f30})[_0x3ea24e(0x11a)],pageList[_0x3ea24e(0x11e)]({'originalIndex':_0x4fe272[_0x2a6041(0x206,'rBB)')](_0x13f9e0,0x1d79+-0x237d+0x605),'rotation':0x0,'previewUrl':_0x51e5a2[_0x2a6041(0x104,'&zwR')]()});}renderPagesGrid(),feather['replace'](),showMessage(_0x3ea24e(0x173)+_0x183f46+(_0x3ea24e(0x19a)+_0x3ea24e(0x1fa)));}catch(_0xc2e876){console[_0x2a6041(0x145,'MOq^')](_0xc2e876),showMessage(_0x4fe272[_0x3ea24e(0x1f7)](_0x3ea24e(0x229)+_0x2a6041(0xb3,'$K*K'),_0xc2e876[_0x3ea24e(0x1bb)]),_0x3ea24e(0x1a1));}}function renderPagesGrid(){const _0x3475a6=_0x40bde9,_0x248fc1=_0x31c9ee,_0x2bdda8={'ycUrX':_0x248fc1(0x151)+_0x248fc1(0x1b7)+_0x248fc1(0x1de)+_0x248fc1(0x269)+_0x248fc1(0x175)+_0x248fc1(0x159)+_0x248fc1(0xbb)+_0x248fc1(0x20a)+_0x248fc1(0xb9)+_0x3475a6(0x244,'@n4q'),'UMoEJ':function(_0x280091,_0x1e642d){return _0x280091===_0x1e642d;},'XcsXU':_0x248fc1(0x1f9)+'tyle=\x22opac'+'ity:0.3\x22'};pagesGrid[_0x248fc1(0xd6)]='',pageList[_0x3475a6(0x1b0,'1y!z')]((_0x1208fc,_0x264588)=>{const _0x3d35bc=_0x3475a6,_0x1e23ba=_0x248fc1,_0x299327=document[_0x1e23ba(0xbd)+'ent'](_0x1e23ba(0xe1));_0x299327[_0x1e23ba(0x23c)]=_0x2bdda8[_0x3d35bc(0x25b,'GJc%')],_0x299327[_0x1e23ba(0xd6)]=_0x1e23ba(0x1b8)+_0x3d35bc(0x223,'WRdF')+_0x3d35bc(0xfd,'w^Rv')+_0x3d35bc(0x198,'P6$N')+'flex\x20items'+_0x1e23ba(0xa8)+_0x1e23ba(0x13e)+_0x1e23ba(0x204)+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3d35bc(0x14e,'w^Rv')+_0x3d35bc(0x12a,'0YDD')+'xt-xs\x20font'+_0x3d35bc(0x240,'*mtM')+_0x1e23ba(0xef)+_0x3d35bc(0x179,'ABKB')+_0x3d35bc(0x17f,'&zwR')+(_0x264588+(-0x5*-0x335+0x955*0x2+-0x1159*0x2))+(_0x1e23ba(0xcc)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3d35bc(0x12e,'8S!m')+_0x1e23ba(0x170)+'ss=\x22flex\x20i'+_0x3d35bc(0x1c2,'%AG^')+'r\x20gap-1\x22>\x0a'+_0x1e23ba(0xff)+_0x1e23ba(0xff)+_0x1e23ba(0x250)+'utton\x20clas'+'s=\x22rotate-'+_0x3d35bc(0x11f,'%AG^')+_0x1e23ba(0x1af)+'00\x20hover:t'+_0x3d35bc(0xe4,'kaFC')+_0x3d35bc(0x214,'SyOD')+_0x1e23ba(0x186))+_0x264588+(_0x1e23ba(0x18b)+_0x3d35bc(0x271,'zN1X')+_0x1e23ba(0x106)+_0x3d35bc(0x1a5,'@n4q')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3d35bc(0xdd,'&zwR')+'a-feather='+'\x22rotate-cw'+_0x1e23ba(0x1c1)+_0x3d35bc(0x238,'rBB)')+'\x22></i>\x0a\x20\x20\x20'+_0x3d35bc(0x12e,'8S!m')+_0x1e23ba(0xff)+'\x20\x20\x20\x20\x20</but'+_0x3d35bc(0x24d,'@n4q')+_0x3d35bc(0x174,'mR7M')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x1e23ba(0xd0)+_0x1e23ba(0x212)+_0x1e23ba(0x129)+_0x3d35bc(0x134,'Dd#!')+_0x1e23ba(0x24f)+'ver:text-r'+'ed-400\x20p-1'+_0x3d35bc(0x138,'Hr8T')+'=\x22')+_0x264588+('\x22\x20title=\x22D'+_0x1e23ba(0xe8)+'\x22>\x0a\x20\x20\x20\x20\x20\x20\x20'+_0x3d35bc(0x10f,'*anE')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x1e23ba(0xf7)+_0x3d35bc(0xbe,'LuZi')+_0x3d35bc(0x261,'mbyN')+'\x20class=\x22w-'+_0x3d35bc(0x16b,'*frY')+_0x1e23ba(0x1ee)+_0x3d35bc(0x195,'%cpK')+_0x1e23ba(0xff)+_0x1e23ba(0x1e4)+'on>\x0a\x20\x20\x20\x20\x20\x20'+_0x3d35bc(0x9f,'w^Rv')+_0x1e23ba(0x121)+_0x3d35bc(0x16e,'2$o^')+_0x3d35bc(0x21d,'mbyN')+_0x1e23ba(0x224)+_0x1e23ba(0x106)+_0x3d35bc(0x10f,'*anE')+_0x1e23ba(0x170)+_0x3d35bc(0x1fd,'8S!m')+'\x20h-36\x20bg-d'+_0x1e23ba(0x235)+_0x3d35bc(0x23b,'Lz4x')+_0x1e23ba(0x144)+'-hidden\x20fl'+_0x1e23ba(0x16d)+_0x3d35bc(0x249,'R%eF')+_0x1e23ba(0x14b)+_0x1e23ba(0x140)+_0x3d35bc(0x189,'@MuB')+_0x1e23ba(0xa2)+_0x3d35bc(0x155,'WRdF')+_0x1e23ba(0xff)+'\x20\x20\x20\x20\x20\x20\x20\x20<i'+_0x1e23ba(0x16a))+_0x1208fc['previewUrl']+('\x22\x20class=\x22m'+'ax-h-full\x20'+_0x3d35bc(0x1b2,'C2Xj')+_0x1e23ba(0x230)+'ntain\x20tran'+_0x1e23ba(0x256)+_0x3d35bc(0x165,'M69Q')+_0x1e23ba(0x18c)+'\x20style=\x22tr'+_0x1e23ba(0x193)+_0x1e23ba(0x25e))+_0x1208fc[_0x1e23ba(0x266)]+('deg);\x22>\x0a\x20\x20'+_0x1e23ba(0xff)+'\x20\x20\x20\x20\x20\x20\x20\x20</'+_0x1e23ba(0x1c9)+_0x1e23ba(0xff)+_0x3d35bc(0xae,'@MuB')+'class=\x22fle'+_0x3d35bc(0x13b,'EUYQ')+_0x3d35bc(0x208,'Lz4x')+_0x3d35bc(0xc5,'GJc%')+_0x1e23ba(0x13e)+_0x3d35bc(0x120,'r]!F')+_0x1e23ba(0xff)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x1e23ba(0xf1)+_0x1e23ba(0x251)+_0x3d35bc(0x16f,'C2Xj')+_0x1e23ba(0x1af)+_0x3d35bc(0x25a,'D8[8')+_0x3d35bc(0x24e,'Lz4x')+_0x1e23ba(0x150)+_0x1e23ba(0x19f)+_0x1e23ba(0x1d5)+'hite/5\x22\x20da'+_0x1e23ba(0xaa))+_0x264588+'\x22\x20'+(_0x264588===-0x2c7*0x6+0x6*0x3d3+0x192*-0x4?_0x1e23ba(0x1f9)+_0x1e23ba(0x21a)+'ity:0.3\x22':'')+(_0x3d35bc(0xeb,'SyOD')+_0x3d35bc(0x118,'LuZi')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x1e23ba(0x1ab)+_0x1e23ba(0x180)+_0x3d35bc(0xc4,'r]!F')+_0x3d35bc(0xe6,'@MuB')+'-500\x20font-'+_0x3d35bc(0x217,'SyOD')+_0x3d35bc(0x1fc,'rszj'))+(_0x1208fc['originalIn'+'dex']+(0xa6+-0x1f3c+0x1e97*0x1))+(_0x3d35bc(0x147,'%AG^')+_0x1e23ba(0xff)+_0x3d35bc(0x22f,'%AG^')+_0x1e23ba(0x160)+_0x3d35bc(0x119,'@MuB')+'e-right-bt'+'n\x20text-gra'+_0x3d35bc(0xde,'@n4q')+_0x1e23ba(0x1db)+_0x3d35bc(0x19e,'R%eF')+'\x20px-2\x20py-1'+_0x3d35bc(0x13c,'8S!m')+'g-white/5\x22'+_0x3d35bc(0x109,'*frY')+'\x22')+_0x264588+'\x22\x20'+(_0x2bdda8[_0x1e23ba(0x15c)](_0x264588,pageList[_0x3d35bc(0x17d,'SyOD')]-(0x3*-0x93b+-0x1953*-0x1+0x25f))?_0x2bdda8[_0x3d35bc(0x9b,'GJc%')]:'')+('>→</button'+_0x3d35bc(0xfc,'Dd#!')+_0x1e23ba(0xff)+'\x20\x20</div>\x0a\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3d35bc(0xed,'WRdF')),pagesGrid['appendChil'+'d'](_0x299327);}),feather[_0x3475a6(0x185,'ABKB')](),bindGridEvents();}function bindGridEvents(){const _0x2f44d7=_0x31c9ee,_0x585577=_0x40bde9,_0x3880bc={'yQDBi':function(_0x5b3d0a,_0xaf9c83){return _0x5b3d0a(_0xaf9c83);},'csdnJ':function(_0x31b825,_0x5b85a2){return _0x31b825%_0x5b85a2;},'WxeYN':function(_0x2d33ff){return _0x2d33ff();},'VIqvy':function(_0x5b9a89,_0x59c504){return _0x5b9a89!==_0x59c504;},'BKQPf':_0x585577(0x202,'1y!z'),'ojAEL':_0x2f44d7(0x1a2)+_0x2f44d7(0x1ae)+_0x585577(0x22b,'kaFC')+'ng\x20page.','MacDw':'error','wrTtW':function(_0x4b604f,_0x35e8f4){return _0x4b604f(_0x35e8f4);},'nWvJo':function(_0x120ae7,_0x1a7c64){return _0x120ae7===_0x1a7c64;},'EGxWj':_0x585577(0x253,'M69Q'),'mmbgc':function(_0x2cfa79,_0x2faee9){return _0x2cfa79-_0x2faee9;},'BvTtR':function(_0x155e7d,_0x55933f){return _0x155e7d(_0x55933f);},'yTswU':function(_0x121030,_0x9b7eab){return _0x121030+_0x9b7eab;},'gWejU':function(_0x4fc4c3,_0x40e95b){return _0x4fc4c3+_0x40e95b;},'cbQmm':_0x585577(0x128,'2iK2')+_0x585577(0x26b,'WRdF')};document[_0x2f44d7(0x1cf)+_0x585577(0x1c8,'0YDD')](_0x585577(0xd7,'@n4q')+_0x585577(0x115,'r]!F'))[_0x2f44d7(0x14f)](_0x166680=>{const _0x56330d=_0x585577;_0x166680[_0x56330d(0x245,'P6$N')]=()=>{const _0x313226=_0x12d1,_0x423e6c=_0x56330d,_0x3e771b=_0x3880bc[_0x423e6c(0x1d9,'C2Xj')](parseInt,_0x166680[_0x423e6c(0xcf,'5#*f')][_0x423e6c(0x184,'jEwm')]);pageList[_0x3e771b][_0x423e6c(0x226,'2$o^')]=_0x3880bc[_0x423e6c(0x112,'w^Rv')](pageList[_0x3e771b][_0x423e6c(0x1c5,'@MuB')]+(0xc00*0x2+-0x155c+-0x24a),0x38e+-0x1*-0xf22+-0x1148),_0x3880bc[_0x313226(0x26f)](renderPagesGrid);};}),document[_0x2f44d7(0x1cf)+_0x2f44d7(0x252)](_0x585577(0xe5,'kObr')+_0x2f44d7(0x10a))[_0x2f44d7(0x14f)](_0x1f0510=>{const _0x4029f6=_0x2f44d7,_0x24d1a5=_0x585577,_0x39f567={'PuzPQ':function(_0x4a4b40,_0x45d37d){return _0x4a4b40(_0x45d37d);}};_0x3880bc[_0x24d1a5(0x1ff,'8S!m')]('nlXwc',_0x3880bc[_0x4029f6(0x218)])?_0x1f0510[_0x24d1a5(0x213,'LuZi')]=()=>{const _0x543d76=_0x24d1a5,_0x2abfe6=_0x4029f6;if(_0x3880bc[_0x2abfe6(0x1e0)]('mQemf',_0x3880bc[_0x543d76(0x211,'mbyN')]))return;else{const _0x2db3bd=parseInt(_0x1f0510[_0x2abfe6(0x192)][_0x543d76(0xc7,'ABKB')]);if(pageList[_0x543d76(0x268,'H02[')]<=-0xc3b+0x8ae+0x38e){if(_0x2abfe6(0x227)!==_0x543d76(0x21c,'aLVl'))_0x3624f5[_0x543d76(0xbf,'*anE')+'ault'](),_0x42ac29[_0x2abfe6(0xb2)][_0x2abfe6(0x1b6)](_0x543d76(0xf5,'rBB)')),_0x5127ee[_0x2abfe6(0xc6)+'er'][_0x543d76(0x17b,'&zwR')]['length']>-0xa60+0x1562+-0xb02&&mkCgei[_0x2abfe6(0x196)](_0x21f106,_0x38a805[_0x543d76(0x258,'R%eF')+'er'][_0x543d76(0x1c3,'w^Rv')][-0xfef+-0x1*0x22d7+0x86*0x61]);else{showMessage(_0x3880bc[_0x2abfe6(0x24c)],_0x3880bc[_0x2abfe6(0xd1)]);return;}}pageList[_0x2abfe6(0x1a9)](_0x2db3bd,-0xe8f*-0x1+-0x473*-0x7+0x2db3*-0x1),renderPagesGrid(),showMessage(_0x2abfe6(0x139)+_0x2abfe6(0xb0));}}:(_0x3ee98e[_0x24d1a5(0xc3,'l]oQ')](_0x42a8f5=>_0x42a8f5[_0x4029f6(0x266)]=(_0x42a8f5[_0x24d1a5(0x11d,'aLVl')]+(-0x1*0x15b+-0x18f2+0x1aa7*0x1))%(0x180f+0x9*-0x3d9+0xbfa*0x1)),_0x1a3bcd(),_0x3880bc[_0x4029f6(0x201)](_0x2d657d,_0x24d1a5(0x194,'RrdE')+_0x4029f6(0xd4)+'°'));}),document[_0x2f44d7(0x1cf)+'torAll']('.move-left'+_0x2f44d7(0x1e1))['forEach'](_0x21e97b=>{const _0x509abf={'kLeWd':function(_0x1d16e2,_0x3c5674){return _0x1d16e2>_0x3c5674;},'wLvGV':function(_0x121e5e,_0x3b8712){const _0xd37f26=_0x12d1;return _0x3880bc[_0xd37f26(0x10b)](_0x121e5e,_0x3b8712);}};_0x21e97b['onclick']=()=>{const _0x53b3d9=_0x1a57,_0x4bc3da=_0x12d1,_0xf858ef=parseInt(_0x21e97b[_0x4bc3da(0x192)][_0x53b3d9(0x1a6,'P6$N')]);if(_0x509abf[_0x4bc3da(0x113)](_0xf858ef,-0x86a+0x23a3+-0x1b39)){const _0x1101fe=pageList[_0xf858ef];pageList[_0xf858ef]=pageList[_0x509abf[_0x53b3d9(0x241,'M69Q')](_0xf858ef,0x1*-0x253+0x5c5+-0x371)],pageList[_0xf858ef-(0x11*0x1b7+0x518+-0x223e)]=_0x1101fe,renderPagesGrid();}};}),document['querySelec'+_0x2f44d7(0x252)](_0x3880bc['cbQmm'])[_0x2f44d7(0x14f)](_0x5e9620=>{const _0x34b73a=_0x2f44d7;_0x5e9620[_0x34b73a(0x1bc)]=()=>{const _0x152e9d=_0x1a57,_0x3b4ad5=_0x34b73a,_0x4edcf1=_0x3880bc[_0x3b4ad5(0xba)](parseInt,_0x5e9620[_0x3b4ad5(0x192)][_0x152e9d(0x1f3,'*mtM')]);if(_0x4edcf1<pageList[_0x152e9d(0xf0,'r]!F')]-(0x268c+-0x1e8f+-0x7fc)){const _0x1d5e53=pageList[_0x4edcf1];pageList[_0x4edcf1]=pageList[_0x3880bc[_0x152e9d(0x101,'2iK2')](_0x4edcf1,0x9*-0x36e+0x2*0x50f+0xb*0x1e3)],pageList[_0x3880bc[_0x152e9d(0x1cc,'wXyp')](_0x4edcf1,-0x5bd+0x10c2+-0xb04)]=_0x1d5e53,renderPagesGrid();}};});}document['getElement'+_0x40bde9(0x265,'0YDD')](_0x31c9ee(0x1f5)+'-btn')[_0x31c9ee(0x146)+_0x31c9ee(0xab)](_0x31c9ee(0x14a),()=>{const _0x154092=_0x31c9ee,_0xef05b4=_0x40bde9,_0x202a75={'vyHSN':function(_0x4fff19,_0x1bfeda){return _0x4fff19(_0x1bfeda);}};pageList[_0xef05b4(0x23f,'%AG^')](_0x20642c=>_0x20642c[_0x154092(0x266)]=(_0x20642c[_0x154092(0x266)]+(0x230d+0x51d+0x9f4*-0x4))%(0x1675+0xc1*0xb+-0x1d58)),renderPagesGrid(),_0x202a75[_0x154092(0xda)](showMessage,_0x154092(0x234)+_0xef05b4(0x1e2,'*anE')+'°');}),document[_0x40bde9(0x15a,')8%%')+_0x31c9ee(0xdb)](_0x31c9ee(0x15f)+_0x31c9ee(0x126))[_0x31c9ee(0x146)+_0x31c9ee(0xab)](_0x40bde9(0x275,'0YDD'),()=>{const _0x402d8d=_0x40bde9,_0x2b6d3b=_0x31c9ee,_0x184546={'icISH':_0x2b6d3b(0xec),'PZYnR':function(_0x1d1761,_0xc9f159){return _0x1d1761(_0xc9f159);},'snukk':_0x2b6d3b(0xc1)+_0x402d8d(0x1cd,'(ucg')};currentFile=null,pdfDataArray=null,pageList=[],editorSection['classList'][_0x402d8d(0x1cb,'SyOD')](_0x184546[_0x2b6d3b(0x10c)]),_0x184546[_0x402d8d(0x116,'(ucg')](showMessage,_0x184546[_0x2b6d3b(0x228)]);}),document[_0x40bde9(0xac,'&zwR')+_0x31c9ee(0x252)]('.tab-btn')[_0x31c9ee(0x14f)](_0x1ae0fd=>{const _0x5975e2=_0x31c9ee,_0x10f883=_0x40bde9,_0x351fcf={'tvjfO':_0x10f883(0x257,'mR7M')+_0x10f883(0x11b,'w^Rv'),'DZomf':'hidden','Txdwb':_0x10f883(0x276,'5#*f')+'ing-panel','iSwQU':function(_0x32ca46,_0x3cbf2b){return _0x32ca46!==_0x3cbf2b;},'DdPVm':'tab-waterm'+_0x10f883(0x133,'SyOD'),'gHRoQ':'watermark','fLCJF':_0x5975e2(0x14a)};_0x1ae0fd[_0x5975e2(0x146)+_0x10f883(0xbc,')8%%')](_0x351fcf[_0x5975e2(0x141)],()=>{const _0x50749f=_0x5975e2,_0x35d2c1=_0x10f883;document[_0x35d2c1(0xb1,'5#*f')+'torAll'](_0x50749f(0x1c4))[_0x35d2c1(0x18a,'N(te')](_0x5d3192=>_0x5d3192[_0x50749f(0xb2)][_0x35d2c1(0x1f8,'N(te')](_0x50749f(0xc8))),_0x1ae0fd['classList'][_0x50749f(0x117)](_0x50749f(0xc8));const _0x1d836a=_0x1ae0fd[_0x50749f(0x192)]['tab'];document[_0x35d2c1(0x23a,'EUYQ')+_0x35d2c1(0x163,'[$vG')](_0x351fcf[_0x35d2c1(0x183,'8S!m')])[_0x50749f(0xb2)]['toggle'](_0x351fcf['DZomf'],_0x1d836a!==_0x35d2c1(0x123,'GJc%')),document['getElement'+_0x35d2c1(0x163,'[$vG')](_0x351fcf['Txdwb'])[_0x50749f(0xb2)][_0x50749f(0x21f)](_0x35d2c1(0xc9,')8%%'),_0x351fcf[_0x50749f(0x1df)](_0x1d836a,_0x50749f(0x1ed))),document[_0x50749f(0x156)+_0x50749f(0xdb)](_0x351fcf[_0x50749f(0xad)])[_0x50749f(0xb2)][_0x50749f(0x21f)](_0x351fcf[_0x35d2c1(0xa3,'5#*f')],_0x1d836a!==_0x351fcf[_0x35d2c1(0x1d4,'LuZi')]);});}),savePdfBtn[_0x40bde9(0x166,'N(te')+_0x31c9ee(0xab)](_0x40bde9(0x1d7,'1y!z'),async()=>{const _0x337925=_0x31c9ee,_0x7c8e4a=_0x40bde9,_0x4968d7={'TlqDw':'hidden','LvhYA':_0x7c8e4a(0xa1,'SyOD'),'aMeBJ':_0x337925(0xee)+'\x20PDF\x20pages'+_0x7c8e4a(0x248,'%cpK'),'PIcrj':_0x337925(0xce),'oWVXA':_0x7c8e4a(0x26d,'MOq^'),'vxIMM':function(_0xb64314,_0x57b080){return _0xb64314(_0x57b080);},'hfCJk':_0x7c8e4a(0x188,'aLVl'),'AEZyK':function(_0x239529,_0x3970cc){return _0x239529%_0x3970cc;},'DEUqw':function(_0x47d3ea,_0x27f166){return _0x47d3ea+_0x27f166;},'xdTmK':_0x7c8e4a(0x17a,'ABKB'),'Pllud':function(_0x118bb6,_0x2cdcb3){return _0x118bb6===_0x2cdcb3;},'RSqtn':_0x337925(0x10d)+'total','pApAa':function(_0x4105e7,_0x527725){return _0x4105e7===_0x527725;},'XemFj':function(_0x424dc7,_0x22b4bc){return _0x424dc7+_0x22b4bc;},'iBgRu':function(_0x213b12,_0x54c14e){return _0x213b12/_0x54c14e;},'urXyR':function(_0x266772,_0x5312eb){return _0x266772-_0x5312eb;},'lNjTV':_0x337925(0x207)+'ht','DtHyP':function(_0x37d9c1,_0x834df5){return _0x37d9c1===_0x834df5;},'Mjlsg':function(_0x367046,_0x2870f6,_0x1ce964,_0x3a8f59){return _0x367046(_0x2870f6,_0x1ce964,_0x3a8f59);},'fJqiR':function(_0x5dc2c,_0x2e34a3){return _0x5dc2c/_0x2e34a3;},'NCxum':'95%','DGcFG':function(_0x256c62,_0x3fc623,_0x161e1a){return _0x256c62(_0x3fc623,_0x161e1a);},'SqOLU':function(_0x48fe12,_0x56c2bd,_0x471f10){return _0x48fe12(_0x56c2bd,_0x471f10);},'KIHDn':function(_0x305218,_0x39f183){return _0x305218+_0x39f183;},'naKex':_0x337925(0x191)+_0x7c8e4a(0x1c0,'ABKB')};if(!pdfDataArray||pageList[_0x7c8e4a(0x270,'P6$N')]===-0x409+-0xab*-0x25+-0x14ae)return;try{savePdfBtn[_0x7c8e4a(0x1e3,'M69Q')]=!![],progressContainer[_0x7c8e4a(0x9d,'H02[')][_0x7c8e4a(0x243,'aLVl')](_0x337925(0xec)),progressBar['style'][_0x7c8e4a(0x1c6,'P6$N')]='10%',progressPercent[_0x7c8e4a(0x15d,'$K*K')+'t']=_0x4968d7['LvhYA'],progressStatus['textConten'+'t']=_0x4968d7[_0x7c8e4a(0x153,'0YDD')];const {PDFDocument:_0x59141f,rgb:_0x568a8a,degrees:_0x4d2008,StandardFonts:_0x18d875}=PDFLib,_0xaa25f2=await _0x59141f[_0x337925(0x20e)](pdfDataArray),_0x2f9259=await _0x59141f[_0x7c8e4a(0xf6,'1y!z')](),_0x2fef87=await _0x2f9259[_0x337925(0xa6)](_0x18d875[_0x337925(0x1d0)]),_0x39a882=document[_0x337925(0x156)+_0x337925(0xdb)]('enable-num'+_0x7c8e4a(0x178,'RrdE'))[_0x7c8e4a(0x220,'*anE')],_0x59130c=document['getElement'+_0x337925(0xdb)](_0x4968d7['PIcrj'])[_0x7c8e4a(0x21e,'LuZi')],_0x383561=document[_0x7c8e4a(0xea,'!o(m')+_0x7c8e4a(0x142,'l]oQ')](_0x4968d7['oWVXA'])[_0x337925(0x16c)],_0xaac8ce=_0x4968d7[_0x337925(0x1d2)](parseInt,document[_0x7c8e4a(0x1c7,'@MuB')+'ById'](_0x4968d7['hfCJk'])[_0x337925(0x16c)])||0x268f*0x1+0xfc9+-0x364e,_0x31a0c6=document[_0x337925(0x156)+_0x7c8e4a(0x233,'RrdE')](_0x337925(0x254)+_0x337925(0x171))[_0x337925(0x1b9)],_0x35b04a=document[_0x337925(0x156)+'ById'](_0x7c8e4a(0xd2,'1y!z'))[_0x7c8e4a(0xa9,'D8[8')][_0x337925(0x187)]()||'CONFIDENTI'+'AL',_0x4f9e27=_0x4968d7[_0x337925(0x1d2)](parseFloat,document[_0x337925(0x156)+'ById'](_0x7c8e4a(0x9e,'aLVl'))['value'])||0x205e+0x5c7*-0x1+0x1*-0x1a97+0.3,_0x1cb39c=parseInt(document[_0x7c8e4a(0x99,'wXyp')+_0x7c8e4a(0x1f4,'N(te')](_0x7c8e4a(0x274,'WRdF'))[_0x7c8e4a(0x26e,'w^Rv')])||0x14b2+0xb62+-0x1fe4,_0x2614d5=pageList[_0x337925(0xa5)];for(let _0x261783=-0x1a00+-0x1c7e+-0x117*-0x32;_0x261783<_0x2614d5;_0x261783++){const _0x414df4=pageList[_0x261783],[_0x2d7bc4]=await _0x2f9259['copyPages'](_0xaa25f2,[_0x414df4[_0x337925(0x169)+_0x7c8e4a(0x1d3,'0YDD')]]),_0x15ec91=_0x2d7bc4[_0x7c8e4a(0x22c,'!o(m')+'n']()['angle'];_0x2d7bc4[_0x337925(0x239)+'n'](_0x4d2008(_0x4968d7[_0x7c8e4a(0xc2,'2$o^')](_0x4968d7['DEUqw'](_0x15ec91,_0x414df4[_0x7c8e4a(0x262,'R%eF')]),-0xcc6*0x1+0x15a9+-0x77b*0x1)));const {width:_0x5526ae,height:_0x3e2923}=_0x2d7bc4['getSize']();if(_0x39a882){let _0x2bac05=''+(_0x261783+(0x186e+-0x2*-0x30f+-0x1*0x1e8b));if(_0x59130c===_0x4968d7[_0x337925(0x15e)])_0x2bac05='Page\x20'+(_0x261783+(0x1461+0x1b94+-0xffc*0x3));else{if(_0x4968d7[_0x7c8e4a(0x216,'GJc%')](_0x59130c,_0x4968d7['RSqtn']))_0x2bac05=_0x7c8e4a(0xa7,'$K*K')+(_0x261783+(0x22a2+0x1*0x7f2+-0x2a93))+_0x7c8e4a(0xe3,'EUYQ')+_0x2614d5;else{if(_0x4968d7[_0x7c8e4a(0x19c,'Lz4x')](_0x59130c,'hyphen'))_0x2bac05='-\x20'+_0x4968d7[_0x7c8e4a(0x24a,'aLVl')](_0x261783,0x207b+0xded+-0x2e67)+'\x20-';}}const _0xda5217=_0x2fef87[_0x7c8e4a(0x18d,'&zwR')+_0x337925(0x100)](_0x2bac05,_0xaac8ce);let _0x28083c=_0x4968d7['iBgRu'](_0x4968d7[_0x337925(0x1e5)](_0x5526ae,_0xda5217),0x1692+0x871+-0x1f01),_0x1f951f=-0xc0e+0x1116*0x2+-0x160a;if(_0x383561===_0x4968d7[_0x337925(0x152)])_0x28083c=_0x5526ae-_0xda5217-(-0x95a+-0x17*-0x12a+-0x2*0x8a7);else{if(_0x4968d7[_0x337925(0x1a7)](_0x383561,'bottom-lef'+'t'))_0x28083c=0x252f+0x9b8+-0x19d*0x1d;else _0x383561===_0x7c8e4a(0x132,'GJc%')&&(_0x28083c=_0x5526ae-_0xda5217-(0x7*-0x452+0x2*-0xf75+0x3d46),_0x1f951f=_0x3e2923-(-0x9e*-0x16+0xd6a+-0x1ae0));}_0x2d7bc4[_0x7c8e4a(0x1ad,'WRdF')](_0x2bac05,{'x':_0x28083c,'y':_0x1f951f,'size':_0xaac8ce,'font':_0x2fef87,'color':_0x4968d7[_0x7c8e4a(0x1bf,'@MuB')](_0x568a8a,0x18*-0x137+-0xd*0xa3+0x256f+0.3,0x1ba7+0x7b*-0x6+-0x18c5+0.3,-0x25c*-0xa+0x1c87+-0x341f+0.3)});}if(_0x31a0c6&&_0x35b04a){const _0x3fb867=_0x2fef87[_0x337925(0xcb)+_0x7c8e4a(0xf2,'1y!z')](_0x35b04a,_0x1cb39c);_0x2d7bc4[_0x7c8e4a(0x125,'2$o^')](_0x35b04a,{'x':_0x4968d7[_0x337925(0x157)](_0x5526ae-_0x3fb867,0x11*0x13d+-0x26c9*-0x1+-0x446*0xe),'y':_0x4968d7[_0x337925(0x157)](_0x3e2923,0xef7+0x1e7c+-0x2d71*0x1),'size':_0x1cb39c,'font':_0x2fef87,'color':_0x568a8a(0x23*0x22+-0x4b*0x80+0xa*0x349+0.8,0x7*0x515+0xbdf*0x1+0x2*-0x17b9+0.2,0x255c+-0xf6a+-0x15f2+0.2),'opacity':_0x4f9e27,'rotate':_0x4968d7['vxIMM'](_0x4d2008,0xe22+0x39e*-0x1+-0x1*0xa57)});}_0x2f9259[_0x337925(0x19b)](_0x2d7bc4);const _0x18e8f1=Math['round'](_0x4968d7[_0x7c8e4a(0x136,'*frY')](-0x13f2+-0x264d+-0x2*-0x1d27,_0x4968d7[_0x337925(0x12d)](_0x261783,_0x2614d5)*(-0x41f*0x5+-0x251+0x3*0x7bd)));progressBar['style'][_0x337925(0x197)]=_0x18e8f1+'%',progressPercent[_0x337925(0x1d1)+'t']=_0x18e8f1+'%';}progressBar[_0x7c8e4a(0xe9,'r]!F')]['width']=_0x7c8e4a(0xdf,'*mtM'),progressPercent[_0x337925(0x1d1)+'t']=_0x4968d7[_0x7c8e4a(0x246,'8S!m')],progressStatus[_0x7c8e4a(0x17e,'[$vG')+'t']=_0x337925(0x98)+'\x20document.'+'..';const _0x27b4a9=await _0x2f9259[_0x7c8e4a(0x162,'r]!F')](),_0x3fe51b=new Blob([_0x27b4a9],{'type':'applicatio'+_0x337925(0x1fb)});progressBar['style'][_0x337925(0x197)]='100%',progressPercent['textConten'+'t']=_0x337925(0xd8),progressStatus[_0x337925(0x1d1)+'t']=_0x337925(0x161),saveAs(_0x3fe51b,'edited-'+currentFile[_0x337925(0x12b)]),showMessage(_0x7c8e4a(0xb8,'@MuB')+_0x7c8e4a(0x24b,'@MuB')+_0x7c8e4a(0x1e8,'GJc%')+_0x337925(0x1b5)),_0x4968d7[_0x337925(0xcd)](setTimeout,()=>{const _0x186b5b=_0x7c8e4a,_0x5bbc25=_0x337925;progressContainer['classList'][_0x5bbc25(0x117)](_0x4968d7[_0x186b5b(0x164,'mR7M')]),savePdfBtn[_0x186b5b(0x14c,'zN1X')]=![];},-0x226e+-0x1b09+0x3f6b);}catch(_0x1a4f7d){console['error'](_0x1a4f7d),_0x4968d7[_0x7c8e4a(0x1aa,'[$vG')](showMessage,_0x4968d7[_0x337925(0x26c)](_0x4968d7[_0x7c8e4a(0x231,'SyOD')],_0x1a4f7d[_0x337925(0x1bb)]),_0x7c8e4a(0x190,'2iK2')),progressContainer[_0x7c8e4a(0x20d,'RrdE')][_0x337925(0x117)](_0x4968d7[_0x337925(0x13a)]),savePdfBtn['disabled']=![];}});</script>
 
 
-    <script>
-        feather.replace();
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Close mobile menu when scrolling
-        window.addEventListener('scroll', () => {
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-        }
-
-
-        // Tab switching
-        const tabs = document.querySelectorAll('.tab-button');
-        const panels = document.querySelectorAll('.tab-panel');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => {
-                    t.classList.remove('tab-active');
-                    t.classList.add('text-gray-400', 'hover:text-gray-300');
-                });
-                panels.forEach(p => p.classList.add('hidden'));
-
-                tab.classList.add('tab-active');
-                tab.classList.remove('text-gray-400', 'hover:text-gray-300');
-                
-                const target = tab.getAttribute('data-target');
-                const targetPanel = document.getElementById(target);
-                if (targetPanel) {
-                    targetPanel.classList.remove('hidden');
-                }
-            });
-        });
-
-        const { PDFDocument, rgb, degrees } = PDFLib;
-        const { saveAs } = FileSaver;
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
-
-        let originalPdfBytes = null;
-
-        // --- Organize PDF ---
-        const organizeFileInput = document.getElementById('organize-file');
-        const organizePreview = document.getElementById('organize-preview');
-        const organizeSaveBtn = document.getElementById('organize-save-btn');
-
-        organizeFileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            organizePreview.innerHTML = '<div class="col-span-full text-center"><div class="loader inline-block"></div><p class="mt-2">Loading PDF...</p></div>';
-            organizeSaveBtn.classList.add('hidden');
-
-            const buffer = await file.arrayBuffer();
-            originalPdfBytes = buffer.slice(0);
-            renderPdfThumbnails(originalPdfBytes.slice(0));
-        });
-
-        async function renderPdfThumbnails(pdfBytes) {
-            organizePreview.innerHTML = '';
-            const pdfDoc = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
-
-            for (let i = 1; i <= pdfDoc.numPages; i++) {
-                const page = await pdfDoc.getPage(i);
-                const viewport = page.getViewport({ scale: 0.5 });
-                
-                const wrapper = document.createElement('div');
-                wrapper.className = 'page-thumbnail relative border rounded-lg overflow-hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white shadow group';
-                wrapper.dataset.originalIndex = i - 1;
-                wrapper.dataset.rotation = 0;
-
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                
-                await page.render({ canvasContext: context, viewport: viewport }).promise;
-                
-                const pageNumber = document.createElement('div');
-                pageNumber.className = 'absolute top-1 left-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold';
-                pageNumber.textContent = i;
-
-                const controls = document.createElement('div');
-                controls.className = 'absolute bottom-0 left-0 right-0 bg-black/50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity p-1';
-                
-                controls.innerHTML = `
-                    <button class="rotate-left text-white p-1 hover:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/20 rounded-full"><i data-feather="rotate-ccw" class="w-4 h-4"></i></button>
-                    <button class="delete-page text-white p-1 hover:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/20 rounded-full"><i data-feather="trash-2" class="w-4 h-4"></i></button>
-                    <button class="rotate-right text-white p-1 hover:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/20 rounded-full"><i data-feather="rotate-cw" class="w-4 h-4"></i></button>
-                `;
-
-                wrapper.appendChild(canvas);
-                wrapper.appendChild(pageNumber);
-                wrapper.appendChild(controls);
-                organizePreview.appendChild(wrapper);
-            }
-
-            feather.replace();
-            organizeSaveBtn.classList.remove('hidden');
-            
-            new Sortable(organizePreview, {
-                animation: 150,
-                ghostClass: 'ghost'
-            });
-        }
-
-        organizePreview.addEventListener('click', (e) => {
-            const button = e.target.closest('button');
-            if (!button) return;
-            
-            const pageWrapper = button.closest('.page-thumbnail');
-            if (!pageWrapper) return;
-
-            if (button.classList.contains('delete-page')) {
-                pageWrapper.remove();
-            } else if (button.classList.contains('rotate-left') || button.classList.contains('rotate-right')) {
-                const canvas = pageWrapper.querySelector('canvas');
-                let rotation = parseInt(pageWrapper.dataset.rotation, 10);
-                rotation += button.classList.contains('rotate-right') ? 90 : -90;
-                pageWrapper.dataset.rotation = rotation;
-                canvas.style.transform = `rotate(${rotation}deg)`;
-            }
-        });
-
-        organizeSaveBtn.addEventListener('click', async () => {
-            if (!originalPdfBytes) {
-                alert('Please load a PDF first.');
-                return;
-            }
-
-            organizeSaveBtn.disabled = true;
-            organizeSaveBtn.innerHTML = '<i data-feather="loader" class="animate-spin inline-block mr-2"></i>Saving...';
-            feather.replace();
-
-            try {
-                const sourcePdfDoc = await PDFDocument.load(originalPdfBytes.slice(0), { ignoreEncryption: true });
-                const newPdfDoc = await PDFDocument.create();
-                
-                const pageElements = Array.from(organizePreview.querySelectorAll('.page-thumbnail'));
-                const originalIndices = pageElements.map(p => parseInt(p.dataset.originalIndex, 10));
-                
-                const copiedPages = await newPdfDoc.copyPages(sourcePdfDoc, originalIndices);
-
-                pageElements.forEach((pageEl, index) => {
-                    const newPage = newPdfDoc.addPage(copiedPages[index]);
-                    const rotation = parseInt(pageEl.dataset.rotation, 10);
-                    newPage.setRotation(degrees(rotation));
-                });
-
-                const newPdfBytes = await newPdfDoc.save();
-                if (typeof saveAs !== 'undefined') {
-                    saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'Infiniteforge_organized.pdf');
-                } else {
-                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'Infiniteforge_organized.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                }
-
-            } catch (e) {
-                console.error('PDF save error:', e);
-                alert('An error occurred while saving the PDF: ' + (e.message || 'Unknown error'));
-            } finally {
-                organizeSaveBtn.disabled = false;
-                organizeSaveBtn.innerHTML = '<i data-feather="save" class="inline-block mr-2"></i>Save Changes';
-                feather.replace();
-            }
-        });
-
-        let numberPdfBytes = null;
-        let watermarkPdfBytes = null;
-        let watermarkImage = { bytes: null, type: null };
-
-        // --- Add Page Numbers ---
-        const numberFileInput = document.getElementById('number-file');
-        const numberOptions = document.getElementById('number-options');
-        const numberAddBtn = document.getElementById('number-add-btn');
-        const numberPreviewCanvas = document.getElementById('number-preview-canvas');
-        const numberControls = ['number-position', 'number-size', 'number-range'];
-
-        numberFileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            try {
-                const buffer = await file.arrayBuffer();
-                numberPdfBytes = buffer.slice(0);
-                const hasFile = numberPdfBytes && numberPdfBytes.byteLength > 0;
-                numberAddBtn.disabled = !hasFile;
-                numberOptions.classList.toggle('hidden', !hasFile);
-                if(hasFile) updateNumberPreview();
-            } catch (err) {
-                console.error('Error loading PDF file:', err);
-                alert('Error loading PDF file. Please try again.');
-            }
-        });
-
-        numberControls.forEach(id => document.getElementById(id).addEventListener('input', updateNumberPreview));
-
-        async function updateNumberPreview() {
-            if (!numberPdfBytes) return;
-            const pdfDoc = await pdfjsLib.getDocument({ data: numberPdfBytes.slice(0) }).promise;
-            const page = await pdfDoc.getPage(1);
-            const viewport = page.getViewport({ scale: 1 });
-            
-            const canvas = numberPreviewCanvas;
-            const context = canvas.getContext('2d');
-            const scale = Math.min(250 / viewport.width, 250 / viewport.height);
-            const scaledViewport = page.getViewport({ scale });
-            canvas.height = scaledViewport.height;
-            canvas.width = scaledViewport.width;
-
-            await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
-
-            const position = document.getElementById('number-position').value;
-            const size = parseInt(document.getElementById('number-size').value, 10) * scale;
-            
-            let x, y;
-            const margin = 10 * scale;
-            context.font = `${size}px Helvetica`;
-            context.fillStyle = '#000000';
-
-            switch (position) {
-                case 'bottom-left': x = margin; y = canvas.height - margin; break;
-                case 'bottom-right': x = canvas.width - margin; context.textAlign = 'right'; y = canvas.height - margin; break;
-                case 'top-center': x = canvas.width / 2; context.textAlign = 'center'; y = margin + size; break;
-                case 'top-left': x = margin; y = margin + size; break;
-                case 'top-right': x = canvas.width - margin; context.textAlign = 'right'; y = margin + size; break;
-                default: /* bottom-center */ x = canvas.width / 2; context.textAlign = 'center'; y = canvas.height - margin; break;
-            }
-            context.fillText('1', x, y);
-        }
-
-        numberAddBtn.addEventListener('click', async () => {
-            if (!numberPdfBytes) return;
-
-            numberAddBtn.disabled = true;
-            numberAddBtn.innerHTML = '<i data-feather="loader" class="animate-spin inline-block mr-2"></i>Adding Numbers...';
-            feather.replace();
-
-            try {
-                const pdfDoc = await PDFDocument.load(numberPdfBytes.slice(0), { ignoreEncryption: true });
-                const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-                
-                const position = document.getElementById('number-position').value;
-                const size = parseInt(document.getElementById('number-size').value, 10) || 12;
-                const rangeStr = document.getElementById('number-range').value || 'all';
-                
-                const totalPages = pdfDoc.getPageCount();
-                let pagesToNumber = [];
-
-                if (rangeStr.toLowerCase() === 'all') {
-                    pagesToNumber = Array.from({ length: totalPages }, (_, i) => i);
-                } else {
-                    pagesToNumber = rangeStr.replace(/\s/g, '').split(',').flatMap(range => {
-                        if (range.includes('-')) {
-                            const [start, end] = range.split('-').map(Number);
-                            return Array.from({ length: end - start + 1 }, (_, i) => start + i - 1);
-                        }
-                        return Number(range) - 1;
-                    }).filter(index => index >= 0 && index < totalPages);
-                }
-
-                for (const pageIndex of pagesToNumber) {
-                    const page = pdfDoc.getPage(pageIndex);
-                    const { width, height } = page.getSize();
-                    const pageNum = pageIndex + 1;
-                    const text = `${pageNum}`;
-                    const textWidth = font.widthOfTextAtSize(text, size);
-
-                    let x, y;
-                    const margin = 30;
-
-                    switch (position) {
-                        case 'bottom-left': x = margin; y = margin; break;
-                        case 'bottom-right': x = width - margin - textWidth; y = margin; break;
-                        case 'top-center': x = width / 2 - textWidth / 2; y = height - margin - size; break;
-                        case 'top-left': x = margin; y = height - margin - size; break;
-                        case 'top-right': x = width - margin - textWidth; y = height - margin - size; break;
-                        default: /* bottom-center */ x = width / 2 - textWidth / 2; y = margin; break;
-                    }
-
-                    try {
-                        page.drawText(text, { 
-                            x: Math.max(0, x), 
-                            y: Math.max(0, y), 
-                            size: size, 
-                            font: font, 
-                            color: rgb(0.2, 0.2, 0.2) 
-                        });
-                    } catch (err) {
-                        console.warn(`Failed to add page number to page ${pageNum}:`, err);
-                    }
-                }
-
-                const newPdfBytes = await pdfDoc.save();
-                if (typeof saveAs !== 'undefined') {
-                    saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'Infiniteforge_numbered.pdf');
-                } else {
-                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'Infiniteforge_numbered.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                }
-
-            } catch (e) {
-                console.error('Page numbering error:', e);
-                alert('An error occurred while adding page numbers: ' + (e.message || 'Unknown error. Check console for details.'));
-            } finally {
-                numberAddBtn.disabled = false;
-                numberAddBtn.innerHTML = '<i data-feather="hash" class="inline-block mr-2"></i>Add Page Numbers';
-                feather.replace();
-            }
-        });
-
-        // --- Watermark PDF ---
-        const watermarkFileInput = document.getElementById('watermark-file');
-        const watermarkOptions = document.getElementById('watermark-options');
-        const watermarkAddBtn = document.getElementById('watermark-add-btn');
-        const watermarkPreviewCanvas = document.getElementById('watermark-preview-canvas');
-        const watermarkImageInput = document.getElementById('watermark-image');
-        const watermarkTextOptions = document.getElementById('watermark-text-options');
-        const watermarkImageOptions = document.getElementById('watermark-image-options');
-        const watermarkTypeRadios = document.querySelectorAll('input[name="watermark-type"]');
-        const watermarkControls = ['watermark-text', 'watermark-font-size', 'watermark-color', 'watermark-opacity'];
-
-        watermarkFileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const buffer = await file.arrayBuffer();
-            watermarkPdfBytes = buffer.slice(0);
-            const hasFile = watermarkPdfBytes && watermarkPdfBytes.byteLength > 0;
-            watermarkAddBtn.disabled = !hasFile;
-            watermarkOptions.classList.toggle('hidden', !hasFile);
-            if(hasFile) updateWatermarkPreview();
-        });
-
-        watermarkImageInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) {
-                watermarkImage = { bytes: null, type: null };
-                return;
-            };
-            watermarkImage.bytes = await file.arrayBuffer();
-            watermarkImage.type = file.type;
-            updateWatermarkPreview();
-        });
-
-        watermarkTypeRadios.forEach(radio => radio.addEventListener('change', () => {
-            const isText = document.querySelector('input[name="watermark-type"]:checked').value === 'text';
-            watermarkTextOptions.classList.toggle('hidden', !isText);
-            watermarkImageOptions.classList.toggle('hidden', isText);
-            updateWatermarkPreview();
-        }));
-
-        watermarkControls.forEach(id => document.getElementById(id).addEventListener('input', updateWatermarkPreview));
-
-        async function updateWatermarkPreview() {
-            if (!watermarkPdfBytes) return;
-            const pdfDoc = await pdfjsLib.getDocument({ data: watermarkPdfBytes.slice(0) }).promise;
-            const page = await pdfDoc.getPage(1);
-            const viewport = page.getViewport({ scale: 1 });
-            
-            const canvas = watermarkPreviewCanvas;
-            const context = canvas.getContext('2d');
-            const scale = Math.min(250 / viewport.width, 250 / viewport.height);
-            const scaledViewport = page.getViewport({ scale });
-            canvas.height = scaledViewport.height;
-            canvas.width = scaledViewport.width;
-
-            await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
-
-            const opacity = parseFloat(document.getElementById('watermark-opacity').value);
-            context.globalAlpha = opacity;
-
-            const isText = document.querySelector('input[name="watermark-type"]:checked').value === 'text';
-
-            if (isText) {
-                const text = document.getElementById('watermark-text').value;
-                const fontSize = parseInt(document.getElementById('watermark-font-size').value, 10) * scale;
-                const color = document.getElementById('watermark-color').value;
-                
-                context.font = `bold ${fontSize}px Helvetica`;
-                context.fillStyle = color;
-                context.textAlign = 'center';
-                context.textBaseline = 'middle';
-
-                context.save();
-                context.translate(canvas.width / 2, canvas.height / 2);
-                context.rotate(-0.25 * Math.PI);
-                context.fillText(text, 0, 0);
-                context.restore();
-            } else if (watermarkImage.bytes) {
-                const image = await (new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => resolve(img);
-                    img.onerror = reject;
-                    img.src = URL.createObjectURL(new Blob([watermarkImage.bytes]));
-                }));
-                context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            }
-            context.globalAlpha = 1.0;
-        }
-
-        watermarkAddBtn.addEventListener('click', async () => {
-            if (!watermarkPdfBytes) return;
-            const isText = document.querySelector('input[name="watermark-type"]:checked').value === 'text';
-            if (!isText && !watermarkImage.bytes) {
-                alert('Please select an image for the watermark.');
-                return;
-            }
-
-            watermarkAddBtn.disabled = true;
-            watermarkAddBtn.innerHTML = '<i data-feather="loader" class="animate-spin inline-block mr-2"></i>Adding Watermark...';
-            feather.replace();
-
-            try {
-                const pdfDoc = await PDFDocument.load(watermarkPdfBytes.slice(0), { ignoreEncryption: true });
-                const pages = pdfDoc.getPages();
-                const opacity = parseFloat(document.getElementById('watermark-opacity').value);
-
-                if (isText) {
-                    const text = document.getElementById('watermark-text').value;
-                    const fontSize = parseInt(document.getElementById('watermark-font-size').value, 10);
-                    const colorHex = document.getElementById('watermark-color').value;
-                    const color = rgb(
-                        parseInt(colorHex.slice(1, 3), 16) / 255,
-                        parseInt(colorHex.slice(3, 5), 16) / 255,
-                        parseInt(colorHex.slice(5, 7), 16) / 255
-                    );
-                    const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
-
-                    for (const page of pages) {
-                        const { width, height } = page.getSize();
-                        page.drawText(text, {
-                            x: width / 2,
-                            y: height / 2,
-                            size: fontSize,
-                            font,
-                            color,
-                            rotate: degrees(-45),
-                            xSkew: degrees(0),
-                            ySkew: degrees(0),
-                        });
-                    }
-                } else {
-                    let embeddedImage;
-                    if (watermarkImage.type === 'image/png') {
-                        embeddedImage = await pdfDoc.embedPng(watermarkImage.bytes);
-                    } else if (watermarkImage.type === 'image/jpeg') {
-                        embeddedImage = await pdfDoc.embedJpg(watermarkImage.bytes);
-                    } else {
-                        throw new Error('Unsupported image type. Please use PNG or JPG.');
-                    }
-
-                    for (const page of pages) {
-                        const { width, height } = page.getSize();
-                        page.drawImage(embeddedImage, {
-                            x: 0,
-                            y: 0,
-                            width: width,
-                            height: height,
-                            opacity,
-                        });
-                    }
-                }
-
-                const newPdfBytes = await pdfDoc.save();
-                if (typeof saveAs !== 'undefined') {
-                    saveAs(new Blob([newPdfBytes], { type: 'application/pdf' }), 'Infiniteforge_watermarked.pdf');
-                } else {
-                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'Infiniteforge_watermarked.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                }
-
-            } catch (e) {
-                alert('An error occurred while adding the watermark: ' + e.message);
-                console.error(e);
-            } finally {
-                watermarkAddBtn.disabled = false;
-                watermarkAddBtn.innerHTML = '<i data-feather="droplet" class="inline-block mr-2"></i>Add Watermark';
-                feather.replace();
-            }
-        });
-
-        // Security features
-        // Disable right-click
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // Disable keyboard shortcuts for developer tools
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
-                (e.ctrlKey && e.key === 'U') ||
-                (e.ctrlKey && e.key === 'S')) {
-                e.preventDefault();
-            }
-        });
-
-        // Detect developer tools
-        let devtools = {open: false, orientation: null};
-        const threshold = 160;
-        setInterval(() => {
-            if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
-                if (!devtools.open) {
-                    devtools.open = true;
-                    alert('Developer tools detected! This action is not allowed.');
-                }
-            } else {
-                devtools.open = false;
-            }
-        }, 500);
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
-
-
-
+</body></html>

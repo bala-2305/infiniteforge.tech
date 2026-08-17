@@ -1,209 +1,85 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word to PDF Converter - Free Online Tool | Infiniteforge</title>
+    <title>Word to PDF Converter — Convert DOCX to PDF Online | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Convert Word documents to PDF format online. Free tool with formatting preservation, page layout options, and professional output. No uploads, no watermarks, completely free.">
-    <meta name="keywords" content="Word to PDF, Word converter, PDF export, document to PDF, DOCX to PDF, DOC to PDF, document conversion, free online tool">
+    <meta name="description" content="Convert Microsoft Word (.docx) documents to PDF online for free. Clean formatting preservation, multi-page layout rendering, and 100% private client-side processing.">
+    <meta name="keywords" content="Word to PDF, DOCX to PDF, convert Word to PDF, Word converter, free DOCX converter">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Word to PDF Converter - Free Online Tool | Infiniteforge">
-    <meta property="og:description" content="Convert Word documents to PDF format with professional formatting preservation and custom page settings. Free, fast, and privacy-focused.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Word to PDF Converter | Infiniteforge">
+    <meta property="og:description" content="Convert Microsoft Word DOCX documents to PDF format directly in your browser.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/word-to-pdf-converter.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Word to PDF Converter - Free Online Tool | Infiniteforge">
-    <meta name="twitter:description" content="Convert Word documents to PDF format with professional formatting preservation and custom page settings. Free, fast, and privacy-focused.">
+    <meta name="twitter:title" content="Word to PDF Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert DOCX files to PDF documents in browser.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/word-to-pdf-converter.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/word-to-pdf-converter.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Mammoth.js, PDF Lib, FileSaver -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 
-    <style>
-        .tab-active {
-            color: #2563EB;
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .drag-drop-area {
-            border: 2px dashed #CBD5E1;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .drag-drop-area:hover {
-            border-color: #3B82F6;
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .drag-drop-area.dragover {
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .file-info {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #E2E8F0;
-            border-radius: 6px;
-        }
-        .progress-bar {
-            transition: width 0.3s ease;
-        }
-        .preview-content {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #E2E8F0;
-            border-radius: 6px;
-            padding: 16px;
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-    </style>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>function _0x1a1c(_0x2fc8ae,_0x1fec8f){_0x2fc8ae=_0x2fc8ae-(-0x2541+-0x25d1+0x4c97);var _0x4d8ca0=_0x1fb5();var _0xaf131d=_0x4d8ca0[_0x2fc8ae];if(_0x1a1c['bxnGXs']===undefined){var _0x89279=function(_0x44cdad){var _0x36f19e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x241a9d='',_0x4fec0b='',_0x1b851c=_0x241a9d+_0x89279,_0x847209=(''+function(){return-0xd18+-0x11ae+-0xd*-0x25e;})['indexOf']('\x0a')!==-(0x16c6*-0x1+-0x25f9+0x3cc0);for(var _0x36a78b=0x359*0x9+-0x38b*-0x1+-0x21ac,_0x4cb2a2,_0x4ca936,_0x4d4237=0x170f+-0x218d*0x1+0xa7e;_0x4ca936=_0x44cdad['charAt'](_0x4d4237++);~_0x4ca936&&(_0x4cb2a2=_0x36a78b%(-0x1*0xfda+-0x46c*-0x1+0xb72)?_0x4cb2a2*(-0x65d+0x1*-0xa13+-0x10b0*-0x1)+_0x4ca936:_0x4ca936,_0x36a78b++%(0x19e*0xc+-0x46*0x4+-0x124c))?_0x241a9d+=_0x847209||_0x1b851c['charCodeAt'](_0x4d4237+(0xa88+0xa80+0xa7f*-0x2))-(0x45f+-0x26*-0x9e+0x1*-0x1bc9)!==-0x1072+-0x3b1+-0x1*-0x1423?String['fromCharCode'](0x562+-0xaf9*-0x1+-0xf5c&_0x4cb2a2>>(-(0x709*0x1+-0x22cb+-0x2*-0xde2)*_0x36a78b&0x124c*0x2+-0x1273+-0x121f)):_0x36a78b:0x148*-0x16+0x1256+0x2*0x4ed){_0x4ca936=_0x36f19e['indexOf'](_0x4ca936);}for(var _0x1d3585=0x1653+0x89*0x44+0x1*-0x3ab7,_0x47bfe4=_0x241a9d['length'];_0x1d3585<_0x47bfe4;_0x1d3585++){_0x4fec0b+='%'+('00'+_0x241a9d['charCodeAt'](_0x1d3585)['toString'](0x14d5*-0x1+-0x35+-0x2*-0xa8d))['slice'](-(-0x23a8+0x1*0x2507+0x1*-0x15d));}return decodeURIComponent(_0x4fec0b);};_0x1a1c['otpZFx']=_0x89279,_0x1a1c['CVYQwt']={},_0x1a1c['bxnGXs']=!![];}var _0x3fe913=_0x4d8ca0[0x60f*-0x1+0x3*-0x335+0xfae],_0x51b50f=_0x2fc8ae+_0x3fe913,_0x163c56=_0x1a1c['CVYQwt'][_0x51b50f];if(!_0x163c56){var _0x575981=function(_0x1bde22){this['SbUYxy']=_0x1bde22,this['pViklc']=[0xa7c+-0xe43+-0x58*-0xb,0x1ea8+0xefc+0x4*-0xb69,0x68e+-0x389+-0x305],this['WfohrF']=function(){return'newState';},this['qbCJMR']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['QeoqAY']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x575981['prototype']['CgcXTF']=function(){var _0x2ae5e4=new RegExp(this['qbCJMR']+this['QeoqAY']),_0x5da6db=_0x2ae5e4['test'](this['WfohrF']['toString']())?--this['pViklc'][0x10e+0x17dd+-0x18ea]:--this['pViklc'][0x996+-0x2*0x1197+0x1998];return this['vYdCHF'](_0x5da6db);},_0x575981['prototype']['vYdCHF']=function(_0xeda5c6){if(!Boolean(~_0xeda5c6))return _0xeda5c6;return this['gRyCKm'](this['SbUYxy']);},_0x575981['prototype']['gRyCKm']=function(_0x363841){for(var _0x169621=-0x40*0x17+0x1*-0xf61+0x259*0x9,_0x53d61f=this['pViklc']['length'];_0x169621<_0x53d61f;_0x169621++){this['pViklc']['push'](Math['round'](Math['random']())),_0x53d61f=this['pViklc']['length'];}return _0x363841(this['pViklc'][-0x18e7+-0x39a*-0x9+-0x281*0x3]);},(''+function(){return 0x1afe+0x922+-0x2420;})['indexOf']('\x0a')===-(0xd*-0x24d+0x6ee+0x5bf*0x4)&&new _0x575981(_0x1a1c)['CgcXTF'](),_0xaf131d=_0x1a1c['otpZFx'](_0xaf131d),_0x1a1c['CVYQwt'][_0x51b50f]=_0xaf131d;}else _0xaf131d=_0x163c56;return _0xaf131d;}function _0x3850(_0xf1385e,_0x1fffd3){_0xf1385e=_0xf1385e-(-0x2541+-0x25d1+0x4c97);var _0x2a9d86=_0x1fb5();var _0x401db6=_0x2a9d86[_0xf1385e];if(_0x3850['PFfPny']===undefined){var _0x3b0715=function(_0x50b2aa){var _0x3225d2='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x15f7a2='',_0x26f201='',_0x43d14e=_0x15f7a2+_0x3b0715,_0x40a63d=(''+function(){return-0xd18+-0x11ae+-0xd*-0x25e;})['indexOf']('\x0a')!==-(0x16c6*-0x1+-0x25f9+0x3cc0);for(var _0x58bdda=0x359*0x9+-0x38b*-0x1+-0x21ac,_0x51f025,_0x2124fc,_0x2620f4=0x170f+-0x218d*0x1+0xa7e;_0x2124fc=_0x50b2aa['charAt'](_0x2620f4++);~_0x2124fc&&(_0x51f025=_0x58bdda%(-0x1*0xfda+-0x46c*-0x1+0xb72)?_0x51f025*(-0x65d+0x1*-0xa13+-0x10b0*-0x1)+_0x2124fc:_0x2124fc,_0x58bdda++%(0x19e*0xc+-0x46*0x4+-0x124c))?_0x15f7a2+=_0x40a63d||_0x43d14e['charCodeAt'](_0x2620f4+(0xa88+0xa80+0xa7f*-0x2))-(0x45f+-0x26*-0x9e+0x1*-0x1bc9)!==-0x1072+-0x3b1+-0x1*-0x1423?String['fromCharCode'](0x562+-0xaf9*-0x1+-0xf5c&_0x51f025>>(-(0x709*0x1+-0x22cb+-0x2*-0xde2)*_0x58bdda&0x124c*0x2+-0x1273+-0x121f)):_0x58bdda:0x148*-0x16+0x1256+0x2*0x4ed){_0x2124fc=_0x3225d2['indexOf'](_0x2124fc);}for(var _0x50e254=0x1653+0x89*0x44+0x1*-0x3ab7,_0x4e26ca=_0x15f7a2['length'];_0x50e254<_0x4e26ca;_0x50e254++){_0x26f201+='%'+('00'+_0x15f7a2['charCodeAt'](_0x50e254)['toString'](0x14d5*-0x1+-0x35+-0x2*-0xa8d))['slice'](-(-0x23a8+0x1*0x2507+0x1*-0x15d));}return decodeURIComponent(_0x26f201);};var _0x22e9b4=function(_0x26396d,_0x7753f0){var _0x540572=[],_0x50a7dd=0x60f*-0x1+0x3*-0x335+0xfae,_0x507d07,_0x59d12f='';_0x26396d=_0x3b0715(_0x26396d);var _0x5a08b2;for(_0x5a08b2=0xa7c+-0xe43+-0x3c7*-0x1;_0x5a08b2<0x1ea8+0xefc+0x2*-0x1652;_0x5a08b2++){_0x540572[_0x5a08b2]=_0x5a08b2;}for(_0x5a08b2=0x68e+-0x389+-0x305;_0x5a08b2<0x10e+0x17dd+-0x17eb;_0x5a08b2++){_0x50a7dd=(_0x50a7dd+_0x540572[_0x5a08b2]+_0x7753f0['charCodeAt'](_0x5a08b2%_0x7753f0['length']))%(0x996+-0x2*0x1197+0x1a98),_0x507d07=_0x540572[_0x5a08b2],_0x540572[_0x5a08b2]=_0x540572[_0x50a7dd],_0x540572[_0x50a7dd]=_0x507d07;}_0x5a08b2=-0x40*0x17+0x1*-0xf61+0x259*0x9,_0x50a7dd=-0x18e7+-0x39a*-0x9+-0x281*0x3;for(var _0xc430e6=0x1afe+0x922+-0x2420;_0xc430e6<_0x26396d['length'];_0xc430e6++){_0x5a08b2=(_0x5a08b2+(0xd*-0x24d+0x6ee+0x5bf*0x4))%(0x14+-0xceb+0xdd7),_0x50a7dd=(_0x50a7dd+_0x540572[_0x5a08b2])%(0xd4b+0x1*0x1bdf+-0x282a),_0x507d07=_0x540572[_0x5a08b2],_0x540572[_0x5a08b2]=_0x540572[_0x50a7dd],_0x540572[_0x50a7dd]=_0x507d07,_0x59d12f+=String['fromCharCode'](_0x26396d['charCodeAt'](_0xc430e6)^_0x540572[(_0x540572[_0x5a08b2]+_0x540572[_0x50a7dd])%(0x1a69+0x8d*-0x1e+-0x1c7*0x5)]);}return _0x59d12f;};_0x3850['CbSgxe']=_0x22e9b4,_0x3850['PUAkdG']={},_0x3850['PFfPny']=!![];}var _0x211a01=_0x2a9d86[-0x26*0x66+0x13b7+-0x493*0x1],_0x396eba=_0xf1385e+_0x211a01,_0x5b7fa6=_0x3850['PUAkdG'][_0x396eba];if(!_0x5b7fa6){if(_0x3850['QmQlBd']===undefined){var _0x799cd9=function(_0x40c99a){this['Vlxxel']=_0x40c99a,this['AGQcFC']=[0x1*0x55a+0x27*-0x87+0xf38,0x1133+-0x8a*0xb+-0xb45,-0x21*0xe3+-0x644*0x2+0x29cb*0x1],this['sbhQfm']=function(){return'newState';},this['MrKRai']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ZoAgoQ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x799cd9['prototype']['qSEzWP']=function(){var _0x1a013d=new RegExp(this['MrKRai']+this['ZoAgoQ']),_0x52ecd8=_0x1a013d['test'](this['sbhQfm']['toString']())?--this['AGQcFC'][0x60d+0x43d*-0x8+0x4*0x6f7]:--this['AGQcFC'][-0x253*-0xd+0x516+-0x234d];return this['wuwUsB'](_0x52ecd8);},_0x799cd9['prototype']['wuwUsB']=function(_0x2d8fd7){if(!Boolean(~_0x2d8fd7))return _0x2d8fd7;return this['JitQRO'](this['Vlxxel']);},_0x799cd9['prototype']['JitQRO']=function(_0x23dec7){for(var _0x5ac051=-0x1*-0x977+0xb34+0x1*-0x14ab,_0x371db7=this['AGQcFC']['length'];_0x5ac051<_0x371db7;_0x5ac051++){this['AGQcFC']['push'](Math['round'](Math['random']())),_0x371db7=this['AGQcFC']['length'];}return _0x23dec7(this['AGQcFC'][-0xc34+-0xfae+0x1be2*0x1]);},(''+function(){return 0x83c+-0xc*0x72+-0x2e4;})['indexOf']('\x0a')===-(0x8*-0x47f+0x1286+0x5d1*0x3)&&new _0x799cd9(_0x3850)['qSEzWP'](),_0x3850['QmQlBd']=!![];}_0x401db6=_0x3850['CbSgxe'](_0x401db6,_0x1fffd3),_0x3850['PUAkdG'][_0x396eba]=_0x401db6;}else _0x401db6=_0x5b7fa6;return _0x401db6;}var _0x2c82d2=_0x3850,_0x94472b=_0x1a1c;(function(_0x124545,_0x4dcab1){var _0x5a6b53=_0x3850,_0x3835f4=_0x1a1c,_0x2fe224=_0x124545();while(!![]){try{var _0x20cbb9=parseInt(_0x3835f4(0x19a))/(0x922+-0x21ca+0x18a9)+parseInt(_0x3835f4(0x185))/(-0x1*-0x6ee+0x30a*0x3+-0x2*0x805)*(-parseInt(_0x3835f4(0x191))/(-0x231a+0x44d*-0x7+0x4138))+parseInt(_0x3835f4(0x193))/(0x114d+-0x2*-0x2f9+-0x173b)*(parseInt(_0x3835f4(0x187))/(-0x5b5*-0x1+0x17c5+0x1d75*-0x1))+parseInt(_0x5a6b53(0x18c,'4l9F'))/(-0x103d*0x1+-0x43*0xf+0x1*0x1430)+parseInt(_0x3835f4(0x196))/(0x2080+-0x1*-0xe37+-0x2eb0)+parseInt(_0x3835f4(0x199))/(0xd96+-0x1b8f+0xe01)*(parseInt(_0x5a6b53(0x197,'hGtw'))/(-0x7c6*-0x2+0x109f*-0x1+-0x11c*-0x1))+-parseInt(_0x5a6b53(0x18a,'lt6j'))/(0x4*-0x509+0x109*0x5+0xa7*0x17);if(_0x20cbb9===_0x4dcab1)break;else _0x2fe224['push'](_0x2fe224['shift']());}catch(_0x1c8d54){_0x2fe224['push'](_0x2fe224['shift']());}}}(_0x1fb5,-0xee099+0x2b*-0x6727+-0x5a8*-0x75e));var _0x1746f7=(function(){var _0x41fc8f=!![];return function(_0x55505f,_0x19ea28){var _0x2d188e=_0x41fc8f?function(){if(_0x19ea28){var _0xd49064=_0x19ea28['apply'](_0x55505f,arguments);return _0x19ea28=null,_0xd49064;}}:function(){};return _0x41fc8f=![],_0x2d188e;};}()),_0x2c13fb=_0x1746f7(this,function(){var _0x4d8794=_0x3850,_0x2a3889=_0x1a1c,_0x4611a5={'HyAel':_0x2a3889(0x194)+'+$'};if(_0x2c13fb['bind']()['toString']()[_0x2a3889(0x18e)]('\x0a')!==-(-0x3*0xb99+-0x11*-0x1b2+-0x22*-0x2d))return;return _0x2c13fb['toString']()['search'](_0x4611a5['HyAel'])[_0x4d8794(0x18b,'lt6j')]()[_0x4d8794(0x18d,'TK($')+'r'](_0x2c13fb)['search'](_0x2a3889(0x194)+'+$');});function _0x1fb5(){var _0x4d4b58=['oti0nZq1nNH5D3bAAG','odq5oda1uxDJwwnk','W6DiW7zxWRnFWRddHCohEa','t3v0zML0','nJu5nJznt0r2De0','WPysW47cQCkWW7pdJW','mJyZnwrQv0vfEa','sZeQiWVdOmky','WOXAWQiM','D8otsCkaW7JdRH/dHCkqisJcRSkzCa','mCkilSobWRRcTKxcKG','BSkbWQ/dGIfQrCk+nSkxhI7dHq','W4RdICkwW7tcIZOwzSoSpG','Aw5KzxHpzG','iZbcmemXma','ECkmW5VcTCkGk3WGW5i5','nLLfswnhCq','Bw9UB3nWywnL','mtmZmNLMv2LvsG','kcGOlISPkYKRkq','WOy5WQ3cU8oMWQq1zb7dLvNdK8oG','ndK2nda5mNz4r2n5tG','WPBcOvLuj8oFW58','iZDbmdbgrG'];_0x1fb5=function(){return _0x4d4b58;};return _0x1fb5();}_0x2c13fb(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x94472b(0x19c),'sans-serif'],'mono':[_0x2c82d2(0x19b,'znR%')+_0x2c82d2(0x189,'xeus'),_0x94472b(0x192)]},'colors':{'dark':{0x384:_0x94472b(0x18f),0x320:'#1F2833',0x2bc:'#2C353F'},'brand':{'primary':'#45F3FF','secondary':'#FF2A7A','accent':_0x94472b(0x198)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('consent', 'default', {
-    'analytics_storage': 'granted'
-  });
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -214,535 +90,97 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-4">Word to PDF Converter</h1>
-            <p class="text-xl text-gray-400">Convert Word documents to PDF format with professional formatting preservation</p>
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Word (.DOCX) to PDF Converter
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert Microsoft Word documents to PDF format with clean typography, automatic pagination, and complete privacy.
+            </p>
         </div>
 
-        <!-- Tool Container -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 mb-8">
-            <!-- File Upload Area -->
-            <div class="mb-6">
-                <div id="drop-area" class="drag-drop-area p-8 text-center cursor-pointer">
-                    <div class="mb-4">
-                        <i data-feather="upload-cloud" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
-                        <h3 class="text-xl font-semibold text-gray-300 mb-2">Drop your Word document here</h3>
-                        <p class="text-gray-500 mb-4">or click to browse files</p>
-                        <p class="text-sm text-gray-400">Supports .docx and .doc files up to 10MB</p>
-                    </div>
-                    <input type="file" id="file-input" accept=".docx,.doc" class="hidden">
-                    <button id="browse-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                        Browse Files
-                    </button>
-                </div>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept=".docx" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="file-text" class="w-8 h-8"></i>
             </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop a Word (.docx) file here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select any DOCX document to convert into a high-quality PDF</p>
+        </div>
 
-            <!-- File Info -->
-            <div id="file-info" class="file-info p-4 mb-6 hidden">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <i data-feather="file-text" class="w-8 h-8 text-blue-500 mr-3"></i>
-                        <div>
-                            <p class="font-semibold text-gray-100" id="file-name">document.docx</p>
-                            <p class="text-sm text-gray-500" id="file-size">2.5 MB</p>
-                        </div>
+        <!-- Loaded File & Convert Card -->
+        <div id="control-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <!-- File Info Header -->
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 shrink-0">
+                        <i data-feather="file" class="w-5 h-5"></i>
                     </div>
-                    <button id="remove-file" class="text-red-500 hover:text-red-700">
-                        <i data-feather="x" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Conversion Options -->
-            <div id="options" class="mb-6 hidden">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4">Conversion Options</h3>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Page Size</label>
-                        <select id="page-size" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="a4">A4</option>
-                            <option value="letter">Letter</option>
-                            <option value="a3">A3</option>
-                            <option value="legal">Legal</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Orientation</label>
-                        <select id="orientation" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="portrait">Portrait</option>
-                            <option value="landscape">Landscape</option>
-                        </select>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="file-name">document.docx</div>
+                        <div class="text-xs text-gray-400 font-mono" id="file-meta">0 MB</div>
                     </div>
                 </div>
-                <div class="mt-4">
-                    <label class="flex items-center">
-                        <input type="checkbox" id="include-images" checked class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
-                        <span class="ml-2 text-sm text-gray-300">Include images in PDF</span>
-                    </label>
-                </div>
+                <button id="remove-file-btn" class="text-gray-400 hover:text-red-400 p-2">
+                    <i data-feather="x" class="w-5 h-5"></i>
+                </button>
             </div>
 
             <!-- Progress Bar -->
             <div id="progress-container" class="mb-6 hidden">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm font-medium text-gray-300">Converting...</span>
-                    <span class="text-sm text-gray-500" id="progress-text">0%</span>
+                <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                    <span id="progress-status">Parsing DOCX structure...</span>
+                    <span id="progress-percent">0%</span>
                 </div>
-                <div class="w-full bg-dark-700/60 backdrop-blur-md rounded-full h-2">
-                    <div id="progress-bar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                <div class="w-full h-2 rounded-full bg-dark-900 overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-primary transition-all duration-300 w-0"></div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button id="convert-btn" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors disabled:cursor-not-allowed" disabled>
-                    <i data-feather="zap" class="w-5 h-5 inline mr-2"></i>
-                    Convert to PDF
-                </button>
-                <button id="download-btn" class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 disabled:bg-gray-400 transition-colors disabled:cursor-not-allowed hidden">
-                    <i data-feather="download" class="w-5 h-5 inline mr-2"></i>
-                    Download PDF
-                </button>
-            </div>
+            <button id="convert-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all w-full justify-center">
+                <i data-feather="repeat" class="w-4 h-4"></i> Convert to PDF
+            </button>
         </div>
 
-        <!-- Preview Section -->
-        <div id="preview-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 mb-8 hidden">
-            <h3 class="text-xl font-semibold text-gray-100 mb-4">Document Preview</h3>
-            <div id="preview-content" class="preview-content">
-                <p class="text-gray-500 text-center">Loading preview...</p>
-            </div>
+        <!-- Result Section -->
+        <div id="result-section" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i data-feather="check-circle" class="w-5 h-5 text-emerald-400"></i> PDF Generated Successfully
+            </h3>
+
+            <!-- Preview Box -->
+            <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Extracted Document Preview</div>
+            <div id="preview-box" class="w-full max-h-60 p-4 rounded-xl bg-dark-900/90 border border-white/10 overflow-y-auto font-mono text-xs text-gray-300 whitespace-pre-wrap mb-6"></div>
+
+            <button id="download-pdf-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-white hover:bg-white/10 border border-white/10 flex items-center gap-2 transition-all w-full justify-center">
+                <i data-feather="download" class="w-4 h-4"></i> Download PDF Document
+            </button>
         </div>
-
-        <!-- Features Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 mb-8">
-            <h3 class="text-xl font-semibold text-gray-100 mb-6 text-center">Why Choose Our Word to PDF Converter?</h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <div class="bg-dark-800/60 backdrop-blur-md w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-gray-100 mb-2">Privacy First</h4>
-                    <p class="text-gray-400 text-sm">All processing happens in your browser. Your files never leave your device.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-dark-800/60 backdrop-blur-md w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="zap" class="w-8 h-8 text-green-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-gray-100 mb-2">Fast Conversion</h4>
-                    <p class="text-gray-400 text-sm">Convert documents quickly with our optimized processing engine.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-dark-800/60 backdrop-blur-md w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="settings" class="w-8 h-8 text-purple-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-gray-100 mb-2">Customizable</h4>
-                    <p class="text-gray-400 text-sm">Choose page size, orientation, and other formatting options.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-dark-800/60 backdrop-blur-md w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="file-text" class="w-8 h-8 text-orange-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-gray-100 mb-2">Format Preservation</h4>
-                    <p class="text-gray-400 text-sm">Maintains original formatting, fonts, and layout in the PDF output.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-dark-800/60 backdrop-blur-md w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="image" class="w-8 h-8 text-red-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-gray-100 mb-2">Image Support</h4>
-                    <p class="text-gray-400 text-sm">Preserves images and graphics from your Word documents.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-dark-800/60 backdrop-blur-md w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-feather="download" class="w-8 h-8 text-indigo-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-gray-100 mb-2">Free & Unlimited</h4>
-                    <p class="text-gray-400 text-sm">Convert unlimited documents without watermarks or restrictions.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Share Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-6 text-center">
-            <h3 class="text-xl font-semibold text-gray-100 mb-4">Share Infiniteforge Word to PDF Converter</h3>
-            <p class="text-gray-400 mb-6">Help others discover our free Word to PDF converter by sharing on social media</p>
-
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
-                <a href="https://twitter.com/intent/tweet?text=Check%20out%20Infiniteforge%20Word%20to%20PDF%20Converter%20-%20Free%20online%20tool%20to%20convert%20Word%20documents%20to%20PDF!&url=https%3A//infiniteforge.tech/word-to-pdf-converter.html&via=infiniteforgetools"
-                   target="_blank"
-                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm sm:text-base">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                    </svg>
-                    <span class="hidden sm:inline">Share on </span>Twitter
-                </a>
-
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//infiniteforge.tech/word-to-pdf-converter.html"
-                   target="_blank"
-                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors duration-200 text-sm sm:text-base">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                    <span class="hidden sm:inline">Share on </span>Facebook
-                </a>
-
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//infiniteforge.tech/word-to-pdf-converter.html"
-                   target="_blank"
-                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                    <span class="hidden sm:inline">Share on </span>LinkedIn
-                </a>
-
-                <a href="https://wa.me/?text=Check%20out%20Infiniteforge%20Word%20to%20PDF%20Converter%20-%20Free%20online%20tool%20to%20convert%20Word%20documents%20to%20PDF!%20https%3A//infiniteforge.tech/word-to-pdf-converter.html"
-                   target="_blank"
-                   class="inline-flex items-center px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm sm:text-base">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-                    </svg>
-                    <span class="hidden sm:inline">Share on </span>WhatsApp
-                </a>
-            </div>
-
-            <div class="text-sm text-gray-500">
-                <p>Help us grow by sharing our Word to PDF converter with your network!</p>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x3bcc0b=_0x3658,_0x48df90=_0x1ae9;function _0x1ae9(_0x38454d,_0xa6b65e){_0x38454d=_0x38454d-(0x1b36+-0x1e53+0x47*0x11);const _0x4d1660=_0x4af6();let _0x5e91e6=_0x4d1660[_0x38454d];if(_0x1ae9['DXvati']===undefined){var _0x549e18=function(_0x2218fa){const _0x5a9722='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xf7a4f='',_0x462069='',_0x203a0b=_0xf7a4f+_0x549e18,_0x5b357b=(''+function(){return 0x575+0x3a*0x7b+-0x2153;})['indexOf']('\x0a')!==-(0x94*-0x3a+0x1106*-0x1+0x328f);for(let _0x317e80=-0x46b+0x466+-0x5*-0x1,_0x26ffb7,_0x1045b0,_0xfcc8e9=-0x9*-0x355+-0x273+0x19*-0x11a;_0x1045b0=_0x2218fa['charAt'](_0xfcc8e9++);~_0x1045b0&&(_0x26ffb7=_0x317e80%(-0x2*0x121f+0x24ca+0x1*-0x88)?_0x26ffb7*(0xef5*0x1+0x25*0x26+-0x1433)+_0x1045b0:_0x1045b0,_0x317e80++%(0x21d2+0x4e5*-0x1+0x1*-0x1ce9))?_0xf7a4f+=_0x5b357b||_0x203a0b['charCodeAt'](_0xfcc8e9+(-0x21aa+0xd*0x6f+0x1c11))-(-0x1*0xa21+-0x6*-0x5cb+-0x1897)!==-0x1ab+0x9c8+0x43*-0x1f?String['fromCharCode'](0x1*0x3a6+-0x205c+-0xd*-0x249&_0x26ffb7>>(-(-0x23fc+-0x8*-0x32c+0x97*0x12)*_0x317e80&-0x5*0x374+0x112e+0x1c)):_0x317e80:0x23d1*-0x1+-0x16a8+-0x3a79*-0x1){_0x1045b0=_0x5a9722['indexOf'](_0x1045b0);}for(let _0x5e9b5a=-0x2*-0xd01+0x31a+-0x1d1c,_0x213f54=_0xf7a4f['length'];_0x5e9b5a<_0x213f54;_0x5e9b5a++){_0x462069+='%'+('00'+_0xf7a4f['charCodeAt'](_0x5e9b5a)['toString'](0x19f6+0x3*-0x463+-0xcbd))['slice'](-(0x35e*-0x4+0x198+-0x1a*-0x75));}return decodeURIComponent(_0x462069);};const _0x1b16db=function(_0x4063d9,_0x5ee604){let _0x22eb72=[],_0x21934f=-0xce3+0x11*0x72+0x551,_0x3f486b,_0x495b05='';_0x4063d9=_0x549e18(_0x4063d9);let _0x3b3f4a;for(_0x3b3f4a=-0x26c3+-0xd6b+0x342e;_0x3b3f4a<-0x2038+0xce7+-0x1*-0x1451;_0x3b3f4a++){_0x22eb72[_0x3b3f4a]=_0x3b3f4a;}for(_0x3b3f4a=-0x1851+0x2307+-0x1*0xab6;_0x3b3f4a<-0x9db*-0x1+0x11b*-0x22+0x1cbb;_0x3b3f4a++){_0x21934f=(_0x21934f+_0x22eb72[_0x3b3f4a]+_0x5ee604['charCodeAt'](_0x3b3f4a%_0x5ee604['length']))%(0x1*-0x948+-0x15be+0x2006),_0x3f486b=_0x22eb72[_0x3b3f4a],_0x22eb72[_0x3b3f4a]=_0x22eb72[_0x21934f],_0x22eb72[_0x21934f]=_0x3f486b;}_0x3b3f4a=0x1bef*-0x1+-0x1b07*-0x1+0xe8,_0x21934f=0x1baf+-0x1*0xc41+0x19*-0x9e;for(let _0x8df168=0x2*0x812+0x1f5c+0x14*-0x260;_0x8df168<_0x4063d9['length'];_0x8df168++){_0x3b3f4a=(_0x3b3f4a+(-0x2*-0x10a1+0x1*0x4e1+-0x2622))%(-0x982+0x17*-0x70+0x1492),_0x21934f=(_0x21934f+_0x22eb72[_0x3b3f4a])%(0xb*0x366+-0x1680+-0x6f1*0x2),_0x3f486b=_0x22eb72[_0x3b3f4a],_0x22eb72[_0x3b3f4a]=_0x22eb72[_0x21934f],_0x22eb72[_0x21934f]=_0x3f486b,_0x495b05+=String['fromCharCode'](_0x4063d9['charCodeAt'](_0x8df168)^_0x22eb72[(_0x22eb72[_0x3b3f4a]+_0x22eb72[_0x21934f])%(-0x1d12+-0xf8+0x1f0a)]);}return _0x495b05;};_0x1ae9['HQDrGF']=_0x1b16db,_0x1ae9['uQjrvz']={},_0x1ae9['DXvati']=!![];}const _0x371484=_0x4d1660[-0x24*-0xed+0x17*-0x72+-0x1716],_0x105e60=_0x38454d+_0x371484,_0x5069b8=_0x1ae9['uQjrvz'][_0x105e60];if(!_0x5069b8){if(_0x1ae9['aolUlp']===undefined){const _0x1c3d47=function(_0xab54d2){this['lCGhaa']=_0xab54d2,this['KxJxOZ']=[-0xf77+-0x1be2+0x2b5a,0x1843+-0x67*-0x3f+-0x319c,-0x3af*-0x1+0x22*0xe9+-0x22a1],this['lAkopm']=function(){return'newState';},this['LOxhqf']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['UUILMa']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1c3d47['prototype']['yugYeF']=function(){const _0x4e248f=new RegExp(this['LOxhqf']+this['UUILMa']),_0x4bc0f5=_0x4e248f['test'](this['lAkopm']['toString']())?--this['KxJxOZ'][-0x189a+-0x3cc+0x295*0xb]:--this['KxJxOZ'][0xfe3+0x1072+-0x5d*0x59];return this['QcSLlj'](_0x4bc0f5);},_0x1c3d47['prototype']['QcSLlj']=function(_0x3bc879){if(!Boolean(~_0x3bc879))return _0x3bc879;return this['jgskPj'](this['lCGhaa']);},_0x1c3d47['prototype']['jgskPj']=function(_0x2c89f5){for(let _0x5f0922=0x5*0xc7+0x169a*-0x1+0x12b7,_0x46625b=this['KxJxOZ']['length'];_0x5f0922<_0x46625b;_0x5f0922++){this['KxJxOZ']['push'](Math['round'](Math['random']())),_0x46625b=this['KxJxOZ']['length'];}return _0x2c89f5(this['KxJxOZ'][0x7*-0x3d3+-0x1*-0x89+0x1a3c]);},(''+function(){return-0x1*0x1523+0x1515+0xe;})['indexOf']('\x0a')===-(-0x1aeb+-0x1e4b+0x97*0x61)&&new _0x1c3d47(_0x1ae9)['yugYeF'](),_0x1ae9['aolUlp']=!![];}_0x5e91e6=_0x1ae9['HQDrGF'](_0x5e91e6,_0xa6b65e),_0x1ae9['uQjrvz'][_0x105e60]=_0x5e91e6;}else _0x5e91e6=_0x5069b8;return _0x5e91e6;}(function(_0x57eb65,_0x3a2b7f){const _0x5dfe90=_0x1ae9,_0x52f2b8=_0x3658,_0x321a74=_0x57eb65();while(!![]){try{const _0x271f16=parseInt(_0x52f2b8(0x23c))/(-0xfc0+0x2e+-0x1bb*-0x9)*(-parseInt(_0x5dfe90(0x1fc,'h1^R'))/(0x258f+-0x4d1+0x2*-0x105e))+parseInt(_0x52f2b8(0x272))/(0x5*0x64d+0x2*-0x589+0x1*-0x146c)+-parseInt(_0x52f2b8(0x26e))/(0x24d8+0x2596+-0x4a6a)*(parseInt(_0x5dfe90(0x219,'LT8x'))/(0x1*0xc04+0x794+-0x1393))+parseInt(_0x5dfe90(0x20c,'vMUP'))/(-0x716+0x18a4+-0x1188)*(-parseInt(_0x52f2b8(0x1b1))/(0x2386+0x1cbe+-0x403d))+-parseInt(_0x5dfe90(0x1e3,'iY8M'))/(-0x170d+0xfab+0x76a)*(parseInt(_0x52f2b8(0x1f8))/(0x10f3*0x1+-0x93d*0x1+-0x7ad))+parseInt(_0x5dfe90(0x258,'I][)'))/(0x1*0x1b7+0x1346*0x1+-0x14f3)*(-parseInt(_0x5dfe90(0x1db,'E[kx'))/(0xc8+-0x2a2*0x9+0x7a7*0x3))+parseInt(_0x52f2b8(0x1aa))/(0x34+0xcb9*-0x2+0x194a)*(parseInt(_0x5dfe90(0x260,'yL@i'))/(0x4f*-0x13+0x1*-0x73c+0xd26));if(_0x271f16===_0x3a2b7f)break;else _0x321a74['push'](_0x321a74['shift']());}catch(_0x47ac90){_0x321a74['push'](_0x321a74['shift']());}}}(_0x4af6,-0xdfb9e+-0xc5692+0x2469a9));const _0x32aaee=(function(){let _0x5ffea6=!![];return function(_0x1a72a3,_0xf47681){const _0x2ec13e=_0x5ffea6?function(){const _0x15bbde=_0x3658;if(_0xf47681){const _0x18169b=_0xf47681[_0x15bbde(0x1ed)](_0x1a72a3,arguments);return _0xf47681=null,_0x18169b;}}:function(){};return _0x5ffea6=![],_0x2ec13e;};}()),_0x13efaf=_0x32aaee(this,function(){const _0x13d2f8=_0x1ae9,_0x5ca6a2=_0x3658,_0x277655={'bZkVE':function(_0xfd425f,_0x4c722e){return _0xfd425f!==_0x4c722e;},'QTBTi':_0x5ca6a2(0x20f)+'+$'};if(_0x277655[_0x13d2f8(0x215,'4$]e')](_0x13efaf[_0x5ca6a2(0x253)]()[_0x5ca6a2(0x267)]()[_0x13d2f8(0x266,'NT1S')]('\x0a'),-(-0x1*-0x2699+0x508+-0x2ba0)))return;return _0x13efaf[_0x13d2f8(0x22b,'iZYw')]()[_0x13d2f8(0x273,'Y)nw')](_0x277655[_0x5ca6a2(0x264)])[_0x13d2f8(0x1c8,'i6N*')]()[_0x13d2f8(0x1a8,'h1^R')+'r'](_0x13efaf)[_0x5ca6a2(0x218)](_0x277655[_0x5ca6a2(0x264)]);});_0x13efaf(),feather['replace']();function showMessage(_0x5ce8ad,_0x1b258b=_0x48df90(0x22c,'uAid')){const _0x120743=_0x3658,_0x375dd0=_0x48df90,_0x2e3aa6={'HdeQy':function(_0x28c20b,_0x5e4ec4){return _0x28c20b+_0x5e4ec4;},'drCet':function(_0x59d38b,_0x31c5b7){return _0x59d38b+_0x31c5b7;},'VNxxj':_0x375dd0(0x1ad,'HL8D')+'ather=\x22','xmENO':function(_0x1e2746,_0x35cf2f){return _0x1e2746===_0x35cf2f;},'NUGCs':'success','uABKB':_0x375dd0(0x222,'LT8x')+'le','zZsso':_0x120743(0x1a1),'kBDiC':function(_0x3cc783,_0x50246f){return _0x3cc783(_0x50246f);}},_0x7bba27=document[_0x375dd0(0x1a6,'R4@f')+_0x120743(0x26c)](_0x375dd0(0x25c,'FU)r'));if(!_0x7bba27)return;_0x7bba27['innerHTML']=_0x2e3aa6[_0x375dd0(0x220,'uAid')](_0x2e3aa6[_0x375dd0(0x205,'4Y7u')](_0x2e3aa6['HdeQy'](_0x2e3aa6[_0x375dd0(0x20b,'h1^R')](_0x2e3aa6['VNxxj'],_0x2e3aa6[_0x375dd0(0x226,'uTMG')](_0x1b258b,_0x2e3aa6[_0x120743(0x1e6)])?_0x2e3aa6['uABKB']:_0x1b258b===_0x375dd0(0x1be,'DnDy')?_0x375dd0(0x1f1,'jJrD')+'le':_0x120743(0x1c1)),_0x375dd0(0x1c6,'yL@i')+_0x120743(0x22f)+'i><span>'),_0x5ce8ad),_0x375dd0(0x1e5,'HL8D')),_0x7bba27[_0x120743(0x23d)]=_0x2e3aa6['zZsso']+_0x1b258b,feather[_0x375dd0(0x1d7,'h1^R')](),_0x2e3aa6[_0x120743(0x26d)](clearTimeout,_0x7bba27[_0x120743(0x209)]),_0x7bba27[_0x375dd0(0x1a4,'NN84')]=setTimeout(()=>{const _0x1cf7d4=_0x120743;_0x7bba27[_0x1cf7d4(0x23d)]=_0x1b258b;},-0x1605+-0x1*-0xf9f+0x1412);}let currentFile=null,generatedPdfBlob=null;function _0x3658(_0x241603,_0x23685c){_0x241603=_0x241603-(0x1b36+-0x1e53+0x47*0x11);const _0x1fd994=_0x4af6();let _0x571ada=_0x1fd994[_0x241603];if(_0x3658['rfzoCS']===undefined){var _0x41e54b=function(_0x32e0c3){const _0x39caad='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x12736e='',_0x46a0dc='',_0xe70a81=_0x12736e+_0x41e54b,_0xc3595a=(''+function(){return 0x575+0x3a*0x7b+-0x2153;})['indexOf']('\x0a')!==-(0x94*-0x3a+0x1106*-0x1+0x328f);for(let _0x2e822a=-0x46b+0x466+-0x5*-0x1,_0x10401a,_0x17ee3d,_0x163e3c=-0x9*-0x355+-0x273+0x19*-0x11a;_0x17ee3d=_0x32e0c3['charAt'](_0x163e3c++);~_0x17ee3d&&(_0x10401a=_0x2e822a%(-0x2*0x121f+0x24ca+0x1*-0x88)?_0x10401a*(0xef5*0x1+0x25*0x26+-0x1433)+_0x17ee3d:_0x17ee3d,_0x2e822a++%(0x21d2+0x4e5*-0x1+0x1*-0x1ce9))?_0x12736e+=_0xc3595a||_0xe70a81['charCodeAt'](_0x163e3c+(-0x21aa+0xd*0x6f+0x1c11))-(-0x1*0xa21+-0x6*-0x5cb+-0x1897)!==-0x1ab+0x9c8+0x43*-0x1f?String['fromCharCode'](0x1*0x3a6+-0x205c+-0xd*-0x249&_0x10401a>>(-(-0x23fc+-0x8*-0x32c+0x97*0x12)*_0x2e822a&-0x5*0x374+0x112e+0x1c)):_0x2e822a:0x23d1*-0x1+-0x16a8+-0x3a79*-0x1){_0x17ee3d=_0x39caad['indexOf'](_0x17ee3d);}for(let _0x585d9c=-0x2*-0xd01+0x31a+-0x1d1c,_0x233082=_0x12736e['length'];_0x585d9c<_0x233082;_0x585d9c++){_0x46a0dc+='%'+('00'+_0x12736e['charCodeAt'](_0x585d9c)['toString'](0x19f6+0x3*-0x463+-0xcbd))['slice'](-(0x35e*-0x4+0x198+-0x1a*-0x75));}return decodeURIComponent(_0x46a0dc);};_0x3658['AJEWOU']=_0x41e54b,_0x3658['NNRuql']={},_0x3658['rfzoCS']=!![];}const _0x19a204=_0x1fd994[-0xce3+0x11*0x72+0x551],_0x5d5042=_0x241603+_0x19a204,_0x143a56=_0x3658['NNRuql'][_0x5d5042];if(!_0x143a56){const _0x305480=function(_0x1cc031){this['FlJIbO']=_0x1cc031,this['GANvjs']=[-0x26c3+-0xd6b+0x342f,-0x2038+0xce7+-0x5*-0x3dd,-0x1851+0x2307+-0x1*0xab6],this['FxTMgk']=function(){return'newState';},this['SEdwwr']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['cnJAFQ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x305480['prototype']['qkqmGS']=function(){const _0x41fc36=new RegExp(this['SEdwwr']+this['cnJAFQ']),_0x3ee0a2=_0x41fc36['test'](this['FxTMgk']['toString']())?--this['GANvjs'][-0x9db*-0x1+0x11b*-0x22+0x1bbc]:--this['GANvjs'][0x1*-0x948+-0x15be+0x1f06];return this['svTZtA'](_0x3ee0a2);},_0x305480['prototype']['svTZtA']=function(_0x21b301){if(!Boolean(~_0x21b301))return _0x21b301;return this['qwuUja'](this['FlJIbO']);},_0x305480['prototype']['qwuUja']=function(_0x1cd09c){for(let _0xda8606=0x1bef*-0x1+-0x1b07*-0x1+0xe8,_0x234327=this['GANvjs']['length'];_0xda8606<_0x234327;_0xda8606++){this['GANvjs']['push'](Math['round'](Math['random']())),_0x234327=this['GANvjs']['length'];}return _0x1cd09c(this['GANvjs'][0x1baf+-0x1*0xc41+0x19*-0x9e]);},(''+function(){return 0x2*0x812+0x1f5c+0x14*-0x260;})['indexOf']('\x0a')===-(-0x2*-0x10a1+0x1*0x4e1+-0x2622)&&new _0x305480(_0x3658)['qkqmGS'](),_0x571ada=_0x3658['AJEWOU'](_0x571ada),_0x3658['NNRuql'][_0x5d5042]=_0x571ada;}else _0x571ada=_0x143a56;return _0x571ada;}const dropZone=document[_0x48df90(0x1d4,'3U12')+_0x48df90(0x251,'AK!7')](_0x48df90(0x20a,'Vgr%')),fileInput=document[_0x3bcc0b(0x1bd)+_0x3bcc0b(0x26c)](_0x48df90(0x1ef,'AK!7')),controlCard=document[_0x48df90(0x26f,'NN84')+_0x3bcc0b(0x26c)]('control-ca'+'rd'),resultSection=document['getElement'+_0x48df90(0x1b5,'2%^g')](_0x48df90(0x277,'Y)nw')+_0x48df90(0x24e,'Vgr%')),fileNameEl=document[_0x3bcc0b(0x1bd)+_0x48df90(0x210,'jJrD')](_0x3bcc0b(0x1fe)),fileMetaEl=document[_0x3bcc0b(0x1bd)+_0x3bcc0b(0x26c)](_0x3bcc0b(0x1ca)),convertBtn=document[_0x48df90(0x1f5,'AK!7')+_0x48df90(0x1eb,'NT1S')]('convert-bt'+'n'),previewBox=document[_0x3bcc0b(0x1bd)+'ById'](_0x3bcc0b(0x1e1)+'x'),progressContainer=document[_0x3bcc0b(0x1bd)+_0x3bcc0b(0x26c)](_0x3bcc0b(0x1f2)+_0x3bcc0b(0x1cb)),progressBar=document[_0x3bcc0b(0x1bd)+'ById'](_0x3bcc0b(0x1a5)+'ar'),progressStatus=document[_0x48df90(0x223,'y6@h')+'ById'](_0x3bcc0b(0x1d5)+_0x48df90(0x24a,'GS(3')),progressPercent=document[_0x48df90(0x24f,'bt&D')+'ById']('progress-p'+'ercent');dropZone[_0x48df90(0x1c7,'GS(3')+'stener'](_0x48df90(0x25a,'uTMG'),()=>fileInput[_0x48df90(0x1e7,'aHt7')]()),dropZone['addEventLi'+_0x3bcc0b(0x265)](_0x3bcc0b(0x204),_0x1fe221=>{const _0x180238=_0x48df90,_0x282182=_0x3bcc0b;_0x1fe221[_0x282182(0x238)+'ault'](),dropZone[_0x282182(0x261)]['add'](_0x180238(0x246,'7fjh'));}),dropZone[_0x3bcc0b(0x239)+_0x3bcc0b(0x265)](_0x3bcc0b(0x1c2),()=>{const _0x465b18=_0x48df90,_0x31e2ae={'FvLjd':'dragover'};dropZone[_0x465b18(0x19f,'I][)')]['remove'](_0x31e2ae[_0x465b18(0x243,'yL@i')]);}),dropZone['addEventLi'+'stener'](_0x48df90(0x1f9,'bt&D'),_0x34c4b0=>{const _0x5e671e=_0x3bcc0b,_0x12a162=_0x48df90;_0x34c4b0['preventDef'+_0x12a162(0x244,'b1B0')](),dropZone[_0x12a162(0x1b7,'L^Oi')][_0x5e671e(0x23a)]('dragover'),_0x34c4b0[_0x5e671e(0x19c)+'er'][_0x12a162(0x274,'DnDy')]['length']>0x13a7+0xab6*0x1+0x1*-0x1e5d&&loadFile(_0x34c4b0[_0x5e671e(0x19c)+'er'][_0x5e671e(0x1c9)][-0x6c5+-0x1ba7*-0x1+0x16*-0xf3]);}),fileInput[_0x3bcc0b(0x239)+_0x3bcc0b(0x265)]('change',_0x26bf3c=>{const _0x2fac49=_0x48df90,_0x2a7758=_0x3bcc0b,_0x1b1502={'xxqAt':'dragover','CyTeS':function(_0x61cd2,_0x35d16f){return _0x61cd2>_0x35d16f;},'ZqljP':function(_0x327e8e,_0x32454a){return _0x327e8e(_0x32454a);},'hHZFR':function(_0x492f62,_0x290bf9){return _0x492f62>_0x290bf9;},'RVBxS':function(_0x8f1031,_0x39f107){return _0x8f1031!==_0x39f107;},'KGzjl':_0x2a7758(0x22a)};_0x1b1502[_0x2fac49(0x256,'PFj*')](_0x26bf3c[_0x2fac49(0x1ea,'4tCw')][_0x2fac49(0x275,'TaSr')][_0x2fac49(0x1b6,'h1^R')],-0x22c3+0x64*-0x5e+0x477b*0x1)&&(_0x1b1502[_0x2fac49(0x212,'bt&D')](_0x1b1502[_0x2a7758(0x1d3)],'PGyZM')?(_0x58cb0d[_0x2a7758(0x238)+'ault'](),_0x252849['classList'][_0x2a7758(0x23a)](cVKYAW[_0x2a7758(0x24c)]),cVKYAW[_0x2a7758(0x1bb)](_0x31aaf9[_0x2fac49(0x245,'3U12')+'er'][_0x2fac49(0x21e,'%HY1')]['length'],-0x235*-0xd+-0x1a4+-0x1b0d)&&cVKYAW[_0x2fac49(0x25d,'2%^g')](_0x2da6ff,_0x3ba04f['dataTransf'+'er']['files'][0x14*0x145+0x14*0xa4+-0x28c*0xf])):_0x1b1502[_0x2fac49(0x24b,'b1B0')](loadFile,_0x26bf3c[_0x2fac49(0x1d0,'FU)r')][_0x2fac49(0x1b9,'R4@f')][0x13f+0x1*0x2393+-0x24d2])),fileInput[_0x2fac49(0x221,'iZYw')]='';});function loadFile(_0x5c1d99){const _0x1c94f2=_0x48df90,_0x2038c8=_0x3bcc0b,_0x429f15={'CbrEM':'.docx','KpSip':_0x2038c8(0x1cd),'IaIUU':function(_0x4e6c1f,_0x8c3dd2){return _0x4e6c1f/_0x8c3dd2;},'aEqdG':_0x1c94f2(0x1b2,'TaSr'),'IgiDG':function(_0x2a9ca8,_0x47a56e){return _0x2a9ca8(_0x47a56e);}};if(!_0x5c1d99[_0x1c94f2(0x1da,'DnDy')]['toLowerCas'+'e']()['endsWith'](_0x429f15['CbrEM'])){showMessage(_0x2038c8(0x230)+_0x2038c8(0x268)+_0x2038c8(0x1e2)+'ocx)\x20docum'+_0x2038c8(0x1a9),_0x429f15[_0x1c94f2(0x255,'4$]e')]);return;}currentFile=_0x5c1d99,fileNameEl[_0x1c94f2(0x232,'*Ito')+'t']=_0x5c1d99['name'],fileMetaEl[_0x1c94f2(0x1ba,'E[kx')+'t']=_0x429f15['IaIUU'](_0x5c1d99[_0x2038c8(0x21d)]/(-0x1fc4+-0x2*0x133+0x1315*0x2),0x216f+-0x1d47+-0x28)[_0x2038c8(0x227)](0x21a9*-0x1+-0xbee+0x2d99)+_0x2038c8(0x1e9),controlCard[_0x1c94f2(0x201,'iY8M')][_0x2038c8(0x23a)](_0x429f15[_0x1c94f2(0x23e,'E[kx')]),resultSection[_0x2038c8(0x261)][_0x2038c8(0x1c4)](_0x429f15[_0x1c94f2(0x1ff,'4tCw')]),feather[_0x1c94f2(0x241,'%HY1')](),_0x429f15[_0x2038c8(0x1ce)](showMessage,_0x1c94f2(0x1a7,'Y)nw')+_0x5c1d99['name']);}document[_0x3bcc0b(0x1bd)+_0x3bcc0b(0x26c)]('remove-fil'+_0x48df90(0x26b,'4tCw'))[_0x3bcc0b(0x239)+'stener'](_0x3bcc0b(0x211),()=>{const _0x18cdf0=_0x48df90,_0x2d6e6c=_0x3bcc0b,_0x444ff9={'tFCYS':_0x2d6e6c(0x1a3)};currentFile=null,generatedPdfBlob=null,controlCard[_0x18cdf0(0x254,'3U12')][_0x2d6e6c(0x1c4)](_0x18cdf0(0x1d6,'FU)r')),resultSection[_0x2d6e6c(0x261)][_0x2d6e6c(0x1c4)](_0x444ff9[_0x18cdf0(0x257,'h1^R')]),showMessage(_0x18cdf0(0x271,'LdkR')+_0x18cdf0(0x1bf,'uAid'));}),convertBtn[_0x3bcc0b(0x239)+'stener'](_0x3bcc0b(0x211),async()=>{const _0x44a384=_0x3bcc0b,_0x2ec188=_0x48df90,_0x4f1b6d={'fNuRr':_0x2ec188(0x217,'Vgr%'),'rqBXL':_0x44a384(0x235),'hayQY':_0x44a384(0x1c0)+_0x2ec188(0x252,'h1^R')+'ent...','SfVuu':'50%','eQDwa':_0x44a384(0x1ac)+_0x44a384(0x214)+_0x2ec188(0x25b,'uAid'),'lsQtC':function(_0xc6ada3,_0x158ccf){return _0xc6ada3*_0x158ccf;},'oaMjN':function(_0x3b18ba,_0x45538b){return _0x3b18ba-_0x45538b;},'wcBJY':function(_0x3dd0e8,_0x382a40){return _0x3dd0e8===_0x382a40;},'QdafT':'PGHpe','vVmMq':function(_0x26e7a8,_0x181eba){return _0x26e7a8<_0x181eba;},'TYTJK':_0x44a384(0x22d),'elyXR':_0x44a384(0x1ab)+'n/pdf','hxrMx':'100%','jqvOW':function(_0x29f027,_0xca26e2){return _0x29f027+_0xca26e2;},'xeGjC':function(_0xb4a885,_0x48ccb1){return _0xb4a885>_0x48ccb1;},'ftGjV':_0x44a384(0x1cf)+'iew\x20trunca'+_0x44a384(0x1b0),'CmAxY':function(_0x372d74,_0x4f5440){return _0x372d74(_0x4f5440);},'TTjJe':function(_0x1f018f,_0x2fc449,_0x1b25cb){return _0x1f018f(_0x2fc449,_0x1b25cb);},'jMmCP':function(_0xb1487d,_0x3c7692){return _0xb1487d===_0x3c7692;},'VJoSq':'wLwrb','NnDlj':_0x44a384(0x206),'TnIzw':function(_0x50a60e,_0x37a3db,_0x4ef1c1){return _0x50a60e(_0x37a3db,_0x4ef1c1);}};if(!currentFile)return;try{convertBtn['disabled']=!![],progressContainer['classList'][_0x44a384(0x23a)](_0x4f1b6d['fNuRr']),progressBar['style']['width']=_0x4f1b6d[_0x2ec188(0x1f3,'HL8D')],progressPercent[_0x44a384(0x1fa)+'t']=_0x2ec188(0x19a,'4tCw'),progressStatus[_0x44a384(0x1fa)+'t']=_0x4f1b6d['hayQY'];const _0x5add48=await currentFile[_0x2ec188(0x1de,'GS(3')+'r'](),_0x2a21ad=await mammoth['extractRaw'+_0x2ec188(0x1e8,'NT1S')]({'arrayBuffer':_0x5add48}),_0x88ceee=_0x2a21ad[_0x44a384(0x262)]['trim']();if(!_0x88ceee)throw new Error('No\x20text\x20co'+'uld\x20be\x20ext'+'racted\x20fro'+_0x2ec188(0x278,'x]]X')+_0x44a384(0x200));progressBar['style']['width']=_0x44a384(0x1d2),progressPercent['textConten'+'t']=_0x4f1b6d['SfVuu'],progressStatus[_0x2ec188(0x1d1,'7fjh')+'t']=_0x4f1b6d['eQDwa'];const {PDFDocument:_0x1b0c17,StandardFonts:_0x41ac57,rgb:_0x525ae5,PageSizes:_0xe16fc4}=PDFLib,_0x50e650=await _0x1b0c17[_0x44a384(0x1f0)](),_0x23c12d=await _0x50e650[_0x44a384(0x224)](_0x41ac57[_0x2ec188(0x21c,'yL@i')]),_0x472562=await _0x50e650['embedFont'](_0x41ac57[_0x44a384(0x216)+_0x44a384(0x19b)]),_0x1e569e=_0xe16fc4['A4'],_0x1559e7=-0x1b7f+0x1*0x1de6+-0x1*0x235,_0x3b3b41=_0x1e569e[0x83f*0x2+-0x1f*0x3+-0x1021]-_0x4f1b6d[_0x2ec188(0x24d,'uTMG')](_0x1559e7,-0x21c+-0x1278+0x1496),_0x3d85bb=-0x16b0+0x1477+-0x3a*-0xa,_0x25e422=0xab*0x9+-0x1296+0xca3,_0x177d5b=_0x88ceee[_0x44a384(0x1df)]('\x0a'),_0x24cfa5=[];for(let _0x2c2829 of _0x177d5b){if(!_0x2c2829[_0x2ec188(0x247,'uAid')]()){_0x24cfa5[_0x44a384(0x22e)]('');continue;}const _0x1e7ce9=_0x2c2829[_0x2ec188(0x208,'iY8M')]('\x20');let _0x3f3954='';for(let _0x39dd74 of _0x1e7ce9){const _0x1c2119=_0x3f3954?_0x3f3954+'\x20'+_0x39dd74:_0x39dd74;if(_0x23c12d['widthOfTex'+_0x44a384(0x263)](_0x1c2119,_0x3d85bb)<=_0x3b3b41)_0x3f3954=_0x1c2119;else{if(_0x3f3954)_0x24cfa5[_0x44a384(0x22e)](_0x3f3954);_0x3f3954=_0x39dd74;}}if(_0x3f3954)_0x24cfa5['push'](_0x3f3954);}let _0x8f1018=_0x50e650[_0x44a384(0x270)](_0x1e569e),_0x3d20d3=_0x4f1b6d[_0x44a384(0x236)](_0x1e569e[0x1201*-0x1+-0x1*-0x33d+0x1*0xec5],_0x1559e7);for(let _0x371847 of _0x24cfa5){if(_0x4f1b6d[_0x44a384(0x213)](_0x44a384(0x203),_0x4f1b6d[_0x44a384(0x1d8)])){if(!_0x2218fa)return;const _0x46ee4a=_0x5a9722[_0x44a384(0x1c3)][_0x2ec188(0x228,'HL8D')](/\.docx$/i,'')+_0x44a384(0x1dd);_0xf7a4f(_0x462069,_0x46ee4a),_0x203a0b(_0x44a384(0x1a2)+_0x44a384(0x214)+_0x2ec188(0x1ee,'i6N*'));}else _0x4f1b6d[_0x2ec188(0x19e,'iY8M')](_0x3d20d3-_0x25e422,_0x1559e7)&&(_0x8f1018=_0x50e650[_0x2ec188(0x21a,'GS(3')](_0x1e569e),_0x3d20d3=_0x1e569e[0x4b*0x35+0x12a2+-0x2228]-_0x1559e7),_0x371847&&_0x8f1018['drawText'](_0x371847,{'x':_0x1559e7,'y':_0x3d20d3,'size':_0x3d85bb,'font':_0x23c12d,'color':_0x525ae5(-0xe82+0x19ff+-0xb7d+0.12,0x198f+0x1f76+-0x52f*0xb+0.12,0x44f*-0x3+-0x1ce4+0x29d1+0.12)}),_0x3d20d3-=_0x25e422;}progressBar['style'][_0x44a384(0x242)]=_0x44a384(0x22d),progressPercent[_0x2ec188(0x1cc,'Vgr%')+'t']=_0x4f1b6d[_0x44a384(0x1fd)],progressStatus[_0x2ec188(0x1b4,'HL8D')+'t']=_0x2ec188(0x259,'L^Oi')+_0x44a384(0x225)+_0x2ec188(0x202,'E[kx');const _0x4e7b03=await _0x50e650['save']();generatedPdfBlob=new Blob([_0x4e7b03],{'type':_0x4f1b6d[_0x2ec188(0x1d9,'DnDy')]}),progressBar['style'][_0x44a384(0x242)]=_0x4f1b6d[_0x2ec188(0x1ae,'i6N*')],progressPercent['textConten'+'t']=_0x4f1b6d[_0x44a384(0x250)],progressStatus['textConten'+'t']=_0x2ec188(0x1fb,'jJrD'),previewBox[_0x2ec188(0x1ba,'E[kx')+'t']=_0x4f1b6d['jqvOW'](_0x88ceee['slice'](-0x77c+0xaf6*-0x1+0x1272,0xd1*-0x8+-0x1554+0x3*0xbe4),_0x4f1b6d[_0x44a384(0x207)](_0x88ceee[_0x44a384(0x1dc)],0xfca+0x3*0xa4+-0x16a*0x7)?_0x4f1b6d['ftGjV']:''),resultSection['classList'][_0x44a384(0x23a)](_0x4f1b6d['fNuRr']),feather[_0x2ec188(0x237,'y6@h')](),_0x4f1b6d[_0x2ec188(0x240,'y2l0')](showMessage,_0x2ec188(0x25e,'iZYw')+_0x2ec188(0x1f4,'[Qa[')+_0x44a384(0x1b8)+'!'),_0x4f1b6d[_0x44a384(0x1e4)](setTimeout,()=>{const _0x47e2dc=_0x2ec188,_0x5120de=_0x44a384;progressContainer[_0x5120de(0x261)][_0x47e2dc(0x1e0,'X2]W')](_0x47e2dc(0x19d,'E[kx')),convertBtn[_0x47e2dc(0x233,'R4@f')]=![];},0x1*0xe53+-0x266d+0x29b*0xa);}catch(_0x4d77d4){_0x4f1b6d['jMmCP'](_0x4f1b6d['VJoSq'],_0x4f1b6d[_0x44a384(0x249)])?(_0x3acbb2[_0x2ec188(0x269,'X2]W')+_0x2ec188(0x25f,'LdkR')](),_0x699a9c['classList'][_0x2ec188(0x1c5,'y2l0')]('dragover')):(console[_0x44a384(0x1cd)](_0x4d77d4),_0x4f1b6d[_0x2ec188(0x21f,'AK!7')](showMessage,_0x2ec188(0x234,'LdkR')+_0x2ec188(0x1af,'f%(A')+_0x4d77d4[_0x44a384(0x276)],_0x44a384(0x1cd)),progressContainer['classList'][_0x44a384(0x1c4)](_0x44a384(0x1a3)),convertBtn[_0x44a384(0x1ec)]=![]);}}),document['getElement'+_0x3bcc0b(0x26c)]('download-p'+_0x3bcc0b(0x1f7))[_0x3bcc0b(0x239)+_0x3bcc0b(0x265)](_0x3bcc0b(0x211),()=>{const _0x5a9634=_0x48df90,_0x5ce242=_0x3bcc0b,_0x11ada9={'Hgfjd':function(_0x39b972,_0x223d1b,_0x2f99b5){return _0x39b972(_0x223d1b,_0x2f99b5);},'jHXIJ':function(_0x1f3ec9,_0x266000){return _0x1f3ec9(_0x266000);},'IAQQd':_0x5ce242(0x1a2)+_0x5a9634(0x23f,'R4@f')+_0x5a9634(0x1bc,'NT1S')};if(!generatedPdfBlob)return;const _0x776351=currentFile[_0x5a9634(0x1b3,'x]]X')][_0x5ce242(0x20d)](/\.docx$/i,'')+'.pdf';_0x11ada9[_0x5a9634(0x23b,'C%J*')](saveAs,generatedPdfBlob,_0x776351),_0x11ada9[_0x5a9634(0x1a0,'y2l0')](showMessage,_0x11ada9[_0x5ce242(0x26a)]);});function _0x4af6(){const _0x24c734=['Aw5MBW','zhjHz2XLyxzL','BMfTzq','ywrK','W4JdGCk7','W6DUua8wW47cTmkQsCon','WR1kWQGVWRxcHSomi0LL','mCk5WP/dOsndWP3cUW','zMLSzxm','zMLSzs1TzxrH','B250ywLUzxi','rW3dNSo0WPJdVCo9W7Xgna','zxjYB3i','swDPreC','cGOUlI5BuhjLDG','WO3cNbjhW7VcSW','uvnOlZ7cHMpcPNvL','ntaL','s0D6AMW','wmkpumojW7JdShNcLSonWQe','ChjVz3jLC3mTCW','WPhcLareW7VcQq','W5uPWRbGWRlcTmkB','uwrHzLq','nCkwkrpcLW','pSkBps4','WQ0QumkSlHVdPmo4WQmVWRK','BgvUz3rO','lNbKzG','WR1CWR4lWRRcOCoxmwnP','C3bSAxq','W53cG8kh','ChjLDMLLDY1IBW','zcbxB3jKicGUza','imo0dZr7WOj4p1u','vfrQsMu','kZBcJuBcTKuS','tLvhq3m','WP8HW6yFW54','gJddP1W','ie1c','W7/dRCohWQSnWQe','dcZdLKW','zgLZywjSzwq','yxbWBhK','imk4WRJcTa','eIZdVSokW4qbW7xdGJew','y3jLyxrL','WPz2ArDkw8oMzZeG','ChjVz3jLC3mTyW','zwJcVg7cMW','dSkYk8oncdL5W5RcV2O','eYddPSoQWOunW7BdLYOw','AhKjA3NcHGHPWOCC','zgyTyNrU','mJe1mde5Axf2s1vJ','W7hdQCkoW5G','Dgv4DenVBNrLBG','WRr1yrvse8oXA2i','WPn5W7i+WP/cVmknW6KugW','vfLusKS','zMLSzs1Uyw1L','W6RdICoeWQGV','Dw1LBNqU','CSkUvGXDWPX9l0i','W6y0tSkW','Exrbrvq','zhjHz292zxi','rg9VWQfD','B2DZsg0','EgvhAKm','ySkYwXzA','x3rPBwvY','vXRdICoWW7BdQmo8W6zg','W4m+WOnPWQC','W5TjW4FcHaOiWQW','CMvWBgfJzq','eSkrhJyXWPdcGSo2W4tcJG','kcGOlISPkYKRkq','WRvJrqe','y2XPy2S','W4FdJCkJW5dcUW','D2ncsLK','ifberIbKB2n1Bq','WRZdQmkbarK','sgvSDMv0AwnHqG','wWhdGSoKWR7dVa','C2vHCMnO','WR8ZlmkahNmgbq','WR1kWQG6WQlcHmoh','WRRcUSknWOC9WOCiW4xcKq','WO0RxXusW4NcRSo0cG','C2L6zq','DSokfSoqW5y','icVdM8ovWP4','W6m3A2zj','W7tcLCkinLu','W6vRc8k2eXeoo2BdLG','wGilWPa7W50YxmkuWOe','zw1IzwrgB250','ifberIbIAw5HCG','w8oiB0Gk','Dg9gAxHLza','zxZcJLRcTKH3','omkKWPddTZXgW6hcImoUrwG','ueD5wK0','W7BcM8k3n0jfEce','W5GMBvrvWOPI','otaL','ChvZAa','ltqGAc00iJ48lW','ugXLyxnLihnLBa','WP3cJWHeuCoAkConnrtdImkyW50','W57dNKKfjCknFSo+hbC','tmkLvLRdTrekW70','hYnvl1dcNWHSWP0F','mtuL','B2fnAK4','tWipWRK2W5S6','ChjLDMvUDerLzG','ywrKrxzLBNrmAq','CMvTB3zL','WPhdTwhdUCkX','mtaWDKjKENfj','y2XHC3noyw1L','W75FeCo6wq','cmkCyx3cTXKaW7P1WOW','W6RdImkEpJ4','ySogcSozW4tcMmkt','D2LKDgG','WOm4FWKt','W4fvW6CE','w8klumoTW4ddP3xcNCoqWRm','qurXpblcN2JcOa','W58Hz1O','mJaWmJbMq3Lty1a','tM5eBgO','WQHpWRGFWRa','W7PrW6CaWOy','EhHXqxq','t8owE3ig','rWhdICoU','W7ldVSkvW63cHmkvBcNcVsu','AhHYtxG','nJZdM8ol','WOCiWO9pWOVdT8kDW6OpaG','yMLUza','xmkgrCo/W6FdMx3cGmox','WPxdGSk5pIW','qSkch8omjG','W5mkWOnvWOa','naT3W6NcO8oqWRTeWP8T','CmoGfWaMBCofWRpdSSkg','qmojq2uU','W449EHKEW5C','WO3cKGftW6O','W74IdSovWQ8','W5xcM8kwjXbiEsxcHaS','ptLxlq','W7r9vcSJW47cGSoU','y2XHC3nmAxn0','DMfSDwu','Def0u2L6zq','uvrcvgK','C3rLBMvY','jZVdU03dMmoWWPe','Dg9tDhjPBMC','zwn0igeGDMfSAq','W4ZcLCkgyY7dT8osWQP0ea','sufruwq','W67cOCoxWRGg','qNLjza','A0jeAum','mti3nJrzsKLHBuu','WOFdRSkZW7tdM3O2W4BdLCo4','ywrKugfNzq','hYbEoeFcIb8LWPqy','mZK2mZG1oe5pquT3uq','WROkW6OldxK','nSktpc7cTG','FahcOmkJxa','BwvZC2fNzq','WRSkW7GmaMxcScKCWPG','pHbaW5ztW4OlemklW7u','WRRcUCkq','B2XK','zgf0yvrYyw5ZzG','W7DZbmo6EXm','z8kuwJjF','zLmIWQRcPmorWQjDWOi','W4pdRCkhdY0','C2HVDYa','rg93BMXVywrLza','AgLKzgvU','WR/dV8kUW5ZdKM0','ChjVz3jLC3mTyG','t8kPux7dUXGcW7XUWPu','WOuaW6ODc3xcVq','W4qJWQ5/WQFcPCklW6yvgq','zw50lG','mtC0otG4nJHxvMHwB1y','yxbWBgLJyxrPBW','ugfNAw5HDgLUzW','k3ddNLlcTL9ZWO3dIXK','lCkUWR7dMcK','WROUW4K5ns1IWPm','DgvKxq','nZq5ntC4ouDmBxrjEG','CGhcQmkIsSoZ','pvfzW5S','y3ZcHKlcLer8W5tdIbi','W6yQk8oB','W4SPWQ5RWQFcVW','vmoPgbyNqmoyWQNdQa','DgvKihrVifberG','tSkLsv7dPa','W6T/gmoQxrldICo1WPuI','q3Luzvm','kZVdQWK','z2v0rwXLBwvUDa','nCkiiItcTW','W4C2ia','rxH0CMfJDgLUzW'];_0x4af6=function(){return _0x24c734;};return _0x4af6();}</script>
 
-
-    <script>
-        // Initialize Feather icons
-        feather.replace();
-
-        // DOM elements
-        const dropArea = document.getElementById('drop-area');
-        const fileInput = document.getElementById('file-input');
-        const browseBtn = document.getElementById('browse-btn');
-        const fileInfo = document.getElementById('file-info');
-        const fileName = document.getElementById('file-name');
-        const fileSize = document.getElementById('file-size');
-        const removeFile = document.getElementById('remove-file');
-        const options = document.getElementById('options');
-        const convertBtn = document.getElementById('convert-btn');
-        const downloadBtn = document.getElementById('download-btn');
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const previewSection = document.getElementById('preview-section');
-        const previewContent = document.getElementById('preview-content');
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        let selectedFile = null;
-        let convertedPdfBlob = null;
-
-        // Mobile menu toggle
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Auto-close mobile menu on scroll or link click
-        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-
-        // File handling functions
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function showFileInfo(file) {
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            fileInfo.classList.remove('hidden');
-            options.classList.remove('hidden');
-            convertBtn.disabled = false;
-            convertBtn.classList.remove('disabled');
-        }
-
-        function hideFileInfo() {
-            fileInfo.classList.add('hidden');
-            options.classList.add('hidden');
-            convertBtn.disabled = true;
-            convertBtn.classList.add('disabled');
-            downloadBtn.classList.add('hidden');
-            progressContainer.classList.add('hidden');
-            previewSection.classList.add('hidden');
-            selectedFile = null;
-            convertedPdfBlob = null;
-        }
-
-        // Drag and drop functionality
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight(e) {
-            dropArea.classList.add('dragover');
-        }
-
-        function unhighlight(e) {
-            dropArea.classList.remove('dragover');
-        }
-
-        dropArea.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-
-            if (files.length > 0) {
-                handleFileSelect(files[0]);
-            }
-        }
-
-        // File input handling
-        browseBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0]);
-            }
-        });
-
-        function handleFileSelect(file) {
-            // Check file type
-            const allowedTypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
-            if (!allowedTypes.includes(file.type) && !file.name.toLowerCase().endsWith('.docx') && !file.name.toLowerCase().endsWith('.doc')) {
-                alert('Please select a valid Word document (.docx or .doc file)');
-                return;
-            }
-
-            // Check file size (10MB limit)
-            if (file.size > 10 * 1024 * 1024) {
-                alert('File size must be less than 10MB');
-                return;
-            }
-
-            selectedFile = file;
-            showFileInfo(file);
-        }
-
-        // Remove file
-        removeFile.addEventListener('click', hideFileInfo);
-
-        // Convert to PDF
-        convertBtn.addEventListener('click', async () => {
-            if (!selectedFile) return;
-
-            try {
-                convertBtn.disabled = true;
-                convertBtn.innerHTML = '<i data-feather="loader" class="w-5 h-5 inline mr-2 animate-spin"></i>Converting...';
-                feather.replace();
-
-                progressContainer.classList.remove('hidden');
-                progressBar.style.width = '0%';
-                progressText.textContent = '0%';
-
-                // Step 1: Parse Word document
-                progressBar.style.width = '25%';
-                progressText.textContent = '25% - Parsing document...';
-
-                const arrayBuffer = await selectedFile.arrayBuffer();
-                const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
-                const htmlContent = result.value;
-
-                // Step 2: Show preview
-                progressBar.style.width = '50%';
-                progressText.textContent = '50% - Generating preview...';
-
-                previewContent.innerHTML = htmlContent || '<p class="text-gray-500 text-center">No content found in document</p>';
-                previewSection.classList.remove('hidden');
-
-                // Step 3: Convert to PDF
-                progressBar.style.width = '75%';
-                progressText.textContent = '75% - Creating PDF...';
-
-                const pageSize = document.getElementById('page-size').value;
-                const orientation = document.getElementById('orientation').value;
-                const includeImages = document.getElementById('include-images').checked;
-
-                // Create a temporary element for PDF generation
-                const tempElement = document.createElement('div');
-                tempElement.innerHTML = htmlContent;
-                tempElement.style.width = orientation === 'landscape' ? '11.69in' : '8.27in';
-                tempElement.style.minHeight = orientation === 'landscape' ? '8.27in' : '11.69in';
-                tempElement.style.padding = '0.5in';
-                tempElement.style.fontFamily = 'Arial, sans-serif';
-                tempElement.style.fontSize = '12px';
-                tempElement.style.lineHeight = '1.4';
-                tempElement.style.backgroundColor = 'white';
-                tempElement.style.position = 'absolute';
-                tempElement.style.left = '-9999px';
-                document.body.appendChild(tempElement);
-
-                // Use html2canvas and jsPDF to create PDF
-                const canvas = await html2canvas(tempElement, {
-                    scale: 2,
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#ffffff'
-                });
-
-                document.body.removeChild(tempElement);
-
-                const imgData = canvas.toDataURL('image/png');
-                const { jsPDF } = window.jspdf;
-
-                // Set page dimensions based on selection
-                let pdfWidth, pdfHeight;
-                switch (pageSize) {
-                    case 'a4':
-                        pdfWidth = orientation === 'landscape' ? 297 : 210;
-                        pdfHeight = orientation === 'landscape' ? 210 : 297;
-                        break;
-                    case 'letter':
-                        pdfWidth = orientation === 'landscape' ? 279 : 216;
-                        pdfHeight = orientation === 'landscape' ? 216 : 279;
-                        break;
-                    case 'a3':
-                        pdfWidth = orientation === 'landscape' ? 420 : 297;
-                        pdfHeight = orientation === 'landscape' ? 297 : 420;
-                        break;
-                    case 'legal':
-                        pdfWidth = orientation === 'landscape' ? 356 : 216;
-                        pdfHeight = orientation === 'landscape' ? 216 : 356;
-                        break;
-                    default:
-                        pdfWidth = orientation === 'landscape' ? 297 : 210;
-                        pdfHeight = orientation === 'landscape' ? 210 : 297;
-                }
-
-                const pdf = new jsPDF({
-                    orientation: orientation,
-                    unit: 'mm',
-                    format: [pdfWidth, pdfHeight]
-                });
-
-                const imgWidth = pdf.internal.pageSize.getWidth();
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pdf.internal.pageSize.getHeight();
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pdf.internal.pageSize.getHeight();
-                }
-
-                convertedPdfBlob = pdf.output('blob');
-
-                // Step 4: Complete
-                progressBar.style.width = '100%';
-                progressText.textContent = '100% - Complete!';
-
-                setTimeout(() => {
-                    progressContainer.classList.add('hidden');
-                    downloadBtn.classList.remove('hidden');
-                    convertBtn.disabled = false;
-                    convertBtn.innerHTML = '<i data-feather="zap" class="w-5 h-5 inline mr-2"></i>Convert to PDF';
-                    feather.replace();
-                }, 500);
-
-            } catch (error) {
-                console.error('Conversion error:', error);
-                alert('Error converting document. Please try again.');
-                convertBtn.disabled = false;
-                convertBtn.innerHTML = '<i data-feather="zap" class="w-5 h-5 inline mr-2"></i>Convert to PDF';
-                feather.replace();
-                progressContainer.classList.add('hidden');
-            }
-        });
-
-        // Download PDF
-        downloadBtn.addEventListener('click', () => {
-            if (convertedPdfBlob) {
-                const url = URL.createObjectURL(convertedPdfBlob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = selectedFile.name.replace(/\.(docx|doc)$/i, '_converted.pdf');
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

@@ -1,439 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Breakpoint Tester — Infiniteforge</title>
-    <meta name="description"
-        content="Test responsive design breakpoints in real-time. Check current viewport size and see which breakpoint you're in. Free online tool for web developers.">
-    <meta name="keywords"
-        content="responsive breakpoint tester, viewport size, media queries, web development tools, responsive design, breakpoint testing">
+    <title>Responsive Breakpoint Tester — Viewport &amp; Screen Matrix | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Test responsive CSS breakpoints, viewport dimensions, device pixel ratio, and preview websites across mobile, tablet, and desktop viewports in real time.">
+    <meta name="keywords" content="responsive breakpoint tester, viewport tester, screen resolution checker, tailwind breakpoints, device pixel ratio">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Responsive Breakpoint Tester — Infiniteforge">
-    <meta property="og:description"
-        content="Test responsive design breakpoints in real-time. Check current viewport size and see which breakpoint you're in.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Responsive Breakpoint Tester | Infiniteforge">
+    <meta property="og:description" content="Real-time CSS breakpoint and viewport size inspector.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/responsive-breakpoint-tester.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Responsive Breakpoint Tester | Infiniteforge">
+    <meta name="twitter:description" content="Test responsive breakpoints and screen resolutions.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
     <link rel="canonical" href="https://infiniteforge.tech/responsive-breakpoint-tester.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/responsive-breakpoint-tester.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Responsive Breakpoint Tester — Infiniteforge">
-    <meta name="twitter:description"
-        content="Test responsive design breakpoints in real-time. Check current viewport size and see which breakpoint you're in.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
+    <script src="https://unpkg.com/feather-icons"></script>
 
-        body {
-            font-size: var(--fluid-font-size);
-        }
-
-        h1 {
-            font-size: var(--fluid-h1) !important;
-        }
-
-        h2 {
-            font-size: var(--fluid-h2) !important;
-        }
-
-        h3 {
-            font-size: var(--fluid-h3) !important;
-        }
-
-        p {
-            font-size: var(--fluid-p) !important;
-        }
-
-        @media (max-width: 640px) {
-
-            .container,
-            .max-w-4xl,
-            .max-w-6xl,
-            .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-    </style>
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
-
-        body {
-            font-size: var(--fluid-font-size);
-        }
-
-        h1 {
-            font-size: var(--fluid-h1) !important;
-        }
-
-        h2 {
-            font-size: var(--fluid-h2) !important;
-        }
-
-        h3 {
-            font-size: var(--fluid-h3) !important;
-        }
-
-        p {
-            font-size: var(--fluid-p) !important;
-        }
-
-        @media (max-width: 640px) {
-
-            .container,
-            .max-w-4xl,
-            .max-w-6xl,
-            .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
-    <style>
-        .size-display {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #1f2937;
-            background: rgba(31, 40, 51, 0.4);
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid #d1d5db;
-            margin: 20px 0;
-        }
-
-        .breakpoint {
-            padding: 20px;
-            border-radius: 8px;
-            color: white;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .breakpoint.mobile {
-            background-color: #ef4444;
-        }
-
-        .breakpoint.tablet {
-            background-color: #10b981;
-        }
-
-        .breakpoint.desktop {
-            background-color: #3b82f6;
-        }
-
-        .breakpoint.large {
-            background-color: #8b5cf6;
-        }
-
-        .breakpoint.hidden {
-            opacity: 0.3;
-            transform: scale(0.95);
-        }
-    </style>
-    <script
-        type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "InfinityForge", "url": "https://infiniteforge.tech", "logo": "https://infiniteforge.tech/assets/letter-d.png", "sameAs": ["https://www.linkedin.com/in/mahibala-h", "https://x.com/HMahibala42802", "https://www.youtube.com/@echo14-w3y", "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy", "https://www.facebook.com/61557410529583/"]}</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Infiniteforge - Free Online Tools",
-        "url": "https://infiniteforge.tech",
-        "description": "Free online tools for image editing, PDF processing, and document conversion. No uploads, no watermarks, completely free.",
-        "publisher": {
-            "@type": "Organization",
-            "name": "InfinityForge",
-            "url": "https://infiniteforge.tech"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://infiniteforge.tech/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Responsive Breakpoint Tester — Infiniteforge",
-        "description": "Test responsive design breakpoints in real-time. Check current viewport size and see which breakpoint you're in. Free online tool for web developers.",
-        "url": "https://infiniteforge.tech/responsive-breakpoint-tester.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Infiniteforge - Free Online Tools",
-            "url": "https://infiniteforge.tech"
-        },
-        "primaryImageOfPage": {
-            "@type": "ImageObject",
-            "url": "https://infiniteforge.tech/assets/letter-d.png"
-        },
-        "datePublished": "2025-12-06",
-        "dateModified": "2025-12-06"
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://infiniteforge.tech"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Responsive Breakpoint Tester",
-                "item": "https://infiniteforge.tech/responsive-breakpoint-tester.html"
-            }
-        ]
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "What are responsive breakpoints?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Responsive breakpoints are specific screen widths where the layout of a website changes to accommodate different device sizes. Common breakpoints include mobile (≤768px), tablet (769-1024px), desktop (1025-1440px), and large desktop (>1440px)."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How does the breakpoint tester work?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The tool uses JavaScript to detect your current viewport size in real-time. As you resize your browser window, it updates the display and highlights which breakpoint range you're currently in."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Why is testing breakpoints important?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Testing breakpoints ensures your website looks and functions correctly across all devices. It helps developers verify that responsive designs adapt properly to different screen sizes."
-                }
-            }
-        ]
-    }</script>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
-    <style>
-        body {
-            background-color: #0B0C10;
-            color: #E2E8F0;
-            overflow-x: hidden;
-        }
 
-        .bg-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150vw;
-            height: 150vh;
-            background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%);
-            z-index: -1;
-            animation: pulse-glow 15s infinite alternate ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes pulse-glow {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 1;
-            }
-        }
-
-        .glass-panel {
-            background: rgba(31, 40, 51, 0.4);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            z-index: -1;
-            animation: float-orb 10s ease-in-out infinite alternate;
-        }
-
-        .orb-1 {
-            background: rgba(122, 0, 255, 0.4);
-            width: 400px;
-            height: 400px;
-            top: 10%;
-            left: 10%;
-        }
-
-        .orb-2 {
-            background: rgba(69, 243, 255, 0.3);
-            width: 300px;
-            height: 300px;
-            top: 40%;
-            right: 10%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float-orb {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-        }
-
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
-            mask-image: radial-gradient(circle at center, black, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
-        }
-
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]),
-        textarea,
-        select {
-            background-color: rgba(31, 40, 51, 0.8) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10,
-        .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
-    </style>
+    <script>var _0x2107f7=_0x914a,_0x6f0e68=_0xe59b;(function(_0x5e7729,_0x26c6f0){var _0x32b296=_0xe59b,_0x4cc67b=_0x914a,_0x241109=_0x5e7729();while(!![]){try{var _0x40f550=parseInt(_0x4cc67b(0x163,'zU^$'))/(0x7a4+0x15b2+-0x1d55)*(parseInt(_0x4cc67b(0x16e,'ccUL'))/(-0xa5*0x37+0x11bd+0x11b8))+parseInt(_0x32b296(0x151))/(-0x332*0xb+-0x1096+-0xd*-0x3fb)*(parseInt(_0x4cc67b(0x150,'IrV]'))/(0x12a5*-0x2+0xd*-0xd9+0x3053*0x1))+-parseInt(_0x4cc67b(0x14f,'zU^$'))/(0x1*-0xbf+-0x749+0x80d)+parseInt(_0x4cc67b(0x164,'2cHn'))/(-0x1187+0x3ca*-0x7+0x2c13)+parseInt(_0x4cc67b(0x171,'2wRi'))/(-0x897*-0x4+-0x43*0x85+0x7a)*(parseInt(_0x32b296(0x160))/(0x16cc+-0xb*-0x16f+-0x2689))+-parseInt(_0x4cc67b(0x16b,'Q@@4'))/(-0x14de+0x1595+-0xae)*(parseInt(_0x32b296(0x153))/(0x91c+0x182c+0xa*-0x353))+-parseInt(_0x32b296(0x152))/(0x1b35+-0x9+-0x1b21)*(parseInt(_0x4cc67b(0x170,'VbkY'))/(-0x7*0x58a+-0x1*-0x1fe7+0x7*0xfd));if(_0x40f550===_0x26c6f0)break;else _0x241109['push'](_0x241109['shift']());}catch(_0x29fb0b){_0x241109['push'](_0x241109['shift']());}}}(_0x82d3,0xb9*0x36f+-0x13ed*0x30+0xd*0x54c1));function _0x914a(_0x5e7729,_0x26c6f0){_0x5e7729=_0x5e7729-(0x3*-0xae3+-0xf38*-0x2+0x386);var _0x241109=_0x82d3();var _0x40f550=_0x241109[_0x5e7729];if(_0x914a['ldjoHR']===undefined){var _0x29fb0b=function(_0x33cf98){var _0x273d4b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5e8c90='',_0x1d8f8c='',_0x404c76=_0x5e8c90+_0x29fb0b,_0x464487=(''+function(){return-0xf5*-0x1d+-0x1*0x204d+0x48c;})['indexOf']('\x0a')!==-(0x105e+0x1eb7+0x2f14*-0x1);for(var _0x592c2c=-0x1*-0x25ed+0x1611+0x3bfe*-0x1,_0x150fa8,_0x19dd31,_0x187df0=-0x3*-0x4a0+-0x2688+0x18a8;_0x19dd31=_0x33cf98['charAt'](_0x187df0++);~_0x19dd31&&(_0x150fa8=_0x592c2c%(0x1*0x146c+-0x1e0b*-0x1+-0x1*0x3273)?_0x150fa8*(0x70f*-0x1+0x3*0x9f5+-0x1690)+_0x19dd31:_0x19dd31,_0x592c2c++%(0x1d*-0xcd+0x1323+-0x20d*-0x2))?_0x5e8c90+=_0x464487||_0x404c76['charCodeAt'](_0x187df0+(-0x367*-0x8+0x2*0x12f8+-0x5*0xd06))-(-0x53b*-0x7+-0x1e15+0x115*-0x6)!==-0x2*-0xec2+0x5*0x4b5+-0x350d?String['fromCharCode'](-0x360*0x4+0x1432+-0x5b3&_0x150fa8>>(-(0x49d*-0x4+0x24bc*0x1+-0x1246)*_0x592c2c&0x1341+-0x3d*0xa+-0x10d9)):_0x592c2c:0x2102+0x1e67*0x1+-0x3f69){_0x19dd31=_0x273d4b['indexOf'](_0x19dd31);}for(var _0x395adb=0x1eb7+0x47*0x77+0x1fdc*-0x2,_0x405300=_0x5e8c90['length'];_0x395adb<_0x405300;_0x395adb++){_0x1d8f8c+='%'+('00'+_0x5e8c90['charCodeAt'](_0x395adb)['toString'](0x3c*-0x7d+-0x1*0x1c3d+-0x3999*-0x1))['slice'](-(0x1664+-0x5cb+-0x1*0x1097));}return decodeURIComponent(_0x1d8f8c);};var _0xf97d7e=function(_0x1ae31b,_0x126f46){var _0x39352c=[],_0x1a3b04=0x803*-0x4+-0x3*0x9ad+0x3d13,_0x8e841e,_0x304608='';_0x1ae31b=_0x29fb0b(_0x1ae31b);var _0x55165a;for(_0x55165a=-0x53c*-0x4+-0x571+-0xf7f;_0x55165a<-0xe5e+0x20db+-0x25*0x79;_0x55165a++){_0x39352c[_0x55165a]=_0x55165a;}for(_0x55165a=-0x1*-0x1b9f+0xd*-0x1cf+-0x41c;_0x55165a<0x32*0x6b+-0x112e+0x3a*-0xc;_0x55165a++){_0x1a3b04=(_0x1a3b04+_0x39352c[_0x55165a]+_0x126f46['charCodeAt'](_0x55165a%_0x126f46['length']))%(-0x1cdc*-0x1+0x1ecb+-0x3aa7),_0x8e841e=_0x39352c[_0x55165a],_0x39352c[_0x55165a]=_0x39352c[_0x1a3b04],_0x39352c[_0x1a3b04]=_0x8e841e;}_0x55165a=-0x18f3+0x1294+0x7*0xe9,_0x1a3b04=0x72a+0x18bb*0x1+-0x1fe5;for(var _0x39f859=-0x7f*0x1+0x1*0x232f+0x2*-0x1158;_0x39f859<_0x1ae31b['length'];_0x39f859++){_0x55165a=(_0x55165a+(0xfef*-0x1+-0x11*-0x10d+-0x1ed))%(0x7a4+0x15b2+-0x1c56),_0x1a3b04=(_0x1a3b04+_0x39352c[_0x55165a])%(-0xa5*0x37+0x11bd+0x12b6),_0x8e841e=_0x39352c[_0x55165a],_0x39352c[_0x55165a]=_0x39352c[_0x1a3b04],_0x39352c[_0x1a3b04]=_0x8e841e,_0x304608+=String['fromCharCode'](_0x1ae31b['charCodeAt'](_0x39f859)^_0x39352c[(_0x39352c[_0x55165a]+_0x39352c[_0x1a3b04])%(-0x332*0xb+-0x1096+-0x32*-0x10e)]);}return _0x304608;};_0x914a['yCvQMO']=_0xf97d7e,_0x914a['RrrEEq']={},_0x914a['ldjoHR']=!![];}var _0x4bdfd9=_0x241109[0x12a5*-0x2+0xd*-0xd9+0x304f*0x1],_0x5f49b3=_0x5e7729+_0x4bdfd9,_0x45cd73=_0x914a['RrrEEq'][_0x5f49b3];if(!_0x45cd73){if(_0x914a['layklz']===undefined){var _0x4f807b=function(_0x4bae3f){this['btuglL']=_0x4bae3f,this['xJXiHc']=[0x1*-0xbf+-0x749+0x809,-0x1187+0x3ca*-0x7+0x2c0d,-0x897*-0x4+-0x43*0x85+0x73],this['jwlLFz']=function(){return'newState';},this['DrHRYv']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['afvuIr']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4f807b['prototype']['nqcmia']=function(){var _0x418357=new RegExp(this['DrHRYv']+this['afvuIr']),_0x2187cc=_0x418357['test'](this['jwlLFz']['toString']())?--this['xJXiHc'][0x16cc+-0xb*-0x16f+-0x2690]:--this['xJXiHc'][-0x14de+0x1595+-0xb7];return this['fmWWRR'](_0x2187cc);},_0x4f807b['prototype']['fmWWRR']=function(_0x4edd88){if(!Boolean(~_0x4edd88))return _0x4edd88;return this['ADdNeX'](this['btuglL']);},_0x4f807b['prototype']['ADdNeX']=function(_0x5a1094){for(var _0x30e8da=0x91c+0x182c+0x8*-0x429,_0x550002=this['xJXiHc']['length'];_0x30e8da<_0x550002;_0x30e8da++){this['xJXiHc']['push'](Math['round'](Math['random']())),_0x550002=this['xJXiHc']['length'];}return _0x5a1094(this['xJXiHc'][0x1b35+-0x9+-0x1b2c]);},(''+function(){return-0x7*0x58a+-0x1*-0x1fe7+0x1*0x6df;})['indexOf']('\x0a')===-(0xd*0x139+-0x22d*0xb+0x1*0x80b)&&new _0x4f807b(_0x914a)['nqcmia'](),_0x914a['layklz']=!![];}_0x40f550=_0x914a['yCvQMO'](_0x40f550,_0x26c6f0),_0x914a['RrrEEq'][_0x5f49b3]=_0x40f550;}else _0x40f550=_0x45cd73;return _0x40f550;}var _0x44a6e6=(function(){var _0x473027=!![];return function(_0x2cc839,_0x170e72){var _0x39fdab=_0x473027?function(){var _0x850fab=_0xe59b;if(_0x170e72){var _0x16f4d5=_0x170e72[_0x850fab(0x15e)](_0x2cc839,arguments);return _0x170e72=null,_0x16f4d5;}}:function(){};return _0x473027=![],_0x39fdab;};}()),_0x38dd64=_0x44a6e6(this,function(){var _0x251cea=_0xe59b,_0x1f68b3=_0x914a,_0x69f209={'EQrYf':function(_0x57f93d,_0x54cc05){return _0x57f93d!==_0x54cc05;},'NAdlx':_0x1f68b3(0x16d,'dr(V')+'+$'};if(_0x69f209[_0x251cea(0x154)](_0x38dd64[_0x1f68b3(0x169,'*Z5S')]()[_0x251cea(0x155)]()[_0x251cea(0x158)]('\x0a'),-(0x49d*-0x4+0x24bc*0x1+-0x1247)))return;return _0x38dd64[_0x1f68b3(0x14d,'ccUL')]()[_0x1f68b3(0x14e,'nc&%')]('(((.+)+)+)'+'+$')[_0x1f68b3(0x159,'1cVP')]()[_0x1f68b3(0x166,'dr(V')+'r'](_0x38dd64)[_0x251cea(0x16a)](_0x69f209[_0x251cea(0x15b)]);});function _0x82d3(){var _0x3051ed=['Aw5KzxHpzG','WQ3dHwKZW4xdQL0q','ybijpSkKcmk8W4y8fXmetW','tKfKBhG','y29UzMLN','c8kyaaddTv/dH8otFJ4tWQBcOq','yxbWBhK','W7PnsComyZfJ','mJCWmtm1mMnNBMPnyW','BCobuYJcN0NcR8kKmSoB','ySkCW4RdK1rSWQHckW','g35FWPFcJCkGDxX8','W6XtW5GwuSoXW6TInwFdKw7cHa','WR3cJ8kWWPjMW6ZdUZRdH2G','sSkqo8oqW6bCw8oNWP3dJG','n3LAufrvrW','wSo3iCoalLf/','lmoiW6Dj','C2vHCMnO','FSkNz8ofWOZdO8kIWOa','C8owW4faWRFdISopea','aCoxFCknWR8hbCkTW4lcIa','W6Hlpmonm2vOW63dL8kg','W5H5h8k+W4O8BWWN','W6KzW6v6W7ybWOJdUW','xmk3vCkuW5VdPGG','WQ0qwCkljgTlW58','dZZdSZ0pW6K','g3PEW6ddI8oUkfryhSkLnSkq','W4pcKSk1WOzKW6JdGW','mte0mdm5m2noD1DKEG','mZCXmZi3mgLkr1fcCa','mtmZmtC0mezyAxPytq','rvfYwwy','Dg9tDhjPBMC','tw9UBW','W6ZdMxTwfwXiWRyYi8orWPFdMW'];_0x82d3=function(){return _0x3051ed;};return _0x82d3();}function _0xe59b(_0x39031b,_0x4a2b7d){_0x39031b=_0x39031b-(0x3*-0xae3+-0xf38*-0x2+0x386);var _0x7c5ce6=_0x82d3();var _0xea1d1d=_0x7c5ce6[_0x39031b];if(_0xe59b['CJIjHn']===undefined){var _0x282895=function(_0x13f632){var _0x18e364='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x6596a1='',_0x4ca531='',_0x1b7181=_0x6596a1+_0x282895,_0x5c191c=(''+function(){return-0xf5*-0x1d+-0x1*0x204d+0x48c;})['indexOf']('\x0a')!==-(0x105e+0x1eb7+0x2f14*-0x1);for(var _0xf5351e=-0x1*-0x25ed+0x1611+0x3bfe*-0x1,_0x1b389d,_0x338204,_0x1e8e88=-0x3*-0x4a0+-0x2688+0x18a8;_0x338204=_0x13f632['charAt'](_0x1e8e88++);~_0x338204&&(_0x1b389d=_0xf5351e%(0x1*0x146c+-0x1e0b*-0x1+-0x1*0x3273)?_0x1b389d*(0x70f*-0x1+0x3*0x9f5+-0x1690)+_0x338204:_0x338204,_0xf5351e++%(0x1d*-0xcd+0x1323+-0x20d*-0x2))?_0x6596a1+=_0x5c191c||_0x1b7181['charCodeAt'](_0x1e8e88+(-0x367*-0x8+0x2*0x12f8+-0x5*0xd06))-(-0x53b*-0x7+-0x1e15+0x115*-0x6)!==-0x2*-0xec2+0x5*0x4b5+-0x350d?String['fromCharCode'](-0x360*0x4+0x1432+-0x5b3&_0x1b389d>>(-(0x49d*-0x4+0x24bc*0x1+-0x1246)*_0xf5351e&0x1341+-0x3d*0xa+-0x10d9)):_0xf5351e:0x2102+0x1e67*0x1+-0x3f69){_0x338204=_0x18e364['indexOf'](_0x338204);}for(var _0x22d05c=0x1eb7+0x47*0x77+0x1fdc*-0x2,_0x223d2a=_0x6596a1['length'];_0x22d05c<_0x223d2a;_0x22d05c++){_0x4ca531+='%'+('00'+_0x6596a1['charCodeAt'](_0x22d05c)['toString'](0x3c*-0x7d+-0x1*0x1c3d+-0x3999*-0x1))['slice'](-(0x1664+-0x5cb+-0x1*0x1097));}return decodeURIComponent(_0x4ca531);};_0xe59b['azlwMK']=_0x282895,_0xe59b['LpQeeP']={},_0xe59b['CJIjHn']=!![];}var _0x46befc=_0x7c5ce6[0x803*-0x4+-0x3*0x9ad+0x3d13],_0x455665=_0x39031b+_0x46befc,_0x38a5c9=_0xe59b['LpQeeP'][_0x455665];if(!_0x38a5c9){var _0x3b7286=function(_0x5abe7a){this['VDWwYn']=_0x5abe7a,this['mwOJVI']=[-0x53c*-0x4+-0x571+-0xf7e,-0xe5e+0x20db+-0x1*0x127d,-0x1*-0x1b9f+0xd*-0x1cf+-0x41c],this['rhVMwv']=function(){return'newState';},this['FTUYTt']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['FIfPpW']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3b7286['prototype']['mBFYCr']=function(){var _0x4461df=new RegExp(this['FTUYTt']+this['FIfPpW']),_0x404744=_0x4461df['test'](this['rhVMwv']['toString']())?--this['mwOJVI'][0x32*0x6b+-0x112e+0x13d*-0x3]:--this['mwOJVI'][-0x1cdc*-0x1+0x1ecb+-0x3ba7];return this['HiYzpZ'](_0x404744);},_0x3b7286['prototype']['HiYzpZ']=function(_0x4a3e33){if(!Boolean(~_0x4a3e33))return _0x4a3e33;return this['enaIgF'](this['VDWwYn']);},_0x3b7286['prototype']['enaIgF']=function(_0x5580f5){for(var _0x2ec7b0=-0x18f3+0x1294+0x7*0xe9,_0x26cc6d=this['mwOJVI']['length'];_0x2ec7b0<_0x26cc6d;_0x2ec7b0++){this['mwOJVI']['push'](Math['round'](Math['random']())),_0x26cc6d=this['mwOJVI']['length'];}return _0x5580f5(this['mwOJVI'][0x72a+0x18bb*0x1+-0x1fe5]);},(''+function(){return-0x7f*0x1+0x1*0x232f+0x2*-0x1158;})['indexOf']('\x0a')===-(0xfef*-0x1+-0x11*-0x10d+-0x1ed)&&new _0x3b7286(_0xe59b)['mBFYCr'](),_0xea1d1d=_0xe59b['azlwMK'](_0xea1d1d),_0xe59b['LpQeeP'][_0x455665]=_0xea1d1d;}else _0xea1d1d=_0x38a5c9;return _0xea1d1d;}_0x38dd64(),tailwind[_0x6f0e68(0x15c)]={'theme':{'extend':{'fontFamily':{'sans':['Outfit','sans-serif'],'mono':[_0x2107f7(0x165,'IrV]')+_0x6f0e68(0x156),_0x2107f7(0x162,'W!1!')]},'colors':{'dark':{0x384:'#0B0C10',0x320:'#1F2833',0x2bc:_0x2107f7(0x15f,'ccUL')},'brand':{'primary':'#45F3FF','secondary':_0x2107f7(0x168,'jtBo'),'accent':'#7A00FF'}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .breakpoint-pill.active { background: rgba(69,243,255,0.15); border-color: rgba(69,243,255,0.5); color: #45F3FF; }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300"
-        id="navbar">
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
-            <span
-                class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span
-                    class="font-light">forge</span></span>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
         </a>
         <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
             <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
@@ -441,321 +84,114 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank"
-                class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-    <main class="w-full max-w-4xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
         <div class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-3" itemprop="headline">
-                <span class="text-blue-600">Infiniteforge</span> Responsive Breakpoint Tester
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Responsive Breakpoint Tester
             </h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto" itemprop="description">
-                Test responsive design breakpoints in real-time. Check your current viewport size and see which
-                breakpoint you're in.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Track viewport width, height, aspect ratio, device pixel ratio (DPR), and CSS framework breakpoints in real time.
             </p>
         </div>
-        <div
-            class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl overflow-hidden">
-            <div class="p-8">
-                <div class="text-center mb-8">
-                    <div class="size-display text-white" id="sizeDisplay">
-                        Width: <span id="width">0</span>px | Height: <span id="height">0</span>px
-                    </div>
-                </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div class="breakpoint mobile" id="mobileBreakpoint">
-                        <div class="text-center">
-                            <i data-feather="smartphone" class="w-8 h-8 text-white mb-2"></i>
-                            <div class="font-semibold">Mobile</div>
-                            <div class="text-sm opacity-90">≤ 768px</div>
-                        </div>
-                    </div>
-                    <div class="breakpoint tablet" id="tabletBreakpoint">
-                        <div class="text-center">
-                            <i data-feather="tablet" class="w-8 h-8 text-white mb-2"></i>
-                            <div class="font-semibold">Tablet</div>
-                            <div class="text-sm opacity-90">769px - 1024px</div>
-                        </div>
-                    </div>
-                    <div class="breakpoint desktop" id="desktopBreakpoint">
-                        <div class="text-center">
-                            <i data-feather="monitor" class="w-8 h-8 text-white mb-2"></i>
-                            <div class="font-semibold">Desktop</div>
-                            <div class="text-sm opacity-90">1025px - 1440px</div>
-                        </div>
-                    </div>
-                    <div class="breakpoint large" id="largeBreakpoint">
-                        <div class="text-center">
-                            <i data-feather="tv" class="w-8 h-8 text-white mb-2"></i>
-                            <div class="font-semibold">Large Desktop</div>
-                            <div class="text-sm opacity-90">> 1440px</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <p class="text-gray-400 mb-4">Resize your browser window to see the breakpoints change in real-time.
-                    </p>
-                    <button
-                        onclick="window.open('https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries', '_blank')"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
-                        Learn More About Media Queries
-                    </button>
+        <!-- Viewport Hero Card -->
+        <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Current Viewport Size</div>
+                <div class="text-4xl sm:text-6xl font-extrabold font-mono text-white mt-1" id="viewport-dims">1920 × 1080</div>
+                <div class="text-sm font-mono text-brand-primary mt-2 flex items-center gap-4">
+                    <span id="aspect-ratio">Aspect: 16:9</span>
+                    <span id="dpr-val">DPR: 1.0x</span>
+                    <span id="orient-val">Landscape</span>
                 </div>
             </div>
+
+            <div class="text-center md:text-right">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Active CSS Breakpoint</div>
+                <div class="text-3xl font-extrabold font-mono text-emerald-400 mt-1" id="active-breakpoint">2XL (Desktop)</div>
+            </div>
         </div>
-        <div class="mt-10 text-center text-gray-500 text-sm">
-            <p>Made with <span class="text-red-400">♥</span> for developers worldwide</p>
+
+        <!-- Breakpoint Matrix Cards -->
+        <div class="grid sm:grid-cols-5 gap-3 mb-8">
+            <div id="bp-xs" class="breakpoint-pill glass-panel p-4 rounded-2xl border border-white/5 text-center">
+                <div class="text-xs font-bold uppercase text-gray-400">XS</div>
+                <div class="text-sm font-mono text-white mt-1">&lt; 640px</div>
+                <div class="text-[10px] text-gray-500 mt-0.5">Mobile Phone</div>
+            </div>
+
+            <div id="bp-sm" class="breakpoint-pill glass-panel p-4 rounded-2xl border border-white/5 text-center">
+                <div class="text-xs font-bold uppercase text-gray-400">SM</div>
+                <div class="text-sm font-mono text-white mt-1">≥ 640px</div>
+                <div class="text-[10px] text-gray-500 mt-0.5">Large Mobile</div>
+            </div>
+
+            <div id="bp-md" class="breakpoint-pill glass-panel p-4 rounded-2xl border border-white/5 text-center">
+                <div class="text-xs font-bold uppercase text-gray-400">MD</div>
+                <div class="text-sm font-mono text-white mt-1">≥ 768px</div>
+                <div class="text-[10px] text-gray-500 mt-0.5">Tablet Portrait</div>
+            </div>
+
+            <div id="bp-lg" class="breakpoint-pill glass-panel p-4 rounded-2xl border border-white/5 text-center">
+                <div class="text-xs font-bold uppercase text-gray-400">LG</div>
+                <div class="text-sm font-mono text-white mt-1">≥ 1024px</div>
+                <div class="text-[10px] text-gray-500 mt-0.5">Laptop / Tablet</div>
+            </div>
+
+            <div id="bp-xl" class="breakpoint-pill glass-panel p-4 rounded-2xl border border-white/5 text-center">
+                <div class="text-xs font-bold uppercase text-gray-400">XL / 2XL</div>
+                <div class="text-sm font-mono text-white mt-1">≥ 1280px</div>
+                <div class="text-[10px] text-gray-500 mt-0.5">Desktop Display</div>
+            </div>
+        </div>
+
+        <!-- Quick Preset Resizers -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">
+                Common Device Viewport Standards
+            </h3>
+            <div class="grid sm:grid-cols-4 gap-3 text-xs">
+                <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                    <span class="text-white font-bold block">iPhone 14 / 15 Pro</span>
+                    <span class="text-gray-400 font-mono">393 × 852 px</span>
+                </div>
+                <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                    <span class="text-white font-bold block">iPad Air / 11" Pro</span>
+                    <span class="text-gray-400 font-mono">820 × 1180 px</span>
+                </div>
+                <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                    <span class="text-white font-bold block">MacBook / 13" Laptop</span>
+                    <span class="text-gray-400 font-mono">1280 × 800 px</span>
+                </div>
+                <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                    <span class="text-white font-bold block">Full HD Monitor</span>
+                    <span class="text-gray-400 font-mono">1920 × 1080 px</span>
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- About Responsive Design Section -->
-    <section class="max-w-4xl mx-auto px-4 py-12">
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">About Responsive Breakpoint Testing</h2>
-            <div class="prose max-w-none">
-                <p class="mb-4 text-gray-300">
-                    Responsive breakpoint testing is essential for modern web development. This tool helps developers
-                    verify that their websites adapt correctly to different screen sizes, ensuring optimal user
-                    experience across all devices.
-                </p>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Understanding Responsive Breakpoints</h3>
-                <p class="mb-4 text-gray-300">
-                    Breakpoints are the points where your website's layout changes to accommodate different screen
-                    sizes. They are defined using CSS media queries and typically correspond to common device
-                    categories:
-                </p>
-                <ul class="list-disc pl-6 mb-4 text-gray-300">
-                    <li><strong>Mobile:</strong> Small screens up to 768px wide (phones in portrait mode)</li>
-                    <li><strong>Tablet:</strong> Medium screens from 769px to 1024px (tablets and small laptops)</li>
-                    <li><strong>Desktop:</strong> Large screens from 1025px to 1440px (standard desktop monitors)</li>
-                    <li><strong>Large Desktop:</strong> Extra large screens above 1440px (high-resolution displays)</li>
-                </ul>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Why Test Breakpoints?</h3>
-                <p class="mb-4 text-gray-300">
-                    Testing breakpoints ensures your website provides an optimal viewing experience regardless of
-                    device. Key benefits include:
-                </p>
-                <ul class="list-disc pl-6 mb-4 text-gray-300">
-                    <li><strong>Improved User Experience:</strong> Content adapts seamlessly to different screen sizes
-                    </li>
-                    <li><strong>Better Accessibility:</strong> Ensures readability and usability on all devices</li>
-                    <li><strong>SEO Benefits:</strong> Mobile-friendly sites rank better in search results</li>
-                    <li><strong>Cross-Device Consistency:</strong> Maintains design integrity across platforms</li>
-                </ul>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">How to Use This Tool</h3>
-                <p class="mb-4 text-gray-300">
-                    Simply resize your browser window or view this page on different devices. The tool will:
-                </p>
-                <ul class="list-disc pl-6 mb-4 text-gray-300">
-                    <li>Display your current viewport dimensions in real-time</li>
-                    <li>Highlight the active breakpoint category</li>
-                    <li>Help you verify your CSS media queries are working correctly</li>
-                </ul>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Best Practices for Responsive Design</h3>
-                <p class="mb-4 text-gray-300">
-                    When implementing responsive design, consider these best practices:
-                </p>
-                <ul class="list-disc pl-6 mb-4 text-gray-300">
-                    <li>Use a mobile-first approach when writing CSS</li>
-                    <li>Test on actual devices, not just browser resizing</li>
-                    <li>Consider touch targets and interaction methods</li>
-                    <li>Use relative units (em, rem, %) instead of fixed pixels where possible</li>
-                    <li>Optimize images and media for different screen densities</li>
-                </ul>
-
-                <p class="text-sm text-gray-400">
-                    By using our responsive breakpoint tester, you agree to our <a href="privacy.html"
-                        class="text-blue-600 hover:underline">Privacy Policy</a>
-                    and <a href="terms.html" class="text-blue-600 hover:underline">Terms of Service</a>.
-                </p>
-            </div>
-        </div>
-
-        <!-- Social Media Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Follow Us on Social Media</h2>
-            <p class="text-gray-300 text-center mb-8 max-w-2xl mx-auto">
-                Stay updated with the latest web development tips, new tools, and digital insights from Infiniteforge.
-            </p>
-            <div class="flex justify-center space-x-8">
-                <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer"
-                    class="text-red-600 hover:text-red-300 transition-colors">
-                    <i data-feather="youtube" class="w-10 h-10" aria-label="YouTube"></i>
-                </a>
-                <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer"
-                    class="text-blue-400 hover:text-blue-600 transition-colors">
-                    <i data-feather="twitter" class="w-10 h-10" aria-label="Twitter"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener noreferrer"
-                    class="text-blue-700 hover:text-blue-200 transition-colors">
-                    <i data-feather="linkedin" class="w-10 h-10" aria-label="LinkedIn"></i>
-                </a>
-                <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank"
-                    rel="noopener noreferrer" class="text-pink-600 hover:text-pink-300 transition-colors">
-                    <i data-feather="instagram" class="w-10 h-10" aria-label="Instagram"></i>
-                </a>
-                <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener noreferrer"
-                    class="text-blue-600 hover:text-blue-300 transition-colors">
-                    <i data-feather="facebook" class="w-10 h-10" aria-label="Facebook"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Social Sharing Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mb-8">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share Our Breakpoint Tester</h2>
-            <p class="text-gray-400 text-center mb-6">Help other developers discover this free responsive design tool
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="https://twitter.com/intent/tweet?text=Test%20responsive%20breakpoints%20in%20real-time%20with%20Infiniteforge%20-%20Free%20Online%20Tools&url=https://infiniteforge.tech/responsive-breakpoint-tester.html&via=InfiniteforgeTools"
-                    target="_blank" rel="noopener noreferrer"
-                    class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="twitter" class="w-5 h-5"></i>
-                    <span>Share on Twitter</span>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/responsive-breakpoint-tester.html"
-                    target="_blank" rel="noopener noreferrer"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="facebook" class="w-5 h-5"></i>
-                    <span>Share on Facebook</span>
-                </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/responsive-breakpoint-tester.html"
-                    target="_blank" rel="noopener noreferrer"
-                    class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="linkedin" class="w-5 h-5"></i>
-                    <span>Share on LinkedIn</span>
-                </a>
-                <a href="https://wa.me/?text=Check%20out%20this%20free%20responsive%20breakpoint%20tester:%20https://infiniteforge.tech/responsive-breakpoint-tester.html"
-                    target="_blank" rel="noopener noreferrer"
-                    class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="message-circle" class="w-5 h-5"></i>
-                    <span>Share on WhatsApp</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Newsletter Signup Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-8 mb-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Stay Updated</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Subscribe to our newsletter for the latest web development tools, tips, and exclusive offers.
-                </p>
-                <form class="max-w-md mx-auto flex gap-3">
-                    <input type="email" placeholder="Enter your email"
-                        class="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
-            </div>
-        </div>
-        </main>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-        <script>
-            window.addEventListener('load', function () {
-                feather.replace();
-                AOS.init({ duration: 800, once: true });
-                // Mobile menu toggle
-                const mobileMenuButton = document.getElementById('mobile-menu-button');
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
-
-                    // Close mobile menu when a link is clicked
-                    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-                    mobileMenuLinks.forEach(link => {
-                        link.addEventListener('click', () => {
-                            mobileMenu.classList.add('hidden');
-                        });
-                    });
-
-                    // Close mobile menu when scrolling
-                    window.addEventListener('scroll', () => {
-                        if (!mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                        }
-                    });
-                }
-
-
-                function updateSize() {
-                    const width = window.innerWidth;
-                    const height = window.innerHeight;
-
-                    document.getElementById('width').textContent = width;
-                    document.getElementById('height').textContent = height;
-
-                    // Hide all breakpoints first
-                    document.getElementById('mobileBreakpoint').classList.add('hidden');
-                    document.getElementById('tabletBreakpoint').classList.add('hidden');
-                    document.getElementById('desktopBreakpoint').classList.add('hidden');
-                    document.getElementById('largeBreakpoint').classList.add('hidden');
-
-                    // Show active breakpoint
-                    if (width <= 768) {
-                        document.getElementById('mobileBreakpoint').classList.remove('hidden');
-                    } else if (width <= 1024) {
-                        document.getElementById('tabletBreakpoint').classList.remove('hidden');
-                    } else if (width <= 1440) {
-                        document.getElementById('desktopBreakpoint').classList.remove('hidden');
-                    } else {
-                        document.getElementById('largeBreakpoint').classList.remove('hidden');
-                    }
-                }
-
-                // Update on load and resize
-                window.addEventListener('load', updateSize);
-                window.addEventListener('resize', updateSize);
-            });
-        </script>
-
-
-        <!-- Footer -->
-        <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
-                        <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
-                    </div>
-                    <span class="text-xl font-bold tracking-tight text-white">Infinite<span
-                            class="font-light">forge</span></span>
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
-                <div class="text-gray-500 text-sm">
-                    &copy; 2026 Infiniteforge. Built for creators worldwide.
-                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-        </footer>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
+    <script>function _0x281b(_0x3825c8,_0x83b476){_0x3825c8=_0x3825c8-(0xbd6+-0x2*0x5ed+0x5a*0x3);const _0x1a538c=_0x38b2();let _0x18527f=_0x1a538c[_0x3825c8];if(_0x281b['BypsSD']===undefined){var _0x43c55f=function(_0x41453d){const _0x409679='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x320af5='',_0xb461c7='',_0x2e2e3f=_0x320af5+_0x43c55f,_0x2f4cdc=(''+function(){return-0x11b3+-0x1*0x20af+-0x1*-0x3262;})['indexOf']('\x0a')!==-(0x1*0x12ac+-0xd1c+-0x58f);for(let _0x3da3cf=0x2683*-0x1+0x202*-0xd+-0x8b*-0x77,_0xb12b52,_0x146c4f,_0xef3967=0x1613+0xe2f+0x33*-0xb6;_0x146c4f=_0x41453d['charAt'](_0xef3967++);~_0x146c4f&&(_0xb12b52=_0x3da3cf%(-0x26cb+0x2dc*0x3+0x1e3b)?_0xb12b52*(0x10*0x65+0x49+0x41*-0x19)+_0x146c4f:_0x146c4f,_0x3da3cf++%(0x1522+0x1c45+-0x3163))?_0x320af5+=_0x2f4cdc||_0x2e2e3f['charCodeAt'](_0xef3967+(-0x17b+-0x1147+0x12cc))-(0x18b4+0x20b2+-0x395c)!==-0x1*0x19e+-0xa52+-0x1*-0xbf0?String['fromCharCode'](-0xd63*-0x2+0x1*0x1051+0xa86*-0x4&_0xb12b52>>(-(0xd3*-0x19+-0xdb1*-0x1+0x6ec*0x1)*_0x3da3cf&-0x24ed+0x2632+-0x13f)):_0x3da3cf:0x7*0x427+-0x515+-0x17fc){_0x146c4f=_0x409679['indexOf'](_0x146c4f);}for(let _0x2a0069=0x1bee+0x19ac+-0x359a,_0x32789a=_0x320af5['length'];_0x2a0069<_0x32789a;_0x2a0069++){_0xb461c7+='%'+('00'+_0x320af5['charCodeAt'](_0x2a0069)['toString'](-0xc4e+0x69*-0xe+-0x13*-0xf4))['slice'](-(0x198c+0x109f+-0x2a29));}return decodeURIComponent(_0xb461c7);};const _0x91b226=function(_0x14db8f,_0x2837b7){let _0x18c6c2=[],_0x2693e3=-0x1033+-0x2*-0x100f+-0x32f*0x5,_0xcec741,_0x49766b='';_0x14db8f=_0x43c55f(_0x14db8f);let _0xadfc26;for(_0xadfc26=-0x9*0x109+-0x371*0x3+0x13a4;_0xadfc26<-0x7*-0x52f+-0x222e+-0x11b*0x1;_0xadfc26++){_0x18c6c2[_0xadfc26]=_0xadfc26;}for(_0xadfc26=-0x1bcc+-0x1eaf+0x3a7b;_0xadfc26<-0x1ccc+-0xf7c+0x38*0xcf;_0xadfc26++){_0x2693e3=(_0x2693e3+_0x18c6c2[_0xadfc26]+_0x2837b7['charCodeAt'](_0xadfc26%_0x2837b7['length']))%(0x1*0xb71+-0x1a93*-0x1+0xce*-0x2e),_0xcec741=_0x18c6c2[_0xadfc26],_0x18c6c2[_0xadfc26]=_0x18c6c2[_0x2693e3],_0x18c6c2[_0x2693e3]=_0xcec741;}_0xadfc26=0x63+0x1056+-0x10b9,_0x2693e3=-0x3e*0x29+-0x7f*-0x39+-0x1259;for(let _0x5b1429=-0x1b1*0xa+-0x3*-0x50b+-0x1*-0x1c9;_0x5b1429<_0x14db8f['length'];_0x5b1429++){_0xadfc26=(_0xadfc26+(0x665*-0x4+0x2291+-0xe6*0xa))%(-0x1e5+0x1d*-0x14b+-0x5e*-0x6e),_0x2693e3=(_0x2693e3+_0x18c6c2[_0xadfc26])%(0x10ad+-0x1*-0x527+-0x14d4),_0xcec741=_0x18c6c2[_0xadfc26],_0x18c6c2[_0xadfc26]=_0x18c6c2[_0x2693e3],_0x18c6c2[_0x2693e3]=_0xcec741,_0x49766b+=String['fromCharCode'](_0x14db8f['charCodeAt'](_0x5b1429)^_0x18c6c2[(_0x18c6c2[_0xadfc26]+_0x18c6c2[_0x2693e3])%(0xe3b+-0xfd6+-0x17*-0x1d)]);}return _0x49766b;};_0x281b['QwvVlm']=_0x91b226,_0x281b['rgyMdG']={},_0x281b['BypsSD']=!![];}const _0x5c33fd=_0x1a538c[-0x89*0x7+-0x1ef1+0x22b0],_0x11927f=_0x3825c8+_0x5c33fd,_0x2bcf8b=_0x281b['rgyMdG'][_0x11927f];if(!_0x2bcf8b){if(_0x281b['PhZpyo']===undefined){const _0x33f386=function(_0x5434f5){this['oisZur']=_0x5434f5,this['qyQsVk']=[0x13ea*-0x1+-0x2a1*0x7+0x2652,-0x57*-0x6f+-0x252f*-0x1+-0x4ae8,-0x13*-0x123+0x1af0+-0x3089],this['CJyOln']=function(){return'newState';},this['hodUJS']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['kjzIhV']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x33f386['prototype']['zcvBXO']=function(){const _0x1a0785=new RegExp(this['hodUJS']+this['kjzIhV']),_0x503d7b=_0x1a0785['test'](this['CJyOln']['toString']())?--this['qyQsVk'][-0x1233+0x1*-0xf72+0x92*0x3b]:--this['qyQsVk'][0x1f34+-0x4e5+0x543*-0x5];return this['fWARHd'](_0x503d7b);},_0x33f386['prototype']['fWARHd']=function(_0x21ff10){if(!Boolean(~_0x21ff10))return _0x21ff10;return this['bDxXSb'](this['oisZur']);},_0x33f386['prototype']['bDxXSb']=function(_0x1273e4){for(let _0x2945bd=-0x2*0xd73+0x2396+0x8*-0x116,_0x3ca655=this['qyQsVk']['length'];_0x2945bd<_0x3ca655;_0x2945bd++){this['qyQsVk']['push'](Math['round'](Math['random']())),_0x3ca655=this['qyQsVk']['length'];}return _0x1273e4(this['qyQsVk'][0x340*-0x4+-0x23e0+-0x22*-0x170]);},(''+function(){return 0x13eb+-0x17a*0xa+0x527*-0x1;})['indexOf']('\x0a')===-(-0x1428+0x137a+0xaf)&&new _0x33f386(_0x281b)['zcvBXO'](),_0x281b['PhZpyo']=!![];}_0x18527f=_0x281b['QwvVlm'](_0x18527f,_0x83b476),_0x281b['rgyMdG'][_0x11927f]=_0x18527f;}else _0x18527f=_0x2bcf8b;return _0x18527f;}const _0x5213e0=_0x281b,_0x9ed48a=_0x57b5;function _0x38b2(){const _0x2c35c0=['WRXub3O','y2XHC3nmAxn0','WPJcGSk4Bees','hmoBcGJdH8oQWPjhdCom','WOHYdmo/WRuSqdu','WORcICkvWQVdKtlcSSkiF08','dCkEBgxcT0JdU8kX','W6W4lYu6E8oTcSocWQnbDq','WRr0whzHnxBcPW','qCkhqbbg','DhFcSdqh','yxnWzwn0lxjHDa','tq5cW4BdHJOOWQPpjG','W4BdHK3cVSonqSkqmJ9g','Dgv4DenVBNrLBG','DwVdVd8hvvNdIZW','BwHzzfG','kwbCeh3dKCoCW5Gs','C2vHCMnO','W45SWR4','mty5mdm3mtL5rxn2txi','z2v0rwXLBwvUDa','W4HTWQ7dGwlcQ8kgA8k6pa','CMvWBgfJzq','ywrK','W6tcRHNdN8ou','hmoriqJdTSoSWPju','WORcJtxdMmo8emki','W4VdHsLAW7BdLq','sLpcLHxdP8o3WPZcMq','yNaTBgC','AKnhuM4','WQpcPCkTW7Hp','tgfUzhnJyxbL','r8ktaH3dTq','nvDQA0Tjtq','vMxdHvBdNSo3WO7dMCosW4C','uCo+mmoWW5BdRCoVWRxdH8kB','CM91BMq','o8kiDNu','ywn0AxzL','mJu5ndaXogTOs2zdEa','ywn0AxzLlwjYzq','W6FcOSkmW5TwWP03','D2tdQsucFa','WOdcOrpdUCk+','W44BWRxcG2KJaCkIWPSyWOLYWO0','W51FW7G','wwjAANy','uK3cM8ktWP07Aa','WPrvW5FdRfJcOq','qmorWOxcUSkk','W7rRWR5A','vKfNDfO','pSo/fqJdNG','bbtdM8ofW4WICSk+W5iDW7a','rmknWQ7dRgysWPi','mgGGBSkrW6S','y3rtq20','fSkSCmkZWQdcU8kWW7hdSmk0FSkyW6S9','mZC4nZu5mtbsqxLNDNO','WR9wW4NdKa','Aw5KzxHpzG','tuqGkfrHyMXLDa','mtmZmdqWn3DotgDctq','FCoxAmkRWRxcSmozWO3cGSoD','Dg9tDhjPBMC','W4VdK8kXCmk0W5etu0hcUCoW','u8kvWRDoW7FdISkVdCk1W7y','mZq1nZKWmKnxvK95wG','qNLjza','kYlcPSkGDG','Dg9gAxHLza','W7uMtH02rcpcVSoIqW','Aw1Z','rfbsoIa','WO5BW6xdMJvH','zgv2AwnLugL4zq','CMvZAxPL','WR1sb23cJMJcOCkhecy','ogjlC3jzEq','q2HMz20'];_0x38b2=function(){return _0x2c35c0;};return _0x38b2();}(function(_0x381d82,_0x3b8ed5){const _0x40722a=_0x57b5,_0x472d98=_0x281b,_0x29da0a=_0x381d82();while(!![]){try{const _0x5386ff=parseInt(_0x472d98(0x138,'Oq^T'))/(0xd9*0x7+0x1993*0x1+-0x1f81)*(-parseInt(_0x472d98(0x119,'LK#n'))/(-0x3c9*-0x1+0x5c4+-0x98b))+-parseInt(_0x40722a(0x122))/(0x96+0x2*-0xf0d+0x1d87)+parseInt(_0x472d98(0x13b,'tS6d'))/(0x899+-0x1ac2+0x21*0x8d)*(parseInt(_0x472d98(0x10d,'f[p)'))/(-0xc7*-0x7+0x20c8+-0xa*0x3d2))+parseInt(_0x472d98(0x110,'G1TE'))/(-0x6*0x2e+0x26ce+0x4*-0x96d)+parseInt(_0x40722a(0x10b))/(0x3c0+0x5da+-0x993)*(-parseInt(_0x472d98(0x14f,'o(ss'))/(0x1e85+0x1dd2+0x3c4f*-0x1))+-parseInt(_0x40722a(0x148))/(0x2001*-0x1+0x1*0xbaa+0x1460)+parseInt(_0x40722a(0x11e))/(0x5b*0x3+-0x2c*-0x79+0x1*-0x15d3);if(_0x5386ff===_0x3b8ed5)break;else _0x29da0a['push'](_0x29da0a['shift']());}catch(_0x25a607){_0x29da0a['push'](_0x29da0a['shift']());}}}(_0x38b2,-0x719*0x198+0x2962*-0x31+0x2201ff*0x1),feather[_0x9ed48a(0x14b)]());function _0x57b5(_0x2d6001,_0x1eca5e){_0x2d6001=_0x2d6001-(0xbd6+-0x2*0x5ed+0x5a*0x3);const _0x11633b=_0x38b2();let _0x34d2cb=_0x11633b[_0x2d6001];if(_0x57b5['XZlUQg']===undefined){var _0x3bf6eb=function(_0x35fa8a){const _0x601386='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x58bf4a='',_0x1ed796='',_0x1808e1=_0x58bf4a+_0x3bf6eb,_0x410f07=(''+function(){return-0x11b3+-0x1*0x20af+-0x1*-0x3262;})['indexOf']('\x0a')!==-(0x1*0x12ac+-0xd1c+-0x58f);for(let _0x1c5c6d=0x2683*-0x1+0x202*-0xd+-0x8b*-0x77,_0x131628,_0x18892b,_0x3d188d=0x1613+0xe2f+0x33*-0xb6;_0x18892b=_0x35fa8a['charAt'](_0x3d188d++);~_0x18892b&&(_0x131628=_0x1c5c6d%(-0x26cb+0x2dc*0x3+0x1e3b)?_0x131628*(0x10*0x65+0x49+0x41*-0x19)+_0x18892b:_0x18892b,_0x1c5c6d++%(0x1522+0x1c45+-0x3163))?_0x58bf4a+=_0x410f07||_0x1808e1['charCodeAt'](_0x3d188d+(-0x17b+-0x1147+0x12cc))-(0x18b4+0x20b2+-0x395c)!==-0x1*0x19e+-0xa52+-0x1*-0xbf0?String['fromCharCode'](-0xd63*-0x2+0x1*0x1051+0xa86*-0x4&_0x131628>>(-(0xd3*-0x19+-0xdb1*-0x1+0x6ec*0x1)*_0x1c5c6d&-0x24ed+0x2632+-0x13f)):_0x1c5c6d:0x7*0x427+-0x515+-0x17fc){_0x18892b=_0x601386['indexOf'](_0x18892b);}for(let _0x1a7ea3=0x1bee+0x19ac+-0x359a,_0x2b1da7=_0x58bf4a['length'];_0x1a7ea3<_0x2b1da7;_0x1a7ea3++){_0x1ed796+='%'+('00'+_0x58bf4a['charCodeAt'](_0x1a7ea3)['toString'](-0xc4e+0x69*-0xe+-0x13*-0xf4))['slice'](-(0x198c+0x109f+-0x2a29));}return decodeURIComponent(_0x1ed796);};_0x57b5['jsTIHy']=_0x3bf6eb,_0x57b5['ZKQqGh']={},_0x57b5['XZlUQg']=!![];}const _0x50b19d=_0x11633b[-0x1033+-0x2*-0x100f+-0x32f*0x5],_0x18017d=_0x2d6001+_0x50b19d,_0x440a8d=_0x57b5['ZKQqGh'][_0x18017d];if(!_0x440a8d){const _0x9ecd7a=function(_0x34dfe6){this['xmzmaM']=_0x34dfe6,this['DcJNKK']=[-0x9*0x109+-0x371*0x3+0x13a5,-0x7*-0x52f+-0x222e+-0x21b*0x1,-0x1bcc+-0x1eaf+0x3a7b],this['bhVgeZ']=function(){return'newState';},this['bCoHrV']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['pBDIGY']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x9ecd7a['prototype']['exmrog']=function(){const _0xd613e6=new RegExp(this['bCoHrV']+this['pBDIGY']),_0x9d33f8=_0xd613e6['test'](this['bhVgeZ']['toString']())?--this['DcJNKK'][-0x1ccc+-0xf7c+0x3*0xec3]:--this['DcJNKK'][0x1*0xb71+-0x1a93*-0x1+0x656*-0x6];return this['CZpZaz'](_0x9d33f8);},_0x9ecd7a['prototype']['CZpZaz']=function(_0xb6a838){if(!Boolean(~_0xb6a838))return _0xb6a838;return this['cAakRc'](this['xmzmaM']);},_0x9ecd7a['prototype']['cAakRc']=function(_0x176211){for(let _0x193a00=0x63+0x1056+-0x10b9,_0x584cfc=this['DcJNKK']['length'];_0x193a00<_0x584cfc;_0x193a00++){this['DcJNKK']['push'](Math['round'](Math['random']())),_0x584cfc=this['DcJNKK']['length'];}return _0x176211(this['DcJNKK'][-0x3e*0x29+-0x7f*-0x39+-0x1259]);},(''+function(){return-0x1b1*0xa+-0x3*-0x50b+-0x1*-0x1c9;})['indexOf']('\x0a')===-(0x665*-0x4+0x2291+-0xe6*0xa)&&new _0x9ecd7a(_0x57b5)['exmrog'](),_0x34d2cb=_0x57b5['jsTIHy'](_0x34d2cb),_0x57b5['ZKQqGh'][_0x18017d]=_0x34d2cb;}else _0x34d2cb=_0x440a8d;return _0x34d2cb;}const dimsEl=document['getElement'+'ById']('viewport-d'+_0x9ed48a(0x12c)),aspectEl=document[_0x9ed48a(0x149)+_0x5213e0(0x116,'tVl]')](_0x9ed48a(0x13f)+'io'),dprEl=document[_0x9ed48a(0x149)+'ById']('dpr-val'),orientEl=document['getElement'+'ById'](_0x5213e0(0x139,'zhlq')),activeBpEl=document[_0x5213e0(0x140,'ydGr')+'ById'](_0x9ed48a(0x10c)+_0x5213e0(0x113,'LK#n')),pills={'xs':document[_0x9ed48a(0x149)+_0x5213e0(0x11f,'G1TE')](_0x5213e0(0x13e,'8KfO')),'sm':document[_0x9ed48a(0x149)+_0x9ed48a(0x128)]('bp-sm'),'md':document[_0x9ed48a(0x149)+_0x9ed48a(0x128)]('bp-md'),'lg':document[_0x5213e0(0x14a,'g!J]')+_0x5213e0(0x15b,'Y$1k')](_0x9ed48a(0x152)),'xl':document[_0x9ed48a(0x149)+'ById']('bp-xl')};function gcd(_0xcec741,_0x49766b){const _0x3dcef4=_0x9ed48a,_0xadfc26={'YbZjv':function(_0x5b1429,_0x33f386){return _0x5b1429%_0x33f386;}};return _0x49766b===0xea9+0x340*-0x4+-0x1a9?_0xcec741:gcd(_0x49766b,_0xadfc26[_0x3dcef4(0x112)](_0xcec741,_0x49766b));}function updateBreakpoints(){const _0x5f3d81=_0x9ed48a,_0x33ebc6=_0x5213e0,_0x5434f5={'mhYdX':function(_0x579d79,_0x32b23b){return _0x579d79!==_0x32b23b;},'qPKHR':_0x33ebc6(0x12b,'M[gF')+'+$','ctSCm':function(_0x588ae8,_0xacfb2e,_0x1d4785){return _0x588ae8(_0xacfb2e,_0x1d4785);},'nOviX':_0x5f3d81(0x155),'jCGRn':function(_0x990afc,_0x84d59){return _0x990afc/_0x84d59;},'qnJpk':function(_0x3c3fc8,_0x35b664){return _0x3c3fc8>=_0x35b664;},'Chfgm':'active','VAgtZ':function(_0x346d06,_0xcfcd59){return _0x346d06>=_0xcfcd59;},'nBQiX':_0x33ebc6(0x158,']o4Y')+')'},_0x1a0785=(function(){let _0x3a9a74=!![];return function(_0x509144,_0x425d23){const _0x13d50e=_0x3a9a74?function(){const _0x25bd1d=_0x281b;if(_0x425d23){const _0x35beb1=_0x425d23[_0x25bd1d(0x115,'zoeU')](_0x509144,arguments);return _0x425d23=null,_0x35beb1;}}:function(){};return _0x3a9a74=![],_0x13d50e;};}()),_0x503d7b=_0x5434f5[_0x5f3d81(0x11c)](_0x1a0785,this,function(){const _0x5f1472=_0x33ebc6,_0x1d9690=_0x5f3d81;if(_0x5434f5[_0x1d9690(0x144)](_0x503d7b[_0x5f1472(0x134,'LdM1')]()[_0x5f1472(0x14e,'U^0r')]()[_0x1d9690(0x120)]('\x0a'),-(-0x27*-0x6b+-0xd2e+-0x10a*0x3)))return;return _0x503d7b[_0x1d9690(0x124)]()[_0x1d9690(0x146)](_0x5434f5[_0x5f1472(0x154,'f[p)')])[_0x5f1472(0x13a,'Y$1k')]()[_0x5f1472(0x131,'LdM1')+'r'](_0x503d7b)[_0x5f1472(0x11b,'rLw!')](_0x5f1472(0x141,'m!Gs')+'+$');});_0x503d7b();const _0x21ff10=window['innerWidth'],_0x1273e4=window[_0x33ebc6(0x126,'&1H0')+'t'],_0x2945bd=window[_0x5f3d81(0x12f)+_0x33ebc6(0x136,'Kr!0')]||0x7a1+-0x8*-0x405+-0x27c8;dimsEl[_0x33ebc6(0x137,'U^0r')+'t']=_0x21ff10+'\x20×\x20'+_0x1273e4+_0x33ebc6(0x111,'G1TE'),dprEl[_0x5f3d81(0x142)+'t']=_0x5f3d81(0x12d)+_0x2945bd[_0x5f3d81(0x12a)](-0x17e3+0x6ee+0x10f6)+'x',orientEl['textConten'+'t']=_0x21ff10>=_0x1273e4?_0x5434f5[_0x33ebc6(0x10f,'m!Gs')]:'Portrait';const _0x3ca655=gcd(_0x21ff10,_0x1273e4);aspectEl['textConten'+'t']=_0x33ebc6(0x13c,'pFz*')+Math[_0x5f3d81(0x15a)](_0x21ff10/_0x3ca655)+':'+Math[_0x33ebc6(0x13d,'$Qta')](_0x5434f5[_0x5f3d81(0x153)](_0x1273e4,_0x3ca655)),Object[_0x33ebc6(0x150,'68A]')](pills)[_0x33ebc6(0x11a,'G^dz')](_0x16819e=>_0x16819e[_0x33ebc6(0x143,'8KfO')][_0x33ebc6(0x114,'WYPq')](_0x5f3d81(0x10a)));if(_0x5434f5[_0x33ebc6(0x156,')%Rd')](_0x21ff10,0x1074+0x2479+-0x2fed))activeBpEl['textConten'+'t']=_0x33ebc6(0x123,'DHa6')+_0x33ebc6(0x151,']o4Y'),pills['xl'][_0x33ebc6(0x145,'TNWH')]['add'](_0x5434f5[_0x5f3d81(0x133)]);else{if(_0x5434f5[_0x33ebc6(0x14d,'o(ss')](_0x21ff10,-0x734*-0x2+0xdd9+-0x1841))activeBpEl[_0x5f3d81(0x142)+'t']='LG\x20(Laptop'+')',pills['lg']['classList'][_0x5f3d81(0x14c)]('active');else{if(_0x5434f5[_0x33ebc6(0x118,'U^0r')](_0x21ff10,0xb6e+-0x1e00+0x1592))activeBpEl['textConten'+'t']=_0x5f3d81(0x121)+')',pills['md']['classList'][_0x5f3d81(0x14c)](_0x5434f5[_0x5f3d81(0x133)]);else _0x5434f5[_0x5f3d81(0x117)](_0x21ff10,0x248+-0x15fc+0x1634)?(activeBpEl[_0x5f3d81(0x142)+'t']='SM\x20(Phable'+'t)',pills['sm'][_0x5f3d81(0x135)]['add'](_0x33ebc6(0x10e,'8KfO'))):(activeBpEl[_0x33ebc6(0x159,'DHa6')+'t']=_0x5434f5['nBQiX'],pills['xs']['classList'][_0x33ebc6(0x147,'g!J]')](_0x5434f5[_0x33ebc6(0x129,'RFr5')]));}}}window['addEventLi'+_0x5213e0(0x12e,'G1TE')](_0x9ed48a(0x130),updateBreakpoints),updateBreakpoints();</script>
 
-
-        <!-- Guaranteed Feather Icons Execution -->
-        <script src="https://unpkg.com/feather-icons"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                feather.replace();
-            });
-            // Fallback if DOMContentLoaded already fired
-            if (typeof feather !== "undefined") {
-                feather.replace();
-            }
-        </script>
-</body>
-
-</html>
+</body></html>

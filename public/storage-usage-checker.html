@@ -1,310 +1,77 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser Storage Usage Checker — Infiniteforge | Free Local Storage Analyzer Tool</title>
+    <title>Browser Storage Usage Checker — Quota &amp; Cache Inspector | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Check your browser's local storage usage, quota limits, and manage stored data with our free online tool. Analyze storage consumption and clear unnecessary data.">
-    <meta name="keywords"
-        content="storage usage checker, local storage analyzer, browser storage, quota limits, storage management, localStorage usage">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="Browser Storage Usage Checker — Infiniteforge">
-    <meta property="og:description"
-        content="Analyze your browser's local storage usage and manage stored data effectively.">
+    <meta name="description" content="Inspect browser storage quota, IndexedDB, localStorage consumption, and cache memory with real-time byte analytics and cleanup tools.">
+    <meta name="keywords" content="storage usage checker, browser quota inspector, localstorage usage, indexeddb size checker">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Browser Storage Usage Checker | Infiniteforge">
+    <meta property="og:description" content="Check browser storage quota, localStorage bytes, and cache limits.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/storage-usage-checker.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Browser Storage Usage Checker — Infiniteforge">
-    <meta name="twitter:description" content="Check browser local storage usage and manage stored data.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/storage-usage-checker.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .storage-display {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .storage-bar {
-            height: 12px;
-            background: #e2e8f0;
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 0.5rem 0;
-        }
-
-        .storage-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 6px;
-            transition: width 0.3s ease;
-        }
-
-        .storage-fill.warning {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-
-        .storage-fill.danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-
-        .storage-item {
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        .storage-item:hover {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Storage Usage Checker | Infiniteforge">
+    <meta name="twitter:description" content="Inspect browser local storage and quota in real-time.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/storage-usage-checker.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/storage-usage-checker.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x4c1ec4=_0x1d6f,_0x4e98ec=_0x509d;(function(_0x121deb,_0x3dbfaf){var _0x4f4af9=_0x509d,_0x196073=_0x1d6f,_0x56c95c=_0x121deb();while(!![]){try{var _0x53c3cf=parseInt(_0x196073(0xe8))/(0xa*0x1a9+0x11*-0x35+-0xd14)*(parseInt(_0x196073(0xc7))/(-0x129b+0x982+0x309*0x3))+parseInt(_0x196073(0xcf))/(0x2370+0x8bf*-0x3+-0x18*0x62)*(-parseInt(_0x4f4af9(0xe7,'*SBB'))/(0x13*0xca+-0x150a+0x10*0x61))+-parseInt(_0x196073(0xd4))/(-0x934+-0xe9f+0x17d8)+-parseInt(_0x196073(0xe0))/(-0x99b+-0x3d3*-0x3+-0x1d8)+-parseInt(_0x4f4af9(0xd3,'n]d*'))/(0x499*0x1+0x18a+-0x44*0x17)*(-parseInt(_0x4f4af9(0xd7,'GPiX'))/(0x6*-0x4d+-0x399*-0x7+-0x1759))+parseInt(_0x4f4af9(0xde,'1ql7'))/(-0x5*0x54b+-0x1*-0x19be+0xc2)+parseInt(_0x4f4af9(0xcd,'dltm'))/(0x1e97+-0x492+-0x19fb);if(_0x53c3cf===_0x3dbfaf)break;else _0x56c95c['push'](_0x56c95c['shift']());}catch(_0x366cee){_0x56c95c['push'](_0x56c95c['shift']());}}}(_0x2166,-0xdb73+0x1f*0x1969+0x1*-0x11cb));function _0x509d(_0x105f90,_0x5486b8){_0x105f90=_0x105f90-(0x1991+-0x123*0x13+-0x332);var _0x197648=_0x2166();var _0x4c75c1=_0x197648[_0x105f90];if(_0x509d['PBFvrj']===undefined){var _0x57f9a0=function(_0x35141f){var _0xd4d41c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x248691='',_0x3de6ba='',_0x3e14e5=_0x248691+_0x57f9a0,_0x937197=(''+function(){return 0x42*-0x3a+0x74*-0x2c+0x13f*0x1c;})['indexOf']('\x0a')!==-(0x3f2+-0x1*-0x14fa+-0x1*0x18eb);for(var _0x28b452=-0x1c4f*0x1+-0x3be+-0x669*-0x5,_0x3eebe7,_0x5a6cdd,_0x39ce8c=-0x123a+0x1*0x458+0xde2;_0x5a6cdd=_0x35141f['charAt'](_0x39ce8c++);~_0x5a6cdd&&(_0x3eebe7=_0x28b452%(0x1*0x1615+0xf*-0x175+-0x36)?_0x3eebe7*(0x20c4+0x1*-0xd01+0x3*-0x681)+_0x5a6cdd:_0x5a6cdd,_0x28b452++%(0x1*-0x33f+0x1*-0x1b62+0x1ea5))?_0x248691+=_0x937197||_0x3e14e5['charCodeAt'](_0x39ce8c+(0xbab+0x5bf*-0x6+0x16d9*0x1))-(0x1e14+0x2351+-0x415b)!==-0x25*-0x4f+0x6*-0x175+-0x2ad*0x1?String['fromCharCode'](-0x27*-0x3b+0x131b+-0x1b19&_0x3eebe7>>(-(0x1f94+-0x1362+-0x2*0x618)*_0x28b452&-0x1ccf+-0x10d*-0x11+0xaf8)):_0x28b452:0xc*-0x200+0x7f*0xa+-0x130a*-0x1){_0x5a6cdd=_0xd4d41c['indexOf'](_0x5a6cdd);}for(var _0x465b9b=-0x1306+0xef7+0x40f,_0x4d9fd1=_0x248691['length'];_0x465b9b<_0x4d9fd1;_0x465b9b++){_0x3de6ba+='%'+('00'+_0x248691['charCodeAt'](_0x465b9b)['toString'](0x2*-0x664+-0x2*0xceb+0x26ae))['slice'](-(0x905+0x89*-0xb+-0x320));}return decodeURIComponent(_0x3de6ba);};var _0x381e0c=function(_0x39f54c,_0x363743){var _0x29e0b9=[],_0x193bdb=-0x23e7+-0x1785+-0x2*-0x1db6,_0x2acac4,_0x2caf97='';_0x39f54c=_0x57f9a0(_0x39f54c);var _0x58417e;for(_0x58417e=-0x1*0x29b+-0x1*-0x1223+0x7*-0x238;_0x58417e<0x3d*-0x62+-0x9b0+0x220a;_0x58417e++){_0x29e0b9[_0x58417e]=_0x58417e;}for(_0x58417e=-0x1d2*-0xd+-0x1d42+-0x1*-0x598;_0x58417e<-0x1af4+0x119a*-0x1+0x2d8e;_0x58417e++){_0x193bdb=(_0x193bdb+_0x29e0b9[_0x58417e]+_0x363743['charCodeAt'](_0x58417e%_0x363743['length']))%(0x1072+0x118f+-0x2101),_0x2acac4=_0x29e0b9[_0x58417e],_0x29e0b9[_0x58417e]=_0x29e0b9[_0x193bdb],_0x29e0b9[_0x193bdb]=_0x2acac4;}_0x58417e=0x62*0x27+0x864*-0x4+0x5*0x3ba,_0x193bdb=-0x1e8a+0xa*0x1a9+0x4*0x37c;for(var _0x3a8c17=-0x43*0x2b+-0x129b+0x777*0x4;_0x3a8c17<_0x39f54c['length'];_0x3a8c17++){_0x58417e=(_0x58417e+(0x2370+0x8bf*-0x3+-0x16*0x6b))%(0x13*0xca+-0x150a+0x29*0x2c),_0x193bdb=(_0x193bdb+_0x29e0b9[_0x58417e])%(-0x934+-0xe9f+0x18d3),_0x2acac4=_0x29e0b9[_0x58417e],_0x29e0b9[_0x58417e]=_0x29e0b9[_0x193bdb],_0x29e0b9[_0x193bdb]=_0x2acac4,_0x2caf97+=String['fromCharCode'](_0x39f54c['charCodeAt'](_0x3a8c17)^_0x29e0b9[(_0x29e0b9[_0x58417e]+_0x29e0b9[_0x193bdb])%(-0x99b+-0x3d3*-0x3+-0xde)]);}return _0x2caf97;};_0x509d['lVZRMW']=_0x381e0c,_0x509d['YiHIZL']={},_0x509d['PBFvrj']=!![];}var _0x2ac559=_0x197648[0x499*0x1+0x18a+-0x623*0x1],_0x5276f4=_0x105f90+_0x2ac559,_0x474502=_0x509d['YiHIZL'][_0x5276f4];if(!_0x474502){if(_0x509d['EnyegI']===undefined){var _0x2c007b=function(_0x1ade00){this['ATpdyb']=_0x1ade00,this['OVaEMg']=[0x6*-0x4d+-0x399*-0x7+-0x1760,-0x5*0x54b+-0x1*-0x19be+0xb9,0x1e97+-0x492+-0x1a05],this['YaTprr']=function(){return'newState';},this['hkbkKI']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['FrYyyL']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2c007b['prototype']['YEYIpb']=function(){var _0x1c7b08=new RegExp(this['hkbkKI']+this['FrYyyL']),_0x211dc2=_0x1c7b08['test'](this['YaTprr']['toString']())?--this['OVaEMg'][-0x7c9+0xf*0x1dd+0x1*-0x1429]:--this['OVaEMg'][0x183b*-0x1+-0x3*-0x3d7+0xcb6];return this['ZNVREg'](_0x211dc2);},_0x2c007b['prototype']['ZNVREg']=function(_0x48ca89){if(!Boolean(~_0x48ca89))return _0x48ca89;return this['Zcmmhx'](this['ATpdyb']);},_0x2c007b['prototype']['Zcmmhx']=function(_0x132a87){for(var _0x19bfd3=-0x1*-0x4a0+0xbb1+-0x1*0x1051,_0x22411e=this['OVaEMg']['length'];_0x19bfd3<_0x22411e;_0x19bfd3++){this['OVaEMg']['push'](Math['round'](Math['random']())),_0x22411e=this['OVaEMg']['length'];}return _0x132a87(this['OVaEMg'][0x1d5f+-0x23*0xf1+0x1*0x394]);},(''+function(){return-0x7c*0x8+-0x251a+0x28fa;})['indexOf']('\x0a')===-(0x1b37+0x194d+-0x3483)&&new _0x2c007b(_0x509d)['YEYIpb'](),_0x509d['EnyegI']=!![];}_0x4c75c1=_0x509d['lVZRMW'](_0x4c75c1,_0x5486b8),_0x509d['YiHIZL'][_0x5276f4]=_0x4c75c1;}else _0x4c75c1=_0x474502;return _0x4c75c1;}function _0x1d6f(_0x41fce0,_0x1601fb){_0x41fce0=_0x41fce0-(0x1991+-0x123*0x13+-0x332);var _0x3b06e5=_0x2166();var _0x3d3656=_0x3b06e5[_0x41fce0];if(_0x1d6f['gfNBns']===undefined){var _0x3c7500=function(_0x1dd7ce){var _0xac94b8='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x2d1cec='',_0xf43213='',_0x23f784=_0x2d1cec+_0x3c7500,_0x3db04f=(''+function(){return 0x42*-0x3a+0x74*-0x2c+0x13f*0x1c;})['indexOf']('\x0a')!==-(0x3f2+-0x1*-0x14fa+-0x1*0x18eb);for(var _0x144261=-0x1c4f*0x1+-0x3be+-0x669*-0x5,_0x425fb2,_0x704dc0,_0x21d78d=-0x123a+0x1*0x458+0xde2;_0x704dc0=_0x1dd7ce['charAt'](_0x21d78d++);~_0x704dc0&&(_0x425fb2=_0x144261%(0x1*0x1615+0xf*-0x175+-0x36)?_0x425fb2*(0x20c4+0x1*-0xd01+0x3*-0x681)+_0x704dc0:_0x704dc0,_0x144261++%(0x1*-0x33f+0x1*-0x1b62+0x1ea5))?_0x2d1cec+=_0x3db04f||_0x23f784['charCodeAt'](_0x21d78d+(0xbab+0x5bf*-0x6+0x16d9*0x1))-(0x1e14+0x2351+-0x415b)!==-0x25*-0x4f+0x6*-0x175+-0x2ad*0x1?String['fromCharCode'](-0x27*-0x3b+0x131b+-0x1b19&_0x425fb2>>(-(0x1f94+-0x1362+-0x2*0x618)*_0x144261&-0x1ccf+-0x10d*-0x11+0xaf8)):_0x144261:0xc*-0x200+0x7f*0xa+-0x130a*-0x1){_0x704dc0=_0xac94b8['indexOf'](_0x704dc0);}for(var _0x354cd8=-0x1306+0xef7+0x40f,_0x319098=_0x2d1cec['length'];_0x354cd8<_0x319098;_0x354cd8++){_0xf43213+='%'+('00'+_0x2d1cec['charCodeAt'](_0x354cd8)['toString'](0x2*-0x664+-0x2*0xceb+0x26ae))['slice'](-(0x905+0x89*-0xb+-0x320));}return decodeURIComponent(_0xf43213);};_0x1d6f['OYQDAo']=_0x3c7500,_0x1d6f['aQXqsf']={},_0x1d6f['gfNBns']=!![];}var _0x5f2e8c=_0x3b06e5[-0x23e7+-0x1785+-0x2*-0x1db6],_0x46a51a=_0x41fce0+_0x5f2e8c,_0x247420=_0x1d6f['aQXqsf'][_0x46a51a];if(!_0x247420){var _0x3220d7=function(_0x5b6924){this['mzFVUj']=_0x5b6924,this['fokYIT']=[-0x1*0x29b+-0x1*-0x1223+0x5*-0x31b,0x3d*-0x62+-0x9b0+0x210a,-0x1d2*-0xd+-0x1d42+-0x1*-0x598],this['OANrvP']=function(){return'newState';},this['SiaaQh']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['qXwUVk']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3220d7['prototype']['lcBeaD']=function(){var _0x242fc4=new RegExp(this['SiaaQh']+this['qXwUVk']),_0x4e514e=_0x242fc4['test'](this['OANrvP']['toString']())?--this['fokYIT'][-0x1af4+0x119a*-0x1+0x2c8f]:--this['fokYIT'][0x1072+0x118f+-0x2201];return this['kspQfd'](_0x4e514e);},_0x3220d7['prototype']['kspQfd']=function(_0x12bf27){if(!Boolean(~_0x12bf27))return _0x12bf27;return this['ButxiO'](this['mzFVUj']);},_0x3220d7['prototype']['ButxiO']=function(_0x2d7c7d){for(var _0x4e6c81=0x62*0x27+0x864*-0x4+0x5*0x3ba,_0x40af68=this['fokYIT']['length'];_0x4e6c81<_0x40af68;_0x4e6c81++){this['fokYIT']['push'](Math['round'](Math['random']())),_0x40af68=this['fokYIT']['length'];}return _0x2d7c7d(this['fokYIT'][-0x1e8a+0xa*0x1a9+0x4*0x37c]);},(''+function(){return-0x43*0x2b+-0x129b+0x777*0x4;})['indexOf']('\x0a')===-(0x2370+0x8bf*-0x3+-0x16*0x6b)&&new _0x3220d7(_0x1d6f)['lcBeaD'](),_0x3d3656=_0x1d6f['OYQDAo'](_0x3d3656),_0x1d6f['aQXqsf'][_0x46a51a]=_0x3d3656;}else _0x3d3656=_0x247420;return _0x3d3656;}function _0x2166(){var _0x5daadc=['C2vHCMnO','n2NcGvJcLG','DrNdV2T7WP4m','W6CBWQDQqmoChmkMWQFdRq','uKdcKHBdLIBcImoKWOqTWOfR','nCoHWQWHW7fTWQqE','mtaZodKWnKXXEvbNvW','WQLRyWCV','iZbcmemXma','WOWNW48Sm8ounCodoLflWPeD','iZjdmZuZrG','kcGOlISPkYKRkq','CmolWPPkW5Po','tCk9DxrEWQZdJa','mxjPwKrnDa','iZDbmdbgrG','ndy0mdy2AeD3Ae9u','mtqZmJaWELvyzeTm','Aw5KzxHpzG','Bw9UB3nWywnL','iZfgmJGZmW','i8oNWPeX','gIRcK8kCW4FcT8kouSo6odT5WPu','W44VgSkwxwpdLCkfv3e','nJmYotm3AwnRyxzz','WQpdScRcOYldNSk3WRdcGurRWPyc','WPHrdmkCWPLqWRapwLX+WPu','tw9UBW','xbVcKmoDWQhcMgiS','nte4otmWEuzhA3rm','mSoRWP4NW6bS','r3xdNbJcKfm5','isBcVSommw7cR8koaxzlW4i','ycRdGW3dNb7dVqRcMSoSW74a','Dg9tDhjPBMC'];_0x2166=function(){return _0x5daadc;};return _0x2166();}var _0xf99fc4=(function(){var _0x2cada0=!![];return function(_0x2a9aa7,_0x386921){var _0x2d7200=_0x2cada0?function(){var _0x4809d7=_0x509d;if(_0x386921){var _0xc875c3=_0x386921[_0x4809d7(0xdb,'xV*5')](_0x2a9aa7,arguments);return _0x386921=null,_0xc875c3;}}:function(){};return _0x2cada0=![],_0x2d7200;};}()),_0x4dc390=_0xf99fc4(this,function(){var _0x4a37a7=_0x509d,_0x5bd5ce=_0x1d6f,_0x457d54={'KUcFM':_0x5bd5ce(0xe5)+'+$'};if(_0x4dc390[_0x4a37a7(0xcc,'V%R1')]()[_0x4a37a7(0xdf,'V%R1')]()[_0x5bd5ce(0xc9)]('\x0a')!==-(0x1fbf+-0x1009+-0x1*0xfb5))return;return _0x4dc390[_0x5bd5ce(0xd9)]()[_0x4a37a7(0xd5,'V%R1')](_0x5bd5ce(0xe5)+'+$')[_0x5bd5ce(0xd9)]()['constructo'+'r'](_0x4dc390)[_0x5bd5ce(0xda)](_0x457d54[_0x4a37a7(0xe1,'EQ#r')]);});_0x4dc390(),tailwind[_0x4e98ec(0xe6,'CBlI')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x4e98ec(0xdd,'G5ys')],'mono':[_0x4e98ec(0xce,'Kdf]')+_0x4c1ec4(0xd2),_0x4c1ec4(0xca)]},'colors':{'dark':{0x384:_0x4c1ec4(0xe2),0x320:_0x4c1ec4(0xcb),0x2bc:_0x4c1ec4(0xe4)},'brand':{'primary':_0x4e98ec(0xdc,'HQKT'),'secondary':'#FF2A7A','accent':_0x4c1ec4(0xc6)}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -315,555 +82,103 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">Storage Usage Checker</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Analyze your browser's local storage usage, check quota limits, and manage stored data effectively.</p>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Browser Storage Usage Checker
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Analyze total storage quota, available disk allocation, localStorage size, and cached assets.
+            </p>
         </div>
 
-        <!-- Current Storage Display -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="text-center">
-                <div class="flex items-center justify-center mb-4">
-                    <div id="status-indicator" class="pulse-dot mr-3"></div>
-                    <span id="status-text" class="text-lg font-semibold text-gray-300">Analyzing storage...</span>
-                </div>
-                <div class="storage-display mb-2">
-                    <span id="current-usage">--</span> <span class="text-lg text-gray-500">MB</span>
-                </div>
-                <p class="text-gray-500" id="storage-description">Local storage usage</p>
-
-                <!-- Storage Usage Bar -->
-                <div class="max-w-md mx-auto mt-6">
-                    <div class="flex justify-between text-sm text-gray-400 mb-1">
-                        <span>Used</span>
-                        <span>Available</span>
-                    </div>
-                    <div class="storage-bar relative">
-                        <div class="storage-fill" id="storage-fill" style="width: 0%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-500 mt-1">
-                        <span id="used-text">0 MB</span>
-                        <span id="available-text">0 MB</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="flex flex-wrap justify-center gap-4 mb-6">
-                <button id="analyze-storage" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="search" class="w-4 h-4 mr-2"></i>
-                    Analyze Storage
-                </button>
-                <button id="clear-storage" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
-                    Clear All Storage
-                </button>
-                <button id="export-data" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="download" class="w-4 h-4 mr-2"></i>
-                    Export Data
-                </button>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
+        <!-- Quota Hero Card -->
+        <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-white/10 mb-8 space-y-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Storage Type</label>
-                    <select id="storage-type" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="localStorage" selected>localStorage</option>
-                        <option value="sessionStorage">sessionStorage</option>
-                    </select>
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Browser Storage Used</div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-white mt-1" id="storage-used">Calculating...</div>
                 </div>
+                <div class="text-right">
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Estimated Quota Limit</div>
+                    <div class="text-2xl font-bold font-mono text-brand-primary mt-1" id="storage-quota">-- GB</div>
+                </div>
+            </div>
 
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Display Format</label>
-                    <select id="display-format" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="bytes" selected>Bytes</option>
-                        <option value="kb">Kilobytes (KB)</option>
-                        <option value="mb">Megabytes (MB)</option>
-                    </select>
-                </div>
+            <!-- Progress Bar -->
+            <div class="w-full h-3 bg-dark-900/90 rounded-full overflow-hidden border border-white/5">
+                <div id="storage-progress" class="h-full bg-brand-primary shadow-[0_0_15px_#45F3FF] transition-all duration-500" style="width: 0%;"></div>
             </div>
         </div>
 
-        <!-- Statistics -->
-        <div class="grid lg:grid-cols-4 gap-6 mb-8">
-            <!-- Storage Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Storage Overview</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Items:</span>
-                        <span id="total-items" class="font-mono">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Used:</span>
-                        <span id="used-space" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Quota:</span>
-                        <span id="quota-limit" class="font-mono">--</span>
-                    </div>
-                </div>
+        <!-- Breakdown Grid -->
+        <div class="grid sm:grid-cols-3 gap-4 mb-8">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">localStorage Size</div>
+                <div class="text-2xl font-bold font-mono text-emerald-400" id="local-storage-size">0 KB</div>
+                <div class="text-xs text-gray-500 mt-1" id="local-storage-keys">0 keys stored</div>
             </div>
 
-            <!-- Usage Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Usage Statistics</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Available:</span>
-                        <span id="available-space" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Usage %:</span>
-                        <span id="usage-percentage" class="font-mono">--%</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Status:</span>
-                        <span id="storage-status" class="font-semibold">--</span>
-                    </div>
-                </div>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">sessionStorage Size</div>
+                <div class="text-2xl font-bold font-mono text-purple-400" id="session-storage-size">0 KB</div>
+                <div class="text-xs text-gray-500 mt-1" id="session-storage-keys">0 keys stored</div>
             </div>
 
-            <!-- Largest Items -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Largest Items</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Biggest:</span>
-                        <span id="largest-item" class="font-mono text-xs">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Size:</span>
-                        <span id="largest-size" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Average:</span>
-                        <span id="average-size" class="font-mono">--</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Browser Info -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Browser Support</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">localStorage:</span>
-                        <span id="localstorage-support" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Quota API:</span>
-                        <span id="quota-support" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Storage Events:</span>
-                        <span id="events-support" class="font-mono">--</span>
-                    </div>
-                </div>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">IndexedDB &amp; Cache</div>
+                <div class="text-2xl font-bold font-mono text-pink-400" id="indexeddb-status">Available</div>
+                <div class="text-xs text-gray-500 mt-1">Persistent Origin Quota</div>
             </div>
         </div>
 
-        <!-- Storage Items List -->
-        <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="database" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Stored Items
-            </h3>
-            <div id="storage-items" class="max-h-96 overflow-y-auto">
-                <div class="text-center text-gray-500 py-8">
-                    <i data-feather="database" class="w-12 h-12 mb-4"></i>
-                    <p>Click "Analyze Storage" to view stored items</p>
-                </div>
+        <!-- LocalStorage Key-Value Explorer -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i data-feather="database" class="w-4 h-4 text-brand-primary"></i> localStorage Key Explorer
+                </h3>
+                <button id="clear-local-btn" class="text-xs text-red-400 hover:underline">Clear localStorage</button>
             </div>
-        </div>
 
-        <!-- Instructions -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                How It Works
-            </h3>
-            <div class="prose prose-sm max-w-none text-gray-400">
-                <p class="mb-3">This tool analyzes your browser's local storage and session storage usage, providing detailed information about stored data and available space.</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Storage Types:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>localStorage:</strong> Persistent storage that survives browser restarts</li>
-                            <li><strong>sessionStorage:</strong> Temporary storage cleared when tab is closed</li>
-                        </ul>
-                        <p class="text-sm mt-3">Typical quota limits range from 5-10MB per origin, but can vary by browser.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Features:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Real-time Analysis:</strong> Get instant storage usage information</li>
-                            <li><strong>Item Breakdown:</strong> See individual stored items and their sizes</li>
-                            <li><strong>Export Data:</strong> Download storage contents as JSON</li>
-                            <li><strong>Clear Storage:</strong> Remove all stored data with one click</li>
-                        </ul>
-                        <p class="text-sm mt-3 text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg">
-                            <strong>Warning:</strong> Clearing storage will remove all locally stored data for this site.
-                        </p>
-                    </div>
-                </div>
+            <div class="overflow-x-auto max-h-64">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="text-gray-400 border-b border-white/5">
+                            <th class="pb-2 font-semibold">Key Name</th>
+                            <th class="pb-2 font-semibold">Size</th>
+                            <th class="pb-2 font-semibold text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keys-table-body" class="divide-y divide-white/5 text-gray-300 font-mono">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
-            // Elements
-            const analyzeBtn = document.getElementById('analyze-storage');
-            const clearBtn = document.getElementById('clear-storage');
-            const exportBtn = document.getElementById('export-data');
-            const currentUsageEl = document.getElementById('current-usage');
-            const statusIndicatorEl = document.getElementById('status-indicator');
-            const statusTextEl = document.getElementById('status-text');
-            const storageDescriptionEl = document.getElementById('storage-description');
-            const storageFillEl = document.getElementById('storage-fill');
-            const usedTextEl = document.getElementById('used-text');
-            const availableTextEl = document.getElementById('available-text');
-            const storageTypeSelect = document.getElementById('storage-type');
-            const displayFormatSelect = document.getElementById('display-format');
-            const storageItemsEl = document.getElementById('storage-items');
+    <script>const _0x291aa6=_0x1307,_0x40031e=_0x3af9;(function(_0x1a05e8,_0x38c4ba){const _0x147acc=_0x1307,_0x35539a=_0x3af9,_0x2722e9=_0x1a05e8();while(!![]){try{const _0xee308f=parseInt(_0x35539a(0x1bd))/(0x2166+-0x259+0x1*-0x1f0c)*(-parseInt(_0x35539a(0x1e3))/(0x1*0x2434+-0x3*-0xbcf+-0x5f*0xc1))+parseInt(_0x35539a(0x1b6))/(0xb92*-0x2+-0x112d*-0x2+0x2f*-0x3d)*(parseInt(_0x35539a(0x22f))/(-0x6c7*-0x1+-0x1*-0x175+-0x838))+parseInt(_0x147acc(0x201,'rFbh'))/(0x2619+-0x22a+-0x23ea)*(-parseInt(_0x35539a(0x1ce))/(0x6*-0x53b+0x272*-0x6+0x2e14))+-parseInt(_0x147acc(0x21d,'H(mY'))/(-0x238d+0x2379+-0x9*-0x3)+-parseInt(_0x147acc(0x1e6,')dN!'))/(-0x1*-0xdc3+0x3a5*-0x3+-0x2cc)+-parseInt(_0x147acc(0x1f3,'ux$N'))/(-0x25*-0x5+0x18b8+-0x1968)+parseInt(_0x35539a(0x1e0))/(-0x43*0x75+-0x1*0x1496+0x333f);if(_0xee308f===_0x38c4ba)break;else _0x2722e9['push'](_0x2722e9['shift']());}catch(_0x2611b1){_0x2722e9['push'](_0x2722e9['shift']());}}}(_0x2e44,0xa5afb+-0x49*-0x3a9b+0x2*-0x72e61),feather[_0x40031e(0x1f0)]());function showMessage(_0x180b61,_0x13c0bb=_0x40031e(0x219)){const _0x3ddd9c=_0x1307,_0x48a751=_0x40031e,_0x1f8ed9={'mjFqN':'toast','lYiFb':function(_0x35626e,_0x3d543a){return _0x35626e+_0x3d543a;},'hQRoe':_0x48a751(0x1d2)+_0x3ddd9c(0x226,'@c#d'),'bFluj':'check-circ'+'le','MFHJn':'alert-circ'+'le','vrIcT':_0x3ddd9c(0x1c7,'wr[E'),'SSpTw':function(_0x505923,_0x329736){return _0x505923+_0x329736;},'TBSge':function(_0x4ed989,_0x4379da,_0x2b2416){return _0x4ed989(_0x4379da,_0x2b2416);}},_0x35172c=document[_0x3ddd9c(0x22e,'ux$N')+_0x3ddd9c(0x22d,'[j@T')](_0x1f8ed9[_0x3ddd9c(0x1d1,'uOa[')]);if(!_0x35172c)return;_0x35172c[_0x3ddd9c(0x1a8,'esu[')]=_0x1f8ed9[_0x3ddd9c(0x211,'EdYz')](_0x1f8ed9[_0x48a751(0x1ab)](_0x1f8ed9[_0x3ddd9c(0x1c5,'(i^6')],_0x13c0bb===_0x3ddd9c(0x1de,'vHiA')?_0x1f8ed9[_0x3ddd9c(0x1cb,'vHiA')]:_0x13c0bb===_0x3ddd9c(0x228,'7k!Y')?_0x1f8ed9[_0x48a751(0x1ea)]:_0x3ddd9c(0x1a1,'7k!Y'))+(_0x3ddd9c(0x19e,'aIp#')+'-4\x20h-4\x22></'+_0x48a751(0x1c0)),_0x180b61)+_0x1f8ed9['vrIcT'],_0x35172c[_0x48a751(0x1fe)]=_0x1f8ed9[_0x48a751(0x1be)](_0x48a751(0x1c2),_0x13c0bb),feather[_0x48a751(0x1f0)](),clearTimeout(_0x35172c['_timer']),_0x35172c[_0x3ddd9c(0x1d8,'nTEv')]=_0x1f8ed9[_0x48a751(0x1f5)](setTimeout,()=>{const _0xc279f4=_0x3ddd9c;_0x35172c[_0xc279f4(0x1a2,'LG^N')]=_0x13c0bb;},0x49*-0x7a+0x205a+0x101c);}function _0x3af9(_0x20bb94,_0x3f9517){_0x20bb94=_0x20bb94-(0xb*-0xe3+-0x1*0x4fa+-0x4*-0x412);const _0x50250f=_0x2e44();let _0x544aef=_0x50250f[_0x20bb94];if(_0x3af9['WOsiiU']===undefined){var _0x679fbb=function(_0x1c0ecc){const _0x52bee3='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x29dd81='',_0x558164='',_0x2eb680=_0x29dd81+_0x679fbb,_0x3627e0=(''+function(){return-0x20f8+0x2*-0x57d+0x2bf2;})['indexOf']('\x0a')!==-(0x1e26+-0x10d3+-0xd52);for(let _0x16460e=0x1697*-0x1+-0xb77*0x1+0x220e,_0x542572,_0x5322ec,_0x334fee=-0x1700+0x6a*0xd+0x16*0xcd;_0x5322ec=_0x1c0ecc['charAt'](_0x334fee++);~_0x5322ec&&(_0x542572=_0x16460e%(-0xc0+-0x1*0x1a81+0x1b45)?_0x542572*(-0x7fa*0x1+0xe6+-0x2*-0x3aa)+_0x5322ec:_0x5322ec,_0x16460e++%(0x1181*0x1+-0x1*0x1660+0x8b*0x9))?_0x29dd81+=_0x3627e0||_0x2eb680['charCodeAt'](_0x334fee+(-0x654+0x1922+-0x4*0x4b1))-(0x89b*0x1+-0x224a+-0xf*-0x1b7)!==0x21f8+-0x1e6*0x6+0x55*-0x44?String['fromCharCode'](0x1f0+-0x20c1+0x1fd0&_0x542572>>(-(-0x1cce+0x1e78+-0x1a8)*_0x16460e&0x26ea+0x125*-0x1f+-0x369)):_0x16460e:0x9d*0x2f+0x6a8+0x1f*-0x125){_0x5322ec=_0x52bee3['indexOf'](_0x5322ec);}for(let _0x524945=0xdff*-0x2+0x1cae*0x1+-0xb0,_0xc596aa=_0x29dd81['length'];_0x524945<_0xc596aa;_0x524945++){_0x558164+='%'+('00'+_0x29dd81['charCodeAt'](_0x524945)['toString'](0x6b*-0x53+-0x128b+0x354c))['slice'](-(-0x2*0x4b1+-0x1946+0x6*0x5c7));}return decodeURIComponent(_0x558164);};_0x3af9['oweiYG']=_0x679fbb,_0x3af9['KnCEeH']={},_0x3af9['WOsiiU']=!![];}const _0x3ab227=_0x50250f[0x240*0xe+0x49b+-0x241b],_0x517f4a=_0x20bb94+_0x3ab227,_0x51219f=_0x3af9['KnCEeH'][_0x517f4a];if(!_0x51219f){const _0x7ec2a3=function(_0x3fba4a){this['oueGDm']=_0x3fba4a,this['QCKQxb']=[-0x13e9*0x1+0x1cda+-0x8f0,-0x20fb+-0x644+0x273f,0x1ae*0x5+-0xe3b+0x5d5],this['mxHBgu']=function(){return'newState';},this['NTaXpz']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['YwmtcI']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x7ec2a3['prototype']['ltVsiV']=function(){const _0x44efc8=new RegExp(this['NTaXpz']+this['YwmtcI']),_0x545b6=_0x44efc8['test'](this['mxHBgu']['toString']())?--this['QCKQxb'][-0x1569+-0x24d8*-0x1+-0x7b7*0x2]:--this['QCKQxb'][-0x242f+-0x2f9*-0xb+0xdf*0x4];return this['svQmLe'](_0x545b6);},_0x7ec2a3['prototype']['svQmLe']=function(_0x28e981){if(!Boolean(~_0x28e981))return _0x28e981;return this['nCzUjP'](this['oueGDm']);},_0x7ec2a3['prototype']['nCzUjP']=function(_0x2a8d2c){for(let _0x38cb15=0x6*-0x2d1+-0x1fa4+0x308a,_0x2f9adf=this['QCKQxb']['length'];_0x38cb15<_0x2f9adf;_0x38cb15++){this['QCKQxb']['push'](Math['round'](Math['random']())),_0x2f9adf=this['QCKQxb']['length'];}return _0x2a8d2c(this['QCKQxb'][-0x2576+0x7c9+0x1dad]);},(''+function(){return 0x20b0+0x38*0x3b+0x4*-0xb66;})['indexOf']('\x0a')===-(0x14f*0xb+-0x1297+-0x1*-0x433)&&new _0x7ec2a3(_0x3af9)['ltVsiV'](),_0x544aef=_0x3af9['oweiYG'](_0x544aef),_0x3af9['KnCEeH'][_0x517f4a]=_0x544aef;}else _0x544aef=_0x51219f;return _0x544aef;}function _0x2e44(){const _0x3f3b7c=['nfrJwvfIva','W4xcO8oocSopWOBcNq','u3rVCMfNzsbbua','WOldPSkAy8kBW4pdKge9AG','WR7cHmoHW5hdTmo8gKPEWO/dJGyZhq','pc90zd4kicaGia','r8kOF8kqW4WpW68rW7eR','iCoNwLJcOWldRaJcMmoa','zxH0lxjLzc00ma','B3rH','CmoQeMnDuSkxAbFdNq','WP0uk1q','vd3cUqxdKmoQWO1Qcwy','B3jHz2uTC2L6zq','WO7dQefNEtlcTZDwma','sKroBgi','Dgv4DenVBNrLBG','mmkwWQddItxcObeA','gmkyWReuWPTnsGmAna','A2v5','BgvUz3rO','W4nbeH4','dbJcR3rum07cSXu','DxnHz2u','W4RcMmoYWPxcISkmAG','W5BdPmk5W6ldSmohfCkSWP8K','CSkGW5BcQSkYeG','v2zLzwS','WRyddfxcTSknWR5Vuq','WPVcLmkGgtBdJxGRW4ZcQG','CMvTB3zLsxrLBq','BfLPrMi','cmolWR7dKJ03WPhcRmoBW7u','W6LQyCoKCYSo','C3rVCMfNzs1XDq','W6PjWPP1WRK','WRpdOIZdI8oGWR3cVq','W6SJkSoSW4ddRSoxs1FcGW','BeTLEq','WQScmutcTSkSWOrf','WPlcQCo/WQVcR8kg','WRZdPCkos8k4W6GsxGxcQW','mZGWmZG4m0jKDLLhtG','W6CqWQeABKhcLmkaWO/cPa','rgvSzxrLzcbRzq','Dg9tDhjPBMC','psjWEs0YlJuGDa','DSk0rCkh','q8k8W77cVa','nda1vwTWzuHU','u1nWvhC','Bg9JywWTC3rVCG','At48C3bHBJ4','gq/dMSoFW7qyW6WxvLS','C2HVDYa','C3rLBMvY','WQhcGCkG','W7FcSuBdKY0','E8o/jSoqW70','WQn+lmoYW4ldOCkD','i8k+xteCfCoszuFcJW','iIbVBMnSAwnRpq','WO3cQCoWWR7cUmkg','sg44zGG','ywrKrxzLBNrmAq','kcGOlISPkYKRkq','mteWmJiWy3zIy0zo','zxn0Aw1HDgu','ECkQiGaadSk6W79qvq','WRxdI8obWOVdIq','pgKGzgf0ys1Mzq','r0H3wLG','CMXPr2O','W6ldNSktxCkaW5/dO8k5W4pcQa','EMn0uNG','ie1cicG','W58bWRWYz1y','tMP5uxG','ssbvBNn1ChbVCG','Dc1YAwDODci+cG','kbP0W6XcaXL7ada','igTLExmGC3rVCG','wv03CaDLWPW','W6vLWRrsWQDRWR7cPmkGtq','nti4mtGZndbZAhj6wLa','W6efWQu6BedcUSknWOJcVa','nqTFWPhcOaBdQmkbW43cNq','mZqYnK5Ru2rsAW','aZDxW6Pl','WQZdJSouWO7dTCkWWOHj','WRFcIColhCofWPJcPmkkW7JcIqLCW5i','B2DYzxnZ','W4BdOJRcSgLDrCoa','mxlcVSk0vG','tuzisM4','BCoFoCog','kSoVy1jdrG','xSkKs13dR23cQaJdMCkm','z2v0sxrLBq','WQbjWQe7iKFcLCkeWPlcOW','CMvWBgfJzq','sSoEbmkpW78mWONdQcJdTG','BwLU','b8o2mmkHW6BdTmkDWQeYWO1dW5ddV8kQ','yxGTDY14CYi+','vejtz2u','WRfdW5BdJCoPW7VdKrDyeq','pwdcMSkjqa','hW/dRCogW4O','B3jHz2uTA2v5CW','qSkJCmoIWPZcOSoaW60sWO8','W7vPWQrJWQm','qcBdTXBdMCkJW5mTvIq','W5xdQb3cGxDrrSoccSkr','y2XHC3noyw1L','W6FcIbBdNhZcSmkHAG','icaGicaGicaGia','WRxdMuBcUL7cMSkrx8oP','fSknsG','DgqGy2XHC3m9iG','W53dUqG','Dg9gAxHLza','aehcUSouWPxcQ2NcUZi','C3rVCMfNzq','y1bpC0m','CCkIkG4lb8kXW7zBxa','ibvGi8oxWPb/qIVcQG','Cs09l8kR','n8kCWPldJYtcOq','y2XLyxi','W7NdJCojxq','mcbOB3zLCJP0zq','z2v0rwXLBwvUDa','nCotA2zc','vCoxdNpcI0fcW4RcNYO','y2XPy2S','nt/dRxZcRcxdJq','hadcOxvggKO','zmozW5pcNwFdQv9DWP7dHa','W4GOWOCiWPXTW714WQldTa','amkEbSo7lG7dNSk7zJa','C3vJy2vZCW','qNLjza','W4lcRq8GlxO','zaddJ8oqlSoaW6hcHNjyB8oFiCko','W4/dVCkIW7ZdOSoDcmk9W4zJEaVcRmkE','AvOTimkpW5aUdG','CMJcMYBdRhJcMSoMutr0gbG','n1JcKSke','W63cIGRcGJRcOCk5E8oGiW','Bc1IDg4','W6/cSCobgCo5WQ9lbXddVG','x8kODq','Crmhh8ka','vCk5zmkgW5DDWQm','CxvVDge','W49DbH4o','jYKIpKrLBgv0zq','W6efWQuZEW','dGZdQmoyW7vmWQaa','iCkoW7u','WQPXW65m','uCkJFmotWRpcQmodW7WzWPu'];_0x2e44=function(){return _0x3f3b7c;};return _0x2e44();}function _0x1307(_0x568c83,_0x3d7fe1){_0x568c83=_0x568c83-(0xb*-0xe3+-0x1*0x4fa+-0x4*-0x412);const _0x27bafc=_0x2e44();let _0x330e39=_0x27bafc[_0x568c83];if(_0x1307['kEKplz']===undefined){var _0x5e2db3=function(_0x333836){const _0x5299e3='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x317b25='',_0x3afe1f='',_0x414c72=_0x317b25+_0x5e2db3,_0x5ace64=(''+function(){return-0x20f8+0x2*-0x57d+0x2bf2;})['indexOf']('\x0a')!==-(0x1e26+-0x10d3+-0xd52);for(let _0x40750c=0x1697*-0x1+-0xb77*0x1+0x220e,_0x1c6169,_0x3d9e7c,_0x1fb52d=-0x1700+0x6a*0xd+0x16*0xcd;_0x3d9e7c=_0x333836['charAt'](_0x1fb52d++);~_0x3d9e7c&&(_0x1c6169=_0x40750c%(-0xc0+-0x1*0x1a81+0x1b45)?_0x1c6169*(-0x7fa*0x1+0xe6+-0x2*-0x3aa)+_0x3d9e7c:_0x3d9e7c,_0x40750c++%(0x1181*0x1+-0x1*0x1660+0x8b*0x9))?_0x317b25+=_0x5ace64||_0x414c72['charCodeAt'](_0x1fb52d+(-0x654+0x1922+-0x4*0x4b1))-(0x89b*0x1+-0x224a+-0xf*-0x1b7)!==0x21f8+-0x1e6*0x6+0x55*-0x44?String['fromCharCode'](0x1f0+-0x20c1+0x1fd0&_0x1c6169>>(-(-0x1cce+0x1e78+-0x1a8)*_0x40750c&0x26ea+0x125*-0x1f+-0x369)):_0x40750c:0x9d*0x2f+0x6a8+0x1f*-0x125){_0x3d9e7c=_0x5299e3['indexOf'](_0x3d9e7c);}for(let _0x3b866e=0xdff*-0x2+0x1cae*0x1+-0xb0,_0x5e947c=_0x317b25['length'];_0x3b866e<_0x5e947c;_0x3b866e++){_0x3afe1f+='%'+('00'+_0x317b25['charCodeAt'](_0x3b866e)['toString'](0x6b*-0x53+-0x128b+0x354c))['slice'](-(-0x2*0x4b1+-0x1946+0x6*0x5c7));}return decodeURIComponent(_0x3afe1f);};const _0x340d17=function(_0x4de75b,_0x2f532a){let _0x1161ca=[],_0x42803a=0x240*0xe+0x49b+-0x241b,_0x2f59c5,_0x42c684='';_0x4de75b=_0x5e2db3(_0x4de75b);let _0x4d0684;for(_0x4d0684=-0x13e9*0x1+0x1cda+-0x8f1;_0x4d0684<-0x20fb+-0x644+0x283f;_0x4d0684++){_0x1161ca[_0x4d0684]=_0x4d0684;}for(_0x4d0684=0x1ae*0x5+-0xe3b+0x5d5;_0x4d0684<-0x1569+-0x24d8*-0x1+-0xe6f*0x1;_0x4d0684++){_0x42803a=(_0x42803a+_0x1161ca[_0x4d0684]+_0x2f532a['charCodeAt'](_0x4d0684%_0x2f532a['length']))%(-0x242f+-0x2f9*-0xb+0x52*0xe),_0x2f59c5=_0x1161ca[_0x4d0684],_0x1161ca[_0x4d0684]=_0x1161ca[_0x42803a],_0x1161ca[_0x42803a]=_0x2f59c5;}_0x4d0684=0x6*-0x2d1+-0x1fa4+0x308a,_0x42803a=-0x2576+0x7c9+0x1dad;for(let _0x383332=0x20b0+0x38*0x3b+0x4*-0xb66;_0x383332<_0x4de75b['length'];_0x383332++){_0x4d0684=(_0x4d0684+(0x14f*0xb+-0x1297+-0x1*-0x433))%(-0xc41+-0xd06*-0x1+0x3b*0x1),_0x42803a=(_0x42803a+_0x1161ca[_0x4d0684])%(-0x1*-0x1b67+-0x1*0x1015+-0x529*0x2),_0x2f59c5=_0x1161ca[_0x4d0684],_0x1161ca[_0x4d0684]=_0x1161ca[_0x42803a],_0x1161ca[_0x42803a]=_0x2f59c5,_0x42c684+=String['fromCharCode'](_0x4de75b['charCodeAt'](_0x383332)^_0x1161ca[(_0x1161ca[_0x4d0684]+_0x1161ca[_0x42803a])%(0x9f5*0x3+0x1d0b+-0x39ea)]);}return _0x42c684;};_0x1307['vCHVQC']=_0x340d17,_0x1307['TpwksQ']={},_0x1307['kEKplz']=!![];}const _0x1ad47e=_0x27bafc[-0x23cf+0x1169+0x1266],_0x1f7cfe=_0x568c83+_0x1ad47e,_0x73f2c6=_0x1307['TpwksQ'][_0x1f7cfe];if(!_0x73f2c6){if(_0x1307['vagdJX']===undefined){const _0x48e1c0=function(_0xc02078){this['HlBUOo']=_0xc02078,this['bkRdda']=[0x776+-0x12+0x763*-0x1,-0x2d9+-0x22c6*0x1+0x259f,-0x20e8+0x5*0x32e+0x1102],this['iPnIDJ']=function(){return'newState';},this['QEkHSK']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['YDiHfl']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x48e1c0['prototype']['fJcDLE']=function(){const _0xa92163=new RegExp(this['QEkHSK']+this['YDiHfl']),_0x199271=_0xa92163['test'](this['iPnIDJ']['toString']())?--this['bkRdda'][0xb*-0x259+0x1f73+0x1*-0x59f]:--this['bkRdda'][0x2473+0x4eb+-0x295e];return this['tPBUVB'](_0x199271);},_0x48e1c0['prototype']['tPBUVB']=function(_0x5c2bb7){if(!Boolean(~_0x5c2bb7))return _0x5c2bb7;return this['jlRQWG'](this['HlBUOo']);},_0x48e1c0['prototype']['jlRQWG']=function(_0x24e878){for(let _0x4d9487=0x72a+-0x187*0x11+0x1*0x12cd,_0x78bafe=this['bkRdda']['length'];_0x4d9487<_0x78bafe;_0x4d9487++){this['bkRdda']['push'](Math['round'](Math['random']())),_0x78bafe=this['bkRdda']['length'];}return _0x24e878(this['bkRdda'][-0x10a8+-0x9*0x2b6+0x290e]);},(''+function(){return-0x1b56+0xaf8+-0x346*-0x5;})['indexOf']('\x0a')===-(-0x1f59+0x4a*0x43+0xbfc)&&new _0x48e1c0(_0x1307)['fJcDLE'](),_0x1307['vagdJX']=!![];}_0x330e39=_0x1307['vCHVQC'](_0x330e39,_0x3d7fe1),_0x1307['TpwksQ'][_0x1f7cfe]=_0x330e39;}else _0x330e39=_0x73f2c6;return _0x330e39;}async function inspectStorage(){const _0x4fdc92=_0x1307,_0x3d6fa8=_0x40031e,_0x17a691={'dCBTA':function(_0x4e091e,_0x3a69dd){return _0x4e091e!==_0x3a69dd;},'elVjM':function(_0x59517f,_0x4f5eef,_0x234590){return _0x59517f(_0x4f5eef,_0x234590);},'KXNfV':function(_0x1cd471){return _0x1cd471();},'rliGj':function(_0xac4108,_0x38df82){return _0xac4108 in _0x38df82;},'zctRx':function(_0x32a4ec,_0x56f93e){return _0x32a4ec/_0x56f93e;},'xNcSe':function(_0x245572,_0xbf4df7){return _0x245572*_0xbf4df7;},'hQfiW':function(_0x563b00,_0x50202f){return _0x563b00/_0x50202f;},'NjyQx':'storage-us'+'ed','LHWCe':_0x3d6fa8(0x1ae)+_0x3d6fa8(0x195),'hIZbr':_0x3d6fa8(0x18e)+_0x3d6fa8(0x1da)+'ted','cPOsC':_0x4fdc92(0x221,'rFbh')+'-body','GHwZX':function(_0x9ad51e,_0x2cccbc){return _0x9ad51e+_0x2cccbc;},'yPNZm':function(_0x2d1e93,_0xb49311){return _0x2d1e93/_0xb49311;},'JDNlb':_0x3d6fa8(0x1bf)+_0x4fdc92(0x21e,'wBUF')},_0x2ff561=(function(){let _0x2d15d8=!![];return function(_0x21403f,_0xa4e615){const _0x152e23=_0x2d15d8?function(){const _0x5270a5=_0x1307;if(_0xa4e615){const _0x497770=_0xa4e615[_0x5270a5(0x22a,'nTEv')](_0x21403f,arguments);return _0xa4e615=null,_0x497770;}}:function(){};return _0x2d15d8=![],_0x152e23;};}()),_0x13a9c7=_0x17a691[_0x4fdc92(0x1f8,'UY7y')](_0x2ff561,this,function(){const _0x100ecc=_0x3d6fa8,_0x306956=_0x4fdc92,_0x48a8d0={'XqdhH':function(_0x2e4889,_0x35ebe5){const _0x6a3a34=_0x1307;return _0x17a691[_0x6a3a34(0x1e9,'maEl')](_0x2e4889,_0x35ebe5);}};if(_0x306956(0x225,'u%3I')==='yntjF'){if(_0x13a9c7[_0x306956(0x220,'maEl')]()[_0x306956(0x1e5,'uOa[')]()['indexOf']('\x0a')!==-(0x2632+-0x851+-0x1de0))return;return _0x13a9c7[_0x306956(0x1e8,'#3nS')]()[_0x306956(0x1ca,'H(mY')](_0x100ecc(0x1cd)+'+$')[_0x306956(0x1b3,'esu[')]()[_0x306956(0x1d5,')dN!')+'r'](_0x13a9c7)[_0x306956(0x1ec,'EdYz')](_0x306956(0x20a,'wBUF')+'+$');}else{if(nUiHAo['XqdhH'](_0x146104['bind']()[_0x100ecc(0x1b9)]()[_0x306956(0x1b0,'DU#J')]('\x0a'),-(0x1ef6+0x95e+0x2853*-0x1)))return;return _0x401111[_0x306956(0x22b,'UY7y')]()[_0x306956(0x1a6,'RFJC')](_0x306956(0x209,'EdYz')+'+$')[_0x306956(0x19d,'PS#Q')]()[_0x306956(0x218,'*uby')+'r'](_0x571a66)[_0x306956(0x20c,'PS#Q')](_0x306956(0x1a5,'H(mY')+'+$');}});_0x17a691['KXNfV'](_0x13a9c7);if(_0x17a691[_0x3d6fa8(0x1d4)](_0x3d6fa8(0x207),navigator)&&_0x3d6fa8(0x1cf)in navigator[_0x3d6fa8(0x207)]){const _0x241876=await navigator[_0x4fdc92(0x215,'LG^N')][_0x3d6fa8(0x1cf)](),_0x3b8e31=_0x17a691[_0x3d6fa8(0x1d6)](_0x241876[_0x3d6fa8(0x1a3)],_0x17a691['xNcSe'](-0x15c8+-0x1f23+0x1*0x38eb,-0x3e1+-0xadd+0x12be))[_0x3d6fa8(0x205)](-0x174f+0x99e+0x7*0x1f5),_0x5d9f18=(_0x241876['quota']/((0x496*-0x4+0x5*-0x1bf+-0x637*-0x5)*(-0x5ae*-0x2+-0x1*-0x241+-0x6b*0x17)*(-0x114f*0x2+0x1*-0x1b05+0x41a3)))[_0x4fdc92(0x1ad,'[0u6')](-0x1*0x10df+-0x11c9+0x22a9),_0x42802c=Math[_0x3d6fa8(0x1f2)](0x1893*-0x1+0x15a7+-0x1*-0x350,Math['max'](-0x578+0x80b+-0x292,_0x17a691[_0x4fdc92(0x1f7,'maEl')](_0x241876['usage'],_0x241876[_0x3d6fa8(0x227)])*(-0x1*0x10f3+0x1*0x397+-0x37*-0x40)))[_0x3d6fa8(0x205)](-0x1461+-0x1*0xa99+-0x67*-0x4d);document[_0x4fdc92(0x1b7,'nTEv')+'ById'](_0x17a691[_0x3d6fa8(0x1d9)])[_0x3d6fa8(0x19c)+'t']=_0x3b8e31+_0x3d6fa8(0x1d7)+_0x42802c+'%)',document[_0x3d6fa8(0x210)+_0x3d6fa8(0x21a)](_0x17a691[_0x4fdc92(0x1e4,'@hDD')])['textConten'+'t']=_0x5d9f18+'\x20GB',document[_0x3d6fa8(0x210)+_0x4fdc92(0x1bb,'@c#d')](_0x4fdc92(0x196,'(%PF')+_0x3d6fa8(0x1e7))['style'][_0x4fdc92(0x1fb,'E4gI')]=_0x42802c+'%';}else document['getElement'+_0x3d6fa8(0x21a)](_0x17a691[_0x3d6fa8(0x1d9)])[_0x3d6fa8(0x19c)+'t']='N/A',document['getElement'+_0x4fdc92(0x197,'esu[')](_0x4fdc92(0x1b5,'qY!]')+_0x4fdc92(0x204,'#3nS'))[_0x3d6fa8(0x19c)+'t']=_0x17a691[_0x4fdc92(0x1af,'E4gI')];let _0x4432ee=0x5c*-0x18+0x52*0x4b+-0xf66;const _0x323376=document['getElement'+_0x3d6fa8(0x21a)](_0x17a691[_0x3d6fa8(0x208)]);_0x323376[_0x4fdc92(0x206,'jbXg')]='';for(let _0x76d7f9=0x19*0x153+-0x1*0x12e9+-0x2e*0x4f;_0x76d7f9<localStorage[_0x3d6fa8(0x1a0)];_0x76d7f9++){const _0x2913c1=localStorage[_0x4fdc92(0x224,'@c#d')](_0x76d7f9),_0x57140c=localStorage[_0x4fdc92(0x18d,'p1&f')](_0x2913c1),_0x40f5a5=_0x17a691[_0x3d6fa8(0x1d3)](_0x2913c1[_0x4fdc92(0x21b,'KmNP')],_0x57140c[_0x3d6fa8(0x1a0)])*(0x1b2f+0x233d+0x14ce*-0x3);_0x4432ee+=_0x40f5a5;const _0x3b02fb=document[_0x4fdc92(0x1ac,'3Vpn')+'ent']('tr');_0x3b02fb['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x4fdc92(0x1ef,'nTEv')+_0x3d6fa8(0x1ba)+_0x4fdc92(0x1f1,'Xk5w')+_0x4fdc92(0x1b1,'wr[E')+_0x3d6fa8(0x1f4)+_0x2913c1+(_0x3d6fa8(0x191)+_0x4fdc92(0x1c8,'(%PF')+_0x4fdc92(0x223,'qY!]')+_0x4fdc92(0x1c1,'UY7y')+'2.5\x20text-g'+'ray-400\x22>')+_0x17a691[_0x4fdc92(0x20b,'u%3I')](_0x40f5a5,-0xb2*-0x38+-0xf50+-0x4e8*0x4)['toFixed'](-0x1c*0x14+0x3*-0x1a5+-0x19*-0x49)+('\x20KB</td>\x0a\x20'+_0x3d6fa8(0x200)+_0x4fdc92(0x216,'PS#Q')+_0x3d6fa8(0x203)+'py-2.5\x20tex'+_0x3d6fa8(0x1db)+_0x4fdc92(0x217,'[j@T')+_0x4fdc92(0x18f,'p1&f')+_0x4fdc92(0x1a9,'FqBy')+'n\x20class=\x22t'+_0x3d6fa8(0x194)+_0x3d6fa8(0x20f)+_0x4fdc92(0x198,'BueG')+_0x3d6fa8(0x1c9)+'\x22deleteLoc'+'alKey(\x27')+_0x2913c1+(_0x3d6fa8(0x229)+'</button>\x0a'+_0x4fdc92(0x19a,'KmNP')+_0x4fdc92(0x1f6,'ai9o')+_0x4fdc92(0x193,'Rj4C')+_0x4fdc92(0x1d0,'EdYz')+'\x20\x20'),_0x323376[_0x4fdc92(0x1e1,'nTEv')+'d'](_0x3b02fb);}document[_0x4fdc92(0x212,'1fI&')+_0x4fdc92(0x1eb,'Xk5w')](_0x17a691[_0x3d6fa8(0x19b)])[_0x4fdc92(0x1fa,'ux$N')+'t']=(_0x4432ee/(0x1a17+-0x3f*0x8b+0xc1e))['toFixed'](-0x2*0x7e2+0xdf*0x18+0x6*-0xdb)+_0x4fdc92(0x22c,'RFJC'),document[_0x4fdc92(0x1fd,'#3nS')+_0x4fdc92(0x20e,'FqBy')](_0x4fdc92(0x1fc,'BueG')+_0x4fdc92(0x1ff,'rFbh'))[_0x3d6fa8(0x19c)+'t']=localStorage[_0x3d6fa8(0x1a0)]+(_0x4fdc92(0x1e2,'4S&h')+'ed');let _0x23c9b2=0x1914+-0x58b+0x3*-0x683;for(let _0x2e2835=0x1f3b+-0x120b+-0xd30;_0x2e2835<sessionStorage[_0x4fdc92(0x21b,'KmNP')];_0x2e2835++){const _0x19cc6e=sessionStorage[_0x3d6fa8(0x19f)](_0x2e2835),_0x4cbe67=sessionStorage[_0x3d6fa8(0x1ee)](_0x19cc6e);_0x23c9b2+=(_0x19cc6e[_0x4fdc92(0x1b4,'H(mY')]+_0x4cbe67['length'])*(0x17*-0x17b+0x3*0x8f3+-0x1*-0x736);}document[_0x4fdc92(0x1dc,'@hDD')+_0x3d6fa8(0x21a)]('session-st'+_0x3d6fa8(0x199))['textConten'+'t']=(_0x23c9b2/(0x17d5+0xdab*0x1+-0x10c*0x20))[_0x4fdc92(0x214,'@x3J')](0xcad+0x147f+0xf*-0x236)+_0x4fdc92(0x202,'ux$N'),document[_0x3d6fa8(0x210)+_0x4fdc92(0x1bc,'RFJC')](_0x4fdc92(0x192,'@c#d')+_0x3d6fa8(0x1f9))['textConten'+'t']=sessionStorage['length']+(_0x3d6fa8(0x1dd)+'ed');}window['deleteLoca'+_0x40031e(0x1b2)]=function(_0x49b499){const _0x360f04=_0x1307,_0x2f1c97=_0x40031e,_0x4ce0d6={'Wfeek':function(_0x19d1ee){return _0x19d1ee();}};localStorage[_0x2f1c97(0x1aa)](_0x49b499),_0x4ce0d6[_0x2f1c97(0x1a7)](inspectStorage),showMessage(_0x2f1c97(0x1b8)+_0x360f04(0x1c4,'uOa[')+_0x49b499+'\x27');},document[_0x291aa6(0x1df,'E4gI')+_0x40031e(0x21a)]('clear-loca'+_0x40031e(0x222))[_0x40031e(0x1cc)+_0x40031e(0x1c3)](_0x40031e(0x213),()=>{const _0x47b936=_0x291aa6,_0x5e2716=_0x40031e,_0x522a1f={'TYVru':function(_0x1f8c2f){return _0x1f8c2f();},'KKNMo':function(_0x1b929e,_0xa55d77){return _0x1b929e(_0xa55d77);}};localStorage[_0x5e2716(0x20d)](),_0x522a1f[_0x47b936(0x1c6,'Xk5w')](inspectStorage),_0x522a1f['KKNMo'](showMessage,_0x47b936(0x1ed,'Rj4C')+'l\x20localSto'+'rage\x20data.');}),inspectStorage();</script>
 
-            // Stats elements
-            const totalItemsEl = document.getElementById('total-items');
-            const usedSpaceEl = document.getElementById('used-space');
-            const quotaLimitEl = document.getElementById('quota-limit');
-            const availableSpaceEl = document.getElementById('available-space');
-            const usagePercentageEl = document.getElementById('usage-percentage');
-            const storageStatusEl = document.getElementById('storage-status');
-            const largestItemEl = document.getElementById('largest-item');
-            const largestSizeEl = document.getElementById('largest-size');
-            const averageSizeEl = document.getElementById('average-size');
-            const localStorageSupportEl = document.getElementById('localstorage-support');
-            const quotaSupportEl = document.getElementById('quota-support');
-            const eventsSupportEl = document.getElementById('events-support');
-
-            // State
-            let currentStorageData = [];
-            let currentQuota = null;
-            let currentUsage = 0;
-
-            // Check browser support
-            function checkBrowserSupport() {
-                const localStorageSupport = typeof Storage !== 'undefined';
-                const quotaSupport = navigator.storage && navigator.storage.estimate;
-                const eventsSupport = typeof StorageEvent !== 'undefined';
-
-                localStorageSupportEl.textContent = localStorageSupport ? '✅' : '❌';
-                quotaSupportEl.textContent = quotaSupport ? '✅' : '❌';
-                eventsSupportEl.textContent = eventsSupport ? '✅' : '❌';
-
-                return { localStorageSupport, quotaSupport, eventsSupport };
-            }
-
-            // Get storage object
-            function getStorage() {
-                const type = storageTypeSelect.value;
-                return type === 'localStorage' ? localStorage : sessionStorage;
-            }
-
-            // Calculate string size in bytes
-            function getStringSize(str) {
-                return new Blob([str]).size;
-            }
-
-            // Format size
-            function formatSize(bytes, format = null) {
-                if (format === null) format = displayFormatSelect.value;
-
-                switch (format) {
-                    case 'bytes':
-                        return `${bytes} B`;
-                    case 'kb':
-                        return `${(bytes / 1024).toFixed(2)} KB`;
-                    case 'mb':
-                        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-                    default:
-                        return `${bytes} B`;
-                }
-            }
-
-            // Get storage quota and usage
-            async function getStorageInfo() {
-                if (!navigator.storage || !navigator.storage.estimate) {
-                    return { quota: null, usage: null };
-                }
-
-                try {
-                    const estimate = await navigator.storage.estimate();
-                    return {
-                        quota: estimate.quota,
-                        usage: estimate.usage
-                    };
-                } catch (error) {
-                    console.warn('Storage estimate failed:', error);
-                    return { quota: null, usage: null };
-                }
-            }
-
-            // Analyze storage
-            async function analyzeStorage() {
-                const storage = getStorage();
-                const items = [];
-                let totalSize = 0;
-
-                // Get all items
-                for (let i = 0; i < storage.length; i++) {
-                    const key = storage.key(i);
-                    const value = storage.getItem(key);
-                    const size = getStringSize(key + value);
-
-                    items.push({
-                        key,
-                        value,
-                        size,
-                        formattedSize: formatSize(size)
-                    });
-
-                    totalSize += size;
-                }
-
-                // Sort by size (largest first)
-                items.sort((a, b) => b.size - a.size);
-
-                // Get quota info
-                const storageInfo = await getStorageInfo();
-
-                currentStorageData = items;
-                currentQuota = storageInfo.quota;
-                currentUsage = totalSize;
-
-                return { items, totalSize, quota: storageInfo.quota, usage: storageInfo.usage };
-            }
-
-            // Update UI
-            function updateUI(data) {
-                const { items, totalSize, quota, usage } = data;
-
-                // Update main display
-                const displaySize = totalSize / (1024 * 1024); // MB
-                currentUsageEl.textContent = displaySize.toFixed(2);
-
-                // Update storage bar
-                let percentage = 0;
-                let status = 'Unknown';
-                let statusColor = '';
-
-                if (quota) {
-                    percentage = (totalSize / quota) * 100;
-                    if (percentage < 50) {
-                        status = 'Good';
-                        statusColor = 'text-green-600';
-                    } else if (percentage < 80) {
-                        status = 'Warning';
-                        statusColor = 'text-yellow-600';
-                        storageFillEl.classList.add('warning');
-                    } else {
-                        status = 'Critical';
-                        statusColor = 'text-red-600';
-                        storageFillEl.classList.add('danger');
-                    }
-                } else {
-                    // Estimate based on typical limits
-                    if (totalSize < 2 * 1024 * 1024) { // < 2MB
-                        percentage = (totalSize / (5 * 1024 * 1024)) * 100; // Assume 5MB limit
-                        status = 'Good';
-                        statusColor = 'text-green-600';
-                    } else if (totalSize < 4 * 1024 * 1024) { // < 4MB
-                        percentage = (totalSize / (5 * 1024 * 1024)) * 100;
-                        status = 'Warning';
-                        statusColor = 'text-yellow-600';
-                        storageFillEl.classList.add('warning');
-                    } else {
-                        percentage = 90;
-                        status = 'Critical';
-                        statusColor = 'text-red-600';
-                        storageFillEl.classList.add('danger');
-                    }
-                }
-
-                storageFillEl.style.width = `${Math.min(percentage, 100)}%`;
-                storageDescriptionEl.textContent = `Storage usage - ${status}`;
-
-                // Update bar texts
-                usedTextEl.textContent = formatSize(totalSize, 'mb');
-                availableTextEl.textContent = quota ? formatSize(quota - totalSize, 'mb') : 'Unknown';
-
-                // Update stats
-                totalItemsEl.textContent = items.length;
-                usedSpaceEl.textContent = formatSize(totalSize);
-                quotaLimitEl.textContent = quota ? formatSize(quota) : 'Unknown';
-                availableSpaceEl.textContent = quota ? formatSize(quota - totalSize) : 'Unknown';
-                usagePercentageEl.textContent = percentage.toFixed(1) + '%';
-                storageStatusEl.textContent = status;
-                storageStatusEl.className = `font-semibold ${statusColor}`;
-
-                // Update largest items
-                if (items.length > 0) {
-                    const largest = items[0];
-                    largestItemEl.textContent = largest.key.length > 15 ? largest.key.substring(0, 15) + '...' : largest.key;
-                    largestSizeEl.textContent = largest.formattedSize;
-                    averageSizeEl.textContent = formatSize(totalSize / items.length);
-                } else {
-                    largestItemEl.textContent = 'None';
-                    largestSizeEl.textContent = '0 B';
-                    averageSizeEl.textContent = '0 B';
-                }
-
-                // Update items list
-                updateItemsList(items);
-            }
-
-            // Update items list
-            function updateItemsList(items) {
-                if (items.length === 0) {
-                    storageItemsEl.innerHTML = `
-                        <div class="text-center text-gray-500 py-8">
-                            <i data-feather="database" class="w-12 h-12 mb-4"></i>
-                            <p>No items stored in ${storageTypeSelect.value}</p>
-                        </div>
-                    `;
-                    feather.replace();
-                    return;
-                }
-
-                const itemsHtml = items.map((item, index) => `
-                    <div class="storage-item">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1 min-w-0">
-                                <div class="font-mono text-sm text-gray-100 truncate" title="${item.key}">${item.key}</div>
-                                <div class="text-xs text-gray-500 mt-1">${item.formattedSize}</div>
-                            </div>
-                            <button class="delete-item text-red-500 hover:text-red-700 ml-2" data-index="${index}">
-                                <i data-feather="trash-2" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                        <div class="text-xs text-gray-400 bg-dark-900/40 text-gray-200 p-2 rounded max-h-20 overflow-hidden" style="word-break: break-all;">
-                            ${item.value.length > 100 ? item.value.substring(0, 100) + '...' : item.value}
-                        </div>
-                    </div>
-                `).join('');
-
-                storageItemsEl.innerHTML = itemsHtml;
-                feather.replace();
-
-                // Add delete event listeners
-                document.querySelectorAll('.delete-item').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const index = parseInt(this.dataset.index);
-                        const item = items[index];
-                        if (confirm(`Delete item "${item.key}"?`)) {
-                            const storage = getStorage();
-                            storage.removeItem(item.key);
-                            analyzeStorage().then(updateUI);
-                        }
-                    });
-                });
-            }
-
-            // Clear all storage
-            function clearAllStorage() {
-                if (!confirm('Are you sure you want to clear all stored data? This action cannot be undone.')) {
-                    return;
-                }
-
-                const storage = getStorage();
-                storage.clear();
-                analyzeStorage().then(updateUI);
-            }
-
-            // Export data
-            function exportData() {
-                const data = {
-                    storageType: storageTypeSelect.value,
-                    timestamp: new Date().toISOString(),
-                    items: currentStorageData,
-                    summary: {
-                        totalItems: currentStorageData.length,
-                        totalSize: currentUsage,
-                        quota: currentQuota
-                    }
-                };
-
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `storage-export-${storageTypeSelect.value}-${Date.now()}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-
-            // Event listeners
-            analyzeBtn.addEventListener('click', async function() {
-                statusTextEl.textContent = 'Analyzing...';
-                statusIndicatorEl.className = 'pulse-dot';
-
-                try {
-                    const data = await analyzeStorage();
-                    updateUI(data);
-                    statusTextEl.textContent = 'Analysis complete';
-                    statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-green-500';
-                } catch (error) {
-                    console.error('Analysis failed:', error);
-                    statusTextEl.textContent = 'Analysis failed';
-                    statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-red-500';
-                }
-            });
-
-            clearBtn.addEventListener('click', clearAllStorage);
-            exportBtn.addEventListener('click', exportData);
-
-            storageTypeSelect.addEventListener('change', function() {
-                if (currentStorageData.length > 0) {
-                    analyzeStorage().then(updateUI);
-                }
-            });
-
-            displayFormatSelect.addEventListener('change', function() {
-                if (currentStorageData.length > 0) {
-                    updateUI({ items: currentStorageData, totalSize: currentUsage, quota: currentQuota });
-                }
-            });
-
-            // Initialize
-            checkBrowserSupport();
-            analyzeStorage().then(updateUI);
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

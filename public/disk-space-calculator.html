@@ -1,328 +1,84 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disk Space Calculator — Infiniteforge | Free Storage Calculator Tool</title>
+    <title>Disk Space Calculator - Free Storage Calculator | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Calculate disk space requirements for files, photos, videos, music, and documents with our free online storage calculator. Plan your storage needs accurately.">
-    <meta name="keywords"
-        content="disk space calculator, storage calculator, file size calculator, storage requirements, disk space planning">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="Disk Space Calculator — Infiniteforge">
-    <meta property="og:description"
-        content="Calculate how much disk space you need for your files with our comprehensive storage calculator.">
+    <meta name="description" content="Calculate disk space requirements for photos, videos, music, games, and documents. Estimate drive sizing, redundancy, and cloud storage costs accurately.">
+    <meta name="keywords" content="disk space calculator, storage calculator, file size calculator, storage requirements, disk space planning, drive capacity estimator">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Disk Space Calculator - Infiniteforge">
+    <meta property="og:description" content="Calculate how much disk space you need for your files with our comprehensive storage calculator.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/disk-space-calculator.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Disk Space Calculator — Infiniteforge">
-    <meta name="twitter:description" content="Calculate disk space requirements for your files.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/disk-space-calculator.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .space-display {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .file-type-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            transition: all 0.2s ease;
-        }
-
-        .file-type-card:hover {
-            border-color: #6366f1;
-            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
-        }
-
-        .file-type-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring__circle {
-            transition: stroke-dasharray 0.3s ease;
-        }
-
-        .storage-breakdown {
-            position: relative;
-            height: 200px;
-        }
-
-        .breakdown-item {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            padding: 0.5rem;
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease;
-        }
-
-        .breakdown-item:hover {
-            transform: scale(1.05);
-            z-index: 10;
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Disk Space Calculator - Infiniteforge">
+    <meta name="twitter:description" content="Calculate disk space requirements for your files with live estimation.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/disk-space-calculator.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/disk-space-calculator.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x5df3(_0x35421f,_0x1537e2){_0x35421f=_0x35421f-(-0x25*-0xf7+-0x11e7*-0x1+-0x33b8);var _0x1f3350=_0x6508();var _0x4f6a31=_0x1f3350[_0x35421f];if(_0x5df3['gXIZyI']===undefined){var _0x385bd6=function(_0x377ca5){var _0x459394='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x64e758='',_0x1121ad='',_0x3cdbed=_0x64e758+_0x385bd6,_0x64b777=(''+function(){return 0x16*0x119+-0x1e9c+0x676*0x1;})['indexOf']('\x0a')!==-(0x2044+-0x4*-0x7af+-0x3eff*0x1);for(var _0x1302ff=-0x31*0xb3+0xad*0x13+0x156c,_0x35f019,_0x14afc2,_0x1cf164=0x1738+-0x1cad+0x575;_0x14afc2=_0x377ca5['charAt'](_0x1cf164++);~_0x14afc2&&(_0x35f019=_0x1302ff%(0x1983+0xcf5+-0x2674)?_0x35f019*(0x565*0x2+0xea4+-0x192e)+_0x14afc2:_0x14afc2,_0x1302ff++%(0x551*0x5+-0xc66+-0x117*0xd))?_0x64e758+=_0x64b777||_0x3cdbed['charCodeAt'](_0x1cf164+(-0x387*0x8+0x65+0x1bdd))-(-0x1705*-0x1+0x3*0xaef+-0x37c8)!==-0xabf+-0x1ef9+0x2*0x14dc?String['fromCharCode'](0x1bd5+-0x1b44+0x6e&_0x35f019>>(-(-0x1186+-0xd3*0x2b+0x34f9)*_0x1302ff&0x1156+0xfb6+-0x581*0x6)):_0x1302ff:-0x1*0x146+-0x683*0x3+-0x1*-0x14cf){_0x14afc2=_0x459394['indexOf'](_0x14afc2);}for(var _0x5cc4de=-0x229d+-0x12d8+0x3575,_0x53051c=_0x64e758['length'];_0x5cc4de<_0x53051c;_0x5cc4de++){_0x1121ad+='%'+('00'+_0x64e758['charCodeAt'](_0x5cc4de)['toString'](-0x1517*0x1+0x35*-0x41+0x229c))['slice'](-(0x2d+-0x1*0x2645+0x2*0x130d));}return decodeURIComponent(_0x1121ad);};var _0x80ca78=function(_0x1af092,_0x9a0b47){var _0x3868e1=[],_0x27d575=0x1a*0xa+-0x17e6+-0x1d*-0xca,_0x2ccc77,_0x1bbca8='';_0x1af092=_0x385bd6(_0x1af092);var _0x42a9f8;for(_0x42a9f8=-0x26a9+-0x1bd1+0x2*0x213d;_0x42a9f8<-0x2*0xecc+0x1*0xd91+0x1107*0x1;_0x42a9f8++){_0x3868e1[_0x42a9f8]=_0x42a9f8;}for(_0x42a9f8=0x1fe8+0x1fcb+-0x3fb3*0x1;_0x42a9f8<0x723+0x2148+-0x276b;_0x42a9f8++){_0x27d575=(_0x27d575+_0x3868e1[_0x42a9f8]+_0x9a0b47['charCodeAt'](_0x42a9f8%_0x9a0b47['length']))%(0x593*0x5+-0xacc+0x5*-0x337),_0x2ccc77=_0x3868e1[_0x42a9f8],_0x3868e1[_0x42a9f8]=_0x3868e1[_0x27d575],_0x3868e1[_0x27d575]=_0x2ccc77;}_0x42a9f8=0x1*0x13ff+-0x755*0x5+-0x1*-0x10aa,_0x27d575=-0x167*0x7+-0x215c+0x2b2d*0x1;for(var _0x56fa62=-0x1a3*-0x10+-0x31*0x55+-0x9eb;_0x56fa62<_0x1af092['length'];_0x56fa62++){_0x42a9f8=(_0x42a9f8+(-0x1185+-0x2115+0x329b))%(0x229b+0x23*0xd6+-0x34f*0x13),_0x27d575=(_0x27d575+_0x3868e1[_0x42a9f8])%(-0x3f6+0x1ef3+0x19fd*-0x1),_0x2ccc77=_0x3868e1[_0x42a9f8],_0x3868e1[_0x42a9f8]=_0x3868e1[_0x27d575],_0x3868e1[_0x27d575]=_0x2ccc77,_0x1bbca8+=String['fromCharCode'](_0x1af092['charCodeAt'](_0x56fa62)^_0x3868e1[(_0x3868e1[_0x42a9f8]+_0x3868e1[_0x27d575])%(0x2*-0x1169+-0x152*-0xa+0x169e)]);}return _0x1bbca8;};_0x5df3['ubonIs']=_0x80ca78,_0x5df3['oypbmB']={},_0x5df3['gXIZyI']=!![];}var _0x22c579=_0x1f3350[-0x1abd+-0x1*-0x2267+0x3*-0x28e],_0x38e25c=_0x35421f+_0x22c579,_0x52a4ed=_0x5df3['oypbmB'][_0x38e25c];if(!_0x52a4ed){if(_0x5df3['XsXkJK']===undefined){var _0x23f881=function(_0x451cfd){this['QadTFc']=_0x451cfd,this['Vctxyu']=[-0x100f*-0x1+0x108*-0x1b+-0x6*-0x1f7,0x930+0x13d5+-0x1d05,-0x3*0xa55+-0x1*0x155a+0x3459],this['dpfbyu']=function(){return'newState';},this['FQerKh']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['dhLoWC']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x23f881['prototype']['IYXLQL']=function(){var _0x587830=new RegExp(this['FQerKh']+this['dhLoWC']),_0x5dc2fe=_0x587830['test'](this['dpfbyu']['toString']())?--this['Vctxyu'][0x2708+-0x3*-0x59+-0x2812]:--this['Vctxyu'][-0x1805+0x31*-0x8f+0x2e*0x11e];return this['dpmjbF'](_0x5dc2fe);},_0x23f881['prototype']['dpmjbF']=function(_0x5e5866){if(!Boolean(~_0x5e5866))return _0x5e5866;return this['nBPBhL'](this['QadTFc']);},_0x23f881['prototype']['nBPBhL']=function(_0x2c8ccc){for(var _0x3d09ab=0x6af*0x3+0x105*-0x25+0x2f2*0x6,_0x31300d=this['Vctxyu']['length'];_0x3d09ab<_0x31300d;_0x3d09ab++){this['Vctxyu']['push'](Math['round'](Math['random']())),_0x31300d=this['Vctxyu']['length'];}return _0x2c8ccc(this['Vctxyu'][-0x12fc+0x1d67+0x3*-0x379]);},(''+function(){return 0x11ea+0x183e+0x2a28*-0x1;})['indexOf']('\x0a')===-(-0xe5e+-0x2*0xc11+-0x1*-0x2681)&&new _0x23f881(_0x5df3)['IYXLQL'](),_0x5df3['XsXkJK']=!![];}_0x4f6a31=_0x5df3['ubonIs'](_0x4f6a31,_0x1537e2),_0x5df3['oypbmB'][_0x38e25c]=_0x4f6a31;}else _0x4f6a31=_0x52a4ed;return _0x4f6a31;}var _0x1cd9fc=_0x5df3,_0xcc78e4=_0x6012;(function(_0x125f0a,_0xe4834f){var _0xd968a5=_0x5df3,_0x3a27a0=_0x6012,_0x11038=_0x125f0a();while(!![]){try{var _0x544594=-parseInt(_0x3a27a0(0x1f6))/(0x142b+-0x3+-0x1d5*0xb)*(parseInt(_0xd968a5(0x1f5,'ey#1'))/(0x58a*-0x5+0x294+-0x86*-0x30))+-parseInt(_0x3a27a0(0x1ee))/(0x1bea+-0x130b+-0x8dc)*(parseInt(_0xd968a5(0x1f7,'pZ$D'))/(-0x274+0x2b*-0x1f+0x7ad))+-parseInt(_0xd968a5(0x1e4,'l(6d'))/(-0x4a*-0x1f+0xfd1+-0x18c2*0x1)*(-parseInt(_0x3a27a0(0x1eb))/(-0x4f1*0x5+0x1*0xf71+0x94a*0x1))+-parseInt(_0xd968a5(0x1f0,'L%Lb'))/(-0x1d3b+-0x12*0x132+-0x1*-0x32c6)+-parseInt(_0xd968a5(0x1e9,'np]J'))/(-0x593*-0x1+-0x72e*-0x1+0xcb9*-0x1)+-parseInt(_0xd968a5(0x200,'lf6a'))/(0x1147*0x1+-0x129b+0x15d)+parseInt(_0x3a27a0(0x1e8))/(-0x37d+-0x3*0xa55+-0x1*-0x2286);if(_0x544594===_0xe4834f)break;else _0x11038['push'](_0x11038['shift']());}catch(_0x42a61a){_0x11038['push'](_0x11038['shift']());}}}(_0x6508,-0x57e*0x1f3+-0x2*-0xb24d1+-0x6dad));function _0x6012(_0x59ec95,_0x536656){_0x59ec95=_0x59ec95-(-0x25*-0xf7+-0x11e7*-0x1+-0x33b8);var _0xab6518=_0x6508();var _0x3aa034=_0xab6518[_0x59ec95];if(_0x6012['aQryUd']===undefined){var _0x42fe7e=function(_0x5576e0){var _0x82e5ce='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x1188fc='',_0x428940='',_0x522bd0=_0x1188fc+_0x42fe7e,_0x53051d=(''+function(){return 0x16*0x119+-0x1e9c+0x676*0x1;})['indexOf']('\x0a')!==-(0x2044+-0x4*-0x7af+-0x3eff*0x1);for(var _0x3fcdc1=-0x31*0xb3+0xad*0x13+0x156c,_0x30fc56,_0x3db341,_0x5c6d62=0x1738+-0x1cad+0x575;_0x3db341=_0x5576e0['charAt'](_0x5c6d62++);~_0x3db341&&(_0x30fc56=_0x3fcdc1%(0x1983+0xcf5+-0x2674)?_0x30fc56*(0x565*0x2+0xea4+-0x192e)+_0x3db341:_0x3db341,_0x3fcdc1++%(0x551*0x5+-0xc66+-0x117*0xd))?_0x1188fc+=_0x53051d||_0x522bd0['charCodeAt'](_0x5c6d62+(-0x387*0x8+0x65+0x1bdd))-(-0x1705*-0x1+0x3*0xaef+-0x37c8)!==-0xabf+-0x1ef9+0x2*0x14dc?String['fromCharCode'](0x1bd5+-0x1b44+0x6e&_0x30fc56>>(-(-0x1186+-0xd3*0x2b+0x34f9)*_0x3fcdc1&0x1156+0xfb6+-0x581*0x6)):_0x3fcdc1:-0x1*0x146+-0x683*0x3+-0x1*-0x14cf){_0x3db341=_0x82e5ce['indexOf'](_0x3db341);}for(var _0xc0322e=-0x229d+-0x12d8+0x3575,_0x156d58=_0x1188fc['length'];_0xc0322e<_0x156d58;_0xc0322e++){_0x428940+='%'+('00'+_0x1188fc['charCodeAt'](_0xc0322e)['toString'](-0x1517*0x1+0x35*-0x41+0x229c))['slice'](-(0x2d+-0x1*0x2645+0x2*0x130d));}return decodeURIComponent(_0x428940);};_0x6012['gBHrkk']=_0x42fe7e,_0x6012['Jywtfw']={},_0x6012['aQryUd']=!![];}var _0x345199=_0xab6518[0x1a*0xa+-0x17e6+-0x1d*-0xca],_0xdd0fde=_0x59ec95+_0x345199,_0x2adac3=_0x6012['Jywtfw'][_0xdd0fde];if(!_0x2adac3){var _0xf0d80f=function(_0x59ad8f){this['SzvKOh']=_0x59ad8f,this['SUblQz']=[-0x26a9+-0x1bd1+0x9*0x763,-0x2*0xecc+0x1*0xd91+0x1007*0x1,0x1fe8+0x1fcb+-0x3fb3*0x1],this['MegXva']=function(){return'newState';},this['eEfUHF']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['arAxqI']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xf0d80f['prototype']['UtaSyk']=function(){var _0x22a52f=new RegExp(this['eEfUHF']+this['arAxqI']),_0x399b39=_0x22a52f['test'](this['MegXva']['toString']())?--this['SUblQz'][0x723+0x2148+-0x286a]:--this['SUblQz'][0x593*0x5+-0xacc+0x2f*-0x5d];return this['fsMhbl'](_0x399b39);},_0xf0d80f['prototype']['fsMhbl']=function(_0x2d6c3a){if(!Boolean(~_0x2d6c3a))return _0x2d6c3a;return this['oeXezb'](this['SzvKOh']);},_0xf0d80f['prototype']['oeXezb']=function(_0x367d8c){for(var _0x3873b8=0x1*0x13ff+-0x755*0x5+-0x1*-0x10aa,_0x434a20=this['SUblQz']['length'];_0x3873b8<_0x434a20;_0x3873b8++){this['SUblQz']['push'](Math['round'](Math['random']())),_0x434a20=this['SUblQz']['length'];}return _0x367d8c(this['SUblQz'][-0x167*0x7+-0x215c+0x2b2d*0x1]);},(''+function(){return-0x1a3*-0x10+-0x31*0x55+-0x9eb;})['indexOf']('\x0a')===-(-0x1185+-0x2115+0x329b)&&new _0xf0d80f(_0x6012)['UtaSyk'](),_0x3aa034=_0x6012['gBHrkk'](_0x3aa034),_0x6012['Jywtfw'][_0xdd0fde]=_0x3aa034;}else _0x3aa034=_0x2adac3;return _0x3aa034;}var _0x45c968=(function(){var _0x46e730=!![];return function(_0x3cc0dc,_0x4441f5){var _0xd21a2e=_0x46e730?function(){var _0x367fdd=_0x6012;if(_0x4441f5){var _0x2ebc65=_0x4441f5[_0x367fdd(0x203)](_0x3cc0dc,arguments);return _0x4441f5=null,_0x2ebc65;}}:function(){};return _0x46e730=![],_0xd21a2e;};}()),_0x1b39ed=_0x45c968(this,function(){var _0x49536f=_0x6012,_0x6c767a=_0x5df3,_0x44d8d3={'fpvEB':_0x6c767a(0x1fc,'5KmI')+'+$'};if(_0x1b39ed[_0x6c767a(0x1f9,'np]J')]()[_0x49536f(0x1f3)]()[_0x49536f(0x1f8)]('\x0a')!==-(-0x1b44+-0x1de3+0x3928))return;return _0x1b39ed[_0x49536f(0x1f3)]()[_0x49536f(0x1e3)](_0x44d8d3[_0x6c767a(0x1ed,'XvFA')])['toString']()['constructo'+'r'](_0x1b39ed)[_0x6c767a(0x1e2,'OOLM')]('(((.+)+)+)'+'+$');});_0x1b39ed(),tailwind[_0xcc78e4(0x1e6)]={'theme':{'extend':{'fontFamily':{'sans':[_0xcc78e4(0x1f4),_0x1cd9fc(0x201,'ey#1')]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x1cd9fc(0x1ff,'dnUa'),0x2bc:_0x1cd9fc(0x1fe,'Lfq^')},'brand':{'primary':_0xcc78e4(0x1f2),'secondary':_0xcc78e4(0x1ef),'accent':_0x1cd9fc(0x1ea,'lf6a')}}}}};function _0x6508(){var _0x127297=['W7qqFSoCW5hcJxvkomkS','W4macLeFsCkKySoSWRzZWPRdUq','yxbWBhK','WPZdTZGBWO7cLa','C2vHCMnO','WQa9WQ3cO0dcU8kXWQa','WReoW4RdJufrW7m','y29UzMLN','mZGXmZyWrvDRAwft','mZi4mdyXodboyKXfr2W','WRe8WR1WnqZdKSoYrJr2WO0','W6NdUmkhxCo6ASoV','mZyZotGYmK13wujcwG','C2WvsY7cO8kMEa','F8kDWPhdQWC','mty5mZv1suLbA08','i0zgmKe3qq','W4mfdLGuq8kLr8o+WOL1WOZdKG','WRjYW4tcNqdcSmkfWQVdMZ7cNZK','iZq1rJngrG','Dg9tDhjPBMC','t3v0zML0','WRbgkCkEW4ZdJfPcemkRh8oI','m2XSCKTJwG','mSoaW64gW5pcQg7dVr4','Aw5KzxHpzG','W6bTW6iN','W47dTCoNhSkAamoNoGJdSmkcW74g','C2PhgL3cKmkiE3SrWPS','W5ddRCo8amkjemo+rxxcTW','n8ofW6bKWPddLcFcRdJdK2Lzm8oz','dCkKbCo/DXxdSa','h2JcQvNdGSk7sG','W7ZdUSoXvmo5h8kAwmoFW5yGcSkK'];_0x6508=function(){return _0x127297;};return _0x6508();}</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea, select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.75rem 1rem; transition: all 0.3s ease; outline: none !important; }
+        input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus, select:focus { border-color: rgba(69,243,255,0.4) !important; background-color: rgba(15,23,42,0.8) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
+        label { color: #94a3b8 !important; font-weight: 500; font-size: 0.875rem; letter-spacing: 0.025em; text-transform: uppercase; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .space-display { font-family: 'Outfit', monospace; font-size: 3.5rem; font-weight: 800; line-height: 1; text-shadow: 0 0 25px rgba(69,243,255,0.3); }
+        .progress-bar-segment { transition: width 0.4s ease; }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -333,759 +89,344 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">Disk Space Calculator</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Calculate storage requirements for your files, plan backups, and estimate disk space needs accurately.</p>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Disk Space Calculator
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Estimate storage needs across photos, 4K videos, audio tracks, games, and documents with instant redundancy and hardware recommendations.
+            </p>
         </div>
 
-        <!-- Total Space Display -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
+        <!-- Total Space Display Card -->
+        <div class="glass-panel p-8 rounded-3xl mb-8 border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
             <div class="text-center">
-                <div class="flex items-center justify-center mb-4">
-                    <div id="status-indicator" class="pulse-dot mr-3"></div>
-                    <span id="status-text" class="text-lg font-semibold text-gray-300">Ready to calculate</span>
+                <div class="flex items-center justify-center mb-3">
+                    <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse mr-2"></span>
+                    <span id="status-text" class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Live Calculation</span>
                 </div>
-                <div class="space-display mb-2">
-                    <span id="total-space">--</span> <span class="text-lg text-gray-500" id="total-unit">GB</span>
+                <div class="space-display text-brand-primary mb-2">
+                    <span id="total-space">0.00</span> <span class="text-2xl text-gray-300 font-semibold" id="total-unit">GB</span>
                 </div>
-                <p class="text-gray-500" id="space-description">Total estimated storage space</p>
+                <p class="text-gray-400 text-sm" id="space-description">Estimated raw storage requirement</p>
 
-                <!-- Storage Breakdown Visualization -->
-                <div class="max-w-2xl mx-auto mt-8">
-                    <div class="storage-breakdown relative" id="storage-breakdown">
-                        <div class="text-center text-gray-500 py-8">
-                            <i data-feather="pie-chart" class="w-12 h-12 mb-4"></i>
-                            <p>Add files to see storage breakdown</p>
-                        </div>
+                <!-- Storage Breakdown Progress Bar -->
+                <div class="max-w-2xl mx-auto mt-6">
+                    <div class="w-full h-4 bg-dark-900/80 rounded-full overflow-hidden flex border border-white/10 p-0.5" id="progress-container">
+                        <div id="bar-photos" class="progress-bar-segment bg-sky-400 h-full rounded-l-full" style="width: 0%" title="Photos"></div>
+                        <div id="bar-videos" class="progress-bar-segment bg-pink-500 h-full" style="width: 0%" title="Videos"></div>
+                        <div id="bar-music" class="progress-bar-segment bg-amber-400 h-full" style="width: 0%" title="Music"></div>
+                        <div id="bar-docs" class="progress-bar-segment bg-emerald-400 h-full" style="width: 0%" title="Documents"></div>
+                        <div id="bar-apps" class="progress-bar-segment bg-purple-500 h-full" style="width: 0%" title="Apps &amp; Games"></div>
+                        <div id="bar-custom" class="progress-bar-segment bg-cyan-300 h-full rounded-r-full" style="width: 0%" title="Custom"></div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-4 text-xs mt-3 text-gray-400">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Photos</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span> Videos</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Music</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Docs</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Apps/Games</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-300"></span> Custom</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- File Type Calculators -->
+        <!-- Global Calculation Settings -->
+        <div class="glass-panel rounded-2xl p-6 mb-8 grid md:grid-cols-2 gap-6">
+            <div>
+                <label for="display-unit" class="block mb-2 text-xs font-semibold tracking-wider text-gray-400">DISPLAY UNIT</label>
+                <select id="display-unit" class="w-full">
+                    <option value="auto" selected="">Auto (MB/GB/TB)</option>
+                    <option value="mb">Megabytes (MB)</option>
+                    <option value="gb">Gigabytes (GB)</option>
+                    <option value="tb">Terabytes (TB)</option>
+                </select>
+            </div>
+            <div>
+                <label for="redundancy-factor" class="block mb-2 text-xs font-semibold tracking-wider text-gray-400">BACKUP / RAID REDUNDANCY</label>
+                <select id="redundancy-factor" class="w-full">
+                    <option value="1" selected="">None (1x Raw)</option>
+                    <option value="1.2">20% Safety Buffer (1.2x)</option>
+                    <option value="1.5">RAID 5 / Parity (~1.5x)</option>
+                    <option value="2">RAID 1 / 1:1 Mirror (2x)</option>
+                    <option value="3">3-2-1 Backup Strategy (3x)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- File Categories Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <!-- Photos -->
-            <div class="file-type-card">
-                <div class="file-type-icon bg-dark-800/60 backdrop-blur-md text-blue-600">
-                    <i data-feather="image" class="w-6 h-6"></i>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                            <i data-feather="image" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-white">Photos</h3>
+                    </div>
+                    <span id="photo-space" class="text-xs font-mono text-sky-400 bg-sky-500/10 px-2 py-1 rounded-md">0 MB</span>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-3">Photos</h3>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Number of photos</label>
-                        <input type="number" id="photo-count" class="gen-input w-full p-2 rounded" placeholder="1000" min="0">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Average quality</label>
-                        <select id="photo-quality" class="gen-input w-full p-2 rounded">
-                            <option value="low">Low (500KB)</option>
-                            <option value="medium" selected>Medium (2MB)</option>
-                            <option value="high">High (8MB)</option>
-                            <option value="raw">RAW (25MB)</option>
-                        </select>
-                    </div>
-                    <div class="text-sm text-gray-500">
-                        Space: <span id="photo-space">0 MB</span>
-                    </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Number of Photos</label>
+                    <input type="number" id="photo-count" class="w-full" placeholder="e.g. 2000" min="0">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Quality / Resolution</label>
+                    <select id="photo-quality" class="w-full">
+                        <option value="low">Web / Low (500 KB)</option>
+                        <option value="medium" selected="">Standard Phone (2 MB)</option>
+                        <option value="high">High Res (8 MB)</option>
+                        <option value="raw">DSLR RAW (25 MB)</option>
+                    </select>
                 </div>
             </div>
 
             <!-- Videos -->
-            <div class="file-type-card">
-                <div class="file-type-icon bg-dark-800/60 backdrop-blur-md text-red-600">
-                    <i data-feather="video" class="w-6 h-6"></i>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-pink-500/10 text-pink-400 border border-pink-500/20">
+                            <i data-feather="video" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-white">Videos</h3>
+                    </div>
+                    <span id="video-space" class="text-xs font-mono text-pink-400 bg-pink-500/10 px-2 py-1 rounded-md">0 MB</span>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-3">Videos</h3>
-                <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Number of videos</label>
-                        <input type="number" id="video-count" class="gen-input w-full p-2 rounded" placeholder="100" min="0">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Average length (minutes)</label>
-                        <input type="number" id="video-length" class="gen-input w-full p-2 rounded" placeholder="5" min="0" step="0.5">
+                        <label class="block text-xs text-gray-400 mb-1">Count</label>
+                        <input type="number" id="video-count" class="w-full" placeholder="e.g. 50" min="0">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Quality</label>
-                        <select id="video-quality" class="gen-input w-full p-2 rounded">
-                            <option value="low">480p (50MB/hr)</option>
-                            <option value="medium" selected>720p (100MB/hr)</option>
-                            <option value="high">1080p (200MB/hr)</option>
-                            <option value="4k">4K (400MB/hr)</option>
-                        </select>
+                        <label class="block text-xs text-gray-400 mb-1">Avg Mins</label>
+                        <input type="number" id="video-length" class="w-full" placeholder="e.g. 10" min="0" value="10">
                     </div>
-                    <div class="text-sm text-gray-500">
-                        Space: <span id="video-space">0 MB</span>
-                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Video Quality</label>
+                    <select id="video-quality" class="w-full">
+                        <option value="low">720p HD (300 MB/hr)</option>
+                        <option value="medium" selected="">1080p FHD (1.5 GB/hr)</option>
+                        <option value="high">4K UHD (6 GB/hr)</option>
+                        <option value="4k">ProRes / 4K 60fps (20 GB/hr)</option>
+                    </select>
                 </div>
             </div>
 
             <!-- Music -->
-            <div class="file-type-card">
-                <div class="file-type-icon bg-dark-800/60 backdrop-blur-md text-green-600">
-                    <i data-feather="music" class="w-6 h-6"></i>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            <i data-feather="music" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-white">Music &amp; Audio</h3>
+                    </div>
+                    <span id="music-space" class="text-xs font-mono text-amber-400 bg-amber-500/10 px-2 py-1 rounded-md">0 MB</span>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-3">Music</h3>
-                <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Number of songs</label>
-                        <input type="number" id="music-count" class="gen-input w-full p-2 rounded" placeholder="1000" min="0">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Average length (minutes)</label>
-                        <input type="number" id="music-length" class="gen-input w-full p-2 rounded" placeholder="4" min="0" step="0.5">
+                        <label class="block text-xs text-gray-400 mb-1">Tracks</label>
+                        <input type="number" id="music-count" class="w-full" placeholder="e.g. 500" min="0">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Format</label>
-                        <select id="music-format" class="gen-input w-full p-2 rounded">
-                            <option value="mp3-128" selected>MP3 128kbps (1MB/min)</option>
-                            <option value="mp3-320">MP3 320kbps (2.4MB/min)</option>
-                            <option value="flac">FLAC (10MB/min)</option>
-                            <option value="wav">WAV (50MB/min)</option>
-                        </select>
+                        <label class="block text-xs text-gray-400 mb-1">Avg Mins</label>
+                        <input type="number" id="music-length" class="w-full" placeholder="e.g. 4" min="0" value="4">
                     </div>
-                    <div class="text-sm text-gray-500">
-                        Space: <span id="music-space">0 MB</span>
-                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Format &amp; Bitrate</label>
+                    <select id="music-format" class="w-full">
+                        <option value="mp3-128">MP3 128kbps (1 MB/min)</option>
+                        <option value="mp3-320" selected="">MP3 320kbps (2.4 MB/min)</option>
+                        <option value="flac">FLAC Lossless (6 MB/min)</option>
+                        <option value="wav">WAV Uncompressed (10 MB/min)</option>
+                    </select>
                 </div>
             </div>
 
             <!-- Documents -->
-            <div class="file-type-card">
-                <div class="file-type-icon bg-dark-800/60 backdrop-blur-md text-yellow-600">
-                    <i data-feather="file-text" class="w-6 h-6"></i>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <i data-feather="file-text" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-white">Documents</h3>
+                    </div>
+                    <span id="document-space" class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-md">0 MB</span>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-3">Documents</h3>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Number of documents</label>
-                        <input type="number" id="document-count" class="gen-input w-full p-2 rounded" placeholder="500" min="0">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Average size</label>
-                        <select id="document-size" class="gen-input w-full p-2 rounded">
-                            <option value="small" selected>Small (50KB)</option>
-                            <option value="medium">Medium (500KB)</option>
-                            <option value="large">Large (2MB)</option>
-                            <option value="presentation">Presentation (10MB)</option>
-                        </select>
-                    </div>
-                    <div class="text-sm text-gray-500">
-                        Space: <span id="document-space">0 MB</span>
-                    </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Document Count</label>
+                    <input type="number" id="document-count" class="w-full" placeholder="e.g. 1000" min="0">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Average Type</label>
+                    <select id="document-size" class="w-full">
+                        <option value="small">Text / Code (50 KB)</option>
+                        <option value="medium" selected="">Office Docs / PDF (500 KB)</option>
+                        <option value="large">Heavy PDF / Scans (3 MB)</option>
+                        <option value="presentation">Presentations w/ Media (15 MB)</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Applications -->
-            <div class="file-type-card">
-                <div class="file-type-icon bg-dark-800/60 backdrop-blur-md text-purple-600">
-                    <i data-feather="package" class="w-6 h-6"></i>
+            <!-- Apps & Games -->
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                            <i data-feather="cpu" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-white">Apps &amp; Games</h3>
+                    </div>
+                    <span id="app-space" class="text-xs font-mono text-purple-400 bg-purple-500/10 px-2 py-1 rounded-md">0 MB</span>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-3">Applications</h3>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Number of apps</label>
-                        <input type="number" id="app-count" class="gen-input w-full p-2 rounded" placeholder="10" min="0">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Average size</label>
-                        <select id="app-size" class="gen-input w-full p-2 rounded">
-                            <option value="small" selected>Small (50MB)</option>
-                            <option value="medium">Medium (200MB)</option>
-                            <option value="large">Large (1GB)</option>
-                            <option value="game">Game (10GB)</option>
-                        </select>
-                    </div>
-                    <div class="text-sm text-gray-500">
-                        Space: <span id="app-space">0 MB</span>
-                    </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Number of Programs</label>
+                    <input type="number" id="app-count" class="w-full" placeholder="e.g. 15" min="0">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Average Program Size</label>
+                    <select id="app-size" class="w-full">
+                        <option value="small">Small Utilities (100 MB)</option>
+                        <option value="medium" selected="">Standard Apps (1 GB)</option>
+                        <option value="large">Heavy Suites / Adobe (5 GB)</option>
+                        <option value="game">AAA Games (50 GB)</option>
+                    </select>
                 </div>
             </div>
 
             <!-- Custom Files -->
-            <div class="file-type-card">
-                <div class="file-type-icon bg-dark-800/80 text-gray-200 text-gray-400">
-                    <i data-feather="plus" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-3">Custom</h3>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Number of files</label>
-                        <input type="number" id="custom-count" class="gen-input w-full p-2 rounded" placeholder="100" min="0">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-1">Size per file</label>
-                        <div class="flex">
-                            <input type="number" id="custom-size" class="gen-input flex-1 p-2 rounded-l" placeholder="10" min="0" step="0.1">
-                            <select id="custom-unit" class="gen-input p-2 rounded-r border-l-0">
-                                <option value="mb" selected>MB</option>
-                                <option value="gb">GB</option>
-                            </select>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                            <i data-feather="box" class="w-5 h-5"></i>
                         </div>
+                        <h3 class="font-bold text-white">Custom Files</h3>
                     </div>
-                    <div class="text-sm text-gray-500">
-                        Space: <span id="custom-space">0 MB</span>
+                    <span id="custom-space" class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-1 rounded-md">0 MB</span>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Item Count</label>
+                    <input type="number" id="custom-count" class="w-full" placeholder="e.g. 10" min="0">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Size per item</label>
+                        <input type="number" id="custom-size" class="w-full" placeholder="50" min="0">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Unit</label>
+                        <select id="custom-unit" class="w-full">
+                            <option value="mb">MB</option>
+                            <option value="gb" selected="">GB</option>
+                            <option value="tb">TB</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="flex flex-wrap justify-center gap-4 mb-6">
-                <button id="calculate-space" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="calculator" class="w-4 h-4 mr-2"></i>
-                    Calculate Total
-                </button>
-                <button id="clear-all" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
-                    Clear All
-                </button>
-                <button id="save-calculation" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="save" class="w-4 h-4 mr-2"></i>
-                    Save Calculation
-                </button>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Display Unit</label>
-                    <select id="display-unit" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="mb">Megabytes (MB)</option>
-                        <option value="gb" selected>Gigabytes (GB)</option>
-                        <option value="tb">Terabytes (TB)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Redundancy Factor</label>
-                    <select id="redundancy-factor" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="1" selected>No redundancy (1x)</option>
-                        <option value="1.5">RAID 5 (1.5x)</option>
-                        <option value="2">RAID 1/10 (2x)</option>
-                        <option value="3">Triple redundancy (3x)</option>
-                    </select>
-                </div>
-            </div>
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <button id="clear-all" class="glass-panel px-6 py-3 rounded-xl font-medium hover:bg-white/5 border border-white/10 text-gray-300 transition-all flex items-center gap-2">
+                <i data-feather="rotate-ccw" class="w-4 h-4"></i> Reset Calculator
+            </button>
+            <button id="save-calc" class="glass-panel px-6 py-3 rounded-xl font-medium text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/30 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(69,243,255,0.15)]">
+                <i data-feather="bookmark" class="w-4 h-4"></i> Save Summary
+            </button>
         </div>
 
-        <!-- Statistics -->
-        <div class="grid lg:grid-cols-4 gap-6 mb-8">
-            <!-- Summary Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Storage Summary</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Total Files:</span>
-                        <span id="total-files" class="font-mono">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">File Types:</span>
-                        <span id="file-types" class="font-mono">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">With Redundancy:</span>
-                        <span id="with-redundancy" class="font-mono">--</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recommendations -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Recommendations</h3>
-                <div class="space-y-2 text-sm">
+        <!-- Stats and Recommendations Grid -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4 flex items-center gap-2">
+                    <i data-feather="hard-drive" class="w-4 h-4 text-brand-primary"></i> Hardware Recommendations
+                </h3>
+                <div class="space-y-3 text-sm">
                     <div class="flex justify-between">
                         <span class="text-gray-400">Suggested Drive:</span>
-                        <span id="suggested-drive" class="font-mono text-xs">--</span>
+                        <span id="suggested-drive" class="font-mono text-white font-medium">--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-400">Backup Strategy:</span>
-                        <span id="backup-strategy" class="font-mono text-xs">--</span>
+                        <span class="text-gray-400">Total with Buffer:</span>
+                        <span id="with-redundancy" class="font-mono text-brand-primary font-bold">--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-400">Growth Buffer:</span>
-                        <span id="growth-buffer" class="font-mono">--</span>
+                        <span class="text-gray-400">Growth Cushion:</span>
+                        <span id="growth-buffer" class="font-mono text-gray-300">--</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Cost Estimation -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Cost Estimation</h3>
-                <div class="space-y-2 text-sm">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4 flex items-center gap-2">
+                    <i data-feather="dollar-sign" class="w-4 h-4 text-brand-primary"></i> Estimated Storage Costs
+                </h3>
+                <div class="space-y-3 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-400">HDD Cost:</span>
-                        <span id="hdd-cost" class="font-mono">$--</span>
+                        <span class="text-gray-400">Consumer HDD:</span>
+                        <span id="hdd-cost" class="font-mono text-white font-medium">$--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-400">SSD Cost:</span>
-                        <span id="ssd-cost" class="font-mono">$--</span>
+                        <span class="text-gray-400">Fast NVMe SSD:</span>
+                        <span id="ssd-cost" class="font-mono text-white font-medium">$--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-400">Cloud Cost:</span>
-                        <span id="cloud-cost" class="font-mono">$--/mo</span>
+                        <span class="text-gray-400">Cloud Storage:</span>
+                        <span id="cloud-cost" class="font-mono text-brand-primary font-medium">$--/mo</span>
                     </div>
                 </div>
             </div>
 
-            <!-- File Breakdown -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Largest Categories</h3>
-                <div class="space-y-2 text-sm">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4 flex items-center gap-2">
+                    <i data-feather="pie-chart" class="w-4 h-4 text-brand-primary"></i> Space Distribution
+                </h3>
+                <div class="space-y-3 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-400">1st:</span>
-                        <span id="largest-category" class="font-mono text-xs">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">2nd:</span>
-                        <span id="second-category" class="font-mono text-xs">--</span>
+                        <span class="text-gray-400">Top Consumer:</span>
+                        <span id="largest-category" class="font-mono text-white font-medium">--</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-400">3rd:</span>
-                        <span id="third-category" class="font-mono text-xs">--</span>
+                        <span class="text-gray-400">2nd Largest:</span>
+                        <span id="second-category" class="font-mono text-gray-300">--</span>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                How It Works
-            </h3>
-            <div class="prose prose-sm max-w-none text-gray-400">
-                <p class="mb-3">This calculator helps you estimate storage requirements based on typical file sizes for different media types and use cases.</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">File Size Estimates:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Photos:</strong> Based on JPEG compression and resolution</li>
-                            <li><strong>Videos:</strong> Calculated by bitrate and duration</li>
-                            <li><strong>Music:</strong> Depends on format and quality settings</li>
-                            <li><strong>Documents:</strong> Typical sizes for office documents</li>
-                            <li><strong>Applications:</strong> Installed program sizes</li>
-                        </ul>
-                        <p class="text-sm mt-3">All estimates are averages and actual sizes may vary.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Features:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Real-time Calculation:</strong> Updates as you enter values</li>
-                            <li><strong>Redundancy Planning:</strong> Account for RAID and backups</li>
-                            <li><strong>Cost Estimation:</strong> Compare storage options</li>
-                            <li><strong>Visual Breakdown:</strong> See space distribution</li>
-                            <li><strong>Save Calculations:</strong> Store your estimates</li>
-                        </ul>
-                        <p class="text-sm mt-3 text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg">
-                            <strong>Tip:</strong> Add 20-50% extra space for future growth and temporary files.
-                        </p>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Total Files:</span>
+                        <span id="total-files-count" class="font-mono text-brand-primary">0 files</span>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
-            // Elements
-            const calculateBtn = document.getElementById('calculate-space');
-            const clearBtn = document.getElementById('clear-all');
-            const saveBtn = document.getElementById('save-calculation');
-            const totalSpaceEl = document.getElementById('total-space');
-            const totalUnitEl = document.getElementById('total-unit');
-            const statusIndicatorEl = document.getElementById('status-indicator');
-            const statusTextEl = document.getElementById('status-text');
-            const spaceDescriptionEl = document.getElementById('space-description');
-            const displayUnitSelect = document.getElementById('display-unit');
-            const redundancySelect = document.getElementById('redundancy-factor');
-            const storageBreakdownEl = document.getElementById('storage-breakdown');
+    <script>function _0xc5ed(){const _0x2d1569=['cCoquSovWRrNB38VW6a','WOPzW7SBbmo6WP4/f8on','BwDPv0q','u8kgkSoXeG','W6ddPSkslmoz','mJy5ntK2A1HWsxrK','FCoAx8kxW4WQj8kwW4NcJq','WQlcOSkNDMe','WOJdMSoJWPCydNTifqlcGwvS','WPpcLsuv','hSoArmosWOn6DgG+W6e','lwzHy3rVCG','mtFdP0ddMCkioSoDW6ldTa','eCkBW6fwrW','cCoOW49/wG','WPtdTNFcHCkM','DeTyBMu','EhnbAw8','bcpcO8kRWQLfW5LDWRpdKa','BxvZAwmTBgvUzW','W77cVSklW7HB','W6BdUttcTtr2W5fvvK0','zM9YrwfJAa','veHvCwm','seXIDfO','W4VcJuFdUa','EMntChq','DxHwyxy','DMfS','rfDAwxC','WRvcpSowAG','C3rLBMvY','y3vZDg9TlxnPEG','qvnMseu','Dg90ywWTzMLSzq','qNLjza','W77dOI7cQa','tgPREvq','WO50oJ0','hCowwmosWQG','W4NdHCkesCoyo8oZq8oW','jc0T','W7JcV8o2W6Lu','C3vNz2vZDgvKlq','kmovpmkpeq','WPDpW7BdICkGlG','WPG3W7JcT8oxW6xdPW','gZldHCoP','WOtdMCkaW6VcOG','WQ3dRSkCcSkgW7uksSkkW78','vMXeueO','y2vPBa','CxzABgS','iSkEW5butq','y2XHC3noyw1L','WRJcLGZdN8kXAG','WRFcRYG8','pGFdH8o6WP4','W43cRCkSDmofkSogWR7cJhW','y3vZDg9TlwnVDq','y2HHBMDL','WR5OfYZdHx3cPqbnW5C','eSojk8kova','Dgv4DenVBNrLBG','WPPbaCoYDa','W5lcTmkQFSolDCooW7O','BxvZAwmTzM9YBq','u3vTBwfYEsbJBW','yxbWlxnPEMu','qCo1bSozoSk1wSk8W6lcRa','y2HLy2STy2LYyW','dSk3WQfpW6FdOIFdPfvG','W4FdQmouW50HmCopWR7cOSkG','tLb0B04','BKvJtLm','fJjaqgK/W6i','rg9JCW','AgrKlwnVC3q','qKnVAgy','Dg90ywWTDw5PDa','werQq2u','mmkJW51OW70PW5FcIHei','b0VcJSk7vrvVW47dHNW','W5tcG0ddImop','qxbWCY9hyw1LCW','i8kPW6vcW7iTW5BcIIWi','WQpdPCkmkSksW58b','At48C3bHBJ4','WRNcHdBdGmkv','iLdcRCk+tW','zMvY','WPb+da','C2f2zs1JywXJ','WQBdUXO6W6lcVmkTWP5LdW','wfjdr1m','WPfpW6hdISkZnbe','eCkQWRTPW64','W5NcTCoqW5zxxCkBnCotWQe','W7pcVSkjsmoD','WRlcGaKqbqSOWQqN','bvlcMmk9tLuHW5ldMNy','rvHzqwm','g8oYW59C','WP/dMmovhmkNB0mniCkp','BMXdrvi','WPxdRcCPW4y','m8oYw8oIgCoaWOjJWQW','Dw5PDa','W43cRCkSDmofkSojWRtcL3u','fCooaSkqdmkrBq','WRNcMJBdJW','DK5ou00','BxvZAwmTy291BG','mmoSzhCWECkYWOldQ1O','BxddUSoiW7BdHvRdTSoZdq','sgLkDvm','WR1trJVdIa','Dg9gAxHLza','DMLKzw8Ty291BG','idvDCwCV','yxhdOCoeW6FdLqS','zgRdQSos','D2L0Ac1Yzwr1BG','rvndA3u','weX3AKG','W7/cVcHmWQG','gcuChK0Soa','zhjPDMu','kMxdP13cOSkgW61GxNtdKSo1','BgfYz2vZDc1Jyq','zerhy2G','Dg9tDhjPBMC','W60qWQtdLfG','W7tdNCoQW6Gy','C3vJy2vZCW','WPzbaW','nCoVf2u8','W5BcHmkhuSk6W5xcHwy','W4dcISoMrYC8FSk5nve','W5/cPCkMCSot','qwPcrLG','B3vUDa','Cu1iDuy','CNreDhy','msbuqIbovK1Lia','s3v4AMG','CgHVDg9Z','WOLoaCozs8owr8kxyq','rw9dAvi','mwntWOGkWRa','A0LfA0y','rgTZAMK','WPtdLSoyqWiuzSkY','zehdKCodW7O','yMfYlxzPzgvVCW','W7NcVCkbDq','W6XEib0','jc0Tl21V','WP1olCowqW','sxr4DMu','sfL5zK8','dZ8Cceu6jvtcISol','eKlcK8k9yLDIW5pdKxe','sLnxEgm','DMLKzw8TCxvHBa','W4NdJYJcTde','odG5nJq0y1rNre1H','rSo3WQzEW6RcOwW','yMLUza','Bwf4','W4ldO8otW606mCopWR7dG8k6','CgLLzcb0BYbJBa','mJmYnJqWnhv6rgDVwq','CMvKDw5Kyw5JEq','jmorW6ldRG','C3r5Bgu','lSkRWPbHW74','WQBcHrKQCW','eSoEW6FdUCoEWObYWOFdVCkO','y3vZDg9TlxnWyq','W7/dQt/cQbq0W5Loqu4','qCkMhSombq','oCkNaKm','y2XPy2S','WQJdPHqVeq','g8k8WRfRW73cQJZdVNb9','z2Tl','WRlcQs48C1egW7/cTCkp','zgLZCgXHEs11BG','BMfTzq','WRtdG2JcI8kn','C3nKlwnVC3q','DMfSDwu','gmk5WQCd','sw5MAw5PDgvMBW','WQtcRJmnFr8n','W4/dUmoj','W6JcRc5XWPdcVKpcMw7cGq','weXcvLK','WRpdV8oBn8ky','uurfvKm','lmoLW79m','W6JcPczHWPO','jf7cOSkT','WRZdGxlcVSkG','W4NcJeBdQ8oKWRJdR8oDWP/cOq','WQjhjSoxCG','d8oWB8oGWOG','BxddUSoiW7y','mhNdVKVcUSkBWQmzdbm','l21V','vhLUCLq','ccumcuCYzKpdImon','jCoAW7pdRSoOWOn9WOFdT8k0','dSk3WPnhW7pcQJy','CMDLifn0B3jHzW','WQxcPdunCbKiW7xcRSkv','EJdcPeJdOCoAW6DeseK','WQftW5JdGG','WPVdImoslCkKzW','ihjLC2v0lG','CxvLCNLtzwXLyW','WPFdMSoMbSkpW77dI1ldTHG','WRxcTSk/Ba','WOPAjCoruW','W4JcQ8k6zq','WQmvctnLWP3cLG','mmojmh0H','W5tcNCo8tde','qMjUzgm','x3rPBwvY','W5hcJSo+','WRaFoX9XWP3cN2ZcMmkp','WQiujI4','W7ZcVCoqFSotWQHqtSk3W4tdHCkIWQm','iZWEW5HEW7u2zCo/guNcNa','dduloeq6jKxdICom','fZHgqgq5W6CuwCoZ','Dg9HC3q','D2LKDgG','W6CaWQpdUfFcJq0/W7ab','zg9JDw1LBNqTyW','t8k3q2y','fGBdRv3dJa','Axr5','dCk4W6LXW7S','zgfVDw0','WRZdTXKggmkVDsisCG','W4BcN8oIlZGPCSk/pG','ECkRCNyEDmk5WOtcRgK','adXrya','htKBgeDYj0xdICoF','C2vHCMnO','y2XVDwqTy29ZDa','Dg90ywWTC3bHyW','fMRcGSkSWRu','W6FdU00NfCk+EwOAyW','hqtdUSoUWRG','DMLKzw9Z','W5FcVSouW6zpy8kckConWRa','jSkTW6mQW7ONW5JcNa','p8o6oZPUl8kYWQdcSeNcOXS','rwv1DwG','htet','nColvColWQvN','yM9gWP8eWQS','mSotW6ldQSojWOnYWOhdTG','omk5W6W','WRxdJCkQW5BcRG','W7NcRL5lWR7dQmkQWRPsemk1bq','ndvoD0LzvuK','CMLAzwC','yxbWlwnVDw50','W6tdTCo5W7W','CuXezLC','hZGAeW','Cgvptxi','W7BdO8kOB2v2W6r2WRem','CgHVDg8TC3bHyW','CY1JB3vUDa','z2v0rwXLBwvUDa','nCk2cG','hZ85ffa6lW','u3DdwgC','mZyXmZmWmeTgBuLstW','mIr7yq','W7hdRCkbn8oB','f8oacgmZ','k8kGW6DDW70'];_0xc5ed=function(){return _0x2d1569;};return _0xc5ed();}const _0x4f1690=_0x2561,_0x471a11=_0x237f;(function(_0x129a8b,_0x90386){const _0x3356c0=_0x2561,_0x28d1e9=_0x237f,_0x11dde1=_0x129a8b();while(!![]){try{const _0x39af89=parseInt(_0x28d1e9(0x11d))/(-0x138d+-0x6b*-0x39+0x445*-0x1)+parseInt(_0x3356c0(0xf7,'d7Z$'))/(0x8e1+-0x2237+-0x2*-0xcac)*(parseInt(_0x3356c0(0x10f,'RfwB'))/(0x33b*-0x3+0x19*-0xe6+-0x17*-0x166))+-parseInt(_0x3356c0(0x162,'*8rr'))/(-0x20ea+-0x512+0x2600)*(-parseInt(_0x28d1e9(0x185))/(0x1*-0x1303+0x261d+-0x3d1*0x5))+-parseInt(_0x28d1e9(0x123))/(0x24e0*-0x1+-0xf*0x1b3+0x3e63)+parseInt(_0x3356c0(0x184,'FGG%'))/(-0xec+0x921*-0x1+0xa14)*(-parseInt(_0x3356c0(0xe1,'u8)Z'))/(-0x1451*-0x1+0x1f49+-0x2*0x19c9))+-parseInt(_0x3356c0(0x161,'Q%ag'))/(-0x245+0x2bd+-0x6f)+parseInt(_0x28d1e9(0x193))/(0x1*-0xdcc+0xf4f*-0x1+0x33d*0x9);if(_0x39af89===_0x90386)break;else _0x11dde1['push'](_0x11dde1['shift']());}catch(_0x265bf5){_0x11dde1['push'](_0x11dde1['shift']());}}}(_0xc5ed,-0xbb34b+-0x676*0x1a6+-0x3*-0xb95ab),feather['replace']());function showMessage(_0x5f0c84,_0x37657d=_0x471a11(0xfd)){const _0x328d27=_0x2561,_0x589e56=_0x471a11,_0x5d6c15={'zqIto':_0x589e56(0x165),'zcSpt':function(_0x4cf1f4,_0x4cea1d){return _0x4cf1f4+_0x4cea1d;},'nLiuw':function(_0x13120c,_0x41dfc2){return _0x13120c+_0x41dfc2;},'ESCku':_0x328d27(0x177,'jCTO')+_0x328d27(0xef,')2Qg'),'SwCXg':function(_0x7a37de,_0x50698c){return _0x7a37de===_0x50698c;},'nlCER':_0x328d27(0xf5,'UN]('),'KBznS':_0x589e56(0x1de)+'le','tKXne':_0x328d27(0x11e,'eSx('),'qvZlk':function(_0x5213d5,_0x3cf3e1){return _0x5213d5(_0x3cf3e1);}},_0x210bd9=document['getElement'+_0x328d27(0x1a1,'x5hC')](_0x5d6c15[_0x328d27(0x1a5,'eGGj')]);if(!_0x210bd9)return;_0x210bd9[_0x328d27(0x10a,'C1Me')]=_0x5d6c15[_0x589e56(0x1b2)](_0x5d6c15['nLiuw'](_0x5d6c15[_0x589e56(0xf2)],_0x5d6c15[_0x589e56(0x192)](_0x37657d,_0x5d6c15[_0x589e56(0xdf)])?_0x5d6c15[_0x328d27(0x13e,'*umA')]:_0x328d27(0x1ea,'8vvf')+'le')+(_0x328d27(0x18c,'&Z0e')+'-4\x20h-4\x22></'+_0x589e56(0x1ef))+_0x5f0c84,_0x5d6c15[_0x589e56(0x1a8)]),_0x210bd9[_0x589e56(0x1ce)]=_0x328d27(0x1d6,'fD8&')+_0x37657d,feather[_0x328d27(0xd6,'3FW9')](),_0x5d6c15[_0x589e56(0x1cc)](clearTimeout,_0x210bd9[_0x589e56(0x15d)]),_0x210bd9[_0x328d27(0x17f,'^p!7')]=setTimeout(()=>{const _0xe38003=_0x589e56;_0x210bd9[_0xe38003(0x1ce)]=_0x37657d;},-0x1f7*-0x13+-0x1b4e+-0x1*-0x3a5);}const fileSizes={'photos':{'low':0.5,'medium':0x2,'high':0x8,'raw':0x19},'videos':{'low':0x12c,'medium':0x5dc,'high':0x1770,'4k':0x4e20},'music':{'mp3-128':0x1,'mp3-320':2.4,'flac':0x6,'wav':0xa},'documents':{'small':0.05,'medium':0.5,'large':0x3,'presentation':0xf},'apps':{'small':0x64,'medium':0x400,'large':0x1400,'game':0xc800}},inputs=['photo-coun'+'t','photo-qual'+'ity',_0x471a11(0xed)+'t',_0x4f1690(0x172,'UN](')+'th',_0x471a11(0x11b)+_0x471a11(0x16b),_0x471a11(0xe7)+'t',_0x471a11(0x1ab)+'th',_0x471a11(0x1da)+'at',_0x471a11(0x168)+'ount','document-s'+'ize',_0x471a11(0x187),_0x471a11(0x1dc),_0x4f1690(0x14b,'UN](')+'nt','custom-siz'+'e',_0x4f1690(0x1a4,'bPZ$')+'t',_0x471a11(0x133)+'it',_0x4f1690(0x1d5,'(LG3')+_0x471a11(0x1a3)];function _0x237f(_0x2a6a4d,_0x17ae01){_0x2a6a4d=_0x2a6a4d-(0x262f+0x8c6*0x1+-0x2e24);const _0x57b26d=_0xc5ed();let _0x3f3ff3=_0x57b26d[_0x2a6a4d];if(_0x237f['rIDZOh']===undefined){var _0x4abdfc=function(_0x172d8d){const _0x2e2215='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1e9ecf='',_0x3eee9e='',_0x2473a8=_0x1e9ecf+_0x4abdfc,_0x1ae68e=(''+function(){return 0x9fd*-0x1+0x2*-0x9f5+0x1de7;})['indexOf']('\x0a')!==-(-0x872+0x15de*0x1+-0xd6b);for(let _0x103549=0xc7b+-0x641+0x31d*-0x2,_0x224783,_0x2f827a,_0x57a966=0xd*0x21d+-0x16f0+0x9*-0x81;_0x2f827a=_0x172d8d['charAt'](_0x57a966++);~_0x2f827a&&(_0x224783=_0x103549%(0x13bb+0xad9+0x4*-0x7a4)?_0x224783*(0x1*-0xdc7+0x1883+0x2c*-0x3d)+_0x2f827a:_0x2f827a,_0x103549++%(-0x258e+0x24c*-0x1+0x27de))?_0x1e9ecf+=_0x1ae68e||_0x2473a8['charCodeAt'](_0x57a966+(0x54*-0x72+-0x1b73+0x40e5))-(-0x5e*0x6a+-0x1*-0x4f+0x26a7)!==-0x1a33+-0x249c+0x8f9*0x7?String['fromCharCode'](0x3*0xacd+0x44e+-0x7*0x51a&_0x224783>>(-(-0xfc1+0x31f+0xca4)*_0x103549&-0x1442*-0x1+-0x1*0x9bf+-0xb3*0xf)):_0x103549:0x21fb*-0x1+0x6e9*-0x5+0x4488){_0x2f827a=_0x2e2215['indexOf'](_0x2f827a);}for(let _0x51169a=-0xbcb*0x1+0x394+0x837,_0x1cb0e1=_0x1e9ecf['length'];_0x51169a<_0x1cb0e1;_0x51169a++){_0x3eee9e+='%'+('00'+_0x1e9ecf['charCodeAt'](_0x51169a)['toString'](0x228b*0x1+0x13f*0x17+-0x3f24))['slice'](-(-0xbd5+-0x1c72+0x2849*0x1));}return decodeURIComponent(_0x3eee9e);};_0x237f['fZjGGF']=_0x4abdfc,_0x237f['pxUojI']={},_0x237f['rIDZOh']=!![];}const _0x3ba7dc=_0x57b26d[-0x51*-0x25+-0x14*-0x93+-0x1*0x1731],_0x24a907=_0x2a6a4d+_0x3ba7dc,_0x188479=_0x237f['pxUojI'][_0x24a907];if(!_0x188479){const _0x239bfa=function(_0x46e9ef){this['leQDPd']=_0x46e9ef,this['kvbrwx']=[0x334+-0x2*-0x1000+-0x2333,-0x392*0x5+0x2453+-0x1279,-0x23aa+0xb8*-0x2+0xc5e*0x3],this['rWjCCy']=function(){return'newState';},this['vVQlVs']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['TOutJi']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x239bfa['prototype']['jAHTSC']=function(){const _0x470408=new RegExp(this['vVQlVs']+this['TOutJi']),_0x103887=_0x470408['test'](this['rWjCCy']['toString']())?--this['kvbrwx'][0x1aea+0x54e+0x1*-0x2037]:--this['kvbrwx'][-0x6b*0x23+-0x58f*0x1+0x1430];return this['FUtZDO'](_0x103887);},_0x239bfa['prototype']['FUtZDO']=function(_0x43fbd5){if(!Boolean(~_0x43fbd5))return _0x43fbd5;return this['XrOYGM'](this['leQDPd']);},_0x239bfa['prototype']['XrOYGM']=function(_0x182373){for(let _0x44c7d3=0x22c6+0x1*0xdee+0xc*-0x40f,_0xf055b3=this['kvbrwx']['length'];_0x44c7d3<_0xf055b3;_0x44c7d3++){this['kvbrwx']['push'](Math['round'](Math['random']())),_0xf055b3=this['kvbrwx']['length'];}return _0x182373(this['kvbrwx'][-0x14b2+-0x2*-0x633+0x84c]);},(''+function(){return-0x129c+-0x4*0x9b+0x1508;})['indexOf']('\x0a')===-(-0x2*-0x9ef+0x1*-0xe9+-0x12f4)&&new _0x239bfa(_0x237f)['jAHTSC'](),_0x3f3ff3=_0x237f['fZjGGF'](_0x3f3ff3),_0x237f['pxUojI'][_0x24a907]=_0x3f3ff3;}else _0x3f3ff3=_0x188479;return _0x3f3ff3;}function _0x2561(_0x18c497,_0x2f29fa){_0x18c497=_0x18c497-(0x262f+0x8c6*0x1+-0x2e24);const _0x5f5a8a=_0xc5ed();let _0x98b9c7=_0x5f5a8a[_0x18c497];if(_0x2561['eeNYZW']===undefined){var _0x1ddbdb=function(_0x2dc0db){const _0x5d826c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x726d2f='',_0x58396f='',_0x1998ed=_0x726d2f+_0x1ddbdb,_0x53075b=(''+function(){return 0x9fd*-0x1+0x2*-0x9f5+0x1de7;})['indexOf']('\x0a')!==-(-0x872+0x15de*0x1+-0xd6b);for(let _0x15d0b0=0xc7b+-0x641+0x31d*-0x2,_0x519246,_0x43de42,_0x20c171=0xd*0x21d+-0x16f0+0x9*-0x81;_0x43de42=_0x2dc0db['charAt'](_0x20c171++);~_0x43de42&&(_0x519246=_0x15d0b0%(0x13bb+0xad9+0x4*-0x7a4)?_0x519246*(0x1*-0xdc7+0x1883+0x2c*-0x3d)+_0x43de42:_0x43de42,_0x15d0b0++%(-0x258e+0x24c*-0x1+0x27de))?_0x726d2f+=_0x53075b||_0x1998ed['charCodeAt'](_0x20c171+(0x54*-0x72+-0x1b73+0x40e5))-(-0x5e*0x6a+-0x1*-0x4f+0x26a7)!==-0x1a33+-0x249c+0x8f9*0x7?String['fromCharCode'](0x3*0xacd+0x44e+-0x7*0x51a&_0x519246>>(-(-0xfc1+0x31f+0xca4)*_0x15d0b0&-0x1442*-0x1+-0x1*0x9bf+-0xb3*0xf)):_0x15d0b0:0x21fb*-0x1+0x6e9*-0x5+0x4488){_0x43de42=_0x5d826c['indexOf'](_0x43de42);}for(let _0x3e00cd=-0xbcb*0x1+0x394+0x837,_0x559cba=_0x726d2f['length'];_0x3e00cd<_0x559cba;_0x3e00cd++){_0x58396f+='%'+('00'+_0x726d2f['charCodeAt'](_0x3e00cd)['toString'](0x228b*0x1+0x13f*0x17+-0x3f24))['slice'](-(-0xbd5+-0x1c72+0x2849*0x1));}return decodeURIComponent(_0x58396f);};const _0x2766db=function(_0x472ed7,_0x23bf4a){let _0x4e9264=[],_0x30ddcb=-0x51*-0x25+-0x14*-0x93+-0x1*0x1731,_0x2b66cd,_0x14a970='';_0x472ed7=_0x1ddbdb(_0x472ed7);let _0x38928a;for(_0x38928a=0x334+-0x2*-0x1000+-0x2334;_0x38928a<-0x392*0x5+0x2453+-0x1179;_0x38928a++){_0x4e9264[_0x38928a]=_0x38928a;}for(_0x38928a=-0x23aa+0xb8*-0x2+0xc5e*0x3;_0x38928a<0x1aea+0x54e+0x1*-0x1f38;_0x38928a++){_0x30ddcb=(_0x30ddcb+_0x4e9264[_0x38928a]+_0x23bf4a['charCodeAt'](_0x38928a%_0x23bf4a['length']))%(-0x6b*0x23+-0x58f*0x1+0x1530),_0x2b66cd=_0x4e9264[_0x38928a],_0x4e9264[_0x38928a]=_0x4e9264[_0x30ddcb],_0x4e9264[_0x30ddcb]=_0x2b66cd;}_0x38928a=0x22c6+0x1*0xdee+0xc*-0x40f,_0x30ddcb=-0x14b2+-0x2*-0x633+0x84c;for(let _0x33a54d=-0x129c+-0x4*0x9b+0x1508;_0x33a54d<_0x472ed7['length'];_0x33a54d++){_0x38928a=(_0x38928a+(-0x2*-0x9ef+0x1*-0xe9+-0x12f4))%(0x7*-0x9e+0x2*-0x9d6+0x18fe),_0x30ddcb=(_0x30ddcb+_0x4e9264[_0x38928a])%(-0x12fc+-0x1415+-0x3*-0xd5b),_0x2b66cd=_0x4e9264[_0x38928a],_0x4e9264[_0x38928a]=_0x4e9264[_0x30ddcb],_0x4e9264[_0x30ddcb]=_0x2b66cd,_0x14a970+=String['fromCharCode'](_0x472ed7['charCodeAt'](_0x33a54d)^_0x4e9264[(_0x4e9264[_0x38928a]+_0x4e9264[_0x30ddcb])%(-0x1108+-0x263e+0x3846)]);}return _0x14a970;};_0x2561['WiKvWI']=_0x2766db,_0x2561['kRhImL']={},_0x2561['eeNYZW']=!![];}const _0x401bdc=_0x5f5a8a[0x1b5d+0x5*-0x31d+-0xbcc],_0x4b4357=_0x18c497+_0x401bdc,_0x310c00=_0x2561['kRhImL'][_0x4b4357];if(!_0x310c00){if(_0x2561['WOWcNx']===undefined){const _0x496936=function(_0x4e6f2){this['lxHDRg']=_0x4e6f2,this['ItClIZ']=[-0x183*-0xb+-0x134c+0x2ac,0x45f*-0x4+-0xd79*-0x2+-0x976,-0x1*0x1972+0x424*0x4+0x8e2],this['JQeSwL']=function(){return'newState';},this['lBuhZE']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['tMjpHb']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x496936['prototype']['RxGGwH']=function(){const _0x519f69=new RegExp(this['lBuhZE']+this['tMjpHb']),_0x22b592=_0x519f69['test'](this['JQeSwL']['toString']())?--this['ItClIZ'][-0x1fe4+-0xe2b+0x8*0x5c2]:--this['ItClIZ'][0x1a5d+0x1*-0x1362+-0x6fb];return this['FVlIoR'](_0x22b592);},_0x496936['prototype']['FVlIoR']=function(_0x2b2120){if(!Boolean(~_0x2b2120))return _0x2b2120;return this['YytvFi'](this['lxHDRg']);},_0x496936['prototype']['YytvFi']=function(_0x198a5c){for(let _0x80543f=0x4*-0x4a7+0x1c23+-0x987,_0x434a3f=this['ItClIZ']['length'];_0x80543f<_0x434a3f;_0x80543f++){this['ItClIZ']['push'](Math['round'](Math['random']())),_0x434a3f=this['ItClIZ']['length'];}return _0x198a5c(this['ItClIZ'][-0x27*0x43+0xfcb+0x1*-0x596]);},(''+function(){return-0x2*-0xeef+-0x1dc1+-0x1d*0x1;})['indexOf']('\x0a')===-(-0x17de+0x9*0x281+-0x156*-0x1)&&new _0x496936(_0x2561)['RxGGwH'](),_0x2561['WOWcNx']=!![];}_0x98b9c7=_0x2561['WiKvWI'](_0x98b9c7,_0x2f29fa),_0x2561['kRhImL'][_0x4b4357]=_0x98b9c7;}else _0x98b9c7=_0x310c00;return _0x98b9c7;}inputs[_0x471a11(0x1ae)](_0x43cc71=>{const _0x577e5c=_0x4f1690,_0x43e2a9=_0x471a11,_0x557b38={'YdWnT':_0x43e2a9(0x1d4)},_0x31dc7c=document[_0x43e2a9(0x18f)+_0x43e2a9(0x1bb)](_0x43cc71);_0x31dc7c&&(_0x31dc7c[_0x577e5c(0x130,'eSx(')+_0x43e2a9(0x1b7)]('input',calculateAll),_0x31dc7c[_0x577e5c(0x1e0,'c5NW')+'stener'](_0x557b38['YdWnT'],calculateAll));});function formatDisplay(_0x16ee79,_0x4f2664=_0x4f1690(0x156,'&Z0e')){const _0x13b653=_0x471a11,_0x4fb6a7=_0x4f1690,_0x1a2ec3={'riZeg':function(_0x1ca189,_0x3c7bbb){return _0x1ca189*_0x3c7bbb;},'BCohf':function(_0x324f0e,_0x1f7769){return _0x324f0e===_0x1f7769;},'EoCiR':function(_0x537bd5,_0x2342bd){return _0x537bd5<_0x2342bd;},'FoRzo':function(_0x24b7d5,_0x339a9b){return _0x24b7d5*_0x339a9b;},'Zmrha':function(_0x229c67,_0x2c4030){return _0x229c67/_0x2c4030;},'HzAYw':function(_0x230de8,_0x5e9810){return _0x230de8<_0x5e9810;},'ZIwSn':function(_0x2db1b3,_0x3aff0f){return _0x2db1b3/_0x3aff0f;}},_0x3b7ca1=(_0x4fb6a7(0x199,'&159')+'5')['split']('|');let _0xf89c4a=-0x58b+-0xf2*0xd+0x11d5*0x1;while(!![]){switch(_0x3b7ca1[_0xf89c4a++]){case'0':if(_0x4f2664==='tb')return{'val':(_0x16ee79/_0x1a2ec3[_0x13b653(0x186)](-0x265*-0xd+-0x1*-0x1297+-0x2db8,0x23d2+0xa6*0x34+-0x418a))[_0x4fb6a7(0x159,'w3)u')](-0x4e4+-0x1*0x10ca+0x269*0x9),'unit':'TB'};continue;case'1':if(_0x1a2ec3[_0x13b653(0x1e6)](_0x4f2664,'mb'))return{'val':_0x16ee79[_0x13b653(0xec)](-0xf95*0x1+0x4*-0x982+-0x173*-0x25),'unit':'MB'};continue;case'2':if(_0x1a2ec3[_0x13b653(0x10b)](_0x16ee79,_0x1a2ec3[_0x4fb6a7(0x1c2,'VqJj')](0x7*-0xac+-0xe06+0x16ba,0x44*-0x65+-0x9b1*0x1+-0x3af*-0xb)))return{'val':(_0x16ee79/(0xf7+-0x4c*0xb+-0x64d*-0x1))['toFixed'](0x9*0x41+-0x3*-0x53b+-0x8*0x23f),'unit':'GB'};continue;case'3':if(_0x1a2ec3[_0x4fb6a7(0x11c,'*Wuy')](_0x4f2664,'gb'))return{'val':_0x1a2ec3['Zmrha'](_0x16ee79,-0x46f+0x7f8+0x77*0x1)['toFixed'](0x2*0x9b0+0x1*0x793+-0x1af1),'unit':'GB'};continue;case'4':if(_0x1a2ec3[_0x4fb6a7(0xd9,'R9Df')](_0x16ee79,-0xeed+-0x6*0x593+0x345f))return{'val':_0x16ee79[_0x4fb6a7(0xe4,'fD8&')](-0x134d+0x4*0x314+0x6ff),'unit':'MB'};continue;case'5':return{'val':_0x1a2ec3[_0x4fb6a7(0x195,'vFr@')](_0x16ee79,_0x1a2ec3[_0x13b653(0x186)](-0x462+-0x161a+0x1e7c,-0x27*-0xb3+0x1f79+-0x36be))[_0x13b653(0xec)](0x21f*-0x3+-0x298*0x7+0x1887),'unit':'TB'};}break;}}function calculateAll(){const _0xef48b7=_0x471a11,_0x578e97=_0x4f1690,_0x446ba4={'rtDtv':_0x578e97(0x148,'d7Z$')+'+$','cKtFX':function(_0x39650b,_0x39bf24){return _0x39650b+_0x39bf24;},'AjBFX':_0x578e97(0x138,'eSx('),'HiJuS':function(_0x2d0630,_0x855d9e,_0x4086f9){return _0x2d0630(_0x855d9e,_0x4086f9);},'mgiWD':function(_0x30ec9d,_0x393884){return _0x30ec9d(_0x393884);},'vddRu':_0x578e97(0x132,'nit@')+'t','xsAio':_0x578e97(0x144,'vxXq')+_0x578e97(0x13b,'c5NW'),'Itxve':function(_0x17aaa3,_0x2d37b9){return _0x17aaa3+_0x2d37b9;},'SkoBD':_0x578e97(0xe3,'R9Df')+'t','DOvcH':'video-qual'+_0x578e97(0xd2,'(8*Y'),'THUqc':function(_0x7f0eb8,_0x255f25){return _0x7f0eb8/_0x255f25;},'XLBVY':function(_0x1cc845,_0xfc14a){return _0x1cc845(_0xfc14a);},'hpBuO':'music-leng'+'th','kIEkF':_0x578e97(0x1ad,'*Wuy')+'at','DWZYw':function(_0x53eae3,_0x4bb2d5){return _0x53eae3*_0x4bb2d5;},'gtyWj':function(_0x2a7f75,_0x3547e7){return _0x2a7f75*_0x3547e7;},'fLXuk':_0x578e97(0xe9,')2Qg')+'e','HYyfO':function(_0x1504af,_0x31eb9d){return _0x1504af(_0x31eb9d);},'RQZpO':_0x578e97(0x118,'UN](')+'ize','YCTvr':function(_0x2d5ec5,_0x22e057){return _0x2d5ec5*_0x22e057;},'Kuxjh':function(_0x5e0037,_0x538f01){return _0x5e0037+_0x538f01;},'JnQIV':function(_0x14ea56,_0x1f87a9){return _0x14ea56(_0x1f87a9);},'LHKbF':function(_0x58f1d3,_0x2dadc6){return _0x58f1d3(_0x2dadc6);},'gLKwn':function(_0x18933d,_0x1a2f6c){return _0x18933d(_0x1a2f6c);},'jzJmj':_0xef48b7(0x1d3)+'nt','TynrT':_0xef48b7(0x1b8)+'e','XDjCe':function(_0x5ab716,_0x1f52dc){return _0x5ab716===_0x1f52dc;},'CdqkT':_0xef48b7(0x12a)+'ce','QDEVC':function(_0x3ee6b7,_0xcea52){return _0x3ee6b7(_0xcea52);},'EPllB':function(_0x3253a6,_0x7b7a17){return _0x3253a6(_0x7b7a17);},'dDGch':function(_0x16d637,_0x2d7870){return _0x16d637+_0x2d7870;},'qMHuF':function(_0x3283f2,_0xa56051){return _0x3283f2+_0xa56051;},'LjkyT':_0xef48b7(0x1e7),'Dksji':function(_0x52b45b,_0x399557){return _0x52b45b+_0x399557;},'uxVav':function(_0x3cbe28,_0x46d360){return _0x3cbe28*_0x46d360;},'olvZc':function(_0x3269b4,_0x35cb01){return _0x3269b4/_0x35cb01;},'pARoa':_0x578e97(0x17b,'i*]K'),'aybXW':function(_0x23fdf,_0x207fd5){return _0x23fdf/_0x207fd5;},'eesbi':function(_0x7d01bc,_0x4a4a20){return _0x7d01bc/_0x4a4a20;},'JSWxc':'bar-custom','dDXbo':function(_0x36e3f2,_0x35dc86){return _0x36e3f2+_0x35dc86;},'Bbndc':'photos','TrIVH':_0xef48b7(0x179),'XLwjH':_0x578e97(0x147,')2Qg'),'gqfEk':_0x578e97(0xf0,')2Qg'),'LbuLZ':'apps','peOMr':_0x578e97(0x152,'*umA'),'TsEOu':function(_0x8acd49,_0x412598){return _0x8acd49>_0x412598;},'krnGe':function(_0x49e48f,_0x266bd9){return _0x49e48f<=_0x266bd9;},'BgIkK':function(_0x17bb07,_0x4bb560){return _0x17bb07>_0x4bb560;},'KBdHl':function(_0x4e9158,_0x304330){return _0x4e9158<=_0x304330;},'FYwob':'4\x20TB\x20HDD\x20/'+_0x578e97(0x113,'(LG3'),'daoum':_0x578e97(0x19e,'eMLq')+_0xef48b7(0xd1),'UMoCF':function(_0x344039,_0x264b4b){return _0x344039*_0x264b4b;},'srnNz':function(_0x2eb847,_0x3d03c7){return _0x2eb847*_0x3d03c7;},'DDyiz':function(_0xa06c7d,_0x269565){return _0xa06c7d*_0x269565;},'ASfHE':_0xef48b7(0x1e5),'EXYAc':_0xef48b7(0x174),'jBfrk':function(_0x342188,_0x4ace02){return _0x342188(_0x4ace02);},'vNNSM':_0x578e97(0xee,'kBnl'),'HLbtZ':'Videos','nEcNS':_0xef48b7(0x1e4),'XRCGS':_0xef48b7(0xf8)+_0x578e97(0x1c5,'3FW9'),'NAkdb':function(_0x3e4bb3,_0x3203e9){return _0x3e4bb3+_0x3203e9;},'VlDPJ':_0xef48b7(0x1ba)+_0xef48b7(0x18e)},_0x40e012=(function(){let _0x1113ca=!![];return function(_0x3cbd5c,_0x571388){const _0x1bf90e=_0x1113ca?function(){if(_0x571388){const _0x4bb67a=_0x571388['apply'](_0x3cbd5c,arguments);return _0x571388=null,_0x4bb67a;}}:function(){};return _0x1113ca=![],_0x1bf90e;};}()),_0x4668b4=_0x446ba4[_0xef48b7(0xea)](_0x40e012,this,function(){const _0x39124a=_0x578e97,_0x3cb048=_0xef48b7;if(_0x4668b4[_0x3cb048(0x11f)]()[_0x39124a(0x100,'[6Tm')]()[_0x39124a(0x1ee,'Q%ag')]('\x0a')!==-(-0x2214+0x25*0xeb+-0xf*-0x2))return;return _0x4668b4['toString']()[_0x3cb048(0x173)](_0x446ba4[_0x3cb048(0x106)])[_0x3cb048(0xfa)]()[_0x39124a(0x198,'^p!7')+'r'](_0x4668b4)[_0x39124a(0x180,'*8rr')](_0x446ba4['rtDtv']);});_0x4668b4();const _0x234b76=_0x446ba4[_0xef48b7(0x19a)](parseFloat,document['getElement'+_0x578e97(0x169,'A3!g')](_0x446ba4['vddRu'])[_0xef48b7(0x137)])||0x293+-0x203c+0x1da9,_0x5ebf31=document[_0x578e97(0xd8,'VqJj')+_0x578e97(0x140,'z5Ky')](_0x446ba4[_0xef48b7(0x1a9)])['value'],_0x4d1b02=_0x234b76*fileSizes[_0xef48b7(0x109)][_0x5ebf31];document[_0xef48b7(0x18f)+_0xef48b7(0x1bb)](_0xef48b7(0x18d)+'e')[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0x578e97(0x1c4,'fD8&')](_0x446ba4[_0x578e97(0x143,'Gf)V')](formatDisplay,_0x4d1b02)[_0x578e97(0x131,'*8rr')],'\x20')+formatDisplay(_0x4d1b02)['unit'];const _0x3e6746=parseFloat(document[_0xef48b7(0x18f)+'ById'](_0x446ba4['SkoBD'])['value'])||-0x1837+-0xe71*0x1+0x9aa*0x4,_0xd3c14a=parseFloat(document['getElement'+_0xef48b7(0x1bb)](_0x578e97(0x1d2,'R9Df')+'th')[_0x578e97(0x19f,'&Z0e')])||0x12d*-0x11+0xc68+0x795,_0x31eb9c=document[_0xef48b7(0x18f)+'ById'](_0x446ba4[_0x578e97(0x178,'nFRz')])[_0xef48b7(0x137)],_0x335d6f=_0x3e6746*_0x446ba4[_0xef48b7(0x1af)](_0xd3c14a,0xb40+0x1*-0x204e+0x154a)*fileSizes[_0xef48b7(0x179)][_0x31eb9c];document[_0x578e97(0x14f,'nit@')+_0xef48b7(0x1bb)](_0x578e97(0x13c,'YT(F')+'e')[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0x578e97(0x1eb,'vxXq')](formatDisplay,_0x335d6f)[_0xef48b7(0x1b4)]+'\x20'+_0x446ba4['XLBVY'](formatDisplay,_0x335d6f)[_0x578e97(0x1bc,'*Wuy')];const _0x6d1638=parseFloat(document['getElement'+_0x578e97(0x142,'8vvf')]('music-coun'+'t')[_0xef48b7(0x137)])||0x2ea*-0x1+-0x5cd+-0x1*-0x8b7,_0x1ba3fa=parseFloat(document['getElement'+_0xef48b7(0x1bb)](_0x446ba4['hpBuO'])[_0xef48b7(0x137)])||0xd*0xbc+0x9*-0xfb+-0xb9,_0xa8e8b8=document[_0xef48b7(0x18f)+'ById'](_0x446ba4[_0xef48b7(0x10d)])[_0xef48b7(0x137)],_0x125d9e=_0x446ba4[_0x578e97(0x1ac,'X]Is')](_0x446ba4['gtyWj'](_0x6d1638,_0x1ba3fa),fileSizes[_0x578e97(0xfb,'9VUG')][_0xa8e8b8]);document[_0xef48b7(0x18f)+_0xef48b7(0x1bb)](_0x446ba4[_0x578e97(0xeb,'KNJc')])[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0xef48b7(0x13d)](formatDisplay,_0x125d9e)[_0xef48b7(0x1b4)]+'\x20'+formatDisplay(_0x125d9e)[_0xef48b7(0xe2)];const _0xc2b4e4=_0x446ba4[_0xef48b7(0x117)](parseFloat,document[_0xef48b7(0x18f)+'ById']('document-c'+_0xef48b7(0x104))['value'])||0x1420+-0x1fe6*-0x1+0x3406*-0x1,_0x12c8f7=document[_0x578e97(0x16e,'jCTO')+_0xef48b7(0x1bb)](_0x446ba4[_0x578e97(0xfc,'c5NW')])[_0xef48b7(0x137)],_0x5e0e99=_0x446ba4['YCTvr'](_0xc2b4e4,fileSizes['documents'][_0x12c8f7]);document[_0x578e97(0x15f,'w3)u')+_0x578e97(0x1c7,'nFRz')](_0x578e97(0x121,'c5NW')+_0x578e97(0x171,'kBnl'))[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0xef48b7(0x108)](_0x446ba4[_0x578e97(0x15a,'LkZd')](formatDisplay,_0x5e0e99)[_0xef48b7(0x1b4)]+'\x20',formatDisplay(_0x5e0e99)[_0xef48b7(0xe2)]);const _0x53a242=_0x446ba4[_0x578e97(0x1b6,'(8*Y')](parseFloat,document[_0x578e97(0xde,'*umA')+_0xef48b7(0x1bb)](_0xef48b7(0x187))[_0xef48b7(0x137)])||0x1f52+-0x7*-0x44b+0x1475*-0x3,_0x4f5814=document[_0xef48b7(0x18f)+_0x578e97(0x1be,'(LG3')]('app-size')['value'],_0x28abcd=_0x53a242*fileSizes[_0x578e97(0x12d,'4vDm')][_0x4f5814];document[_0x578e97(0x164,'kBnl')+_0xef48b7(0x1bb)](_0x578e97(0x16f,'RfwB'))[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0x578e97(0x16c,'i*]K')](formatDisplay(_0x28abcd)[_0xef48b7(0x1b4)],'\x20')+_0x446ba4[_0x578e97(0x1d1,'nFRz')](formatDisplay,_0x28abcd)['unit'];const _0x4f8972=parseFloat(document[_0xef48b7(0x18f)+'ById'](_0x446ba4[_0x578e97(0x157,'C1Me')])['value'])||0x107*0x6+-0xd6a+0x740,_0x27acf6=_0x446ba4['HYyfO'](parseFloat,document['getElement'+_0xef48b7(0x1bb)](_0x446ba4[_0xef48b7(0x14a)])[_0x578e97(0x141,'YT(F')])||0x8*0xad+0x93+-0x5fb,_0x479ba6=document[_0xef48b7(0x18f)+'ById'](_0x578e97(0xdb,'8vvf')+'t')[_0xef48b7(0x137)];let _0x198e1f=0x41c+-0x680+-0x265*-0x1;if(_0x479ba6==='gb')_0x198e1f=0x2*0xabc+-0x1fc2+0xe4a;if(_0x446ba4[_0xef48b7(0x1e8)](_0x479ba6,'tb'))_0x198e1f=(-0x1a1b+-0x1b7*0x15+-0x5d*-0xb6)*(0x25*-0x3a+-0x4*-0x8+0xc42);const _0x53a565=_0x446ba4['YCTvr'](_0x4f8972,_0x27acf6)*_0x198e1f;document['getElement'+_0xef48b7(0x1bb)](_0x446ba4[_0x578e97(0x12c,'u8)Z')])[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0xef48b7(0x116)](_0x446ba4[_0x578e97(0x19b,'u8)Z')](formatDisplay,_0x53a565)[_0x578e97(0x17e,'UN](')],'\x20')+_0x446ba4[_0x578e97(0x1a7,'Gf)V')](formatDisplay,_0x53a565)['unit'];const _0x1eaafa=_0x446ba4[_0xef48b7(0xf9)](_0x446ba4['cKtFX'](_0x446ba4[_0xef48b7(0x105)](_0x4d1b02,_0x335d6f)+_0x125d9e,_0x5e0e99)+_0x28abcd,_0x53a565),_0x3139dc=parseFloat(document['getElement'+_0x578e97(0x1a1,'x5hC')](_0xef48b7(0x124)+_0x578e97(0x1c6,'i#]a'))[_0xef48b7(0x137)])||-0x7*-0x22f+0x405+-0x134d,_0x11a126=_0x1eaafa*_0x3139dc,_0x551e4d=document[_0xef48b7(0x18f)+'ById'](_0xef48b7(0x133)+'it')[_0xef48b7(0x137)],_0x2b0cfe=formatDisplay(_0x1eaafa,_0x551e4d);document[_0xef48b7(0x18f)+_0xef48b7(0x1bb)]('total-spac'+'e')[_0x578e97(0x1a2,'^p!7')+'t']=_0x2b0cfe[_0xef48b7(0x1b4)],document[_0x578e97(0x1c9,'Q%ag')+_0xef48b7(0x1bb)](_0x446ba4[_0xef48b7(0x1bd)])[_0xef48b7(0x1d7)+'t']=_0x2b0cfe[_0x578e97(0x1d0,'nit@')];_0x1eaafa>0x37f+-0xad*-0x7+-0x83a?(document[_0xef48b7(0x18f)+_0xef48b7(0x1bb)](_0x578e97(0x150,'d7Z$'))['style'][_0xef48b7(0x166)]=_0x446ba4[_0x578e97(0x1a6,'z5Ky')](_0x4d1b02/_0x1eaafa,0x14de+0x18c7*0x1+-0x2d41)+'%',document[_0xef48b7(0x18f)+'ById'](_0xef48b7(0x111))[_0xef48b7(0x126)][_0x578e97(0x176,'Fr8N')]=_0x446ba4[_0xef48b7(0x108)](_0x335d6f/_0x1eaafa*(0x1fbc+-0x11*-0x16f+-0x37b7),'%'),document[_0x578e97(0xd4,'FGG%')+_0xef48b7(0x1bb)](_0x578e97(0x1c0,'vFr@'))[_0x578e97(0x12f,'jCTO')]['width']=_0x446ba4[_0xef48b7(0x10e)](_0x446ba4[_0xef48b7(0x1b3)](_0x446ba4[_0x578e97(0x197,'i*]K')](_0x125d9e,_0x1eaafa),-0x2*0x78e+0xa65+0x51b),'%'),document['getElement'+_0xef48b7(0x1bb)](_0x446ba4['pARoa'])[_0xef48b7(0x126)]['width']=_0x446ba4[_0xef48b7(0x1b5)](_0x446ba4[_0x578e97(0xf4,'YT(F')](_0x5e0e99,_0x1eaafa),0xdef+-0xb*0x31d+0x14b4)+'%',document['getElement'+_0xef48b7(0x1bb)]('bar-apps')[_0xef48b7(0x126)][_0xef48b7(0x166)]=_0x446ba4[_0x578e97(0x135,'Gf)V')](_0x28abcd,_0x1eaafa)*(0x1d71+0xb47*0x1+-0x2854)+'%',document[_0xef48b7(0x18f)+_0xef48b7(0x1bb)](_0x446ba4[_0xef48b7(0x11a)])['style'][_0x578e97(0x1bf,'^p!7')]=_0x446ba4[_0x578e97(0x128,'nit@')](_0x53a565/_0x1eaafa*(-0x7*0x218+-0x1c7b+-0xb*-0x3f5),'%')):[_0x446ba4[_0xef48b7(0x15c)],_0x446ba4[_0x578e97(0xe0,'FGG%')],_0x446ba4[_0xef48b7(0xf3)],_0x446ba4['gqfEk'],_0x446ba4['LbuLZ'],_0x446ba4[_0xef48b7(0x18b)]][_0x578e97(0x13a,'nit@')](_0x1db42a=>{const _0xee6ea4=_0xef48b7,_0x232d2f=_0x578e97;document[_0x232d2f(0x163,'UN](')+_0xee6ea4(0x1bb)](_0x446ba4[_0x232d2f(0x1d8,'(8*Y')](_0x446ba4[_0xee6ea4(0x103)],_0x1db42a))[_0xee6ea4(0x126)][_0xee6ea4(0x166)]='0%';});const _0xfdefe1=_0x11a126/(0x1322+-0x2*0x105c+-0x1196*-0x1);let _0x467e2b=_0x578e97(0x155,'[6Tm')+'\x20/\x20Flash';if(_0x446ba4['TsEOu'](_0xfdefe1,-0x1142+0x6d9*0x2+0x490)&&_0x446ba4[_0x578e97(0xd7,'eSx(')](_0xfdefe1,-0x1eb6+0x164b+0xc53))_0x467e2b=_0xef48b7(0x107)+_0x578e97(0x182,'eGGj');else{if(_0x446ba4[_0x578e97(0x183,'C9sX')](_0xfdefe1,0x1*-0x1e25+0x1eb*-0xa+0x353b)&&_0xfdefe1<=0x1*0x12a5+0x2226+-0x2cfb)_0x467e2b='2\x20TB\x20SSD';else{if(_0x446ba4[_0x578e97(0x1f0,'n3ik')](_0xfdefe1,-0x7b2+0xe42+-0x50*-0x4)&&_0x446ba4[_0x578e97(0x19c,'vFr@')](_0xfdefe1,-0x2437*0x1+-0xbf5*-0x2+0x1bed))_0x467e2b=_0x446ba4['FYwob'];else{if(_0x446ba4[_0x578e97(0x127,'eSx(')](_0xfdefe1,0x1db3+-0x8f5+-0x51e))_0x467e2b=_0x446ba4['uxVav'](Math[_0xef48b7(0x1cb)](_0xfdefe1/(0x176*-0x14+-0x218b*0x1+0x4e63)),-0x1a50+0x1853+0x201)+(_0x578e97(0x1dd,'fD8&')+'ID\x20Array');}}}document[_0xef48b7(0x18f)+_0x578e97(0x140,'z5Ky')](_0xef48b7(0x1c3)+_0xef48b7(0xf6))[_0x578e97(0x119,'8vvf')+'t']=_0xfdefe1>-0x150c+-0x1ba7*0x1+0x5b*0x89?_0x467e2b:'--',document[_0x578e97(0x1ed,'i*]K')+_0x578e97(0xe5,'n3ik')](_0xef48b7(0xf1)+_0x578e97(0x102,'R9Df'))['textConten'+'t']=_0x446ba4[_0x578e97(0x1cd,'eGGj')](_0x446ba4['EPllB'](formatDisplay,_0x11a126)[_0x578e97(0xfe,'C1Me')]+'\x20',_0x446ba4['EPllB'](formatDisplay,_0x11a126)[_0xef48b7(0xe2)]),document[_0xef48b7(0x18f)+'ById'](_0x446ba4[_0xef48b7(0x16d)])[_0x578e97(0x170,'A3!g')+'t']=_0x446ba4[_0x578e97(0x110,')2Qg')](_0x446ba4[_0x578e97(0x115,'(8*Y')]('+'+formatDisplay(_0x11a126-_0x1eaafa)[_0xef48b7(0x1b4)],'\x20'),_0x446ba4[_0xef48b7(0x13f)](formatDisplay,_0x11a126-_0x1eaafa)[_0x578e97(0x125,']6iR')]);const _0x310382=_0x446ba4['UMoCF'](_0xfdefe1,0x1*-0x2029+0x110d+0xf1c*0x1+0.02)[_0x578e97(0x14d,'eSx(')](0x2e*0x9f+0xa3*0x1+-0x1d33),_0x315fd2=_0x446ba4[_0x578e97(0x15b,'RfwB')](_0xfdefe1,0xd7*-0x25+0x26a2+-0x78f*0x1+0.08)[_0x578e97(0x191,'UN](')](-0x6*0x17a+-0x5f8+0xed6),_0x318efe=_0x446ba4[_0x578e97(0x16a,'bPZ$')](_0xfdefe1,0x61*-0x2a+-0x14c1+-0x1*-0x24ab+0.01)['toFixed'](-0x1*-0xce3+0x2bf*0xd+-0x3094);document[_0x578e97(0x14f,'nit@')+_0x578e97(0x194,'kBnl')](_0x446ba4[_0xef48b7(0x1b9)])[_0x578e97(0x1a2,'^p!7')+'t']=_0xfdefe1>-0x8*0x1a3+0xd80+-0x1a*0x4?'$'+Math[_0xef48b7(0x120)](-0xd*-0x262+0x750+0x1*-0x263b,_0x446ba4[_0x578e97(0x196,'LkZd')](parseFloat,_0x310382)):_0xef48b7(0x1c1),document[_0xef48b7(0x18f)+_0x578e97(0x112,'R9Df')](_0xef48b7(0x136))[_0x578e97(0x14c,']6iR')+'t']=_0x446ba4['BgIkK'](_0xfdefe1,-0x39*-0xa7+0x1*0x2231+-0x4760)?'$'+Math[_0x578e97(0x190,'4vDm')](0x23*0xfb+0x1*0x20+0x896*-0x4,parseFloat(_0x315fd2)):_0xef48b7(0x1c1),document['getElement'+'ById'](_0x446ba4[_0xef48b7(0xdc)])['textConten'+'t']=_0xfdefe1>-0x5*0x7a5+0x16*-0xa+0x2715?'$'+Math['max'](0x214f+0x19d2+-0x3b1f,_0x446ba4['jBfrk'](parseFloat,_0x318efe))+_0xef48b7(0x149):_0xef48b7(0x114);const _0x1a1cb4=[{'name':_0x446ba4[_0xef48b7(0xe6)],'mb':_0x4d1b02},{'name':_0x446ba4[_0xef48b7(0x1b0)],'mb':_0x335d6f},{'name':'Music','mb':_0x125d9e},{'name':_0x446ba4[_0xef48b7(0x1e2)],'mb':_0x5e0e99},{'name':_0xef48b7(0x1ec),'mb':_0x28abcd},{'name':_0x578e97(0x1cf,'n3ik'),'mb':_0x53a565}][_0x578e97(0x158,'R9Df')]((_0x6da57e,_0x218109)=>_0x218109['mb']-_0x6da57e['mb']);document[_0xef48b7(0x18f)+_0x578e97(0x194,'kBnl')](_0x446ba4[_0xef48b7(0xd5)])[_0xef48b7(0x1d7)+'t']=_0x446ba4[_0x578e97(0x145,'C1Me')](_0x1a1cb4[-0xb3*0x2c+0x1226*-0x1+0x104e*0x3]['mb'],-0x2*-0x1357+0x1df1+0x449f*-0x1)?_0x1a1cb4[-0x1426+-0x1169*0x1+0x281*0xf]['name']+'\x20('+_0x446ba4[_0xef48b7(0x19a)](formatDisplay,_0x1a1cb4[-0x3*-0x963+0x4*0x33b+-0x2915]['mb'])[_0x578e97(0x15e,'RfwB')]+'\x20'+_0x446ba4[_0xef48b7(0x13d)](formatDisplay,_0x1a1cb4[0x139f+-0x1306+-0x99]['mb'])[_0x578e97(0xdd,'z5Ky')]+')':'--',document[_0xef48b7(0x18f)+'ById']('second-cat'+_0x578e97(0x1c8,'C9sX'))[_0xef48b7(0x1d7)+'t']=_0x1a1cb4[0x1*-0x753+-0xb4+0x808]['mb']>0x1*0x2012+-0x11e*0x22+-0x1*-0x5ea?_0x1a1cb4[0x2631+-0x1e1b+-0x815*0x1][_0xef48b7(0x134)]+'\x20('+formatDisplay(_0x1a1cb4[-0x1e52*0x1+-0x4a3*0x2+0x2799]['mb'])[_0xef48b7(0x1b4)]+'\x20'+formatDisplay(_0x1a1cb4[0x60e+-0x15a0*0x1+0x531*0x3]['mb'])[_0x578e97(0x160,'w3)u')]+')':'--';const _0x144497=_0x446ba4['NAkdb'](_0x234b76+_0x3e6746+_0x6d1638,_0xc2b4e4)+_0x53a242+_0x4f8972;document[_0x578e97(0x101,'RfwB')+_0x578e97(0x188,'c5NW')](_0x446ba4[_0xef48b7(0x1ca)])[_0xef48b7(0x1d7)+'t']=_0x144497[_0x578e97(0x1e9,'i*]K')+_0x578e97(0x1b1,'vxXq')]()+_0x578e97(0x10c,'*8rr');}document[_0x471a11(0x18f)+_0x4f1690(0x142,'8vvf')](_0x4f1690(0xda,'x5hC'))['addEventLi'+'stener'](_0x471a11(0x12e),()=>{const _0x4022ba=_0x471a11,_0xbe23a=_0x4f1690,_0x291c0e={'DwFwn':_0xbe23a(0x17a,'VqJj')+_0xbe23a(0xe8,'A3!g'),'uIVYg':function(_0x5156cc,_0x47e6fc){return _0x5156cc(_0x47e6fc);},'Eeuuh':_0xbe23a(0x129,']6iR')+_0x4022ba(0x153)};document[_0x4022ba(0x154)+'torAll'](_0x291c0e[_0xbe23a(0x1f1,'8vvf')])[_0xbe23a(0x1e3,'kBnl')](_0xa6c697=>_0xa6c697['value']=''),calculateAll(),_0x291c0e['uIVYg'](showMessage,_0x291c0e[_0x4022ba(0x17d)]);}),document['getElement'+_0x471a11(0x1bb)](_0x471a11(0xd3))['addEventLi'+_0x471a11(0x1b7)](_0x471a11(0x12e),()=>{const _0x5c7cdf=_0x4f1690,_0x5d680c=_0x471a11,_0x32cd64={'OHvQK':function(_0x44386b,_0x225183){return _0x44386b(_0x225183);},'eOSFH':_0x5d680c(0x1db)+_0x5d680c(0x122)+_0x5c7cdf(0x1d9,'R9Df'),'qLDfW':'Summary:\x20','wscGf':function(_0x348585,_0x577c38){return _0x348585+_0x577c38;},'NPtoN':function(_0x5addcc,_0x246d0c){return _0x5addcc+_0x246d0c;}},_0x2fab44=_0x32cd64['wscGf'](_0x32cd64[_0x5d680c(0x1e1)](document[_0x5d680c(0x18f)+_0x5c7cdf(0x151,'3FW9')](_0x5d680c(0x175)+'e')[_0x5c7cdf(0x12b,'*Wuy')+'t'],'\x20'),document[_0x5c7cdf(0x167,'9VUG')+_0x5d680c(0x1bb)](_0x5c7cdf(0x1df,'eSx('))['textConten'+'t']);navigator[_0x5c7cdf(0x181,']6iR')]['writeText'](_0x5d680c(0x139)+_0x5d680c(0x14e)+_0x5c7cdf(0x1aa,'Fr8N')+':\x20'+_0x2fab44)[_0x5c7cdf(0x18a,'UN](')](()=>{const _0x21961f=_0x5c7cdf;_0x32cd64[_0x21961f(0xff,'LkZd')](showMessage,_0x32cd64[_0x21961f(0x146,'^p!7')]);})['catch'](()=>{const _0x11ce44=_0x5d680c;showMessage(_0x32cd64[_0x11ce44(0x189)]+_0x2fab44);});}),calculateAll();</script>
 
-            // File input elements
-            const photoCountEl = document.getElementById('photo-count');
-            const photoQualityEl = document.getElementById('photo-quality');
-            const videoCountEl = document.getElementById('video-count');
-            const videoLengthEl = document.getElementById('video-length');
-            const videoQualityEl = document.getElementById('video-quality');
-            const musicCountEl = document.getElementById('music-count');
-            const musicLengthEl = document.getElementById('music-length');
-            const musicFormatEl = document.getElementById('music-format');
-            const documentCountEl = document.getElementById('document-count');
-            const documentSizeEl = document.getElementById('document-size');
-            const appCountEl = document.getElementById('app-count');
-            const appSizeEl = document.getElementById('app-size');
-            const customCountEl = document.getElementById('custom-count');
-            const customSizeEl = document.getElementById('custom-size');
-            const customUnitEl = document.getElementById('custom-unit');
-
-            // Space display elements
-            const photoSpaceEl = document.getElementById('photo-space');
-            const videoSpaceEl = document.getElementById('video-space');
-            const musicSpaceEl = document.getElementById('music-space');
-            const documentSpaceEl = document.getElementById('document-space');
-            const appSpaceEl = document.getElementById('app-space');
-            const customSpaceEl = document.getElementById('custom-space');
-
-            // Stats elements
-            const totalFilesEl = document.getElementById('total-files');
-            const fileTypesEl = document.getElementById('file-types');
-            const withRedundancyEl = document.getElementById('with-redundancy');
-            const suggestedDriveEl = document.getElementById('suggested-drive');
-            const backupStrategyEl = document.getElementById('backup-strategy');
-            const growthBufferEl = document.getElementById('growth-buffer');
-            const hddCostEl = document.getElementById('hdd-cost');
-            const ssdCostEl = document.getElementById('ssd-cost');
-            const cloudCostEl = document.getElementById('cloud-cost');
-            const largestCategoryEl = document.getElementById('largest-category');
-            const secondCategoryEl = document.getElementById('second-category');
-            const thirdCategoryEl = document.getElementById('third-category');
-
-            // State
-            let calculations = {
-                photos: 0,
-                videos: 0,
-                music: 0,
-                documents: 0,
-                apps: 0,
-                custom: 0
-            };
-
-            // File size constants (in MB)
-            const fileSizes = {
-                photos: {
-                    low: 0.5,      // 500KB
-                    medium: 2,     // 2MB
-                    high: 8,       // 8MB
-                    raw: 25        // 25MB
-                },
-                videos: {
-                    low: 50,       // 50MB per hour
-                    medium: 100,   // 100MB per hour
-                    high: 200,     // 200MB per hour
-                    '4k': 400      // 400MB per hour
-                },
-                music: {
-                    'mp3-128': 1,  // 1MB per minute
-                    'mp3-320': 2.4,// 2.4MB per minute
-                    flac: 10,      // 10MB per minute
-                    wav: 50        // 50MB per minute
-                },
-                documents: {
-                    small: 0.05,   // 50KB
-                    medium: 0.5,   // 500KB
-                    large: 2,      // 2MB
-                    presentation: 10 // 10MB
-                },
-                apps: {
-                    small: 50,     // 50MB
-                    medium: 200,   // 200MB
-                    large: 1024,   // 1GB
-                    game: 10240    // 10GB
-                }
-            };
-
-            // Format size
-            function formatSize(bytes, unit = 'mb') {
-                const mb = bytes;
-                const gb = mb / 1024;
-                const tb = gb / 1024;
-
-                switch (unit) {
-                    case 'mb':
-                        return mb < 1024 ? `${mb.toFixed(1)} MB` : `${gb.toFixed(1)} GB`;
-                    case 'gb':
-                        return gb < 1024 ? `${gb.toFixed(1)} GB` : `${tb.toFixed(1)} TB`;
-                    case 'tb':
-                        return `${tb.toFixed(1)} TB`;
-                    default:
-                        return `${mb.toFixed(1)} MB`;
-                }
-            }
-
-            // Calculate individual category
-            function calculateCategory(type) {
-                let size = 0;
-                let count = 0;
-
-                switch (type) {
-                    case 'photos':
-                        count = parseFloat(photoCountEl.value) || 0;
-                        const photoQuality = photoQualityEl.value;
-                        size = count * fileSizes.photos[photoQuality];
-                        break;
-                    case 'videos':
-                        count = parseFloat(videoCountEl.value) || 0;
-                        const videoLength = parseFloat(videoLengthEl.value) || 0;
-                        const videoQuality = videoQualityEl.value;
-                        size = count * (videoLength / 60) * fileSizes.videos[videoQuality];
-                        break;
-                    case 'music':
-                        count = parseFloat(musicCountEl.value) || 0;
-                        const musicLength = parseFloat(musicLengthEl.value) || 0;
-                        const musicFormat = musicFormatEl.value;
-                        size = count * musicLength * fileSizes.music[musicFormat];
-                        break;
-                    case 'documents':
-                        count = parseFloat(documentCountEl.value) || 0;
-                        const documentSize = documentSizeEl.value;
-                        size = count * fileSizes.documents[documentSize];
-                        break;
-                    case 'apps':
-                        count = parseFloat(appCountEl.value) || 0;
-                        const appSize = appSizeEl.value;
-                        size = count * fileSizes.apps[appSize];
-                        break;
-                    case 'custom':
-                        count = parseFloat(customCountEl.value) || 0;
-                        const customSize = parseFloat(customSizeEl.value) || 0;
-                        const customUnit = customUnitEl.value;
-                        size = count * customSize * (customUnit === 'gb' ? 1024 : 1);
-                        break;
-                }
-
-                calculations[type] = size;
-                return { size, count };
-            }
-
-            // Update individual displays
-            function updateIndividualDisplays() {
-                const photoResult = calculateCategory('photos');
-                photoSpaceEl.textContent = formatSize(photoResult.size);
-
-                const videoResult = calculateCategory('videos');
-                videoSpaceEl.textContent = formatSize(videoResult.size);
-
-                const musicResult = calculateCategory('music');
-                musicSpaceEl.textContent = formatSize(musicResult.size);
-
-                const documentResult = calculateCategory('documents');
-                documentSpaceEl.textContent = formatSize(documentResult.size);
-
-                const appResult = calculateCategory('apps');
-                appSpaceEl.textContent = formatSize(appResult.size);
-
-                const customResult = calculateCategory('custom');
-                customSpaceEl.textContent = formatSize(customResult.size);
-            }
-
-            // Calculate total
-            function calculateTotal() {
-                updateIndividualDisplays();
-
-                const totalMB = Object.values(calculations).reduce((sum, size) => sum + size, 0);
-                const redundancy = parseFloat(redundancySelect.value);
-                const totalWithRedundancy = totalMB * redundancy;
-
-                // Update main display
-                const displayUnit = displayUnitSelect.value;
-                let displayValue, displayUnitText;
-
-                switch (displayUnit) {
-                    case 'mb':
-                        displayValue = totalMB;
-                        displayUnitText = totalMB < 1024 ? 'MB' : 'GB';
-                        if (totalMB >= 1024) displayValue = totalMB / 1024;
-                        break;
-                    case 'gb':
-                        displayValue = totalMB / 1024;
-                        displayUnitText = displayValue < 1024 ? 'GB' : 'TB';
-                        if (displayValue >= 1024) displayValue = displayValue / 1024;
-                        break;
-                    case 'tb':
-                        displayValue = totalMB / (1024 * 1024);
-                        displayUnitText = 'TB';
-                        break;
-                }
-
-                totalSpaceEl.textContent = displayValue.toFixed(1);
-                totalUnitEl.textContent = displayUnitText;
-
-                // Update status
-                statusTextEl.textContent = totalMB > 0 ? 'Calculation complete' : 'Ready to calculate';
-                spaceDescriptionEl.textContent = totalMB > 0 ? `Total estimated storage space (${redundancy}x redundancy)` : 'Total estimated storage space';
-
-                // Update statistics
-                const totalFiles = [photoCountEl, videoCountEl, musicCountEl, documentCountEl, appCountEl, customCountEl]
-                    .reduce((sum, el) => sum + (parseFloat(el.value) || 0), 0);
-
-                const fileTypes = Object.values(calculations).filter(size => size > 0).length;
-
-                totalFilesEl.textContent = totalFiles;
-                fileTypesEl.textContent = fileTypes;
-                withRedundancyEl.textContent = formatSize(totalWithRedundancy);
-
-                // Recommendations
-                let suggestedDrive = 'None needed';
-                if (totalWithRedundancy > 0) {
-                    if (totalWithRedundancy < 1024) suggestedDrive = '32GB-128GB';
-                    else if (totalWithRedundancy < 1024 * 5) suggestedDrive = '256GB-1TB';
-                    else if (totalWithRedundancy < 1024 * 20) suggestedDrive = '2TB-4TB';
-                    else suggestedDrive = '8TB+';
-                }
-
-                let backupStrategy = 'None';
-                if (totalMB > 1024) backupStrategy = 'External HDD';
-                if (totalMB > 1024 * 10) backupStrategy = 'NAS/Cloud';
-
-                const growthBuffer = formatSize(totalWithRedundancy * 0.3);
-
-                suggestedDriveEl.textContent = suggestedDrive;
-                backupStrategyEl.textContent = backupStrategy;
-                growthBufferEl.textContent = growthBuffer;
-
-                // Cost estimation (rough estimates)
-                const costPerGB = { hdd: 0.03, ssd: 0.15, cloud: 0.02 }; // Monthly for cloud
-                const totalGB = totalWithRedundancy / 1024;
-
-                hddCostEl.textContent = `$${(totalGB * costPerGB.hdd).toFixed(0)}`;
-                ssdCostEl.textContent = `$${(totalGB * costPerGB.ssd).toFixed(0)}`;
-                cloudCostEl.textContent = `$${(totalGB * costPerGB.cloud).toFixed(2)}/mo`;
-
-                // Largest categories
-                const categories = [
-                    { name: 'Photos', size: calculations.photos },
-                    { name: 'Videos', size: calculations.videos },
-                    { name: 'Music', size: calculations.music },
-                    { name: 'Documents', size: calculations.documents },
-                    { name: 'Apps', size: calculations.apps },
-                    { name: 'Custom', size: calculations.custom }
-                ].filter(cat => cat.size > 0).sort((a, b) => b.size - a.size);
-
-                largestCategoryEl.textContent = categories[0] ? `${categories[0].name} (${formatSize(categories[0].size)})` : '--';
-                secondCategoryEl.textContent = categories[1] ? `${categories[1].name} (${formatSize(categories[1].size)})` : '--';
-                thirdCategoryEl.textContent = categories[2] ? `${categories[2].name} (${formatSize(categories[2].size)})` : '--';
-
-                // Update visualization
-                updateVisualization(categories, totalMB);
-            }
-
-            // Update visualization
-            function updateVisualization(categories, totalMB) {
-                storageBreakdownEl.innerHTML = '';
-
-                if (totalMB === 0) {
-                    storageBreakdownEl.innerHTML = `
-                        <div class="text-center text-gray-500 py-8">
-                            <i data-feather="pie-chart" class="w-12 h-12 mb-4"></i>
-                            <p>Add files to see storage breakdown</p>
-                        </div>
-                    `;
-                    feather.replace();
-                    return;
-                }
-
-                const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
-                let currentAngle = 0;
-
-                categories.forEach((category, index) => {
-                    const percentage = (category.size / totalMB) * 100;
-                    if (percentage < 1) return; // Skip very small categories
-
-                    const angle = (percentage / 100) * 360;
-                    const color = colors[index % colors.length];
-
-                    // Create pie slice
-                    const slice = document.createElement('div');
-                    slice.className = 'breakdown-item';
-                    slice.style.background = color;
-                    slice.style.clipPath = `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos((currentAngle * Math.PI) / 180)}% ${50 - 50 * Math.sin((currentAngle * Math.PI) / 180)}%, ${50 + 50 * Math.cos(((currentAngle + angle) * Math.PI) / 180)}% ${50 - 50 * Math.sin(((currentAngle + angle) * Math.PI) / 180)}%)`;
-                    slice.style.left = '50%';
-                    slice.style.top = '50%';
-                    slice.style.transform = 'translate(-50%, -50%)';
-                    slice.title = `${category.name}: ${percentage.toFixed(1)}% (${formatSize(category.size)})`;
-
-                    storageBreakdownEl.appendChild(slice);
-                    currentAngle += angle;
-                });
-
-                // Add center label
-                const centerLabel = document.createElement('div');
-                centerLabel.className = 'absolute inset-0 flex items-center justify-center';
-                centerLabel.innerHTML = `
-                    <div class="text-center">
-                        <div class="text-lg font-bold text-gray-100">${formatSize(totalMB)}</div>
-                        <div class="text-sm text-gray-500">Total Space</div>
-                    </div>
-                `;
-                storageBreakdownEl.appendChild(centerLabel);
-            }
-
-            // Clear all
-            function clearAll() {
-                [photoCountEl, videoCountEl, musicCountEl, documentCountEl, appCountEl, customCountEl, customSizeEl].forEach(el => el.value = '');
-                [videoLengthEl, musicLengthEl].forEach(el => el.value = '');
-
-                calculateTotal();
-            }
-
-            // Save calculation
-            function saveCalculation() {
-                const data = {
-                    timestamp: new Date().toISOString(),
-                    calculations: { ...calculations },
-                    inputs: {
-                        photos: { count: photoCountEl.value, quality: photoQualityEl.value },
-                        videos: { count: videoCountEl.value, length: videoLengthEl.value, quality: videoQualityEl.value },
-                        music: { count: musicCountEl.value, length: musicLengthEl.value, format: musicFormatEl.value },
-                        documents: { count: documentCountEl.value, size: documentSizeEl.value },
-                        apps: { count: appCountEl.value, size: appSizeEl.value },
-                        custom: { count: customCountEl.value, size: customSizeEl.value, unit: customUnitEl.value }
-                    },
-                    totalMB: Object.values(calculations).reduce((sum, size) => sum + size, 0),
-                    redundancy: parseFloat(redundancySelect.value)
-                };
-
-                // Save to localStorage
-                const saved = JSON.parse(localStorage.getItem('disk-calculations') || '[]');
-                saved.push(data);
-                if (saved.length > 10) saved.shift(); // Keep only last 10
-                localStorage.setItem('disk-calculations', JSON.stringify(saved));
-
-                alert('Calculation saved! You can access it later from your browser storage.');
-            }
-
-            // Event listeners
-            calculateBtn.addEventListener('click', calculateTotal);
-            clearBtn.addEventListener('click', clearAll);
-            saveBtn.addEventListener('click', saveCalculation);
-
-            // Auto-calculate on input changes
-            [photoCountEl, photoQualityEl, videoCountEl, videoLengthEl, videoQualityEl,
-             musicCountEl, musicLengthEl, musicFormatEl, documentCountEl, documentSizeEl,
-             appCountEl, appSizeEl, customCountEl, customSizeEl, customUnitEl,
-             displayUnitSelect, redundancySelect].forEach(el => {
-                el.addEventListener('input', updateIndividualDisplays);
-                el.addEventListener('change', updateIndividualDisplays);
-            });
-
-            // Initialize
-            updateIndividualDisplays();
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

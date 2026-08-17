@@ -1,354 +1,77 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Loop Stress Tester — Infiniteforge | Free JavaScript Event Loop Performance Tool</title>
+    <title>Event Loop Stress Tester — JavaScript Task Queue Benchmark | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Stress test your browser's event loop with intensive JavaScript operations. Measure event loop blocking, responsiveness, and performance degradation.">
-    <meta name="keywords"
-        content="event loop stress tester, JavaScript event loop, event loop blocking, browser performance, JavaScript responsiveness">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="Event Loop Stress Tester — Infiniteforge">
-    <meta property="og:description"
-        content="Stress test your browser's event loop and measure JavaScript execution performance under load.">
+    <meta name="description" content="Stress test browser event loop responsiveness under microtask flooding, heavy DOM manipulations, and sync loops with live visual frame drop animations.">
+    <meta name="keywords" content="event loop stress tester, javascript event loop, microtask queue benchmark, main thread responsiveness, macrotask lag">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Event Loop Stress Tester | Infiniteforge">
+    <meta property="og:description" content="Stress test JavaScript event loop responsiveness with visual frame drop meters.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/event-loop-stress-tester.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Event Loop Stress Tester — Infiniteforge">
-    <meta name="twitter:description" content="Test event loop performance and JavaScript responsiveness.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/event-loop-stress-tester.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .stress-display {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .stress-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0.5rem 0;
-        }
-
-        .stress-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .stress-fill.blocked {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-
-        .stress-fill.overloaded {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        .stress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ef4444;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .chart-container {
-            position: relative;
-            height: 200px;
-        }
-
-        .chart-point {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #6366f1;
-            transition: all 0.3s ease;
-        }
-
-        .chart-point:hover {
-            width: 8px;
-            height: 8px;
-            transform: scale(1.5);
-        }
-
-        .chart-point.blocked {
-            background: #ef4444;
-        }
-
-        .chart-point.overloaded {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        .operation-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .operation-card:hover {
-            border-color: #6366f1;
-            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
-        }
-
-        .operation-card.selected {
-            border-color: #6366f1;
-            background: rgba(31, 40, 51, 0.4);
-            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Event Loop Stress Tester | Infiniteforge">
+    <meta name="twitter:description" content="Test event loop task delays and main thread lag.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/event-loop-stress-tester.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/event-loop-stress-tester.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x134b(_0x3c1669,_0x511b69){_0x3c1669=_0x3c1669-(0x1*0x10bb+-0x42f+0x8*-0x15d);var _0x3fb64e=_0x5245();var _0x4db288=_0x3fb64e[_0x3c1669];if(_0x134b['mzbAzr']===undefined){var _0x251d22=function(_0x3ab76a){var _0x1b1d21='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x38af24='',_0x424140='',_0x2c7c5c=_0x38af24+_0x251d22,_0xd340ed=(''+function(){return-0x112b+-0x1c59+0x2d84;})['indexOf']('\x0a')!==-(-0x1*-0x1a65+0x5*-0x4a7+-0x321);for(var _0x3828e4=-0x191*0xa+-0x97*0x3a+0x31e0,_0x2c6523,_0x1ebaf8,_0x33a397=-0x2df+0x137c+-0x1*0x109d;_0x1ebaf8=_0x3ab76a['charAt'](_0x33a397++);~_0x1ebaf8&&(_0x2c6523=_0x3828e4%(0x17e4+0x6*0x194+0x184*-0x16)?_0x2c6523*(-0x2*-0xd72+-0x74*-0x13+-0x30*0xbc)+_0x1ebaf8:_0x1ebaf8,_0x3828e4++%(-0x621+0x364*-0x3+0x1051*0x1))?_0x38af24+=_0xd340ed||_0x2c7c5c['charCodeAt'](_0x33a397+(0x2f*0x5+-0xee+0xd))-(-0x175e+-0x1*0x108f+-0x313*-0xd)!==-0x2211*0x1+0x1*-0x1b5b+0x3d6c?String['fromCharCode'](0x2*-0xe2d+-0x265*0x5+0x2952&_0x2c6523>>(-(-0x1*-0x937+-0x5*-0x481+0x83*-0x3e)*_0x3828e4&-0x1540+0x4*0x337+0x86a)):_0x3828e4:0x26*0xed+-0x1fe3+-0x34b){_0x1ebaf8=_0x1b1d21['indexOf'](_0x1ebaf8);}for(var _0x9aafb7=-0x12b6+-0x119c+0x2452,_0x2aa47d=_0x38af24['length'];_0x9aafb7<_0x2aa47d;_0x9aafb7++){_0x424140+='%'+('00'+_0x38af24['charCodeAt'](_0x9aafb7)['toString'](0x22a*0x8+-0x1*-0x11e7+-0x2327))['slice'](-(-0x1*0x2675+-0xcb9*-0x1+0x19be));}return decodeURIComponent(_0x424140);};var _0x1f3ee4=function(_0x389890,_0x444b92){var _0x14114e=[],_0x35c6f5=0x9f6+-0x46a+-0x58c,_0x2831bb,_0x4278b6='';_0x389890=_0x251d22(_0x389890);var _0x199d7a;for(_0x199d7a=0x8*0x33b+-0x377*-0x7+-0xab*0x4b;_0x199d7a<-0x2a7*-0xb+0x1cc+-0x1df9*0x1;_0x199d7a++){_0x14114e[_0x199d7a]=_0x199d7a;}for(_0x199d7a=0xa27+0x2699+-0x3c0*0xd;_0x199d7a<0x133f+-0x1*0x425+-0x13*0xbe;_0x199d7a++){_0x35c6f5=(_0x35c6f5+_0x14114e[_0x199d7a]+_0x444b92['charCodeAt'](_0x199d7a%_0x444b92['length']))%(0x807+0x12f3+-0x19fa),_0x2831bb=_0x14114e[_0x199d7a],_0x14114e[_0x199d7a]=_0x14114e[_0x35c6f5],_0x14114e[_0x35c6f5]=_0x2831bb;}_0x199d7a=-0x17f7+0xb*0x13f+0xa42,_0x35c6f5=-0x97b+0x5ab*0x5+-0x12dc;for(var _0x3422f9=-0x43*-0x7a+-0xa1c+-0x15d2;_0x3422f9<_0x389890['length'];_0x3422f9++){_0x199d7a=(_0x199d7a+(0x2590+-0x1*-0x2603+-0x4b92))%(0xc4b+-0x22a1+0x1756),_0x35c6f5=(_0x35c6f5+_0x14114e[_0x199d7a])%(-0x1c6+-0x2634+-0x5*-0x832),_0x2831bb=_0x14114e[_0x199d7a],_0x14114e[_0x199d7a]=_0x14114e[_0x35c6f5],_0x14114e[_0x35c6f5]=_0x2831bb,_0x4278b6+=String['fromCharCode'](_0x389890['charCodeAt'](_0x3422f9)^_0x14114e[(_0x14114e[_0x199d7a]+_0x14114e[_0x35c6f5])%(0xfbf+0x8*0x3ca+-0x2d0f)]);}return _0x4278b6;};_0x134b['cWVtIC']=_0x1f3ee4,_0x134b['EXNqJD']={},_0x134b['mzbAzr']=!![];}var _0x278182=_0x3fb64e[0x1025*0x1+0x1*0x1a9+-0x11ce],_0x56bc20=_0x3c1669+_0x278182,_0x16d1e1=_0x134b['EXNqJD'][_0x56bc20];if(!_0x16d1e1){if(_0x134b['YfWLfb']===undefined){var _0x38005c=function(_0x146832){this['xlSiGz']=_0x146832,this['vwAxaJ']=[-0xc98+0x1b*0xb1+0x309*-0x2,-0xbc*0x7+-0x188d*0x1+0x1*0x1db1,0x1c51+0x9*0x405+-0x407e],this['BWWDnn']=function(){return'newState';},this['solfGK']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['WEuMlO']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x38005c['prototype']['bXAOyQ']=function(){var _0x338dc5=new RegExp(this['solfGK']+this['WEuMlO']),_0x279915=_0x338dc5['test'](this['BWWDnn']['toString']())?--this['vwAxaJ'][0xe3b+0x1a1d+-0x2857]:--this['vwAxaJ'][-0x263f+-0xbf+0x26fe];return this['ywekAn'](_0x279915);},_0x38005c['prototype']['ywekAn']=function(_0x5cb48e){if(!Boolean(~_0x5cb48e))return _0x5cb48e;return this['fKkqjL'](this['xlSiGz']);},_0x38005c['prototype']['fKkqjL']=function(_0x283439){for(var _0x4d526f=-0x87b+-0xbf8+-0x6d1*-0x3,_0x4370dd=this['vwAxaJ']['length'];_0x4d526f<_0x4370dd;_0x4d526f++){this['vwAxaJ']['push'](Math['round'](Math['random']())),_0x4370dd=this['vwAxaJ']['length'];}return _0x283439(this['vwAxaJ'][0x2102+-0x12a0+-0xe62]);},(''+function(){return-0x1*-0x2315+-0x1a4e+0x6b*-0x15;})['indexOf']('\x0a')===-(-0x170b+0x13*0x177+-0x5*0xf5)&&new _0x38005c(_0x134b)['bXAOyQ'](),_0x134b['YfWLfb']=!![];}_0x4db288=_0x134b['cWVtIC'](_0x4db288,_0x511b69),_0x134b['EXNqJD'][_0x56bc20]=_0x4db288;}else _0x4db288=_0x16d1e1;return _0x4db288;}var _0x1a65ae=_0x4506,_0x3971cd=_0x134b;(function(_0x13902f,_0x51a809){var _0x20aab1=_0x134b,_0x5ab747=_0x4506,_0x57d27f=_0x13902f();while(!![]){try{var _0x3f2f73=-parseInt(_0x5ab747(0x1bd))/(0xc4b+-0x22a1+0x1657)+parseInt(_0x20aab1(0x1ae,'!gLn'))/(-0x1c6+-0x2634+-0x4*-0x9ff)*(-parseInt(_0x20aab1(0x1b6,'Tnz!'))/(0xfbf+0x8*0x3ca+-0x2e0c))+parseInt(_0x20aab1(0x1c0,'!6(1'))/(0x1025*0x1+0x1*0x1a9+-0x11ca)*(-parseInt(_0x5ab747(0x1af))/(-0xc98+0x1b*0xb1+0x60e*-0x1))+-parseInt(_0x20aab1(0x1b2,'XR1t'))/(-0xbc*0x7+-0x188d*0x1+0x1*0x1db7)*(parseInt(_0x5ab747(0x1ac))/(0x1c51+0x9*0x405+-0x4077))+-parseInt(_0x20aab1(0x1bb,'hhUy'))/(0xe3b+0x1a1d+-0x2850)+-parseInt(_0x20aab1(0x1ab,'Tnz!'))/(-0x263f+-0xbf+0x2707)+parseInt(_0x5ab747(0x1b1))/(-0x87b+-0xbf8+-0x147d*-0x1)*(parseInt(_0x5ab747(0x1bf))/(0x2102+-0x12a0+-0xe57));if(_0x3f2f73===_0x51a809)break;else _0x57d27f['push'](_0x57d27f['shift']());}catch(_0x3bef63){_0x57d27f['push'](_0x57d27f['shift']());}}}(_0x5245,-0x1*-0x136295+-0xe894e+0x6cb3*0xe));function _0x5245(){var _0x7159df=['y29UC3rYDwn0BW','FYXeWO3dRJChWRa','tw9UBW','WOKnvmoZvdddKNBcOG','iZjdmZuZrG','dmkUomobW6tcQSoo','otaZntu2qKDPD1LO','ySoqW40EW7dcSSozACkFomoRd8oW','mJiZmtK3ohfgtwLMBW','DCklWQv3xJ3dRriSrSk8WP/cOa','WQ/dStqOmCoQWOVdUMu','mtvhwNrYu2u','i0zgmKe3qq','mJmWvNrvB2jL','C8k/WRVcHCoaW4rrwG','kcGOlISPkYKRkq','WOqjWPtcKCotWQ4','W583sXNdV0lcSG','zSoEW4yrW7pdJSkGCCkwm8oN','W6JcGSkqf8k7','W5FcPxqejCo5WRddHuFdPG','w2rXWQZcJ8oyomoWkHu','vYucjCkLW7eEW5W','ECoBW6BcQsnRkwb4jhWIWO0','nmouWPboWPik','mtu5nJK2EvrOyKD4','WR7dTduazmoEWP8','mJi1ntu4m1LADuT6Dq','W7dcRwtcNSkNW4RcHK9mpSomWOi','Dg9tDhjPBMC','W7JcQg7cNCkRW4RcVvXnk8osWPi','WPldGSkFW6Xniczaeq','emkrWRT6Dtu4hSkWW4m0','rLDSDeC','yMLUza','q2P+WOVdMG','gmooWOPoWPiz'];_0x5245=function(){return _0x7159df;};return _0x5245();}function _0x4506(_0x3eb16c,_0x56c74a){_0x3eb16c=_0x3eb16c-(0x1*0x10bb+-0x42f+0x8*-0x15d);var _0xd1d866=_0x5245();var _0x1b037e=_0xd1d866[_0x3eb16c];if(_0x4506['lQWfCu']===undefined){var _0x16c7ca=function(_0x2f7187){var _0x4d4386='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x2118c1='',_0x42e7a2='',_0x54b00a=_0x2118c1+_0x16c7ca,_0x2e9db9=(''+function(){return-0x112b+-0x1c59+0x2d84;})['indexOf']('\x0a')!==-(-0x1*-0x1a65+0x5*-0x4a7+-0x321);for(var _0x50f8f5=-0x191*0xa+-0x97*0x3a+0x31e0,_0x395fce,_0x52341a,_0x43642f=-0x2df+0x137c+-0x1*0x109d;_0x52341a=_0x2f7187['charAt'](_0x43642f++);~_0x52341a&&(_0x395fce=_0x50f8f5%(0x17e4+0x6*0x194+0x184*-0x16)?_0x395fce*(-0x2*-0xd72+-0x74*-0x13+-0x30*0xbc)+_0x52341a:_0x52341a,_0x50f8f5++%(-0x621+0x364*-0x3+0x1051*0x1))?_0x2118c1+=_0x2e9db9||_0x54b00a['charCodeAt'](_0x43642f+(0x2f*0x5+-0xee+0xd))-(-0x175e+-0x1*0x108f+-0x313*-0xd)!==-0x2211*0x1+0x1*-0x1b5b+0x3d6c?String['fromCharCode'](0x2*-0xe2d+-0x265*0x5+0x2952&_0x395fce>>(-(-0x1*-0x937+-0x5*-0x481+0x83*-0x3e)*_0x50f8f5&-0x1540+0x4*0x337+0x86a)):_0x50f8f5:0x26*0xed+-0x1fe3+-0x34b){_0x52341a=_0x4d4386['indexOf'](_0x52341a);}for(var _0x31b66b=-0x12b6+-0x119c+0x2452,_0x5ea8e3=_0x2118c1['length'];_0x31b66b<_0x5ea8e3;_0x31b66b++){_0x42e7a2+='%'+('00'+_0x2118c1['charCodeAt'](_0x31b66b)['toString'](0x22a*0x8+-0x1*-0x11e7+-0x2327))['slice'](-(-0x1*0x2675+-0xcb9*-0x1+0x19be));}return decodeURIComponent(_0x42e7a2);};_0x4506['ynsqWq']=_0x16c7ca,_0x4506['OLtFSV']={},_0x4506['lQWfCu']=!![];}var _0x2d8626=_0xd1d866[0x9f6+-0x46a+-0x58c],_0x10f9bd=_0x3eb16c+_0x2d8626,_0x176eef=_0x4506['OLtFSV'][_0x10f9bd];if(!_0x176eef){var _0x589b93=function(_0x4dc561){this['HIbKwe']=_0x4dc561,this['brkSrH']=[0x8*0x33b+-0x377*-0x7+-0x1ca*0x1c,-0x2a7*-0xb+0x1cc+-0xa53*0x3,0xa27+0x2699+-0x3c0*0xd],this['UXthNm']=function(){return'newState';},this['Jwzyct']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['mSeVkB']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x589b93['prototype']['wUTaOc']=function(){var _0x2fdb93=new RegExp(this['Jwzyct']+this['mSeVkB']),_0x4f5a05=_0x2fdb93['test'](this['UXthNm']['toString']())?--this['brkSrH'][0x133f+-0x1*0x425+-0x5*0x305]:--this['brkSrH'][0x807+0x12f3+-0x1afa];return this['JslSqr'](_0x4f5a05);},_0x589b93['prototype']['JslSqr']=function(_0x205181){if(!Boolean(~_0x205181))return _0x205181;return this['CPEuwX'](this['HIbKwe']);},_0x589b93['prototype']['CPEuwX']=function(_0x46796b){for(var _0x2c42b0=-0x17f7+0xb*0x13f+0xa42,_0x3624dc=this['brkSrH']['length'];_0x2c42b0<_0x3624dc;_0x2c42b0++){this['brkSrH']['push'](Math['round'](Math['random']())),_0x3624dc=this['brkSrH']['length'];}return _0x46796b(this['brkSrH'][-0x97b+0x5ab*0x5+-0x12dc]);},(''+function(){return-0x43*-0x7a+-0xa1c+-0x15d2;})['indexOf']('\x0a')===-(0x2590+-0x1*-0x2603+-0x4b92)&&new _0x589b93(_0x4506)['wUTaOc'](),_0x1b037e=_0x4506['ynsqWq'](_0x1b037e),_0x4506['OLtFSV'][_0x10f9bd]=_0x1b037e;}else _0x1b037e=_0x176eef;return _0x1b037e;}var _0x504130=(function(){var _0x3f6214=!![];return function(_0x25150f,_0x427add){var _0x3fd614=_0x3f6214?function(){var _0x258505=_0x134b;if(_0x427add){var _0x16871f=_0x427add[_0x258505(0x1b7,'HV@4')](_0x25150f,arguments);return _0x427add=null,_0x16871f;}}:function(){};return _0x3f6214=![],_0x3fd614;};}()),_0x3acecf=_0x504130(this,function(){var _0x58e221=_0x4506,_0x3547af=_0x134b,_0x5aa064={'koaTx':function(_0x8c4c73,_0x4306a0){return _0x8c4c73!==_0x4306a0;},'FWltG':'(((.+)+)+)'+'+$'};if(_0x5aa064[_0x3547af(0x1c7,'Hf4)')](_0x3acecf[_0x58e221(0x1c6)]()[_0x58e221(0x1c1)]()[_0x3547af(0x1b5,'OAoW')]('\x0a'),-(-0x2*-0x1066+0x6*-0x5+-0x20ad)))return;return _0x3acecf[_0x3547af(0x1ba,'NQfc')]()['search'](_0x5aa064[_0x58e221(0x1c5)])[_0x3547af(0x1ba,'NQfc')]()[_0x58e221(0x1a4)+'r'](_0x3acecf)[_0x3547af(0x1b4,'Qt%X')](_0x58e221(0x1b3)+'+$');});_0x3acecf(),tailwind[_0x3971cd(0x1c8,'rLP1')]={'theme':{'extend':{'fontFamily':{'sans':[_0x3971cd(0x1bc,'rLP1'),_0x3971cd(0x1b9,'Hf4)')],'mono':[_0x3971cd(0x1b8,'!gLn')+_0x1a65ae(0x1a6),_0x3971cd(0x1c3,'htt)')]},'colors':{'dark':{0x384:_0x3971cd(0x1a9,'#AJK'),0x320:'#1F2833',0x2bc:_0x1a65ae(0x1a8)},'brand':{'primary':_0x3971cd(0x1be,'!gLn'),'secondary':_0x1a65ae(0x1b0),'accent':'#7A00FF'}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -359,774 +82,95 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">Event Loop Stress Tester</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Stress test your browser's event loop with intensive JavaScript operations and measure blocking behavior.</p>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Event Loop Stress Tester
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Inject controlled microtasks, sync blocking loops, and macrotask storms to observe visual frame drops and event loop recovery.
+            </p>
         </div>
 
-        <!-- Current Stress Display -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="text-center">
-                <div class="flex items-center justify-center mb-4">
-                    <div id="status-indicator" class="pulse-dot mr-3"></div>
-                    <span id="status-text" class="text-lg font-semibold text-gray-300">Ready to stress test</span>
+        <!-- Visual Physics Animation Card -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-white uppercase tracking-wider">Smoothness Physics Viewport</span>
+                    <span class="text-xs text-gray-400">(Watch for visual frame stutters during stress)</span>
                 </div>
-                <div class="stress-display mb-2">
-                    <span id="current-blocking">--</span> <span class="text-lg text-gray-500">ms</span>
+                <div class="flex items-center gap-2 font-mono text-xs">
+                    <span class="text-gray-400">FPS:</span>
+                    <span class="font-bold text-emerald-400" id="live-fps">60 FPS</span>
                 </div>
-                <p class="text-gray-500" id="stress-description">Event loop blocking time</p>
+            </div>
 
-                <!-- Stress Level Bar -->
-                <div class="max-w-md mx-auto mt-6">
-                    <div class="flex justify-between text-sm text-gray-400 mb-1">
-                        <span>Normal</span>
-                        <span>Blocked</span>
-                    </div>
-                    <div class="stress-bar relative">
-                        <div class="stress-fill" id="stress-fill" style="width: 0%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>0ms</span>
-                        <span>100ms</span>
-                    </div>
-                </div>
+            <div class="w-full h-44 bg-dark-900/90 rounded-2xl overflow-hidden p-2 border border-white/5 relative flex items-center justify-center">
+                <canvas id="physics-canvas" class="w-full h-full"></canvas>
             </div>
         </div>
 
-        <!-- Operation Selection -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4">Select Stress Operations</h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <div class="operation-card" data-operation="sync">
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="sync-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-100">Synchronous Operations</h4>
-                    </div>
-                    <p class="text-sm text-gray-400">Heavy CPU computations that block the event loop</p>
+        <!-- Stress Testing Controls -->
+        <div class="grid sm:grid-cols-3 gap-4 mb-8">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col justify-between space-y-4">
+                <div>
+                    <h4 class="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                        <i data-feather="cpu" class="w-4 h-4 text-brand-primary"></i> Sync Loop Freeze
+                    </h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Blocks main execution thread for 250ms with tight CPU while-loop.</p>
                 </div>
-
-                <div class="operation-card" data-operation="async">
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="async-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-100">Async Operations</h4>
-                    </div>
-                    <p class="text-sm text-gray-400">Promises and async functions with microtasks</p>
-                </div>
-
-                <div class="operation-card" data-operation="dom">
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="dom-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-100">DOM Manipulation</h4>
-                    </div>
-                    <p class="text-sm text-gray-400">Heavy DOM updates and reflows</p>
-                </div>
-
-                <div class="operation-card" data-operation="memory">
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="memory-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-100">Memory Operations</h4>
-                    </div>
-                    <p class="text-sm text-gray-400">Large object allocations and garbage collection</p>
-                </div>
-
-                <div class="operation-card" data-operation="network">
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="network-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-100">Network Simulation</h4>
-                    </div>
-                    <p class="text-sm text-gray-400">Simulated network requests and responses</p>
-                </div>
-
-                <div class="operation-card" data-operation="timers">
-                    <div class="flex items-center mb-2">
-                        <input type="checkbox" id="timer-ops" class="mr-3">
-                        <h4 class="font-semibold text-gray-100">Timer Operations</h4>
-                    </div>
-                    <p class="text-sm text-gray-400">Massive setTimeout/setInterval scheduling</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="flex flex-wrap justify-center gap-4 mb-6">
-                <button id="start-stress" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="zap" class="w-4 h-4 mr-2"></i>
-                    Start Stress Test
-                </button>
-                <button id="stop-stress" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
-                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
-                    Stop Test
-                </button>
-                <button id="clear-results" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
-                    Clear Results
+                <button id="stress-sync-btn" class="glass-panel w-full py-2.5 rounded-xl text-xs font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40">
+                    Inject 250ms Sync Block
                 </button>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col justify-between space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Test Duration</label>
-                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="30">30 seconds</option>
-                        <option value="60" selected>1 minute</option>
-                        <option value="120">2 minutes</option>
-                        <option value="300">5 minutes</option>
-                    </select>
+                    <h4 class="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                        <i data-feather="layers" class="w-4 h-4 text-purple-400"></i> Microtask Flood
+                    </h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Schedules 20,000 promise microtasks via queueMicrotask API.</p>
                 </div>
+                <button id="stress-micro-btn" class="glass-panel w-full py-2.5 rounded-xl text-xs font-bold text-purple-400 hover:bg-purple-400/10 border border-purple-400/40">
+                    Flood 20K Microtasks
+                </button>
+            </div>
 
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col justify-between space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Stress Intensity</label>
-                    <select id="stress-intensity" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="low" selected>Low (10 ops/sec)</option>
-                        <option value="medium">Medium (50 ops/sec)</option>
-                        <option value="high">High (100 ops/sec)</option>
-                        <option value="extreme">Extreme (500 ops/sec)</option>
-                    </select>
+                    <h4 class="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                        <i data-feather="zap" class="w-4 h-4 text-pink-400"></i> Macrotask Storm
+                    </h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Enqueues 5,000 recursive setTimeout tasks into macrotask queue.</p>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">UI Responsiveness</label>
-                    <select id="ui-responsiveness" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="enabled" selected>Enabled</option>
-                        <option value="minimal">Minimal</option>
-                        <option value="disabled">Disabled</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistics -->
-        <div class="grid lg:grid-cols-4 gap-6 mb-8">
-            <!-- Current Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Current Session</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Operations:</span>
-                        <span id="current-operations" class="font-mono">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Duration:</span>
-                        <span id="current-duration" class="font-mono">0s</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Avg Blocking:</span>
-                        <span id="current-avg-blocking" class="font-mono">--ms</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Blocking Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Blocking Analysis</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Max Blocking:</span>
-                        <span id="max-blocking" class="font-mono">--ms</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Blocks >50ms:</span>
-                        <span id="blocking-events" class="font-mono">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">UI Freezes:</span>
-                        <span id="ui-freezes" class="font-mono">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Performance Rating -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Performance Rating</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Rating:</span>
-                        <span id="performance-rating" class="font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Score:</span>
-                        <span id="performance-score" class="font-mono">--/100</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Stability:</span>
-                        <span id="stability-rating" class="font-semibold">--</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- System Info -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">System Info</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Active Ops:</span>
-                        <span id="active-operations" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Memory Usage:</span>
-                        <span id="memory-usage" class="font-mono">--MB</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Event Queue:</span>
-                        <span id="event-queue" class="font-mono">--</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stress Chart -->
-        <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="activity" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Event Loop Blocking History
-            </h3>
-            <div class="chart-container" id="stress-chart">
-                <div class="text-center text-gray-500 py-8">
-                    <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
-                    <p>Start stress test to see blocking data</p>
-                </div>
-            </div>
-            <div class="flex justify-between text-sm text-gray-400 mt-4">
-                <span>Time (seconds)</span>
-                <span>Blocking Time (ms)</span>
-            </div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                How It Works
-            </h3>
-            <div class="prose prose-sm max-w-none text-gray-400">
-                <p class="mb-3">This tool stresses your browser's event loop by executing various JavaScript operations that can block the main thread, simulating real-world performance issues.</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Stress Operations:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Synchronous:</strong> Blocking CPU operations</li>
-                            <li><strong>Async:</strong> Promise chains and microtasks</li>
-                            <li><strong>DOM:</strong> Massive DOM manipulations</li>
-                            <li><strong>Memory:</strong> Large allocations and GC pressure</li>
-                            <li><strong>Network:</strong> Simulated async requests</li>
-                            <li><strong>Timers:</strong> Thousands of setTimeout calls</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">What It Measures:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Event Loop Blocking:</strong> Time spent blocking the main thread</li>
-                            <li><strong>UI Responsiveness:</strong> How the interface responds during stress</li>
-                            <li><strong>Memory Pressure:</strong> Impact on garbage collection</li>
-                            <li><strong>Performance Degradation:</strong> How performance degrades over time</li>
-                        </ul>
-                        <p class="text-sm mt-3 text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg">
-                            <strong>Warning:</strong> This test can cause browser unresponsiveness. Use with caution and close other tabs.
-                        </p>
-                    </div>
-                </div>
+                <button id="stress-macro-btn" class="glass-panel w-full py-2.5 rounded-xl text-xs font-bold text-pink-400 hover:bg-pink-400/10 border border-pink-400/40">
+                    Flood 5K Macrotasks
+                </button>
             </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
-
-            // Elements
-            const startBtn = document.getElementById('start-stress');
-            const stopBtn = document.getElementById('stop-stress');
-            const clearBtn = document.getElementById('clear-results');
-            const currentBlockingEl = document.getElementById('current-blocking');
-            const statusIndicatorEl = document.getElementById('status-indicator');
-            const statusTextEl = document.getElementById('status-text');
-            const stressDescriptionEl = document.getElementById('stress-description');
-            const stressFillEl = document.getElementById('stress-fill');
-            const testDurationSelect = document.getElementById('test-duration');
-            const stressIntensitySelect = document.getElementById('stress-intensity');
-            const uiResponsivenessSelect = document.getElementById('ui-responsiveness');
-            const stressChartEl = document.getElementById('stress-chart');
-
-            // Operation checkboxes
-            const operationCheckboxes = {
-                sync: document.getElementById('sync-ops'),
-                async: document.getElementById('async-ops'),
-                dom: document.getElementById('dom-ops'),
-                memory: document.getElementById('memory-ops'),
-                network: document.getElementById('network-ops'),
-                timers: document.getElementById('timer-ops')
-            };
-
-            // Stats elements
-            const currentOperationsEl = document.getElementById('current-operations');
-            const currentDurationEl = document.getElementById('current-duration');
-            const currentAvgBlockingEl = document.getElementById('current-avg-blocking');
-            const maxBlockingEl = document.getElementById('max-blocking');
-            const blockingEventsEl = document.getElementById('blocking-events');
-            const uiFreezesEl = document.getElementById('ui-freezes');
-            const performanceRatingEl = document.getElementById('performance-rating');
-            const performanceScoreEl = document.getElementById('performance-score');
-            const stabilityRatingEl = document.getElementById('stability-rating');
-            const activeOperationsEl = document.getElementById('active-operations');
-            const memoryUsageEl = document.getElementById('memory-usage');
-            const eventQueueEl = document.getElementById('event-queue');
-
-            // State
-            let isStressing = false;
-            let stressIntervals = [];
-            let stressTimeouts = [];
-            let startTime = null;
-            let blockingHistory = [];
-            let maxChartPoints = 200;
-            let uiFreezeCount = 0;
-            let lastUIUpdate = Date.now();
-
-            // Stress operations
-            const stressOperations = {
-                sync: function(intensity) {
-                    // Synchronous CPU intensive operation
-                    const start = performance.now();
-                    let result = 0;
-                    const iterations = intensity * 1000;
-
-                    for (let i = 0; i < iterations; i++) {
-                        result += Math.sin(i) * Math.cos(i) + Math.sqrt(i);
-                        // Force some DOM interaction to make it more realistic
-                        if (i % 1000 === 0) {
-                            document.body.offsetHeight; // Force reflow
-                        }
-                    }
-
-                    return performance.now() - start;
-                },
-
-                async: function(intensity) {
-                    // Async operations with promises
-                    const promises = [];
-                    for (let i = 0; i < intensity; i++) {
-                        promises.push(new Promise(resolve => {
-                            setTimeout(() => {
-                                let result = 0;
-                                for (let j = 0; j < 1000; j++) {
-                                    result += Math.sin(j);
-                                }
-                                resolve(result);
-                            }, Math.random() * 10);
-                        }));
-                    }
-                    return Promise.all(promises);
-                },
-
-                dom: function(intensity) {
-                    // DOM manipulation stress
-                    const container = document.createElement('div');
-                    container.style.display = 'none';
-                    document.body.appendChild(container);
-
-                    for (let i = 0; i < intensity * 10; i++) {
-                        const element = document.createElement('div');
-                        element.textContent = 'Stress test element ' + i;
-                        element.style.cssText = `
-                            position: absolute;
-                            left: ${Math.random() * 100}px;
-                            top: ${Math.random() * 100}px;
-                            width: ${Math.random() * 100 + 50}px;
-                            height: ${Math.random() * 100 + 50}px;
-                            background: rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255});
-                        `;
-                        container.appendChild(element);
-                    }
-
-                    // Force reflow
-                    container.offsetHeight;
-
-                    // Clean up
-                    setTimeout(() => {
-                        if (container.parentNode) {
-                            container.parentNode.removeChild(container);
-                        }
-                    }, 100);
-                },
-
-                memory: function(intensity) {
-                    // Memory allocation stress
-                    const arrays = [];
-                    for (let i = 0; i < intensity; i++) {
-                        arrays.push(new Array(10000).fill(Math.random()));
-                    }
-
-                    // Force garbage collection hint
-                    if (window.gc) {
-                        setTimeout(() => window.gc(), 10);
-                    }
-
-                    // Clean up
-                    setTimeout(() => {
-                        arrays.length = 0;
-                    }, 100);
-                },
-
-                network: function(intensity) {
-                    // Simulated network requests
-                    for (let i = 0; i < intensity; i++) {
-                        fetch('data:text/plain;base64,' + btoa('simulated response ' + i))
-                            .then(response => response.text())
-                            .catch(() => {}); // Ignore errors
-                    }
-                },
-
-                timers: function(intensity) {
-                    // Timer scheduling stress
-                    for (let i = 0; i < intensity * 10; i++) {
-                        const timeout = setTimeout(() => {
-                            // Do minimal work
-                            Math.sin(i);
-                        }, Math.random() * 100);
-
-                        stressTimeouts.push(timeout);
-                    }
-                }
-            };
-
-            // Measure event loop blocking
-            function measureBlocking() {
-                return new Promise((resolve) => {
-                    const start = performance.now();
-                    setTimeout(() => {
-                        const blocking = performance.now() - start;
-                        resolve(blocking);
-                    }, 0);
-                });
-            }
-
-            // Update UI with blocking data
-            function updateBlockingDisplay(blocking) {
-                currentBlockingEl.textContent = blocking.toFixed(1);
-
-                // Update stress bar
-                const percentage = Math.min(blocking / 100 * 100, 100);
-                stressFillEl.style.width = `${percentage}%`;
-
-                // Color based on blocking severity
-                stressFillEl.className = 'stress-fill';
-                if (blocking > 50) {
-                    stressFillEl.classList.add('blocked');
-                    stressDescriptionEl.textContent = 'Event loop blocked!';
-                } else if (blocking > 16) {
-                    stressFillEl.classList.add('overloaded');
-                    stressDescriptionEl.textContent = 'Event loop overloaded';
-                } else {
-                    stressDescriptionEl.textContent = 'Event loop healthy';
-                }
-
-                // Check for UI freezes
-                const now = Date.now();
-                if (now - lastUIUpdate > 100) { // More than 100ms since last update
-                    uiFreezeCount++;
-                    uiFreezesEl.textContent = uiFreezeCount;
-                }
-                lastUIUpdate = now;
-            }
-
-            // Update statistics
-            function updateStatistics() {
-                if (blockingHistory.length === 0) return;
-
-                const currentHistory = blockingHistory.slice(-50);
-                const currentAvg = currentHistory.reduce((a, b) => a + b.blocking, 0) / currentHistory.length;
-
-                const operations = blockingHistory.length;
-                const maxBlocking = Math.max(...blockingHistory.map(b => b.blocking));
-                const blockingEvents = blockingHistory.filter(b => b.blocking > 50).length;
-
-                currentOperationsEl.textContent = operations;
-                currentAvgBlockingEl.textContent = `${currentAvg.toFixed(1)}ms`;
-                maxBlockingEl.textContent = `${maxBlocking.toFixed(1)}ms`;
-                blockingEventsEl.textContent = blockingEvents;
-
-                // Performance rating
-                let rating = 'Excellent';
-                let score = 95;
-
-                if (maxBlocking > 100) {
-                    rating = 'Poor';
-                    score = 30;
-                } else if (maxBlocking > 50) {
-                    rating = 'Fair';
-                    score = 60;
-                } else if (maxBlocking > 16) {
-                    rating = 'Good';
-                    score = 80;
-                }
-
-                performanceRatingEl.textContent = rating;
-                performanceRatingEl.className = `font-semibold ${
-                    rating === 'Excellent' ? 'text-green-600' :
-                    rating === 'Good' ? 'text-blue-600' :
-                    rating === 'Fair' ? 'text-yellow-600' : 'text-red-600'
-                }`;
-
-                performanceScoreEl.textContent = `${Math.round(score)}/100`;
-
-                // Stability rating
-                const variance = currentHistory.reduce((acc, val) => acc + Math.pow(val.blocking - currentAvg, 2), 0) / currentHistory.length;
-                const stdDev = Math.sqrt(variance);
-                const cv = (stdDev / currentAvg) * 100;
-
-                let stability = 'Stable';
-                if (cv > 50) stability = 'Unstable';
-                else if (cv > 25) stability = 'Moderate';
-
-                stabilityRatingEl.textContent = stability;
-                stabilityRatingEl.className = `font-semibold ${
-                    stability === 'Stable' ? 'text-green-600' :
-                    stability === 'Moderate' ? 'text-yellow-600' : 'text-red-600'
-                }`;
-
-                // System info
-                activeOperationsEl.textContent = stressIntervals.length;
-                memoryUsageEl.textContent = performance.memory ? `${Math.round(performance.memory.usedJSHeapSize / 1024 / 1024)}MB` : 'Unknown';
-                eventQueueEl.textContent = stressTimeouts.length;
-            }
-
-            // Update chart
-            function updateChart() {
-                if (blockingHistory.length < 2) return;
-
-                stressChartEl.innerHTML = '';
-
-                const chartWidth = stressChartEl.clientWidth;
-                const chartHeight = stressChartEl.clientHeight;
-                const maxBlocking = Math.max(...blockingHistory.map(b => b.blocking), 100);
-
-                // Draw grid lines
-                for (let i = 0; i <= 4; i++) {
-                    const y = (i / 4) * chartHeight;
-                    const line = document.createElement('div');
-                    line.style.position = 'absolute';
-                    line.style.left = '0';
-                    line.style.top = `${y}px`;
-                    line.style.width = '100%';
-                    line.style.height = '1px';
-                    line.style.background = '#e2e8f0';
-                    stressChartEl.appendChild(line);
-                }
-
-                // Draw points
-                blockingHistory.forEach((point, index) => {
-                    const x = (index / (blockingHistory.length - 1)) * chartWidth;
-                    const y = chartHeight - (point.blocking / maxBlocking) * chartHeight;
-
-                    const pointEl = document.createElement('div');
-                    pointEl.className = 'chart-point';
-                    pointEl.style.left = `${x - 2}px`;
-                    pointEl.style.top = `${y - 2}px`;
-                    pointEl.title = `${point.blocking.toFixed(1)}ms blocking at ${point.time}s`;
-
-                    // Color based on blocking severity
-                    if (point.blocking > 50) {
-                        pointEl.classList.add('blocked');
-                    } else if (point.blocking > 16) {
-                        pointEl.classList.add('overloaded');
-                    }
-
-                    stressChartEl.appendChild(pointEl);
-                });
-            }
-
-            // Get selected operations
-            function getSelectedOperations() {
-                return Object.keys(operationCheckboxes).filter(key => operationCheckboxes[key].checked);
-            }
-
-            // Start stress test
-            async function startStressTest() {
-                if (isStressing) return;
-
-                const selectedOps = getSelectedOperations();
-                if (selectedOps.length === 0) {
-                    alert('Please select at least one stress operation.');
-                    return;
-                }
-
-                isStressing = true;
-                blockingHistory = [];
-                uiFreezeCount = 0;
-                stressTimeouts = [];
-
-                startBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
-
-                statusIndicatorEl.className = 'stress-dot';
-                statusTextEl.textContent = 'Stress testing...';
-
-                const testDuration = parseInt(testDurationSelect.value) * 1000;
-                const intensity = stressIntensitySelect.value;
-                const uiResponsiveness = uiResponsivenessSelect.value;
-
-                // Intensity multipliers
-                const intensityMultipliers = {
-                    low: 1,
-                    medium: 5,
-                    high: 10,
-                    extreme: 50
-                };
-
-                const multiplier = intensityMultipliers[intensity];
-
-                startTime = performance.now();
-
-                // Start stress operations
-                selectedOps.forEach(op => {
-                    if (stressOperations[op]) {
-                        const interval = setInterval(() => {
-                            try {
-                                stressOperations[op](multiplier);
-                            } catch (error) {
-                                console.warn(`Error in ${op} operation:`, error);
-                            }
-                        }, 100); // Run every 100ms
-
-                        stressIntervals.push(interval);
-                    }
-                });
-
-                // Start monitoring
-                const monitorInterval = setInterval(async () => {
-                    const currentTime = (performance.now() - startTime) / 1000;
-                    const blocking = await measureBlocking();
-
-                    blockingHistory.push({
-                        time: currentTime,
-                        blocking: blocking
-                    });
-
-                    // Update UI based on responsiveness setting
-                    if (uiResponsiveness !== 'disabled') {
-                        updateBlockingDisplay(blocking);
-                        if (uiResponsiveness === 'enabled') {
-                            updateStatistics();
-                            updateChart();
-                        }
-                    }
-
-                    // Update duration
-                    currentDurationEl.textContent = `${currentTime.toFixed(1)}s`;
-
-                    // Check if test should end
-                    if (currentTime >= testDuration / 1000) {
-                        stopStressTest();
-                        clearInterval(monitorInterval);
-                    }
-                }, 200); // Monitor every 200ms
-
-                stressIntervals.push(monitorInterval);
-
-                // Auto-stop after duration
-                setTimeout(() => {
-                    stopStressTest();
-                }, testDuration + 1000);
-            }
-
-            function stopStressTest() {
-                if (!isStressing) return;
-
-                isStressing = false;
-
-                // Clear all intervals and timeouts
-                stressIntervals.forEach(interval => clearInterval(interval));
-                stressTimeouts.forEach(timeout => clearTimeout(timeout));
-
-                stressIntervals = [];
-                stressTimeouts = [];
-
-                startBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-
-                statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-green-500';
-                statusTextEl.textContent = 'Test completed';
-
-                // Final UI update
-                updateStatistics();
-                updateChart();
-            }
-
-            function clearResults() {
-                blockingHistory = [];
-                uiFreezeCount = 0;
-
-                currentBlockingEl.textContent = '--';
-                statusTextEl.textContent = 'Ready to stress test';
-                stressDescriptionEl.textContent = 'Event loop blocking time';
-                stressFillEl.style.width = '0%';
-                stressFillEl.className = 'stress-fill';
-
-                currentOperationsEl.textContent = '0';
-                currentDurationEl.textContent = '0s';
-                currentAvgBlockingEl.textContent = '--ms';
-                maxBlockingEl.textContent = '--ms';
-                blockingEventsEl.textContent = '0';
-                uiFreezesEl.textContent = '0';
-                performanceRatingEl.textContent = '--';
-                performanceScoreEl.textContent = '--/100';
-                stabilityRatingEl.textContent = '--';
-                activeOperationsEl.textContent = '--';
-                memoryUsageEl.textContent = '--MB';
-                eventQueueEl.textContent = '--';
-
-                stressChartEl.innerHTML = `
-                    <div class="text-center text-gray-500 py-8">
-                        <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
-                        <p>Start stress test to see blocking data</p>
-                    </div>
-                `;
-                feather.replace();
-            }
-
-            // Operation card selection
-            Object.values(operationCheckboxes).forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const card = this.closest('.operation-card');
-                    if (this.checked) {
-                        card.classList.add('selected');
-                    } else {
-                        card.classList.remove('selected');
-                    }
-                });
-            });
-
-            // Event listeners
-            startBtn.addEventListener('click', startStressTest);
-            stopBtn.addEventListener('click', stopStressTest);
-            clearBtn.addEventListener('click', clearResults);
-
-            // Initialize
-            clearResults();
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
+
+    <script>const _0x375735=_0x5551,_0x551ada=_0x4ed9;function _0x4ed9(_0x45acd3,_0x176cf0){_0x45acd3=_0x45acd3-(0x1*0xd81+0x4e8+-0x1108);const _0x5f00ec=_0x2ec3();let _0x3e45f0=_0x5f00ec[_0x45acd3];if(_0x4ed9['RCgEpe']===undefined){var _0x3c15bf=function(_0x46dcc4){const _0xb7affd='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2624ae='',_0x5eaefd='',_0x461a37=_0x2624ae+_0x3c15bf,_0x2bf52b=(''+function(){return 0x1ed5+-0x1*0x267b+0x7a6;})['indexOf']('\x0a')!==-(0x6*0x3d8+0x1988+0x3097*-0x1);for(let _0x241515=0x1*0x91f+-0x18*0x4+-0x8bf,_0x1966df,_0x52e8c8,_0x1b2f3e=-0x12e3+-0x1984+0x2c67;_0x52e8c8=_0x46dcc4['charAt'](_0x1b2f3e++);~_0x52e8c8&&(_0x1966df=_0x241515%(-0x1*0xf31+-0x2227*-0x1+0x3ca*-0x5)?_0x1966df*(0x2238+0x211e+-0x2*0x218b)+_0x52e8c8:_0x52e8c8,_0x241515++%(0x2186*0x1+0x464*0x3+-0x2eae))?_0x2624ae+=_0x2bf52b||_0x461a37['charCodeAt'](_0x1b2f3e+(0x1d*-0x15+-0x881+0x6*0x1d2))-(0x8*0x3a+0x1c26+-0x1*0x1dec)!==-0x167c+0x33*-0x4f+-0x7a5*-0x5?String['fromCharCode'](-0xe81+-0x6f1+-0xf*-0x17f&_0x1966df>>(-(0xb48+-0xcf2*-0x1+-0x1838)*_0x241515&-0x2*-0x1288+0x1c2b*0x1+-0x1*0x4135)):_0x241515:0x7c9*0x3+0x9*0x13b+-0x27*0xe2){_0x52e8c8=_0xb7affd['indexOf'](_0x52e8c8);}for(let _0x4c950e=-0x2331+-0x1835+0x3b66,_0x581eb9=_0x2624ae['length'];_0x4c950e<_0x581eb9;_0x4c950e++){_0x5eaefd+='%'+('00'+_0x2624ae['charCodeAt'](_0x4c950e)['toString'](-0x89*0x22+0x22d0*0x1+0x2*-0x847))['slice'](-(0x115c+0x2*-0xd0+-0xfba));}return decodeURIComponent(_0x5eaefd);};const _0x524aac=function(_0x4725e4,_0xa21c0d){let _0x5d1c95=[],_0x3ea1f7=-0xfeb+0x789+0x862,_0x65c68,_0xa9cf4a='';_0x4725e4=_0x3c15bf(_0x4725e4);let _0x938bd;for(_0x938bd=0x1252+0x1*0x1d+-0x8f*0x21;_0x938bd<-0x91f*-0x1+-0x1d0d*0x1+0x14ee;_0x938bd++){_0x5d1c95[_0x938bd]=_0x938bd;}for(_0x938bd=0x2*-0xa99+0xd3a+0x7f8;_0x938bd<-0x3*-0x3c1+-0x1e7a+0x1437;_0x938bd++){_0x3ea1f7=(_0x3ea1f7+_0x5d1c95[_0x938bd]+_0xa21c0d['charCodeAt'](_0x938bd%_0xa21c0d['length']))%(-0x7*0x2f+-0x123*0x8+0xb61),_0x65c68=_0x5d1c95[_0x938bd],_0x5d1c95[_0x938bd]=_0x5d1c95[_0x3ea1f7],_0x5d1c95[_0x3ea1f7]=_0x65c68;}_0x938bd=0x170b+0x16f8+-0x2e03,_0x3ea1f7=-0x1*-0x6f9+0x1844+-0x1f3d;for(let _0x1001f0=-0x8*-0xe3+-0x278+-0x4a0*0x1;_0x1001f0<_0x4725e4['length'];_0x1001f0++){_0x938bd=(_0x938bd+(-0xd3*0x5+0xbbd+-0x79d))%(-0x199a+0x1116+-0xcb*-0xc),_0x3ea1f7=(_0x3ea1f7+_0x5d1c95[_0x938bd])%(0x13e7+-0xf9*0x15+0x186*0x1),_0x65c68=_0x5d1c95[_0x938bd],_0x5d1c95[_0x938bd]=_0x5d1c95[_0x3ea1f7],_0x5d1c95[_0x3ea1f7]=_0x65c68,_0xa9cf4a+=String['fromCharCode'](_0x4725e4['charCodeAt'](_0x1001f0)^_0x5d1c95[(_0x5d1c95[_0x938bd]+_0x5d1c95[_0x3ea1f7])%(-0x1*0xe9b+0x6cf+0x8cc)]);}return _0xa9cf4a;};_0x4ed9['dchLqe']=_0x524aac,_0x4ed9['nNDMXy']={},_0x4ed9['RCgEpe']=!![];}const _0x16fd0a=_0x5f00ec[-0x197c+0xf7*-0x1d+0x3577],_0x508bb2=_0x45acd3+_0x16fd0a,_0x5bbb43=_0x4ed9['nNDMXy'][_0x508bb2];if(!_0x5bbb43){if(_0x4ed9['ipuGkw']===undefined){const _0x622990=function(_0x50719c){this['ctnEqz']=_0x50719c,this['HZKUIJ']=[-0xcf4+-0x2081+0x2d76,0x2*-0x74f+-0x16c8+-0x12b3*-0x2,0x26d+0x1b40+-0x1dad],this['arhSoY']=function(){return'newState';},this['KRVQJz']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['aYdlzN']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x622990['prototype']['HxXUnY']=function(){const _0x11a58e=new RegExp(this['KRVQJz']+this['aYdlzN']),_0x33679c=_0x11a58e['test'](this['arhSoY']['toString']())?--this['HZKUIJ'][-0x239b*-0x1+-0x945+0x141*-0x15]:--this['HZKUIJ'][-0x1adc+-0x44*-0x66+-0x5*0xc];return this['eHefkw'](_0x33679c);},_0x622990['prototype']['eHefkw']=function(_0x3d163d){if(!Boolean(~_0x3d163d))return _0x3d163d;return this['vdKwYS'](this['ctnEqz']);},_0x622990['prototype']['vdKwYS']=function(_0x4a8bc7){for(let _0x6d5280=-0xd55*0x1+-0x160d+0x2362,_0x37457f=this['HZKUIJ']['length'];_0x6d5280<_0x37457f;_0x6d5280++){this['HZKUIJ']['push'](Math['round'](Math['random']())),_0x37457f=this['HZKUIJ']['length'];}return _0x4a8bc7(this['HZKUIJ'][0x1*0x17e5+0xb91+-0x2376]);},(''+function(){return-0x2f5*0x4+0x156*-0xd+0x1d32;})['indexOf']('\x0a')===-(-0x1135+-0x264b+-0x1*-0x3781)&&new _0x622990(_0x4ed9)['HxXUnY'](),_0x4ed9['ipuGkw']=!![];}_0x3e45f0=_0x4ed9['dchLqe'](_0x3e45f0,_0x176cf0),_0x4ed9['nNDMXy'][_0x508bb2]=_0x3e45f0;}else _0x3e45f0=_0x5bbb43;return _0x3e45f0;}(function(_0xc93236,_0x39b3c5){const _0x35951d=_0x4ed9,_0x51dab9=_0x5551,_0x43dc4a=_0xc93236();while(!![]){try{const _0x5e8c70=-parseInt(_0x51dab9(0x1b1))/(0x1029+-0x1f1+-0xe37)*(-parseInt(_0x35951d(0x1c6,'k0[4'))/(-0x12*0x139+-0xa67+0x206b))+-parseInt(_0x35951d(0x1c5,'bfMU'))/(0x1f*-0x63+-0xb7d*-0x2+0x2*-0x57d)+parseInt(_0x35951d(0x1a7,'GYQ6'))/(-0x255e*-0x1+-0x2501+0x1*-0x59)+parseInt(_0x35951d(0x183,'KauA'))/(-0xb*-0x24b+0x9*-0x4+-0x644*0x4)+parseInt(_0x51dab9(0x173))/(-0x1*0xb57+-0x652+0x11af)*(-parseInt(_0x35951d(0x174,'Y7AW'))/(0x25c8+0x184b+-0x3e0c))+parseInt(_0x51dab9(0x1af))/(0xc75+-0x1*-0x1d95+-0x2a02)+-parseInt(_0x51dab9(0x196))/(-0x2*0x56b+0x637*0x3+0x18e*-0x5);if(_0x5e8c70===_0x39b3c5)break;else _0x43dc4a['push'](_0x43dc4a['shift']());}catch(_0x49b57a){_0x43dc4a['push'](_0x43dc4a['shift']());}}}(_0x2ec3,0xa15b9+-0x5060+-0x1d7b9));const _0x1b7ca9=(function(){let _0x3edd71=!![];return function(_0x666b20,_0x543fa3){const _0x36fffd=_0x3edd71?function(){const _0x43aa41=_0x5551;if(_0x543fa3){const _0x1ea36e=_0x543fa3[_0x43aa41(0x18a)](_0x666b20,arguments);return _0x543fa3=null,_0x1ea36e;}}:function(){};return _0x3edd71=![],_0x36fffd;};}()),_0x32cf3a=_0x1b7ca9(this,function(){const _0x3d86ef=_0x4ed9,_0x1804bc=_0x5551,_0x3638fb={'QiSpQ':function(_0x4c1952,_0x5e56f2){return _0x4c1952!==_0x5e56f2;}};if(_0x3638fb[_0x1804bc(0x16b)](_0x32cf3a[_0x1804bc(0x162)]()[_0x3d86ef(0x179,'FU7e')]()[_0x1804bc(0x172)]('\x0a'),-(-0x263d+0x13b8+0x1286)))return;return _0x32cf3a['toString']()['search']('(((.+)+)+)'+'+$')['toString']()[_0x3d86ef(0x17c,'PXUf')+'r'](_0x32cf3a)['search'](_0x1804bc(0x1b5)+'+$');});_0x32cf3a(),feather['replace']();function showMessage(_0x37ee8b,_0x517e8d=_0x551ada(0x1cb,'JFn7')){const _0x5bb32c=_0x5551,_0x5b8449=_0x551ada,_0x2cf728={'hbDyL':_0x5b8449(0x199,'(ZXB'),'HGmRY':function(_0x9c06c7,_0x3be96d){return _0x9c06c7+_0x3be96d;},'nToPW':function(_0x98d2b8,_0xdfebda){return _0x98d2b8===_0xdfebda;},'Iafai':_0x5b8449(0x17e,'x*C0')+'le','jCHOd':function(_0x1627b3,_0x4f23fb){return _0x1627b3===_0x4f23fb;},'NGiSc':_0x5b8449(0x166,'KauA')+'le','WeAGZ':'info','unuiV':_0x5b8449(0x191,'x*C0')+_0x5bb32c(0x1b4)+'i><span>','rlreC':function(_0x5bed22,_0x37aca7){return _0x5bed22+_0x37aca7;},'KOeLb':function(_0x4047e3,_0x374315,_0x2479d9){return _0x4047e3(_0x374315,_0x2479d9);}},_0x31e0f0=document[_0x5bb32c(0x1b2)+_0x5b8449(0x1a3,'ayXU')](_0x2cf728[_0x5bb32c(0x185)]);if(!_0x31e0f0)return;_0x31e0f0['innerHTML']=_0x2cf728['HGmRY'](_0x2cf728[_0x5b8449(0x192,'q7oM')](_0x5bb32c(0x19d)+_0x5bb32c(0x1ad),_0x2cf728[_0x5b8449(0x17b,'#vcv')](_0x517e8d,'success')?_0x2cf728[_0x5bb32c(0x1c4)]:_0x2cf728[_0x5b8449(0x1a4,'xg]@')](_0x517e8d,_0x5bb32c(0x1a1))?_0x2cf728[_0x5b8449(0x1a5,'ijIf')]:_0x2cf728[_0x5bb32c(0x165)])+_0x2cf728[_0x5b8449(0x163,'gyZd')]+_0x37ee8b,'</span>'),_0x31e0f0['className']=_0x2cf728[_0x5b8449(0x17d,'bfMU')](_0x5b8449(0x18c,'j#(5'),_0x517e8d),feather[_0x5bb32c(0x1ba)](),clearTimeout(_0x31e0f0[_0x5b8449(0x1bf,'qH@H')]),_0x31e0f0[_0x5bb32c(0x193)]=_0x2cf728[_0x5bb32c(0x167)](setTimeout,()=>{const _0x52b688=_0x5bb32c;_0x31e0f0[_0x52b688(0x19e)]=_0x517e8d;},0x709*0x2+0x2*-0x115b+0x2250);}const canvas=document[_0x375735(0x1b2)+_0x375735(0x188)](_0x375735(0x1b9)+_0x551ada(0x190,'k0[4')),ctx=canvas[_0x551ada(0x1c3,'6pJU')]('2d'),fpsEl=document[_0x551ada(0x1c2,'YQl*')+_0x551ada(0x197,'q7oM')](_0x375735(0x17a));let particles=[];for(let i=-0xc65+0x20e4+0x9*-0x247;i<-0x18e4+0x47d+-0x2ed*-0x7;i++){particles['push']({'x':-0x13cc+-0xf67+-0x2365*-0x1+Math['random']()*(-0x14b5*-0x1+-0x4a*0x2c+0x9*-0xcd),'y':-0x1263*0x2+-0x7ae*-0x5+0x182*-0x1+Math[_0x551ada(0x181,'9Tvr')]()*(0x1679+-0x1b8e+0x565),'vx':(Math[_0x375735(0x171)]()-(-0x4*0x32b+0x14bc+-0x10*0x81+0.5))*(-0xeb1+0x6*-0x3a5+0x2495*0x1),'vy':(Math[_0x375735(0x171)]()-(0xbd4*-0x2+0xcec*-0x2+0x3180+0.5))*(0x2387*0x1+0x9bc*-0x1+0x3*-0x897),'radius':-0xf2a+0x39d+-0xb93*-0x1+Math['random']()*(0x2e9*0x5+0x11c3+0x2*-0x1026),'color':i%(-0x2+0x2*-0xb35+0x166e)===0x2333*-0x1+0x382+0x1fb1?_0x551ada(0x18b,'*kiZ'):_0x551ada(0x1a8,'GYQ6')});}let lastTime=performance[_0x551ada(0x169,'ijIf')](),frameCount=-0x1*-0xb7a+-0x17b9+0xc3f;function animatePhysics(){const _0x24fd3d=_0x375735,_0x5addb0=_0x551ada,_0x3bab76={'wWMhJ':function(_0x3078e7,_0x32b89e){return _0x3078e7-_0x32b89e;},'PnQjP':function(_0x1e8ff7,_0x94424e){return _0x1e8ff7>=_0x94424e;},'hNdCW':function(_0x4a5c2b,_0x1ab1cf){return _0x4a5c2b+_0x1ab1cf;},'wAFfs':function(_0x2864a3,_0x29b78f){return _0x2864a3<_0x29b78f;},'nStAi':function(_0x1a7a23,_0x59555c){return _0x1a7a23(_0x59555c);}};canvas[_0x5addb0(0x16e,'xg]@')]=canvas['parentElem'+_0x5addb0(0x1ae,'YqCI')]['clientWidt'+'h']||0xf70+0xb9a+-0x18b2,canvas[_0x5addb0(0x1ca,'(X#K')]=canvas['parentElem'+_0x24fd3d(0x17f)]['clientHeig'+'ht']||-0x2*-0xc1b+0x17a9+-0x2f49;const _0x3631a3=performance['now']();frameCount++,_0x3bab76[_0x5addb0(0x16f,'^^)9')](_0x3631a3,lastTime)>=-0x1*0x13d+-0x383*-0x3+-0x564&&(fpsEl['textConten'+'t']=frameCount+_0x24fd3d(0x16d),_0x3bab76[_0x5addb0(0x1bd,'@32l')](frameCount,-0x1fdc*-0x1+0xd*0x1d3+-0x3*0x1279)?fpsEl[_0x5addb0(0x16c,'*kiZ')]='font-bold\x20'+_0x24fd3d(0x19b)+_0x24fd3d(0x1c8):fpsEl[_0x24fd3d(0x19e)]=_0x5addb0(0x164,'qH@H')+_0x24fd3d(0x1b7)+_0x5addb0(0x182,'ijIf'),frameCount=0x1fd8+-0x100*0x1+0x468*-0x7,lastTime=_0x3631a3),ctx[_0x24fd3d(0x18d)](-0x1d55+-0x226e+0x1541*0x3,0x12e0+-0x17dc+0x4fc,canvas[_0x5addb0(0x168,'j#(5')],canvas[_0x5addb0(0x18f,'18TK')]),particles['forEach'](_0x52a3a2=>{const _0x15e351=_0x24fd3d,_0x2f3ca7=_0x5addb0;_0x52a3a2['x']+=_0x52a3a2['vx'],_0x52a3a2['y']+=_0x52a3a2['vy'];if(_0x3bab76['wWMhJ'](_0x52a3a2['x'],_0x52a3a2['radius'])<=-0x1*-0x1e8f+-0xc*0xb2+0xb*-0x205||_0x3bab76['PnQjP'](_0x3bab76[_0x2f3ca7(0x170,'xg]@')](_0x52a3a2['x'],_0x52a3a2[_0x15e351(0x1c1)]),canvas[_0x2f3ca7(0x1ac,'k&]T')]))_0x52a3a2['vx']*=-(-0xfe3+-0x5a+-0x81f*-0x2);if(_0x3bab76[_0x15e351(0x194)](_0x52a3a2['y'],_0x52a3a2['radius'])<=-0x146f+0x1148+0x327||_0x3bab76[_0x15e351(0x186)](_0x52a3a2['y'],_0x52a3a2[_0x2f3ca7(0x1b3,'YqCI')])>=canvas['height'])_0x52a3a2['vy']*=-(0x1bf5+0x1427+-0x301b*0x1);ctx[_0x15e351(0x1bc)](),ctx[_0x15e351(0x198)](_0x52a3a2['x'],_0x52a3a2['y'],_0x52a3a2[_0x15e351(0x1c1)],-0x805*0x1+0x1b91+0x9c6*-0x2,Math['PI']*(0xd81+-0x99e+-0x3e1)),ctx[_0x15e351(0x19c)]=_0x52a3a2['color'],ctx['shadowColo'+'r']=_0x52a3a2[_0x2f3ca7(0x16a,'Pv9Z')],ctx[_0x15e351(0x1c9)]=-0x14d3+0x1bd7+-0x26*0x2f,ctx[_0x2f3ca7(0x19a,'CCd@')]();}),_0x3bab76['nStAi'](requestAnimationFrame,animatePhysics);}function _0x5551(_0x107144,_0x448a40){_0x107144=_0x107144-(0x1*0xd81+0x4e8+-0x1108);const _0x13f614=_0x2ec3();let _0x1309d2=_0x13f614[_0x107144];if(_0x5551['ngxGtP']===undefined){var _0x497248=function(_0x1cc4f7){const _0x2fb9db='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x12d561='',_0x33ea67='',_0x5dfa73=_0x12d561+_0x497248,_0x1ddcf7=(''+function(){return 0x1ed5+-0x1*0x267b+0x7a6;})['indexOf']('\x0a')!==-(0x6*0x3d8+0x1988+0x3097*-0x1);for(let _0x37ff82=0x1*0x91f+-0x18*0x4+-0x8bf,_0x4ad6bc,_0x19d828,_0x1c41c8=-0x12e3+-0x1984+0x2c67;_0x19d828=_0x1cc4f7['charAt'](_0x1c41c8++);~_0x19d828&&(_0x4ad6bc=_0x37ff82%(-0x1*0xf31+-0x2227*-0x1+0x3ca*-0x5)?_0x4ad6bc*(0x2238+0x211e+-0x2*0x218b)+_0x19d828:_0x19d828,_0x37ff82++%(0x2186*0x1+0x464*0x3+-0x2eae))?_0x12d561+=_0x1ddcf7||_0x5dfa73['charCodeAt'](_0x1c41c8+(0x1d*-0x15+-0x881+0x6*0x1d2))-(0x8*0x3a+0x1c26+-0x1*0x1dec)!==-0x167c+0x33*-0x4f+-0x7a5*-0x5?String['fromCharCode'](-0xe81+-0x6f1+-0xf*-0x17f&_0x4ad6bc>>(-(0xb48+-0xcf2*-0x1+-0x1838)*_0x37ff82&-0x2*-0x1288+0x1c2b*0x1+-0x1*0x4135)):_0x37ff82:0x7c9*0x3+0x9*0x13b+-0x27*0xe2){_0x19d828=_0x2fb9db['indexOf'](_0x19d828);}for(let _0xbbf826=-0x2331+-0x1835+0x3b66,_0x109518=_0x12d561['length'];_0xbbf826<_0x109518;_0xbbf826++){_0x33ea67+='%'+('00'+_0x12d561['charCodeAt'](_0xbbf826)['toString'](-0x89*0x22+0x22d0*0x1+0x2*-0x847))['slice'](-(0x115c+0x2*-0xd0+-0xfba));}return decodeURIComponent(_0x33ea67);};_0x5551['DxUUec']=_0x497248,_0x5551['gNnSUf']={},_0x5551['ngxGtP']=!![];}const _0xd5c67b=_0x13f614[-0xfeb+0x789+0x862],_0x47fb49=_0x107144+_0xd5c67b,_0x16c27f=_0x5551['gNnSUf'][_0x47fb49];if(!_0x16c27f){const _0xd89d4c=function(_0x19d082){this['KQjGCM']=_0x19d082,this['aFYPcl']=[0x1252+0x1*0x1d+-0x151*0xe,-0x91f*-0x1+-0x1d0d*0x1+0x13ee,0x2*-0xa99+0xd3a+0x7f8],this['dxyRUs']=function(){return'newState';},this['WlpWVL']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['veuXkl']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xd89d4c['prototype']['ahyjYf']=function(){const _0x5db3a6=new RegExp(this['WlpWVL']+this['veuXkl']),_0x4b8c3b=_0x5db3a6['test'](this['dxyRUs']['toString']())?--this['aFYPcl'][-0x3*-0x3c1+-0x1e7a+0x1338]:--this['aFYPcl'][-0x7*0x2f+-0x123*0x8+0xa61];return this['Fsiuig'](_0x4b8c3b);},_0xd89d4c['prototype']['Fsiuig']=function(_0x183ab2){if(!Boolean(~_0x183ab2))return _0x183ab2;return this['Hiajxa'](this['KQjGCM']);},_0xd89d4c['prototype']['Hiajxa']=function(_0x1fe09a){for(let _0x803b81=0x170b+0x16f8+-0x2e03,_0xa097e7=this['aFYPcl']['length'];_0x803b81<_0xa097e7;_0x803b81++){this['aFYPcl']['push'](Math['round'](Math['random']())),_0xa097e7=this['aFYPcl']['length'];}return _0x1fe09a(this['aFYPcl'][-0x1*-0x6f9+0x1844+-0x1f3d]);},(''+function(){return-0x8*-0xe3+-0x278+-0x4a0*0x1;})['indexOf']('\x0a')===-(-0xd3*0x5+0xbbd+-0x79d)&&new _0xd89d4c(_0x5551)['ahyjYf'](),_0x1309d2=_0x5551['DxUUec'](_0x1309d2),_0x5551['gNnSUf'][_0x47fb49]=_0x1309d2;}else _0x1309d2=_0x16c27f;return _0x1309d2;}requestAnimationFrame(animatePhysics),document[_0x375735(0x1b2)+_0x551ada(0x19f,'(X#K')]('stress-syn'+'c-btn')['addEventLi'+_0x551ada(0x1aa,'0)^I')](_0x551ada(0x161,'wYOR'),()=>{const _0x2809f6=_0x551ada,_0xfcd505=_0x375735,_0x2d5443={'kQCJD':function(_0xf2652b,_0x3ed081){return _0xf2652b<_0x3ed081;},'shGTm':_0xfcd505(0x1be)+'50ms\x20synch'+_0xfcd505(0x1a9)+_0xfcd505(0x175)+'n\x20thread!'},_0x10a83c=performance['now']();while(_0x2d5443[_0xfcd505(0x1b8)](performance[_0x2809f6(0x1a6,'(X#K')]()-_0x10a83c,0x5*-0x4ee+0x1ee5*0x1+-0x545*0x1)){}showMessage(_0x2d5443[_0xfcd505(0x187)]);}),document[_0x375735(0x1b2)+_0x375735(0x188)]('stress-mic'+'ro-btn')[_0x375735(0x1c0)+_0x551ada(0x189,'O0n&')](_0x375735(0x178),()=>{const _0xc783e9=_0x375735,_0x5e6e43=_0x551ada,_0x47877e={'dwGWJ':function(_0x37a66e,_0x380a63){return _0x37a66e<_0x380a63;},'wCIOG':function(_0x59d347,_0x35df17){return _0x59d347(_0x35df17);}};let _0x5e65c0=0x922*0x1+-0xa*-0xd6+-0x1*0x117e;for(let _0x1cd3fd=0x1a3e+-0xb0*-0x2e+-0x6*0x9a5;_0x47877e[_0x5e6e43(0x18e,'#vcv')](_0x1cd3fd,-0x139b+0x5eb+0x5bd0);_0x1cd3fd++){_0x47877e['wCIOG'](queueMicrotask,()=>{_0x5e65c0++;});}showMessage(_0xc783e9(0x177)+_0xc783e9(0x1a2)+_0x5e6e43(0x1c7,'YQl*'));}),document['getElement'+_0x375735(0x188)](_0x375735(0x1b6)+_0x375735(0x1ab))[_0x375735(0x1c0)+_0x551ada(0x176,'18TK')]('click',()=>{const _0x20ecf1=_0x375735,_0x330b04={'iQctm':function(_0x1d4c6c,_0x1edb9e){return _0x1d4c6c<_0x1edb9e;},'LkGrA':function(_0x4745ab,_0xf807cb){return _0x4745ab(_0xf807cb);},'uXUnm':'Queued\x205,0'+_0x20ecf1(0x1b0)+_0x20ecf1(0x184)};for(let _0x4493fb=0x36b+-0x1*0xbdd+0x2*0x439;_0x330b04['iQctm'](_0x4493fb,0x1117*-0x1+0x19*0x127+0x190*0x5);_0x4493fb++){setTimeout(()=>{},0xd78+-0x1c85+0x1*0xf0d);}_0x330b04[_0x20ecf1(0x1bb)](showMessage,_0x330b04['uXUnm']);});function _0x2ec3(){const _0x244d33=['WQFcImoplCow','y2XLyxjszwn0','cSouW4hcT8kz','k8oFW7TIW7RdOG','BxldMGe','WQFdH8orWOVcVSkFWRldOSkavG','iMWIWP3dGa','x3rPBwvY','D1DnAeO','mZyWntK4ENr2v2LA','nJKWndK3mvP1s1vOrG','kfigWQS','yxjJ','lCkfdCkqja','pmozcJ8','Dgv4Dc1WAw5Rlq','zMLSBfn0EwXL','pgKGzgf0ys1Mzq','y2XHC3noyw1L','r8k/WOJdNa','W7pdISkTWRVcLeRdMX7dLgLPBG','zxjYB3i','mdaWig1Py3jVDa','WO82dSkS','FqPiWOVdLq','dWRcJv18','A8kPWRy','WOxcLCkvmqXZASoSpmk7W5JcGCkn','WPxdQSoHnxLWhW','CM9UB3vZigXVyW','W73dKmkeW50QgG','CM8TyNrU','bSogzCkhqG','yxrOzxi9iG','W67cIre','mZiXmZu0neDRqw5mvq','mdaGBwfJCM90yq','mta0ntfeBKz6t2G','z2v0rwXLBwvUDa','W7NcHGhdVCkhxW','ltqGAc00iJ48lW','kcGOlISPkYKRkq','C3rYzxnZlw1HyW','Dgv4Dc1LBwvYyq','A1fdsKq','CgH5C2LJCY1Jyq','CMvWBgfJzq','tgThCKe','yMvNAw5qyxrO','WP1rWOhdJ8or','sw5Qzwn0zwqGmG','W4iAetlcVcK','ywrKrxzLBNrmAq','CMfKAxvZ','W6JdRCkAu8oprCoiW4ZcOSk8','W75Wz8odWPFdPMapj8o2','swfMywK','WQtdQGxdQN/cJxeDWOCzd1i','mtldQqVdTKKQWOe','W67dU8kfzCkc','ntaW','C2HHzg93qMX1CG','BCkJWQJdN8ktua','CCkMcYVcO2ZdQW','EGRcUJeq','yMLUza','WOyMW4VcVqm','W7SbfIVdTdNdSsupWQW','v2vbr1O','W7ddPSk5E8oCWRVcLCkRWOpcKW','s09Ltgi','WQpcICoelSkE','lYlcKW','nGPFgCk8','uwLtCfe','W4WcfCoTW6ZdNdRcPbW','iezquW','ycbKWRddMq','cL/dJmkKW4y','FWDKWOFdPG','CMfUzg9T','Aw5KzxHpzG','mZbNB0zwB2u','iCkQWQ17pSkubMmDyCodaG','AYbPBNrVig1HAq','mmooW7DRW7FdPa','uxvLDwvKidiWla','y2XPy2S','omoGWRRcRmosBqFdGa','BgL2zs1MChm','amo3W6NcSmke','dcfrkmkPW7mBpSkXWQm','W6FcT0/cVa4','W6BcJ8oxWOtcTmobWQlcTSoqqG','zw50','WQ9ykIBcIH7dPYi','WRJdHwKCWP3cVW','lsNdItOVW7O','WQlcUmoVo8kCWQpcHmkdWRRcOmoVmq','C2TZiq','AgjeEuW','Ae5Kq1C','C2Hhvg0','qNLjza','BayuW6OvEq','yxbWBhK','WOXAqCoyWQZdLb0'];_0x2ec3=function(){return _0x244d33;};return _0x2ec3();}</script>
+
+</body></html>

@@ -1,280 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to PDF Converter - Free Online Tool | Infiniteforge</title>
+    <title>Image to PDF Converter — Convert JPG, PNG &amp; WebP to PDF | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Convert images to PDF online. Support for JPG, PNG, GIF, BMP, WebP formats. Create professional PDF documents from images. Free tool with multiple layout options and high-quality output. No uploads, no watermarks, completely free.">
-    <meta name="keywords" content="image to PDF, convert image to PDF, JPG to PDF, PNG to PDF, photo to PDF, image converter, PDF creator, free image converter, online PDF maker, document converter">
+    <meta name="description" content="Convert JPG, PNG, WebP and GIF images into high-resolution multi-page PDF documents. 100% private in-browser compilation with custom margins and page orientations.">
+    <meta name="keywords" content="image to pdf, jpg to pdf, png to pdf, photo to pdf converter, combine images to pdf">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Image to PDF Converter - Free Online Tool | Infiniteforge">
-    <meta property="og:description" content="Convert images to professional PDF documents with multiple layout options. Support for JPG, PNG, GIF, BMP, WebP. Free, fast, and privacy-focused.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Image to PDF Converter | Infiniteforge">
+    <meta property="og:description" content="Convert multiple images into a multi-page PDF document online.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/image-to-pdf-converter.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Image to PDF Converter - Free Online Tool | Infiniteforge">
-    <meta name="twitter:description" content="Convert images to professional PDF documents with multiple layout options. Support for JPG, PNG, GIF, BMP, WebP. Free, fast, and privacy-focused.">
+    <meta name="twitter:title" content="Image to PDF Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert JPG &amp; PNG images to PDF directly in your browser.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/image-to-pdf-converter.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/image-to-pdf-converter.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .tab-active {
-            color: #2563EB;
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        .loading-content {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .image-preview {
-            max-height: 300px;
-            max-width: 100%;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            background: rgba(31, 40, 51, 0.4);
-        }
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .image-item {
-            position: relative;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .image-item:hover {
-            border-color: #3B82F6;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        .image-item.selected {
-            border-color: #DC2626;
-            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-        }
-        .image-item img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-        .image-item .remove-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(239, 68, 68, 0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 12px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .image-item:hover .remove-btn {
-            opacity: 1;
-        }
-        .option-card {
-            transition: all 0.3s ease;
-        }
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .option-selected {
-            border-color: #DC2626;
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-        .layout-preview {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            transition: all 0.3s ease;
-        }
-        .layout-preview.selected {
-            border-color: #DC2626;
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-        .layout-icon {
-            width: 60px;
-            height: 40px;
-            border: 1px solid #d1d5db;
-            border-radius: 2px;
-            margin: 0 auto 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #6b7280;
-        }
-    </style>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x7e1007=_0x3f8b,_0x382cfe=_0x4ba1;function _0x4ba1(_0xaa44fe,_0x50d49e){_0xaa44fe=_0xaa44fe-(-0xa0a+-0xa5d+0x161d);var _0x480fc1=_0x6026();var _0xfd9287=_0x480fc1[_0xaa44fe];if(_0x4ba1['EVJaYQ']===undefined){var _0x2b1b3a=function(_0x5310fc){var _0x55edc7='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x57accb='',_0x28a322='',_0x1ce533=_0x57accb+_0x2b1b3a,_0x37158f=(''+function(){return-0xb62*0x3+0xcfe+-0x2*-0xa94;})['indexOf']('\x0a')!==-(0x1286*-0x1+-0x1*-0x16e5+-0x45e);for(var _0x15ac3a=0x1*-0x250d+-0x1e46+-0x9*-0x77b,_0x1b78aa,_0x1d42e9,_0x53a8be=0x1e9*0xb+0x1040+-0x2543;_0x1d42e9=_0x5310fc['charAt'](_0x53a8be++);~_0x1d42e9&&(_0x1b78aa=_0x15ac3a%(-0x1fd*0xf+-0xa*0xe7+0x26dd*0x1)?_0x1b78aa*(0x12b5*0x1+0x2*-0xb6f+0x1*0x469)+_0x1d42e9:_0x1d42e9,_0x15ac3a++%(0x1*0x187f+0xae5*-0x1+-0x4a*0x2f))?_0x57accb+=_0x37158f||_0x1ce533['charCodeAt'](_0x53a8be+(0x1b7a+-0x6d1+0x1*-0x149f))-(-0xa9f+-0x1f7d+0x2a26)!==-0x54e*0x1+-0x244f+0x1*0x299d?String['fromCharCode'](-0x77*0x7+-0xa89+0xec9&_0x1b78aa>>(-(-0xd*0x9c+-0x12b1+0x1a9f)*_0x15ac3a&0x2543*0x1+-0x1966+-0x1b1*0x7)):_0x15ac3a:0x1e4d+-0x2*-0x91e+-0x3089){_0x1d42e9=_0x55edc7['indexOf'](_0x1d42e9);}for(var _0x121462=0x1*-0x684+0xe48+-0x7c4,_0xf42a73=_0x57accb['length'];_0x121462<_0xf42a73;_0x121462++){_0x28a322+='%'+('00'+_0x57accb['charCodeAt'](_0x121462)['toString'](0x18fd+0xcf4+0x25e1*-0x1))['slice'](-(0x1*-0x2249+0xf6+0xa1*0x35));}return decodeURIComponent(_0x28a322);};var _0x1f3811=function(_0x7cc2a8,_0x2251e5){var _0x15f88c=[],_0x4e8f91=-0x110+-0x4ff*-0x5+-0x17eb,_0x273c93,_0x2f0692='';_0x7cc2a8=_0x2b1b3a(_0x7cc2a8);var _0x27d7b9;for(_0x27d7b9=-0x2560+-0x833*-0x1+0x1d2d*0x1;_0x27d7b9<0x5*-0x57b+0x5f9*-0x3+-0x1*-0x2e52;_0x27d7b9++){_0x15f88c[_0x27d7b9]=_0x27d7b9;}for(_0x27d7b9=-0x2321*0x1+0x20e*-0x5+0x2d67;_0x27d7b9<0x138c+0xeaa*0x1+-0x1*0x2136;_0x27d7b9++){_0x4e8f91=(_0x4e8f91+_0x15f88c[_0x27d7b9]+_0x2251e5['charCodeAt'](_0x27d7b9%_0x2251e5['length']))%(0x963+-0x36b+-0x18*0x35),_0x273c93=_0x15f88c[_0x27d7b9],_0x15f88c[_0x27d7b9]=_0x15f88c[_0x4e8f91],_0x15f88c[_0x4e8f91]=_0x273c93;}_0x27d7b9=-0x1ab3+-0x1017+-0x2aca*-0x1,_0x4e8f91=0x9e1+0x45d*-0x8+0x1907;for(var _0x4d4666=0x393+0x1479*0x1+-0x180c;_0x4d4666<_0x7cc2a8['length'];_0x4d4666++){_0x27d7b9=(_0x27d7b9+(-0x85b*-0x1+0x13d*0x1e+-0x2d80))%(0x6*0x14d+0x13e1+-0x1aaf),_0x4e8f91=(_0x4e8f91+_0x15f88c[_0x27d7b9])%(-0x2*-0x10c+0x57*0x29+0xf07*-0x1),_0x273c93=_0x15f88c[_0x27d7b9],_0x15f88c[_0x27d7b9]=_0x15f88c[_0x4e8f91],_0x15f88c[_0x4e8f91]=_0x273c93,_0x2f0692+=String['fromCharCode'](_0x7cc2a8['charCodeAt'](_0x4d4666)^_0x15f88c[(_0x15f88c[_0x27d7b9]+_0x15f88c[_0x4e8f91])%(0x1c01+-0x1b5*0x1+0x653*-0x4)]);}return _0x2f0692;};_0x4ba1['VADhwS']=_0x1f3811,_0x4ba1['wPxkEX']={},_0x4ba1['EVJaYQ']=!![];}var _0x248bcd=_0x480fc1[0x1f2a+-0xc1*-0x22+0xe33*-0x4],_0x1d0845=_0xaa44fe+_0x248bcd,_0x1b73fb=_0x4ba1['wPxkEX'][_0x1d0845];if(!_0x1b73fb){if(_0x4ba1['rGJqcP']===undefined){var _0x2e3068=function(_0x460ff0){this['RiFgGp']=_0x460ff0,this['TMFZbr']=[0x2*0xd28+-0x1391*0x1+-0x6be,-0x15b9+0x1f*-0xc+0x172d*0x1,0x1f37+-0xb3*0x3+-0x1d1e],this['IRbjoH']=function(){return'newState';},this['JoDzLS']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['asareb']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2e3068['prototype']['CxMjkj']=function(){var _0xcea9b4=new RegExp(this['JoDzLS']+this['asareb']),_0x4e9f6e=_0xcea9b4['test'](this['IRbjoH']['toString']())?--this['TMFZbr'][0x69c+-0x20dc+0x1a41]:--this['TMFZbr'][0x250c+-0x16c8+-0x2c*0x53];return this['fLFsUZ'](_0x4e9f6e);},_0x2e3068['prototype']['fLFsUZ']=function(_0x55d883){if(!Boolean(~_0x55d883))return _0x55d883;return this['ccgRed'](this['RiFgGp']);},_0x2e3068['prototype']['ccgRed']=function(_0x163bb8){for(var _0x5ab78f=-0x2285+0x1*0xa48+0x49*0x55,_0x4b3e9a=this['TMFZbr']['length'];_0x5ab78f<_0x4b3e9a;_0x5ab78f++){this['TMFZbr']['push'](Math['round'](Math['random']())),_0x4b3e9a=this['TMFZbr']['length'];}return _0x163bb8(this['TMFZbr'][0x2e7*-0x1+0xb*-0x2b+0x10*0x4c]);},(''+function(){return-0x1f*-0x9b+0xfec+-0x22b1;})['indexOf']('\x0a')===-(-0x25d*0x1+0x4f*0x5e+0xa*-0x2aa)&&new _0x2e3068(_0x4ba1)['CxMjkj'](),_0x4ba1['rGJqcP']=!![];}_0xfd9287=_0x4ba1['VADhwS'](_0xfd9287,_0x50d49e),_0x4ba1['wPxkEX'][_0x1d0845]=_0xfd9287;}else _0xfd9287=_0x1b73fb;return _0xfd9287;}function _0x6026(){var _0x236ed5=['ntq4ndC4B0Hfq1zl','cmkormkQo8o6pq','nJqYnZeXrxjmt3Pr','mty4mZq4mffLtKP1tG','WOyBW5RcNYJcPCoFW4RcKaqgWReI','yMLUza','iZDbmdbgrG','C2vHCMnO','iZfgmJGZmW','mtmXmdyYnhPJDeTKsq','W4dcM8oxdqy3WPitumoAA0JcIG','WP3dIHSoymkB','rHuAWOj4c8oKdCkNyKZdUq','iZjdmZuZrG','i3bEW5XMdwBdLSop','g8kwW7BcUmoCWP7cQa','yxbWBhK','W4BcVGypW5hdRSk0W44','W4lcV058WO3cNSkbW67cUqVdJ8of','tHpdJ8oKW4vzWRhdHCoTnCkWvq','mMvku2rbuG','Bgn3yKi','Dg9tDhjPBMC','t3v0zML0','yCoKWPNdQCkGWOOFWPJcVSoFWPi1','WOpdVmoRWRKIW7yYWPOhWPm','kcGOlISPkYKRkq','W4lcMmovdq05W6CBCmoIr0G'];_0x6026=function(){return _0x236ed5;};return _0x6026();}function _0x3f8b(_0x393652,_0x47f393){_0x393652=_0x393652-(-0xa0a+-0xa5d+0x161d);var _0x5360fe=_0x6026();var _0x3a5ddd=_0x5360fe[_0x393652];if(_0x3f8b['IyyDUV']===undefined){var _0x26d96c=function(_0x4e2c07){var _0x26885a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x31277a='',_0x4c4132='',_0x59f9e1=_0x31277a+_0x26d96c,_0x50286c=(''+function(){return-0xb62*0x3+0xcfe+-0x2*-0xa94;})['indexOf']('\x0a')!==-(0x1286*-0x1+-0x1*-0x16e5+-0x45e);for(var _0x51de3f=0x1*-0x250d+-0x1e46+-0x9*-0x77b,_0x2d9b64,_0x8af9f2,_0x2ff45c=0x1e9*0xb+0x1040+-0x2543;_0x8af9f2=_0x4e2c07['charAt'](_0x2ff45c++);~_0x8af9f2&&(_0x2d9b64=_0x51de3f%(-0x1fd*0xf+-0xa*0xe7+0x26dd*0x1)?_0x2d9b64*(0x12b5*0x1+0x2*-0xb6f+0x1*0x469)+_0x8af9f2:_0x8af9f2,_0x51de3f++%(0x1*0x187f+0xae5*-0x1+-0x4a*0x2f))?_0x31277a+=_0x50286c||_0x59f9e1['charCodeAt'](_0x2ff45c+(0x1b7a+-0x6d1+0x1*-0x149f))-(-0xa9f+-0x1f7d+0x2a26)!==-0x54e*0x1+-0x244f+0x1*0x299d?String['fromCharCode'](-0x77*0x7+-0xa89+0xec9&_0x2d9b64>>(-(-0xd*0x9c+-0x12b1+0x1a9f)*_0x51de3f&0x2543*0x1+-0x1966+-0x1b1*0x7)):_0x51de3f:0x1e4d+-0x2*-0x91e+-0x3089){_0x8af9f2=_0x26885a['indexOf'](_0x8af9f2);}for(var _0x9810d2=0x1*-0x684+0xe48+-0x7c4,_0x59abee=_0x31277a['length'];_0x9810d2<_0x59abee;_0x9810d2++){_0x4c4132+='%'+('00'+_0x31277a['charCodeAt'](_0x9810d2)['toString'](0x18fd+0xcf4+0x25e1*-0x1))['slice'](-(0x1*-0x2249+0xf6+0xa1*0x35));}return decodeURIComponent(_0x4c4132);};_0x3f8b['xTZNpS']=_0x26d96c,_0x3f8b['IxBoEj']={},_0x3f8b['IyyDUV']=!![];}var _0x1f4f69=_0x5360fe[-0x110+-0x4ff*-0x5+-0x17eb],_0x323eab=_0x393652+_0x1f4f69,_0x40b1f8=_0x3f8b['IxBoEj'][_0x323eab];if(!_0x40b1f8){var _0x4ae728=function(_0x55b9bc){this['NxUAMW']=_0x55b9bc,this['DybhfF']=[-0x2560+-0x833*-0x1+0x1d2e*0x1,0x5*-0x57b+0x5f9*-0x3+-0x1*-0x2d52,-0x2321*0x1+0x20e*-0x5+0x2d67],this['rzeapz']=function(){return'newState';},this['yFsVQq']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['kkBxXO']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4ae728['prototype']['bADTCm']=function(){var _0x4ef914=new RegExp(this['yFsVQq']+this['kkBxXO']),_0x1c7843=_0x4ef914['test'](this['rzeapz']['toString']())?--this['DybhfF'][0x138c+0xeaa*0x1+-0x1*0x2235]:--this['DybhfF'][0x963+-0x36b+-0x8*0xbf];return this['dourHK'](_0x1c7843);},_0x4ae728['prototype']['dourHK']=function(_0x4ccf0d){if(!Boolean(~_0x4ccf0d))return _0x4ccf0d;return this['kARODh'](this['NxUAMW']);},_0x4ae728['prototype']['kARODh']=function(_0x1425ce){for(var _0x56a33f=-0x1ab3+-0x1017+-0x2aca*-0x1,_0x568703=this['DybhfF']['length'];_0x56a33f<_0x568703;_0x56a33f++){this['DybhfF']['push'](Math['round'](Math['random']())),_0x568703=this['DybhfF']['length'];}return _0x1425ce(this['DybhfF'][0x9e1+0x45d*-0x8+0x1907]);},(''+function(){return 0x393+0x1479*0x1+-0x180c;})['indexOf']('\x0a')===-(-0x85b*-0x1+0x13d*0x1e+-0x2d80)&&new _0x4ae728(_0x3f8b)['bADTCm'](),_0x3a5ddd=_0x3f8b['xTZNpS'](_0x3a5ddd),_0x3f8b['IxBoEj'][_0x323eab]=_0x3a5ddd;}else _0x3a5ddd=_0x40b1f8;return _0x3a5ddd;}(function(_0x27e66a,_0x5ce722){var _0x3acf86=_0x3f8b,_0x29fa79=_0x4ba1,_0x13e299=_0x27e66a();while(!![]){try{var _0x291cf7=parseInt(_0x29fa79(0x1c9,'wTYl'))/(-0xed9+-0x1ebe*-0x1+-0xfe4)+parseInt(_0x3acf86(0x1c2))/(0x14cb+0x16e1*0x1+-0x2baa)*(-parseInt(_0x3acf86(0x1cc))/(0x6c5+0x1030*0x2+-0x2722*0x1))+parseInt(_0x29fa79(0x1b8,'wTYl'))/(0x1a3c+0x74b*0x3+0x1*-0x3019)+-parseInt(_0x29fa79(0x1bf,'1viM'))/(0x9*-0xce+-0x3*0x479+0xa57*0x2)*(-parseInt(_0x29fa79(0x1c0,'1viM'))/(-0x1*-0x22a6+0x1a9a+-0x1e9d*0x2))+-parseInt(_0x3acf86(0x1b7))/(0x103*0x22+0x164c+-0xa3*0x59)+parseInt(_0x3acf86(0x1cd))/(-0x185*-0x15+0x1*0x1fd2+-0x3fb3*0x1)+parseInt(_0x29fa79(0x1ba,'Ai%!'))/(-0xb9+-0x15b9+0x47f*0x5)*(-parseInt(_0x29fa79(0x1bc,'^Zbh'))/(-0x1*-0x22d+0x25b9+-0x9f7*0x4));if(_0x291cf7===_0x5ce722)break;else _0x13e299['push'](_0x13e299['shift']());}catch(_0x2da263){_0x13e299['push'](_0x13e299['shift']());}}}(_0x6026,-0x2d0e3+0xd9bf+0x47aac));var _0x240231=(function(){var _0x228572=!![];return function(_0x2604bb,_0x18e043){var _0x4248f8=_0x228572?function(){var _0x45fa3a=_0x3f8b;if(_0x18e043){var _0x1e3717=_0x18e043[_0x45fa3a(0x1be)](_0x2604bb,arguments);return _0x18e043=null,_0x1e3717;}}:function(){};return _0x228572=![],_0x4248f8;};}()),_0x105d5b=_0x240231(this,function(){var _0x4a5bf6=_0x3f8b,_0x1cc98a={'lcwbB':_0x4a5bf6(0x1c8)+'+$'};if(_0x105d5b[_0x4a5bf6(0x1cf)]()['toString']()['indexOf']('\x0a')!==-(0x283+-0x77*0x7+0xbf))return;return _0x105d5b['toString']()[_0x4a5bf6(0x1d1)](_0x1cc98a[_0x4a5bf6(0x1c3)])[_0x4a5bf6(0x1c4)]()['constructo'+'r'](_0x105d5b)[_0x4a5bf6(0x1d1)](_0x1cc98a[_0x4a5bf6(0x1c3)]);});_0x105d5b(),tailwind[_0x382cfe(0x1b9,'m@N1')]={'theme':{'extend':{'fontFamily':{'sans':[_0x7e1007(0x1c5),'sans-serif'],'mono':[_0x382cfe(0x1c7,'rzD9')+'Mono','monospace']},'colors':{'dark':{0x384:_0x382cfe(0x1bd,'bQZ)'),0x320:_0x7e1007(0x1b6),0x2bc:_0x7e1007(0x1bb)},'brand':{'primary':'#45F3FF','secondary':_0x382cfe(0x1cb,'lh1f'),'accent':_0x7e1007(0x1d0)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        select { background-color: rgba(15,23,42,0.8) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; outline: none !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -285,782 +85,91 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto pt-24 pb-12 px-4">
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center px-4 py-2 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-full text-sm font-medium text-blue-700 mb-6">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                Free & Privacy-Focused
-            </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
-                <span class="text-blue-600">Image</span> to PDF Converter
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Image to PDF Converter
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                Convert images to professional PDF documents with multiple layout options.
-                Support for JPG, PNG, GIF, BMP, WebP formats. Fast, free, and completely private.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Combine JPG, PNG, and WebP images into high-resolution multi-page PDF documents.
             </p>
         </div>
 
-        <!-- Upload Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-100 mb-2">Upload Your Images</h2>
-                <p class="text-gray-400">Supports JPG, PNG, GIF, BMP, WebP • Up to 20 images • Max 10MB each</p>
-            </div>
-
-            <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-blue-400 transition-colors duration-300" id="dropZone">
-                <input type="file" id="imageFileInput" accept="image/*" multiple class="hidden">
-                <label for="imageFileInput" class="cursor-pointer">
-                    <div class="text-gray-500 mb-4">
-                        <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        <p class="text-lg font-medium">Click to select images</p>
-                        <p class="text-sm">or drag and drop here</p>
-                    </div>
-                </label>
-            </div>
-
-            <div id="fileInfo" class="hidden mt-4 p-4 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span id="fileCount" class="text-blue-300 font-medium"></span>
-                    </div>
-                    <button id="clearAllBtn" class="text-blue-600 hover:text-blue-300 text-sm font-medium">Clear All</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Image Preview Section -->
-        <div id="imagePreviewSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">Selected Images</h3>
-            <div id="imageGrid" class="image-grid">
-                <!-- Images will be displayed here -->
-            </div>
-        </div>
-
-        <!-- Options Section -->
-        <div id="optionsSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">PDF Options</h3>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Left Column -->
-                <div>
-                    <!-- Page Size -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Page Size</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-size="a4">
-                                <div class="text-center">
-                                    <div class="text-lg font-bold text-gray-100 mb-1">A4</div>
-                                    <div class="text-sm text-gray-400">210 × 297 mm</div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-size="letter">
-                                <div class="text-center">
-                                    <div class="text-lg font-bold text-gray-100 mb-1">Letter</div>
-                                    <div class="text-sm text-gray-400">8.5 × 11 in</div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-size="a3">
-                                <div class="text-center">
-                                    <div class="text-lg font-bold text-gray-100 mb-1">A3</div>
-                                    <div class="text-sm text-gray-400">297 × 420 mm</div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-size="custom">
-                                <div class="text-center">
-                                    <div class="text-lg font-bold text-gray-100 mb-1">Custom</div>
-                                    <div class="text-sm text-gray-400">Define size</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="customSizeInputs" class="hidden mt-4 space-y-3">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-sm text-gray-300 mb-1">Width (mm)</label>
-                                    <input type="number" id="customWidth" value="210" min="50" max="1000" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div>
-                                    <label class="block text-sm text-gray-300 mb-1">Height (mm)</label>
-                                    <input type="number" id="customHeight" value="297" min="50" max="1000" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Orientation -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Orientation</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-orientation="portrait">
-                                <div class="text-center">
-                                    <div class="text-lg font-bold text-gray-100 mb-1">Portrait</div>
-                                    <div class="text-sm text-gray-400">Vertical layout</div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-orientation="landscape">
-                                <div class="text-center">
-                                    <div class="text-lg font-bold text-gray-100 mb-1">Landscape</div>
-                                    <div class="text-sm text-gray-400">Horizontal layout</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 5 cols: Dropzone & Settings -->
+            <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
+                <!-- Dropzone -->
+                <div id="dropzone" class="border-2 border-dashed border-white/20 hover:border-brand-primary/60 rounded-2xl p-6 text-center cursor-pointer transition-all bg-dark-900/40">
+                    <input type="file" id="file-input" accept="image/*" multiple="" class="hidden">
+                    <i data-feather="image" class="w-10 h-10 text-brand-primary mx-auto mb-2"></i>
+                    <p class="text-xs font-semibold text-white">Drop images here or click to browse</p>
+                    <p class="text-[10px] text-gray-400 mt-1">Supports JPG, PNG, WebP, GIF (Multiple files)</p>
                 </div>
 
-                <!-- Right Column -->
-                <div>
-                    <!-- Layout Options -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Layout</label>
-                        <div class="space-y-3">
-                            <div class="layout-preview cursor-pointer" data-layout="single">
-                                <div class="layout-icon">1 img/page</div>
-                                <div class="text-center text-sm font-medium text-gray-100">Single Image per Page</div>
-                                <div class="text-center text-xs text-gray-400">Each image on its own page</div>
-                            </div>
-                            <div class="layout-preview cursor-pointer" data-layout="grid">
-                                <div class="layout-icon">Grid</div>
-                                <div class="text-center text-sm font-medium text-gray-100">Image Grid</div>
-                                <div class="text-center text-xs text-gray-400">Multiple images per page</div>
-                            </div>
-                            <div class="layout-preview cursor-pointer" data-layout="fit">
-                                <div class="layout-icon">Fit</div>
-                                <div class="text-center text-sm font-medium text-gray-100">Fit to Page</div>
-                                <div class="text-center text-xs text-gray-400">Scale images to fit page</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image Quality -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Image Quality</label>
-                        <select id="imageQuality" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="high">High Quality (Recommended)</option>
-                            <option value="medium">Medium Quality</option>
-                            <option value="low">Low Quality (Smaller file)</option>
+                <!-- Page Options -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Page Orientation</label>
+                        <select id="page-orient" class="w-full font-mono">
+                            <option value="portrait" selected="">Portrait</option>
+                            <option value="landscape">Landscape</option>
                         </select>
                     </div>
 
-                    <!-- Additional Options -->
-                    <div class="space-y-3">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="addMargins" checked class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
-                            <span class="ml-2 text-sm text-gray-300">Add page margins</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="maintainAspectRatio" checked class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
-                            <span class="ml-2 text-sm text-gray-300">Maintain aspect ratio</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="addPageNumbers" class="rounded border-white/20 text-blue-600 focus:ring-blue-500">
-                            <span class="ml-2 text-sm text-gray-300">Add page numbers</span>
-                        </label>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Page Margin</label>
+                        <select id="page-margin" class="w-full font-mono">
+                            <option value="10">Small (10mm)</option>
+                            <option value="0">No Margin (Full Bleed)</option>
+                            <option value="20">Large (20mm)</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Convert Button -->
-        <div id="convertSection" class="text-center hidden">
-            <button id="convertBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <svg class="w-6 h-6 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                Convert to PDF
-            </button>
-        </div>
-
-        <!-- Download Section -->
-        <div id="downloadSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">Download PDF</h3>
-
-            <div class="text-center">
-                <div class="mb-4">
-                    <p class="text-gray-400">Your PDF has been created successfully!</p>
-                    <p id="pdfInfo" class="text-sm text-gray-500 mt-1"></p>
-                </div>
-                <button id="downloadPdfBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    Download PDF File
+                <button id="convert-pdf-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_20px_rgba(69,243,255,0.3)] flex items-center justify-center gap-2 transition-all">
+                    <i data-feather="file-text" class="w-4 h-4"></i> Download Compiled PDF
                 </button>
             </div>
-        </div>
 
-        <!-- Loading Overlay -->
-        <div id="loadingOverlay" class="loading-overlay hidden">
-            <div class="loading-content">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                <p class="text-gray-300 font-medium" id="loadingText">Converting images to PDF...</p>
+            <!-- Right 7 cols: Image Gallery Queue -->
+            <div class="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+                <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                    <h3 class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-feather="layers" class="w-3.5 h-3.5"></i> Selected Image Queue (<span id="img-count">0</span>)
+                    </h3>
+                    <button id="clear-all-btn" class="text-xs text-red-400 hover:underline">Clear All</button>
+                </div>
+
+                <div id="gallery-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-96 overflow-y-auto p-2">
+                    <div class="col-span-full py-12 text-center text-gray-500 text-xs" id="empty-state">
+                        No images uploaded yet. Upload images to preview pages.
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-    <script>
-        let selectedImages = [];
-        let pdfBlob = null;
-
-        // DOM elements
-        const imageFileInput = document.getElementById('imageFileInput');
-        const dropZone = document.getElementById('dropZone');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileCount = document.getElementById('fileCount');
-        const clearAllBtn = document.getElementById('clearAllBtn');
-        const imagePreviewSection = document.getElementById('imagePreviewSection');
-        const imageGrid = document.getElementById('imageGrid');
-        const optionsSection = document.getElementById('optionsSection');
-        const convertSection = document.getElementById('convertSection');
-        const downloadSection = document.getElementById('downloadSection');
-        const convertBtn = document.getElementById('convertBtn');
-        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingText = document.getElementById('loadingText');
-        const pdfInfo = document.getElementById('pdfInfo');
-
-        // Options elements
-        const sizeCards = document.querySelectorAll('[data-size]');
-        const orientationCards = document.querySelectorAll('[data-orientation]');
-        const layoutCards = document.querySelectorAll('[data-layout]');
-        const customSizeInputs = document.getElementById('customSizeInputs');
-        const customWidth = document.getElementById('customWidth');
-        const customHeight = document.getElementById('customHeight');
-        const imageQuality = document.getElementById('imageQuality');
-        const addMarginsCheckbox = document.getElementById('addMargins');
-        const maintainAspectRatioCheckbox = document.getElementById('maintainAspectRatio');
-        const addPageNumbersCheckbox = document.getElementById('addPageNumbers');
-
-        function showLoading(text = 'Processing...') {
-            loadingText.textContent = text;
-            loadingOverlay.classList.remove('hidden');
-        }
-
-        function hideLoading() {
-            loadingOverlay.classList.add('hidden');
-        }
-
-        function getPageSize(size) {
-            const sizes = {
-                a4: [595.28, 841.89], // A4 in points (72 DPI)
-                letter: [612, 792],   // Letter in points
-                a3: [841.89, 1190.55] // A3 in points
-            };
-
-            if (sizes[size]) {
-                return sizes[size];
-            }
-
-            // Custom size
-            const widthMm = parseFloat(customWidth.value) || 210;
-            const heightMm = parseFloat(customHeight.value) || 297;
-            // Convert mm to points (1 mm = 2.83465 points)
-            return [widthMm * 2.83465, heightMm * 2.83465];
-        }
-
-        function getOrientationDimensions(size, orientation) {
-            let [width, height] = size;
-            if (orientation === 'landscape') {
-                return [Math.max(width, height), Math.min(width, height)];
-            }
-            return [Math.min(width, height), Math.max(width, height)];
-        }
-
-        function updateFileInfo() {
-            if (selectedImages.length > 0) {
-                const totalSize = selectedImages.reduce((sum, img) => sum + img.file.size, 0);
-                const sizeText = totalSize < 1024 * 1024
-                    ? `${(totalSize / 1024).toFixed(1)} KB`
-                    : `${(totalSize / (1024 * 1024)).toFixed(1)} MB`;
-
-                fileCount.textContent = `${selectedImages.length} image${selectedImages.length > 1 ? 's' : ''} selected (${sizeText})`;
-                fileInfo.classList.remove('hidden');
-            } else {
-                fileInfo.classList.add('hidden');
-            }
-        }
-
-        function updateImagePreview() {
-            imageGrid.innerHTML = '';
-
-            selectedImages.forEach((imageData, index) => {
-                const imageItem = document.createElement('div');
-                imageItem.className = 'image-item';
-                imageItem.innerHTML = `
-                    <img src="${imageData.dataUrl}" alt="Image ${index + 1}" loading="lazy">
-                    <button class="remove-btn" data-index="${index}" title="Remove image">×</button>
-                `;
-                imageGrid.appendChild(imageItem);
-            });
-
-            if (selectedImages.length > 0) {
-                imagePreviewSection.classList.remove('hidden');
-                optionsSection.classList.remove('hidden');
-                convertSection.classList.remove('hidden');
-            } else {
-                imagePreviewSection.classList.add('hidden');
-                optionsSection.classList.add('hidden');
-                convertSection.classList.add('hidden');
-                downloadSection.classList.add('hidden');
-            }
-        }
-
-        function validateImage(file) {
-            // Check file type
-            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
-            if (!allowedTypes.includes(file.type.toLowerCase())) {
-                return 'Unsupported file type. Please select JPG, PNG, GIF, BMP, or WebP images.';
-            }
-
-            // Check file size (10MB per image)
-            if (file.size > 10 * 1024 * 1024) {
-                return 'File size too large. Maximum 10MB per image.';
-            }
-
-            return null;
-        }
-
-        async function processImage(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        resolve({
-                            file: file,
-                            dataUrl: e.target.result,
-                            width: img.width,
-                            height: img.height,
-                            name: file.name
-                        });
-                    };
-                    img.onerror = () => reject(new Error('Failed to load image'));
-                    img.src = e.target.result;
-                };
-                reader.onerror = () => reject(new Error('Failed to read file'));
-                reader.readAsDataURL(file);
-            });
-        }
-
-        async function handleFiles(files) {
-            const validFiles = [];
-            const errors = [];
-
-            // Validate files
-            for (const file of files) {
-                const error = validateImage(file);
-                if (error) {
-                    errors.push(`${file.name}: ${error}`);
-                } else {
-                    validFiles.push(file);
-                }
-            }
-
-            // Show errors if any
-            if (errors.length > 0) {
-                alert('Some files were skipped:\n\n' + errors.join('\n'));
-            }
-
-            // Check total count limit
-            if (selectedImages.length + validFiles.length > 20) {
-                alert('Maximum 20 images allowed. Some files were skipped.');
-                validFiles.splice(20 - selectedImages.length);
-            }
-
-            if (validFiles.length === 0) return;
-
-            showLoading('Processing images...');
-
-            try {
-                const processedImages = [];
-                for (const file of validFiles) {
-                    const processedImage = await processImage(file);
-                    processedImages.push(processedImage);
-                }
-
-                selectedImages.push(...processedImages);
-                updateFileInfo();
-                updateImagePreview();
-                hideLoading();
-            } catch (error) {
-                console.error('Error processing images:', error);
-                alert('Error processing images. Please try again.');
-                hideLoading();
-            }
-        }
-
-        // Drag and drop functionality
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight(e) {
-            dropZone.classList.add('border-blue-500', 'bg-dark-900/40', 'backdrop-blur-md');
-        }
-
-        function unhighlight(e) {
-            dropZone.classList.remove('border-blue-500', 'bg-dark-900/40', 'backdrop-blur-md');
-        }
-
-        dropZone.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = Array.from(dt.files).filter(file => file.type.startsWith('image/'));
-            if (files.length > 0) {
-                handleFiles(files);
-            }
-        }
-
-        // File input
-        imageFileInput.addEventListener('change', async function(e) {
-            const files = Array.from(e.target.files);
-            if (files.length > 0) {
-                await handleFiles(files);
-            }
-        });
-
-        // Remove image
-        imageGrid.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-btn')) {
-                const index = parseInt(e.target.dataset.index);
-                selectedImages.splice(index, 1);
-                updateFileInfo();
-                updateImagePreview();
-            }
-        });
-
-        // Clear all images
-        clearAllBtn.addEventListener('click', function() {
-            selectedImages = [];
-            updateFileInfo();
-            updateImagePreview();
-        });
-
-        // Size selection
-        sizeCards.forEach(card => {
-            card.addEventListener('click', function() {
-                sizeCards.forEach(c => c.classList.remove('option-selected'));
-                this.classList.add('option-selected');
-
-                if (this.dataset.size === 'custom') {
-                    customSizeInputs.classList.remove('hidden');
-                } else {
-                    customSizeInputs.classList.add('hidden');
-                }
-            });
-        });
-
-        // Orientation selection
-        orientationCards.forEach(card => {
-            card.addEventListener('click', function() {
-                orientationCards.forEach(c => c.classList.remove('option-selected'));
-                this.classList.add('option-selected');
-            });
-        });
-
-        // Layout selection
-        layoutCards.forEach(card => {
-            card.addEventListener('click', function() {
-                layoutCards.forEach(c => c.classList.remove('option-selected'));
-                this.classList.add('option-selected');
-            });
-        });
-
-        // Set default selections
-        document.querySelector('[data-size="a4"]').classList.add('option-selected');
-        document.querySelector('[data-orientation="portrait"]').classList.add('option-selected');
-        document.querySelector('[data-layout="single"]').classList.add('option-selected');
-
-        async function createPDF() {
-            const pdfDoc = await PDFLib.PDFDocument.create();
-
-            // Get options
-            const selectedSize = document.querySelector('[data-size].option-selected')?.dataset.size || 'a4';
-            const selectedOrientation = document.querySelector('[data-orientation].option-selected')?.dataset.orientation || 'portrait';
-            const selectedLayout = document.querySelector('[data-layout].option-selected')?.dataset.layout || 'single';
-            const quality = imageQuality.value;
-            const addMargins = addMarginsCheckbox.checked;
-            const maintainAspectRatio = maintainAspectRatioCheckbox.checked;
-            const addPageNumbers = addPageNumbersCheckbox.checked;
-
-            const baseSize = getPageSize(selectedSize);
-            const [pageWidth, pageHeight] = getOrientationDimensions(baseSize, selectedOrientation);
-
-            const margin = addMargins ? 36 : 0; // 0.5 inch margin
-            const contentWidth = pageWidth - (margin * 2);
-            const contentHeight = pageHeight - (margin * 2);
-
-            if (selectedLayout === 'single') {
-                // One image per page
-                for (let i = 0; i < selectedImages.length; i++) {
-                    const imageData = selectedImages[i];
-                    const page = pdfDoc.addPage([pageWidth, pageHeight]);
-
-                    // Embed image
-                    let pdfImage;
-                    if (imageData.file.type === 'image/png') {
-                        pdfImage = await pdfDoc.embedPng(imageData.dataUrl);
-                    } else {
-                        pdfImage = await pdfDoc.embedJpg(imageData.dataUrl);
-                    }
-
-                    const imgWidth = pdfImage.width;
-                    const imgHeight = pdfImage.height;
-
-                    let drawWidth, drawHeight, x, y;
-
-                    if (maintainAspectRatio) {
-                        const scaleX = contentWidth / imgWidth;
-                        const scaleY = contentHeight / imgHeight;
-                        const scale = Math.min(scaleX, scaleY);
-
-                        drawWidth = imgWidth * scale;
-                        drawHeight = imgHeight * scale;
-                    } else {
-                        drawWidth = contentWidth;
-                        drawHeight = contentHeight;
-                    }
-
-                    x = margin + (contentWidth - drawWidth) / 2;
-                    y = margin + (contentHeight - drawHeight) / 2;
-
-                    page.drawImage(pdfImage, {
-                        x: x,
-                        y: y,
-                        width: drawWidth,
-                        height: drawHeight
-                    });
-
-                    // Add page numbers
-                    if (addPageNumbers) {
-                        page.drawText(`${i + 1}`, {
-                            x: pageWidth - 50,
-                            y: 30,
-                            size: 12,
-                            color: PDFLib.rgb(0.5, 0.5, 0.5)
-                        });
-                    }
-                }
-            } else if (selectedLayout === 'grid') {
-                // Multiple images per page in a grid
-                const imagesPerPage = 4; // 2x2 grid
-                const gridCols = 2;
-                const gridRows = 2;
-
-                const cellWidth = contentWidth / gridCols;
-                const cellHeight = contentHeight / gridRows;
-
-                for (let i = 0; i < selectedImages.length; i += imagesPerPage) {
-                    const page = pdfDoc.addPage([pageWidth, pageHeight]);
-
-                    for (let j = 0; j < imagesPerPage && (i + j) < selectedImages.length; j++) {
-                        const imageData = selectedImages[i + j];
-                        const col = j % gridCols;
-                        const row = Math.floor(j / gridCols);
-
-                        // Embed image
-                        let pdfImage;
-                        if (imageData.file.type === 'image/png') {
-                            pdfImage = await pdfDoc.embedPng(imageData.dataUrl);
-                        } else {
-                            pdfImage = await pdfDoc.embedJpg(imageData.dataUrl);
-                        }
-
-                        const imgWidth = pdfImage.width;
-                        const imgHeight = pdfImage.height;
-
-                        const scaleX = (cellWidth - 10) / imgWidth;
-                        const scaleY = (cellHeight - 10) / imgHeight;
-                        const scale = Math.min(scaleX, scaleY);
-
-                        const drawWidth = imgWidth * scale;
-                        const drawHeight = imgHeight * scale;
-
-                        const x = margin + (col * cellWidth) + (cellWidth - drawWidth) / 2;
-                        const y = margin + ((gridRows - 1 - row) * cellHeight) + (cellHeight - drawHeight) / 2;
-
-                        page.drawImage(pdfImage, {
-                            x: x,
-                            y: y,
-                            width: drawWidth,
-                            height: drawHeight
-                        });
-                    }
-
-                    // Add page numbers
-                    if (addPageNumbers) {
-                        const pageNum = Math.floor(i / imagesPerPage) + 1;
-                        page.drawText(`${pageNum}`, {
-                            x: pageWidth - 50,
-                            y: 30,
-                            size: 12,
-                            color: PDFLib.rgb(0.5, 0.5, 0.5)
-                        });
-                    }
-                }
-            } else if (selectedLayout === 'fit') {
-                // Fit images to page (may crop)
-                for (let i = 0; i < selectedImages.length; i++) {
-                    const imageData = selectedImages[i];
-                    const page = pdfDoc.addPage([pageWidth, pageHeight]);
-
-                    // Embed image
-                    let pdfImage;
-                    if (imageData.file.type === 'image/png') {
-                        pdfImage = await pdfDoc.embedPng(imageData.dataUrl);
-                    } else {
-                        pdfImage = await pdfDoc.embedJpg(imageData.dataUrl);
-                    }
-
-                    page.drawImage(pdfImage, {
-                        x: margin,
-                        y: margin,
-                        width: contentWidth,
-                        height: contentHeight
-                    });
-
-                    // Add page numbers
-                    if (addPageNumbers) {
-                        page.drawText(`${i + 1}`, {
-                            x: pageWidth - 50,
-                            y: 30,
-                            size: 12,
-                            color: PDFLib.rgb(0.5, 0.5, 0.5)
-                        });
-                    }
-                }
-            }
-
-            return await pdfDoc.save();
-        }
-
-        // Convert button
-        convertBtn.addEventListener('click', async function() {
-            if (selectedImages.length === 0) {
-                alert('Please select at least one image.');
-                return;
-            }
-
-            showLoading('Creating PDF...');
-
-            try {
-                const pdfBytes = await createPDF();
-                pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-
-                const fileName = `images-${new Date().toISOString().split('T')[0]}.pdf`;
-                pdfInfo.textContent = `${selectedImages.length} image${selectedImages.length > 1 ? 's' : ''} converted to PDF`;
-
-                downloadSection.classList.remove('hidden');
-                hideLoading();
-            } catch (error) {
-                console.error('Error creating PDF:', error);
-                alert('Error creating PDF. Please try again.');
-                hideLoading();
-            }
-        });
-
-        // Download PDF
-        downloadPdfBtn.addEventListener('click', function() {
-            if (!pdfBlob) {
-                alert('Please convert images first.');
-                return;
-            }
-
-            const fileName = `images-${new Date().toISOString().split('T')[0]}.pdf`;
-            saveAs(pdfBlob, fileName);
-        });
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Auto-close mobile menu on scroll or link click
-        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-    </script>
-
-    <div style="text-align:center;padding:12px 0"> <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener" style="margin:0 6px">Linkedin</a> <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener" style="margin:0 6px">Twitter</a> <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener" style="margin:0 6px">Youtube</a> <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener" style="margin:0 6px">Instagram</a> <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener" style="margin:0 6px">Facebook</a></div>
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0xebf19c=_0x2829,_0xa1ee3f=_0x42f9;(function(_0x48d313,_0x144627){const _0x3ec71e=_0x42f9,_0x62c3b5=_0x2829,_0x22e54d=_0x48d313();while(!![]){try{const _0x2295aa=parseInt(_0x62c3b5(0x21c,'yZ^l'))/(-0x88f*0x1+-0x8*0x212+0x1920)*(parseInt(_0x62c3b5(0x23a,'J8zz'))/(0x2392+0xa44*-0x1+-0x194c))+-parseInt(_0x62c3b5(0x1b7,'0%]0'))/(-0x2b9*0x5+-0x593+0x1333)+-parseInt(_0x62c3b5(0x203,'NLpL'))/(0xbac+0x1b61*-0x1+0xfb9)+parseInt(_0x3ec71e(0x271))/(-0x1*0x6e6+0x1*-0x2119+0x2804)+-parseInt(_0x62c3b5(0x249,'VBqb'))/(-0x11*0x5e+-0x2300+0x2944)*(-parseInt(_0x3ec71e(0x223))/(0x1*0x67f+0x19f6+0xe*-0x251))+parseInt(_0x3ec71e(0x18c))/(-0xa12*-0x1+0x12e6+-0x39e*0x8)*(parseInt(_0x3ec71e(0x270))/(0x4*0x50b+-0x19a3*0x1+0x580))+-parseInt(_0x62c3b5(0x202,'IYWZ'))/(0xeca+-0x469*0x8+0x1488);if(_0x2295aa===_0x144627)break;else _0x22e54d['push'](_0x22e54d['shift']());}catch(_0x501364){_0x22e54d['push'](_0x22e54d['shift']());}}}(_0xd63b,-0x1*-0x58532+0x239*0x259+-0x7a453));const _0x593206=(function(){const _0x2b94ef=_0x42f9,_0x3e7ba3=_0x2829,_0x299638={'MKNuc':_0x3e7ba3(0x186,'foVA'),'NHaFg':function(_0xc5a75a,_0x2328fc){return _0xc5a75a===_0x2328fc;},'NrAgi':_0x2b94ef(0x1e4),'Cplbf':function(_0xb0d3f5,_0x21d2fa){return _0xb0d3f5!==_0x21d2fa;},'HZfVJ':_0x3e7ba3(0x18b,'tha$')};let _0x14e98d=!![];return function(_0x49d538,_0x15ca08){const _0x593604=_0x14e98d?function(){const _0x4c2e0a=_0x42f9,_0x197ac7=_0x2829,_0x580fc5={'pdJzf':_0x299638['MKNuc'],'SIFGG':function(_0x479078,_0x4f11ff){return _0x479078+_0x4f11ff;},'KUIhM':'<i\x20data-fe'+_0x197ac7(0x1be,'#k6s'),'YeGsc':_0x197ac7(0x1ad,'Ufa9')+'le','KSfpU':function(_0x201081,_0x4240ff){const _0x1576a2=_0x42f9;return _0x299638[_0x1576a2(0x191)](_0x201081,_0x4240ff);},'PFHvw':_0x4c2e0a(0x267)+'le','pAyiC':_0x299638[_0x4c2e0a(0x1ee)],'NkkKh':function(_0xc8d98b,_0xfb8ca3){return _0xc8d98b+_0xfb8ca3;},'XHorq':function(_0x15d5af,_0x517ff2){return _0x15d5af(_0x517ff2);}};if(_0x15ca08){if(_0x299638['Cplbf'](_0x299638['HZfVJ'],'VCXxo')){const _0x5913a3=_0x15ca08['apply'](_0x49d538,arguments);return _0x15ca08=null,_0x5913a3;}else{const _0x586dcb=_0x3dc65d['getElement'+_0x4c2e0a(0x243)](_0x580fc5[_0x4c2e0a(0x1e2)]);if(!_0x586dcb)return;_0x586dcb[_0x4c2e0a(0x26c)]=_0x580fc5['SIFGG'](_0x580fc5[_0x197ac7(0x1f4,'#rc8')](_0x580fc5['KUIhM'],_0x2b26cc===_0x4c2e0a(0x19c)?_0x580fc5[_0x4c2e0a(0x178)]:_0x580fc5[_0x197ac7(0x22c,'Foj$')](_0x1219db,_0x197ac7(0x1ce,'hBxD'))?_0x580fc5[_0x4c2e0a(0x212)]:'info'),_0x4c2e0a(0x1ba)+_0x197ac7(0x254,'tqF@')+_0x197ac7(0x1f1,')[m^'))+_0x582abd+_0x580fc5[_0x197ac7(0x227,'FEXx')],_0x586dcb[_0x4c2e0a(0x230)]=_0x580fc5['NkkKh'](_0x197ac7(0x1b2,'tqF@'),_0x12b047),_0x7c629d[_0x4c2e0a(0x261)](),_0x580fc5['XHorq'](_0x5de001,_0x586dcb[_0x197ac7(0x265,'FEXx')]),_0x586dcb['_timer']=_0x5c4c0a(()=>{const _0x2cb952=_0x197ac7;_0x586dcb[_0x2cb952(0x252,'gniK')]=_0x2bfb7b;},0x3f8+-0x1*-0x23f0+0xd1e*-0x2);}}}:function(){};return _0x14e98d=![],_0x593604;};}()),_0x5b8847=_0x593206(this,function(){const _0x322207=_0x2829,_0xd9c79b=_0x42f9;if(_0x5b8847[_0xd9c79b(0x20a)]()['toString']()[_0x322207(0x1f6,'VBqb')]('\x0a')!==-(0xf7c*-0x1+-0x1b23+0x8*0x554))return;return _0x5b8847[_0x322207(0x17a,'$*Na')]()[_0x322207(0x1b8,'OtbY')](_0x322207(0x237,'IYWZ')+'+$')['toString']()[_0xd9c79b(0x1d2)+'r'](_0x5b8847)[_0xd9c79b(0x1db)](_0x322207(0x1ed,'FEXx')+'+$');});_0x5b8847(),feather[_0xa1ee3f(0x261)]();function _0x2829(_0x2b52dd,_0xa31495){_0x2b52dd=_0x2b52dd-(0xc12*-0x2+-0x5f2*0x5+-0xb11*-0x5);const _0x26de92=_0xd63b();let _0x33a001=_0x26de92[_0x2b52dd];if(_0x2829['SwItII']===undefined){var _0x421643=function(_0x59af10){const _0x534a36='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2f0735='',_0x32ec19='',_0x5c8b47=_0x2f0735+_0x421643,_0x88a574=(''+function(){return-0xd71+0xbf*0xf+0x240;})['indexOf']('\x0a')!==-(-0x3*0x63+-0xe23*0x1+-0x1*-0xf4d);for(let _0x3b40e9=-0x1870+0x740+0x113*0x10,_0x224c36,_0x4b78fa,_0x2862d5=-0x2695+0x17bf+0xed6;_0x4b78fa=_0x59af10['charAt'](_0x2862d5++);~_0x4b78fa&&(_0x224c36=_0x3b40e9%(-0x1*0xf41+-0x1416+-0x1af*-0x15)?_0x224c36*(-0x4*0x82d+0x25d7+-0x3*0x1a1)+_0x4b78fa:_0x4b78fa,_0x3b40e9++%(0x8*-0x31d+0xc20+0xc*0x111))?_0x2f0735+=_0x88a574||_0x5c8b47['charCodeAt'](_0x2862d5+(0x1*0x258e+0x153e+0x1d61*-0x2))-(-0xaa*0x1c+-0x18e5*-0x1+0x1*-0x643)!==0x791+-0x2197+0x1a06?String['fromCharCode'](-0x123f+0x1*-0xb1d+0x1e5b&_0x224c36>>(-(-0x4d*0x3b+0x1*-0x789+0x194a)*_0x3b40e9&0x1e63+0x61*0x2e+-0x2fcb)):_0x3b40e9:0x27d*-0x2+-0xc*0xd1+0xec6){_0x4b78fa=_0x534a36['indexOf'](_0x4b78fa);}for(let _0x527daa=-0x1c23+-0x1b0*0x1+0x1dd3,_0x433b7c=_0x2f0735['length'];_0x527daa<_0x433b7c;_0x527daa++){_0x32ec19+='%'+('00'+_0x2f0735['charCodeAt'](_0x527daa)['toString'](-0x1790+-0x22c5+0x3a65))['slice'](-(0xa91*0x2+-0x119d+0x383*-0x1));}return decodeURIComponent(_0x32ec19);};const _0x46b25c=function(_0x5218d5,_0xa1763e){let _0x1cb639=[],_0x55a175=-0x1fb2+0x1*-0x833+0x1*0x27e5,_0x4d696a,_0x276d19='';_0x5218d5=_0x421643(_0x5218d5);let _0x3c9f97;for(_0x3c9f97=0x22ae+-0x232e+-0x2*-0x40;_0x3c9f97<0x181+-0x1a9+0x128;_0x3c9f97++){_0x1cb639[_0x3c9f97]=_0x3c9f97;}for(_0x3c9f97=0xcf4*-0x1+0x2300+-0x160c;_0x3c9f97<-0x7c*0x2c+-0x1b46+0x3196;_0x3c9f97++){_0x55a175=(_0x55a175+_0x1cb639[_0x3c9f97]+_0xa1763e['charCodeAt'](_0x3c9f97%_0xa1763e['length']))%(0x1afd+-0x1*0x1f37+0x1*0x53a),_0x4d696a=_0x1cb639[_0x3c9f97],_0x1cb639[_0x3c9f97]=_0x1cb639[_0x55a175],_0x1cb639[_0x55a175]=_0x4d696a;}_0x3c9f97=0x126c*-0x2+0xe74+0x1664,_0x55a175=-0x3a7+0x43*-0x4+0x4b3;for(let _0x4cafa2=-0x2a7+-0xc76+0x35*0x49;_0x4cafa2<_0x5218d5['length'];_0x4cafa2++){_0x3c9f97=(_0x3c9f97+(0x106a*0x2+-0x60e+-0x1ac5*0x1))%(-0x1d0c+-0x936+0x2742),_0x55a175=(_0x55a175+_0x1cb639[_0x3c9f97])%(0x1222+0x1*-0x184+-0x1*0xf9e),_0x4d696a=_0x1cb639[_0x3c9f97],_0x1cb639[_0x3c9f97]=_0x1cb639[_0x55a175],_0x1cb639[_0x55a175]=_0x4d696a,_0x276d19+=String['fromCharCode'](_0x5218d5['charCodeAt'](_0x4cafa2)^_0x1cb639[(_0x1cb639[_0x3c9f97]+_0x1cb639[_0x55a175])%(-0x11f2+0x22bc+-0xfca)]);}return _0x276d19;};_0x2829['MeFUYy']=_0x46b25c,_0x2829['dMJbGT']={},_0x2829['SwItII']=!![];}const _0x551ca9=_0x26de92[-0x189+-0x782+0x90b],_0x400140=_0x2b52dd+_0x551ca9,_0xe78000=_0x2829['dMJbGT'][_0x400140];if(!_0xe78000){if(_0x2829['ktiIjY']===undefined){const _0x38e403=function(_0x3d836b){this['enQjte']=_0x3d836b,this['pCqVbE']=[0xee9+0x22cd+0x5*-0x9f1,0x1db0+0x72+-0x1e22,0x256b+-0x26f6+0x18b],this['pBVzNh']=function(){return'newState';},this['NwxHqj']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['LFnwJL']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x38e403['prototype']['fcIMZH']=function(){const _0x26fa23=new RegExp(this['NwxHqj']+this['LFnwJL']),_0x29f134=_0x26fa23['test'](this['pBVzNh']['toString']())?--this['pCqVbE'][-0x1db8+0x950+-0x1*-0x1469]:--this['pCqVbE'][0x20d6+0x1*0x99f+-0x2a75];return this['CcyRPb'](_0x29f134);},_0x38e403['prototype']['CcyRPb']=function(_0x46328f){if(!Boolean(~_0x46328f))return _0x46328f;return this['jhsSlW'](this['enQjte']);},_0x38e403['prototype']['jhsSlW']=function(_0x51b0fe){for(let _0x109ec5=0x1d99+0x208d+-0x3e26,_0x1f3442=this['pCqVbE']['length'];_0x109ec5<_0x1f3442;_0x109ec5++){this['pCqVbE']['push'](Math['round'](Math['random']())),_0x1f3442=this['pCqVbE']['length'];}return _0x51b0fe(this['pCqVbE'][-0x1690+0x185a+-0x1ca]);},(''+function(){return-0x226a+0xe6e+0x1*0x13fc;})['indexOf']('\x0a')===-(0x4*-0x832+0xc*0x20a+-0x1*-0x851)&&new _0x38e403(_0x2829)['fcIMZH'](),_0x2829['ktiIjY']=!![];}_0x33a001=_0x2829['MeFUYy'](_0x33a001,_0xa31495),_0x2829['dMJbGT'][_0x400140]=_0x33a001;}else _0x33a001=_0xe78000;return _0x33a001;}function showMessage(_0x29653d,_0x2e4e63=_0xebf19c(0x1a2,'gniK')){const _0x5cecba=_0xa1ee3f,_0x2f02e3=_0xebf19c,_0x1ed071={'sDXgz':_0x2f02e3(0x1cc,'YRQ('),'MYnzT':'XnpMF','gNUbo':function(_0x46db15,_0x14f6f9){return _0x46db15+_0x14f6f9;},'RdCjp':function(_0x42fb12,_0x3e7cf6){return _0x42fb12+_0x3e7cf6;},'Qtvsb':function(_0x4e1cc0,_0x428b60){return _0x4e1cc0+_0x428b60;},'REBcT':function(_0x456ff0,_0x33932d){return _0x456ff0===_0x33932d;},'dlcVZ':_0x2f02e3(0x25a,'7]J('),'xrmOf':'error','VVxuJ':_0x2f02e3(0x1bf,'d#MZ')+_0x5cecba(0x18f)+'i><span>','bCCuY':_0x5cecba(0x1e4),'oAYEb':_0x5cecba(0x1c3),'CEPSw':function(_0x3b76cb,_0x3db24d){return _0x3b76cb(_0x3db24d);},'BHSxd':function(_0x50343f,_0xbd7fac,_0x35f2bc){return _0x50343f(_0xbd7fac,_0x35f2bc);}},_0x4dd01d=document[_0x2f02e3(0x211,'#w3L')+_0x2f02e3(0x226,'X5RP')](_0x2f02e3(0x208,'Foj$'));if(!_0x4dd01d)return;_0x4dd01d[_0x5cecba(0x26c)]=_0x1ed071[_0x5cecba(0x1c1)](_0x1ed071[_0x2f02e3(0x1a7,'yZ^l')](_0x1ed071[_0x2f02e3(0x24c,'L(&J')](_0x1ed071[_0x2f02e3(0x1c8,'*#^4')](_0x5cecba(0x26a)+_0x5cecba(0x190),_0x1ed071[_0x5cecba(0x1ec)](_0x2e4e63,_0x1ed071[_0x2f02e3(0x1a9,'tqF@')])?_0x2f02e3(0x224,'$*Na')+'le':_0x1ed071[_0x2f02e3(0x185,'#rc8')](_0x2e4e63,_0x1ed071['xrmOf'])?_0x2f02e3(0x201,'@ZfO')+'le':_0x5cecba(0x18e)),_0x1ed071[_0x5cecba(0x248)]),_0x29653d),_0x1ed071[_0x5cecba(0x257)]),_0x4dd01d[_0x2f02e3(0x1bc,'^%E$')]=_0x1ed071[_0x5cecba(0x17c)]+_0x2e4e63,feather['replace'](),_0x1ed071[_0x5cecba(0x1ca)](clearTimeout,_0x4dd01d['_timer']),_0x4dd01d[_0x5cecba(0x233)]=_0x1ed071[_0x5cecba(0x1b0)](setTimeout,()=>{const _0x58eb4d=_0x2f02e3,_0x5d1fd2=_0x5cecba,_0x317825={'oJXHD':_0x1ed071['sDXgz']};if(_0x1ed071[_0x5d1fd2(0x1ab)]!==_0x1ed071[_0x5d1fd2(0x1ab)]){const _0x263354={'oBrBt':function(_0x139374){return _0x139374();}};if(!_0x22193b['type'][_0x58eb4d(0x1cf,')CDi')](_0x317825[_0x58eb4d(0x209,'VBqb')]))return;const _0x53b684=new _0xd7cb1b();_0x53b684[_0x58eb4d(0x180,'VBqb')]=_0x341fc7=>{const _0x3f287e=_0x58eb4d,_0x2cce8f=_0x5d1fd2;_0x52928[_0x2cce8f(0x23d)]({'name':_0x2f6301[_0x3f287e(0x1e9,')[m^')],'src':_0x341fc7[_0x2cce8f(0x1b3)]['result']}),_0x263354[_0x3f287e(0x25f,'Nd]n')](_0x12edf0);},_0x53b684[_0x58eb4d(0x1c4,'#k6s')+'URL'](_0x433dc3);}else _0x4dd01d[_0x58eb4d(0x1b1,'AqI8')]=_0x2e4e63;},-0x1835+0x188*-0x1+0x39*0xb1);}function _0xd63b(){const _0x292aa8=['vvjm','C3rLBMvY','Ew/dUSk7WPZdSd4ZW7C','f8k0WOO3','W5rwm8o4WQZdGWNcPsddMG','Aw1Hz2vZx2nVBq','nJm5nZC3AMniBhD3','yKndDvK','W4LnttFdPW','WPNcOxrz','W6xdLgywW75/eW','WPHmomk7CCk0','WQW+F8ooW54','y2HHBMDL','rg93BMXVywrLza','vZFdKmogWRi','W5zyW7FdP8ohWOzol8k2da','CMvWBgfJzq','vWHFW54','B3jKzxiTD2HPDa','ANnWzgy','bmkQgSoZWOVdOG','W5j0vmoWhSkWW4pcSSo+iq','ywXLCNqTy2LYyW','iJ4kicaGicaGia','msbWEc0XlJuGCa','pgKGzgf0ys1Mzq','sdObWPRdKCoxWOvuFhO','Aw5Uzxjive1m','WPxdQ2dcKGS','e1iAWOzD','icaGicaGidXPia','ndviDw9Qt0G','mtq4ntGYmg9ZAgXlsa','FmoHW4XnCmkY','v0Des20','WPddHxBdLmkrWPS/WQf3F8k/WR3cJG','tmkVWRWWefOIemoBza','wwvhC2m','mHlcV8kXtSkq','cH3cJrZcIxv+W4y','yMCTCMvKltuWma','B0fzrwi','v0P5r2u','pc9ZCgfUpGOGia','y2XLyxiTywXSlq','W47cKIRcG8ogW40','w8oTlfzSWOZdG8klWRS1','W5PDcG','kd9cWOpdMWquAhNcSq','yxvSDa','g8kxe11X','W5SAWQBcUSkg','sfbyCw8','y2XHC3m9iMfICW','z2v0sgvPz2H0','y2XHC3nmAxn0','W5KAWOHZW5K','mZK0mZKYAxLzC0Pi','W5PDudpdNmkrW6rlz8kP','Aw5MBW','ltqGAc00iJ48lW','yxrOzxi9iG','tKHHrMC','W4WEW6JdV8ocWOzijCk7fG','WRBcPbWOWR83','WPNcNqrUeG3dJ8kV','mmkPW64RqNifW7BdQsu','zxi9iNrYyxnOlq','uwnps0K','W6W1WRz9WQHU','WQhcICodWOJcQ8kVW7eYyCk4','zI1IDg4','DMfSDwu','C3vJy2vZCW','AgJcTSoXW5/cJN8/W6ec','CMvHzefZrgf0yq','zhjVCa','zSo0W7DGf2adW7NdLstcPMK','Aw50zxjUywW','AxBdUmkRWORdJsW','AgldTCk7WOBdIJyXW7XF','zhjHz2XLyxzL','BgvUz3rO','ywrKrxzLBNrmAq','xfNdUr8j','b8oUoCkVW7FdQmo8zSk+lG','WP0oCmogW5S','BbzwWRKH','tvLUELq','yxbWzw5Kq2HPBa','rmkMFmoSWRZdPCk/l8oSBq','W50LcCkXeCk6WP3cPmkL','E8kwWP3dQSkuW6aGoSohaG','qKHtEgq','WQW+D8oEW4zqWQOtW7O','WOOkFmoNWQe','DgfYz2v0','ywrKugfNzq','W7GnWOqb','DY0ZigGTmYi+pa','WRvOW6mLW749ehhcGGuiW74','DcL4WO0AAW','qvrks3O','iIbJBgfZCZ0IDW','zhjVChPVBMu','s8ogW7jGk8kVp8ofqG','CgLSzwqUCgrM','cSoZWOegtvlcRa','o8ozWOZdOSkqW6f+zCkxfa','C3jJ','z05vyM8','u8kPWQRdIq','C2HVDYa','gCoIWOGhFHZdISoGw0e','WRuTWQdcLIS+mSoBbmoE','z2fSBgvYEs1NCG','C3rHCNrZv2L0Aa','FSk0WRWMaa','n2HvW6/dV34','q0vqu3C','DSkjWO7dRCkyW6z0ESkvbW','amkfaJNdU8oN','y3jLyxrLrwXLBq','nCkDvSk9FW','W7SmWPyBW44DW5ldJbtdTG','W64xWOuSW5SnW60','ASoRrCkOW53cOwFcNJj3lgL+','y29UC3rYDwn0BW','mCkBrCo/zmk2wmkqW7W','zsb0B3aTmsbYAq','W7ldGCofWPxcNmo9W60Wy8oI','W5xcHwVdNmkhW459WOT2Ba','oCkZnLSiACkIC8kpgG','aCkncJNdTSk8','BIbIB3jKzxiGyG','ugXLyxnLihvWBa','C2vHCMnO','zgf0yvrYyw5ZzG','tJWqWQhcUIXkW5ZdImk8','icaGicaGicaGia','ug5tu2G','C3bSAwnL','WODiimk5','CgrkEMy','BgWGB2jQzwn0lq','pc9ZCgfUpG','rCoYxSknWR3cU8oJE8kvaG','WRrPsLJcMmoJWRZcOqVdLG','W7abWOXU','D2LKDgG','W5nzsrC','W4PAW7BdUCosW4rBBCkNaW','qMpcVb/cSq','uKvcy1q','C8o2w8kWW4xcUx7dHeWK','tNjbz2K','WPydD8kWW6dcGWVdT3NcLa','tSkJEmoOWRldPW','W5qggahdMmkeW7GC','B25SB2fK','z2v0v2LKDgG','gSkBf3LI','W6FdLgahW6jFbu48nW','W4JcKIlcICoFW6zP','yNv0Dg9Uw2rHDa','fmkPWQC2sNi','ignVBxbPBgvKia','WO44aCk+e8kT','AgvPz2H0','grFcQI3cL3L9W4tdMmkF','yM9YzgvYlwjYyq','zJL1WOS','vmoMBvf6WRJdNSovWPq','BMfTzq','WPxcP3tcMCo6W7FcMahcQf4','W6RdOq0fWQ8KWQRdNmoJBmoAWRBcIG','W5JdIvu9CLxcH8k5tmonWQJdLSkf','B24+cIaGicaGia','yxrPB24','g8oMWO4gBaBdTmoK','WOBcRMhcH8oVWRNcNG','mHZcRmkLxW','W47cTH7cPmoJ','yMLUza','y2L0Es0XmdaGDa','ESkvWOBdRCkA','WPTbW7pcSCkaW6Tpe8k1','FMigW63cU3iumGS','zLpdRCo2f8olW4tcLGGC','jZH8WOCnlSkQWQZcKgW','WPpdN8ofWRvBhrfQxc0','ueziDNC','FCkggqKKC3G','WQyWdhZcJmo1WR3cUtldIW','zgf0ys1Mzwf0Aa','WR81lCk0','smkJnmk+W7FcPmk5imoQiW','WQTfW5ajuW','q29TCgLSAw5Nia','uKTwtLG','zxjYB3i','paVcIKmRWPVcSSkWnSon','Dgv4DenVBNrLBG','lvSXmhb4xsb0zq','W5rvq1/dI8kkW6nmCq','qCoRyfDS','pCkShmoZ','C3qGB25LigLTyq','mJq1ndLhEvfYr3O','hrRcUWVcKdfZW4JdHmki','zgvKigjNlwjSyq','W5O8WOBcHa','k8kFcSo3WQ0','y29UDMvYDc1Wza','mCkFvmk3y8k2y8ofWRFdUa','ys1PzhHD','zMLSzxm','dsdcQ8kMFG','ywrKsw1Hz2u','gHpcQGNdLNv0W5K','ghTgW5/dNmkyW5CDotq','y2XHC3noyw1L','bCkOlefLWPxdHmovW50M','zwn0lxnXDwfYzq','x3rPBwvY','ELZdIbiCWQW','l2K+cIaGicaGia','WOKqDSoMW6tcMv/dN3NcKW','W7pdSbutWRi/WRhcSmk8jG','W5nCcqldMSkmW7TdD8kL','lwz1BgWGAc1MDq','W4uCzSkFvmkkbSo2pG','y2XPy2S','yhFcMdJcKa','ChvZAa','WRy5tK8v','W5PDudFdHmkaW7ThA8kO','DSoOW41DkCkYWPnSWOXA','z2v0rwXLBwvUDa','oCk5xSoSWOVdThJdMfC9','qNLjza','WRNdTuRcMW','WRzKpw8','tCk0WQq','zvxdNXW1','vLz4DuO','WPxdIhlcLmovW6r8WRD1','W6e5WRjtAmk4qCocW6SB','FfJdLHqnWRhcQSkaCCob','umoewubM','n8k7hCo5WPRdUa','W5qjDSo8jCo8vSkHxvW','icaGia'];_0xd63b=function(){return _0x292aa8;};return _0xd63b();}function _0x42f9(_0xc3d016,_0x24720c){_0xc3d016=_0xc3d016-(0xc12*-0x2+-0x5f2*0x5+-0xb11*-0x5);const _0x28f9be=_0xd63b();let _0x13394b=_0x28f9be[_0xc3d016];if(_0x42f9['QkPBkF']===undefined){var _0x2ec67b=function(_0x5775e4){const _0x340a48='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5a31f5='',_0x2b0a92='',_0x19c93d=_0x5a31f5+_0x2ec67b,_0x5a1549=(''+function(){return-0xd71+0xbf*0xf+0x240;})['indexOf']('\x0a')!==-(-0x3*0x63+-0xe23*0x1+-0x1*-0xf4d);for(let _0x1542da=-0x1870+0x740+0x113*0x10,_0xb4b3b4,_0x372532,_0x2dd09d=-0x2695+0x17bf+0xed6;_0x372532=_0x5775e4['charAt'](_0x2dd09d++);~_0x372532&&(_0xb4b3b4=_0x1542da%(-0x1*0xf41+-0x1416+-0x1af*-0x15)?_0xb4b3b4*(-0x4*0x82d+0x25d7+-0x3*0x1a1)+_0x372532:_0x372532,_0x1542da++%(0x8*-0x31d+0xc20+0xc*0x111))?_0x5a31f5+=_0x5a1549||_0x19c93d['charCodeAt'](_0x2dd09d+(0x1*0x258e+0x153e+0x1d61*-0x2))-(-0xaa*0x1c+-0x18e5*-0x1+0x1*-0x643)!==0x791+-0x2197+0x1a06?String['fromCharCode'](-0x123f+0x1*-0xb1d+0x1e5b&_0xb4b3b4>>(-(-0x4d*0x3b+0x1*-0x789+0x194a)*_0x1542da&0x1e63+0x61*0x2e+-0x2fcb)):_0x1542da:0x27d*-0x2+-0xc*0xd1+0xec6){_0x372532=_0x340a48['indexOf'](_0x372532);}for(let _0x2686a3=-0x1c23+-0x1b0*0x1+0x1dd3,_0x14b1ff=_0x5a31f5['length'];_0x2686a3<_0x14b1ff;_0x2686a3++){_0x2b0a92+='%'+('00'+_0x5a31f5['charCodeAt'](_0x2686a3)['toString'](-0x1790+-0x22c5+0x3a65))['slice'](-(0xa91*0x2+-0x119d+0x383*-0x1));}return decodeURIComponent(_0x2b0a92);};_0x42f9['ihGDKd']=_0x2ec67b,_0x42f9['DGXyJv']={},_0x42f9['QkPBkF']=!![];}const _0x45d1f0=_0x28f9be[-0x1fb2+0x1*-0x833+0x1*0x27e5],_0x2dd65e=_0xc3d016+_0x45d1f0,_0x1b4cd8=_0x42f9['DGXyJv'][_0x2dd65e];if(!_0x1b4cd8){const _0x2c5c75=function(_0x2614c0){this['zreOla']=_0x2614c0,this['yOgmXY']=[0x22ae+-0x232e+-0x1*-0x81,0x181+-0x1a9+0x28,0xcf4*-0x1+0x2300+-0x160c],this['BcwYTB']=function(){return'newState';},this['EGyZLk']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['sLLZNC']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2c5c75['prototype']['IYKClI']=function(){const _0x41e35f=new RegExp(this['EGyZLk']+this['sLLZNC']),_0x5a294a=_0x41e35f['test'](this['BcwYTB']['toString']())?--this['yOgmXY'][-0x7c*0x2c+-0x1b46+0x3097]:--this['yOgmXY'][0x1afd+-0x1*0x1f37+0x1*0x43a];return this['vkVWKR'](_0x5a294a);},_0x2c5c75['prototype']['vkVWKR']=function(_0x199ea1){if(!Boolean(~_0x199ea1))return _0x199ea1;return this['vFTrcK'](this['zreOla']);},_0x2c5c75['prototype']['vFTrcK']=function(_0x1c89e5){for(let _0x46a1ba=0x126c*-0x2+0xe74+0x1664,_0x3a795f=this['yOgmXY']['length'];_0x46a1ba<_0x3a795f;_0x46a1ba++){this['yOgmXY']['push'](Math['round'](Math['random']())),_0x3a795f=this['yOgmXY']['length'];}return _0x1c89e5(this['yOgmXY'][-0x3a7+0x43*-0x4+0x4b3]);},(''+function(){return-0x2a7+-0xc76+0x35*0x49;})['indexOf']('\x0a')===-(0x106a*0x2+-0x60e+-0x1ac5*0x1)&&new _0x2c5c75(_0x42f9)['IYKClI'](),_0x13394b=_0x42f9['ihGDKd'](_0x13394b),_0x42f9['DGXyJv'][_0x2dd65e]=_0x13394b;}else _0x13394b=_0x1b4cd8;return _0x13394b;}const dropzone=document[_0xebf19c(0x23f,')[m^')+'ById'](_0xa1ee3f(0x1bb)),fileInput=document[_0xebf19c(0x1fc,'$*Na')+_0xebf19c(0x216,'5YZg')]('file-input'),galleryGrid=document['getElement'+_0xebf19c(0x259,'IYWZ')](_0xa1ee3f(0x1c6)+'id'),imgCountEl=document[_0xa1ee3f(0x241)+'ById'](_0xebf19c(0x21f,')[m^')),emptyState=document[_0xa1ee3f(0x241)+_0xebf19c(0x244,'B#Po')]('empty-stat'+'e'),orientSelect=document['getElement'+_0xebf19c(0x1e7,'tha$')](_0xebf19c(0x26b,'CAN3')+'t'),marginSelect=document[_0xa1ee3f(0x241)+'ById'](_0xebf19c(0x1d7,'#rc8')+'n');let imageList=[];dropzone[_0xebf19c(0x214,'a24l')+'stener']('click',()=>fileInput[_0xa1ee3f(0x23b)]()),dropzone[_0xa1ee3f(0x1a6)+_0xa1ee3f(0x251)]('dragover',_0x41ade8=>{const _0x4e9836=_0xa1ee3f,_0x33a2d3=_0xebf19c,_0x3eba3e={'WJyGe':_0x33a2d3(0x1af,'d#MZ')+_0x33a2d3(0x238,')[m^')};_0x41ade8[_0x33a2d3(0x236,'tqF@')+_0x4e9836(0x184)](),dropzone['classList']['add'](_0x3eba3e[_0x4e9836(0x17d)]);}),dropzone[_0xa1ee3f(0x1a6)+_0xa1ee3f(0x251)](_0xa1ee3f(0x1a4),()=>dropzone[_0xebf19c(0x1ff,'L(&J')][_0xebf19c(0x193,'Yd!q')](_0xa1ee3f(0x1fd)+'nd-primary')),dropzone[_0xa1ee3f(0x1a6)+'stener'](_0xa1ee3f(0x19f),_0x2bae46=>{const _0x4aa8db=_0xa1ee3f,_0x33444c=_0xebf19c,_0x15344d={'AxMDJ':function(_0x188357,_0x3d19e0){return _0x188357(_0x3d19e0);}};_0x2bae46['preventDef'+_0x33444c(0x1fe,'OtbY')](),dropzone[_0x4aa8db(0x18a)]['remove'](_0x4aa8db(0x1fd)+_0x33444c(0x1e5,'s!00'));if(_0x2bae46[_0x4aa8db(0x1dc)+'er'][_0x4aa8db(0x22b)][_0x33444c(0x24d,'FEXx')])_0x15344d[_0x33444c(0x1eb,'wwuy')](handleFiles,_0x2bae46[_0x4aa8db(0x1dc)+'er'][_0x33444c(0x26e,'TToz')]);}),fileInput[_0xa1ee3f(0x1a6)+_0xa1ee3f(0x251)](_0xa1ee3f(0x25d),_0x580d92=>{const _0x3fa6f3=_0xa1ee3f,_0x2f99a2=_0xebf19c;if(_0x580d92[_0x2f99a2(0x234,'yZ^l')][_0x3fa6f3(0x22b)]['length'])handleFiles(_0x580d92[_0x3fa6f3(0x1b3)][_0x3fa6f3(0x22b)]);});function handleFiles(_0x5cd2d9){const _0x4cb8f5=_0xa1ee3f,_0x156398=_0xebf19c,_0x3a6a63={'biVDk':_0x156398(0x1f0,'Ufa9'),'PnSSh':function(_0x2a00a6,_0x421c6b){return _0x2a00a6(_0x421c6b);}};Array[_0x156398(0x221,'FEXx')](_0x5cd2d9)[_0x156398(0x213,'e#vI')](_0x2415e9=>{const _0x1f952c=_0x156398,_0x4d3a71=_0x42f9;if(!_0x2415e9['type'][_0x4d3a71(0x1c7)](_0x3a6a63['biVDk']))return;const _0x7570ea=new FileReader();_0x7570ea[_0x1f952c(0x198,'0%]0')]=_0x308779=>{const _0x5c8472=_0x4d3a71,_0x48eb46=_0x1f952c;imageList[_0x48eb46(0x1b5,')CDi')]({'name':_0x2415e9[_0x5c8472(0x200)],'src':_0x308779[_0x48eb46(0x179,'Foj$')]['result']}),renderGallery();},_0x7570ea[_0x4d3a71(0x19e)+_0x4d3a71(0x250)](_0x2415e9);}),_0x3a6a63[_0x4cb8f5(0x1df)](showMessage,_0x156398(0x1f8,'aJV(')+_0x5cd2d9[_0x156398(0x272,'1SRz')]+_0x156398(0x1ae,'5YZg'));}function renderGallery(){const _0xa89640=_0xa1ee3f,_0x4957b7=_0xebf19c,_0x1196c9={'tuiEO':'div','ngcmQ':_0x4957b7(0x24b,'yZ^l')+'roup\x20round'+_0x4957b7(0x195,'aJV(')+_0x4957b7(0x240,'1SRz')+_0xa89640(0x1d9)+_0xa89640(0x263)+_0x4957b7(0x1ea,'foVA')+_0x4957b7(0x19d,'gniK')+_0xa89640(0x232),'xJRli':function(_0x351dfd){return _0x351dfd();},'EJUCO':function(_0x10f63c,_0x14e78d){return _0x10f63c===_0x14e78d;},'CTrdC':_0xa89640(0x1f7)+_0xa89640(0x22a)};imgCountEl[_0xa89640(0x21d)+'t']=imageList[_0xa89640(0x1a5)];if(_0x1196c9['EJUCO'](imageList[_0xa89640(0x1a5)],-0xc01+0x1e6c+-0x126b)){galleryGrid['innerHTML']='',galleryGrid[_0xa89640(0x1ac)+'d'](emptyState);return;}galleryGrid['innerHTML']='',imageList[_0x4957b7(0x1d0,')CDi')]((_0x429e05,_0xf046d8)=>{const _0xfa6626=_0x4957b7,_0x3499c1=_0xa89640,_0x5a81a6=document[_0x3499c1(0x1cd)+'ent'](_0x1196c9[_0xfa6626(0x258,')[m^')]);_0x5a81a6[_0x3499c1(0x230)]=_0x1196c9[_0xfa6626(0x26d,'B#Po')],_0x5a81a6[_0x3499c1(0x26c)]=_0xfa6626(0x1dd,'8s@z')+_0x3499c1(0x1de)+_0xfa6626(0x199,'kZkw')+'\x22'+_0x429e05['src']+(_0x3499c1(0x1ba)+_0x3499c1(0x239)+_0x3499c1(0x1e3)+_0xfa6626(0x177,'*#^4')+_0x3499c1(0x1de)+'\x20\x20\x20\x20\x20\x20\x20\x20<b'+'utton\x20clas'+_0xfa6626(0x1e6,'a24l')+_0x3499c1(0x1d4)+_0xfa6626(0x183,'Io$L')+_0x3499c1(0x17b)+_0xfa6626(0x266,'5YZg')+_0xfa6626(0x242,'FEXx')+_0xfa6626(0x210,'OtbY')+'e\x20rounded-'+_0xfa6626(0x181,'L(&J')+'0px]\x20opaci'+_0xfa6626(0x1d6,'VBqb')+_0xfa6626(0x1c5,'X5RP')+_0x3499c1(0x20b)+_0xfa6626(0x1a3,'gniK')+_0xfa6626(0x1cb,'d#MZ')+_0xfa6626(0x1d3,'hBxD'))+_0xf046d8+(_0x3499c1(0x268)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3499c1(0x26f)+_0x3499c1(0x215)+_0x3499c1(0x196)+_0xfa6626(0x231,'L(&J')+_0x3499c1(0x1b6)+_0x3499c1(0x235)+_0xfa6626(0x22f,'CAN3')+_0xfa6626(0x20f,'Foj$')+_0x3499c1(0x204)+_0xfa6626(0x24e,'J8zz')+'\x20\x20\x20\x20<span\x20'+_0x3499c1(0x188)+'olute\x20bott'+_0xfa6626(0x217,'Ufa9')+_0x3499c1(0x269)+_0xfa6626(0x260,'foVA')+_0x3499c1(0x225)+_0xfa6626(0x192,'foVA')+_0x3499c1(0x21e)+'xt-white\x20f'+'ont-mono\x22>'+'P.')+(_0xf046d8+(0x8af*-0x2+0x264b+0x67*-0x34))+(_0x3499c1(0x17e)+_0xfa6626(0x1a8,'Ufa9')+_0x3499c1(0x24f)),galleryGrid[_0xfa6626(0x229,'hBxD')+'d'](_0x5a81a6);}),feather[_0x4957b7(0x207,'@ZfO')](),galleryGrid[_0x4957b7(0x1f5,'7]J(')+'torAll'](_0x1196c9['CTrdC'])['forEach'](_0x25d3b9=>{const _0xb1a48=_0x4957b7;_0x25d3b9['addEventLi'+_0xb1a48(0x1fa,'5YZg')](_0xb1a48(0x23c,'wwuy'),_0x515b9e=>{const _0x4d0d9d=_0x42f9,_0x7536fc=_0xb1a48;_0x515b9e[_0x7536fc(0x1d5,'kZkw')+_0x4d0d9d(0x205)]();const _0x25634e=parseInt(_0x25d3b9[_0x7536fc(0x18d,')[m^')+'te'](_0x7536fc(0x22e,'$*Na')));imageList[_0x4d0d9d(0x1e0)](_0x25634e,0xd9d+-0x1eff+0x1163),_0x1196c9[_0x7536fc(0x218,'8[hy')](renderGallery);});});}document[_0xa1ee3f(0x241)+_0xebf19c(0x253,'aJV(')](_0xa1ee3f(0x17f)+_0xebf19c(0x246,'*#^4'))[_0xa1ee3f(0x1a6)+_0xebf19c(0x1c9,'8s@z')](_0xebf19c(0x25c,'AqI8'),()=>{imageList=[],renderGallery();}),document['getElement'+_0xebf19c(0x245,'J@5@')](_0xa1ee3f(0x228)+_0xa1ee3f(0x19a))['addEventLi'+'stener'](_0xebf19c(0x20c,'d#MZ'),async()=>{const _0x2a225a=_0xebf19c,_0x1efd98=_0xa1ee3f,_0x41b64a={'QcOKI':function(_0x3255b5,_0x3c5128){return _0x3255b5===_0x3c5128;},'kZOFX':function(_0x421f4a,_0x416071,_0x797bc0){return _0x421f4a(_0x416071,_0x797bc0);},'kheiL':_0x1efd98(0x1da)+_0x2a225a(0x1ef,'tqF@')+_0x1efd98(0x222)+_0x2a225a(0x182,')[m^'),'RKVNX':function(_0x1bca6e,_0x55cfd4){return _0x1bca6e*_0x55cfd4;},'biPYx':function(_0x1642e0,_0x37f633){return _0x1642e0>_0x37f633;},'ATJKz':function(_0x4aa063,_0x2a658d){return _0x4aa063+_0x2a658d;},'WGDKm':function(_0x3c7edb,_0xb21b58){return _0x3c7edb/_0xb21b58;},'HPXqo':function(_0x46432b,_0x347e5e){return _0x46432b-_0x347e5e;},'XgVjz':_0x1efd98(0x255)+_0x1efd98(0x1bd),'kYmky':function(_0x7dbf89,_0x5414fe){return _0x7dbf89(_0x5414fe);}};if(_0x41b64a[_0x1efd98(0x197)](imageList[_0x2a225a(0x25b,'J8zz')],-0x5*-0x74b+0x199*-0x5+-0x1e6*0xf)){_0x41b64a[_0x2a225a(0x1aa,'OtbY')](showMessage,_0x41b64a[_0x2a225a(0x247,'yZ^l')],_0x1efd98(0x21b));return;}const {jsPDF:_0x32f798}=window[_0x1efd98(0x264)],_0x3d369a=orientSelect[_0x1efd98(0x19b)],_0x35bb45=parseInt(marginSelect[_0x2a225a(0x220,'L(&J')]),_0x51ee87=new _0x32f798({'orientation':_0x3d369a,'unit':'mm','format':'a4'}),_0x388831=_0x51ee87[_0x1efd98(0x1a1)][_0x2a225a(0x194,'NLpL')][_0x1efd98(0x1f3)](),_0x73b97c=_0x51ee87[_0x1efd98(0x1a1)][_0x2a225a(0x206,'#k6s')][_0x1efd98(0x189)]();showMessage(_0x1efd98(0x219)+'images\x20int'+'o\x20PDF...');for(let _0x4be305=0x1e3b*-0x1+-0x1d4c+0x3b87;_0x4be305<imageList[_0x1efd98(0x1a5)];_0x4be305++){if(_0x4be305>0x25*-0xa7+-0x1*0x1cc6+-0x23*-0x183)_0x51ee87[_0x1efd98(0x1b4)](null,_0x3d369a);const _0x269258=imageList[_0x4be305],_0x5d2fb3=new Image();_0x5d2fb3[_0x1efd98(0x1c0)]=_0x269258[_0x1efd98(0x1c0)],await new Promise(_0x254944=>_0x5d2fb3[_0x1efd98(0x1f2)]=_0x254944);const _0x114ad3=_0x388831-_0x35bb45*(0x20bc+0x69+-0x2123),_0x5850b9=_0x73b97c-_0x41b64a['RKVNX'](_0x35bb45,0x1*0x2162+0xf*-0x1c5+-0x6d5);let _0x4b7cbc=_0x114ad3,_0x30c2ed=_0x5d2fb3[_0x2a225a(0x1d8,'YRQ(')]*_0x4b7cbc/_0x5d2fb3[_0x1efd98(0x1e8)];_0x41b64a['biPYx'](_0x30c2ed,_0x5850b9)&&(_0x30c2ed=_0x5850b9,_0x4b7cbc=_0x41b64a[_0x1efd98(0x21a)](_0x5d2fb3['width'],_0x30c2ed)/_0x5d2fb3[_0x1efd98(0x1fb)]);const _0x736624=_0x41b64a[_0x1efd98(0x1b9)](_0x35bb45,(_0x114ad3-_0x4b7cbc)/(0x8dc+-0x23*0x2e+-0x290*0x1)),_0x2b774f=_0x35bb45+_0x41b64a[_0x1efd98(0x273)](_0x41b64a[_0x1efd98(0x187)](_0x5850b9,_0x30c2ed),0x1cbd+0x3b3+-0x206e*0x1);_0x51ee87[_0x1efd98(0x22d)](_0x269258['src'],_0x2a225a(0x1c2,'d#MZ'),_0x736624,_0x2b774f,_0x4b7cbc,_0x30c2ed);}_0x51ee87[_0x2a225a(0x1e1,'J8zz')](_0x41b64a[_0x2a225a(0x23e,'9aD0')]),_0x41b64a['kYmky'](showMessage,_0x1efd98(0x25e)+_0x1efd98(0x1f9)+_0x2a225a(0x262,'OtbY'));});</script>
 
-    
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

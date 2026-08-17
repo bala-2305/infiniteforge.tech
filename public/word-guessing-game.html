@@ -1,345 +1,91 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Guessing Game — Infiniteforge</title>
+    <title>Word Guessing Game — 5-Letter Word Challenge | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Play Word Guessing Game online: Guess the 5-letter word in 6 tries. Get color-coded hints and improve your vocabulary skills daily.">
-    <meta name="keywords" content="word guessing game, wordle, word game, vocabulary game, puzzle game, daily challenge, word puzzle, letter game, brain training, word challenge, guessing game, 5 letter words, wordle clone">
+    <meta name="description" content="Play the 5-letter word guessing game online. Guess the secret word in 6 tries with color-coded feedback, full keyboard support, and win-streak tracking.">
+    <meta name="keywords" content="word guessing game, wordle, word puzzle, 5 letter word game, daily word challenge">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Word Guessing Game — Infiniteforge">
-    <meta property="og:description" content="Play Word Guessing Game online: Guess the 5-letter word in 6 tries. Get color-coded hints and improve your vocabulary skills daily.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Word Guessing Game | Infiniteforge">
+    <meta property="og:description" content="Guess the 5-letter hidden word in 6 attempts.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/word-guessing-game.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Word Guessing Game — Infiniteforge">
-    <meta name="twitter:description" content="Play Word Guessing Game online: Guess the 5-letter word in 6 tries. Get color-coded hints and improve your vocabulary skills daily.">
+    <meta name="twitter:title" content="Word Guessing Game | Infiniteforge">
+    <meta name="twitter:description" content="Play the 5-letter word guessing puzzle online.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/word-guessing-game.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/word-guessing-game.html">
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Word Guessing Game — Infiniteforge",
-        "description": "Play Word Guessing Game online: Guess the 5-letter word in 6 tries. Get color-coded hints and improve your vocabulary skills daily.",
-        "url": "https://infiniteforge.tech/word-guessing-game.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Infiniteforge",
-            "url": "https://infiniteforge.tech"
-        },
-        "primaryImageOfPage": {
-            "@type": "ImageObject",
-            "url": "https://infiniteforge.tech/assets/letter-d.png"
-        },
-        "datePublished": "2025-10-07",
-        "dateModified": "2025-10-07"
-    }</script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <style>
-        .game-board {
-            display: grid;
-            grid-template-rows: repeat(6, 1fr);
-            gap: 5px;
-            max-width: 350px;
-            margin: 0 auto;
-        }
 
-        .word-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-        .letter-box {
-            width: 62px;
-            height: 62px;
-            border: 2px solid #d1d5db;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.2s ease-in-out;
-        }
-
-        .letter-box.filled {
-            border-color: #9ca3af;
-        }
-
-        .letter-box.correct {
-            background-color: #10b981;
-            border-color: #10b981;
-            color: white;
-        }
-
-        .letter-box.present {
-            background-color: rgba(31, 40, 51, 0.4);
-            border-color: #f59e0b;
-            color: white;
-        }
-
-        .letter-box.absent {
-            background-color: #6b7280;
-            border-color: #6b7280;
-            color: white;
-        }
-
-        .keyboard {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 6px;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-
-        .keyboard-row {
-            display: contents;
-        }
-
-        .key {
-            height: 58px;
-            border-radius: 4px;
-            border: none;
-            background-color: #d1d5db;
-            color: #374151;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.1s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .key:hover {
-            background-color: #9ca3af;
-        }
-
-        .key.correct {
-            background-color: #10b981;
-            color: white;
-        }
-
-        .key.present {
-            background-color: rgba(31, 40, 51, 0.4);
-            color: white;
-        }
-
-        .key.absent {
-            background-color: #6b7280;
-            color: white;
-        }
-
-        .key.wide {
-            grid-column: span 2;
-        }
-
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-
-        .flip {
-            animation: flip 0.6s ease-in-out;
-        }
-
-        @keyframes flip {
-            0% { transform: rotateX(0deg); }
-            50% { transform: rotateX(90deg); }
-            100% { transform: rotateX(0deg); }
-        }
-
-        .game-won-overlay, .game-lost-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .game-modal {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        @media (max-width: 640px) {
-            .letter-box {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-
-            .game-board {
-                max-width: 280px;
-                gap: 3px;
-            }
-
-            .word-row {
-                gap: 3px;
-            }
-
-            .keyboard {
-                grid-template-columns: repeat(9, 1fr);
-                gap: 4px;
-                max-width: 350px;
-            }
-
-            .key {
-                height: 45px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
-<!-- End Google Tag Manager -->
-
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x40c4ef=_0x2d6d,_0x3dbcd7=_0x1c88;function _0x1c88(_0x5b8fbe,_0x35b4f6){_0x5b8fbe=_0x5b8fbe-(-0xc5*0xc+-0x1726+0x215e);var _0x390820=_0x26b0();var _0x50b208=_0x390820[_0x5b8fbe];if(_0x1c88['TklgaC']===undefined){var _0x4e0605=function(_0xbc5b80){var _0xb263dd='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5553ff='',_0x1c51d4='',_0x266a5e=_0x5553ff+_0x4e0605,_0x5c10e1=(''+function(){return-0x1da*0x1+-0x1ea6*-0x1+-0x26*0xc2;})['indexOf']('\x0a')!==-(0x588+-0x11*0x58+0x51);for(var _0x136ea4=-0x1*-0x1028+0xb1c+-0x1b44,_0x394db3,_0x1ad9a0,_0x4ca2bd=0xa54+-0x1d*0xb6+0xa4a;_0x1ad9a0=_0xbc5b80['charAt'](_0x4ca2bd++);~_0x1ad9a0&&(_0x394db3=_0x136ea4%(0x109b+-0x7fb+-0x89c)?_0x394db3*(-0x1529+0x34*0x12+0x11c1)+_0x1ad9a0:_0x1ad9a0,_0x136ea4++%(0xe4b+-0x6f3*0x2+0x1*-0x61))?_0x5553ff+=_0x5c10e1||_0x266a5e['charCodeAt'](_0x4ca2bd+(-0x590+-0x7a7+-0x46b*-0x3))-(-0x1f*-0x124+0xab*-0xc+-0xda7*0x2)!==-0x1d81+-0x1630+-0x191*-0x21?String['fromCharCode'](-0x141f+0x146b+0x1*0xb3&_0x394db3>>(-(-0x1b33+-0xe8f*-0x1+0xca6)*_0x136ea4&-0x3e9+-0x565*-0x3+-0xc40)):_0x136ea4:-0x21*-0xdf+0x12a8+0xfcd*-0x3){_0x1ad9a0=_0xb263dd['indexOf'](_0x1ad9a0);}for(var _0x39a14d=-0xc1e+-0x11e1*0x2+-0x17f*-0x20,_0x19127a=_0x5553ff['length'];_0x39a14d<_0x19127a;_0x39a14d++){_0x1c51d4+='%'+('00'+_0x5553ff['charCodeAt'](_0x39a14d)['toString'](0x2138+-0x21a6+0xe*0x9))['slice'](-(-0x74+0x2*0x7+0x68));}return decodeURIComponent(_0x1c51d4);};var _0x4f5a66=function(_0x241622,_0x39f27f){var _0x57f594=[],_0x1b2d96=0x3*0x83+-0x1c4d+0x8ec*0x3,_0x520fd1,_0x3c4a4e='';_0x241622=_0x4e0605(_0x241622);var _0x43be8b;for(_0x43be8b=-0x3*-0x2e5+-0x24b*-0x7+-0x18bc;_0x43be8b<-0x2*0x1153+0x3fe*0x7+-0x1*-0x7b4;_0x43be8b++){_0x57f594[_0x43be8b]=_0x43be8b;}for(_0x43be8b=-0x1fc*0x7+0x689+0x10d*0x7;_0x43be8b<-0x52+0xe9*-0x1+0x23b*0x1;_0x43be8b++){_0x1b2d96=(_0x1b2d96+_0x57f594[_0x43be8b]+_0x39f27f['charCodeAt'](_0x43be8b%_0x39f27f['length']))%(0xd4b+0x329*-0x1+-0xa7*0xe),_0x520fd1=_0x57f594[_0x43be8b],_0x57f594[_0x43be8b]=_0x57f594[_0x1b2d96],_0x57f594[_0x1b2d96]=_0x520fd1;}_0x43be8b=-0x197*0xb+0x9*-0x1d2+0x1*0x21df,_0x1b2d96=0x2*-0x1e2+-0x3f1+0x1*0x7b5;for(var _0x1b4d89=0x1081*-0x1+0x26b*-0xd+0x2ff0;_0x1b4d89<_0x241622['length'];_0x1b4d89++){_0x43be8b=(_0x43be8b+(-0x1*-0x1591+0x9*0x3b1+-0x1*0x36c9))%(-0x772*-0x2+0x40*0x3d+-0x1d24),_0x1b2d96=(_0x1b2d96+_0x57f594[_0x43be8b])%(-0x118f+-0x1210+0xc35*0x3),_0x520fd1=_0x57f594[_0x43be8b],_0x57f594[_0x43be8b]=_0x57f594[_0x1b2d96],_0x57f594[_0x1b2d96]=_0x520fd1,_0x3c4a4e+=String['fromCharCode'](_0x241622['charCodeAt'](_0x1b4d89)^_0x57f594[(_0x57f594[_0x43be8b]+_0x57f594[_0x1b2d96])%(-0x2625+-0x167a+0x3d9f)]);}return _0x3c4a4e;};_0x1c88['gRcBNy']=_0x4f5a66,_0x1c88['yuhBvc']={},_0x1c88['TklgaC']=!![];}var _0x29dc18=_0x390820[-0x1*-0xfb5+-0x5c1*-0x5+0x163d*-0x2],_0x2a2e04=_0x5b8fbe+_0x29dc18,_0x20e8c9=_0x1c88['yuhBvc'][_0x2a2e04];if(!_0x20e8c9){if(_0x1c88['cBUTFE']===undefined){var _0x5ad52d=function(_0xfd1f89){this['EvwySz']=_0xfd1f89,this['YQccdR']=[0xabc*0x3+0x1e22+-0x3e55,-0x2b*0x91+0x1283*-0x1+-0x3e*-0xb1,-0x1a*-0x20+-0x1c98+0x1958],this['GKmRUq']=function(){return'newState';},this['JugWzb']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['IGDAws']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5ad52d['prototype']['DhbYsG']=function(){var _0x341498=new RegExp(this['JugWzb']+this['IGDAws']),_0x411d03=_0x341498['test'](this['GKmRUq']['toString']())?--this['YQccdR'][0x11d2+-0xe0a+-0x3c7]:--this['YQccdR'][-0x8d5+0x1*-0xdb7+0x168c];return this['tnLllz'](_0x411d03);},_0x5ad52d['prototype']['tnLllz']=function(_0x11062d){if(!Boolean(~_0x11062d))return _0x11062d;return this['cjlACy'](this['EvwySz']);},_0x5ad52d['prototype']['cjlACy']=function(_0x30b854){for(var _0x4d0ac8=0x4c2+-0xa77+0x1e7*0x3,_0x5b006e=this['YQccdR']['length'];_0x4d0ac8<_0x5b006e;_0x4d0ac8++){this['YQccdR']['push'](Math['round'](Math['random']())),_0x5b006e=this['YQccdR']['length'];}return _0x30b854(this['YQccdR'][-0x50d*0x1+0x166*-0x1+-0x7f*-0xd]);},(''+function(){return 0x1*-0x8a1+-0xf*-0x75+0xe3*0x2;})['indexOf']('\x0a')===-(0x13c3*0x1+0xae3*-0x3+0xce7)&&new _0x5ad52d(_0x1c88)['DhbYsG'](),_0x1c88['cBUTFE']=!![];}_0x50b208=_0x1c88['gRcBNy'](_0x50b208,_0x35b4f6),_0x1c88['yuhBvc'][_0x2a2e04]=_0x50b208;}else _0x50b208=_0x20e8c9;return _0x50b208;}(function(_0x357f15,_0x5e19e6){var _0x4296be=_0x1c88,_0x405165=_0x2d6d,_0x2fcb11=_0x357f15();while(!![]){try{var _0xf63147=-parseInt(_0x405165(0x104))/(-0x67*-0x61+0x166f*0x1+-0x1*0x3d75)*(parseInt(_0x4296be(0x106,'7U)I'))/(-0x1*-0x269e+0x15*0x61+-0x395*0xd))+-parseInt(_0x405165(0xfe))/(0x148e+0x1591+-0x2a1c)*(-parseInt(_0x4296be(0xfc,'eRwH'))/(0xc5c*-0x2+-0x14d7+0x2d93))+-parseInt(_0x405165(0x11a))/(-0x1f4e+0x235*-0xf+-0x3*-0x157a)*(-parseInt(_0x4296be(0x11b,'uemF'))/(0x1d*0x6+0x664*-0x4+0xc74*0x2))+-parseInt(_0x4296be(0xfd,'gd@P'))/(-0x26f4+-0x21f0+-0xb*-0x6a1)+-parseInt(_0x405165(0x115))/(-0xd*-0x133+-0x1f0*-0x10+-0x57*0x89)+parseInt(_0x405165(0x11f))/(-0x1*0x1433+-0x1aa+0x15e6)*(-parseInt(_0x4296be(0x109,'l[dy'))/(-0x18ca+-0x8d5+0x1*0x21a9))+parseInt(_0x4296be(0x120,'6&J$'))/(-0x637+0x4c2+0x180);if(_0xf63147===_0x5e19e6)break;else _0x2fcb11['push'](_0x2fcb11['shift']());}catch(_0x25284a){_0x2fcb11['push'](_0x2fcb11['shift']());}}}(_0x26b0,0x8d9b4+0x5e11c+-0x91e37*0x1));var _0x288b1e=(function(){var _0x5c55ee=!![];return function(_0xcdcbcd,_0x1a6a9b){var _0x52c665=_0x5c55ee?function(){var _0xcf2c1c=_0x2d6d;if(_0x1a6a9b){var _0x467601=_0x1a6a9b[_0xcf2c1c(0x105)](_0xcdcbcd,arguments);return _0x1a6a9b=null,_0x467601;}}:function(){};return _0x5c55ee=![],_0x52c665;};}()),_0x1622b1=_0x288b1e(this,function(){var _0x266b9b=_0x2d6d,_0xeaa909=_0x1c88,_0x4601ab={'NsvPL':'(((.+)+)+)'+'+$'};if(_0x1622b1[_0xeaa909(0x116,'D3Gg')]()[_0xeaa909(0x107,'XXa*')]()['indexOf']('\x0a')!==-(0x1abd+-0x1429+-0x63*0x11))return;return _0x1622b1[_0x266b9b(0x11e)]()[_0xeaa909(0x10a,'hM]c')](_0x4601ab[_0x266b9b(0x11c)])[_0xeaa909(0x113,'6&J$')]()[_0xeaa909(0xff,'@HEL')+'r'](_0x1622b1)[_0xeaa909(0x101,'Am9B')](_0x4601ab[_0xeaa909(0x10c,'J7&3')]);});function _0x26b0(){var _0x16fc01=['bmkZW5hcSrHE','iZfgmJGZmW','W4/cL8kdvSobWQTmsCkvWONdVgm','mZa5mdDbz1DnBui','yxbWBhK','ELJdRmkiWQ46gum','ACowWQ0ai8kqgmkx','E1RcVCoWW5uAl0ldRSowW7K','rSkjyqeIbMjHacK','WQ15Dmkdp8oi','rInTgCkvk8oIWR19ofJcOX8','WRqRWPXyvW','W7f6t2JdJ8kGmW','sHtcKuCAW5ZdUq','i0zgmKe3qq','kmkHfr0','sMv0qNjHAw5Zia','WQXdd8o+W5CJ','WQyHkvRcJSkpgXa','rIzHhSoWwSkUWRnJlq','ntm4nJe4nhH4rvrdAW','W5BcOXtdKq','iZjdmZuZrG','beVcVrGQWP3cQmokW6a','WPFdVtVcHr18W64','mtiWmZm1vuf6Cuvf','yuCTW7vPqhddS8oR','tNn2ueW','WQbkWQxdSWGSsLRcPdRcNHioma','Dg9tDhjPBMC','ntu3otfVCejLueS','W6n7trZdISoFru5CWOHrWQJdIvG','tCksWRTIlgHNWPe','WOiqW7NcOZxcUCo7mthcTmkbW63dSG','mZC3ndLgs1P3tgK','WP9zW7BcMHmRrhhdIZ0','abq8oeldSCo3W73dNfGS'];_0x26b0=function(){return _0x16fc01;};return _0x26b0();}function _0x2d6d(_0x41dd27,_0x424d7a){_0x41dd27=_0x41dd27-(-0xc5*0xc+-0x1726+0x215e);var _0x4eb246=_0x26b0();var _0xf643e2=_0x4eb246[_0x41dd27];if(_0x2d6d['yNqioc']===undefined){var _0x48c655=function(_0x19a426){var _0x118475='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x164078='',_0x5ddb6e='',_0x5aafe1=_0x164078+_0x48c655,_0x12200d=(''+function(){return-0x1da*0x1+-0x1ea6*-0x1+-0x26*0xc2;})['indexOf']('\x0a')!==-(0x588+-0x11*0x58+0x51);for(var _0x1441ed=-0x1*-0x1028+0xb1c+-0x1b44,_0x97b424,_0x748d77,_0x40a85b=0xa54+-0x1d*0xb6+0xa4a;_0x748d77=_0x19a426['charAt'](_0x40a85b++);~_0x748d77&&(_0x97b424=_0x1441ed%(0x109b+-0x7fb+-0x89c)?_0x97b424*(-0x1529+0x34*0x12+0x11c1)+_0x748d77:_0x748d77,_0x1441ed++%(0xe4b+-0x6f3*0x2+0x1*-0x61))?_0x164078+=_0x12200d||_0x5aafe1['charCodeAt'](_0x40a85b+(-0x590+-0x7a7+-0x46b*-0x3))-(-0x1f*-0x124+0xab*-0xc+-0xda7*0x2)!==-0x1d81+-0x1630+-0x191*-0x21?String['fromCharCode'](-0x141f+0x146b+0x1*0xb3&_0x97b424>>(-(-0x1b33+-0xe8f*-0x1+0xca6)*_0x1441ed&-0x3e9+-0x565*-0x3+-0xc40)):_0x1441ed:-0x21*-0xdf+0x12a8+0xfcd*-0x3){_0x748d77=_0x118475['indexOf'](_0x748d77);}for(var _0x42db60=-0xc1e+-0x11e1*0x2+-0x17f*-0x20,_0x52cd1d=_0x164078['length'];_0x42db60<_0x52cd1d;_0x42db60++){_0x5ddb6e+='%'+('00'+_0x164078['charCodeAt'](_0x42db60)['toString'](0x2138+-0x21a6+0xe*0x9))['slice'](-(-0x74+0x2*0x7+0x68));}return decodeURIComponent(_0x5ddb6e);};_0x2d6d['YlcCnh']=_0x48c655,_0x2d6d['sbZnEV']={},_0x2d6d['yNqioc']=!![];}var _0x4a024e=_0x4eb246[0x3*0x83+-0x1c4d+0x8ec*0x3],_0x12f03a=_0x41dd27+_0x4a024e,_0x1a4258=_0x2d6d['sbZnEV'][_0x12f03a];if(!_0x1a4258){var _0x54b71e=function(_0x207743){this['sKykum']=_0x207743,this['IoGHnN']=[-0x3*-0x2e5+-0x24b*-0x7+-0x18bb,-0x2*0x1153+0x3fe*0x7+-0x1*-0x6b4,-0x1fc*0x7+0x689+0x10d*0x7],this['rASKpM']=function(){return'newState';},this['sooGmu']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['aLZVxT']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x54b71e['prototype']['qBUwCO']=function(){var _0x308454=new RegExp(this['sooGmu']+this['aLZVxT']),_0x107cab=_0x308454['test'](this['rASKpM']['toString']())?--this['IoGHnN'][-0x52+0xe9*-0x1+0x4f*0x4]:--this['IoGHnN'][0xd4b+0x329*-0x1+-0x511*0x2];return this['YbPCZl'](_0x107cab);},_0x54b71e['prototype']['YbPCZl']=function(_0x5e5a14){if(!Boolean(~_0x5e5a14))return _0x5e5a14;return this['alXKzh'](this['sKykum']);},_0x54b71e['prototype']['alXKzh']=function(_0x4c147f){for(var _0x56fdb1=-0x197*0xb+0x9*-0x1d2+0x1*0x21df,_0x5477a2=this['IoGHnN']['length'];_0x56fdb1<_0x5477a2;_0x56fdb1++){this['IoGHnN']['push'](Math['round'](Math['random']())),_0x5477a2=this['IoGHnN']['length'];}return _0x4c147f(this['IoGHnN'][0x2*-0x1e2+-0x3f1+0x1*0x7b5]);},(''+function(){return 0x1081*-0x1+0x26b*-0xd+0x2ff0;})['indexOf']('\x0a')===-(-0x1*-0x1591+0x9*0x3b1+-0x1*0x36c9)&&new _0x54b71e(_0x2d6d)['qBUwCO'](),_0xf643e2=_0x2d6d['YlcCnh'](_0xf643e2),_0x2d6d['sbZnEV'][_0x12f03a]=_0xf643e2;}else _0xf643e2=_0x1a4258;return _0xf643e2;}_0x1622b1(),tailwind[_0x3dbcd7(0x112,']@Ap')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit','sans-serif'],'mono':[_0x40c4ef(0x111)+_0x3dbcd7(0x110,'sqxY'),_0x3dbcd7(0x118,')ZKS')]},'colors':{'dark':{0x384:_0x3dbcd7(0x10e,')ZKS'),0x320:_0x40c4ef(0x102),0x2bc:_0x40c4ef(0x117)},'brand':{'primary':_0x3dbcd7(0x10d,'6&J$'),'secondary':_0x40c4ef(0x10f),'accent':_0x3dbcd7(0x119,'D3Gg')}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .tile-box { width: 54px; height: 54px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; background: rgba(31, 40, 51, 0.4); border: 2px solid rgba(255, 255, 255, 0.08); transition: transform 0.15s ease, background-color 0.3s ease; }
+        .tile-box.pop { animation: pop-in 0.15s ease; }
+        @keyframes pop-in { 0% { transform: scale(0.8); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        .tile-box.correct { background: #10B981; border-color: #10B981; color: #fff; box-shadow: 0 0 15px rgba(16,185,129,0.4); }
+        .tile-box.present { background: #F59E0B; border-color: #F59E0B; color: #fff; box-shadow: 0 0 15px rgba(245,158,11,0.4); }
+        .tile-box.absent { background: #1F2833; border-color: rgba(255,255,255,0.05); color: #64748B; }
+
+        .k-btn { height: 48px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; background: rgba(31, 40, 51, 0.7); border: 1px solid rgba(255,255,255,0.06); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; user-select: none; }
+        .k-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(69,243,255,0.3); }
+        .k-btn.correct { background: #10B981; border-color: #10B981; color: #fff; }
+        .k-btn.present { background: #F59E0B; border-color: #F59E0B; color: #fff; }
+        .k-btn.absent { background: #111827; border-color: rgba(255,255,255,0.02); color: #475569; }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -350,648 +96,90 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-24 pb-12 px-4" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4" itemprop="headline">Word Guessing Game</h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto" itemprop="description">
-                Guess the 5-letter word in 6 tries! Green means correct letter and position, yellow means correct letter wrong position.
-            </p>
+    <!-- Main Content -->
+    <main class="max-w-xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Word Guessing Puzzle
+            </h1>
+            <p class="text-xs text-gray-400">Guess the secret 5-letter word in 6 attempts.</p>
         </div>
 
-        <div class="grid lg:grid-cols-4 gap-8 mb-8">
-            <!-- Game Controls -->
-            <div class="lg:col-span-1">
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
-                        Game Controls
-                    </h3>
-                    <div class="space-y-4">
-                        <button id="new-game" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors font-medium">
-                            New Game
-                        </button>
-                        <button id="show-stats" class="w-full bg-dark-900/40 text-gray-2000 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors">
-                            Show Stats
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Game Stats -->
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md mt-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-500"></i>
-                        Game Stats
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Played</span>
-                            <span class="font-semibold" id="games-played">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Win %</span>
-                            <span class="font-semibold" id="win-percentage">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Current Streak</span>
-                            <span class="font-semibold" id="current-streak">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Max Streak</span>
-                            <span class="font-semibold" id="max-streak">0</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Scores & Actions -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex gap-3 text-xs font-mono">
+                <span class="text-gray-400">Streak: <strong id="streak-val" class="text-brand-primary">0</strong></span>
+                <span class="text-gray-400">Played: <strong id="played-val" class="text-white">0</strong></span>
             </div>
-
-            <!-- Game Board -->
-            <div class="lg:col-span-3">
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-xl shadow-md">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-semibold text-gray-100 mb-2">Game Board</h2>
-                        <div id="game-status" class="text-lg text-gray-400">Guess the word!</div>
-                    </div>
-
-                    <div class="game-board" id="game-board">
-                        <!-- Game rows will be generated here -->
-                    </div>
-
-                    <div class="keyboard" id="keyboard">
-                        <!-- Keyboard will be generated here -->
-                    </div>
-                </div>
-            </div>
+            <button id="new-word-btn" class="glass-panel px-4 py-1.5 rounded-xl text-xs font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 flex items-center gap-1.5 transition-all">
+                <i data-feather="rotate-ccw" class="w-3.5 h-3.5"></i> New Word
+            </button>
         </div>
 
-        <!-- Instructions -->
-        <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                    <i data-feather="book-open" class="w-5 h-5 mr-2 text-blue-500"></i>
-                    How to Play
-                </h3>
-                <div class="space-y-3 text-sm text-gray-400">
-                    <p><strong>🎯 Goal:</strong> Guess the 5-letter word in 6 tries</p>
-                    <p><strong>🟢 Green:</strong> Letter is correct and in right position</p>
-                    <p><strong>🟡 Yellow:</strong> Letter is correct but wrong position</p>
-                    <p><strong>⚫ Gray:</strong> Letter is not in the word</p>
-                    <p><strong>⌨️ Input:</strong> Type letters or click keyboard</p>
-                    <p><strong>⏎ Enter:</strong> Submit your guess</p>
-                    <p><strong>⌫ Backspace:</strong> Delete last letter</p>
-                </div>
-            </div>
-
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                    <i data-feather="target" class="w-5 h-5 mr-2 text-green-500"></i>
-                    Strategy Tips
-                </h3>
-                <div class="space-y-3 text-sm text-gray-400">
-                    <p><strong>📝 Start Smart:</strong> Use common vowels and consonants</p>
-                    <p><strong>🔍 Process of Elimination:</strong> Use feedback to narrow options</p>
-                    <p><strong>🎪 Pattern Recognition:</strong> Look for letter combinations</p>
-                    <p><strong>⚡ Word Families:</strong> Try related words once you find letters</p>
-                    <p><strong>🧠 Memory:</strong> Remember which letters you've tried</p>
-                    <p><strong>🏆 Practice:</strong> Play daily to improve your skills</p>
-                </div>
-            </div>
+        <!-- Word Grid (6 Rows of 5 Tiles) -->
+        <div id="word-grid" class="flex flex-col items-center gap-2.5 mb-8">
+            <!-- 6 Rows injected dynamically -->
         </div>
 
-        <!-- Fun Facts -->
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h4 class="font-semibold text-gray-100 mb-2 flex items-center">
-                    <i data-feather="brain" class="w-4 h-4 mr-2 text-blue-500"></i>
-                    Vocabulary Building
-                </h4>
-                <p class="text-sm text-gray-400">Regular play expands your vocabulary and improves spelling skills.</p>
+        <!-- On-Screen Keyboard -->
+        <div class="max-w-lg mx-auto space-y-1.5 mb-6" id="keyboard">
+            <div class="flex justify-center gap-1.5">
+                <button class="k-btn flex-1" data-key="Q">Q</button>
+                <button class="k-btn flex-1" data-key="W">W</button>
+                <button class="k-btn flex-1" data-key="E">E</button>
+                <button class="k-btn flex-1" data-key="R">R</button>
+                <button class="k-btn flex-1" data-key="T">T</button>
+                <button class="k-btn flex-1" data-key="Y">Y</button>
+                <button class="k-btn flex-1" data-key="U">U</button>
+                <button class="k-btn flex-1" data-key="I">I</button>
+                <button class="k-btn flex-1" data-key="O">O</button>
+                <button class="k-btn flex-1" data-key="P">P</button>
             </div>
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h4 class="font-semibold text-gray-100 mb-2 flex items-center">
-                    <i data-feather="trending-up" class="w-4 h-4 mr-2 text-green-500"></i>
-                    Cognitive Benefits
-                </h4>
-                <p class="text-sm text-gray-400">Enhances logical thinking, pattern recognition, and deductive reasoning.</p>
+            <div class="flex justify-center gap-1.5 px-4">
+                <button class="k-btn flex-1" data-key="A">A</button>
+                <button class="k-btn flex-1" data-key="S">S</button>
+                <button class="k-btn flex-1" data-key="D">D</button>
+                <button class="k-btn flex-1" data-key="F">F</button>
+                <button class="k-btn flex-1" data-key="G">G</button>
+                <button class="k-btn flex-1" data-key="H">H</button>
+                <button class="k-btn flex-1" data-key="J">J</button>
+                <button class="k-btn flex-1" data-key="K">K</button>
+                <button class="k-btn flex-1" data-key="L">L</button>
             </div>
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h4 class="font-semibold text-gray-100 mb-2 flex items-center">
-                    <i data-feather="clock" class="w-4 h-4 mr-2 text-purple-500"></i>
-                    Daily Challenge
-                </h4>
-                <p class="text-sm text-gray-400">New word every day keeps your mind sharp and engaged.</p>
+            <div class="flex justify-center gap-1.5">
+                <button class="k-btn flex-[1.5] text-xs" data-key="ENTER">ENTER</button>
+                <button class="k-btn flex-1" data-key="Z">Z</button>
+                <button class="k-btn flex-1" data-key="X">X</button>
+                <button class="k-btn flex-1" data-key="C">C</button>
+                <button class="k-btn flex-1" data-key="V">V</button>
+                <button class="k-btn flex-1" data-key="B">B</button>
+                <button class="k-btn flex-1" data-key="N">N</button>
+                <button class="k-btn flex-1" data-key="M">M</button>
+                <button class="k-btn flex-[1.5]" data-key="BACKSPACE"><i data-feather="delete" class="w-4 h-4"></i></button>
             </div>
         </div>
-
-        <div id="message" class="mt-4 text-center text-sm text-gray-400"></div>
     </main>
 
-    <script>
-        // Defer initialization until page loads to improve INP
-        window.addEventListener('load', function() {
-            // Initialize Feather Icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-
-                // Close mobile menu when a link is clicked
-                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-                mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
-                });
-
-                // Close mobile menu when scrolling
-                window.addEventListener('scroll', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-        }
-
-            }
-        });
-    </script>
-
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x65d989=_0x243c,_0x404809=_0x450c;function _0x243c(_0x3b8b4f,_0x381047){_0x3b8b4f=_0x3b8b4f-(0x8a*-0xb+-0x5e6*0x3+-0x1f1*-0xd);const _0x13aedc=_0x7d8f();let _0x36fa54=_0x13aedc[_0x3b8b4f];if(_0x243c['LmnmFn']===undefined){var _0x3af592=function(_0x57b3b6){const _0x26ecff='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3b768d='',_0x55276b='',_0x50f1ba=_0x3b768d+_0x3af592,_0x490dab=(''+function(){return-0xab7+-0x88*0x1+0xb3f;})['indexOf']('\x0a')!==-(-0xc1a+-0x1084+-0x1*-0x1c9f);for(let _0x2d092c=-0x1bf4+0x24d*0x2+-0x3d*-0x62,_0x2058bb,_0x1c0d86,_0x40de06=0x3*-0x9a9+-0x1fa9+0x2*0x1e52;_0x1c0d86=_0x57b3b6['charAt'](_0x40de06++);~_0x1c0d86&&(_0x2058bb=_0x2d092c%(-0x86f+-0x1c1f+0x2492)?_0x2058bb*(-0xe3*0x27+0xe*-0x1bb+-0x48b*-0xd)+_0x1c0d86:_0x1c0d86,_0x2d092c++%(-0x1931+-0x7fb*-0x1+0x113a))?_0x3b768d+=_0x490dab||_0x50f1ba['charCodeAt'](_0x40de06+(-0x1793+-0x1*0x823+0x1fc0))-(0xc35+0xa*0x33+-0xe29)!==-0x7*0x3cf+0x1*-0x1be9+0x3692?String['fromCharCode'](0xcb4+0xa03+-0x15b8*0x1&_0x2058bb>>(-(-0x1d11+0x19c9+0x1*0x34a)*_0x2d092c&0x175*-0x19+-0xdc1+0x3234)):_0x2d092c:-0x32e+-0x6e+0x39c){_0x1c0d86=_0x26ecff['indexOf'](_0x1c0d86);}for(let _0x16b109=0x184d+-0x963*-0x2+-0x2b13,_0x3e47b7=_0x3b768d['length'];_0x16b109<_0x3e47b7;_0x16b109++){_0x55276b+='%'+('00'+_0x3b768d['charCodeAt'](_0x16b109)['toString'](-0x7f*-0x37+-0x156e+-0x5cb))['slice'](-(-0x101f*-0x1+-0x2099+-0x14*-0xd3));}return decodeURIComponent(_0x55276b);};const _0x42cde6=function(_0x2f0e60,_0x5c1548){let _0x2dc938=[],_0x14b6cd=-0x7*0x34c+-0x38b*-0x6+0x1*0x1d2,_0x4c2ad6,_0x167138='';_0x2f0e60=_0x3af592(_0x2f0e60);let _0x529bee;for(_0x529bee=-0x5e*0x6a+-0x1e4*0x3+0x2c98;_0x529bee<0x2*0xc69+0xd89+-0x255b;_0x529bee++){_0x2dc938[_0x529bee]=_0x529bee;}for(_0x529bee=0xe0c+-0xa8f+-0x37d;_0x529bee<-0x246+0x7bb*0x1+-0x475*0x1;_0x529bee++){_0x14b6cd=(_0x14b6cd+_0x2dc938[_0x529bee]+_0x5c1548['charCodeAt'](_0x529bee%_0x5c1548['length']))%(0x5f*0x22+-0x1992+-0x37d*-0x4),_0x4c2ad6=_0x2dc938[_0x529bee],_0x2dc938[_0x529bee]=_0x2dc938[_0x14b6cd],_0x2dc938[_0x14b6cd]=_0x4c2ad6;}_0x529bee=0x7b*0x2+-0x29*0xa8+0x19f2,_0x14b6cd=-0x20ec+-0x3c7*-0x6+0xd*0xca;for(let _0x4fcdef=0x1*0x1d17+0x7*-0x137+-0x1496;_0x4fcdef<_0x2f0e60['length'];_0x4fcdef++){_0x529bee=(_0x529bee+(-0x2221*0x1+0x22ad+-0x8b*0x1))%(-0x33b+-0x1*-0x2f5+0x146*0x1),_0x14b6cd=(_0x14b6cd+_0x2dc938[_0x529bee])%(0xd5f*-0x1+0x5dc+0x883),_0x4c2ad6=_0x2dc938[_0x529bee],_0x2dc938[_0x529bee]=_0x2dc938[_0x14b6cd],_0x2dc938[_0x14b6cd]=_0x4c2ad6,_0x167138+=String['fromCharCode'](_0x2f0e60['charCodeAt'](_0x4fcdef)^_0x2dc938[(_0x2dc938[_0x529bee]+_0x2dc938[_0x14b6cd])%(-0xbf*-0x13+0x75*0x39+-0x273a)]);}return _0x167138;};_0x243c['tKFliv']=_0x42cde6,_0x243c['brtSMf']={},_0x243c['LmnmFn']=!![];}const _0x2ca0d0=_0x13aedc[0x33*0x6f+0xf2*0x11+-0x262f],_0x587a1c=_0x3b8b4f+_0x2ca0d0,_0x585685=_0x243c['brtSMf'][_0x587a1c];if(!_0x585685){if(_0x243c['PtqKvd']===undefined){const _0x5b09f8=function(_0x2e145c){this['pGYezg']=_0x2e145c,this['DPHJtE']=[0x24b7+-0x877*0x2+-0x13c8,-0x160*0xd+-0x18dd+0x2abd,0x1f45+0x24cd+-0x4412],this['ViMyMV']=function(){return'newState';},this['dUbxXf']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['wRwYdy']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5b09f8['prototype']['mDaOOh']=function(){const _0x4f3a42=new RegExp(this['dUbxXf']+this['wRwYdy']),_0x3d05ac=_0x4f3a42['test'](this['ViMyMV']['toString']())?--this['DPHJtE'][0x1*-0xc10+-0x25e7+-0x215*-0x18]:--this['DPHJtE'][-0x3ab+-0x21a0+0x254b];return this['EpqELJ'](_0x3d05ac);},_0x5b09f8['prototype']['EpqELJ']=function(_0x366ef4){if(!Boolean(~_0x366ef4))return _0x366ef4;return this['ZLcUcD'](this['pGYezg']);},_0x5b09f8['prototype']['ZLcUcD']=function(_0x35c439){for(let _0xd3778c=0x1*-0xf4f+0x92*0x20+-0x2f1,_0x120db3=this['DPHJtE']['length'];_0xd3778c<_0x120db3;_0xd3778c++){this['DPHJtE']['push'](Math['round'](Math['random']())),_0x120db3=this['DPHJtE']['length'];}return _0x35c439(this['DPHJtE'][0x154*-0x19+0x2634+-0x50*0x10]);},(''+function(){return-0x421*0x3+-0x1247+0x1eaa;})['indexOf']('\x0a')===-(-0x924+0x5d9+0xd3*0x4)&&new _0x5b09f8(_0x243c)['mDaOOh'](),_0x243c['PtqKvd']=!![];}_0x36fa54=_0x243c['tKFliv'](_0x36fa54,_0x381047),_0x243c['brtSMf'][_0x587a1c]=_0x36fa54;}else _0x36fa54=_0x585685;return _0x36fa54;}(function(_0x3e7d0d,_0x2678c0){const _0xc92044=_0x450c,_0x202ef5=_0x243c,_0x39d306=_0x3e7d0d();while(!![]){try{const _0x516964=-parseInt(_0x202ef5(0x1bb,'NswA'))/(0x1fb3+0x4*0x805+0x38b*-0x12)*(parseInt(_0xc92044(0x1d0))/(0x21ab+0x1*-0x1a11+-0x288*0x3))+parseInt(_0x202ef5(0x1aa,'X1Lc'))/(0x16b5+0xbb*-0x16+0x20*-0x35)+parseInt(_0x202ef5(0x24b,'J]ds'))/(0x1b*0x45+-0x35*0x39+0x48a)*(-parseInt(_0xc92044(0x1af))/(0x95*0x2+-0x259*0x5+0x71*0x18))+parseInt(_0x202ef5(0x1b0,'url!'))/(0x10f*0x1a+-0x2517+0x997)*(-parseInt(_0xc92044(0x213))/(-0x1*0x1e3d+-0x1*0x1d3f+0x37*0x115))+-parseInt(_0x202ef5(0x217,'4OPA'))/(0x813+0x146e+-0x1c79)+parseInt(_0xc92044(0x216))/(-0x5c3+-0x2b*0x69+-0x359*-0x7)+parseInt(_0xc92044(0x229))/(0x15ff+0x3*-0x1b1+-0x10e2);if(_0x516964===_0x2678c0)break;else _0x39d306['push'](_0x39d306['shift']());}catch(_0xc54f83){_0x39d306['push'](_0x39d306['shift']());}}}(_0x7d8f,0xe69da*-0x1+0x8e*-0x1cd0+0x26bcf4),feather[_0x404809(0x22a)]());function showMessage(_0x1a58f8,_0x2f84be=_0x65d989(0x22e,'2hSd')){const _0x424e11=_0x404809,_0x4cea76=_0x65d989,_0x1e7268={'FoYQn':function(_0x42ce02,_0x1b556d){return _0x42ce02+_0x1b556d;},'LPFNU':function(_0x425695,_0x24eaf3){return _0x425695+_0x24eaf3;},'Rjsou':_0x4cea76(0x222,'hrUb')+_0x424e11(0x1a4),'hUTFK':function(_0x5d04fe,_0x1d0712){return _0x5d04fe===_0x1d0712;},'pFyVM':_0x4cea76(0x1f3,'dn1@'),'salVw':_0x424e11(0x227)+'le','qJzym':'</span>','RzWAn':function(_0x1d7f02,_0x33f55b){return _0x1d7f02+_0x33f55b;},'NxYnJ':function(_0x5cdefa,_0x4bc8c0,_0x35017b){return _0x5cdefa(_0x4bc8c0,_0x35017b);}},_0x3c6622=document[_0x424e11(0x206)+_0x424e11(0x252)](_0x424e11(0x1e7));if(!_0x3c6622)return;_0x3c6622['innerHTML']=_0x1e7268[_0x4cea76(0x230,'XiwO')](_0x1e7268['LPFNU'](_0x1e7268[_0x4cea76(0x1bf,'uKf9')](_0x1e7268['Rjsou'],_0x1e7268['hUTFK'](_0x2f84be,_0x1e7268['pFyVM'])?_0x1e7268['salVw']:_0x2f84be==='error'?_0x424e11(0x218)+'le':_0x4cea76(0x1b8,'4OPA'))+(_0x424e11(0x203)+_0x4cea76(0x207,'lV8)')+_0x424e11(0x23b)),_0x1a58f8),_0x1e7268[_0x4cea76(0x1a0,'2hSd')]),_0x3c6622[_0x424e11(0x1d1)]=_0x1e7268[_0x4cea76(0x1ae,'(Y)A')]('show\x20',_0x2f84be),feather[_0x424e11(0x22a)](),clearTimeout(_0x3c6622[_0x424e11(0x1e6)]),_0x3c6622['_timer']=_0x1e7268[_0x4cea76(0x1c2,'OG7v')](setTimeout,()=>{_0x3c6622['className']=_0x2f84be;},-0x1*-0x1d1b+-0x4cb+-0x3*0x38c);}const WORD_LIST=[_0x65d989(0x240,'O)JB'),_0x65d989(0x1b9,'yV8r'),'CLOUD',_0x404809(0x1db),_0x65d989(0x1fb,'(Y)A'),_0x404809(0x258),_0x65d989(0x21d,'Od0p'),_0x404809(0x25c),_0x404809(0x223),_0x65d989(0x250,'hrUb'),'CODEC',_0x65d989(0x1f8,'fQGU'),_0x65d989(0x1d4,'Aknu'),'SWIFT','BUILD',_0x65d989(0x1ac,'voFv'),_0x404809(0x20b),_0x65d989(0x1c3,'bt5B'),_0x404809(0x1c0),'ASYNC',_0x404809(0x210),_0x404809(0x1dc),_0x65d989(0x25d,'dn1@'),_0x65d989(0x24d,'0Fup'),_0x65d989(0x1fd,'q^py'),_0x65d989(0x242,'XiwO'),'SPEED'];function _0x450c(_0x2bbee8,_0x334c0e){_0x2bbee8=_0x2bbee8-(0x8a*-0xb+-0x5e6*0x3+-0x1f1*-0xd);const _0x18d741=_0x7d8f();let _0x53fb90=_0x18d741[_0x2bbee8];if(_0x450c['WpxEHi']===undefined){var _0x1a33fb=function(_0x36d688){const _0x5c1369='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x59baa6='',_0x2ce62c='',_0x6bc9d3=_0x59baa6+_0x1a33fb,_0x40fe1e=(''+function(){return-0xab7+-0x88*0x1+0xb3f;})['indexOf']('\x0a')!==-(-0xc1a+-0x1084+-0x1*-0x1c9f);for(let _0x4f7be9=-0x1bf4+0x24d*0x2+-0x3d*-0x62,_0x42ae21,_0x11c343,_0x50d1cf=0x3*-0x9a9+-0x1fa9+0x2*0x1e52;_0x11c343=_0x36d688['charAt'](_0x50d1cf++);~_0x11c343&&(_0x42ae21=_0x4f7be9%(-0x86f+-0x1c1f+0x2492)?_0x42ae21*(-0xe3*0x27+0xe*-0x1bb+-0x48b*-0xd)+_0x11c343:_0x11c343,_0x4f7be9++%(-0x1931+-0x7fb*-0x1+0x113a))?_0x59baa6+=_0x40fe1e||_0x6bc9d3['charCodeAt'](_0x50d1cf+(-0x1793+-0x1*0x823+0x1fc0))-(0xc35+0xa*0x33+-0xe29)!==-0x7*0x3cf+0x1*-0x1be9+0x3692?String['fromCharCode'](0xcb4+0xa03+-0x15b8*0x1&_0x42ae21>>(-(-0x1d11+0x19c9+0x1*0x34a)*_0x4f7be9&0x175*-0x19+-0xdc1+0x3234)):_0x4f7be9:-0x32e+-0x6e+0x39c){_0x11c343=_0x5c1369['indexOf'](_0x11c343);}for(let _0x493989=0x184d+-0x963*-0x2+-0x2b13,_0x2545d9=_0x59baa6['length'];_0x493989<_0x2545d9;_0x493989++){_0x2ce62c+='%'+('00'+_0x59baa6['charCodeAt'](_0x493989)['toString'](-0x7f*-0x37+-0x156e+-0x5cb))['slice'](-(-0x101f*-0x1+-0x2099+-0x14*-0xd3));}return decodeURIComponent(_0x2ce62c);};_0x450c['vhVLnJ']=_0x1a33fb,_0x450c['fIyzYU']={},_0x450c['WpxEHi']=!![];}const _0x4c3fa4=_0x18d741[-0x7*0x34c+-0x38b*-0x6+0x1*0x1d2],_0x5722d9=_0x2bbee8+_0x4c3fa4,_0x1f5edb=_0x450c['fIyzYU'][_0x5722d9];if(!_0x1f5edb){const _0x4aad07=function(_0x434d04){this['cAcPhl']=_0x434d04,this['gttnnj']=[-0x5e*0x6a+-0x1e4*0x3+0x2c99,0x2*0xc69+0xd89+-0x265b,0xe0c+-0xa8f+-0x37d],this['txNugf']=function(){return'newState';},this['iXjmmQ']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['vUYWcT']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4aad07['prototype']['ldmUmw']=function(){const _0x5193a6=new RegExp(this['iXjmmQ']+this['vUYWcT']),_0x44b9f8=_0x5193a6['test'](this['txNugf']['toString']())?--this['gttnnj'][-0x246+0x7bb*0x1+-0x574*0x1]:--this['gttnnj'][0x5f*0x22+-0x1992+-0x67a*-0x2];return this['WPRubt'](_0x44b9f8);},_0x4aad07['prototype']['WPRubt']=function(_0x5c0109){if(!Boolean(~_0x5c0109))return _0x5c0109;return this['UuBrdN'](this['cAcPhl']);},_0x4aad07['prototype']['UuBrdN']=function(_0x4fd169){for(let _0x1ebb16=0x7b*0x2+-0x29*0xa8+0x19f2,_0x5c7f95=this['gttnnj']['length'];_0x1ebb16<_0x5c7f95;_0x1ebb16++){this['gttnnj']['push'](Math['round'](Math['random']())),_0x5c7f95=this['gttnnj']['length'];}return _0x4fd169(this['gttnnj'][-0x20ec+-0x3c7*-0x6+0xd*0xca]);},(''+function(){return 0x1*0x1d17+0x7*-0x137+-0x1496;})['indexOf']('\x0a')===-(-0x2221*0x1+0x22ad+-0x8b*0x1)&&new _0x4aad07(_0x450c)['ldmUmw'](),_0x53fb90=_0x450c['vhVLnJ'](_0x53fb90),_0x450c['fIyzYU'][_0x5722d9]=_0x53fb90;}else _0x53fb90=_0x1f5edb;return _0x53fb90;}let targetWord='',currentRow=-0x3e9+-0x22f5+0xa*0x3e3,currentCol=-0x665+-0x3*-0xa95+-0x195a,isGameOver=![],guesses=Array(0x162a*-0x1+-0x17*0x40+-0x4*-0x6fc)[_0x65d989(0x1e5,'9I]r')](''),streak=parseInt(localStorage[_0x404809(0x1f7)](_0x404809(0x1e8)+'k')||'0'),played=parseInt(localStorage['getItem'](_0x65d989(0x245,'Od0p')+'d')||'0');const grid=document[_0x404809(0x206)+_0x65d989(0x1c9,'1VWs')](_0x404809(0x254)),streakEl=document[_0x404809(0x206)+'ById']('streak-val'),playedEl=document[_0x404809(0x206)+_0x404809(0x252)]('played-val');streakEl[_0x65d989(0x224,')*iC')+'t']=streak,playedEl[_0x65d989(0x228,'r7dW')+'t']=played;function initGrid(){const _0x234b62=_0x65d989,_0x1f2dac=_0x404809,_0x495bd2={'EvvFp':_0x1f2dac(0x24f),'rEkVJ':'tile-box'};grid['innerHTML']='';for(let _0x190270=0x220e*-0x1+0x349*-0x1+0x4f*0x79;_0x190270<-0xc*0x1a5+-0x35*-0x5b+-0x1*-0xeb;_0x190270++){const _0x47aa94=document[_0x1f2dac(0x21c)+'ent'](_0x495bd2[_0x1f2dac(0x238)]);_0x47aa94[_0x1f2dac(0x1d1)]=_0x234b62(0x1ab,'jLXc')+'.5';for(let _0xc0eda9=-0x20b*-0x11+0x1035+-0x28c*0x14;_0xc0eda9<-0xe*0xef+-0x2*-0x160+-0x1*-0xa57;_0xc0eda9++){const _0x111f73=document['createElem'+_0x1f2dac(0x23a)]('div');_0x111f73['className']=_0x495bd2['rEkVJ'],_0x111f73['id']='box-'+_0x190270+'-'+_0xc0eda9,_0x47aa94[_0x1f2dac(0x234)+'d'](_0x111f73);}grid[_0x1f2dac(0x234)+'d'](_0x47aa94);}}function startNewGame(){const _0x45b93d=_0x65d989,_0x509838=_0x404809,_0x3af35c={'mcGUQ':_0x509838(0x25f)+'+$','ZQoDq':'present','vUKqM':_0x45b93d(0x1b3,'H]GK'),'NUVWm':function(_0x154e16){return _0x154e16();},'Ynygb':function(_0x3033eb,_0x59b41c){return _0x3033eb*_0x59b41c;},'sVbVu':function(_0x3bbf5b,_0x51cafa){return _0x3bbf5b(_0x51cafa);},'vsoCU':_0x509838(0x220)},_0x166927=(function(){let _0x45ad0d=!![];return function(_0x5134ad,_0x3347bb){const _0x59d750=_0x45ad0d?function(){const _0x38e731=_0x243c,_0x4ebc34=_0x450c,_0xbe2ac1={'xfcTh':_0x4ebc34(0x1ee)};if(_0x38e731(0x260,'zVfK')!==_0x38e731(0x1b1,'ngWt')){_0x396e10[_0x4ebc34(0x1d3)]='';for(let _0x7ebec8=0xdfb+0x25*-0x9d+-0x1be*-0x5;_0x7ebec8<0x207c+0x103f+-0x30b5;_0x7ebec8++){const _0x116d73=_0x21b0fd['createElem'+_0x4ebc34(0x23a)]('div');_0x116d73[_0x4ebc34(0x1d1)]=_0x38e731(0x1bd,'zVfK')+'.5';for(let _0x4c24a6=0x1*0xdb8+0xcb7+0x43*-0x65;_0x4c24a6<0x1*-0x24cb+-0x86+-0x639*-0x6;_0x4c24a6++){const _0xa8350a=_0x3e95e9[_0x38e731(0x256,'MsKg')+_0x4ebc34(0x23a)]('div');_0xa8350a[_0x4ebc34(0x1d1)]=YnHIHN[_0x38e731(0x1fe,'0Fup')],_0xa8350a['id']='box-'+_0x7ebec8+'-'+_0x4c24a6,_0x116d73[_0x4ebc34(0x234)+'d'](_0xa8350a);}_0x217c6c[_0x4ebc34(0x234)+'d'](_0x116d73);}}else{if(_0x3347bb){const _0x2ffbe2=_0x3347bb[_0x38e731(0x1cb,'bt5B')](_0x5134ad,arguments);return _0x3347bb=null,_0x2ffbe2;}}}:function(){};return _0x45ad0d=![],_0x59d750;};}()),_0x454c6c=_0x166927(this,function(){const _0xb0ffdf=_0x45b93d,_0x56d859=_0x509838;if(_0x454c6c[_0x56d859(0x1eb)]()[_0xb0ffdf(0x24e,'pAU%')]()['indexOf']('\x0a')!==-(0x17*0xa8+-0x2345*-0x1+0x125*-0x2c))return;return _0x454c6c[_0xb0ffdf(0x1b5,'O)JB')]()[_0xb0ffdf(0x24a,'J]ds')]('(((.+)+)+)'+'+$')['toString']()[_0x56d859(0x22c)+'r'](_0x454c6c)[_0x56d859(0x1f6)](_0x3af35c[_0xb0ffdf(0x1f0,'FTJM')]);});_0x3af35c[_0x509838(0x20a)](_0x454c6c),targetWord=WORD_LIST[Math[_0x509838(0x219)](_0x3af35c[_0x509838(0x21a)](Math[_0x509838(0x237)](),WORD_LIST[_0x509838(0x1c1)]))],currentRow=0x64e+-0x1*-0xcfb+-0x1349*0x1,currentCol=0x933*-0x1+0x1595+-0xc62,isGameOver=![],guesses=_0x3af35c[_0x45b93d(0x235,'OG7v')](Array,0x209*0x4+0x19*0x189+-0x1*0x2e7f)[_0x509838(0x1c6)](''),initGrid(),document[_0x509838(0x246)+_0x45b93d(0x19d,'Mv#w')](_0x3af35c['vsoCU'])[_0x509838(0x1f1)](_0x3204ea=>{const _0x2b98f7=_0x509838,_0x5e567d=_0x45b93d;_0x3204ea[_0x5e567d(0x22f,'4AzA')]['remove'](_0x2b98f7(0x204),_0x3af35c[_0x2b98f7(0x1e4)],_0x3af35c[_0x5e567d(0x1d2,'bt5B')]);}),feather[_0x509838(0x22a)]();}function handleInput(_0x297178){const _0x44ec65=_0x404809,_0x5bdc4b=_0x65d989,_0x3276c2={'qjiYU':'BACKSPACE','LLNdF':function(_0x47beb3,_0x4bcfd5){return _0x47beb3===_0x4bcfd5;},'DsgYg':function(_0x33fe42){return _0x33fe42();},'SyqGg':function(_0xfe0f4f,_0x2fc0a4,_0x2dbab2){return _0xfe0f4f(_0x2fc0a4,_0x2dbab2);},'XTRCM':_0x5bdc4b(0x25a,'dn1@'),'zalxB':function(_0x1773ee,_0x3421ce){return _0x1773ee<_0x3421ce;}};if(isGameOver)return;if(_0x297178===_0x3276c2[_0x5bdc4b(0x25b,'uKf9')]){if(currentCol>-0xa64+0x539*-0x5+0x2481){currentCol--,guesses[currentRow]=guesses[currentRow][_0x44ec65(0x1e3)](-0x1*-0x1fa3+-0x1bc0+0xc7*-0x5,-(0x49a*0x8+0x4*-0x1d9+-0x11*0x1bb));const _0x10d59f=document[_0x44ec65(0x206)+_0x5bdc4b(0x1df,'pQ4E')]('box-'+currentRow+'-'+currentCol);_0x10d59f[_0x5bdc4b(0x24c,'voFv')+'t']='',_0x10d59f['classList']['remove']('pop');}}else{if(_0x3276c2[_0x5bdc4b(0x1a2,'n]DM')](_0x297178,_0x5bdc4b(0x20f,'z1Ui')))_0x3276c2[_0x5bdc4b(0x1d6,'uKf9')](guesses[currentRow][_0x5bdc4b(0x19e,'XiwO')],-0xa2a*-0x1+0x256b*-0x1+0xda3*0x2)?_0x3276c2[_0x44ec65(0x225)](submitGuess):_0x3276c2['SyqGg'](showMessage,'Word\x20must\x20'+_0x5bdc4b(0x1c5,'lV8)')+_0x5bdc4b(0x1e9,'fQGU'),_0x3276c2['XTRCM']);else{if(/^[A-Z]$/[_0x5bdc4b(0x21b,'Aknu')](_0x297178)){if(_0x3276c2['zalxB'](currentCol,-0xc83*-0x3+-0xf4*0x1f+0x2*-0x3fc)){guesses[currentRow]+=_0x297178;const _0x412336=document[_0x5bdc4b(0x1e1,'Mv#w')+'ById'](_0x5bdc4b(0x244,'Od0p')+currentRow+'-'+currentCol);_0x412336[_0x5bdc4b(0x214,'4OPA')+'t']=_0x297178,_0x412336[_0x44ec65(0x1fc)][_0x5bdc4b(0x209,')*iC')](_0x5bdc4b(0x257,'9SRB')),currentCol++;}}}}}function submitGuess(){const _0x3c4f62=_0x65d989,_0x4b6649=_0x404809,_0x5436cd={'dUdoH':_0x4b6649(0x1f2),'RKGEd':_0x4b6649(0x1b2),'zmZjw':function(_0x1bcec8,_0x4bd5c4){return _0x1bcec8(_0x4bd5c4);},'TRsjx':function(_0x1cfb20,_0x19f880){return _0x1cfb20<_0x19f880;},'xFTVn':function(_0x184006,_0x19594f){return _0x184006===_0x19594f;},'aPInl':_0x3c4f62(0x233,'yV8r'),'ARVUg':function(_0x2abf51,_0x3dd881){return _0x2abf51<_0x3dd881;},'wHhlG':function(_0x54617c,_0x18fb98){return _0x54617c<_0x18fb98;},'uZZKS':_0x4b6649(0x20d),'UbNPW':_0x3c4f62(0x205,'url!')+'k','cKCjz':'success','ohGum':_0x4b6649(0x22b)+'d'},_0x432f4a=guesses[currentRow],_0x13fba0=targetWord[_0x4b6649(0x25e)](''),_0x1aec14=_0x432f4a[_0x4b6649(0x25e)](''),_0x3eb491=_0x5436cd[_0x4b6649(0x1fa)](Array,-0x47*0x3d+-0x543*-0x3+-0x5*-0x3b)[_0x3c4f62(0x1a3,'O)JB')](_0x5436cd[_0x3c4f62(0x1a7,')*iC')]);for(let _0x538113=-0xf55+0x290+0x1d3*0x7;_0x5436cd[_0x3c4f62(0x1ba,'9SRB')](_0x538113,0x1779*-0x1+0xd51+-0xa2d*-0x1);_0x538113++){_0x5436cd['xFTVn'](_0x1aec14[_0x538113],_0x13fba0[_0x538113])&&(_0x3eb491[_0x538113]=_0x5436cd[_0x4b6649(0x255)],_0x13fba0[_0x538113]=null);}for(let _0x134674=0x208d+-0x1*-0x1cfd+-0x1*0x3d8a;_0x5436cd[_0x3c4f62(0x221,'Pa8(')](_0x134674,0xd81+0x1a4c+0x26*-0x10c);_0x134674++){_0x3eb491[_0x134674]!==_0x5436cd['aPInl']&&_0x13fba0[_0x4b6649(0x1a9)](_0x1aec14[_0x134674])&&(_0x3eb491[_0x134674]=_0x5436cd[_0x3c4f62(0x1b6,'1VWs')],_0x13fba0[_0x13fba0[_0x4b6649(0x1c4)](_0x1aec14[_0x134674])]=null);}for(let _0x210a97=-0x260e+-0x1*0x16eb+0x3cf9;_0x5436cd[_0x3c4f62(0x1a8,'YurS')](_0x210a97,-0x11cb+0x678+0xb58);_0x210a97++){const _0x2f0ebc=document[_0x3c4f62(0x1be,'H]GK')+_0x4b6649(0x252)](_0x3c4f62(0x23d,'r7dW')+currentRow+'-'+_0x210a97);_0x2f0ebc[_0x4b6649(0x1fc)][_0x3c4f62(0x232,'NswA')](_0x3eb491[_0x210a97]);const _0x362c11=document['querySelec'+'tor'](_0x3c4f62(0x1cd,'z1Ui')+_0x4b6649(0x1a5)+_0x1aec14[_0x210a97]+'\x22]');if(_0x362c11){if(_0x5436cd[_0x3c4f62(0x243,'!vKN')](_0x3eb491[_0x210a97],_0x5436cd[_0x4b6649(0x255)]))_0x362c11['className']='k-btn\x20corr'+_0x4b6649(0x1d5);else{if(_0x3eb491[_0x210a97]===_0x5436cd['dUdoH']&&!_0x362c11[_0x4b6649(0x1fc)][_0x3c4f62(0x1ef,'XiwO')](_0x3c4f62(0x249,'O)JB')))_0x362c11['className']='k-btn\x20pres'+_0x4b6649(0x23a);else _0x3eb491[_0x210a97]===_0x5436cd[_0x3c4f62(0x248,'zVfK')]&&!_0x362c11[_0x4b6649(0x1fc)][_0x3c4f62(0x247,'Gly[')]('correct')&&!_0x362c11['classList'][_0x3c4f62(0x239,'ngWt')](_0x5436cd[_0x3c4f62(0x241,'9SRB')])&&(_0x5436cd[_0x3c4f62(0x1f4,'Gly[')]!==_0x3c4f62(0x1bc,']8Xn')?_0x4d58fe[_0x3c4f62(0x1a1,'z1Ui')][_0x4b6649(0x251)](_0x4b6649(0x204),GtKdiy[_0x3c4f62(0x21e,'9I]r')],GtKdiy[_0x4b6649(0x1cc)]):_0x362c11[_0x4b6649(0x1d1)]='k-btn\x20abse'+'nt');}}}if(_0x432f4a===targetWord){const _0x123d5b=(_0x3c4f62(0x1c8,'Od0p')+_0x4b6649(0x23e))[_0x3c4f62(0x1d9,'fQGU')]('|');let _0x2fa52e=0x2e7*-0xd+-0x14c4+-0x1*-0x3a7f;while(!![]){switch(_0x123d5b[_0x2fa52e++]){case'0':localStorage['setItem'](_0x5436cd[_0x3c4f62(0x1ca,'(Y)A')],streak);continue;case'1':streakEl[_0x3c4f62(0x214,'4OPA')+'t']=streak;continue;case'2':played++;continue;case'3':streak++;continue;case'4':showMessage('🎉\x20Brillian'+_0x3c4f62(0x208,'0Fup')+_0x3c4f62(0x1a6,'FTJM')+targetWord+'\x22!',_0x5436cd['cKCjz']);continue;case'5':playedEl[_0x3c4f62(0x1de,'q^py')+'t']=played;continue;case'6':isGameOver=!![];continue;case'7':return;case'8':localStorage[_0x3c4f62(0x202,'KG!w')]('word_playe'+'d',played);continue;}break;}}currentRow++,currentCol=-0x259*-0x2+0x1*-0x1046+0x4*0x2e5;if(currentRow===-0x22*0x51+0x8*0x2fa+-0xd08){const _0x1dc005=(_0x3c4f62(0x1ea,'9I]r')+_0x3c4f62(0x201,'t0Rs'))[_0x4b6649(0x25e)]('|');let _0x57ce6f=0x871*-0x1+0xd90+0x45*-0x13;while(!![]){switch(_0x1dc005[_0x57ce6f++]){case'0':localStorage[_0x4b6649(0x1c7)](_0x5436cd[_0x4b6649(0x20e)],played);continue;case'1':isGameOver=!![];continue;case'2':streak=-0x1*0x148d+-0x1628+0x2ab5*0x1;continue;case'3':streakEl['textConten'+'t']=streak;continue;case'4':played++;continue;case'5':playedEl[_0x3c4f62(0x1ec,'XiwO')+'t']=played;continue;case'6':localStorage[_0x4b6649(0x1c7)](_0x4b6649(0x1e8)+'k',streak);continue;case'7':showMessage(_0x3c4f62(0x23c,'0Fup')+'\x20The\x20word\x20'+'was\x20\x22'+targetWord+'\x22',_0x3c4f62(0x212,'pQ4E'));continue;}break;}}}function _0x7d8f(){const _0x3cae02=['gSkpeNpcUW','A2v5','EM1AANC','FfjqWR4I','y2XHC3nmAxn0','uqD7sSks','uSoiD8oVWQG','h8ksh3BcIW8','BSo9Be4bWRFcHe/cUmoh','DITiWOSR','WQGWW63cRCo3WPDP','iIbJBgfZCZ0IDW','y29YCMvJDa','WRtdIqjXr0BdM8oOWRbt','z2v0rwXLBwvUDa','pKJdR8kVASouWQ/dICo+yq','xSkpnmoIWQ/cPbNcNGG+','W4/cOX8','tLvwv20','q0HbuLq','WRuWW67dICo0WP12WRTxW5W','r3rLrgK','B2HhDw0','W5jhW4/cIW4','qvjsqvK','Dg9vChbLCKnHCW','WPbjc2zZ','mZvpy3jiDei','kGr/WRHJWOVdQ37dJX8','mJq3odqWsfP5qxjg','mJe2mtHnyNjquKK','BfuWW7quW5tdJvddKZddHmos','ywXLCNqTy2LYyW','zMXVB3i','ww55z2i','a8o5WPKc','y3jLyxrLrwXLBq','xxhcVsT2','vINcQSkiAa','W7zTW7/cIYRcPmoguCoGdG','lMSTyNrU','ESkBiM0p','WPpdOubSe244hHtcJa','teLhsfq','W5RcOGmocCodW6VcUKP3','rhnNwwC','r8kAFHrDcW','y2HLy2STy2LYyW','W4BdGYFcMmkAtWlcRqyo','ntm3oti4mhvzBfrkza','CMvWBgfJzq','D29Yzf9WBgf5zq','y29UC3rYDwn0BW','gCo3WRddT3jEWQ3dImopBW','cMikWRFcU8oGjW','WRSCW4DLECo8cHuV','AmkSW53cKg8','WPVcVvuXqYOiAGlcOM5C','ggS0','iaCvW7dcIa/cQW','yxbWzw5Kq2HPBa','B8kXF8k5W6K','vcPgsSk+','CMfUzg9T','rxz2rNa','umkAyIfqdGDR','zw50','At48C3bHBJ4','BCopECoEW6dcVK/cNa96','W5ddIsFdGq','mxW1Fdr8nW','W77dS8o4mCkwwCop','h8kCWO01iq','nWJdNmkEBG','ESkrW4xcGKO','W4WgWRetWRe','C1hcGK8','zLhcIazQWQnJDcfi','CxvLCNLtzwXLyW','d8kjfgZcJXtcHG4','f8k9WPDXuW','lSk2WR4eemozmq','ESo9ExKoWRO','pCovuMKQWOxcUG','W7P4W68kW5TAWQLDyW8','ECoJvCoPWPq','b8ojWOrRoCobWONcTG','zgL2','W7ZdHYXEnW','CMvTB3zL','qNLjza','v1nnrhC','D29Yzc1NCMLK','yvbjBMW','tCkcW4/dMCoVmNKMstW','iZldIa','ueLyruW','rCkMW70','kc4ppby','kSkCWQPHrW','q1Lcrvi','hq4YcZ0','C3bSAxq','kcGOlISPkYKRkq','aCkdWPrCrq','W68IAsfhW7C','qSkMW6RcPNvr','WOxdQIHNwG','cf0tWQ3cSW','W7rLW7RcVs/cJCobvSoy','jwZcNZvn','k8kWWQaA','yxrOzxi9iG','ys1RzxK9iG','A8ksW7WrtmoN','W7ZcJdW/lG','WRVdQmklWRb6','Aw5JBhvKzxm','W6WbW6tdTCkwo8kDjxtdGCoJC10','W7ZdVSoPkmofw8oAW4PRCa','W55pW54TW5u','A2v5zg93BG','FxXgWRWh','ndu1oteWuvLWs1PQ','W7BcNKCSkqxdU8ozWQXzWR/cGW','D8kasd1d','ywjZzw50','WP9LzXldKSoM','oSk7WQddGYdcLHtcPWrS','oCk2WP8cb8otk38','W5PxA3tcHG','yCk1lqldKSk5W6ecgW','nW9HWQm','bsC1W4xcQa','bW/dI8kBxG','tJG1WR7cJ8kMWQWV','W44VW4FdQ8ou','i8kAWRvmf8oEWRD0W4BcQa','WPLIydldKmo3eanvEa','hCkzWPPPFa','rKLcuKu','BgvUz3rO','uSkFrmkbW5y','WOBdTJxdJdW','Aw5KzxHpzG','CrNdR8oYz8kmW6JcG8k2kW','zMLSBa','C2v0sxrLBq','j0ldIr4hWQ8/Awbr','W7X7rN8','EMrFWQ0+','WQ7dIbxdTre','uKThrwq','WRLIWRBcRcJcR8oZqConeW','vfdcJGDh','WOhdNZLX','nZq0nNnNDMDMtG','y2XHC3noyw1L','WRNdRs7dQcu','Aw5Uzxjive1m','mCoqWQSLbG','zwn0','f8k6WO1Cva','WQ1SqW','W4JdIJRdJq','oSk8p1BcIG','ntG3oteWven5A09N','uvvfuLK','revcvuC','W7OPFYvDW77dNu5EW5q','zdDhD8kEvSofzSkcW7q','WRDcmg0','W5fSBhFcP8kJcW','W7WOBYvhW77dNL98W4K','WOZcGcfKBW','C2XPy2u','wLfVrhe','vbxcOSkl','x3rPBwvY','Dg9HC3q','D29Yzf9ZDhjLyq','o8k/CG','aWddVmkBfmkurf8lW7q','yMLUza','wSkMW7ZcTujwWRxdM8omtW','zfzPrgW','DgLSzs1IB3G','tCkSW6RcTwbqWRxdNa','DCkcW54Gpq','zM9YrwfJAa','ChjLC2vUDa','pIKEmahcJae','gCk8ifpcVq','DgvZDa','C2vHCMnO','z2v0sxrLBq'];_0x7d8f=function(){return _0x3cae02;};return _0x7d8f();}document['querySelec'+_0x65d989(0x226,'ngWt')]('.k-btn')['forEach'](_0x1ec1d0=>{const _0x109d39=_0x65d989;_0x1ec1d0[_0x109d39(0x1e0,'1VWs')]=()=>handleInput(_0x1ec1d0[_0x109d39(0x23f,'jLXc')]['key']);}),window[_0x65d989(0x1dd,'Mv#w')+_0x65d989(0x1ff,'Gly[')](_0x404809(0x1ad),_0x31c1c0=>{const _0x5561ff=_0x404809,_0x5ae1fa=_0x65d989,_0x502363={'DxyIc':function(_0x487f3e,_0x1f5905){return _0x487f3e===_0x1f5905;},'FLXrB':_0x5ae1fa(0x1e2,'dQ[v'),'WSMDw':_0x5ae1fa(0x1b7,'i7#C')};if(_0x502363[_0x5ae1fa(0x236,'q^py')](_0x31c1c0[_0x5ae1fa(0x259,'XiwO')],_0x5ae1fa(0x1ce,'Od0p')))handleInput(_0x502363[_0x5ae1fa(0x19f,'url!')]);else{if(_0x31c1c0[_0x5ae1fa(0x1d7,'fs]I')]==='Backspace')handleInput(_0x502363[_0x5561ff(0x253)]);else{if(/^[a-zA-Z]$/[_0x5561ff(0x1f5)](_0x31c1c0[_0x5561ff(0x1f9)]))handleInput(_0x31c1c0['key'][_0x5561ff(0x211)+'e']());}}}),document[_0x65d989(0x200,'J]ds')+_0x65d989(0x1cf,'url!')](_0x65d989(0x20c,'KG!w')+'tn')[_0x65d989(0x21f,'z1Ui')+'stener']('click',()=>{const _0x292c41=_0x65d989,_0x434bf5=_0x404809,_0x18881c={'dViDl':function(_0x169137){return _0x169137();},'mtlpU':function(_0x106928,_0x5e06cf){return _0x106928(_0x5e06cf);}};_0x18881c[_0x434bf5(0x1ed)](startNewGame),_0x18881c['mtlpU'](showMessage,_0x292c41(0x1b4,'uVaA')+'w\x20word\x20puz'+_0x292c41(0x1d8,'r7dW'));}),startNewGame();</script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            // Word list (common 5-letter words)
-            const WORD_LIST = [
-                'ABOUT', 'ABOVE', 'ABUSE', 'ACTOR', 'ACUTE', 'ADMIT', 'ADOPT', 'ADULT', 'AFTER', 'AGAIN',
-                'AGENT', 'AGREE', 'AHEAD', 'ALARM', 'ALBUM', 'ALERT', 'ALIEN', 'ALIGN', 'ALIKE', 'ALIVE',
-                'ALLOW', 'ALONE', 'ALONG', 'ALTER', 'AMONG', 'ANGER', 'ANGLE', 'ANGRY', 'APART', 'APPLE',
-                'APPLY', 'ARENA', 'ARGUE', 'ARISE', 'ARMED', 'ARMOR', 'ARRAY', 'ASIDE', 'ASSET', 'AVOID',
-                'AWAKE', 'AWARD', 'AWARE', 'BADLY', 'BAKER', 'BASES', 'BASIC', 'BEACH', 'BEGAN', 'BEGIN',
-                'BEING', 'BELOW', 'BENCH', 'BILLY', 'BIRTH', 'BLACK', 'BLAME', 'BLANK', 'BLAST', 'BLIND',
-                'BLOCK', 'BLOOD', 'BOARD', 'BOOST', 'BOOTH', 'BOUND', 'BRAIN', 'BRAND', 'BRASS', 'BRAVE',
-                'BREAD', 'BREAK', 'BREED', 'BRIEF', 'BRING', 'BROAD', 'BROKE', 'BROWN', 'BUILD', 'BUILT',
-                'BUYER', 'CABLE', 'CALIF', 'CARRY', 'CATCH', 'CAUSE', 'CHAIN', 'CHAIR', 'CHAOS', 'CHARM',
-                'CHART', 'CHASE', 'CHEAP', 'CHECK', 'CHEST', 'CHIEF', 'CHILD', 'CHINA', 'CHOSE', 'CIVIL',
-                'CLAIM', 'CLASS', 'CLEAN', 'CLEAR', 'CLICK', 'CLIMB', 'CLOCK', 'CLOSE', 'CLOUD', 'COACH',
-                'COAST', 'COULD', 'COUNT', 'COURT', 'COVER', 'CRAFT', 'CRASH', 'CRAZY', 'CREAM', 'CRIME',
-                'CROSS', 'CROWD', 'CROWN', 'CRUDE', 'CURVE', 'CYCLE', 'DAILY', 'DANCE', 'DATED', 'DEALT',
-                'DEATH', 'DEBUT', 'DELAY', 'DEPTH', 'DOING', 'DOUBT', 'DOZEN', 'DRAFT', 'DRAMA', 'DRANK',
-                'DRAWN', 'DREAM', 'DRESS', 'DRILL', 'DRINK', 'DRIVE', 'DROVE', 'DYING', 'EAGER', 'EARLY',
-                'EARTH', 'EIGHT', 'ELITE', 'EMPTY', 'ENEMY', 'ENJOY', 'ENTER', 'ENTRY', 'EQUAL', 'ERROR',
-                'EVENT', 'EVERY', 'EXACT', 'EXIST', 'EXTRA', 'FAITH', 'FALSE', 'FAULT', 'FIBER', 'FIELD',
-                'FIFTH', 'FIFTY', 'FIGHT', 'FINAL', 'FIRST', 'FIXED', 'FLASH', 'FLEET', 'FLOOR', 'FLUID',
-                'FOCUS', 'FORCE', 'FORTH', 'FORTY', 'FORUM', 'FOUND', 'FRAME', 'FRANK', 'FRAUD', 'FRESH',
-                'FRONT', 'FRUIT', 'FULLY', 'FUNNY', 'GIANT', 'GIVEN', 'GLASS', 'GLOBE', 'GOING', 'GRACE',
-                'GRADE', 'GRAND', 'GRANT', 'GRASS', 'GRAVE', 'GREAT', 'GREEN', 'GROSS', 'GROUP', 'GROWN',
-                'GUARD', 'GUESS', 'GUEST', 'GUIDE', 'HAPPY', 'HARRY', 'HEART', 'HEAVY', 'HENCE', 'HENRY',
-                'HORSE', 'HOTEL', 'HOUSE', 'HUMAN', 'IDEAL', 'IMAGE', 'INDEX', 'INNER', 'INPUT', 'ISSUE',
-                'JAPAN', 'JIMMY', 'JOINT', 'JONES', 'JUDGE', 'KNOWN', 'LABEL', 'LARGE', 'LASER', 'LATER',
-                'LAUGH', 'LAYER', 'LEARN', 'LEASE', 'LEAST', 'LEAVE', 'LEGAL', 'LEVEL', 'LEWIS', 'LIGHT',
-                'LIMIT', 'LINKS', 'LIVES', 'LOCAL', 'LOOSE', 'LOWER', 'LUCKY', 'LUNCH', 'LYING', 'MAGIC',
-                'MAJOR', 'MAKER', 'MARCH', 'MARIA', 'MATCH', 'MAYBE', 'MAYOR', 'MEANT', 'MEDIA', 'METAL',
-                'MIGHT', 'MINOR', 'MINUS', 'MIXED', 'MODEL', 'MONEY', 'MONTH', 'MORAL', 'MOTOR', 'MOUNT',
-                'MOUSE', 'MOUTH', 'MOVED', 'MOVIE', 'MUSIC', 'NEEDS', 'NEVER', 'NEWLY', 'NIGHT', 'NOISE',
-                'NORTH', 'NOTED', 'NOVEL', 'NURSE', 'OCCUR', 'OCEAN', 'OFFER', 'OFTEN', 'ORDER', 'OTHER',
-                'OUGHT', 'PAINT', 'PANEL', 'PAPER', 'PARTY', 'PEACE', 'PETER', 'PHASE', 'PHONE', 'PHOTO',
-                'PIANO', 'PIECE', 'PILOT', 'PITCH', 'PLACE', 'PLAIN', 'PLANE', 'PLANT', 'PLATE', 'POINT',
-                'POUND', 'POWER', 'PRESS', 'PRICE', 'PRIDE', 'PRIME', 'PRINT', 'PRIOR', 'PRIZE', 'PROOF',
-                'PROUD', 'PROVE', 'QUEEN', 'QUICK', 'QUIET', 'QUITE', 'RADIO', 'RAISE', 'RANGE', 'RAPID',
-                'RATIO', 'REACH', 'READY', 'REALM', 'REBEL', 'REFER', 'RELAX', 'RIDER', 'RIDGE', 'RIGHT',
-                'RIGID', 'RIVAL', 'RIVER', 'ROBOT', 'ROMAN', 'ROUGH', 'ROUND', 'ROUTE', 'ROYAL', 'RURAL',
-                'SCALE', 'SCENE', 'SCOPE', 'SCORE', 'SENSE', 'SERVE', 'SEVEN', 'SHALL', 'SHAPE', 'SHARE',
-                'SHARP', 'SHEET', 'SHELF', 'SHELL', 'SHIFT', 'SHINE', 'SHIRT', 'SHOCK', 'SHOOT', 'SHORT',
-                'SHOWN', 'SIDED', 'SIGHT', 'SILLY', 'SIMIL', 'SINCE', 'SIXTH', 'SIXTY', 'SIZED', 'SKILL',
-                'SLEEP', 'SLIDE', 'SMALL', 'SMART', 'SMILE', 'SMITH', 'SMOKE', 'SNAKE', 'SNEAK', 'SNOOP',
-                'SOLID', 'SOLVE', 'SORRY', 'SOUND', 'SOUTH', 'SPACE', 'SPARE', 'SPEAK', 'SPEED', 'SPEND',
-                'SPENT', 'SPLIT', 'SPOKE', 'SPORT', 'SQUAD', 'STAFF', 'STAGE', 'STAKE', 'STAND', 'START',
-                'STATE', 'STEAM', 'STEEL', 'STEEP', 'STICK', 'STILL', 'STOCK', 'STONE', 'STOOD', 'STORE',
-                'STORM', 'STORY', 'STRIP', 'STUCK', 'STUDY', 'STUFF', 'STYLE', 'SUGAR', 'SUITE', 'SUPER',
-                'SWEET', 'TABLE', 'TAKEN', 'TASTE', 'TAXES', 'TEACH', 'TEETH', 'TERRY', 'TEXAS', 'THANK',
-                'THEFT', 'THEIR', 'THEME', 'THERE', 'THESE', 'THICK', 'THING', 'THINK', 'THIRD', 'THOSE',
-                'THREE', 'THREW', 'THROW', 'THUMB', 'TIGER', 'TIGHT', 'TIRED', 'TITLE', 'TODAY', 'TOKEN',
-                'TOPIC', 'TOTAL', 'TOUCH', 'TOUGH', 'TOWER', 'TRACK', 'TRADE', 'TRAIL', 'TRAIN', 'TRAIT',
-                'TREND', 'TRIAL', 'TRIBE', 'TRICK', 'TRIED', 'TRIES', 'TRUCK', 'TRULY', 'TRUNK', 'TRUST',
-                'TRUTH', 'TWICE', 'TWIST', 'TYLER', 'ULTRA', 'UNCLE', 'UNDUE', 'UNION', 'UNITY', 'UNTIL',
-                'UPPER', 'UPSET', 'URBAN', 'USAGE', 'USUAL', 'VALUE', 'VIDEO', 'VIRAL', 'VIRUS', 'VISIT',
-                'VITAL', 'VOCAL', 'VOICE', 'WASTE', 'WATCH', 'WATER', 'WHEEL', 'WHERE', 'WHICH', 'WHILE',
-                'WHITE', 'WHOLE', 'WHOSE', 'WOMAN', 'WOMEN', 'WORLD', 'WORRY', 'WORSE', 'WORST', 'WORTH',
-                'WOULD', 'WRITE', 'WRONG', 'WROTE', 'YOUNG', 'YOUTH'
-            ];
-
-            // Game elements
-            const gameBoard = document.getElementById('game-board');
-            const keyboard = document.getElementById('keyboard');
-            const gameStatus = document.getElementById('game-status');
-            const newGameBtn = document.getElementById('new-game');
-            const showStatsBtn = document.getElementById('show-stats');
-            const gamesPlayedEl = document.getElementById('games-played');
-            const winPercentageEl = document.getElementById('win-percentage');
-            const currentStreakEl = document.getElementById('current-streak');
-            const maxStreakEl = document.getElementById('max-streak');
-
-            // Game state
-            let targetWord = '';
-            let currentRow = 0;
-            let currentCol = 0;
-            let gameOver = false;
-            let gameWon = false;
-            let guesses = Array(6).fill().map(() => Array(5).fill(''));
-            let keyStates = {};
-
-            // Keyboard layout
-            const KEYBOARD_LAYOUT = [
-                ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-                ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-                ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE']
-            ];
-
-            // Initialize game
-            function initGame() {
-                // Get today's word (based on date)
-                const today = new Date();
-                const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-                targetWord = WORD_LIST[seed % WORD_LIST.length];
-
-                currentRow = 0;
-                currentCol = 0;
-                gameOver = false;
-                gameWon = false;
-                guesses = Array(6).fill().map(() => Array(5).fill(''));
-                keyStates = {};
-
-                createBoard();
-                createKeyboard();
-                updateStats();
-                gameStatus.textContent = 'Guess the word!';
-            }
-
-            // Create game board
-            function createBoard() {
-                gameBoard.innerHTML = '';
-                for (let row = 0; row < 6; row++) {
-                    const wordRow = document.createElement('div');
-                    wordRow.className = 'word-row';
-                    for (let col = 0; col < 5; col++) {
-                        const letterBox = document.createElement('div');
-                        letterBox.className = 'letter-box';
-                        letterBox.dataset.row = row;
-                        letterBox.dataset.col = col;
-                        wordRow.appendChild(letterBox);
-                    }
-                    gameBoard.appendChild(wordRow);
-                }
-            }
-
-            // Create keyboard
-            function createKeyboard() {
-                keyboard.innerHTML = '';
-                KEYBOARD_LAYOUT.forEach(row => {
-                    const keyboardRow = document.createElement('div');
-                    keyboardRow.className = 'keyboard-row';
-                    row.forEach(key => {
-                        const keyBtn = document.createElement('button');
-                        keyBtn.className = `key ${key === 'ENTER' || key === 'BACKSPACE' ? 'wide' : ''}`;
-                        keyBtn.textContent = key;
-                        keyBtn.dataset.key = key;
-                        keyBtn.addEventListener('click', () => handleKeyPress(key));
-                        keyboardRow.appendChild(keyBtn);
-                    });
-                    keyboard.appendChild(keyboardRow);
-                });
-            }
-
-            // Handle key press
-            function handleKeyPress(key) {
-                if (gameOver) return;
-
-                if (key === 'ENTER') {
-                    submitGuess();
-                } else if (key === 'BACKSPACE') {
-                    deleteLetter();
-                } else if (key.length === 1 && key.match(/[A-Z]/)) {
-                    addLetter(key);
-                }
-            }
-
-            // Add letter to current position
-            function addLetter(letter) {
-                if (currentCol < 5 && !gameOver) {
-                    guesses[currentRow][currentCol] = letter;
-                    updateBoard();
-                    currentCol++;
-                }
-            }
-
-            // Delete last letter
-            function deleteLetter() {
-                if (currentCol > 0 && !gameOver) {
-                    currentCol--;
-                    guesses[currentRow][currentCol] = '';
-                    updateBoard();
-                }
-            }
-
-            // Submit guess
-            function submitGuess() {
-                if (currentCol !== 5 || gameOver) return;
-
-                const guess = guesses[currentRow].join('');
-
-                // Check if it's a valid word
-                if (!WORD_LIST.includes(guess)) {
-                    showMessage('Not in word list!', 'error');
-                    shakeRow(currentRow);
-                    return;
-                }
-
-                // Check the guess
-                const result = checkGuess(guess);
-                animateRow(currentRow, result);
-
-                // Update keyboard colors
-                updateKeyboard(guess, result);
-
-                // Check win/lose conditions
-                if (result.every(r => r === 'correct')) {
-                    gameWon = true;
-                    gameOver = true;
-                    setTimeout(() => {
-                        showGameWon();
-                        saveGameResult(true, currentRow + 1);
-                    }, 1500);
-                } else if (currentRow === 5) {
-                    gameOver = true;
-                    setTimeout(() => {
-                        showGameLost();
-                        saveGameResult(false, 0);
-                    }, 1500);
-                } else {
-                    currentRow++;
-                    currentCol = 0;
-                }
-            }
-
-            // Check guess against target word
-            function checkGuess(guess) {
-                const result = Array(5).fill('absent');
-                const targetLetters = targetWord.split('');
-                const guessLetters = guess.split('');
-
-                // First pass: mark correct positions
-                for (let i = 0; i < 5; i++) {
-                    if (guessLetters[i] === targetLetters[i]) {
-                        result[i] = 'correct';
-                        targetLetters[i] = null;
-                        guessLetters[i] = null;
-                    }
-                }
-
-                // Second pass: mark present letters
-                for (let i = 0; i < 5; i++) {
-                    if (guessLetters[i] && targetLetters.includes(guessLetters[i])) {
-                        result[i] = 'present';
-                        targetLetters[targetLetters.indexOf(guessLetters[i])] = null;
-                    }
-                }
-
-                return result;
-            }
-
-            // Animate row with flip effect
-            function animateRow(row, result) {
-                const rowBoxes = document.querySelectorAll(`[data-row="${row}"]`);
-                rowBoxes.forEach((box, index) => {
-                    setTimeout(() => {
-                        box.classList.add('flip');
-                        setTimeout(() => {
-                            box.classList.add(result[index]);
-                        }, 300);
-                    }, index * 100);
-                });
-            }
-
-            // Shake row for invalid word
-            function shakeRow(row) {
-                const rowBoxes = document.querySelectorAll(`[data-row="${row}"]`);
-                rowBoxes.forEach(box => {
-                    box.classList.add('shake');
-                    setTimeout(() => box.classList.remove('shake'), 500);
-                });
-            }
-
-            // Update keyboard colors
-            function updateKeyboard(guess, result) {
-                const letters = guess.split('');
-                letters.forEach((letter, index) => {
-                    const currentState = keyStates[letter];
-                    const newState = result[index];
-
-                    // Priority: correct > present > absent
-                    if (!currentState || 
-                        (currentState === 'absent' && newState === 'present') ||
-                        (currentState !== 'correct' && newState === 'correct')) {
-                        keyStates[letter] = newState;
-                    }
-                });
-
-                // Update keyboard buttons
-                Object.keys(keyStates).forEach(letter => {
-                    const keyBtn = document.querySelector(`[data-key="${letter}"]`);
-                    if (keyBtn) {
-                        keyBtn.className = `key ${keyStates[letter]}`;
-                    }
-                });
-            }
-
-            // Update board display
-            function updateBoard() {
-                for (let row = 0; row < 6; row++) {
-                    for (let col = 0; col < 5; col++) {
-                        const box = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-                        const letter = guesses[row][col];
-                        box.textContent = letter;
-                        box.classList.toggle('filled', letter !== '');
-                    }
-                }
-            }
-
-            // Show game won modal
-            function showGameWon() {
-                const modal = document.createElement('div');
-                modal.className = 'game-won-overlay';
-                modal.innerHTML = `
-                    <div class="game-modal">
-                        <h2 class="text-3xl font-bold text-green-600 mb-4">🎉 Congratulations!</h2>
-                        <p class="text-gray-400 mb-4">You guessed the word in ${currentRow + 1} tries!</p>
-                        <p class="text-2xl font-bold text-gray-100 mb-6">${targetWord}</p>
-                        <button onclick="location.reload()" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors">
-                            Play Again
-                        </button>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-                showMessage('Congratulations! You won!', 'success');
-            }
-
-            // Show game lost modal
-            function showGameLost() {
-                const modal = document.createElement('div');
-                modal.className = 'game-lost-overlay';
-                modal.innerHTML = `
-                    <div class="game-modal">
-                        <h2 class="text-3xl font-bold text-red-600 mb-4">😞 Game Over</h2>
-                        <p class="text-gray-400 mb-4">Better luck next time!</p>
-                        <p class="text-2xl font-bold text-gray-100 mb-6">The word was: ${targetWord}</p>
-                        <button onclick="location.reload()" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors">
-                            Try Again
-                        </button>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-                showMessage('Game Over! The word was: ' + targetWord, 'error');
-            }
-
-            // Save game result
-            function saveGameResult(won, guesses) {
-                const stats = JSON.parse(localStorage.getItem('wordGameStats') || '{}');
-                stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
-                stats.gamesWon = (stats.gamesWon || 0) + (won ? 1 : 0);
-                stats.currentStreak = won ? (stats.currentStreak || 0) + 1 : 0;
-                stats.maxStreak = Math.max(stats.maxStreak || 0, stats.currentStreak);
-
-                if (won && guesses <= 6) {
-                    stats[`guess${guesses}`] = (stats[`guess${guesses}`] || 0) + 1;
-                }
-
-                localStorage.setItem('wordGameStats', JSON.stringify(stats));
-                updateStats();
-            }
-
-            // Update stats display
-            function updateStats() {
-                const stats = JSON.parse(localStorage.getItem('wordGameStats') || '{}');
-                gamesPlayedEl.textContent = stats.gamesPlayed || 0;
-                winPercentageEl.textContent = stats.gamesPlayed ? Math.round((stats.gamesWon || 0) / stats.gamesPlayed * 100) : 0;
-                currentStreakEl.textContent = stats.currentStreak || 0;
-                maxStreakEl.textContent = stats.maxStreak || 0;
-            }
-
-            // Show message
-            function showMessage(msg, type = 'info') {
-                const messageEl = document.getElementById('message');
-                messageEl.textContent = msg;
-                messageEl.className = `mt-4 text-center text-sm ${type === 'error' ? 'text-red-600' : type === 'success' ? 'text-green-600' : 'text-gray-400'}`;
-                setTimeout(() => {
-                    messageEl.textContent = '';
-                }, 3000);
-            }
-
-            // Show stats modal
-            function showStats() {
-                const stats = JSON.parse(localStorage.getItem('wordGameStats') || '{}');
-                const modal = document.createElement('div');
-                modal.className = 'game-won-overlay';
-                modal.innerHTML = `
-                    <div class="game-modal">
-                        <h2 class="text-2xl font-bold text-gray-100 mb-4">📊 Your Statistics</h2>
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-blue-600">${stats.gamesPlayed || 0}</div>
-                                <div class="text-sm text-gray-400">Games Played</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-green-600">${stats.gamesPlayed ? Math.round((stats.gamesWon || 0) / stats.gamesPlayed * 100) : 0}%</div>
-                                <div class="text-sm text-gray-400">Win Rate</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-purple-600">${stats.currentStreak || 0}</div>
-                                <div class="text-sm text-gray-400">Current Streak</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-orange-600">${stats.maxStreak || 0}</div>
-                                <div class="text-sm text-gray-400">Max Streak</div>
-                            </div>
-                        </div>
-                        <div class="text-center mb-6">
-                            <h3 class="font-semibold mb-2">Guess Distribution</h3>
-                            <div class="space-y-1">
-                                ${[1,2,3,4,5,6].map(num => `
-                                    <div class="flex items-center">
-                                        <span class="w-4 text-sm">${num}</span>
-                                        <div class="flex-1 bg-dark-700/60 backdrop-blur-md rounded ml-2">
-                                            <div class="bg-blue-600 h-4 rounded" style="width: ${stats.gamesPlayed ? ((stats['guess' + num] || 0) / (stats.gamesWon || 1)) * 100 : 0}%"></div>
-                                        </div>
-                                        <span class="w-6 text-sm text-right ml-2">${stats['guess' + num] || 0}</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <button onclick="this.parentElement.parentElement.remove()" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                            Close
-                        </button>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-
-            // Keyboard event listeners
-            document.addEventListener('keydown', function(e) {
-                if (gameOver) return;
-
-                const key = e.key.toUpperCase();
-                if (key === 'ENTER' || key === 'BACKSPACE' || (key.length === 1 && key.match(/[A-Z]/))) {
-                    e.preventDefault();
-                    handleKeyPress(key);
-                }
-            });
-
-            // Event listeners
-            newGameBtn.addEventListener('click', initGame);
-            showStatsBtn.addEventListener('click', showStats);
-
-            // Initialize
-            initGame();
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

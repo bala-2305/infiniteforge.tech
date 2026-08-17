@@ -1,282 +1,91 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Generator - Create Professional Invoices Online | Infiniteforge</title>
-    <meta name="description" content="Create professional invoices online with our free Invoice Generator. Add line items, calculate taxes, customize templates, and download PDF invoices instantly. Perfect for freelancers and businesses.">
-    <meta name="keywords" content="invoice generator, create invoice, professional invoice, invoice template, PDF invoice, invoice maker, billing software, invoice creator, free invoice generator, online invoice, business invoice, freelancer invoice, tax invoice, invoice calculator">
-
-    <!-- Open Graph / Facebook -->
+    <title>Invoice Generator — Create &amp; Export Professional Invoices | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Generate customizable professional invoices with line item management, automatic tax calculations, discount rates, and instant PDF/print export.">
+    <meta name="keywords" content="invoice generator, invoice maker, create invoice online, free pdf invoice, business billing tool">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Invoice Generator | Infiniteforge">
+    <meta property="og:description" content="Generate and download customized professional PDF invoices.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/invoice-generator.html">
-    <meta property="og:title" content="Invoice Generator - Create Professional Invoices Online | Infiniteforge">
-    <meta property="og:description" content="Create professional invoices online with our free Invoice Generator. Add line items, calculate taxes, customize templates, and download PDF invoices instantly.">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Invoice Generator">
     <meta property="og:site_name" content="Infiniteforge">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Invoice Generator - Create Professional Invoices Online | Infiniteforge">
-    <meta name="twitter:description" content="Create professional invoices online with our free Invoice Generator. Add line items, calculate taxes, customize templates, and download PDF invoices instantly.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Invoice Generator">
-
-    <!-- Additional Meta Tags -->
-    <meta name="author" content="InfinityForge">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="theme-color" content="#2563eb">
-    <link rel="canonical" href="https://infiniteforge.tech/invoice-generator.html">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Invoice Generator",
-        "description": "Free online invoice generator for creating professional invoices. Add line items, calculate taxes, customize templates, and download PDF invoices.",
-        "url": "https://infiniteforge.tech/invoice-generator.html",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "featureList": [
-            "Professional Invoice Templates",
-            "Line Item Management",
-            "Tax Calculation",
-            "PDF Download",
-            "Invoice Templates",
-            "Custom Branding",
-            "Multi-currency Support",
-            "Due Date Tracking"
-        ],
-        "author": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Infiniteforge"
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How do I create an invoice?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Fill in your business details, client information, add line items with descriptions, quantities, and rates. The invoice will automatically calculate totals including taxes. You can then download it as a PDF."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I customize the invoice template?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, you can customize colors, add your logo, change currency, and modify tax rates. The invoice generator supports multiple templates and branding options."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is the invoice generator free?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, our invoice generator is completely free to use. No registration required, no watermarks, and no limitations on the number of invoices you can create."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I save invoice templates?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, you can save your business information and frequently used line items as templates for quick invoice creation in the future."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .invoice-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .line-item {
-            transition: all 0.3s ease;
-        }
-
-        .line-item:hover {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .invoice-preview {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            min-height: 600px;
-        }
-
-        .animate-fadeIn {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .tab-button {
-            transition: all 0.3s ease;
-        }
-
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .input-focus:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Invoice Generator | Infiniteforge">
+    <meta name="twitter:description" content="Free online billing and invoice maker.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/invoice-generator.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/invoice-generator.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x5bcf(_0x25204c,_0x2b099c){_0x25204c=_0x25204c-(0x1830+0x28f*0xb+-0x33d7*0x1);var _0x34ba54=_0x5020();var _0xaf7a09=_0x34ba54[_0x25204c];if(_0x5bcf['SbvQEQ']===undefined){var _0x4515fb=function(_0x4fb113){var _0xb62fa6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x506900='',_0x224ce6='',_0x5b29df=_0x506900+_0x4515fb,_0x4f17fe=(''+function(){return 0x1d23+-0x17b*-0xe+-0x31dd;})['indexOf']('\x0a')!==-(0x2426+0xb*0x2b6+0x15fd*-0x3);for(var _0x32d83b=-0x51e+0x64a+-0xf*0x14,_0x267998,_0x532d4d,_0xb4a519=-0xb62+-0x26*0xef+0x2edc;_0x532d4d=_0x4fb113['charAt'](_0xb4a519++);~_0x532d4d&&(_0x267998=_0x32d83b%(0x1*-0xe64+0x3*-0x1e2+0x2*0xa07)?_0x267998*(-0x5b5*0x1+-0xb9c+0x1191)+_0x532d4d:_0x532d4d,_0x32d83b++%(0x2042+0x1345+-0x3383))?_0x506900+=_0x4f17fe||_0x5b29df['charCodeAt'](_0xb4a519+(0x1485+-0x1459+0x22*-0x1))-(-0xf4*-0x20+0x1*-0x133d+-0xb39)!==0xe19+0x26*0x22+-0x1d*0xa9?String['fromCharCode'](-0x56*-0x32+0x238e+-0x335b&_0x267998>>(-(0x1c98+0x2087+-0x3d1d)*_0x32d83b&0x13f+0x53d+-0x676)):_0x32d83b:0xae3+-0x1870*0x1+0xd8d){_0x532d4d=_0xb62fa6['indexOf'](_0x532d4d);}for(var _0x110487=-0x19e8+-0x955*0x2+0x2c92,_0x1aa92e=_0x506900['length'];_0x110487<_0x1aa92e;_0x110487++){_0x224ce6+='%'+('00'+_0x506900['charCodeAt'](_0x110487)['toString'](-0x8*0x1b3+-0x427*-0x5+-0x71b))['slice'](-(0x1d93+-0x1dff*-0x1+0x3b9*-0x10));}return decodeURIComponent(_0x224ce6);};var _0x4c65b9=function(_0x1cd8b9,_0x5c5a00){var _0x4e0662=[],_0x2eb983=0x213b+0x158f+-0x1*0x36ca,_0x4a126a,_0x2cb0d2='';_0x1cd8b9=_0x4515fb(_0x1cd8b9);var _0xe0ae65;for(_0xe0ae65=-0x2*-0xe4e+0x9fe*-0x1+0x2*-0x94f;_0xe0ae65<-0x25*0x5d+0x20d8+-0x1267;_0xe0ae65++){_0x4e0662[_0xe0ae65]=_0xe0ae65;}for(_0xe0ae65=0x1dd7+-0x251c+0x745*0x1;_0xe0ae65<-0x788+0xda2+-0x51a;_0xe0ae65++){_0x2eb983=(_0x2eb983+_0x4e0662[_0xe0ae65]+_0x5c5a00['charCodeAt'](_0xe0ae65%_0x5c5a00['length']))%(-0x123d+0x1d*-0x2+0x1377),_0x4a126a=_0x4e0662[_0xe0ae65],_0x4e0662[_0xe0ae65]=_0x4e0662[_0x2eb983],_0x4e0662[_0x2eb983]=_0x4a126a;}_0xe0ae65=0x2606*-0x1+0xd*0x1f5+0xc95,_0x2eb983=0xd3+0x766+-0x839;for(var _0x473fe8=0x1ed8+-0x2c5*0x1+-0x1c13;_0x473fe8<_0x1cd8b9['length'];_0x473fe8++){_0xe0ae65=(_0xe0ae65+(-0x23b+0x95*-0x17+0xf9f))%(-0xb*0x1cd+0x23b*-0x7+0x103*0x24),_0x2eb983=(_0x2eb983+_0x4e0662[_0xe0ae65])%(-0x1*0xaf7+0x93*-0xe+0x1401),_0x4a126a=_0x4e0662[_0xe0ae65],_0x4e0662[_0xe0ae65]=_0x4e0662[_0x2eb983],_0x4e0662[_0x2eb983]=_0x4a126a,_0x2cb0d2+=String['fromCharCode'](_0x1cd8b9['charCodeAt'](_0x473fe8)^_0x4e0662[(_0x4e0662[_0xe0ae65]+_0x4e0662[_0x2eb983])%(0x6d*-0x37+-0x360*0xb+0x3d8b)]);}return _0x2cb0d2;};_0x5bcf['URhnbU']=_0x4c65b9,_0x5bcf['PBKIRA']={},_0x5bcf['SbvQEQ']=!![];}var _0x18cc86=_0x34ba54[0x2*0x12b2+0x24b7+-0x4a1b],_0x5cd5f=_0x25204c+_0x18cc86,_0x15d5a6=_0x5bcf['PBKIRA'][_0x5cd5f];if(!_0x15d5a6){if(_0x5bcf['Bdogkm']===undefined){var _0x474a38=function(_0x51c0ba){this['bqsyoz']=_0x51c0ba,this['kMatlH']=[0x189+0x1ad7+-0x1c5f,0xe93+0xd9a+-0x1c2d,-0x388+-0x3c1*0x2+-0x3*-0x3ae],this['jFPfIf']=function(){return'newState';},this['WCaQvd']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['OyyXjd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x474a38['prototype']['ioaFBB']=function(){var _0xc520ab=new RegExp(this['WCaQvd']+this['OyyXjd']),_0x59b6cb=_0xc520ab['test'](this['jFPfIf']['toString']())?--this['kMatlH'][-0x7f6+-0x1297*0x1+-0x135*-0x16]:--this['kMatlH'][-0x156e+0x1bad*-0x1+0x311b];return this['VkrBGP'](_0x59b6cb);},_0x474a38['prototype']['VkrBGP']=function(_0x65a194){if(!Boolean(~_0x65a194))return _0x65a194;return this['SXMfqh'](this['bqsyoz']);},_0x474a38['prototype']['SXMfqh']=function(_0x16f932){for(var _0x5c724e=-0x168b+-0x249a+0x3b25,_0x115b17=this['kMatlH']['length'];_0x5c724e<_0x115b17;_0x5c724e++){this['kMatlH']['push'](Math['round'](Math['random']())),_0x115b17=this['kMatlH']['length'];}return _0x16f932(this['kMatlH'][0xe*-0xd6+-0x7*0x1ac+0x5da*0x4]);},(''+function(){return-0x18e9+-0x11c5+0x2aae;})['indexOf']('\x0a')===-(0x11d1+-0x7a5*-0x3+-0x28bf)&&new _0x474a38(_0x5bcf)['ioaFBB'](),_0x5bcf['Bdogkm']=!![];}_0xaf7a09=_0x5bcf['URhnbU'](_0xaf7a09,_0x2b099c),_0x5bcf['PBKIRA'][_0x5cd5f]=_0xaf7a09;}else _0xaf7a09=_0x15d5a6;return _0xaf7a09;}var _0x2aebb4=_0x5bcf,_0x1d9ba5=_0x2823;(function(_0x25204c,_0x2b099c){var _0x103d95=_0x2823,_0x31db4f=_0x5bcf,_0x34ba54=_0x25204c();while(!![]){try{var _0xaf7a09=-parseInt(_0x31db4f(0x81,'U@4G'))/(0x19e9+-0x1*0xaf7+0x99*-0x19)+-parseInt(_0x31db4f(0x9d,'cd*z'))/(-0x12d3+0x6d*-0x37+-0x548*-0x8)+parseInt(_0x31db4f(0x7f,')]!q'))/(0x65c*-0x1+-0x4*-0x959+-0x1f05)*(parseInt(_0x31db4f(0x7e,'ucjO'))/(0x189+0x1ad7+-0x1c5c))+parseInt(_0x31db4f(0x95,'jNB2'))/(0xe93+0xd9a+-0x1c28)+-parseInt(_0x31db4f(0x83,'08rj'))/(-0x388+-0x3c1*0x2+-0x4*-0x2c4)*(parseInt(_0x103d95(0x92))/(-0x7f6+-0x1297*0x1+-0xbd*-0x24))+parseInt(_0x103d95(0x82))/(-0x156e+0x1bad*-0x1+0x3123)*(parseInt(_0x31db4f(0x8d,'S(!J'))/(-0x168b+-0x249a+0x3b2e))+parseInt(_0x103d95(0x9e))/(0xe*-0xd6+-0x7*0x1ac+0x1772*0x1)*(-parseInt(_0x103d95(0x98))/(-0x18e9+-0x11c5+0x2ab9));if(_0xaf7a09===_0x2b099c)break;else _0x34ba54['push'](_0x34ba54['shift']());}catch(_0x4515fb){_0x34ba54['push'](_0x34ba54['shift']());}}}(_0x5020,0x43db7+-0x2bab3*-0x2+-0x50cea));var _0x5329d0=(function(){var _0x18b03d=!![];return function(_0x54a51c,_0x125dc1){var _0x220abc=_0x18b03d?function(){var _0x5d24dc=_0x5bcf;if(_0x125dc1){var _0x10116b=_0x125dc1[_0x5d24dc(0x80,'tGO8')](_0x54a51c,arguments);return _0x125dc1=null,_0x10116b;}}:function(){};return _0x18b03d=![],_0x220abc;};}()),_0x43bfd8=_0x5329d0(this,function(){var _0x52d076=_0x2823,_0x492c90=_0x5bcf,_0x18e8e6={'iVBpJ':function(_0x22046,_0x5ee666){return _0x22046!==_0x5ee666;},'TVyfu':_0x492c90(0x85,'%zl9')+'+$'};if(_0x18e8e6[_0x52d076(0x9c)](_0x43bfd8['bind']()[_0x52d076(0x8f)]()[_0x492c90(0x84,'$ZXy')]('\x0a'),-(0x53d+-0xc41+-0x257*-0x3)))return;return _0x43bfd8['toString']()[_0x52d076(0x96)](_0x18e8e6[_0x492c90(0x91,'@JSd')])['toString']()[_0x52d076(0x8c)+'r'](_0x43bfd8)[_0x492c90(0x93,')!Az')](_0x492c90(0x90,'Az39')+'+$');});function _0x5020(){var _0x178bc=['ndG1nZK5CLzfCgnK','wCk+neOvD8kTAMNdHs7cHmoE','C2vHCMnO','dvZdJMxcLSo5dW','ody5CfjUue5i','ndi0mdG0sNnrv05l','ntC3mtyWzw9mDvr0','iZDbmdbgrG','AvzcCeO','g8o7W5HsW6/dKSkEwfBcUc0v','mZG5mhjQsfbXBq','i0zgmKe3qq','W4GRW4BcOtfHha','WOHHeSkXe8oxW6nMW7hdRdjT','jSoAWPXYW74','pCksDJ0jW412WR8PW63cHu8','mtqZotjbrwHVA1u','D0BcJSkeW6CmWR3dHHJdRmoBWRO','Ex5kW67dGM4I','BCkQyqZdR8o2m8oxWPBdOG','WRO2WPtdOJlcKh8+WQ52nCoX','t3v0zML0','W4flW7xcGXf8dCkd','mtGXnZyYnxvkBwPUBG','s8k2r01GDmkO','W67cQGFdQG','y29UC3rYDwn0BW','cvpdNfHBWORdIw09zW','ymoHW6zkW7VcGSoroSkbEmkw','Dg9tDhjPBMC','wCkqarX0WORcMSkZW4/cMG','Amo8z8omWQG','mtrrr1Losha','W6JdKWy1W4VcIG'];_0x5020=function(){return _0x178bc;};return _0x5020();}function _0x2823(_0x178331,_0x1ca245){_0x178331=_0x178331-(0x1830+0x28f*0xb+-0x33d7*0x1);var _0x4f0ad6=_0x5020();var _0x193a6e=_0x4f0ad6[_0x178331];if(_0x2823['AzFOEM']===undefined){var _0x4cd3bd=function(_0x224eb3){var _0x25e08a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x4dc103='',_0x2de9ff='',_0x46d894=_0x4dc103+_0x4cd3bd,_0x4f0ea7=(''+function(){return 0x1d23+-0x17b*-0xe+-0x31dd;})['indexOf']('\x0a')!==-(0x2426+0xb*0x2b6+0x15fd*-0x3);for(var _0x18b633=-0x51e+0x64a+-0xf*0x14,_0x131bd4,_0x2609ba,_0x351e74=-0xb62+-0x26*0xef+0x2edc;_0x2609ba=_0x224eb3['charAt'](_0x351e74++);~_0x2609ba&&(_0x131bd4=_0x18b633%(0x1*-0xe64+0x3*-0x1e2+0x2*0xa07)?_0x131bd4*(-0x5b5*0x1+-0xb9c+0x1191)+_0x2609ba:_0x2609ba,_0x18b633++%(0x2042+0x1345+-0x3383))?_0x4dc103+=_0x4f0ea7||_0x46d894['charCodeAt'](_0x351e74+(0x1485+-0x1459+0x22*-0x1))-(-0xf4*-0x20+0x1*-0x133d+-0xb39)!==0xe19+0x26*0x22+-0x1d*0xa9?String['fromCharCode'](-0x56*-0x32+0x238e+-0x335b&_0x131bd4>>(-(0x1c98+0x2087+-0x3d1d)*_0x18b633&0x13f+0x53d+-0x676)):_0x18b633:0xae3+-0x1870*0x1+0xd8d){_0x2609ba=_0x25e08a['indexOf'](_0x2609ba);}for(var _0x4982f8=-0x19e8+-0x955*0x2+0x2c92,_0x352eaf=_0x4dc103['length'];_0x4982f8<_0x352eaf;_0x4982f8++){_0x2de9ff+='%'+('00'+_0x4dc103['charCodeAt'](_0x4982f8)['toString'](-0x8*0x1b3+-0x427*-0x5+-0x71b))['slice'](-(0x1d93+-0x1dff*-0x1+0x3b9*-0x10));}return decodeURIComponent(_0x2de9ff);};_0x2823['OkGrRY']=_0x4cd3bd,_0x2823['VsMLok']={},_0x2823['AzFOEM']=!![];}var _0x47da9a=_0x4f0ad6[0x213b+0x158f+-0x1*0x36ca],_0x3daf41=_0x178331+_0x47da9a,_0x4f4f98=_0x2823['VsMLok'][_0x3daf41];if(!_0x4f4f98){var _0x783716=function(_0x27ed19){this['azYmyh']=_0x27ed19,this['griRjv']=[-0x2*-0xe4e+0x9fe*-0x1+0x5*-0x3b9,-0x25*0x5d+0x20d8+-0x1367,0x1dd7+-0x251c+0x745*0x1],this['BruXWp']=function(){return'newState';},this['VsjMCX']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['fFUZBY']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x783716['prototype']['bdBXmd']=function(){var _0x5d5315=new RegExp(this['VsjMCX']+this['fFUZBY']),_0x5c8064=_0x5d5315['test'](this['BruXWp']['toString']())?--this['griRjv'][-0x788+0xda2+-0x619]:--this['griRjv'][-0x123d+0x1d*-0x2+0x1277];return this['ZZxwse'](_0x5c8064);},_0x783716['prototype']['ZZxwse']=function(_0x5d8441){if(!Boolean(~_0x5d8441))return _0x5d8441;return this['ZeCHiE'](this['azYmyh']);},_0x783716['prototype']['ZeCHiE']=function(_0x3a2e0f){for(var _0x19473c=0x2606*-0x1+0xd*0x1f5+0xc95,_0x16c801=this['griRjv']['length'];_0x19473c<_0x16c801;_0x19473c++){this['griRjv']['push'](Math['round'](Math['random']())),_0x16c801=this['griRjv']['length'];}return _0x3a2e0f(this['griRjv'][0xd3+0x766+-0x839]);},(''+function(){return 0x1ed8+-0x2c5*0x1+-0x1c13;})['indexOf']('\x0a')===-(-0x23b+0x95*-0x17+0xf9f)&&new _0x783716(_0x2823)['bdBXmd'](),_0x193a6e=_0x2823['OkGrRY'](_0x193a6e),_0x2823['VsMLok'][_0x3daf41]=_0x193a6e;}else _0x193a6e=_0x4f4f98;return _0x193a6e;}_0x43bfd8(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x1d9ba5(0x87),'sans-serif'],'mono':['JetBrains\x20'+_0x2aebb4(0x8b,'Wd*e'),'monospace']},'colors':{'dark':{0x384:_0x2aebb4(0x8a,'jNB2'),0x320:'#1F2833',0x2bc:_0x2aebb4(0x97,'q(bL')},'brand':{'primary':'#45F3FF','secondary':_0x1d9ba5(0x9f),'accent':_0x1d9ba5(0x9b)}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input[type="text"], input[type="number"], input[type="date"] { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; }
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
+
+        select { background-color: rgba(15,23,42,0.8) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; outline: none !important; font-size: 0.875rem; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        @media print {
+            body { background: white !important; color: black !important; }
+            nav, footer, .no-print { display: none !important; }
+            #invoice-preview-card { border: none !important; background: white !important; color: black !important; box-shadow: none !important; }
+            .text-white { color: black !important; }
+            .text-gray-400 { color: #444 !important; }
+            .text-brand-primary { color: #0088cc !important; }
         }
     </style>
 </head>
 
-
-
-
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid no-print"></div>
+    <div class="bg-glow no-print"></div>
+    <div class="glow-orb orb-1 no-print"></div>
+    <div class="glow-orb orb-2 no-print"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 no-print" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -287,703 +96,165 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto pt-24 pb-12 px-4">
-        <!-- Header Section -->
-        <div class="text-center mb-12 animate-fadeIn">
-            <div class="inline-flex items-center px-4 py-2 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/20 border border-white/30 rounded-full text-white font-medium mb-6">
-                <i data-feather="file-text" class="w-4 h-4 mr-2"></i>
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10 no-print">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
                 Invoice Generator
-            </div>
-
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight">
-                Professional <span class="gradient-text">Invoices</span>
             </h1>
-
-            <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed mb-8">
-                Create professional invoices in minutes. Add line items, calculate taxes,
-                customize templates, and download PDF invoices instantly.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Create clean, professional client invoices with dynamic line items, taxes, discounts, and print export.
             </p>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-8">
-            <!-- Invoice Form -->
-            <div class="space-y-6">
-                <!-- Business Details -->
-                <div class="invoice-card">
-                    <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
-                        <i data-feather="building" class="w-6 h-6 mr-3 text-blue-600"></i>
-                        Business Details
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 5 cols: Editor Form Controls -->
+            <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 no-print">
+                <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider">Invoice Details</h3>
+                    <select id="currency-select" class="text-xs font-mono py-1 px-2">
+                        <option value="$">USD ($)</option>
+                        <option value="€">EUR (€)</option>
+                        <option value="£">GBP (£)</option>
+                        <option value="₹">INR (₹)</option>
+                        <option value="C$">CAD (C$)</option>
+                    </select>
+                </div>
+
+                <!-- Sender / Client Info -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Your Business Name</label>
+                        <input type="text" id="inv-from-name" value="Infinite Solutions Studio" class="w-full">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Bill To (Client Name)</label>
+                        <input type="text" id="inv-to-name" value="Starlight Ventures LLC" class="w-full">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Business Name</label>
-                            <input type="text" id="businessName" placeholder="Your Business Name" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
+                            <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Invoice #</label>
+                            <input type="text" id="inv-number" value="INV-2026-084" class="w-full font-mono">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                            <input type="email" id="businessEmail" placeholder="business@example.com" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Phone</label>
-                            <input type="tel" id="businessPhone" placeholder="+1 (555) 123-4567" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Address</label>
-                            <textarea id="businessAddress" placeholder="123 Business St, City, State 12345" rows="2" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg"></textarea>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Due Date</label>
+                            <input type="date" id="inv-due" value="2026-09-01" class="w-full font-mono">
                         </div>
                     </div>
                 </div>
 
-                <!-- Client Details -->
-                <div class="invoice-card">
-                    <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
-                        <i data-feather="user" class="w-6 h-6 mr-3 text-green-600"></i>
-                        Client Details
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Client Name</label>
-                            <input type="text" id="clientName" placeholder="Client Company Name" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                            <input type="email" id="clientEmail" placeholder="client@example.com" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Phone</label>
-                            <input type="tel" id="clientPhone" placeholder="+1 (555) 987-6543" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Address</label>
-                            <textarea id="clientAddress" placeholder="456 Client Ave, City, State 67890" rows="2" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Invoice Details -->
-                <div class="invoice-card">
-                    <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
-                        <i data-feather="calendar" class="w-6 h-6 mr-3 text-purple-600"></i>
-                        Invoice Details
-                    </h3>
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Invoice Number</label>
-                            <input type="text" id="invoiceNumber" placeholder="INV-001" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Issue Date</label>
-                            <input type="date" id="issueDate" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Due Date</label>
-                            <input type="date" id="dueDate" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Currency</label>
-                        <select id="currency" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="GBP">GBP (£)</option>
-                            <option value="INR">INR (₹)</option>
-                            <option value="CAD">CAD (C$)</option>
-                            <option value="AUD">AUD (A$)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Line Items -->
-                <div class="invoice-card">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-100 flex items-center">
-                            <i data-feather="list" class="w-6 h-6 mr-3 text-orange-600"></i>
-                            Line Items
-                        </h3>
-                        <button id="addItemBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                            <i data-feather="plus" class="w-4 h-4 mr-2"></i>
-                            Add Item
+                <!-- Line Items Control -->
+                <div class="pt-4 border-t border-white/10 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white uppercase tracking-wider">Items / Services</span>
+                        <button id="add-item-btn" class="glass-panel px-3 py-1 rounded-xl text-xs font-bold text-brand-primary border border-brand-primary/40 flex items-center gap-1">
+                            <i data-feather="plus" class="w-3 h-3"></i> Add Item
                         </button>
                     </div>
 
-                    <div id="lineItems" class="space-y-4">
-                        <!-- Line items will be added here -->
+                    <div id="items-container" class="space-y-2">
+                        <!-- Dynamic Item Input Rows -->
                     </div>
+                </div>
 
-                    <!-- Tax Settings -->
-                    <div class="mt-6 pt-6 border-t border-white/10">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Tax Rate (%)</label>
-                                <input type="number" id="taxRate" placeholder="0" step="0.01" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Discount (%)</label>
-                                <input type="number" id="discountRate" placeholder="0" step="0.01" class="input-focus w-full px-3 py-2 border border-white/20 rounded-lg">
-                            </div>
+                <!-- Tax & Discount -->
+                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-white/10">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Tax Rate (%)</label>
+                        <input type="number" id="inv-tax" min="0" max="50" step="0.5" value="10" class="w-full font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Discount (%)</label>
+                        <input type="number" id="inv-discount" min="0" max="100" step="1" value="0" class="w-full font-mono">
+                    </div>
+                </div>
+
+                <button id="print-invoice-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_20px_rgba(69,243,255,0.3)] flex items-center justify-center gap-2 transition-all">
+                    <i data-feather="printer" class="w-4 h-4"></i> Print / Download PDF
+                </button>
+            </div>
+
+            <!-- Right 7 cols: Live Printable Invoice Document -->
+            <div class="lg:col-span-7">
+                <div id="invoice-preview-card" class="glass-panel p-8 sm:p-10 rounded-3xl border border-white/10 space-y-6">
+                    <div class="flex justify-between items-start pb-6 border-b border-white/10">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-white tracking-tight" id="p-from-name">Infinite Solutions Studio</h2>
+                            <p class="text-xs text-gray-400 mt-1">Digital Design &amp; Engineering Services</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-primary block">INVOICE</span>
+                            <div class="text-sm font-mono font-bold text-white mt-1" id="p-inv-num">INV-2026-084</div>
+                            <div class="text-xs text-gray-400 font-mono mt-0.5" id="p-inv-due">Due: Sep 1, 2026</div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap gap-4">
-                    <button id="generateBtn" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        <i data-feather="eye" class="w-5 h-5 mr-2"></i>
-                        Generate Invoice
-                    </button>
-                    <button id="downloadBtn" class="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        <i data-feather="download" class="w-5 h-5 mr-2"></i>
-                        Download PDF
-                    </button>
-                    <button id="saveTemplateBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
-                        <i data-feather="save" class="w-5 h-5 mr-2"></i>
-                        Save Template
-                    </button>
-                </div>
-            </div>
-
-            <!-- Invoice Preview -->
-            <div class="space-y-6">
-                <div class="invoice-card">
-                    <h3 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
-                        <i data-feather="eye" class="w-6 h-6 mr-3 text-indigo-600"></i>
-                        Invoice Preview
-                    </h3>
-                    <div id="invoicePreview" class="invoice-preview">
-                        <!-- Invoice preview will be generated here -->
+                    <div class="p-4 rounded-2xl bg-dark-900/60 border border-white/5 text-xs font-mono">
+                        <span class="text-gray-400 uppercase text-[10px] block">Billed To:</span>
+                        <div class="text-base font-bold text-white mt-0.5" id="p-to-name">Starlight Ventures LLC</div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Features Section -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            <div class="invoice-card text-center">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i data-feather="file-text" class="text-blue-600 w-8 h-8"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">Professional Templates</h3>
-                <p class="text-gray-400">Choose from multiple professional invoice templates with customizable branding.</p>
-            </div>
-            <div class="invoice-card text-center">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i data-feather="calculator" class="text-green-600 w-8 h-8"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">Auto Calculations</h3>
-                <p class="text-gray-400">Automatic tax calculations, subtotals, and totals with support for multiple tax rates.</p>
-            </div>
-            <div class="invoice-card text-center">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i data-feather="download" class="text-purple-600 w-8 h-8"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">PDF Download</h3>
-                <p class="text-gray-400">Download professional PDF invoices that look great on any device or printer.</p>
-            </div>
-            <div class="invoice-card text-center">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i data-feather="save" class="text-orange-600 w-8 h-8"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">Save Templates</h3>
-                <p class="text-gray-400">Save your business information and common line items as reusable templates.</p>
-            </div>
-        </div>
+                    <!-- Items Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead>
+                                <tr class="text-gray-400 border-b border-white/10">
+                                    <th class="pb-2 font-semibold">Description</th>
+                                    <th class="pb-2 font-semibold text-center">Qty</th>
+                                    <th class="pb-2 font-semibold text-right">Rate</th>
+                                    <th class="pb-2 font-semibold text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="p-items-tbody" class="divide-y divide-white/5 text-gray-300">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
 
-        <!-- FAQ Section -->
-        <div class="invoice-card mt-12">
-            <h2 class="text-3xl font-bold text-gray-100 mb-8 text-center">Frequently Asked Questions</h2>
-            <div class="space-y-6">
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">How do I create a professional invoice?</h3>
-                    <p class="text-gray-400">Fill in your business details, client information, and add line items with descriptions, quantities, and rates. The invoice generator will automatically calculate totals including taxes, and you can download it as a PDF.</p>
-                </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Can I customize the invoice template?</h3>
-                    <p class="text-gray-400">Yes, you can customize colors, add your business logo, change currency settings, and modify tax rates. Multiple professional templates are available to choose from.</p>
-                </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Is the invoice generator free to use?</h3>
-                    <p class="text-gray-400">Yes, our invoice generator is completely free to use. No registration required, no watermarks, and no limitations on the number of invoices you can create.</p>
-                </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Can I save invoice templates for future use?</h3>
-                    <p class="text-gray-400">Yes, you can save your business information and frequently used line items as templates. This allows you to quickly create invoices for repeat clients or similar projects.</p>
-                </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">What currencies are supported?</h3>
-                    <p class="text-gray-400">We support multiple currencies including USD, EUR, GBP, INR, CAD, and AUD. You can easily switch between currencies for international clients.</p>
+                    <!-- Invoice Total Breakdown -->
+                    <div class="pt-4 border-t border-white/10 space-y-2 text-xs font-mono">
+                        <div class="flex justify-between text-gray-400">
+                            <span>Subtotal:</span>
+                            <span id="p-subtotal" class="text-white">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400">
+                            <span>Tax:</span>
+                            <span id="p-tax-amount" class="text-white">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400">
+                            <span>Discount:</span>
+                            <span id="p-discount-amount" class="text-white">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-white/10">
+                            <span>Total Due:</span>
+                            <span id="p-total-due" class="text-brand-primary text-xl">$0.00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md no-print">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>function _0x5b24(_0x45d6e,_0x198652){_0x45d6e=_0x45d6e-(-0x16c*0x1a+0x2157+0x553*0x1);const _0x3b74f2=_0x3568();let _0x1e3b26=_0x3b74f2[_0x45d6e];if(_0x5b24['tpklTX']===undefined){var _0x1d396c=function(_0x436842){const _0x46d0ac='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1bda07='',_0x490762='',_0x125cd6=_0x1bda07+_0x1d396c,_0x3d4421=(''+function(){return 0x1*-0x5cd+-0x178f+0x1d5c;})['indexOf']('\x0a')!==-(0x33*-0xbc+0x590+0x1fe5);for(let _0x39c972=-0x1e66+-0x19d*-0x15+-0xb*0x51,_0x576001,_0x43d1f4,_0x160338=0x1812+0x1*-0x251a+0xd08;_0x43d1f4=_0x436842['charAt'](_0x160338++);~_0x43d1f4&&(_0x576001=_0x39c972%(0x297*-0x3+0xc*-0x1cd+0x1d65)?_0x576001*(-0x19f3+-0x25*-0x52+0xe59)+_0x43d1f4:_0x43d1f4,_0x39c972++%(-0xa*0xd3+-0x25*0x5b+0x1569))?_0x1bda07+=_0x3d4421||_0x125cd6['charCodeAt'](_0x160338+(-0x5f5*0x5+0xb2d*0x2+0x779))-(-0xdb8*-0x1+0x16bf+0x175*-0x19)!==-0x39f*-0x3+-0xd83+-0x3*-0xe2?String['fromCharCode'](0x101*0x11+-0x185*0x19+0x1*0x15eb&_0x576001>>(-(-0x113c+-0x1*0x1da2+0x4*0xbb8)*_0x39c972&-0x4*-0x17b+0x1a14+0x1ffa*-0x1)):_0x39c972:0x1def+0x15ae+-0x1*0x339d){_0x43d1f4=_0x46d0ac['indexOf'](_0x43d1f4);}for(let _0x241d11=0x3*0x466+0x5*0x5ad+-0x1*0x2993,_0xba2e79=_0x1bda07['length'];_0x241d11<_0xba2e79;_0x241d11++){_0x490762+='%'+('00'+_0x1bda07['charCodeAt'](_0x241d11)['toString'](-0x2426+-0x19c+-0x25d2*-0x1))['slice'](-(-0x1*-0x4a3+0x2*-0x9f1+0x163*0xb));}return decodeURIComponent(_0x490762);};_0x5b24['qNrkBP']=_0x1d396c,_0x5b24['QuaaLT']={},_0x5b24['tpklTX']=!![];}const _0x99953c=_0x3b74f2[0x1ab*0xf+-0x365*0x9+0x588],_0x2c26d0=_0x45d6e+_0x99953c,_0x48ca56=_0x5b24['QuaaLT'][_0x2c26d0];if(!_0x48ca56){const _0x5307f9=function(_0x10b54e){this['ycyrrZ']=_0x10b54e,this['tqFvwA']=[-0x1*0x6fd+0x5*0x41b+-0xd89,-0x33*0x2c+0x2*0xc3b+-0xfb2*0x1,-0xcca+0x12f8+-0x2*0x317],this['NriRWF']=function(){return'newState';},this['lSyvQu']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['LXppSd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5307f9['prototype']['hUgRBc']=function(){const _0x4aed6e=new RegExp(this['lSyvQu']+this['LXppSd']),_0x4b4045=_0x4aed6e['test'](this['NriRWF']['toString']())?--this['tqFvwA'][0x1be0+-0x1*-0x8c8+0x24a7*-0x1]:--this['tqFvwA'][0x142+-0x29*0x3d+0x883];return this['zInUZI'](_0x4b4045);},_0x5307f9['prototype']['zInUZI']=function(_0xf5cfac){if(!Boolean(~_0xf5cfac))return _0xf5cfac;return this['VzlFxT'](this['ycyrrZ']);},_0x5307f9['prototype']['VzlFxT']=function(_0x24b1ac){for(let _0x3a049e=-0x1706+-0x26fd+0x3e03,_0x197a33=this['tqFvwA']['length'];_0x3a049e<_0x197a33;_0x3a049e++){this['tqFvwA']['push'](Math['round'](Math['random']())),_0x197a33=this['tqFvwA']['length'];}return _0x24b1ac(this['tqFvwA'][-0x1*0x14f+0x1bde+-0x1a8f]);},(''+function(){return 0x76d*0x1+-0x13*-0x6f+-0xfaa;})['indexOf']('\x0a')===-(0x1f26+-0x4*-0x28d+-0x2959)&&new _0x5307f9(_0x5b24)['hUgRBc'](),_0x1e3b26=_0x5b24['qNrkBP'](_0x1e3b26),_0x5b24['QuaaLT'][_0x2c26d0]=_0x1e3b26;}else _0x1e3b26=_0x48ca56;return _0x1e3b26;}function _0x3568(){const _0x24a913=['Aw52lw51BwjLCG','ksiGy2XHC3m9iG','W5nEW53cQSozqmklW7xcMx4','WPNcKmkqW4Hr','WQPrf3PoW4/cQbLrW5K','rMjkdmkw','aNHRWRdcKHddTCoBWQOj','wSovW4/cNmoIW5O/pSklga','WP1DWPFcL8kyWPBdQCk2kNO','W5BcT2GttNldTSosgW','mcbMB250lwjVBa','fSkkWPZdK8kZWQz6v8oFxq','icaGicaGphrKia','WOn3W5/cK8kuW4/cRqvdWO8','ChjPBNqTAw52BW','WR5SjhOfW6SzW5TlvG','cJxdH8oos8oNAwNcUSkM','WPrRW50sWRFcTWX7kqK','W7BcSgz7kSkxiuFdHSkP','DSo6EmkXWRBdKSotgXhdHG','yxbWzw5Kq2HPBa','W5K2v8kfASoOWQBdPCo6WRK','ftb2WOhcMXJdQ8ktWRaF','DvvNvmoK','iNvWzgf0zuL0zq','WPFdOZr9eGlcVCk3wsO','CIaqmCkgW6dcP2P+WPu','smo6WRuzlJdcN8oVWQJdNW','C3vJy2vZCW','fCkUW6S','jGvtkCkrWOemW7JdUSkv','sLn2A0e','pIKMCvSsWPFcKsZcLG','mIb0zxH0lwnLBG','WO4vWPtcUSkDWOFdOCoZiMe','pc9ZCgfUpG','w8kJWPL+uSoaWQyzW6ldQW','WPXCWQtdM8k9WO0yWRldRmo1','qtpcGmoFWQtcJdPulWG','ywf1uMC','lMiKjvnvWQ4EW6S','WRnVWOX7W4G','DerqswO','rKdcKmkxW7/dMHpdMSkQrq','W4/cTKS7iSoVW693W6b7','BgrLCJ0IuMf0zq','jmokW6VdHJS','dhnPW5JcMGddVq','Cc1PBNyTzhvL','nJe2odK0ofjTs0DyBG','brzoWRlcPszc','j2rwWPe','A1fKBK4','yw1L','W69mW67cPhtdUmo2W4BcV8o9','wIFdHs/dNSkgW6L8WPOV','BgWGDgv4Dc14CW','DJ4kicaGicaGia','W7lcRCkMFuf3','yxrOzxi9iG','WR9eW7pcPZZcRSkHWP/cOmo4','Cc10BY1Uyw1L','At48C3bHBJ4','icaG','psjJB2WTC3bHBG','aciQFflcL8kih1G4','W6TCmmkQkCkMWQ88WOVcIq','bNBdLmkMWQZcGceriHa','tLHXCve','W6e0lSoQW7ixjsHWzW','icaGidXIDxr0BW','WR0PCCkUBa','rZig','AY05mdaVnJaGyG','Dg9tDhjPBMC','bhn7W5JcJGFdSCotWQup','iJCpfSkwCLxdOdNdKW','ltiGCM91BMrLza','Fs1YWRRcKq','WP5yWRRcJSk+','WRfMi1PklCkJWQ5LFq','y2XHC3noyw1L','pc90zd4kicaGia','ChvZAa','lcaNCxr5jYWGDa','rSkzWO3dMW','dXVdI8keW7BcKfFcN8kShW','CZ0Iy29SlxnWyq','WOtdRJSJuH3cOConacC','FSo/tb1TeSopWR4','Cc0XlJuGAxrLBq','y2XPy2S','CMf0zq','W4OzWQBcL8k6WOetWQ7cRSo0','vvKCnmkAW5CTW6/cSmkn','W50LWOSFW6pdUae1Aeq','y2XHC3m9iNCTzG','runOu0y','vmo0WOhcKmkKWRybxCooW4O','WQL+pSk/W7igmJjJcG','DgHPCY52ywX1zq','W7i0kmkpW6OxmdKZDa','BxHdBee','C2HVDYa','icaGicaGicaGia','pgKGzgf0ys1Mzq','ECksW5BdNqBdVSoJvG','nJTTp0aaWRrgW6rU','ft4zoa','ChjPBNq','h8obW68','x3rPBwvY','ndeYodi1nwf1AvL2va','W4FcONPWaqdcO8kDwsO','t1PJBvq','W5KnWPddVmkcmSoFW7FcMsG','wCkKButdRfddLCklbCoL','j8k2BCkNWR3cM8oCgqhcJa','CCoZASkH','zM9YrwfJAa','Aw52lxrHEa','lCocW6VdL3lcHSogEIuz','Aw52lxrVlw5HBq','Bwf4','ywrKrxzLBNrmAq','WR9tWR7cI8k3','ica8Aw5WDxqGDa','W57dKSog','lxHZigzVBNqTBq','WRfrWQBcImk1','idDawmoFpaxcTw3dJG','WQldVXuVEmoECW8','mtGWoti5wvHuyMzv','WOddPY4vtuxdRSoyf34','zIajDmopWQC','DMfSDwu','mJu3nZaYmZL6y1rOzwK','W5a8W4xdL8oBW6VcPX8','icaGpc9KAxy+cG','WRvXFmoQWQzsFxX9ia','W5yNcCotCexcSmoDFWi','vc8TW4ZdJu3cRmo6WPatW6iqW5S','rSonW7ZdV8kaDSoBr8k0DG','bmkYxqe','ltqGAc00iJ48lW','CYb0zxH0lwnLBG','psjUDw1IzxiIia','qg5MuG','dhnPW5JcMHZdQ8oDWQSi','WQlcS8kXW5bh','C3rLBMvY','W4yIWO1gW77dUej5kuO','idX0zcbJBgfZCW','uSoQW43cLmk/W6jxsmkyW5i','mtbpAwPAsvG','DgvVEMW','W7ugnmkQDSoyW6PvW5/dJa','xgddVmoItCoytvq','i2RdQCkh','w8odW7esWPH3W6ddOSohfW','r8k1WPtcGSkVWQzcqmoyWPi','jdm1mLGs','d8kmWPDBW4aYWQq','WOfxWQBcJSkV','w8kwWPBcNmoIW5O/pSklga','W6vgC8o5j8kEWRWLW5hdISocWQGSWO8','W4NcGfrBnuldJ1Pfqa','W6edqmoWeG','qNLjza','Aw5KzxHpzG','W7BcSgz7kSkxpuJcGSo8','EvLiDKO','WP4qW5hdPmkgoCoyW6JcMYK','wmknWPZcG8o+','psjWEs0YihrLEa','gt/dKSo4uW','zgvYpsjrDhKIia','WQa9xt8gAmoUW6SRkq','e2rclH8DW7ldPgWQlSob','WRFcRCopkqq6ivC/WP8','WPWqWPlcQmohASkxWQhdNx4','WOZcMmkTW5nY','FM9TAWvyW6blWQy8','Aw5Uzxjive1m','Cxr5','WQnatLjhW47cRaLsWO8','W4VcI3dcS8k0','vSoOWQbyFcdcQSkBW6dcUmkh','jdC8nv4f','W7ewaI4zWP7cSWLwWPNcPNO','wePWDLa','z3nHq0i','wwHWC24','WPT0W4NcK8kuW4lcTWqmWPK','rNjVBNrLBMqGtG','W4NcIdORW5eTW6W','rKzrzxu','ycu7CW','aN/dICkaWQS','v8knWOVdJmk5WR58z8kgsW','q1RcLq','lwz1BgWGDgv4Da','yxbWBhK','Dgv4DenVBNrLBG','ihzHBhvLpsi','y29UC3rYDwn0BW','W6tcONrOoCotttVdHSkhWRm','WQyUm3zvk8kHWR5LFq','WQjCW4hcTMG','nCojW4JdJdFdGCoM','BIbVBMnSAwnRpq','sgG2ywFdHSoSsX12','ruKCFmovWOf0W6NdRSoz','hSosW6FdIcRdLG','v1lcJCkhW6ZcMqJdK8o/qG','y2HHBMDL','Dgv4Dc1YzwqTna','nmowW6RdHdVdGColAZmx','Dg9gAxHLza','ywrKlwL0zw0TyG','y3jLyxrLrwXLBq','Cc1MCM9Tlw5HBq','wMHlq2W','dCoZW594uCo3WR4tW64','Afn3uwy','ksiGCgXHy2vOBW','C2vHCMnO','z2v0rwXLBwvUDa','CMf5ltqWmci+','W4RdVCoRoM3dVh/cKgze','cCkcWQvx','sZFdMhhcGSkvW6W9W5X6','WRraW7tcKw3dQCk7W5FcQmo5','W4iKWOZcJSkwWOZdOKLoW5W','zci+jNrPBwvZoW','mIb0zxH0lxjPzW','ltiIpGOGicaGia','trOgsCkh','FSk/WQrF','AwnLlwj0BG','rtu1Dq'];_0x3568=function(){return _0x24a913;};return _0x3568();}const _0x3571b9=_0x5b24,_0x595a8f=_0x1fa3;(function(_0x335b63,_0x41d07c){const _0x25a3cd=_0x5b24,_0x119b9f=_0x1fa3,_0x5320d5=_0x335b63();while(!![]){try{const _0x26908b=parseInt(_0x119b9f(0x242,'R2oN'))/(0x19ef+-0x108*0x20+-0x2*-0x389)+-parseInt(_0x119b9f(0x23e,'iH5%'))/(0x21*0x3f+-0x1801+0x153*0xc)*(parseInt(_0x119b9f(0x283,'5pXy'))/(-0x204f+-0x117b+0x31cd))+parseInt(_0x25a3cd(0x1e6))/(0x14f8+-0x585*-0x3+-0xc81*0x3)+-parseInt(_0x119b9f(0x272,'loKj'))/(0x244+-0x57*-0x43+-0x1904)*(-parseInt(_0x119b9f(0x20e,'FlnT'))/(0x1c0a+0x17aa+-0x33ae*0x1))+-parseInt(_0x119b9f(0x267,'@0ac'))/(-0x1*-0x2605+-0x5*0x36e+-0x17*0xe8)*(parseInt(_0x119b9f(0x1be,'#]2W'))/(-0xf*0xe9+0x25d7+0x60a*-0x4))+-parseInt(_0x25a3cd(0x225))/(0x24d7*0x1+-0x1*-0xc63+-0x3131)+parseInt(_0x119b9f(0x252,'pCSX'))/(0xc27+0x3f4*0x7+-0x1e5*0x15)*(-parseInt(_0x25a3cd(0x23d))/(-0x2297+0x11d*-0xa+0x2dc4));if(_0x26908b===_0x41d07c)break;else _0x5320d5['push'](_0x5320d5['shift']());}catch(_0xe95d24){_0x5320d5['push'](_0x5320d5['shift']());}}}(_0x3568,-0x13d477+-0xc7311+0x2dc5e8),feather['replace']());function showMessage(_0x531517,_0x331f31='success'){const _0x2b023f=_0x5b24,_0x38afac=_0x1fa3,_0x34527c={'JSvkA':function(_0x16a73a,_0x244da0){return _0x16a73a+_0x244da0;},'teozl':function(_0x33c947,_0x32dd62){return _0x33c947+_0x32dd62;},'aauRg':function(_0x143a49,_0x7948bf){return _0x143a49+_0x7948bf;},'hSwQf':function(_0x3653ce,_0x2ae115){return _0x3653ce===_0x2ae115;},'tDPIj':_0x38afac(0x261,'#bEh')+_0x2b023f(0x245)+_0x2b023f(0x1f3),'NXqqQ':_0x2b023f(0x1d8),'ZhKCl':function(_0x55c526,_0x4a9e0b){return _0x55c526(_0x4a9e0b);}},_0x1e9667=document['getElement'+_0x2b023f(0x25d)](_0x38afac(0x264,'pCSX'));if(!_0x1e9667)return;_0x1e9667[_0x2b023f(0x26c)]=_0x34527c[_0x2b023f(0x1d4)](_0x34527c['JSvkA'](_0x34527c[_0x2b023f(0x250)](_0x34527c[_0x2b023f(0x1dc)](_0x2b023f(0x21e)+_0x2b023f(0x1f0),_0x34527c[_0x2b023f(0x295)](_0x331f31,_0x2b023f(0x1d1))?'check-circ'+'le':_0x331f31==='error'?'alert-circ'+'le':'info'),_0x34527c[_0x2b023f(0x1df)]),_0x531517),_0x34527c[_0x2b023f(0x1f9)]),_0x1e9667['className']=_0x2b023f(0x21c)+_0x331f31,feather['replace'](),_0x34527c[_0x2b023f(0x293)](clearTimeout,_0x1e9667[_0x2b023f(0x224)]),_0x1e9667[_0x38afac(0x28a,'!gKE')]=setTimeout(()=>{_0x1e9667['className']=_0x331f31;},0x1b1+0x1e*0x1+0xbdd);}let items=[{'desc':'Web\x20App\x20UI'+_0x595a8f(0x229,'&[zP'),'qty':0x1,'rate':0xc80},{'desc':_0x3571b9(0x277)+'ext.js\x20Eng'+'ineering','qty':0x28,'rate':0x55},{'desc':_0x595a8f(0x1d3,'q9aw')+'oyment\x20&\x20C'+'DN\x20Setup','qty':0x1,'rate':0x2ee}];const currencySelect=document[_0x595a8f(0x23a,'#]2W')+_0x595a8f(0x1e8,'R2oN')](_0x595a8f(0x27c,']MmE')+_0x595a8f(0x1e3,'!gKE')),itemsContainer=document[_0x595a8f(0x1d7,'FjmH')+_0x3571b9(0x25d)]('items-cont'+'ainer'),pTbody=document[_0x595a8f(0x29d,'1aHb')+_0x3571b9(0x25d)](_0x595a8f(0x1cb,'R2oN')+'ody');function renderItemInputs(){const _0x1898ca=_0x3571b9,_0x427f11=_0x595a8f,_0x3fe7ac={'wBHbR':function(_0x187ef6,_0x1ba6b5){return _0x187ef6!==_0x1ba6b5;},'mxClA':_0x427f11(0x20b,')^D&')+'+$','EChSF':_0x427f11(0x27d,')^D&'),'Yhpsn':function(_0x290bcc){return _0x290bcc();}},_0x53d39f=(function(){let _0x2fb878=!![];return function(_0x89bf69,_0x52be24){const _0x90459f=_0x2fb878?function(){const _0x298cf9=_0x5b24;if(_0x52be24){const _0x5d479f=_0x52be24[_0x298cf9(0x27f)](_0x89bf69,arguments);return _0x52be24=null,_0x5d479f;}}:function(){};return _0x2fb878=![],_0x90459f;};}()),_0x23915c=_0x53d39f(this,function(){const _0x2bd13a=_0x5b24,_0x1569a2=_0x427f11;if(_0x3fe7ac[_0x1569a2(0x1cc,'lFiJ')](_0x23915c['bind']()[_0x2bd13a(0x1ff)]()[_0x2bd13a(0x25e)]('\x0a'),-(-0x1*0xf61+-0x1cee+0x2c50)))return;return _0x23915c[_0x1569a2(0x238,'5pXy')]()[_0x2bd13a(0x297)](_0x1569a2(0x241,'j%jq')+'+$')[_0x2bd13a(0x1ff)]()[_0x2bd13a(0x282)+'r'](_0x23915c)['search'](_0x3fe7ac[_0x2bd13a(0x21b)]);});_0x3fe7ac[_0x427f11(0x236,'Q2QS')](_0x23915c),itemsContainer[_0x1898ca(0x26c)]='',items[_0x1898ca(0x22c)]((_0x317c51,_0x59bcb9)=>{const _0x3e0cec=_0x427f11,_0x4d4155=_0x1898ca,_0x3bfbd0=document[_0x4d4155(0x291)+'ent'](_0x3fe7ac[_0x4d4155(0x216)]);_0x3bfbd0[_0x4d4155(0x206)]='grid\x20grid-'+'cols-12\x20ga'+_0x4d4155(0x20f)+'s-center\x20p'+_0x4d4155(0x202)+'-xl\x20bg-dar'+_0x4d4155(0x1fe)+'order\x20bord'+_0x3e0cec(0x24e,'iR5M'),_0x3bfbd0[_0x4d4155(0x26c)]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20<div\x20clas'+_0x4d4155(0x20c)+_0x3e0cec(0x1bc,']MmE')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3e0cec(0x25b,']Kln')+_0x3e0cec(0x1eb,'1aHb')+_0x3e0cec(0x228,'#bEh')+_0x3e0cec(0x23b,'irPa')+_0x317c51[_0x3e0cec(0x22b,'D0m8')]+('\x22\x20oninput='+_0x3e0cec(0x1ca,'hhTe')+'m(')+_0x59bcb9+(',\x20\x27desc\x27,\x20'+_0x3e0cec(0x1ec,'nCt1')+_0x4d4155(0x296)+_0x3e0cec(0x22e,'!gKE')+_0x3e0cec(0x24c,'*H#3')+_0x3e0cec(0x1f1,'1aHb')+_0x4d4155(0x1ed)+'\x22>\x0a\x20\x20\x20\x20\x20\x20\x20'+_0x4d4155(0x21d)+_0x4d4155(0x23f)+_0x3e0cec(0x254,'RHf$')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3e0cec(0x243,'%VGB')+_0x4d4155(0x1f5)+_0x4d4155(0x2a1)+_0x4d4155(0x21d)+_0x3e0cec(0x25f,'5pXy')+'input\x20type'+_0x4d4155(0x247)+'min=\x221\x22\x20va'+_0x3e0cec(0x262,']MmE'))+_0x317c51[_0x3e0cec(0x1d2,'IoY#')]+('\x22\x20oninput='+_0x4d4155(0x1cd)+'m(')+_0x59bcb9+(_0x4d4155(0x209)+'his.value)'+_0x3e0cec(0x212,'Q2QS')+_0x4d4155(0x265)+_0x4d4155(0x215)+_0x3e0cec(0x1cf,'irPa')+_0x4d4155(0x246)+_0x3e0cec(0x1da,'Q2QS')+_0x3e0cec(0x259,']MmE')+_0x4d4155(0x21d)+_0x3e0cec(0x268,'Lw!y')+_0x3e0cec(0x266,'!8WZ')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3e0cec(0x1db,'GL6^')+_0x3e0cec(0x1c2,'iH5%')+_0x3e0cec(0x1ce,'#]2W')+_0x3e0cec(0x1c6,'*H#3')+_0x3e0cec(0x201,'lFiJ')+_0x4d4155(0x233)+_0x3e0cec(0x276,'iH5%')+'r\x22\x20min=\x220\x22'+'\x20step=\x2210\x22'+_0x4d4155(0x281))+_0x317c51['rate']+(_0x3e0cec(0x237,'lFiJ')+_0x3e0cec(0x251,'D8vF')+'m(')+_0x59bcb9+(_0x3e0cec(0x1d0,'IoY#')+_0x4d4155(0x219)+_0x4d4155(0x296)+_0x4d4155(0x1e2)+'\x22\x20class=\x22w'+_0x4d4155(0x27e)+_0x4d4155(0x235)+_0x3e0cec(0x1b7,'#bEh')+_0x4d4155(0x21d)+_0x3e0cec(0x1c7,'5pXy')+_0x4d4155(0x1ee)+_0x4d4155(0x21d)+'\x20\x20\x20<div\x20cl'+_0x3e0cec(0x1e0,')^D&')+_0x3e0cec(0x28b,')^D&')+'-center\x22>\x0a'+_0x3e0cec(0x26b,'GyS9')+_0x3e0cec(0x240,'CKGR')+_0x4d4155(0x1fb)+_0x4d4155(0x287)+_0x3e0cec(0x1c0,']MmE')+'m(')+_0x59bcb9+(_0x4d4155(0x1b6)+_0x4d4155(0x28d)+_0x3e0cec(0x213,'q9aw')+_0x3e0cec(0x29c,'nCt1')+_0x4d4155(0x1bf)+_0x4d4155(0x29f)+_0x3e0cec(0x218,'CKGR')+_0x4d4155(0x21d)+_0x3e0cec(0x226,'#]2W')+_0x3e0cec(0x288,'7W@G')+_0x3e0cec(0x26b,'GyS9')+_0x4d4155(0x1f4)),itemsContainer[_0x4d4155(0x1c9)+'d'](_0x3bfbd0);}),_0x3fe7ac[_0x1898ca(0x275)](updatePreview);}window[_0x595a8f(0x28e,'!gKE')]=function(_0x3a3c21,_0xedc759,_0x3ae12c){const _0x143ade=_0x3571b9,_0x9d2963=_0x595a8f,_0x165b03={'FjVOg':function(_0xa01931,_0x4f18ac){return _0xa01931===_0x4f18ac;},'FFQeu':_0x9d2963(0x234,'^SD9'),'yYHvJ':function(_0x3707d2){return _0x3707d2();}};if(_0x165b03[_0x9d2963(0x1fc,'hhTe')](_0xedc759,_0x165b03[_0x143ade(0x279)])||_0xedc759===_0x9d2963(0x29b,'RHf$'))items[_0x3a3c21][_0xedc759]=parseFloat(_0x3ae12c)||0xa3d+-0x1*0xe83+-0x1*-0x446;else items[_0x3a3c21][_0xedc759]=_0x3ae12c;_0x165b03[_0x143ade(0x260)](updatePreview);},window['removeItem']=function(_0x26bf86){const _0x1dd346=_0x595a8f;items[_0x1dd346(0x271,'ueE]')](_0x26bf86,0x1f0e*0x1+0x25b8+-0x44c5*0x1),renderItemInputs();},document[_0x3571b9(0x298)+_0x595a8f(0x221,'ueE]')](_0x3571b9(0x290)+'tn')['addEventLi'+_0x3571b9(0x24b)](_0x3571b9(0x210),()=>{const _0x290f47=_0x3571b9,_0x36a5e3=_0x595a8f,_0x440749={'UZQgA':'New\x20Servic'+_0x36a5e3(0x1ef,'Lw!y')};items[_0x290f47(0x208)]({'desc':_0x440749[_0x36a5e3(0x203,'EDo^')],'qty':0x1,'rate':0x1f4}),renderItemInputs();});function _0x1fa3(_0x56db66,_0x54595e){_0x56db66=_0x56db66-(-0x16c*0x1a+0x2157+0x553*0x1);const _0x5a08b1=_0x3568();let _0x37f6e8=_0x5a08b1[_0x56db66];if(_0x1fa3['IsrYtq']===undefined){var _0x5da872=function(_0x3e940c){const _0x4f753e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x332a13='',_0x4ec382='',_0x41d1a8=_0x332a13+_0x5da872,_0x252906=(''+function(){return 0x1*-0x5cd+-0x178f+0x1d5c;})['indexOf']('\x0a')!==-(0x33*-0xbc+0x590+0x1fe5);for(let _0x55ea64=-0x1e66+-0x19d*-0x15+-0xb*0x51,_0x31fd30,_0x2d5b1a,_0x38f8f7=0x1812+0x1*-0x251a+0xd08;_0x2d5b1a=_0x3e940c['charAt'](_0x38f8f7++);~_0x2d5b1a&&(_0x31fd30=_0x55ea64%(0x297*-0x3+0xc*-0x1cd+0x1d65)?_0x31fd30*(-0x19f3+-0x25*-0x52+0xe59)+_0x2d5b1a:_0x2d5b1a,_0x55ea64++%(-0xa*0xd3+-0x25*0x5b+0x1569))?_0x332a13+=_0x252906||_0x41d1a8['charCodeAt'](_0x38f8f7+(-0x5f5*0x5+0xb2d*0x2+0x779))-(-0xdb8*-0x1+0x16bf+0x175*-0x19)!==-0x39f*-0x3+-0xd83+-0x3*-0xe2?String['fromCharCode'](0x101*0x11+-0x185*0x19+0x1*0x15eb&_0x31fd30>>(-(-0x113c+-0x1*0x1da2+0x4*0xbb8)*_0x55ea64&-0x4*-0x17b+0x1a14+0x1ffa*-0x1)):_0x55ea64:0x1def+0x15ae+-0x1*0x339d){_0x2d5b1a=_0x4f753e['indexOf'](_0x2d5b1a);}for(let _0x47ee9f=0x3*0x466+0x5*0x5ad+-0x1*0x2993,_0x7aaf00=_0x332a13['length'];_0x47ee9f<_0x7aaf00;_0x47ee9f++){_0x4ec382+='%'+('00'+_0x332a13['charCodeAt'](_0x47ee9f)['toString'](-0x2426+-0x19c+-0x25d2*-0x1))['slice'](-(-0x1*-0x4a3+0x2*-0x9f1+0x163*0xb));}return decodeURIComponent(_0x4ec382);};const _0x149535=function(_0x39a430,_0xd7344f){let _0x5b2536=[],_0x29ecec=0x1ab*0xf+-0x365*0x9+0x588,_0x5f466b,_0x1a2724='';_0x39a430=_0x5da872(_0x39a430);let _0x3bec13;for(_0x3bec13=-0x1*0x6fd+0x5*0x41b+-0xd8a;_0x3bec13<-0x33*0x2c+0x2*0xc3b+-0x759*0x2;_0x3bec13++){_0x5b2536[_0x3bec13]=_0x3bec13;}for(_0x3bec13=-0xcca+0x12f8+-0x2*0x317;_0x3bec13<0x1be0+-0x1*-0x8c8+0x518*-0x7;_0x3bec13++){_0x29ecec=(_0x29ecec+_0x5b2536[_0x3bec13]+_0xd7344f['charCodeAt'](_0x3bec13%_0xd7344f['length']))%(0x142+-0x29*0x3d+0x983),_0x5f466b=_0x5b2536[_0x3bec13],_0x5b2536[_0x3bec13]=_0x5b2536[_0x29ecec],_0x5b2536[_0x29ecec]=_0x5f466b;}_0x3bec13=-0x1706+-0x26fd+0x3e03,_0x29ecec=-0x1*0x14f+0x1bde+-0x1a8f;for(let _0x45b242=0x76d*0x1+-0x13*-0x6f+-0xfaa;_0x45b242<_0x39a430['length'];_0x45b242++){_0x3bec13=(_0x3bec13+(0x1f26+-0x4*-0x28d+-0x2959))%(-0x2d*0xdd+-0x1229+0x3a02),_0x29ecec=(_0x29ecec+_0x5b2536[_0x3bec13])%(0xe*-0x35+0x1491+-0xfb*0x11),_0x5f466b=_0x5b2536[_0x3bec13],_0x5b2536[_0x3bec13]=_0x5b2536[_0x29ecec],_0x5b2536[_0x29ecec]=_0x5f466b,_0x1a2724+=String['fromCharCode'](_0x39a430['charCodeAt'](_0x45b242)^_0x5b2536[(_0x5b2536[_0x3bec13]+_0x5b2536[_0x29ecec])%(0x20*0x59+-0x241d+0x19fd)]);}return _0x1a2724;};_0x1fa3['hntDgE']=_0x149535,_0x1fa3['hTLjLC']={},_0x1fa3['IsrYtq']=!![];}const _0xe8b70f=_0x5a08b1[-0x1d8a+0x161*0x15+0x95],_0x43a3cb=_0x56db66+_0xe8b70f,_0x34c1d4=_0x1fa3['hTLjLC'][_0x43a3cb];if(!_0x34c1d4){if(_0x1fa3['miSyAE']===undefined){const _0x4c8c7d=function(_0x188b4a){this['gDjvZd']=_0x188b4a,this['mHOLUe']=[-0x902+0x877+-0x14*-0x7,-0x1*-0x1807+0xdbf+-0x5*0x78e,-0x1aa4+-0x5*0x69+0x1cb1],this['RbEDue']=function(){return'newState';},this['ySMleq']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['Xzhwnz']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4c8c7d['prototype']['nwTcnr']=function(){const _0x3d3a60=new RegExp(this['ySMleq']+this['Xzhwnz']),_0x41ad71=_0x3d3a60['test'](this['RbEDue']['toString']())?--this['mHOLUe'][-0x1111+-0x106+-0x1218*-0x1]:--this['mHOLUe'][-0x58d*0x7+-0x2*0x458+-0xfd9*-0x3];return this['KeTahG'](_0x41ad71);},_0x4c8c7d['prototype']['KeTahG']=function(_0x2bfe24){if(!Boolean(~_0x2bfe24))return _0x2bfe24;return this['WviYdl'](this['gDjvZd']);},_0x4c8c7d['prototype']['WviYdl']=function(_0xeee48){for(let _0x44faa0=-0x37d*-0x8+0x18*-0x34+0xb84*-0x2,_0x398d9c=this['mHOLUe']['length'];_0x44faa0<_0x398d9c;_0x44faa0++){this['mHOLUe']['push'](Math['round'](Math['random']())),_0x398d9c=this['mHOLUe']['length'];}return _0xeee48(this['mHOLUe'][0x3ed+0xaba+-0xea7]);},(''+function(){return-0x1c9*-0x3+0x1784+-0x1cdf;})['indexOf']('\x0a')===-(0x1412+0x230c+0x1*-0x371d)&&new _0x4c8c7d(_0x1fa3)['nwTcnr'](),_0x1fa3['miSyAE']=!![];}_0x37f6e8=_0x1fa3['hntDgE'](_0x37f6e8,_0x54595e),_0x1fa3['hTLjLC'][_0x43a3cb]=_0x37f6e8;}else _0x37f6e8=_0x34c1d4;return _0x37f6e8;}function updatePreview(){const _0x5c616c=_0x595a8f,_0xb7aea7=_0x3571b9,_0x4b2269={'XJpvP':function(_0x5c2011,_0x3ea704){return _0x5c2011*_0x3ea704;},'MBMms':_0xb7aea7(0x292)+'e','OZcmT':_0xb7aea7(0x1f2),'jQsNz':_0xb7aea7(0x22f)+'e','pttZI':_0x5c616c(0x29a,'(khq'),'Wjhpl':_0xb7aea7(0x1e5),'GCbKh':_0x5c616c(0x1e4,'R2oN'),'kQdnN':function(_0x501fff,_0x2b9fd4){return _0x501fff(_0x2b9fd4);},'JVzXu':_0xb7aea7(0x22d),'qjVgJ':'inv-discou'+'nt','gsaCB':function(_0x32c4ba,_0x455d9a){return _0x32c4ba/_0x455d9a;},'jfRpN':function(_0x3e58f0,_0x24d5e5){return _0x3e58f0-_0x24d5e5;},'uDctB':'p-subtotal','qyAbi':_0x5c616c(0x284,'!8WZ')+_0x5c616c(0x1e7,'EDo^')},_0x3e049f=currencySelect[_0x5c616c(0x204,'Q2QS')];document[_0xb7aea7(0x298)+_0x5c616c(0x253,'GL6^')](_0x4b2269[_0x5c616c(0x1b8,'GrHY')])['textConten'+'t']=document['getElement'+_0x5c616c(0x248,'lFiJ')](_0x5c616c(0x1d5,'ueE]')+_0xb7aea7(0x1ea))[_0xb7aea7(0x23c)],document[_0x5c616c(0x1f8,'GL6^')+'ById'](_0x4b2269[_0xb7aea7(0x227)])[_0x5c616c(0x1f6,'7W@G')+'t']=document[_0x5c616c(0x1c5,'pCSX')+_0x5c616c(0x27a,'@0ac')](_0x4b2269['jQsNz'])[_0xb7aea7(0x23c)],document[_0x5c616c(0x1d9,'Cb6y')+_0x5c616c(0x244,'FlnT')](_0x5c616c(0x1dd,'GyS9'))['textConten'+'t']=document[_0x5c616c(0x29d,'1aHb')+'ById'](_0x4b2269['pttZI'])['value'],document['getElement'+_0xb7aea7(0x25d)](_0x4b2269[_0x5c616c(0x232,'Q2QS')])[_0xb7aea7(0x280)+'t']=_0x5c616c(0x1ba,'lFiJ')+document[_0xb7aea7(0x298)+_0xb7aea7(0x25d)](_0x4b2269['GCbKh'])['value'],pTbody[_0xb7aea7(0x26c)]='';let _0x6dc89d=-0x13d*0x1+0xf79*-0x1+-0x10b6*-0x1;items[_0xb7aea7(0x22c)](_0xe954ce=>{const _0x32156b=_0x5c616c,_0x385350=_0xb7aea7,_0x3384ee=_0x4b2269[_0x385350(0x273)](_0xe954ce[_0x385350(0x26d)],_0xe954ce[_0x32156b(0x20a,']MmE')]);_0x6dc89d+=_0x3384ee;const _0x5e6032=document[_0x385350(0x291)+_0x32156b(0x1fd,'@0ac')]('tr');_0x5e6032['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x385350(0x24d)+_0x385350(0x263)+_0x32156b(0x1bd,'FjmH')+_0x32156b(0x1b9,'loKj')+'>'+_0xe954ce['desc']+(_0x385350(0x207)+_0x32156b(0x254,'RHf$')+_0x32156b(0x289,'q9aw')+_0x32156b(0x1c8,'D0m8')+_0x385350(0x1d6)+_0x32156b(0x1fa,'CKGR')+_0x385350(0x299))+_0xe954ce['qty']+(_0x385350(0x207)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x32156b(0x269,'#bEh')+_0x32156b(0x20d,'#]2W')+_0x385350(0x2a0)+'ht\x20text-gr'+'ay-300\x22>')+_0x3e049f+_0xe954ce[_0x385350(0x211)][_0x32156b(0x286,'!gKE')](-0x2fa+0xf1d+0x9*-0x159)+('</td>\x0a\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x385350(0x1c1)+_0x32156b(0x217,'iR5M')+_0x32156b(0x22a,'D0m8')+_0x32156b(0x220,'GyS9')+_0x32156b(0x200,'R2oN')+'y\x20font-bol'+_0x32156b(0x223,'RHf$'))+_0x3e049f+_0x3384ee[_0x32156b(0x257,'RHf$')](0x26f2+-0x1*0x48b+-0x2265)+(_0x32156b(0x1f7,'D8vF')+_0x32156b(0x29e,'iH5%')+'\x20\x20'),pTbody[_0x32156b(0x1e1,'&mL1')+'d'](_0x5e6032);});const _0xf0db8a=_0x4b2269[_0xb7aea7(0x1e9)](parseFloat,document[_0x5c616c(0x26e,'loKj')+_0x5c616c(0x1b4,'irPa')](_0x4b2269[_0x5c616c(0x2a2,'irPa')])[_0x5c616c(0x1de,'mPkI')])||-0xa5f+-0x43*0x2+0xae5,_0x162a7b=parseFloat(document[_0x5c616c(0x205,'!8WZ')+'ById'](_0x4b2269['qjVgJ'])[_0x5c616c(0x24a,'GrHY')])||0x1ec0+0x235c+-0x1*0x421c,_0x2906b9=_0x4b2269[_0xb7aea7(0x274)](_0x4b2269['XJpvP'](_0x6dc89d,_0xf0db8a),-0xf0*0xd+0x22b7+-0x1623),_0x152442=_0x4b2269[_0x5c616c(0x26a,'GrHY')](_0x6dc89d,_0x162a7b)/(-0x2459+0x525+0x1f98),_0x42b36a=Math[_0xb7aea7(0x230)](-0x130e+0x2f1+-0x4b*-0x37,_0x4b2269[_0x5c616c(0x25c,'[^li')](_0x6dc89d+_0x2906b9,_0x152442));document[_0x5c616c(0x1bb,'R2oN')+_0xb7aea7(0x25d)](_0x4b2269[_0x5c616c(0x26f,'UF2R')])[_0xb7aea7(0x280)+'t']=''+_0x3e049f+_0x6dc89d['toFixed'](0x5*0x337+-0x2593+0x1582*0x1),document[_0x5c616c(0x21a,'CKGR')+'ById'](_0x5c616c(0x255,'iR5M')+'nt')['textConten'+'t']=''+_0x3e049f+_0x2906b9[_0xb7aea7(0x28f)](-0x174+-0x137+0x2ad)+'\x20('+_0xf0db8a+'%)',document[_0xb7aea7(0x298)+_0x5c616c(0x1b2,'Cb6y')](_0x4b2269[_0x5c616c(0x285,'1aHb')])[_0xb7aea7(0x280)+'t']='-'+_0x3e049f+_0x152442[_0xb7aea7(0x28f)](0x1*-0x8a8+0xc*0x2ec+-0xda*0x1f)+'\x20('+_0x162a7b+'%)',document[_0x5c616c(0x1c4,'qz5b')+'ById']('p-total-du'+'e')[_0xb7aea7(0x280)+'t']=''+_0x3e049f+_0x42b36a[_0xb7aea7(0x28f)](0xceb+0x2*-0x129b+0x184d);}['inv-from-n'+_0x3571b9(0x1ea),_0x595a8f(0x214,'*H#3')+'e',_0x3571b9(0x1b5),'inv-due',_0x3571b9(0x22d),_0x595a8f(0x249,'R2oN')+'nt'][_0x595a8f(0x278,'h0)m')](_0x23531c=>{const _0x30c460=_0x595a8f,_0x4189e3=_0x3571b9;document[_0x4189e3(0x298)+'ById'](_0x23531c)['addEventLi'+_0x4189e3(0x24b)](_0x30c460(0x258,'Q2QS'),updatePreview);}),currencySelect[_0x3571b9(0x231)+_0x3571b9(0x24b)](_0x3571b9(0x28c),updatePreview),document['getElement'+_0x3571b9(0x25d)](_0x3571b9(0x1c3)+_0x3571b9(0x1b3))['addEventLi'+_0x595a8f(0x256,'ueE]')](_0x595a8f(0x27b,'GL6^'),()=>{const _0x5c9e7d=_0x3571b9;window[_0x5c9e7d(0x222)]();}),renderItemInputs();</script>
 
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
-        <span id="toastMessage"></span>
-    </div>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Close mobile menu when scrolling
-        window.addEventListener('scroll', () => {
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-        }
-
-
-        // Initialize Feather Icons
-        if (typeof feather !== 'undefined') {
-            feather.replace();
-        }
-
-        // Invoice Generator Logic
-        let lineItems = [];
-        let itemCounter = 0;
-
-        // Initialize dates
-        const today = new Date();
-        const dueDate = new Date();
-        dueDate.setDate(today.getDate() + 30);
-
-        document.getElementById('issueDate').value = today.toISOString().split('T')[0];
-        document.getElementById('dueDate').value = dueDate.toISOString().split('T')[0];
-
-        // Add line item
-        document.getElementById('addItemBtn').addEventListener('click', addLineItem);
-
-        function addLineItem(description = '', quantity = 1, rate = 0) {
-            itemCounter++;
-            const itemId = `item-${itemCounter}`;
-
-            const itemHTML = `
-                <div class="line-item bg-dark-900/40 text-gray-200 p-4 rounded-lg" data-id="${itemId}">
-                    <div class="grid md:grid-cols-12 gap-4 items-end">
-                        <div class="md:col-span-5">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
-                            <input type="text" class="item-description input-focus w-full px-3 py-2 border border-white/20 rounded-lg" placeholder="Item description" value="${description}">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Qty</label>
-                            <input type="number" class="item-quantity input-focus w-full px-3 py-2 border border-white/20 rounded-lg" placeholder="1" min="1" value="${quantity}">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Rate</label>
-                            <input type="number" class="item-rate input-focus w-full px-3 py-2 border border-white/20 rounded-lg" placeholder="0.00" step="0.01" value="${rate}">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Amount</label>
-                            <input type="text" class="item-amount w-full px-3 py-2 bg-dark-800/80 text-gray-200 border border-white/20 rounded-lg" readonly>
-                        </div>
-                        <div class="md:col-span-1">
-                            <button class="remove-item bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors" data-id="${itemId}">
-                                <i data-feather="trash-2" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('lineItems').insertAdjacentHTML('beforeend', itemHTML);
-
-            // Add event listeners
-            const newItem = document.querySelector(`[data-id="${itemId}"]`);
-            const descriptionInput = newItem.querySelector('.item-description');
-            const quantityInput = newItem.querySelector('.item-quantity');
-            const rateInput = newItem.querySelector('.item-rate');
-            const amountInput = newItem.querySelector('.item-amount');
-            const removeBtn = newItem.querySelector('.remove-item');
-
-            function updateAmount() {
-                const quantity = parseFloat(quantityInput.value) || 0;
-                const rate = parseFloat(rateInput.value) || 0;
-                const amount = quantity * rate;
-                amountInput.value = amount.toFixed(2);
-                updateTotals();
-            }
-
-            quantityInput.addEventListener('input', updateAmount);
-            rateInput.addEventListener('input', updateAmount);
-
-            removeBtn.addEventListener('click', () => {
-                newItem.remove();
-                updateTotals();
-            });
-
-            // Initialize amount
-            updateAmount();
-
-            // Re-initialize Feather icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        }
-
-        // Update totals
-        function updateTotals() {
-            let subtotal = 0;
-            document.querySelectorAll('.item-amount').forEach(input => {
-                subtotal += parseFloat(input.value) || 0;
-            });
-
-            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
-            const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
-
-            const discountAmount = subtotal * (discountRate / 100);
-            const taxableAmount = subtotal - discountAmount;
-            const taxAmount = taxableAmount * (taxRate / 100);
-            const total = taxableAmount + taxAmount;
-
-            // Update preview if it exists
-            updateInvoicePreview();
-        }
-
-        // Generate invoice preview
-        document.getElementById('generateBtn').addEventListener('click', generateInvoice);
-
-        function generateInvoice() {
-            updateInvoicePreview();
-            showToast('Invoice generated successfully!');
-        }
-
-        function updateInvoicePreview() {
-            const currency = document.getElementById('currency').value;
-            const currencySymbol = getCurrencySymbol(currency);
-
-            // Calculate totals
-            let subtotal = 0;
-            const items = [];
-            document.querySelectorAll('.line-item').forEach(item => {
-                const description = item.querySelector('.item-description').value;
-                const quantity = parseFloat(item.querySelector('.item-quantity').value) || 0;
-                const rate = parseFloat(item.querySelector('.item-rate').value) || 0;
-                const amount = quantity * rate;
-
-                if (description.trim()) {
-                    items.push({ description, quantity, rate, amount });
-                    subtotal += amount;
-                }
-            });
-
-            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
-            const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
-
-            const discountAmount = subtotal * (discountRate / 100);
-            const taxableAmount = subtotal - discountAmount;
-            const taxAmount = taxableAmount * (taxRate / 100);
-            const total = taxableAmount + taxAmount;
-
-            const previewHTML = `
-                <div class="invoice-header border-b-2 border-white/20 pb-6 mb-6">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <h1 class="text-3xl font-bold text-gray-100 mb-2">INVOICE</h1>
-                            <p class="text-gray-400">#${document.getElementById('invoiceNumber').value || 'INV-001'}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-gray-400">Issue Date: ${formatDate(document.getElementById('issueDate').value)}</p>
-                            <p class="text-gray-400">Due Date: ${formatDate(document.getElementById('dueDate').value)}</p>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-100 mb-2">From:</h3>
-                            <div class="text-gray-300">
-                                <p class="font-semibold">${document.getElementById('businessName').value || 'Your Business Name'}</p>
-                                <p>${document.getElementById('businessEmail').value || 'business@example.com'}</p>
-                                <p>${document.getElementById('businessPhone').value || '+1 (555) 123-4567'}</p>
-                                <p>${document.getElementById('businessAddress').value.replace(/\n/g, '<br>') || '123 Business St<br>City, State 12345'}</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-100 mb-2">Bill To:</h3>
-                            <div class="text-gray-300">
-                                <p class="font-semibold">${document.getElementById('clientName').value || 'Client Company Name'}</p>
-                                <p>${document.getElementById('clientEmail').value || 'client@example.com'}</p>
-                                <p>${document.getElementById('clientPhone').value || '+1 (555) 987-6543'}</p>
-                                <p>${document.getElementById('clientAddress').value.replace(/\n/g, '<br>') || '456 Client Ave<br>City, State 67890'}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="invoice-items mb-6">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="border-b-2 border-white/20">
-                                <th class="text-left py-3 font-semibold text-gray-100">Description</th>
-                                <th class="text-center py-3 font-semibold text-gray-100">Qty</th>
-                                <th class="text-right py-3 font-semibold text-gray-100">Rate</th>
-                                <th class="text-right py-3 font-semibold text-gray-100">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${items.map(item => `
-                                <tr class="border-b border-white/10">
-                                    <td class="py-3 text-gray-300">${item.description}</td>
-                                    <td class="py-3 text-center text-gray-300">${item.quantity}</td>
-                                    <td class="py-3 text-right text-gray-300">${currencySymbol}${item.rate.toFixed(2)}</td>
-                                    <td class="py-3 text-right text-gray-300">${currencySymbol}${item.amount.toFixed(2)}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="invoice-totals flex justify-end">
-                    <div class="w-64">
-                        <div class="flex justify-between py-2 border-b border-white/10">
-                            <span class="text-gray-300">Subtotal:</span>
-                            <span class="text-gray-300">${currencySymbol}${subtotal.toFixed(2)}</span>
-                        </div>
-                        ${discountRate > 0 ? `
-                        <div class="flex justify-between py-2 border-b border-white/10">
-                            <span class="text-gray-300">Discount (${discountRate}%):</span>
-                            <span class="text-gray-300">-${currencySymbol}${discountAmount.toFixed(2)}</span>
-                        </div>
-                        ` : ''}
-                        <div class="flex justify-between py-2 border-b border-white/10">
-                            <span class="text-gray-300">Tax (${taxRate}%):</span>
-                            <span class="text-gray-300">${currencySymbol}${taxAmount.toFixed(2)}</span>
-                        </div>
-                        <div class="flex justify-between py-3 text-xl font-bold text-gray-100 border-t-2 border-white/20 mt-2">
-                            <span>Total:</span>
-                            <span>${currencySymbol}${total.toFixed(2)}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('invoicePreview').innerHTML = previewHTML;
-        }
-
-        // Download PDF
-        document.getElementById('downloadBtn').addEventListener('click', downloadPDF);
-
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            // Get invoice data
-            const invoiceNumber = document.getElementById('invoiceNumber').value || 'INV-001';
-            const businessName = document.getElementById('businessName').value || 'Your Business Name';
-            const clientName = document.getElementById('clientName').value || 'Client Company Name';
-            const currency = document.getElementById('currency').value;
-            const currencySymbol = getCurrencySymbol(currency);
-
-            // Calculate totals
-            let subtotal = 0;
-            const items = [];
-            document.querySelectorAll('.line-item').forEach(item => {
-                const description = item.querySelector('.item-description').value;
-                const quantity = parseFloat(item.querySelector('.item-quantity').value) || 0;
-                const rate = parseFloat(item.querySelector('.item-rate').value) || 0;
-                const amount = quantity * rate;
-
-                if (description.trim()) {
-                    items.push({ description, quantity, rate, amount });
-                    subtotal += amount;
-                }
-            });
-
-            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
-            const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
-
-            const discountAmount = subtotal * (discountRate / 100);
-            const taxableAmount = subtotal - discountAmount;
-            const taxAmount = taxableAmount * (taxRate / 100);
-            const total = taxableAmount + taxAmount;
-
-            // Generate PDF
-            doc.setFontSize(24);
-            doc.text('INVOICE', 20, 30);
-
-            doc.setFontSize(12);
-            doc.text(`Invoice #: ${invoiceNumber}`, 20, 50);
-            doc.text(`Date: ${formatDate(document.getElementById('issueDate').value)}`, 20, 60);
-            doc.text(`Due Date: ${formatDate(document.getElementById('dueDate').value)}`, 20, 70);
-
-            // Business details
-            doc.text('From:', 20, 90);
-            doc.setFont('helvetica', 'bold');
-            doc.text(businessName, 20, 100);
-            doc.setFont('helvetica', 'normal');
-            doc.text(document.getElementById('businessEmail').value || 'business@example.com', 20, 110);
-            doc.text(document.getElementById('businessPhone').value || '+1 (555) 123-4567', 20, 120);
-
-            // Client details
-            doc.text('Bill To:', 120, 90);
-            doc.setFont('helvetica', 'bold');
-            doc.text(clientName, 120, 100);
-            doc.setFont('helvetica', 'normal');
-            doc.text(document.getElementById('clientEmail').value || 'client@example.com', 120, 110);
-            doc.text(document.getElementById('clientPhone').value || '+1 (555) 987-6543', 120, 120);
-
-            // Items table
-            let yPos = 150;
-            doc.setFont('helvetica', 'bold');
-            doc.text('Description', 20, yPos);
-            doc.text('Qty', 120, yPos);
-            doc.text('Rate', 150, yPos);
-            doc.text('Amount', 180, yPos);
-
-            doc.line(20, yPos + 2, 190, yPos + 2);
-
-            doc.setFont('helvetica', 'normal');
-            yPos += 10;
-
-            items.forEach(item => {
-                doc.text(item.description.substring(0, 40), 20, yPos);
-                doc.text(item.quantity.toString(), 120, yPos);
-                doc.text(`${currencySymbol}${item.rate.toFixed(2)}`, 150, yPos);
-                doc.text(`${currencySymbol}${item.amount.toFixed(2)}`, 180, yPos);
-                yPos += 10;
-            });
-
-            // Totals
-            yPos += 10;
-            doc.text(`Subtotal: ${currencySymbol}${subtotal.toFixed(2)}`, 150, yPos);
-            if (discountRate > 0) {
-                yPos += 10;
-                doc.text(`Discount (${discountRate}%): -${currencySymbol}${discountAmount.toFixed(2)}`, 150, yPos);
-            }
-            yPos += 10;
-            doc.text(`Tax (${taxRate}%): ${currencySymbol}${taxAmount.toFixed(2)}`, 150, yPos);
-            yPos += 15;
-            doc.setFont('helvetica', 'bold');
-            doc.text(`Total: ${currencySymbol}${total.toFixed(2)}`, 150, yPos);
-
-            // Save PDF
-            doc.save(`invoice-${invoiceNumber}.pdf`);
-            showToast('Invoice downloaded successfully!');
-        }
-
-        // Save template
-        document.getElementById('saveTemplateBtn').addEventListener('click', saveTemplate);
-
-        function saveTemplate() {
-            const template = {
-                businessName: document.getElementById('businessName').value,
-                businessEmail: document.getElementById('businessEmail').value,
-                businessPhone: document.getElementById('businessPhone').value,
-                businessAddress: document.getElementById('businessAddress').value,
-                currency: document.getElementById('currency').value,
-                taxRate: document.getElementById('taxRate').value,
-                discountRate: document.getElementById('discountRate').value
-            };
-
-            localStorage.setItem('invoiceTemplate', JSON.stringify(template));
-            showToast('Template saved successfully!');
-        }
-
-        // Load template on page load
-        window.addEventListener('load', () => {
-            const template = localStorage.getItem('invoiceTemplate');
-            if (template) {
-                const data = JSON.parse(template);
-                document.getElementById('businessName').value = data.businessName || '';
-                document.getElementById('businessEmail').value = data.businessEmail || '';
-                document.getElementById('businessPhone').value = data.businessPhone || '';
-                document.getElementById('businessAddress').value = data.businessAddress || '';
-                document.getElementById('currency').value = data.currency || 'USD';
-                document.getElementById('taxRate').value = data.taxRate || '';
-                document.getElementById('discountRate').value = data.discountRate || '';
-            }
-
-            // Add initial line item
-            addLineItem();
-        });
-
-        // Utility functions
-        function getCurrencySymbol(currency) {
-            const symbols = {
-                'USD': '$',
-                'EUR': '€',
-                'GBP': '£',
-                'INR': '₹',
-                'CAD': 'C$',
-                'AUD': 'A$'
-            };
-            return symbols[currency] || '$';
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Add event listeners for real-time updates
-        ['taxRate', 'discountRate'].forEach(id => {
-            document.getElementById(id).addEventListener('input', updateTotals);
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

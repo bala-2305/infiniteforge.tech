@@ -1,255 +1,85 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Basic Audio Editing Tools - Trim, Cut, Effects | InfiniteForge</title>
-  <meta name="description" content="Free online audio editing tools. Trim, cut, add effects, adjust volume and speed. No installation required - edit audio directly in your browser." />
-  <meta name="keywords" content="audio editing, online audio editor, trim audio, cut audio, audio effects, volume control, speed control, fade in out, audio processing, web audio editor, free audio tools, audio cutter, audio trimmer" />
-  <meta name="author" content="InfiniteForge" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <link rel="canonical" href="https://infiniteforge.tech/audio-editing.html" />
-  <link rel="icon" type="image/png" href="images/letter-d.png">
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://infiniteforge.tech/audio-editing.html" />
-  <meta property="og:title" content="Basic Audio Editing Tools - Free Online Audio Editor | InfiniteForge" />
-  <meta property="og:description" content="Trim, cut, add effects to your audio files online. Free audio editing tools with volume and speed controls." />
-  <meta property="og:image" content="https://infiniteforge.tech/images/audio-editing-og.jpg" />
-  <meta property="og:site_name" content="InfiniteForge" />
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:title" content="Basic Audio Editing Tools - Free Online Audio Editor | InfiniteForge" />
-  <meta property="twitter:description" content="Trim, cut, add effects to your audio files online. Free audio editing tools with volume and speed controls." />
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-        // Fallback for Feather Icons
-        window.addEventListener('load', function() {
-            if (typeof feather === 'undefined') {
-                // Load feather icons from alternative CDN if primary fails
-                const script = document.createElement('script');
-                script.src = 'https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js';
-                script.onload = function() {
-                    if (typeof feather !== 'undefined') {
-                        feather.replace();
-                    }
-                };
-                document.head.appendChild(script);
-            }
-        });
-    </script>
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .control-slider::-webkit-slider-thumb {
-            appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-        }
-
-        .control-slider::-moz-range-thumb {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-            border: none;
-        }
-
-        .timeline {
-            position: relative;
-            height: 60px;
-            background: rgba(31, 40, 51, 0.4);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .timeline-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #06b6d4);
-            border-radius: 8px;
-            transition: width 0.1s ease;
-        }
-
-        .playhead {
-            position: absolute;
-            top: -5px;
-            width: 3px;
-            height: 70px;
-            background: #ef4444;
-            border-radius: 2px;
-            cursor: ew-resize;
-        }
-
-        .tool-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-
-        .tool-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(31, 40, 51, 0.4);
-            color: #374151;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Editor &amp; Trimmer — Cut, Boost &amp; Edit Audio Online | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Edit, trim, and boost audio files in your browser. Live waveform visualization, volume amplifier, speed controls, and instant WAV export with zero uploads.">
+    <meta name="keywords" content="audio editor, audio trimmer, cut mp3 online, volume booster, web audio editor">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta property="og:title" content="Audio Editor &amp; Trimmer | Infiniteforge">
+    <meta property="og:description" content="Trim, boost volume, and edit audio files directly in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/audio-editing.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Audio Editor &amp; Trimmer | Infiniteforge">
+    <meta name="twitter:description" content="Web Audio editor with waveform visualization.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/audio-editing.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/audio-editing.html">
 
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x2559bb=_0x4504,_0x2891f2=_0x3833;function _0x4504(_0x355a86,_0x4f97ca){_0x355a86=_0x355a86-(-0x5+-0x494+0x6b*0xe);var _0x52cc38=_0x4b51();var _0x21b22e=_0x52cc38[_0x355a86];if(_0x4504['GenYvR']===undefined){var _0x20d018=function(_0x1910c7){var _0x474f90='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x2bb0b5='',_0x1e81e7='',_0xd275c8=_0x2bb0b5+_0x20d018,_0x3a24f2=(''+function(){return-0x117a*-0x1+0x2b*-0x3d+0x1*-0x73b;})['indexOf']('\x0a')!==-(-0x173c+-0x1757+-0xba5*-0x4);for(var _0x2e8cd5=0xcb7*0x1+0x1*-0xaa3+0x1*-0x214,_0xd85fab,_0x2fc6a4,_0x147b7a=0xad*-0xa+0xa*-0x233+0x20*0xe6;_0x2fc6a4=_0x1910c7['charAt'](_0x147b7a++);~_0x2fc6a4&&(_0xd85fab=_0x2e8cd5%(0x18*0x3e+0xe79+-0x1445)?_0xd85fab*(-0x729+-0x816+0xf7f)+_0x2fc6a4:_0x2fc6a4,_0x2e8cd5++%(0x3a0+0x2b1*0xd+0xf1*-0x29))?_0x2bb0b5+=_0x3a24f2||_0xd275c8['charCodeAt'](_0x147b7a+(0x239b+-0x204f+0x342*-0x1))-(-0xe11+-0x1576*0x1+-0xf*-0x25f)!==-0x11ca+-0x511*-0x1+0xcb9?String['fromCharCode'](0xa*-0x13a+0x1*-0xb3+-0x6fb*-0x2&_0xd85fab>>(-(-0x91f*-0x1+-0x2f*-0xcb+-0x2e62)*_0x2e8cd5&-0xafd+0xd11*-0x1+-0x1814*-0x1)):_0x2e8cd5:0xe7*-0x19+0x235*-0x2+-0x565*-0x5){_0x2fc6a4=_0x474f90['indexOf'](_0x2fc6a4);}for(var _0x3d3317=-0x102b*-0x2+-0x310*0x4+-0x1416,_0x41b962=_0x2bb0b5['length'];_0x3d3317<_0x41b962;_0x3d3317++){_0x1e81e7+='%'+('00'+_0x2bb0b5['charCodeAt'](_0x3d3317)['toString'](-0xfbc*-0x2+0x1cd*-0x2+0x1*-0x1bce))['slice'](-(-0x13cc+0x1*-0x849+0x1c17));}return decodeURIComponent(_0x1e81e7);};_0x4504['RHKPpC']=_0x20d018,_0x4504['wpVlqC']={},_0x4504['GenYvR']=!![];}var _0x300f1b=_0x52cc38[-0x1*0x7b5+-0x35f*0x1+-0x58a*-0x2],_0x1597e9=_0x355a86+_0x300f1b,_0x58beff=_0x4504['wpVlqC'][_0x1597e9];if(!_0x58beff){var _0x4dd28c=function(_0x48dc4e){this['OIcqdp']=_0x48dc4e,this['pAUYZZ']=[0x208f+-0x39*-0xad+0x17b1*-0x3,-0x1ffe+0x1*0x1894+0x76a,-0x17ee+0x1*0x3da+0x404*0x5],this['bZrXQw']=function(){return'newState';},this['xEcyWz']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['uDxbkO']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4dd28c['prototype']['zBQBlW']=function(){var _0x1c56ee=new RegExp(this['xEcyWz']+this['uDxbkO']),_0x47cc2e=_0x1c56ee['test'](this['bZrXQw']['toString']())?--this['pAUYZZ'][-0x4*-0x5+-0x1576+0x1563*0x1]:--this['pAUYZZ'][-0x7*0x295+0x128b*-0x2+0x3729];return this['nzUVZo'](_0x47cc2e);},_0x4dd28c['prototype']['nzUVZo']=function(_0x5c480f){if(!Boolean(~_0x5c480f))return _0x5c480f;return this['jdxwjy'](this['OIcqdp']);},_0x4dd28c['prototype']['jdxwjy']=function(_0x218f61){for(var _0x1384c7=-0x181*0x11+0x1*-0x54b+0x5*0x62c,_0x281276=this['pAUYZZ']['length'];_0x1384c7<_0x281276;_0x1384c7++){this['pAUYZZ']['push'](Math['round'](Math['random']())),_0x281276=this['pAUYZZ']['length'];}return _0x218f61(this['pAUYZZ'][0x127f+-0x1b4*-0x15+-0x3643]);},(''+function(){return 0x5b4+-0x3f*0x65+0x1327;})['indexOf']('\x0a')===-(0x1*0x16cf+-0x1614+0x5d*-0x2)&&new _0x4dd28c(_0x4504)['zBQBlW'](),_0x21b22e=_0x4504['RHKPpC'](_0x21b22e),_0x4504['wpVlqC'][_0x1597e9]=_0x21b22e;}else _0x21b22e=_0x58beff;return _0x21b22e;}(function(_0x1dcc46,_0x3b92ce){var _0x240cb4=_0x3833,_0x288aeb=_0x4504,_0x2924cc=_0x1dcc46();while(!![]){try{var _0x530bc5=parseInt(_0x288aeb(0x162))/(-0xdc7+0x1bbd+-0x18d*0x9)*(parseInt(_0x240cb4(0x141,'S&tm'))/(0x178a+0xbbf*0x1+0x335*-0xb))+parseInt(_0x288aeb(0x15c))/(0x1cc4+-0x24b*0x5+-0x2*0x8a5)*(parseInt(_0x240cb4(0x153,'PbSj'))/(0x135b+-0x347+-0x1*0x1010))+-parseInt(_0x240cb4(0x155,'h(d*'))/(-0x1bfe+0x3*0x6+0x137*0x17)+-parseInt(_0x288aeb(0x156))/(-0x2*0x7ed+0x13c1+-0x3e1)*(parseInt(_0x288aeb(0x15f))/(-0x2123+0x1499+0xc91*0x1))+-parseInt(_0x288aeb(0x163))/(-0x2360*-0x1+0x434+0x278c*-0x1)*(parseInt(_0x240cb4(0x14b,'4xum'))/(0x151+0xade+-0xc26*0x1))+-parseInt(_0x240cb4(0x147,'Y9v&'))/(0x2*0x21a+-0xec5+0xa9b)*(-parseInt(_0x288aeb(0x15a))/(-0x55d*0x7+-0x7af+0x2d45))+parseInt(_0x288aeb(0x14f))/(0x8*0x32f+-0xc1*-0x16+-0x2*0x1501);if(_0x530bc5===_0x3b92ce)break;else _0x2924cc['push'](_0x2924cc['shift']());}catch(_0x9ce996){_0x2924cc['push'](_0x2924cc['shift']());}}}(_0x4b51,-0x1*0x14a91d+-0x294b4*0x7+0x329985));var _0x437593=(function(){var _0x5a4011=!![];return function(_0x1a9dee,_0x1ece6c){var _0x2246b6=_0x5a4011?function(){if(_0x1ece6c){var _0x1fbd02=_0x1ece6c['apply'](_0x1a9dee,arguments);return _0x1ece6c=null,_0x1fbd02;}}:function(){};return _0x5a4011=![],_0x2246b6;};}()),_0x16f2ae=_0x437593(this,function(){var _0x25536a=_0x3833,_0x41f969=_0x4504,_0x11a740={'ahrzV':_0x41f969(0x142)+'+$'};if(_0x16f2ae[_0x25536a(0x150,'Y9v&')]()[_0x41f969(0x151)]()['indexOf']('\x0a')!==-(-0x58*-0x3c+0x78f*0x1+-0x1c2e*0x1))return;return _0x16f2ae[_0x25536a(0x146,'N%rN')]()[_0x25536a(0x149,'Ovob')](_0x11a740[_0x41f969(0x14e)])[_0x25536a(0x14d,'vOog')]()[_0x25536a(0x14a,'JPPK')+'r'](_0x16f2ae)['search'](_0x25536a(0x157,'PbSj')+'+$');});function _0x3833(_0x1f7dca,_0x52f0d8){_0x1f7dca=_0x1f7dca-(-0x5+-0x494+0x6b*0xe);var _0x330712=_0x4b51();var _0x318ee3=_0x330712[_0x1f7dca];if(_0x3833['scRsSe']===undefined){var _0x5dbeb3=function(_0x99af4c){var _0x3fcdc5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x480b07='',_0x18df56='',_0x59224c=_0x480b07+_0x5dbeb3,_0x5e74e9=(''+function(){return-0x117a*-0x1+0x2b*-0x3d+0x1*-0x73b;})['indexOf']('\x0a')!==-(-0x173c+-0x1757+-0xba5*-0x4);for(var _0x31bc24=0xcb7*0x1+0x1*-0xaa3+0x1*-0x214,_0x2ea295,_0x53a206,_0x4e61c8=0xad*-0xa+0xa*-0x233+0x20*0xe6;_0x53a206=_0x99af4c['charAt'](_0x4e61c8++);~_0x53a206&&(_0x2ea295=_0x31bc24%(0x18*0x3e+0xe79+-0x1445)?_0x2ea295*(-0x729+-0x816+0xf7f)+_0x53a206:_0x53a206,_0x31bc24++%(0x3a0+0x2b1*0xd+0xf1*-0x29))?_0x480b07+=_0x5e74e9||_0x59224c['charCodeAt'](_0x4e61c8+(0x239b+-0x204f+0x342*-0x1))-(-0xe11+-0x1576*0x1+-0xf*-0x25f)!==-0x11ca+-0x511*-0x1+0xcb9?String['fromCharCode'](0xa*-0x13a+0x1*-0xb3+-0x6fb*-0x2&_0x2ea295>>(-(-0x91f*-0x1+-0x2f*-0xcb+-0x2e62)*_0x31bc24&-0xafd+0xd11*-0x1+-0x1814*-0x1)):_0x31bc24:0xe7*-0x19+0x235*-0x2+-0x565*-0x5){_0x53a206=_0x3fcdc5['indexOf'](_0x53a206);}for(var _0x43cdc6=-0x102b*-0x2+-0x310*0x4+-0x1416,_0x43bb3c=_0x480b07['length'];_0x43cdc6<_0x43bb3c;_0x43cdc6++){_0x18df56+='%'+('00'+_0x480b07['charCodeAt'](_0x43cdc6)['toString'](-0xfbc*-0x2+0x1cd*-0x2+0x1*-0x1bce))['slice'](-(-0x13cc+0x1*-0x849+0x1c17));}return decodeURIComponent(_0x18df56);};var _0x41fd99=function(_0x4ef0e4,_0x1f581d){var _0x2fc2e1=[],_0x131025=-0x1*0x7b5+-0x35f*0x1+-0x58a*-0x2,_0x4c8ddf,_0x1260dd='';_0x4ef0e4=_0x5dbeb3(_0x4ef0e4);var _0x24ecb9;for(_0x24ecb9=0x208f+-0x39*-0xad+0x4714*-0x1;_0x24ecb9<-0x1ffe+0x1*0x1894+0x86a;_0x24ecb9++){_0x2fc2e1[_0x24ecb9]=_0x24ecb9;}for(_0x24ecb9=-0x17ee+0x1*0x3da+0x404*0x5;_0x24ecb9<-0x4*-0x5+-0x1576+0xb31*0x2;_0x24ecb9++){_0x131025=(_0x131025+_0x2fc2e1[_0x24ecb9]+_0x1f581d['charCodeAt'](_0x24ecb9%_0x1f581d['length']))%(-0x7*0x295+0x128b*-0x2+0x3829),_0x4c8ddf=_0x2fc2e1[_0x24ecb9],_0x2fc2e1[_0x24ecb9]=_0x2fc2e1[_0x131025],_0x2fc2e1[_0x131025]=_0x4c8ddf;}_0x24ecb9=-0x181*0x11+0x1*-0x54b+0x5*0x62c,_0x131025=0x127f+-0x1b4*-0x15+-0x3643;for(var _0x62bea=0x5b4+-0x3f*0x65+0x1327;_0x62bea<_0x4ef0e4['length'];_0x62bea++){_0x24ecb9=(_0x24ecb9+(0x1*0x16cf+-0x1614+0x5d*-0x2))%(-0xc*-0x63+0x1a24+-0x3b9*0x8),_0x131025=(_0x131025+_0x2fc2e1[_0x24ecb9])%(-0x1*-0x21a4+-0x1289+-0xe1b),_0x4c8ddf=_0x2fc2e1[_0x24ecb9],_0x2fc2e1[_0x24ecb9]=_0x2fc2e1[_0x131025],_0x2fc2e1[_0x131025]=_0x4c8ddf,_0x1260dd+=String['fromCharCode'](_0x4ef0e4['charCodeAt'](_0x62bea)^_0x2fc2e1[(_0x2fc2e1[_0x24ecb9]+_0x2fc2e1[_0x131025])%(0x891+-0xef*0x1+0x6*-0x11b)]);}return _0x1260dd;};_0x3833['nCnpzW']=_0x41fd99,_0x3833['YHyApw']={},_0x3833['scRsSe']=!![];}var _0x3869ce=_0x330712[0x18b0+0x528*0x4+-0x2d50],_0xef3ba9=_0x1f7dca+_0x3869ce,_0x2890bd=_0x3833['YHyApw'][_0xef3ba9];if(!_0x2890bd){if(_0x3833['sYMVVt']===undefined){var _0x420bb5=function(_0x2cf17c){this['IPFsFH']=_0x2cf17c,this['KtpqTj']=[-0x1715+-0x22*0x2f+0x1d54,0x1*0x826+-0x1b71*-0x1+-0x2397,0x1d*0xc5+0x21a2+-0x37f3],this['lgaMth']=function(){return'newState';},this['UKOVZR']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['qRWCGw']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x420bb5['prototype']['Ubexio']=function(){var _0x5a5d0e=new RegExp(this['UKOVZR']+this['qRWCGw']),_0x3c83a5=_0x5a5d0e['test'](this['lgaMth']['toString']())?--this['KtpqTj'][-0xd*-0x137+0x11*-0x236+0x15cc]:--this['KtpqTj'][-0x7f+-0x55d*0x7+0x260a];return this['vIxJXk'](_0x3c83a5);},_0x420bb5['prototype']['vIxJXk']=function(_0x18d9a6){if(!Boolean(~_0x18d9a6))return _0x18d9a6;return this['TrVvxA'](this['IPFsFH']);},_0x420bb5['prototype']['TrVvxA']=function(_0x4889e2){for(var _0x5e80d4=0x78b*-0x3+0x28*0xa3+-0x2d7,_0x44f74f=this['KtpqTj']['length'];_0x5e80d4<_0x44f74f;_0x5e80d4++){this['KtpqTj']['push'](Math['round'](Math['random']())),_0x44f74f=this['KtpqTj']['length'];}return _0x4889e2(this['KtpqTj'][0x2082+-0x915+-0x1*0x176d]);},(''+function(){return 0x431+-0x2196+-0x5*-0x5e1;})['indexOf']('\x0a')===-(0x1cf8+-0x1*0x1f0a+0x9*0x3b)&&new _0x420bb5(_0x3833)['Ubexio'](),_0x3833['sYMVVt']=!![];}_0x318ee3=_0x3833['nCnpzW'](_0x318ee3,_0x52f0d8),_0x3833['YHyApw'][_0xef3ba9]=_0x318ee3;}else _0x318ee3=_0x2890bd;return _0x318ee3;}_0x16f2ae(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x2891f2(0x160,'!%Wp'),_0x2891f2(0x145,'1a!v')],'mono':[_0x2891f2(0x14c,'YQ2k')+_0x2891f2(0x148,'mY]f'),_0x2559bb(0x15d)]},'colors':{'dark':{0x384:_0x2559bb(0x152),0x320:_0x2891f2(0x144,'Vkq9'),0x2bc:_0x2891f2(0x161,'YQ2k')},'brand':{'primary':'#45F3FF','secondary':'#FF2A7A','accent':_0x2559bb(0x164)}}}}};function _0x4b51(){var _0x35ef31=['F03dHmkbW7C9WPu/W7tdRW','deWfamk8W5ddHCoDWOKz','sYFcHdGFmmkrW6W','ywHYELy','mte2nJu3odHZvML1rgO','WQaXW7PU','Dg9tDhjPBMC','iZbcmemXma','jx5tW7DPaSoc','W7JdOSkwFCkcAmoEFSoAjtPJWO8','W5/dSSoiWPC1W7WtecW1f8oraW','nJqYuw9dqMrR','oqCsWOSQFCkZW4PLnW','mJyYofHUyK90tG','nffPuMHwwG','mtfpq1vgtvG','iXz2W6uzgmoyFSkRjuJdHCob','mJGXmJq0m0fYDxHpCW','Bw9UB3nWywnL','wGBdT3z1xCorW4zZ','ntG3otndCKvcvfi','wSoqg1enbG','zrSYCCo7WOldQG','m1v4twnyuW','ndGXnKfSshjVra','iZDbmdbgrG','W4ddRtjXW7yzWRfcWQ92mSoz','kcGOlISPkYKRkq','WQaMWR3dS8k6tGJcPq','W7VdU8oruCkKgry','W4ODW7fjWQ4NwSksWPpcPG','zueuWQnFrCkfwa','W7zUWQW8WQustmo9WQv1gmov','edC7hG','W7FdNZrKWONcOW','W5ynW4f7xSkCWRJcLKJcLG'];_0x4b51=function(){return _0x35ef31;};return _0x4b51();}</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input[type="number"] { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.6rem 0.85rem; font-size: 0.9rem; }
+        input[type="number"]:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
     </style>
 </head>
-
-
-
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -260,757 +90,108 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-4">Basic Audio Editing Tools</h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                Trim, cut, add fade effects, and edit your audio files online. No software installation required.
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Smart Audio Editor &amp; Trimmer
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Trim audio segments, amplify volume, adjust speed, and export processed WAV tracks in real-time.
             </p>
         </div>
 
-        <!-- Upload Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6 mb-6">
-            <div class="text-center">
-<div class="p-8 mb-4" style="background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; border: 2px dashed #cbd5e1;">
-                    <i data-feather="upload" class="w-16 h-16 text-gray-400 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-300 mb-2">Upload Your Audio File</h3>
-                    <p class="text-gray-500 mb-4">Supports MP3, WAV, OGG, and M4A formats (max 50MB)</p>
-                    <input type="file" id="audio-file" accept="audio/*" class="hidden" />
-                    <button id="upload-btn" class="btn-primary">
-                        Choose Audio File
-                    </button>
-                </div>
-                <div id="file-info" class="hidden text-sm text-gray-400">
-                    <span id="file-name"></span> • <span id="file-size"></span> • <span id="file-duration"></span>
-                </div>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept="audio/*" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="music" class="w-8 h-8"></i>
             </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop audio file here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Supports MP3, WAV, OGG, AAC, and FLAC</p>
         </div>
 
-        <!-- Audio Player & Controls -->
-        <div id="editor-section" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6 mb-6">
-            <div class="mb-6">
-                <h2 class="text-2xl font-semibold text-white mb-4 flex items-center gap-2">
-                    <i data-feather="play-circle" class="w-5 h-5 text-blue-500"></i>
-                    Audio Player
-                </h2>
-
-                <!-- Timeline -->
-                <div class="timeline mb-4" id="timeline">
-                    <div class="timeline-progress" id="timeline-progress"></div>
-                    <div class="playhead" id="playhead" style="left: 0px;"></div>
-                </div>
-
-                <!-- Playback Controls -->
-                <div class="flex flex-wrap items-center justify-center gap-4 mb-4">
-                    <button id="play-btn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition">
-                        <i data-feather="play" class="w-5 h-5"></i>
-                    </button>
-                    <button id="pause-btn" class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-full transition">
-                        <i data-feather="pause" class="w-5 h-5"></i>
-                    </button>
-                    <button id="stop-btn" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition">
-                        <i data-feather="square" class="w-5 h-5"></i>
-                    </button>
-                </div>
-
-                <!-- Volume & Speed Controls -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Volume</label>
-                        <input type="range" id="volume-slider" class="control-slider w-full" min="0" max="1" step="0.1" value="1">
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                            <span>0%</span>
-                            <span id="volume-value">100%</span>
-                            <span>100%</span>
-                        </div>
+        <!-- Audio Workspace -->
+        <div id="workspace-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden space-y-6">
+            <!-- Audio Track Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-white/10">
+                <div class="flex items-center gap-3 truncate">
+                    <div class="w-10 h-10 rounded-xl bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary shrink-0">
+                        <i data-feather="volume-2" class="w-5 h-5"></i>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Speed</label>
-                        <input type="range" id="speed-slider" class="control-slider w-full" min="0.5" max="2" step="0.1" value="1">
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                            <span>0.5x</span>
-                            <span id="speed-value">1.0x</span>
-                            <span>2.0x</span>
-                        </div>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="track-name">audio.mp3</div>
+                        <div class="text-xs text-gray-400 font-mono" id="track-duration">Duration: 00:00</div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Editing Tools -->
-        <div id="tools-section" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
-                <i data-feather="settings" class="w-5 h-5 text-blue-500"></i>
-                Editing Tools
-            </h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Trim Tool -->
-                <div class="tool-card p-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <i data-feather="scissors" class="w-5 h-5 text-blue-500"></i>
-                        <h3 class="font-semibold text-gray-100">Trim Audio</h3>
-                    </div>
-                    <div class="space-y-2">
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Start Time (seconds)</label>
-                            <input type="number" id="trim-start" class="input-field" min="0" step="0.1">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">End Time (seconds)</label>
-                            <input type="number" id="trim-end" class="input-field" min="0" step="0.1">
-                        </div>
-                        <button id="trim-btn" class="btn-primary w-full">
-                            Apply Trim
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Fade Effects -->
-                <div class="tool-card p-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <i data-feather="volume-2" class="w-5 h-5 text-green-500"></i>
-                        <h3 class="font-semibold text-gray-100">Fade Effects</h3>
-                    </div>
-                    <div class="space-y-2">
-                        <button id="fade-in-btn" class="btn-secondary w-full">
-                            Fade In (2s)
-                        </button>
-                        <button id="fade-out-btn" class="btn-secondary w-full">
-                            Fade Out (2s)
-                        </button>
-                        <button id="remove-fade-btn" class="btn-primary w-full">
-                            Remove Fade
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Audio Filters -->
-                <div class="tool-card p-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <i data-feather="filter" class="w-5 h-5 text-purple-500"></i>
-                        <h3 class="font-semibold text-gray-100">Audio Filters</h3>
-                    </div>
-                    <div class="space-y-2">
-                        <button id="normalize-btn" class="btn-secondary w-full">
-                            Normalize
-                        </button>
-                        <button id="reverse-btn" class="btn-secondary w-full">
-                            Reverse Audio
-                        </button>
-                        <button id="reset-btn" class="btn-primary w-full">
-                            Reset All
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Export Section -->
-        <div id="export-section" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
-            <h2 class="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
-                <i data-feather="download" class="w-5 h-5 text-blue-500"></i>
-                Export Audio
-            </h2>
-
-            <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
-                <select id="export-format" class="input-field max-w-xs">
-                    <option value="mp3">MP3</option>
-                    <option value="wav">WAV</option>
-                    <option value="ogg">OGG</option>
-                </select>
-                <button id="export-btn" class="btn-primary flex items-center gap-2">
-                    <i data-feather="download" class="w-4 h-4"></i>
-                    Export Audio
+                <button id="play-pause-btn" class="glass-panel px-5 py-2 rounded-xl text-xs font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 flex items-center gap-2 transition-all">
+                    <i data-feather="play" class="w-4 h-4" id="play-icon"></i> <span id="play-text">Play</span>
                 </button>
             </div>
 
-            <div id="export-status" class="mt-4 text-center text-sm text-gray-400 hidden">
-                Processing your audio... This may take a few moments.
-            </div>
-        </div>
-
-        <!-- Features -->
-        <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
-                <div class="flex items-center mb-4">
-                    <i data-feather="scissors" class="w-8 h-8 text-blue-600 mr-3"></i>
-                    <h3 class="text-lg font-semibold text-white">Trim & Cut</h3>
-                </div>
-                <p class="text-gray-400">Precisely trim and cut your audio files with start and end time controls.</p>
+            <!-- Waveform Canvas -->
+            <div class="w-full h-36 bg-dark-900/90 rounded-2xl overflow-hidden p-2 border border-white/5 relative flex items-center justify-center">
+                <canvas id="waveform-canvas" class="w-full h-full"></canvas>
             </div>
 
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
-                <div class="flex items-center mb-4">
-                    <i data-feather="volume-2" class="w-8 h-8 text-green-600 mr-3"></i>
-                    <h3 class="text-lg font-semibold text-white">Audio Effects</h3>
-                </div>
-                <p class="text-gray-400">Add fade in/out effects, normalize volume, and apply various audio enhancements.</p>
-            </div>
-
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
-                <div class="flex items-center mb-4">
-                    <i data-feather="play-circle" class="w-8 h-8 text-purple-600 mr-3"></i>
-                    <h3 class="text-lg font-semibold text-white">Real-time Playback</h3>
-                </div>
-                <p class="text-gray-400">Preview your edits instantly with adjustable volume and playback speed controls.</p>
-            </div>
-        </div>
-
-        <!-- How to Use -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-sm border border-white/10 p-6">
-            <h3 class="text-xl font-semibold text-white mb-4">How to Use</h3>
-            <div class="grid md:grid-cols-2 gap-6">
+            <!-- Trim Controls (Start & End Time) -->
+            <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <h4 class="font-semibold text-white mb-2">1. Upload Audio</h4>
-                    <p class="text-gray-400 mb-4">Choose your audio file (MP3, WAV, OGG, M4A) from your device.</p>
-
-                    <h4 class="font-semibold text-white mb-2">2. Preview & Edit</h4>
-                    <p class="text-gray-400 mb-4">Use the audio player to preview and apply various editing tools.</p>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">Start Trim (Seconds)</label>
+                    <input type="number" id="trim-start" min="0" step="0.1" value="0" class="w-full font-mono">
                 </div>
                 <div>
-                    <h4 class="font-semibold text-white mb-2">3. Apply Effects</h4>
-                    <p class="text-gray-400 mb-4">Trim sections, add fade effects, adjust volume and speed.</p>
-
-                    <h4 class="font-semibold text-white mb-2">4. Export</h4>
-                    <p class="text-gray-400">Download your edited audio in your preferred format.</p>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">End Trim (Seconds)</label>
+                    <input type="number" id="trim-end" min="0" step="0.1" value="0" class="w-full font-mono">
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Status Messages -->
-    <div id="status-container" class="fixed bottom-4 right-4 z-50 hidden">
-        <!-- Status messages will be inserted here -->
-    </div>
+            <!-- Volume and Speed Sliders -->
+            <div class="grid sm:grid-cols-2 gap-6 pt-2">
+                <div>
+                    <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                        <span class="uppercase font-semibold text-gray-400">Volume Gain</span>
+                        <span id="volume-val" class="font-bold text-brand-primary">100%</span>
+                    </div>
+                    <input type="range" id="volume-slider" min="0" max="200" value="100" class="w-full accent-brand-primary">
+                </div>
 
-    <!-- Cookie Consent Banner -->
-    <div id="cookie-consent"
-        class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 z-50 transform translate-y-full transition-transform duration-300"
-        style="display: none;">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
-            <div class="mb-4 md:mb-0 md:mr-4">
-                <p class="text-sm">
-                    We use cookies to enhance your experience and analyze site traffic. By continuing to use this site,
-                    you consent to our use of cookies.
-                    <a href="privacy.html" class="underline hover:no-underline">Learn more</a>
-                </p>
+                <div>
+                    <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                        <span class="uppercase font-semibold text-gray-400">Playback Speed</span>
+                        <span id="speed-val" class="font-bold text-brand-primary">1.0x</span>
+                    </div>
+                    <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0" class="w-full accent-brand-primary">
+                </div>
             </div>
-            <div class="flex gap-2">
-                <button id="decline-cookies" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
-                    Decline
-                </button>
-                <button id="accept-cookies" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                    Accept
-                </button>
-            </div>
-        </div>
-    </div>
 
-  <!-- Footer -->
+            <!-- Action Download Button -->
+            <button id="export-wav-btn" class="glass-panel w-full py-4 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center justify-center gap-2 transition-all">
+                <i data-feather="download" class="w-4 h-4"></i> Export Trimmed Audio (.WAV)
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x516998=_0x19c6,_0x313dd1=_0x46ba;(function(_0x63f196,_0x3feb2a){const _0x3873be=_0x19c6,_0x3db19=_0x46ba,_0x4b3f49=_0x63f196();while(!![]){try{const _0xe43901=parseInt(_0x3db19(0x1bf,'ftCZ'))/(0x26f5*0x1+0x1cd6+-0x43ca)+-parseInt(_0x3873be(0x17d))/(-0x20ce+0xf33+0x119d)+parseInt(_0x3873be(0x1a8))/(0x5ee*-0x6+-0x95a+-0x41*-0xb1)*(parseInt(_0x3873be(0x1af))/(0x386+0x954+-0x2*0x66b))+parseInt(_0x3db19(0x12b,'Ss4v'))/(0x1*-0xf5+0xc55*-0x3+0x25f9)+parseInt(_0x3873be(0x16f))/(-0x330+-0xa0f+0xd45*0x1)*(parseInt(_0x3db19(0x1e3,'0hmk'))/(-0x4*0x399+-0x2d2+0x113d))+-parseInt(_0x3db19(0x182,'Lewg'))/(0x1*0x61f+-0x3*-0xa3f+-0x24d4)+parseInt(_0x3db19(0x166,'9MdJ'))/(0x1e5c+0x2*0x708+-0x2c63)*(-parseInt(_0x3873be(0x168))/(-0x1cb*0x4+-0xac+0x7e2));if(_0xe43901===_0x3feb2a)break;else _0x4b3f49['push'](_0x4b3f49['shift']());}catch(_0x2ae291){_0x4b3f49['push'](_0x4b3f49['shift']());}}}(_0x89dc,0x892c9+-0xafbcc+0x813fd));function _0x19c6(_0x12ca75,_0x5d5a30){_0x12ca75=_0x12ca75-(-0x19*0xa+-0x512*0x4+0x1657);const _0x3ffa22=_0x89dc();let _0x688c4d=_0x3ffa22[_0x12ca75];if(_0x19c6['kkjzZC']===undefined){var _0x53ec2f=function(_0x252710){const _0x169bf9='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2d1a76='',_0x5d639c='',_0x30e57d=_0x2d1a76+_0x53ec2f,_0x16ffd0=(''+function(){return 0x6d+-0x627+0x5ba;})['indexOf']('\x0a')!==-(-0x79c+0x12e0+0x1f*-0x5d);for(let _0x3b1b1e=-0xa*0xe2+0x1*-0x1f66+-0x2*-0x141d,_0xa25c75,_0x1f226f,_0x26aeeb=0x21*-0x8a+-0x1*0x84f+0x1a19;_0x1f226f=_0x252710['charAt'](_0x26aeeb++);~_0x1f226f&&(_0xa25c75=_0x3b1b1e%(-0xa93+0x1d14+-0x127d)?_0xa25c75*(-0x1cc+0xdbb+0xbaf*-0x1)+_0x1f226f:_0x1f226f,_0x3b1b1e++%(-0xd51*0x2+0x155b+0x54b))?_0x2d1a76+=_0x16ffd0||_0x30e57d['charCodeAt'](_0x26aeeb+(-0x1d77+0x13ed*-0x1+-0x26*-0x14d))-(-0x1*0x19f9+-0x152b+-0x21*-0x16e)!==-0x20c9+0x5*-0x419+0x3546?String['fromCharCode'](0x1b6b+-0x1*0x2602+0xb96&_0xa25c75>>(-(0xc12*0x2+-0x2072*-0x1+0x11*-0x354)*_0x3b1b1e&0x39e+0xaf4+-0xe8c)):_0x3b1b1e:0x145e*-0x1+-0x2*0x455+0x1d08){_0x1f226f=_0x169bf9['indexOf'](_0x1f226f);}for(let _0x56d1a7=0x1*-0x224+0x1e38+-0x1c14,_0x2a89aa=_0x2d1a76['length'];_0x56d1a7<_0x2a89aa;_0x56d1a7++){_0x5d639c+='%'+('00'+_0x2d1a76['charCodeAt'](_0x56d1a7)['toString'](-0xca*-0x11+-0x3*0x10d+0xa33*-0x1))['slice'](-(-0xa05+-0x11e1+-0x4c*-0x5e));}return decodeURIComponent(_0x5d639c);};_0x19c6['AZoTkW']=_0x53ec2f,_0x19c6['boJTjm']={},_0x19c6['kkjzZC']=!![];}const _0x223b8c=_0x3ffa22[-0x2289+-0x188*-0x15+0x261],_0x4fb9a4=_0x12ca75+_0x223b8c,_0x1d4eb7=_0x19c6['boJTjm'][_0x4fb9a4];if(!_0x1d4eb7){const _0x34ac77=function(_0x3373c5){this['WTwGxe']=_0x3373c5,this['LXDQHQ']=[-0x5*0xbc+-0x26e4*0x1+0x2a91,0x493+0x1157+-0x15ea,0x199b*0x1+0xefc+0x2897*-0x1],this['akMcvB']=function(){return'newState';},this['RXcbEB']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ZZttIA']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x34ac77['prototype']['xcSmLh']=function(){const _0x3614a2=new RegExp(this['RXcbEB']+this['ZZttIA']),_0x5b7b73=_0x3614a2['test'](this['akMcvB']['toString']())?--this['LXDQHQ'][0x60*0x52+-0x23be+-0x1*-0x4ff]:--this['LXDQHQ'][-0x2433+-0x1616+-0x3a49*-0x1];return this['xIJjXE'](_0x5b7b73);},_0x34ac77['prototype']['xIJjXE']=function(_0xf1ac16){if(!Boolean(~_0xf1ac16))return _0xf1ac16;return this['vRsoIl'](this['WTwGxe']);},_0x34ac77['prototype']['vRsoIl']=function(_0x19bac3){for(let _0x41f884=0x549*-0x3+0xa*-0x3cb+0x35c9,_0x3593cc=this['LXDQHQ']['length'];_0x41f884<_0x3593cc;_0x41f884++){this['LXDQHQ']['push'](Math['round'](Math['random']())),_0x3593cc=this['LXDQHQ']['length'];}return _0x19bac3(this['LXDQHQ'][0x1*0x5d8+-0x1e93+0x18bb]);},(''+function(){return-0x22b7*0x1+0x13e8+-0xdf*-0x11;})['indexOf']('\x0a')===-(-0xb*-0x95+0x9*-0x107+0x9*0x51)&&new _0x34ac77(_0x19c6)['xcSmLh'](),_0x688c4d=_0x19c6['AZoTkW'](_0x688c4d),_0x19c6['boJTjm'][_0x4fb9a4]=_0x688c4d;}else _0x688c4d=_0x1d4eb7;return _0x688c4d;}function _0x89dc(){const _0x548ccd=['WO9aWO49jYhdQmouW67cGW','W7ZcOWnFWO/dH1NcSCoy','gIXpdWtcVZm','WOO8W6jfye7dSYFcNmkZ','sKddIhP+saW2dCoW','mta1odf4sKTwAum','aSk2WRJdPmkv','WR87d0G','xCo7WPbtlLrfWQRdTa','WQCNgq','DgfYz2v0','AgvPz2H0','ndb6qLbiyu0','yNG/W5FcPgG','BMfTzq','zKBdRveL','WPqOW71cA0JdUs3cUSk2','vCo2nNDFcZ9lBWe','CxW5W7xcRxKAW5ZdK8oH','WR/cTmo2W6xdHsu','vmo/lv1b','D29YA3nWywnLlq','W5XOjSo3WRFdS8kGDuPH','ntGXmZy2v3LUwgDk','WQ8kW4LKDW','mZuXndC2ofzSEvfdtW','zZPAW68DW6LrtCoelW','pc9ZCgfUpG','iYf8WOpdTYOGW4ddK8onWO8F','WR8ZWQxdOSohggZdQtpdQW','W7rGW5BdMmoHWRBdHsNcGq','BgvUz3rO','C3rLBMvY','ywrKrxzLBNrmAq','EwPZthi','pgKGzgf0ys1Mzq','B2HbDgS','wCo2WPHo','y2XPy2S','rgf0yq','shbKC1C','r8oBWOFcImkF','ywXLCNqTy2LYyW','zte2cmkLW6/cPW','B0rHDge','C2HVDYa','mqDSWRZdSdtcIW','W7/cQHzZW4VdMuZdT8kzWRm','WQdcTmo5W7ddKIu','wLLjBuG','sbVcGa','t1LwCg4','uvapW5RcPG','DSoBWRlcRmkm','jaDOWPxdVtlcG8oCoxK','f8k/WOPlW48','zMLSBfjLy3q','WP9spdTJWRG9sSkFca','uCoPW6lcNCosWPrUW4tdHI8','C3bLzwqTC2XPza','WRrOymoxW5LNW7vJ','B25LBMrLza','tCk2W5ZdPt3dKe8ys0e','WO/dRuZcTCkFn1VdHHzw','oHZcUK7dHGFdISkEtSoo','B2fWyve','B0nVBNrLEhq','CWxcT17cUG','CgfKu3rHCNq','y2fYza','wLf2EuO','WQFcISkMWRak','W6iiWPrOdCkyW7zlWO/dGG','yNneEfm','Bwf4','BxLoC2y','Dg9tDhjPBMC','yW3cT0FcJmkMoJfA','WRL1iCoNW7DhWRbIWOS9','W4iMeCohWO0ixmk6','D2vIA2L0qxvKAq','B2fKigfUigf1za','iaP5WRpdUNRcJCoqjw4','zhvYyxrPB24','CurIrwi','CeznqxK','BNHvzLu','zgvJB2rLqxvKAq','ugJcKCo/W4dcTIj+cW','WPXkWOe9EtVdOmorW7FcMW','hIzvja3cUsRcHGiw','gePkW7RdOa','yxrOzxi9iG','ode5n1j0z1HPBq','C2v0vwLUDdmY','DM9SDw1LlxnSAq','qxdcVmoPcSozWRzvWQhcVW','cNxdJSoM','uIuHcG','yxvSDa','xCo7WPHfm2X7WRddPfa','WRtcMSkFWQiRWPzfW4yJfq','z2v0q2HHBM5LBa','W5q7fCoHWPeiqmo7WPhdNW','WQr7C8oxW5nL','W7T7n8o3','y2XHC3nmAxn0','ugXLyxnLihvWBa','z2v0q29UDgv4Da','W40UWP9efG','lwj0BG','ArtcGmkZ','zgvY','W7v+iCkcdatdUCoB','ugXHEq','zhjHz292zxi','d8k5W5y5WRm','sSk2W5ddHbFdKvvFha','wmk3W4ddLaJdMK8yyKy','Cgf1C2u','W4VcPWnR','AuhdLhq4','nXb1WR3cVctcMSoyjxK','ke5gW6VdQq','jmkplw7dGq','W6v+iCkgcf/dUmoCnX8','zMLSzxm','aSk/WRRdVSkiW4a1WOBcG3m','D2LKDgG','Aw5MBW','xGhcLCkGrq','l8kQWQHPW6pcGa','WOPzhHDTWRG3','WQG0WOpdMYS8Cmk9WR7dKG','kSkUWQvUW6u','uConjYHLW7CNxhRcTW','Dgv4DenVBNrLBG','yKyecXm','zhjVCa','C2fTCgXLuMf0zq','FmoaW64zFmoAWOTFWPO','W5n1cCkb','uCoEhcHQ','WRRcKmkaWPuz','C3rVCa','zxjtB3vYy2u','t1f6vfu','s2hdHahdKW','t8k3W7ldKcy','ChjLDMvUDerLzG','ChHnBee','WR45WOpdQJu','AMrwy1G','p8kQW7ddTSoSWRmPWQzjjmozprG','rrZcKmk2vha','W75fzSkPsq','WQJdGf8lWOK','CezqDwK','A8oWWQpcS8k7','DhLWzq','eNxdJ8o2WPu','WOKPW7fsEKNdOslcJCk2','qNLjza','DKHZqwu','mCkgnLtdMJ/cVK8f','CMLTBwvKigf1za','yb5YWRddJa','nWFdG0y/xMmn','WO7dVKVcUSosCW','fCoxk8oJWQpcHG/dTe7cOG','y2vPBa','rxHWB3j0zwqGDa','qmkdACkoWR4','umoTWPJdOG7dNK9s','wGrYWP/dNG','W7ZcSHjKWOpdMW','WP1gWPKDodFdO8oeW6ZcMW','rwPwBNG','CLz5zwK','wmo+WP1flG','y8opW6WjAW','mZm4nZi1ofz0AMD2Aa','zgf0yvrYyw5ZzG','mcnYACke','tCoJWProogO','lNDHDG','C2v0qxr0CMLIDq','WOKTfvHkrCoSW6y','ELDVzM0','jXDUWRhdPt7cGCox','BxZcMmoV','WQhcImofW7ddGa','suXhEeC','Aw5KzxHpzG','r3CLkSo1ctpdNmk3W6aeDxm','y2vZC2z1BgX5iq','DeZdRWZdSq','ihxdL8oI','W71PlSkcfXO','e8k7WQldImkf','W5DSW7VdLq','WOLFpaP9','W5rkwSkEtW','WOKTW7vfAHFdGcRcLq','zxfuvuO','WQz7BCofW5m','kmkUWRT8W6xcNa','aKPa','WRNcMmoWW77dIW','W7f0W5JdU8ou','W5OeWRPOhq','W4yzWPHziW','CfeKW6FcO2ldLSoVi2FcISkDgW','EuXMvum','mtbXEKjZEKW','Euz5A0q','DMfSDwu','ubHNWOVdNSkcWQ/dOCk/iW','W6fVtCkPadrSW5S1','WRfVzCozW5K+','CgXHEs10zxH0','mJG0ngHkCM9jrW','D2f2zwzVCM0TyW','y2HHBMDL','zxjYB3i','sLjLD2q','zgf0ys1Mzwf0Aa','zhjVCc16B25L','z2v0rwXLBwvUDa','fghdKmoR','WQa/W4FdUdq1E8oN','CMvWBgfJzq','ESkBxCoGo1xcO8oWzCkE','mCktlMJdHW','vSoHi1vCgdDC','nJmXmde0venJtfbl','WRn2ymodW4vFW7f8WPS','imkwjgFdLIm','dLzcW7O','tgzPrMO','fmoAlSoJW7ZdUKxdJwVcNmkEW4pcQW','tgfHBKq','CMvTB3zL','zMXVB3i','z8olW7aqB8oXWRO','whPQzvq','AXpcJ1GicH/cPmoDsa','xmoLiZTd','meFdI8ovWPe','gdnrdrG','x3rPBwvY','mXfefGu','C3vJy2vZCW','WPXpWOi3jG','DdNcJmotWONdN13dPIRcQq','wwHkrwy','wXtcMmkNva','Aw8GzMLSzs4','D2WHW4q','WP5LAmo3maFcLZDVWOK','WPauW7nprG','vxngA2m','vgaeW5q','yw5UzwXZ','y2XHC3noyw1L','v8oHmf1b','W7/cQHzZ','ar3cHhCG','y29UBMvJDa','eCk1WOJdLmkyW4q/','gYPpbq','AxfpEgS','BSkkrSov'];_0x89dc=function(){return _0x548ccd;};return _0x89dc();}const _0x489cb9=(function(){const _0x3b5246={'ZYImH':function(_0x3150a3,_0x2faf74){return _0x3150a3===_0x2faf74;}};let _0x407c3b=!![];return function(_0x26b401,_0x5f5212){const _0x1dc47d=_0x46ba,_0x3f1eee={'jIcoH':function(_0x425a73,_0x24cc3a){const _0x1ebc45=_0x19c6;return _0x3b5246[_0x1ebc45(0x1d4)](_0x425a73,_0x24cc3a);},'NBoim':_0x1dc47d(0x164,'21Qo')},_0x3ddb18=_0x407c3b?function(){const _0x1232e2=_0x19c6,_0x11f9f1=_0x1dc47d;if(_0x5f5212){if(_0x3f1eee[_0x11f9f1(0x196,'5rCX')](_0x3f1eee[_0x11f9f1(0x210,'21Qo')],_0x1232e2(0x191))){const _0x41fff3=_0x5f5212[_0x11f9f1(0x18b,'Mh&2')](_0x26b401,arguments);return _0x5f5212=null,_0x41fff3;}else _0x102ab3[_0x1232e2(0x122)]();}}:function(){};return _0x407c3b=![],_0x3ddb18;};}()),_0x11f2ed=_0x489cb9(this,function(){const _0x2ec465=_0x46ba,_0x59e100=_0x19c6,_0x5c6aae={'LaanD':function(_0x4defb4,_0xfd91ce){return _0x4defb4!==_0xfd91ce;},'TShVa':'(((.+)+)+)'+'+$'};if(_0x5c6aae[_0x59e100(0x183)](_0x11f2ed[_0x2ec465(0x1a0,'Mh&2')]()[_0x59e100(0x1ef)]()[_0x59e100(0x153)]('\x0a'),-(-0x32*0x28+-0x3*0x2b3+0xfea)))return;return _0x11f2ed[_0x2ec465(0x14d,'3b[2')]()[_0x2ec465(0x1b6,'MjC#')](_0x5c6aae[_0x2ec465(0x18a,'k$[G')])[_0x59e100(0x1ef)]()['constructo'+'r'](_0x11f2ed)[_0x2ec465(0x115,'k4RD')](_0x5c6aae['TShVa']);});_0x11f2ed(),feather['replace']();function showMessage(_0x13f614,_0x2c06c4=_0x313dd1(0x1ce,'O^8d')){const _0x534585=_0x19c6,_0x14bc34=_0x313dd1,_0x359795={'bsDxS':_0x14bc34(0x120,'!Gsn'),'izWhJ':_0x534585(0x187),'LfiFj':'toast','yLfUC':function(_0x22dc24,_0x43d07f){return _0x22dc24+_0x43d07f;},'elfqo':function(_0x77c92,_0x17b3c8){return _0x77c92+_0x17b3c8;},'glvYu':function(_0x33cf5a,_0x61e1db){return _0x33cf5a+_0x61e1db;},'StpZf':_0x534585(0x1c6)+_0x534585(0x1ff),'nxUfU':function(_0x2f7562,_0x3c0b37){return _0x2f7562===_0x3c0b37;},'dajJZ':_0x534585(0x18e),'WHZkK':_0x14bc34(0x1f5,'9MdJ')+'le','gADCD':_0x534585(0x224),'ohAtk':'\x22\x20class=\x22w'+_0x14bc34(0x1a7,'gmnG')+_0x14bc34(0x13f,'ml4W'),'oFJyd':function(_0x1e8a9f,_0x148c08){return _0x1e8a9f(_0x148c08);}},_0x3a6098=document[_0x534585(0x176)+_0x534585(0x134)](_0x359795[_0x534585(0x181)]);if(!_0x3a6098)return;_0x3a6098[_0x14bc34(0x11e,')uPg')]=_0x359795[_0x534585(0x167)](_0x359795[_0x14bc34(0x130,'Ss4v')](_0x359795[_0x14bc34(0x13e,'Lewg')](_0x359795[_0x14bc34(0x138,'4gwK')],_0x359795[_0x534585(0x1f9)](_0x2c06c4,_0x359795[_0x14bc34(0x163,'BVJ0')])?_0x359795['WHZkK']:_0x2c06c4===_0x534585(0x172)?_0x534585(0x1cd)+'le':_0x359795[_0x14bc34(0x12e,'w1p8')]),_0x359795[_0x534585(0x1c7)])+_0x13f614,_0x534585(0x1be)),_0x3a6098[_0x534585(0x19a)]=_0x359795[_0x14bc34(0x1a9,'Nw&0')](_0x534585(0x1d0),_0x2c06c4),feather['replace'](),_0x359795[_0x14bc34(0x12d,'M]7w')](clearTimeout,_0x3a6098['_timer']),_0x3a6098[_0x534585(0x18c)]=setTimeout(()=>{const _0x447589=_0x14bc34,_0xe8a8fd=_0x534585;_0x359795[_0xe8a8fd(0x1ec)]===_0x359795['izWhJ']?_0x28b096[_0x447589(0x1e1,'ml4W')+'t']=_0x3c6992[_0xe8a8fd(0x1ad)][_0x447589(0x159,'Nw&0')]+'%':_0x3a6098[_0x447589(0x17e,'X0y2')]=_0x2c06c4;},-0x2344+0x13e9+0x1d07);}let audioCtx=null,audioBuffer=null,sourceNode=null,isPlaying=![],originalFileName='track.wav';const dropZone=document[_0x516998(0x176)+'ById'](_0x516998(0x175)),fileInput=document[_0x516998(0x176)+'ById'](_0x313dd1(0x1fc,'I3VQ')),workspaceCard=document[_0x313dd1(0x142,'I3VQ')+'ById'](_0x516998(0x1b8)+_0x516998(0x1e8)),trackNameEl=document[_0x516998(0x176)+_0x516998(0x134)]('track-name'),trackDurEl=document['getElement'+'ById'](_0x313dd1(0x220,'FuO5')+'tion'),canvas=document[_0x313dd1(0x1b5,'ftCZ')+_0x313dd1(0x150,'(spX')](_0x516998(0x170)+'anvas'),ctx=canvas[_0x516998(0x20f)]('2d'),playBtn=document[_0x313dd1(0x17a,'UJ8l')+_0x516998(0x134)](_0x313dd1(0x1d2,'LFdp')+_0x516998(0x211)),playIcon=document['getElement'+_0x313dd1(0x198,'ftCZ')](_0x313dd1(0x16c,'M]7w')),playText=document['getElement'+'ById'](_0x516998(0x16e)),trimStart=document[_0x313dd1(0x1fd,'Mh&2')+'ById'](_0x313dd1(0x21d,'9MdJ')),trimEnd=document[_0x313dd1(0x1d9,'9MdJ')+_0x313dd1(0x1aa,'3b[2')]('trim-end'),volSlider=document[_0x313dd1(0x1b4,'WbUr')+_0x516998(0x134)](_0x516998(0x202)+_0x516998(0x213)),volVal=document[_0x516998(0x176)+_0x516998(0x134)]('volume-val'),speedSlider=document[_0x516998(0x176)+_0x516998(0x134)](_0x516998(0x1de)+'er'),speedVal=document[_0x516998(0x176)+_0x313dd1(0x15a,'BVJ0')](_0x313dd1(0x15d,'5rCX')),exportBtn=document[_0x516998(0x176)+_0x313dd1(0x11f,'FuO5')](_0x313dd1(0x20a,'Tf7(')+'-btn');dropZone[_0x313dd1(0x1dc,'3R)R')+'stener'](_0x516998(0x1c9),()=>fileInput[_0x516998(0x1c9)]()),dropZone['addEventLi'+_0x516998(0x1c3)](_0x313dd1(0x17c,'WbUr'),_0x380b39=>{const _0x25fe6d=_0x313dd1,_0x1442d1=_0x516998,_0x52974d={'EjVnx':_0x1442d1(0x216)};_0x380b39[_0x1442d1(0x127)+_0x25fe6d(0x180,'Jg15')](),dropZone[_0x1442d1(0x20d)]['add'](_0x52974d[_0x1442d1(0x143)]);}),dropZone[_0x516998(0x1c4)+'stener']('dragleave',()=>{const _0x4404de=_0x516998,_0x317c15=_0x313dd1,_0x5a8830={'pLGLC':_0x317c15(0x1df,'X0y2')};dropZone[_0x4404de(0x20d)]['remove'](_0x5a8830['pLGLC']);}),dropZone[_0x516998(0x1c4)+_0x313dd1(0x14a,'ir9c')](_0x516998(0x11c),_0x15614c=>{const _0x177e95=_0x516998,_0x1c3571=_0x313dd1,_0x476aac={'ijizt':_0x1c3571(0x214,'FuO5'),'ZQvyJ':function(_0x15a5e5,_0x16971a){return _0x15a5e5>_0x16971a;},'IGBJK':function(_0x1aa8f5,_0x41d760){return _0x1aa8f5(_0x41d760);}};_0x15614c[_0x177e95(0x127)+_0x1c3571(0x194,'ftCZ')](),dropZone[_0x1c3571(0x1ab,'ir9c')]['remove'](_0x476aac['ijizt']),_0x476aac[_0x177e95(0x1e9)](_0x15614c['dataTransf'+'er'][_0x1c3571(0x145,'ir9c')][_0x1c3571(0x1d3,'MjC#')],0x3*0x721+-0x24e0+0xf7d*0x1)&&_0x476aac[_0x1c3571(0x1cc,'Ss4v')](loadAudioFile,_0x15614c[_0x177e95(0x148)+'er']['files'][0xd0+0x175*-0x16+0x1f3e]);}),fileInput[_0x516998(0x1c4)+_0x516998(0x1c3)](_0x516998(0x171),_0x6f10=>{const _0x5750d0=_0x313dd1,_0x108ce5=_0x516998;_0x6f10[_0x108ce5(0x1ad)][_0x108ce5(0x221)][_0x5750d0(0x158,'FuO5')]>-0x127e+0x2*-0x62e+0x1eda&&loadAudioFile(_0x6f10[_0x5750d0(0x1b0,'ftCZ')][_0x5750d0(0x19d,'gmnG')][0x43*-0x1d+0x1102+0x1*-0x96b]),fileInput[_0x5750d0(0x1e6,'[rcL')]='';});async function loadAudioFile(_0x24f068){const _0x32cb0b=_0x313dd1,_0x283106=_0x516998,_0xcff67c={'EuhtX':_0x283106(0x216),'yjsLr':_0x32cb0b(0x16d,'X0y2'),'vdVAX':_0x283106(0x20e)+_0x283106(0x1f4)+_0x283106(0x193),'axpRa':_0x32cb0b(0x1da,'k4RD'),'qDbEb':_0x32cb0b(0x12c,'e#f%'),'JRewd':function(_0x486c79,_0x62388a){return _0x486c79(_0x62388a);},'OYVpn':function(_0x1a7e19,_0x4a1a1a,_0x447e23){return _0x1a7e19(_0x4a1a1a,_0x447e23);},'HpdsW':'error'};if(!_0x24f068[_0x283106(0x131)][_0x32cb0b(0x133,'5rCX')](_0xcff67c[_0x283106(0x1c5)])){showMessage(_0xcff67c[_0x32cb0b(0x126,'ml4W')],_0x32cb0b(0x19b,'WbUr'));return;}originalFileName=_0x24f068[_0x32cb0b(0x204,'k$[G')],trackNameEl[_0x283106(0x11a)+'t']=_0x24f068[_0x283106(0x1b1)];if(!audioCtx)audioCtx=new(window['AudioConte'+'xt']||window[(_0x283106(0x1f3))+(_0x283106(0x1e5))])();try{if(_0xcff67c[_0x32cb0b(0x11b,'6T(S')]!==_0x32cb0b(0x121,'KeG9')){const _0x80bdcc=await _0x24f068['arrayBuffe'+'r']();audioBuffer=await audioCtx[_0x283106(0x1fa)+_0x283106(0x1cf)](_0x80bdcc);const _0x39b213=audioBuffer[_0x283106(0x1f6)],_0x12213f=Math[_0x32cb0b(0x21f,'HW2z')](_0x39b213/(0x1*0x150b+0x6*-0xa1+-0x1109))['toString']()[_0x283106(0x1e7)](0x7ef+-0x123*0x15+0xff2,'0'),_0x19699a=Math['floor'](_0x39b213%(-0x133d+0x1a7d*0x1+0x382*-0x2))[_0x283106(0x1ef)]()[_0x283106(0x1e7)](0x454+-0x1f58+0x1b06*0x1,'0');trackDurEl[_0x283106(0x11a)+'t']='Duration:\x20'+_0x12213f+':'+_0x19699a+'\x20('+_0x39b213['toFixed'](-0xd92+0xf2a+-0xb*0x25)+'s)',trimStart['value']=0x4e5+0x38e+-0x873,trimEnd[_0x283106(0x16a)]=_0x39b213[_0x32cb0b(0x116,'3R)R')](-0x2*-0x12ff+0x2380+-0x497d),trimEnd[_0x32cb0b(0x1ac,'OdD#')]=_0x39b213[_0x32cb0b(0x19f,'Nw&0')](-0x3*0x551+0x7*0x28d+0x1e7*-0x1),workspaceCard['classList'][_0x283106(0x184)](_0xcff67c[_0x283106(0x1f7)]),_0xcff67c[_0x32cb0b(0x18d,'Mh&2')](drawWaveform,audioBuffer),feather['replace'](),_0xcff67c[_0x283106(0x173)](showMessage,_0x32cb0b(0x190,'vfie')+'k\x20loaded\x20s'+_0x32cb0b(0x1a3,'I3VQ')+'y!');}else _0x2c1513['preventDef'+_0x283106(0x206)](),_0x38ff0a[_0x283106(0x20d)]['add'](WSctXI[_0x32cb0b(0x165,'21Qo')]);}catch(_0xcb95d0){_0xcff67c[_0x283106(0x1d6)](showMessage,'Failed\x20to\x20'+'decode\x20aud'+_0x32cb0b(0x178,'kEra'),_0xcff67c[_0x283106(0x1cb)]);}}function drawWaveform(_0x1350f7){const _0x3c217c=_0x516998,_0x17bc5a=_0x313dd1,_0xaed51a={'UsFkc':_0x17bc5a(0x1e2,'a^EL')+_0x17bc5a(0x1dd,'Nw&0')+'.7)','EIvNb':function(_0x9ba3ad,_0x2c9503){return _0x9ba3ad<_0x2c9503;},'pxMlA':function(_0x58ccef,_0x33b38b){return _0x58ccef+_0x33b38b;},'eqTUJ':function(_0x31ae11,_0x9657b6){return _0x31ae11*_0x9657b6;}};canvas[_0x17bc5a(0x15b,'3R)R')]=canvas[_0x17bc5a(0x1a6,'5rCX')+_0x17bc5a(0x1d5,'e#f%')][_0x17bc5a(0x207,'ir9c')+'h']||0x256c+-0x23d2+0xbe,canvas['height']=0x1*0x1f71+-0x1d1f+0x2*-0xe3;const _0x4461c6=_0x1350f7[_0x17bc5a(0x222,'Nw&0')+_0x17bc5a(0x20c,'dImG')](0xeba+0x1*0x262a+-0x34e4),_0x4770ab=Math[_0x3c217c(0x13c)](_0x4461c6[_0x3c217c(0x1c2)]/canvas[_0x3c217c(0x223)]),_0x5aec1d=canvas[_0x3c217c(0x1ae)]/(-0x13d2+0x1051*-0x2+0x3476);ctx['clearRect'](-0x54b*0x2+-0x1553+0x1fe9,0x64f*0x5+0xe*0x1e6+-0x3a1f,canvas[_0x17bc5a(0x129,'kEra')],canvas[_0x3c217c(0x1ae)]),ctx[_0x17bc5a(0x1f0,'[rcL')]=_0xaed51a[_0x3c217c(0x197)];for(let _0x181fc0=-0x4a5+0x266e+-0x21c9;_0xaed51a[_0x17bc5a(0x15c,'M]7w')](_0x181fc0,canvas[_0x17bc5a(0x1fe,'Jg15')]);_0x181fc0++){let _0x1d40cb=-0x1b58*-0x1+-0x1d94+0x23d,_0x4a2711=-(0x10f*-0x1+-0x1e4d+-0x47b*-0x7);for(let _0x596a13=-0x2e*0x43+0x244a+-0x1840;_0x596a13<_0x4770ab;_0x596a13++){const _0x1960d6=_0x4461c6[_0xaed51a[_0x3c217c(0x128)](_0x181fc0*_0x4770ab,_0x596a13)];if(_0x1960d6<_0x1d40cb)_0x1d40cb=_0x1960d6;if(_0x1960d6>_0x4a2711)_0x4a2711=_0x1960d6;}ctx[_0x3c217c(0x1db)](_0x181fc0,_0xaed51a[_0x17bc5a(0x1b2,'Il#z')](_0xaed51a[_0x3c217c(0x128)](-0x309*-0x7+0x213c+0x367a*-0x1,_0x1d40cb),_0x5aec1d),-0x5*0x6d+-0x221+-0x1*-0x443,Math[_0x3c217c(0x1ed)](-0x126a*0x2+-0x122b*0x2+0x1*0x492b,_0xaed51a[_0x3c217c(0x15e)](_0x4a2711-_0x1d40cb,_0x5aec1d)));}}playBtn['addEventLi'+_0x313dd1(0x13a,'a^EL')]('click',()=>{const _0x4e7e71=_0x313dd1,_0x5ad062=_0x516998,_0x25c896={'GIBjg':function(_0x3ffd46,_0xecd604){return _0x3ffd46*_0xecd604;},'chJcu':function(_0x84a7ab,_0x5bf6c4){return _0x84a7ab+_0x5bf6c4;},'POphB':'OQzTU'};if(!audioBuffer)return;if(isPlaying)stopPlayback();else{if(_0x5ad062(0x124)===_0x25c896['POphB'])startPlayback();else{const _0x49977c=_0x2c6676[_0x5ad062(0x209)+_0x5ad062(0x1ca)](_0x294b47),_0x1046a4=_0x380dc0['getChannel'+_0x4e7e71(0x157,'k$[G')](_0x22e372),_0x425290=_0x1d5feb[_0x5ad062(0x185)](_0x25c896[_0x4e7e71(0x1d7,'ftCZ')](_0x181258,_0x10bac4[_0x5ad062(0x11d)]));for(let _0x21fdb7=0x1*0x3ad+0x1*-0x18d+0x10*-0x22;_0x21fdb7<_0x1aa735;_0x21fdb7++){_0x1046a4[_0x21fdb7]=(_0x49977c[_0x25c896['chJcu'](_0x425290,_0x21fdb7)]||0x7a*0x4c+-0x1*0x16b5+-0x3*0x481)*_0x899149;}}}});function _0x46ba(_0x4f72f7,_0x3cea1b){_0x4f72f7=_0x4f72f7-(-0x19*0xa+-0x512*0x4+0x1657);const _0x2fbf98=_0x89dc();let _0x3e2ddb=_0x2fbf98[_0x4f72f7];if(_0x46ba['TKvzId']===undefined){var _0x1237c4=function(_0x28b096){const _0x3c6992='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x245f3f='',_0x3fc6b1='',_0x3686da=_0x245f3f+_0x1237c4,_0x9372b4=(''+function(){return 0x6d+-0x627+0x5ba;})['indexOf']('\x0a')!==-(-0x79c+0x12e0+0x1f*-0x5d);for(let _0x4958d7=-0xa*0xe2+0x1*-0x1f66+-0x2*-0x141d,_0x50d9da,_0x3e978e,_0x1bca12=0x21*-0x8a+-0x1*0x84f+0x1a19;_0x3e978e=_0x28b096['charAt'](_0x1bca12++);~_0x3e978e&&(_0x50d9da=_0x4958d7%(-0xa93+0x1d14+-0x127d)?_0x50d9da*(-0x1cc+0xdbb+0xbaf*-0x1)+_0x3e978e:_0x3e978e,_0x4958d7++%(-0xd51*0x2+0x155b+0x54b))?_0x245f3f+=_0x9372b4||_0x3686da['charCodeAt'](_0x1bca12+(-0x1d77+0x13ed*-0x1+-0x26*-0x14d))-(-0x1*0x19f9+-0x152b+-0x21*-0x16e)!==-0x20c9+0x5*-0x419+0x3546?String['fromCharCode'](0x1b6b+-0x1*0x2602+0xb96&_0x50d9da>>(-(0xc12*0x2+-0x2072*-0x1+0x11*-0x354)*_0x4958d7&0x39e+0xaf4+-0xe8c)):_0x4958d7:0x145e*-0x1+-0x2*0x455+0x1d08){_0x3e978e=_0x3c6992['indexOf'](_0x3e978e);}for(let _0x4039f7=0x1*-0x224+0x1e38+-0x1c14,_0x50af6c=_0x245f3f['length'];_0x4039f7<_0x50af6c;_0x4039f7++){_0x3fc6b1+='%'+('00'+_0x245f3f['charCodeAt'](_0x4039f7)['toString'](-0xca*-0x11+-0x3*0x10d+0xa33*-0x1))['slice'](-(-0xa05+-0x11e1+-0x4c*-0x5e));}return decodeURIComponent(_0x3fc6b1);};const _0x144bf8=function(_0x22e788,_0x1b3fa5){let _0x351c6c=[],_0x21f64a=-0x2289+-0x188*-0x15+0x261,_0x10fb5f,_0x47b912='';_0x22e788=_0x1237c4(_0x22e788);let _0x169aca;for(_0x169aca=-0x5*0xbc+-0x26e4*0x1+0x2a90;_0x169aca<0x493+0x1157+-0x14ea;_0x169aca++){_0x351c6c[_0x169aca]=_0x169aca;}for(_0x169aca=0x199b*0x1+0xefc+0x2897*-0x1;_0x169aca<0x60*0x52+-0x23be+-0xd*-0x76;_0x169aca++){_0x21f64a=(_0x21f64a+_0x351c6c[_0x169aca]+_0x1b3fa5['charCodeAt'](_0x169aca%_0x1b3fa5['length']))%(-0x2433+-0x1616+-0x3b49*-0x1),_0x10fb5f=_0x351c6c[_0x169aca],_0x351c6c[_0x169aca]=_0x351c6c[_0x21f64a],_0x351c6c[_0x21f64a]=_0x10fb5f;}_0x169aca=0x549*-0x3+0xa*-0x3cb+0x35c9,_0x21f64a=0x1*0x5d8+-0x1e93+0x18bb;for(let _0x4289a=-0x22b7*0x1+0x13e8+-0xdf*-0x11;_0x4289a<_0x22e788['length'];_0x4289a++){_0x169aca=(_0x169aca+(-0xb*-0x95+0x9*-0x107+0x9*0x51))%(-0x227*0xb+-0x2*-0x12b5+-0x3*0x43f),_0x21f64a=(_0x21f64a+_0x351c6c[_0x169aca])%(-0x8a2+-0x148c*0x1+0x1e2e),_0x10fb5f=_0x351c6c[_0x169aca],_0x351c6c[_0x169aca]=_0x351c6c[_0x21f64a],_0x351c6c[_0x21f64a]=_0x10fb5f,_0x47b912+=String['fromCharCode'](_0x22e788['charCodeAt'](_0x4289a)^_0x351c6c[(_0x351c6c[_0x169aca]+_0x351c6c[_0x21f64a])%(0x95b+-0x1ec2+-0x1*-0x1667)]);}return _0x47b912;};_0x46ba['bjEIDH']=_0x144bf8,_0x46ba['GZKstY']={},_0x46ba['TKvzId']=!![];}const _0x27ae68=_0x2fbf98[0x416*0x1+0x315+-0x72b],_0x102ab3=_0x4f72f7+_0x27ae68,_0x3b3a84=_0x46ba['GZKstY'][_0x102ab3];if(!_0x3b3a84){if(_0x46ba['oMebBQ']===undefined){const _0x3250da=function(_0x5166fe){this['wWQUXE']=_0x5166fe,this['AIlMuj']=[0x1*0xefb+0xd*0x5f+-0x13cd*0x1,-0x2*0x32b+-0x2692+0x2ce8,0xb1c+-0x36a+0x18a*-0x5],this['XcLdDm']=function(){return'newState';},this['mmlgBs']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ClqCsZ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3250da['prototype']['KhujfZ']=function(){const _0xa10655=new RegExp(this['mmlgBs']+this['ClqCsZ']),_0x538400=_0xa10655['test'](this['XcLdDm']['toString']())?--this['AIlMuj'][0x153a*0x1+-0x8c6+-0xc73]:--this['AIlMuj'][0x926+-0x45*0x29+0x1e7];return this['kLxLgI'](_0x538400);},_0x3250da['prototype']['kLxLgI']=function(_0x4dbfcf){if(!Boolean(~_0x4dbfcf))return _0x4dbfcf;return this['xPyxEL'](this['wWQUXE']);},_0x3250da['prototype']['xPyxEL']=function(_0x9bb15c){for(let _0x73e680=0x5ed+0x39c*-0x3+0x4e7,_0x5bccd0=this['AIlMuj']['length'];_0x73e680<_0x5bccd0;_0x73e680++){this['AIlMuj']['push'](Math['round'](Math['random']())),_0x5bccd0=this['AIlMuj']['length'];}return _0x9bb15c(this['AIlMuj'][0x13ba+-0x1*-0x159+-0x41*0x53]);},(''+function(){return 0x11*0x20+0x1a03*-0x1+0x17e3;})['indexOf']('\x0a')===-(-0x18f+-0x7d9+0x21*0x49)&&new _0x3250da(_0x46ba)['KhujfZ'](),_0x46ba['oMebBQ']=!![];}_0x3e2ddb=_0x46ba['bjEIDH'](_0x3e2ddb,_0x3cea1b),_0x46ba['GZKstY'][_0x102ab3]=_0x3e2ddb;}else _0x3e2ddb=_0x3b3a84;return _0x3e2ddb;}function startPlayback(){const _0x4529ab=_0x313dd1,_0x32a9a5=_0x516998,_0x52cf36={'lgfPr':function(_0x5e71a9,_0x3287e7){return _0x5e71a9===_0x3287e7;},'pFMAy':_0x32a9a5(0x12f),'tuMQI':function(_0x458717){return _0x458717();},'ILGxG':function(_0x3facf0,_0x13255e){return _0x3facf0(_0x13255e);},'myNsf':function(_0x2229e2,_0x55661b){return _0x2229e2(_0x55661b);},'jMpPN':_0x32a9a5(0x174)+'er'};if(sourceNode)sourceNode[_0x4529ab(0x1a2,'UJ8l')]();sourceNode=audioCtx[_0x4529ab(0x1b9,'dImG')+_0x32a9a5(0x123)](),sourceNode['buffer']=audioBuffer;const _0x4adb12=audioCtx['createGain']();_0x4adb12[_0x4529ab(0x1c8,'ir9c')][_0x32a9a5(0x16a)]=_0x52cf36[_0x32a9a5(0x152)](parseInt,volSlider[_0x4529ab(0x132,'k$[G')])/(-0x12e5*0x1+-0x3*0xaa3+0x3332*0x1),sourceNode['playbackRa'+'te'][_0x4529ab(0x15f,'X0y2')]=_0x52cf36['myNsf'](parseFloat,speedSlider[_0x4529ab(0x192,'e#f%')]),sourceNode[_0x4529ab(0x1a5,'Mh&2')](_0x4adb12),_0x4adb12[_0x32a9a5(0x19e)](audioCtx['destinatio'+'n']);const _0x4fe74a=_0x52cf36[_0x32a9a5(0x1ee)](parseFloat,trimStart[_0x4529ab(0x217,'Gg7I')])||-0x30a+0xfd*0xb+-0x7d5,_0x12c760=_0x52cf36[_0x4529ab(0x125,'0hmk')](parseFloat,trimEnd[_0x4529ab(0x156,'0hmk')])||audioBuffer['duration'],_0x8136a7=Math[_0x32a9a5(0x1ed)](-0x2551+0x1*-0x1663+-0x2*-0x1dda+0.1,_0x12c760-_0x4fe74a);sourceNode[_0x4529ab(0x225,'e#f%')](-0x2681*0x1+-0x7ef+0x1738*0x2,_0x4fe74a,_0x8136a7),isPlaying=!![],playText[_0x4529ab(0x195,'3PSU')+'t']='Pause',playIcon['setAttribu'+'te'](_0x52cf36[_0x4529ab(0x189,'!Gsn')],_0x32a9a5(0x21a)),feather[_0x4529ab(0x1d1,'9MdJ')](),sourceNode[_0x32a9a5(0x1e0)]=()=>{const _0x64efdf=_0x4529ab,_0x53dec9=_0x32a9a5,_0x37688a={'UWYDy':function(_0x11e574,_0x5468ec){return _0x11e574+_0x5468ec;}};_0x52cf36['lgfPr'](_0x52cf36[_0x53dec9(0x1f8)],'ZdilS')?_0x5577d6[_0x58ca21]=(_0x5d4025[_0x37688a[_0x64efdf(0x1bb,'5rCX')](_0x41551d,_0x33e4ff)]||0x1*-0x1fd3+-0x7b7*-0x3+0x8ae)*_0x1065b7:_0x52cf36[_0x64efdf(0x1ea,'KeG9')](stopPlayback);};}function stopPlayback(){const _0x10bbc7=_0x313dd1,_0x3a65ce=_0x516998,_0x21c0b5={'Gmhea':_0x3a65ce(0x215)},_0x2bb280=_0x10bbc7(0x1fb,'k$[G')[_0x10bbc7(0x17b,'HW2z')]('|');let _0x5c2515=-0x96e+-0x1ed1+0x283f*0x1;while(!![]){switch(_0x2bb280[_0x5c2515++]){case'0':playText[_0x10bbc7(0x188,'7ZOC')+'t']=_0x21c0b5[_0x10bbc7(0x21e,'Jg15')];continue;case'1':feather[_0x10bbc7(0x186,')uPg')]();continue;case'2':isPlaying=![];continue;case'3':playIcon[_0x3a65ce(0x14c)+'te'](_0x3a65ce(0x174)+'er',_0x10bbc7(0x19c,'LFdp'));continue;case'4':if(sourceNode)try{sourceNode['stop']();}catch(_0x176a9c){}continue;}break;}}volSlider[_0x313dd1(0x219,'ml4W')+_0x516998(0x1c3)](_0x313dd1(0x140,'4gwK'),_0x433a73=>{const _0x13afe2=_0x313dd1,_0x2f8fc7=_0x516998;volVal[_0x2f8fc7(0x11a)+'t']=_0x433a73[_0x13afe2(0x20b,'X0y2')][_0x13afe2(0x146,')uPg')]+'%';}),speedSlider[_0x313dd1(0x1eb,'21Qo')+_0x516998(0x1c3)]('input',_0x289395=>{const _0x1d842f=_0x313dd1;speedVal['textConten'+'t']=_0x289395[_0x1d842f(0x160,'k4RD')]['value']+'x';}),exportBtn[_0x313dd1(0x117,'kEra')+_0x313dd1(0x141,'LFdp')](_0x516998(0x1c9),()=>{const _0x1a6d42=_0x516998,_0x3b3aef=_0x313dd1,_0x5e3ded={'FbbwI':function(_0x135cc8,_0x4463ea){return _0x135cc8(_0x4463ea);},'uigFR':function(_0x35cb12,_0x5a2c72){return _0x35cb12-_0x5a2c72;},'yFykD':_0x3b3aef(0x1bd,'OwZP')+'im\x20range.','VmYph':'error','uIgim':function(_0x61c863,_0x5f4185){return _0x61c863*_0x5f4185;},'jvmpW':function(_0x412ff4,_0x5b29ea,_0xd6c5e4){return _0x412ff4(_0x5b29ea,_0xd6c5e4);},'mYRgf':_0x1a6d42(0x13d)+_0x1a6d42(0x137)+_0x3b3aef(0x1f1,'X0y2')+_0x1a6d42(0x155)};if(!audioBuffer)return;const _0x3f2322=Math[_0x1a6d42(0x1ed)](-0x2340+-0x77*0x3+-0x1*-0x24a5,_0x5e3ded[_0x3b3aef(0x149,'DP2P')](parseFloat,trimStart[_0x3b3aef(0x118,'k4RD')])||0x567*0x5+-0x2282+0x77f*0x1),_0x1066f5=Math['min'](audioBuffer['duration'],parseFloat(trimEnd[_0x1a6d42(0x16a)])||audioBuffer[_0x3b3aef(0x14f,'9MdJ')]),_0x26318a=Math[_0x3b3aef(0x18f,'I3VQ')](_0x5e3ded['uigFR'](_0x1066f5,_0x3f2322)*audioBuffer[_0x3b3aef(0x1c0,'qwHl')]);if(_0x26318a<=0x791*-0x2+0x3cb*-0x1+0x12ed){showMessage(_0x5e3ded[_0x1a6d42(0x169)],_0x5e3ded['VmYph']);return;}const _0x15b8fe=parseInt(volSlider['value'])/(-0x52a*0x5+0x325*0x4+0xda2),_0x3e8576=audioBuffer[_0x3b3aef(0x203,'(spX')+_0x1a6d42(0x199)],_0xdc1fb=audioCtx[_0x3b3aef(0x16b,'4gwK')+'er'](_0x3e8576,_0x26318a,audioBuffer[_0x1a6d42(0x11d)]);for(let _0x583d59=-0x6*-0x2ea+0x111d*-0x2+0x10be;_0x583d59<_0x3e8576;_0x583d59++){const _0x2920fe=audioBuffer[_0x3b3aef(0x119,'!Gsn')+_0x3b3aef(0x205,'O^8d')](_0x583d59),_0x4de54d=_0xdc1fb[_0x1a6d42(0x209)+_0x3b3aef(0x212,'e#f%')](_0x583d59),_0x58ea2f=Math[_0x3b3aef(0x1b7,'WbUr')](_0x3f2322*audioBuffer[_0x1a6d42(0x11d)]);for(let _0x1567d0=-0x49*-0x5e+-0xe4a+0xc*-0x10b;_0x1567d0<_0x26318a;_0x1567d0++){_0x4de54d[_0x1567d0]=_0x5e3ded[_0x3b3aef(0x162,'MjC#')](_0x2920fe[_0x58ea2f+_0x1567d0]||-0x39*0x57+-0x2174+0x34d3,_0x15b8fe);}}const _0x20e847=bufferToWave(_0xdc1fb,_0x26318a);_0x5e3ded[_0x3b3aef(0x21c,'Il#z')](saveAs,_0x20e847,'trimmed_'+originalFileName[_0x1a6d42(0x179)](/\.[^/.]+$/,'')+_0x1a6d42(0x14b)),showMessage(_0x5e3ded[_0x3b3aef(0x151,'MjC#')]);});function bufferToWave(_0x379811,_0x278bda){const _0x5c6a20=_0x516998,_0x49ce4e=_0x313dd1,_0x322d5b={'zWofm':function(_0x20bd4a,_0x5de398){return _0x20bd4a+_0x5de398;},'jdVcX':function(_0x252545,_0x3a42bf){return _0x252545*_0x3a42bf;},'oapaQ':function(_0xce4149,_0x267122){return _0xce4149-_0x267122;},'wwwbH':function(_0x3a2d1f,_0x3e3f7f){return _0x3a2d1f(_0x3e3f7f);},'xGwnX':function(_0x595769,_0x3b5aa5){return _0x595769*_0x3b5aa5;},'yfRIA':function(_0x74f51d,_0x1166b1){return _0x74f51d(_0x1166b1);},'rVyei':function(_0x2c9508,_0x9ff846){return _0x2c9508(_0x9ff846);},'vHsAe':function(_0x4ba191,_0x8ede83){return _0x4ba191<_0x8ede83;},'iqOxk':_0x49ce4e(0x1c1,'BVJ0')},_0x234fdd=_0x379811[_0x49ce4e(0x1b3,'5rCX')+_0x5c6a20(0x199)],_0xa5fa92=_0x322d5b[_0x5c6a20(0x14e)](_0x322d5b[_0x5c6a20(0x12a)](_0x278bda,_0x234fdd)*(0x16*0x47+-0x1767+-0x3*-0x5c5),-0xc1e+0x1903+-0x1*0xcb9),_0x1330a0=new DataView(new ArrayBuffer(_0xa5fa92));let _0x4eb350=0x2480+-0xd9b+-0x16e5;function _0x46d443(_0x4720fd){_0x1330a0['setUint16'](_0x4eb350,_0x4720fd,!![]),_0x4eb350+=0x2058+-0x7*0x2cf+0xb*-0x127;}function _0x5a2e25(_0x2db12c){const _0x20b04b=_0x49ce4e;_0x1330a0[_0x20b04b(0x1a4,'LFdp')](_0x4eb350,_0x2db12c,!![]),_0x4eb350+=-0xd*0x9c+0x1ac2+-0x12d2;}_0x1330a0[_0x49ce4e(0x218,'ml4W')](-0x11*0xdf+0x29d*0x9+-0x8b6,-0x1*0x301b0317+-0x1a6aa49*0xb+0x888a9d8c,![]),_0x1330a0[_0x49ce4e(0x136,'HW2z')](0x203f+-0x2*-0x781+0x57*-0x8b,_0x322d5b['oapaQ'](_0xa5fa92,0x15a*0xd+0x40*0x90+-0x358a),!![]),_0x1330a0[_0x49ce4e(0x1a4,'LFdp')](-0x1679+-0x149c*0x1+0xd*0x351,0xc3d4ea4*-0x7+-0x8a890617+0x1258c6dea,![]),_0x1330a0[_0x5c6a20(0x201)](-0x48d*0x1+0x1bd9+-0x60*0x3e,-0xd0e858d*0x4+-0x1411e2*-0x5d+0x4d640480,![]),_0x5a2e25(0x2394+-0x1*0x24ad+0x129),_0x46d443(-0x8b0+-0x9b*0x3f+0x2ed6),_0x322d5b['wwwbH'](_0x46d443,_0x234fdd),_0x5a2e25(_0x379811[_0x5c6a20(0x11d)]),_0x5a2e25(_0x322d5b[_0x49ce4e(0x1d8,'Ss4v')](_0x379811['sampleRate'],-0x1e84+-0x275+0x20fb)*_0x234fdd),_0x322d5b['yfRIA'](_0x46d443,_0x234fdd*(0x1828+-0x2*-0xd91+0xcd2*-0x4)),_0x322d5b['wwwbH'](_0x46d443,0x154b*0x1+-0x19*-0x20+-0x185b),_0x1330a0[_0x5c6a20(0x201)](_0x4eb350,0x38429502*0x2+0x660b2787+0x9*-0xd031aaf,![]),_0x4eb350+=0x1d45+-0xcbe*-0x2+-0x36bd,_0x322d5b[_0x5c6a20(0x144)](_0x5a2e25,_0x322d5b['oapaQ'](_0x322d5b[_0x5c6a20(0x1e4)](_0xa5fa92,_0x4eb350),0x35*-0x5e+0x1a85+-0x70b));const _0x25e028=[];for(let _0x563ed3=-0x269d+-0xf5b+0x35f8*0x1;_0x563ed3<_0x234fdd;_0x563ed3++)_0x25e028[_0x49ce4e(0x177,'k$[G')](_0x379811[_0x49ce4e(0x208,'KeG9')+_0x49ce4e(0x21b,'LFdp')](_0x563ed3));let _0x22e5c4=0x1913+-0x92e+-0xfe5;while(_0x22e5c4<_0x278bda){for(let _0x536324=0x44a+-0x1*-0x5a0+-0x1b*0x5e;_0x322d5b[_0x5c6a20(0x135)](_0x536324,_0x234fdd);_0x536324++){let _0x4c1dc7=Math['max'](-(-0x2*0x879+-0x16e*0x17+0x31d5),Math[_0x49ce4e(0x161,'Jg15')](-0x22a*0x8+-0x3*-0x31f+0x7f4,_0x25e028[_0x536324][_0x22e5c4]));_0x4c1dc7=(_0x322d5b['zWofm'](-0x3*-0xae7+-0xcdf+-0x9eb*0x2+0.5,_0x4c1dc7)<0xbab*0x2+0x1fb6+-0x21e*0x1a?_0x322d5b['xGwnX'](_0x4c1dc7,0x3ab+-0x1f3*-0x37+0x224*0x8):_0x4c1dc7*(0xc*-0xf10+-0x9aab*-0x1+0x9a14))|-0x22*-0xba+-0x19b8+0x1a*0xa,_0x1330a0[_0x49ce4e(0x1f2,'Tf7(')](_0x4eb350,_0x4c1dc7,!![]),_0x4eb350+=0xe3*0xb+-0x1c90+0x12d1;}_0x22e5c4++;}return new Blob([_0x1330a0[_0x49ce4e(0x17f,'HW2z')]],{'type':_0x322d5b[_0x5c6a20(0x1a1)]});}</script>
 
-
-  <script>
-    // Audio editing variables
-    let audioContext = null;
-    let audioBuffer = null;
-    let audioSource = null;
-    let isPlaying = false;
-    let currentTime = 0;
-    let playbackRate = 1;
-    let volume = 1;
-    let fadeInApplied = false;
-    let fadeOutApplied = false;
-    let trimStart = 0;
-    let trimEnd = 0;
-    let playbackStartTime = 0;
-    let playbackStartPosition = 0;
-
-    // DOM elements
-    const uploadBtn = document.getElementById("upload-btn");
-    const audioFileInput = document.getElementById("audio-file");
-    const fileInfo = document.getElementById("file-info");
-    const fileName = document.getElementById("file-name");
-    const fileSize = document.getElementById("file-size");
-    const fileDuration = document.getElementById("file-duration");
-    const editorSection = document.getElementById("editor-section");
-    const toolsSection = document.getElementById("tools-section");
-    const exportSection = document.getElementById("export-section");
-
-    const playBtn = document.getElementById("play-btn");
-    const pauseBtn = document.getElementById("pause-btn");
-    const stopBtn = document.getElementById("stop-btn");
-    const volumeSlider = document.getElementById("volume-slider");
-    const speedSlider = document.getElementById("speed-slider");
-    const volumeValue = document.getElementById("volume-value");
-    const speedValue = document.getElementById("speed-value");
-
-    const timeline = document.getElementById("timeline");
-    const timelineProgress = document.getElementById("timeline-progress");
-    const playhead = document.getElementById("playhead");
-
-    const trimStartInput = document.getElementById("trim-start");
-    const trimEndInput = document.getElementById("trim-end");
-    const trimBtn = document.getElementById("trim-btn");
-    const fadeInBtn = document.getElementById("fade-in-btn");
-    const fadeOutBtn = document.getElementById("fade-out-btn");
-    const removeFadeBtn = document.getElementById("remove-fade-btn");
-    const normalizeBtn = document.getElementById("normalize-btn");
-    const reverseBtn = document.getElementById("reverse-btn");
-    const resetBtn = document.getElementById("reset-btn");
-
-    const exportFormat = document.getElementById("export-format");
-    const exportBtn = document.getElementById("export-btn");
-    const exportStatus = document.getElementById("export-status");
-
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize Feather Icons
-      if (typeof feather !== 'undefined') {
-        feather.replace();
-      }
-
-      // Mobile menu
-      document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-      });
-
-      // Close mobile menu when a link is clicked
-      const mobileMenuLinks = document.getElementById('mobile-menu').querySelectorAll('a');
-      mobileMenuLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          document.getElementById('mobile-menu').classList.add('hidden');
-        });
-      });
-
-      // Close mobile menu when scrolling
-      window.addEventListener('scroll', () => {
-        const menu = document.getElementById('mobile-menu');
-        if (!menu.classList.contains('hidden')) {
-          menu.classList.add('hidden');
-        }
-      });
-    });
-    // Initialize Web Audio API
-    function initAudioContext() {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      return audioContext;
-    }
-
-    // File upload handling
-    uploadBtn.addEventListener("click", () => {
-      audioFileInput.click();
-    });
-
-    audioFileInput.addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      try {
-        const context = initAudioContext();
-        const arrayBuffer = await file.arrayBuffer();
-        audioBuffer = await context.decodeAudioData(arrayBuffer);
-
-        // Update file info
-        fileName.textContent = file.name;
-        fileSize.textContent = formatFileSize(file.size);
-        fileDuration.textContent = formatDuration(audioBuffer.duration);
-
-        fileInfo.classList.remove("hidden");
-        editorSection.classList.remove("hidden");
-        toolsSection.classList.remove("hidden");
-        exportSection.classList.remove("hidden");
-
-        // Set trim inputs max values
-        trimStartInput.max = audioBuffer.duration;
-        trimEndInput.max = audioBuffer.duration;
-        trimEndInput.value = audioBuffer.duration;
-
-        // Reset states
-        resetAudioState();
-
-      } catch (error) {
-        showStatus("Error loading audio file: " + error.message, 'error');
-      }
-    });
-
-    // Playback controls
-    playBtn.addEventListener("click", () => {
-      if (!audioBuffer) return;
-      playAudio();
-    });
-
-    pauseBtn.addEventListener("click", () => {
-      if (audioSource && isPlaying) {
-        const context = initAudioContext();
-        const elapsed = context.currentTime - playbackStartTime;
-        currentTime = playbackStartPosition + elapsed;
-        audioSource.stop();
-        isPlaying = false;
-        updatePlayButtons();
-      }
-    });
-
-    stopBtn.addEventListener("click", () => {
-      stopAudio();
-    });
-
-    function playAudio() {
-      if (!audioBuffer) return;
-
-      const context = initAudioContext();
-      audioSource = context.createBufferSource();
-      audioSource.buffer = audioBuffer;
-      audioSource.playbackRate.value = playbackRate;
-
-      const gainNode = context.createGain();
-      gainNode.gain.value = volume;
-
-      audioSource.connect(gainNode);
-      gainNode.connect(context.destination);
-
-      // Apply fade effects if set
-      if (fadeInApplied || fadeOutApplied) {
-        applyFadeEffects(gainNode);
-      }
-
-      const playbackStartPosition = currentTime;
-      const startTime = context.currentTime;
-      playbackStartTime = startTime;
-      audioSource.start(0, playbackStartPosition);
-      isPlaying = true;
-      updatePlayButtons();
-
-      // Update timeline
-      function updateTimeline() {
-        if (isPlaying) {
-          const elapsed = context.currentTime - startTime;
-          const currentPosition = playbackStartPosition + elapsed;
-          updateTimelineUI(currentPosition);
-          requestAnimationFrame(updateTimeline);
-        }
-      }
-      updateTimeline();
-
-      audioSource.onended = () => {
-        isPlaying = false;
-        currentTime = playbackStartPosition + (context.currentTime - startTime);
-        updatePlayButtons();
-      };
-    }
-
-    function stopAudio() {
-      if (audioSource) {
-        audioSource.stop();
-      }
-      currentTime = 0;
-      isPlaying = false;
-      updateTimelineUI(0);
-      updatePlayButtons();
-    }
-
-    function updatePlayButtons() {
-      playBtn.style.display = isPlaying ? "none" : "block";
-      pauseBtn.style.display = isPlaying ? "block" : "none";
-    }
-
-    // Volume and speed controls
-    volumeSlider.addEventListener("input", (e) => {
-      volume = parseFloat(e.target.value);
-      volumeValue.textContent = Math.round(volume * 100) + "%";
-      if (audioSource) {
-        // Volume changes will take effect on next play
-      }
-    });
-
-    speedSlider.addEventListener("input", (e) => {
-      playbackRate = parseFloat(e.target.value);
-      speedValue.textContent = playbackRate.toFixed(1) + "x";
-      if (audioSource) {
-        audioSource.playbackRate.value = playbackRate;
-      }
-    });
-
-    // Timeline interaction
-    timeline.addEventListener("click", (e) => {
-      if (!audioBuffer) return;
-      const rect = timeline.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const percentage = clickX / rect.width;
-      const newTime = percentage * audioBuffer.duration;
-
-      currentTime = newTime;
-      updateTimelineUI(currentTime);
-
-      // If currently playing, restart from new position
-      if (isPlaying && audioSource) {
-        audioSource.stop();
-        isPlaying = false;
-        updatePlayButtons();
-        setTimeout(() => playAudio(), 50); // Small delay to ensure stop completes
-      }
-    });
-
-    function updateTimelineUI(time) {
-      if (!audioBuffer) return;
-      const percentage = Math.min((time / audioBuffer.duration) * 100, 100);
-      timelineProgress.style.width = percentage + "%";
-      playhead.style.left = percentage + "%";
-    }
-
-    // Editing tools
-    trimBtn.addEventListener("click", () => {
-      const start = parseFloat(trimStartInput.value) || 0;
-      const end = parseFloat(trimEndInput.value) || audioBuffer.duration;
-
-      if (start >= end || end > audioBuffer.duration) {
-        showStatus("Invalid trim range", 'warning');
-        return;
-      }
-
-      const context = initAudioContext();
-      const trimmedLength = end - start;
-      const sampleRate = audioBuffer.sampleRate;
-      const numberOfChannels = audioBuffer.numberOfChannels;
-
-      const trimmedBuffer = context.createBuffer(numberOfChannels, trimmedLength * sampleRate, sampleRate);
-
-      for (let channel = 0; channel < numberOfChannels; channel++) {
-        const originalData = audioBuffer.getChannelData(channel);
-        const trimmedData = trimmedBuffer.getChannelData(channel);
-        const startSample = Math.floor(start * sampleRate);
-
-        for (let i = 0; i < trimmedData.length; i++) {
-          trimmedData[i] = originalData[startSample + i];
-        }
-      }
-
-      audioBuffer = trimmedBuffer;
-      fileDuration.textContent = formatDuration(audioBuffer.duration);
-      trimEndInput.value = audioBuffer.duration;
-      stopAudio();
-      showStatus('Audio trimmed successfully!', 'success');
-    });
-
-    fadeInBtn.addEventListener("click", () => {
-      fadeInApplied = true;
-      fadeOutApplied = false;
-      showStatus('Fade in effect applied', 'success');
-    });
-
-    fadeOutBtn.addEventListener("click", () => {
-      fadeOutApplied = true;
-      fadeInApplied = false;
-      showStatus('Fade out effect applied', 'success');
-    });
-
-    removeFadeBtn.addEventListener("click", () => {
-      fadeInApplied = false;
-      fadeOutApplied = false;
-      showStatus('Fade effects removed', 'info');
-    });
-
-    function applyFadeEffects(gainNode) {
-      const duration = audioBuffer.duration;
-      const fadeTime = 2; // 2 seconds
-
-      if (fadeInApplied) {
-        gainNode.gain.setValueAtTime(0, 0);
-        gainNode.gain.linearRampToValueAtTime(volume, fadeTime);
-      }
-
-      if (fadeOutApplied) {
-        gainNode.gain.setValueAtTime(volume, duration - fadeTime);
-        gainNode.gain.linearRampToValueAtTime(0, duration);
-      }
-    }
-
-    normalizeBtn.addEventListener("click", () => {
-      // Simple normalization - find peak and scale
-      let maxPeak = 0;
-      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-        const data = audioBuffer.getChannelData(channel);
-        for (let i = 0; i < data.length; i++) {
-          maxPeak = Math.max(maxPeak, Math.abs(data[i]));
-        }
-      }
-
-      if (maxPeak > 0) {
-        const scale = 0.95 / maxPeak; // Leave some headroom
-        for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-          const data = audioBuffer.getChannelData(channel);
-          for (let i = 0; i < data.length; i++) {
-            data[i] *= scale;
-          }
-        }
-      }
-      showStatus('Audio normalized successfully!', 'success');
-    });
-
-    reverseBtn.addEventListener("click", () => {
-      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-        const data = audioBuffer.getChannelData(channel);
-        const reversed = new Float32Array(data.length);
-        for (let i = 0; i < data.length; i++) {
-          reversed[i] = data[data.length - 1 - i];
-        }
-        data.set(reversed);
-      }
-      showStatus('Audio reversed successfully!', 'success');
-    });
-
-    resetBtn.addEventListener("click", () => {
-      // Reset all effects and reload original file
-      fadeInApplied = false;
-      fadeOutApplied = false;
-      playbackRate = 1;
-      volume = 1;
-      speedSlider.value = 1;
-      volumeSlider.value = 1;
-      speedValue.textContent = "1.0x";
-      volumeValue.textContent = "100%";
-      stopAudio();
-      showStatus('All effects reset', 'info');
-    });
-
-    // Export functionality (simplified - would need server-side processing for full export)
-    exportBtn.addEventListener("click", () => {
-      exportStatus.classList.remove("hidden");
-      exportStatus.textContent = "Export functionality would require server-side processing for full implementation.";
-      showStatus('Export feature coming soon!', 'info');
-
-      setTimeout(() => {
-        exportStatus.classList.add("hidden");
-      }, 3000);
-    });
-
-    // Utility functions
-    function formatFileSize(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    function formatDuration(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return mins + ':' + (secs < 10 ? '0' : '') + secs;
-    }
-
-    function resetAudioState() {
-      currentTime = 0;
-      playbackStartTime = 0;
-      playbackStartPosition = 0;
-      isPlaying = false;
-      fadeInApplied = false;
-      fadeOutApplied = false;
-      playbackRate = 1;
-      volume = 1;
-      updateTimelineUI(0);
-      updatePlayButtons();
-    }
-
-    function showStatus(message, type) {
-      const container = document.getElementById('status-container');
-      const className = type === 'success' ? 'bg-dark-800/60 backdrop-blur-md text-green-300 border-white/10' :
-                       type === 'error' ? 'bg-dark-800/60 backdrop-blur-md text-red-300 border-white/10' :
-                       type === 'warning' ? 'bg-dark-800/60 backdrop-blur-md text-yellow-300 border-white/10' :
-                       'bg-dark-800/60 backdrop-blur-md text-blue-300 border-white/10';
-
-      container.innerHTML = `<div class="${className} border px-4 py-3 rounded-lg shadow-lg">
-          <div class="flex items-center">
-              <i data-feather="${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : type === 'warning' ? 'alert-triangle' : 'info'}" class="w-5 h-5 mr-2"></i>
-              <span>${message}</span>
-              <button onclick="this.parentElement.parentElement.classList.add('hidden')" class="ml-auto text-gray-500 hover:text-gray-300">
-                  <i data-feather="x" class="w-4 h-4"></i>
-              </button>
-          </div>
-      </div>`;
-      container.classList.remove('hidden');
-
-      // Re-initialize feather icons for the status message
-      if (typeof feather !== 'undefined') {
-          feather.replace();
-      }
-
-      setTimeout(() => {
-          container.classList.add('hidden');
-      }, 5000);
-    }
-
-    // Cookie consent functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const cookieConsent = document.getElementById('cookie-consent');
-      const acceptCookies = document.getElementById('accept-cookies');
-      const declineCookies = document.getElementById('decline-cookies');
-
-      // Show cookie consent if not already accepted/declined
-      if (!localStorage.getItem('cookie-consent')) {
-          setTimeout(() => {
-              cookieConsent.style.display = 'block';
-              setTimeout(() => {
-                  cookieConsent.classList.remove('translate-y-full');
-              }, 100);
-          }, 1000);
-      }
-
-      acceptCookies.addEventListener('click', function() {
-          localStorage.setItem('cookie-consent', 'accepted');
-          cookieConsent.classList.add('translate-y-full');
-          setTimeout(() => {
-              cookieConsent.style.display = 'none';
-          }, 300);
-      });
-
-      declineCookies.addEventListener('click', function() {
-          localStorage.setItem('cookie-consent', 'declined');
-          cookieConsent.classList.add('translate-y-full');
-          setTimeout(() => {
-              cookieConsent.style.display = 'none';
-          }, 300);
-      });
-    });
-  </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

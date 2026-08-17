@@ -1,527 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/loan-emi-calculator.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan / EMI Calculator - Free Financial Calculator | Infiniteforge</title>
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Loan / EMI Calculator - Free Financial Calculator | Infiniteforge">
-    <meta name="twitter:description" content="Free online loan EMI calculator for home loans, car loans, and personal loans. Calculate monthly EMI, total interest, and payment schedule. Plan your loan repayment easily.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/loan-emi-calculator.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
-    <meta name="description"
-        content="Free online loan EMI calculator for home loans, car loans, and personal loans. Calculate monthly EMI, total interest, and payment schedule. Plan your loan repayment easily.">
-    <meta name="keywords"
-        content="EMI calculator, loan calculator, home loan EMI, car loan calculator, personal loan calculator, monthly EMI, loan interest calculator, loan repayment calculator, financial calculator, Infiniteforge">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
+    <title>Loan &amp; EMI Calculator — Amortization Schedule &amp; Interest Breakdown | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Calculate monthly EMI, total interest, and annual amortization schedule for home loans, car loans, and personal loans with interactive visual charts.">
+    <meta name="keywords" content="loan emi calculator, home loan calculator, car loan emi, amortization schedule, mortgage calculator">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-    <meta property="og:title" content="Loan / EMI Calculator - Free Financial Calculator | Infiniteforge">
-    <meta property="og:description"
-        content="Free online loan EMI calculator for home loans, car loans, and personal loans. Calculate monthly EMI, total interest, and payment schedule. Plan your loan repayment easily.">
+    <meta property="og:title" content="Loan &amp; EMI Calculator | Infiniteforge">
+    <meta property="og:description" content="Calculate monthly EMI and view loan amortization schedules.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/loan-emi-calculator.html">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/loan-emi-calculator.png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
-    <link rel="canonical" href="https://infiniteforge.tech/loan-emi-calculator.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-        // Fallback for feather icons if CDN fails
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (typeof feather === 'undefined') {
-                    console.warn('Feather icons failed to load, loading from alternative CDN...');
-                    // Try alternative CDN
-                    const script = document.createElement('script');
-                    script.src = 'https://unpkg.com/feather-icons/dist/feather.min.js';
-                    script.onload = function() {
-                        console.log('Feather icons loaded from alternative CDN');
-                        feather.replace();
-                    };
-                    script.onerror = function() {
-                        console.error('Failed to load feather icons from both CDNs');
-                        // Add CSS fallbacks for essential icons
-                        addIconFallbacks();
-                    };
-                    document.head.appendChild(script);
-                } else {
-                    // Initialize feather icons immediately if already loaded
-                    feather.replace();
-                }
-            }, 100); // Reduced delay for faster initialization
-        });
-
-        // Add CSS-based fallbacks for essential icons
-        function addIconFallbacks() {
-            const style = document.createElement('style');
-            style.textContent = `
-                /* Fallback styles for feather icons */
-                i[data-feather]:before {
-                    content: '▸';
-                    font-weight: bold;
-                }
-                i[data-feather="calculator"]:before { content: '🧮'; }
-                i[data-feather="menu"]:before { content: '☰'; }
-                i[data-feather="plus"]:before { content: '+'; }
-                i[data-feather="trash-2"]:before { content: '🗑'; }
-                i[data-feather="save"]:before { content: '💾'; }
-                i[data-feather="folder-open"]:before { content: '📁'; }
-                i[data-feather="target"]:before { content: '🎯'; }
-                i[data-feather="trending-up"]:before { content: '📈'; }
-                i[data-feather="book"]:before { content: '📚'; }
-                i[data-feather="volume-2"]:before { content: '🔊'; }
-                i[data-feather="shuffle"]:before { content: '🔀'; }
-                i[data-feather="dollar-sign"]:before { content: '💲'; }
-                i[data-feather="credit-card"]:before { content: '💳'; }
-                i[data-feather="pie-chart"]:before { content: '📊'; }
-            `;
-            document.head.appendChild(style);
-            console.log('Added fallback icons');
-        }
-
-        // Initialize feather icons on DOM ready as backup
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        });
-    </script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
-
-        body {
-            font-size: var(--fluid-font-size);
-        }
-
-        h1 { font-size: var(--fluid-h1) !important; }
-        h2 { font-size: var(--fluid-h2) !important; }
-        h3 { font-size: var(--fluid-h3) !important; }
-        p { font-size: var(--fluid-p) !important; }
-
-        @media (max-width: 640px) {
-            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-
-        /* Animations and Micro-interactions */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Apply animations on scroll */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-slide-in-left {
-            animation: slideInLeft 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-slide-in-right {
-            animation: slideInRight 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* Stagger animations */
-        .animate-delay-100 { animation-delay: 0.1s; }
-        .animate-delay-200 { animation-delay: 0.2s; }
-        .animate-delay-300 { animation-delay: 0.3s; }
-        .animate-delay-400 { animation-delay: 0.4s; }
-        .animate-delay-500 { animation-delay: 0.5s; }
-
-        /* Enhanced hover effects */
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
-        /* EMI Calculator specific styles */
-        .input-group {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-
-        .input-group:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .input-field {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 12px 16px;
-            font-size: 16px;
-            transition: border-color 0.2s ease;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .result-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .emi-display {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 16px 0;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .result-breakdown {
-            background: rgba(31, 40, 51, 0.4);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .breakdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .breakdown-label {
-            font-weight: 500;
-            color: #374151;
-        }
-
-        .breakdown-value {
-            font-weight: 600;
-            color: #1f2937;
-            font-size: 1.1rem;
-        }
-
-        .loan-summary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .loading-spinner {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid #2563eb;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        .error-message {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .success-message {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #bbf7d0;
-            color: #166534;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .amortization-table {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .table-header {
-            background: rgba(31, 40, 51, 0.4);
-            padding: 16px;
-            font-weight: 600;
-            color: #374151;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .table-row {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f1f5f9;
-            transition: background-color 0.2s ease;
-        }
-
-        .table-row:hover {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        .table-row:nth-child(even) {
-            background: rgba(31, 40, 51, 0.4);
-        }
-    </style>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Loan / EMI Calculator",
-        "description": "Free online loan EMI calculator for home loans, car loans, and personal loans. Calculate monthly EMI, total interest, and payment schedule.",
-        "url": "https://infiniteforge.tech/loan-emi-calculator.html",
-        "applicationCategory": "Financial",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        }
-    }</script>
-    <!-- Google tag (gtag.js) -->
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
-    <!-- End Google Tag Manager -->
-
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Loan &amp; EMI Calculator | Infiniteforge">
+    <meta name="twitter:description" content="Free online EMI and loan repayment calculator.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/loan-emi-calculator.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/loan-emi-calculator.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x4fc9(){var _0x183bc2=['oMNcP2mfW4tcJKNdRuLaia','FxuCWQtcI8oAWP0','sSo8WODKWObIWPjp','Aw5KzxHpzG','mYOWW7VcU8kBW4XKcW','WOJcQZ7cONhdPwLwrHldPNS3','Dg9tDhjPBMC','WPWzW5uwW5NcL8k5','C2vHCMnO','n21Yt2LVEq','mJKZntj0zNLnBfa','e8kOywFdH8o+W68','pmkIW4GLWP/cTmoqWPJcPmoQAKJcSmoD','ntiXnJm1nuvQD2jwuW','WQOygmoX','hCkIWPiIW4O4W48','oSk/WR/dRf0','AKjdywO','kLvHyrSdW4VdOCkn','W4Wjhsy0W40uW4ldK8ojuG','WPtcJmkZW67dUSkTW4qlcSkN','nZG5mJeWEfHrv2nA','W48eh3D8W6GxW6/dIW','WOPSW47cRfurWOhdJrvYtG','t3v0zML0','mZHTrhbMug0','jSkDrd5dqvrBW4byqMRdLq','W7HfWRywg8k2WOf4eCoGla'];_0x4fc9=function(){return _0x183bc2;};return _0x4fc9();}var _0x5d4f8b=_0x6168,_0x7b036f=_0x1ebf;(function(_0x1c6944,_0x1d0e92){var _0x381f45=_0x6168,_0x29f297=_0x1ebf,_0x151abe=_0x1c6944();while(!![]){try{var _0x4cf938=parseInt(_0x29f297(0xf5))/(0x4b2+-0xc9c*-0x1+0x114d*-0x1)*(parseInt(_0x381f45(0xf3,'0NT)'))/(-0x3*0xb3f+-0x1724+0x38e3))+parseInt(_0x381f45(0xee,'SJg8'))/(-0x3*0x212+-0xb*0xce+0xf13)*(parseInt(_0x381f45(0xef,'m(zB'))/(-0x1c4+0x1d6*-0x1+0x39e*0x1))+-parseInt(_0x29f297(0xe9))/(-0xde7+0x1e25+-0x1039)+-parseInt(_0x381f45(0xf6,'93Y8'))/(0xa4e+0x2*0x1309+-0x305a)+parseInt(_0x29f297(0xe5))/(0x1545+0x1ed+-0x172b)*(parseInt(_0x381f45(0xf8,'QZ]&'))/(0x11*0x1a3+0x1e3f+-0x3a0a))+parseInt(_0x29f297(0xf1))/(0x55+0x31+-0x7d)+parseInt(_0x381f45(0xe8,'R(#K'))/(-0x89e*0x1+-0x7*0x1bb+-0x1*-0x14c5);if(_0x4cf938===_0x1d0e92)break;else _0x151abe['push'](_0x151abe['shift']());}catch(_0x5f1a12){_0x151abe['push'](_0x151abe['shift']());}}}(_0x4fc9,-0xcd0f*0xb+0x61757+-0xafc4*-0x13));function _0x1ebf(_0x533385,_0x13dc7a){_0x533385=_0x533385-(-0x6*-0x3b5+0x71d*-0x3+-0x3);var _0x3d8326=_0x4fc9();var _0x5ed998=_0x3d8326[_0x533385];if(_0x1ebf['miFGLx']===undefined){var _0x68271d=function(_0x4d736c){var _0x7ddbc9='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x281b49='',_0x24e216='',_0x393ba0=_0x281b49+_0x68271d,_0x2747bb=(''+function(){return-0x12d5+0xac9*0x1+0x80c;})['indexOf']('\x0a')!==-(-0x2216+0x530+0x1ce7);for(var _0x579097=-0x1*0x1319+-0x749+0x133*0x16,_0x1f8103,_0x13da6b,_0x2d8826=-0x2*0xc13+0x1dfb+-0x5d5*0x1;_0x13da6b=_0x4d736c['charAt'](_0x2d8826++);~_0x13da6b&&(_0x1f8103=_0x579097%(-0x1a47+-0x63a+0x2085)?_0x1f8103*(-0xab*-0x37+-0x3*-0xa95+-0x443c)+_0x13da6b:_0x13da6b,_0x579097++%(0x14a1*-0x1+0x33*0xa3+0x1*-0xbd4))?_0x281b49+=_0x2747bb||_0x393ba0['charCodeAt'](_0x2d8826+(-0x10b1*0x1+0x2429*-0x1+0x34e4))-(0x1*-0xf1d+-0x15cf+0x1f2*0x13)!==0x4e1+-0x108c+-0x1d*-0x67?String['fromCharCode'](-0x49*0xd+-0x135*-0x1d+0x1*-0x1e4d&_0x1f8103>>(-(-0x269c+-0x1923+0x3fc1)*_0x579097&0x181b+-0x1*0x21c1+-0x4*-0x26b)):_0x579097:-0x1e1a*0x1+0x805*-0x1+0xcb5*0x3){_0x13da6b=_0x7ddbc9['indexOf'](_0x13da6b);}for(var _0x2d724c=-0xaff*-0x1+0x1c6b+0x1*-0x276a,_0x18e288=_0x281b49['length'];_0x2d724c<_0x18e288;_0x2d724c++){_0x24e216+='%'+('00'+_0x281b49['charCodeAt'](_0x2d724c)['toString'](0x3*0x25+0xd4f+-0xdae))['slice'](-(0x1709+0x138+-0x183f));}return decodeURIComponent(_0x24e216);};_0x1ebf['qgDGpf']=_0x68271d,_0x1ebf['Bujncw']={},_0x1ebf['miFGLx']=!![];}var _0x1371e8=_0x3d8326[0x58d+-0x7f*0x1f+0x2*0x4ea],_0x5a3922=_0x533385+_0x1371e8,_0x19ff70=_0x1ebf['Bujncw'][_0x5a3922];if(!_0x19ff70){var _0x570f83=function(_0x5cb652){this['tLTPnk']=_0x5cb652,this['OjCFqx']=[0x1*-0x9f7+0x17ce+-0xdd6,0x1987*0x1+-0x203f+0x6b8,-0x1cc+0x5*0x3da+-0x1176],this['BIjXTK']=function(){return'newState';},this['VbFfJn']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['BGqFGu']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x570f83['prototype']['rqHcob']=function(){var _0x3b650c=new RegExp(this['VbFfJn']+this['BGqFGu']),_0x5bdd08=_0x3b650c['test'](this['BIjXTK']['toString']())?--this['OjCFqx'][0x2f6*-0x2+0x2467*-0x1+0x2a54]:--this['OjCFqx'][-0xe85+0x199b+-0xb16];return this['aUSaQW'](_0x5bdd08);},_0x570f83['prototype']['aUSaQW']=function(_0x1eb80e){if(!Boolean(~_0x1eb80e))return _0x1eb80e;return this['Wiudvx'](this['tLTPnk']);},_0x570f83['prototype']['Wiudvx']=function(_0x547b63){for(var _0x288f28=0x152f+-0x1a24+0x4f5,_0x299775=this['OjCFqx']['length'];_0x288f28<_0x299775;_0x288f28++){this['OjCFqx']['push'](Math['round'](Math['random']())),_0x299775=this['OjCFqx']['length'];}return _0x547b63(this['OjCFqx'][-0x2028+0xbdf*-0x3+0x43c5]);},(''+function(){return-0x11af*-0x2+-0xc*-0x21f+-0x3cd2;})['indexOf']('\x0a')===-(-0x1c69*-0x1+0x25*-0x81+-0x9c3)&&new _0x570f83(_0x1ebf)['rqHcob'](),_0x5ed998=_0x1ebf['qgDGpf'](_0x5ed998),_0x1ebf['Bujncw'][_0x5a3922]=_0x5ed998;}else _0x5ed998=_0x19ff70;return _0x5ed998;}function _0x6168(_0x32954b,_0x720d0a){_0x32954b=_0x32954b-(-0x6*-0x3b5+0x71d*-0x3+-0x3);var _0xf3c447=_0x4fc9();var _0x402b30=_0xf3c447[_0x32954b];if(_0x6168['fqlgsm']===undefined){var _0x2f6321=function(_0x376432){var _0x42e3b6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x18e77c='',_0x1aab24='',_0x5bc764=_0x18e77c+_0x2f6321,_0x3cb0e6=(''+function(){return-0x12d5+0xac9*0x1+0x80c;})['indexOf']('\x0a')!==-(-0x2216+0x530+0x1ce7);for(var _0x2a0558=-0x1*0x1319+-0x749+0x133*0x16,_0x3e020a,_0x2f2b9f,_0x3bcd08=-0x2*0xc13+0x1dfb+-0x5d5*0x1;_0x2f2b9f=_0x376432['charAt'](_0x3bcd08++);~_0x2f2b9f&&(_0x3e020a=_0x2a0558%(-0x1a47+-0x63a+0x2085)?_0x3e020a*(-0xab*-0x37+-0x3*-0xa95+-0x443c)+_0x2f2b9f:_0x2f2b9f,_0x2a0558++%(0x14a1*-0x1+0x33*0xa3+0x1*-0xbd4))?_0x18e77c+=_0x3cb0e6||_0x5bc764['charCodeAt'](_0x3bcd08+(-0x10b1*0x1+0x2429*-0x1+0x34e4))-(0x1*-0xf1d+-0x15cf+0x1f2*0x13)!==0x4e1+-0x108c+-0x1d*-0x67?String['fromCharCode'](-0x49*0xd+-0x135*-0x1d+0x1*-0x1e4d&_0x3e020a>>(-(-0x269c+-0x1923+0x3fc1)*_0x2a0558&0x181b+-0x1*0x21c1+-0x4*-0x26b)):_0x2a0558:-0x1e1a*0x1+0x805*-0x1+0xcb5*0x3){_0x2f2b9f=_0x42e3b6['indexOf'](_0x2f2b9f);}for(var _0x1e9c18=-0xaff*-0x1+0x1c6b+0x1*-0x276a,_0x564bbc=_0x18e77c['length'];_0x1e9c18<_0x564bbc;_0x1e9c18++){_0x1aab24+='%'+('00'+_0x18e77c['charCodeAt'](_0x1e9c18)['toString'](0x3*0x25+0xd4f+-0xdae))['slice'](-(0x1709+0x138+-0x183f));}return decodeURIComponent(_0x1aab24);};var _0x5205b6=function(_0x4bea1b,_0x55d5f2){var _0x304765=[],_0x358671=0x58d+-0x7f*0x1f+0x2*0x4ea,_0x5400a7,_0x182e3f='';_0x4bea1b=_0x2f6321(_0x4bea1b);var _0x45cb45;for(_0x45cb45=0x1*-0x9f7+0x17ce+-0xdd7;_0x45cb45<0x1987*0x1+-0x203f+0x7b8;_0x45cb45++){_0x304765[_0x45cb45]=_0x45cb45;}for(_0x45cb45=-0x1cc+0x5*0x3da+-0x1176;_0x45cb45<0x2f6*-0x2+0x2467*-0x1+0x2b53;_0x45cb45++){_0x358671=(_0x358671+_0x304765[_0x45cb45]+_0x55d5f2['charCodeAt'](_0x45cb45%_0x55d5f2['length']))%(-0xe85+0x199b+-0xa16),_0x5400a7=_0x304765[_0x45cb45],_0x304765[_0x45cb45]=_0x304765[_0x358671],_0x304765[_0x358671]=_0x5400a7;}_0x45cb45=0x152f+-0x1a24+0x4f5,_0x358671=-0x2028+0xbdf*-0x3+0x43c5;for(var _0x2dc3b3=-0x11af*-0x2+-0xc*-0x21f+-0x3cd2;_0x2dc3b3<_0x4bea1b['length'];_0x2dc3b3++){_0x45cb45=(_0x45cb45+(-0x1c69*-0x1+0x25*-0x81+-0x9c3))%(0x1d19*0x1+-0x260e+0x9f5),_0x358671=(_0x358671+_0x304765[_0x45cb45])%(0x22da+-0x11c6+-0x1014),_0x5400a7=_0x304765[_0x45cb45],_0x304765[_0x45cb45]=_0x304765[_0x358671],_0x304765[_0x358671]=_0x5400a7,_0x182e3f+=String['fromCharCode'](_0x4bea1b['charCodeAt'](_0x2dc3b3)^_0x304765[(_0x304765[_0x45cb45]+_0x304765[_0x358671])%(-0x8da+-0xe*-0x8f+0x208)]);}return _0x182e3f;};_0x6168['AjEouD']=_0x5205b6,_0x6168['sBKliT']={},_0x6168['fqlgsm']=!![];}var _0xa39eb1=_0xf3c447[-0x1c4+0x1d6*-0x1+0x39a*0x1],_0x58c9c0=_0x32954b+_0xa39eb1,_0x5707e6=_0x6168['sBKliT'][_0x58c9c0];if(!_0x5707e6){if(_0x6168['VbGBjL']===undefined){var _0x48ad89=function(_0x4a0f62){this['cNmrTJ']=_0x4a0f62,this['yxyiVT']=[-0xde7+0x1e25+-0x103d,0xa4e+0x2*0x1309+-0x3060,0x1545+0x1ed+-0x1732],this['euOLfX']=function(){return'newState';},this['lhezPV']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['sfEKMH']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x48ad89['prototype']['dXcmOK']=function(){var _0x1669c8=new RegExp(this['lhezPV']+this['sfEKMH']),_0x4038e8=_0x1669c8['test'](this['euOLfX']['toString']())?--this['yxyiVT'][0x11*0x1a3+0x1e3f+-0x3a11]:--this['yxyiVT'][0x55+0x31+-0x86];return this['AjgGVc'](_0x4038e8);},_0x48ad89['prototype']['AjgGVc']=function(_0x927f8a){if(!Boolean(~_0x927f8a))return _0x927f8a;return this['bOdveB'](this['cNmrTJ']);},_0x48ad89['prototype']['bOdveB']=function(_0x2ae8de){for(var _0x1d189c=-0x89e*0x1+-0x7*0x1bb+-0x3*-0x6e9,_0x8a8f75=this['yxyiVT']['length'];_0x1d189c<_0x8a8f75;_0x1d189c++){this['yxyiVT']['push'](Math['round'](Math['random']())),_0x8a8f75=this['yxyiVT']['length'];}return _0x2ae8de(this['yxyiVT'][-0xfb*0x11+0xb86+-0x525*-0x1]);},(''+function(){return-0xfcb+0xf44*-0x1+0x1f0f;})['indexOf']('\x0a')===-(-0x42*-0x1+-0x190f+0x1*0x18ce)&&new _0x48ad89(_0x6168)['dXcmOK'](),_0x6168['VbGBjL']=!![];}_0x402b30=_0x6168['AjEouD'](_0x402b30,_0x720d0a),_0x6168['sBKliT'][_0x58c9c0]=_0x402b30;}else _0x402b30=_0x5707e6;return _0x402b30;}var _0x3b62d4=(function(){var _0xaf2649=!![];return function(_0x25e6a0,_0x4ae365){var _0x3d48f9=_0xaf2649?function(){var _0x4fcfe2=_0x6168;if(_0x4ae365){var _0x42af08=_0x4ae365[_0x4fcfe2(0xec,'#TYR')](_0x25e6a0,arguments);return _0x4ae365=null,_0x42af08;}}:function(){};return _0xaf2649=![],_0x3d48f9;};}()),_0x26b155=_0x3b62d4(this,function(){var _0xb2a2ae=_0x1ebf,_0x505b17=_0x6168,_0x596f10={'lLFqT':function(_0x3cfe4d,_0x4c7cac){return _0x3cfe4d!==_0x4c7cac;},'jBCaj':'(((.+)+)+)'+'+$'};if(_0x596f10['lLFqT'](_0x26b155[_0x505b17(0xea,'rZyP')]()[_0xb2a2ae(0xfe)]()[_0xb2a2ae(0xfb)]('\x0a'),-(0x181b+-0x1*0x21c1+-0x7*-0x161)))return;return _0x26b155[_0x505b17(0xfa,'czyS')]()[_0xb2a2ae(0xe4)](_0x596f10[_0xb2a2ae(0xed)])['toString']()[_0x505b17(0xf0,'*CMo')+'r'](_0x26b155)[_0xb2a2ae(0xe4)](_0x596f10['jBCaj']);});_0x26b155(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x7b036f(0xf4),'sans-serif'],'mono':['JetBrains\x20'+'Mono',_0x5d4f8b(0xfc,']EdU')]},'colors':{'dark':{0x384:_0x5d4f8b(0xf9,']EdU'),0x320:_0x5d4f8b(0xeb,'czyS'),0x2bc:_0x5d4f8b(0xe7,'W#eP')},'brand':{'primary':'#45F3FF','secondary':_0x5d4f8b(0xff,')nl4'),'accent':'#7A00FF'}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input[type="number"] { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.65rem 0.9rem; font-size: 0.95rem; }
+        input[type="number"]:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -532,471 +85,125 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
-        <!-- Hero Section -->
-        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 rounded-3xl mb-16">
-            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-            <div class="absolute inset-0">
-                <div class="absolute top-10 left-10 w-20 h-20 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-10 rounded-full blur-xl"></div>
-                <div class="absolute bottom-10 right-10 w-32 h-32 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-10 rounded-full blur-xl"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-5 rounded-full blur-2xl"></div>
-            </div>
-            <div class="relative z-10 py-20 px-6 text-center text-white">
-                <div class="flex justify-center items-center mb-6">
-                    <i data-feather="credit-card" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
-                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-dark-900/40 bg-clip-text text-transparent" itemprop="headline">
-                        Loan / EMI Calculator
-                    </h1>
-                </div>
-                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100">Calculate Your Loan EMI Easily</h2>
-                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
-                    Free online loan EMI calculator for home loans, car loans, and personal loans. Calculate monthly EMI, total interest, and payment schedule. Plan your loan repayment easily.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                    <a href="#emi-calculator" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-dark-900/40 backdrop-blur-md transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        Calculate EMI Now
-                        <i data-feather="calculator" class="w-5 h-5 ml-2 inline"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Loan &amp; EMI Calculator
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Calculate monthly installments, interest distributions, and export amortization schedules.
+            </p>
+        </div>
 
-        <!-- EMI Calculator -->
-        <section id="emi-calculator" class="mb-20">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 md:p-12">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-100 mb-4">Loan EMI Calculator</h2>
-                    <p class="text-lg text-gray-400">Calculate your Equated Monthly Installment (EMI) for any loan</p>
+        <!-- Calculator Grid -->
+        <div class="grid lg:grid-cols-12 gap-6 mb-8">
+            <!-- Left 6 cols: Inputs & Sliders -->
+            <div class="lg:col-span-6 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-3 border-b border-white/10">
+                    Loan Parameters
+                </h3>
+
+                <!-- Principal Amount -->
+                <div>
+                    <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                        <span class="uppercase font-semibold text-gray-400">Loan Amount ($)</span>
+                        <input type="number" id="principal-input" min="1000" step="5000" value="50000" class="w-32 font-mono text-right py-1 px-2">
+                    </div>
+                    <input type="range" id="principal-slider" min="5000" max="1000000" step="5000" value="50000" class="w-full accent-brand-primary">
                 </div>
 
-                <!-- Input Form -->
-                <div class="grid md:grid-cols-3 gap-6 mb-8">
-                    <div class="input-group p-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Loan Amount (₹)</label>
-                        <input type="number" id="loan-amount" class="input-field w-full" placeholder="e.g., 500000" min="1000" max="100000000">
-                        <p class="text-xs text-gray-500 mt-1">Enter the principal loan amount</p>
+                <!-- Interest Rate -->
+                <div>
+                    <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                        <span class="uppercase font-semibold text-gray-400">Interest Rate (% p.a.)</span>
+                        <input type="number" id="rate-input" min="1" max="30" step="0.1" value="8.5" class="w-24 font-mono text-right py-1 px-2">
                     </div>
-
-                    <div class="input-group p-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Annual Interest Rate (%)</label>
-                        <input type="number" id="interest-rate" class="input-field w-full" placeholder="e.g., 12.5" min="0.1" max="50" step="0.1">
-                        <p class="text-xs text-gray-500 mt-1">Annual interest rate for the loan</p>
-                    </div>
-
-                    <div class="input-group p-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Loan Tenure</label>
-                        <div class="flex gap-2">
-                            <input type="number" id="loan-tenure" class="input-field flex-1" placeholder="e.g., 5" min="1" max="50">
-                            <select id="tenure-unit" class="input-field w-20">
-                                <option value="years">Years</option>
-                                <option value="months">Months</option>
-                            </select>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">Duration of the loan</p>
-                    </div>
+                    <input type="range" id="rate-slider" min="1" max="25" step="0.1" value="8.5" class="w-full accent-brand-primary">
                 </div>
 
-                <!-- Calculate Button -->
-                <div class="text-center mb-8">
-                    <button id="calculate-emi-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i data-feather="calculator" class="w-5 h-5 mr-2 inline"></i>
-                        Calculate EMI
-                    </button>
-                </div>
-
-                <!-- Results -->
-                <div id="results-section" class="hidden">
-                    <!-- EMI Display -->
-                    <div class="result-card mb-6">
-                        <h4 class="text-xl font-semibold mb-2">Monthly EMI</h4>
-                        <div class="emi-display" id="monthly-emi">₹0</div>
-                        <p class="text-blue-100">Your monthly payment amount</p>
+                <!-- Tenure -->
+                <div>
+                    <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                        <span class="uppercase font-semibold text-gray-400">Loan Tenure (Years)</span>
+                        <input type="number" id="tenure-input" min="1" max="30" step="1" value="5" class="w-20 font-mono text-right py-1 px-2">
                     </div>
-
-                    <!-- Loan Summary -->
-                    <div class="loan-summary">
-                        <h4 class="text-xl font-semibold mb-4">Loan Summary</h4>
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold" id="total-amount">₹0</div>
-                                <div class="text-blue-100">Total Amount</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold" id="total-interest">₹0</div>
-                                <div class="text-blue-100">Total Interest</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold" id="total-payments">0</div>
-                                <div class="text-blue-100">Total Payments</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Detailed Breakdown -->
-                    <div class="result-breakdown">
-                        <h4 class="text-lg font-semibold text-gray-100 mb-4">Payment Breakdown</h4>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Principal Amount:</span>
-                            <span class="breakdown-value" id="breakdown-principal">₹0</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Total Interest:</span>
-                            <span class="breakdown-value" id="breakdown-interest">₹0</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Total Payment:</span>
-                            <span class="breakdown-value" id="breakdown-total">₹0</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Monthly EMI:</span>
-                            <span class="breakdown-value" id="breakdown-emi">₹0</span>
-                        </div>
-                    </div>
-
-                    <!-- Amortization Schedule Toggle -->
-                    <div class="text-center mt-8">
-                        <button id="show-amortization-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
-                            <i data-feather="pie-chart" class="w-4 h-4 mr-2 inline"></i>
-                            Show Amortization Schedule
-                        </button>
-                    </div>
-
-                    <!-- Amortization Table -->
-                    <div id="amortization-table" class="amortization-table hidden">
-                        <div class="table-header">
-                            <div class="grid grid-cols-5 gap-4 font-semibold">
-                                <div>Month</div>
-                                <div>EMI</div>
-                                <div>Principal</div>
-                                <div>Interest</div>
-                                <div>Balance</div>
-                            </div>
-                        </div>
-                        <div id="amortization-body" class="max-h-96 overflow-y-auto">
-                            <!-- Amortization rows will be populated here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Error Message -->
-                <div id="error-message" class="error-message hidden mt-6"></div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="py-16 bg-gradient-to-br from-dark-800/30 to-dark-900/30">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-100 mb-4">Why Use Our EMI Calculator?</h2>
-                    <p class="text-lg text-gray-400">Comprehensive loan calculation tools for better financial planning</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="calculator" class="w-8 h-8 text-blue-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Accurate Calculations</h3>
-                        <p class="text-gray-400">Precise EMI calculations using standard banking formulas with detailed breakdowns.</p>
-                    </div>
-
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="pie-chart" class="w-8 h-8 text-green-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Amortization Schedule</h3>
-                        <p class="text-gray-400">View complete payment schedule showing how much goes to principal and interest each month.</p>
-                    </div>
-
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="dollar-sign" class="w-8 h-8 text-purple-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Multiple Loan Types</h3>
-                        <p class="text-gray-400">Works for home loans, car loans, personal loans, and business loans with flexible tenure options.</p>
-                    </div>
+                    <input type="range" id="tenure-slider" min="1" max="30" step="1" value="5" class="w-full accent-brand-primary">
                 </div>
             </div>
-        </section>
+
+            <!-- Right 6 cols: Summary & Donut Visual -->
+            <div class="lg:col-span-6 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 flex flex-col justify-between space-y-6">
+                <div>
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Monthly EMI Payment</div>
+                    <div class="text-4xl sm:text-5xl font-extrabold font-mono text-white mt-1" id="monthly-emi">$1,025.83</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10 text-xs">
+                    <div>
+                        <span class="text-gray-400 block">Total Principal:</span>
+                        <span class="font-bold font-mono text-white text-base" id="total-principal">$50,000.00</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block">Total Interest:</span>
+                        <span class="font-bold font-mono text-brand-primary text-base" id="total-interest">$11,549.80</span>
+                    </div>
+                    <div class="col-span-2">
+                        <span class="text-gray-400 block">Total Amount Payable:</span>
+                        <span class="font-bold font-mono text-purple-400 text-lg" id="total-payable">$61,549.80</span>
+                    </div>
+                </div>
+
+                <button id="export-csv-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 flex items-center justify-center gap-2 transition-all">
+                    <i data-feather="download" class="w-4 h-4"></i> Export Amortization CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Amortization Table Card -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">
+                Yearly Amortization Schedule
+            </h3>
+            <div class="overflow-x-auto max-h-72">
+                <table class="w-full text-left text-xs font-mono">
+                    <thead>
+                        <tr class="text-gray-400 border-b border-white/10">
+                            <th class="pb-2 font-semibold">Year</th>
+                            <th class="pb-2 font-semibold">Principal Paid</th>
+                            <th class="pb-2 font-semibold">Interest Paid</th>
+                            <th class="pb-2 font-semibold">Total Payment</th>
+                            <th class="pb-2 font-semibold text-right">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amort-tbody" class="divide-y divide-white/5 text-gray-300">
+                        <!-- Dynamic Amortization Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>function _0x55bf(){const _0x566f34=['WO7cUCoqW5hcJq','C0r3Cg4','WPy5ASkVdCou','BKjMvuq','WOdcHmoTW7hcNConW5BdRW5O','mCk9WPWkWQi','WQhdLCkkW7tdPa','xtjgkWq','W77cLd0fxq7dGLTScq','hanmwCkvWR5o','yLvQy24','ENnyBeS','fCkdsCkrWQhdLq','W6tcNt0e','mCk4WO0yWR3cNa3dT8kW','sw50zxjLC3qGua','ltG7','WQBcJSo4W7/cM8oCW7BdP0Te','AxPHDgLVBL9tyW','EwuLxCk3Du3dV8knWOBdS8kAWQG','WQLzBmosW7bvbYZcPtTmW5RdNCkx','mxelafJdKKRdS8oJsG','rMqvdIhdR8oEW44','CMf5ltmWmci+ja','W5BdKGTJa18','s2L0yLG','Ct3dIW','z2v0rwXLBwvUDa','AxbHBcbqywLKla','EtRdN8kPW74','C3rLBMvY','mtK4mdG5nwLUz0ftEq','qcX2WQhcPWStWPPjW5nxzSkm','gbWSW5ijWOL3W4mDjGtcQa','WQ0QWQJdJCobvCktxmk4ba','WPzYsCocd2a','AKG8jG','gK5ky8o1','CMvWBgfJzq','WQ5vB1ZcSu7dRsdcGYO','bmobfG','r1mmmWy','W5OzWRnp','WRbkW4lcR8kwdgBcVmkpnG','m8k5WOmzWRRdVXJdUmk6Ba','ESoiW5VdO8k5mSkPWQRdVvC','W6xdTx0','nZuYqw1OAfje','W7BdSM/cRSocumopW5nuia','rMqaeYVdO8ou','jsO+pCkV','W73cPSkTWOzSWPxcMhC/rq','l8kfDSoTs8ohbZdcMY4','x3rPBwvY','icaGicaGicaGia','Dg9gAxHLza','DgvUDxjLlxnSAq','WPhdQSo0W5hdNG','WPDHW7X2k8o5W7iYlK0','Dg90ywWTChjPBG','ywrKrxzLBNrmAq','D2HPDguIpIq','y2XPy2S','C2XPzgvY','zxH0lxDOAxrLia','WQZcKSoTW6VcMW','mtC0nJm5ouzJvM91va','C3vJy2vZCW','c8ktW6TRkSkrja','mI41ihrLEhqTzW','qgOYh37dTCoCW4a9AG','W6BdVe7dVmkvWQy3W7CvW6G','z3PUBvi','mI41ihrLEhqTyG','WR/dP8o0qCoych3dLexdPG','g3VdUCoZg3ZdGgpdUq','janRxSkYWPPhW44vyG','y29UC3rYDwn0BW','Dg9HC3q','WQvBEq','Aw5Uzxjive1m','yxrOzxi9iG','ChjPBMnPCgfSlq','Dg9mB2nHBgvtDa','WQNcKY8LqvtcQa','W7ZcPw8qeSkDf3r7W4G','Ct8lwW','WQ7dRqufWPC','yxbWzw5Kq2HPBa','sKfOWQNcGG','W78fWO5UmmowzYveWPG','CMLUzW','W4SIfCkrwfJdTebqWPaqamkjWRe','WROhWOBdJW','nduXnJG1mMjHv1HywG','pc9ZCgfUpG','mI41ihrLEhqTCG','qNLjza','EWxdVmkJAxW+k8kDWR4','bmoIWRtcTgqvW4O6W4z4','DMfSDwu','mI41ihrLEhqTCa','W5hdIt15fetcTfa','yMfSyw5Jzq','iIbJBgfZCZ0IDW','ehaJW5ddOvznWOHQW70','icaGicaGphrKia','W57dRvpdLmkCWRe','WPFdRCoGzWe','u3bHru0','W6FdNYDP','Aw50zxjLC3rqyq','re1AugW','s1zwBNq','ugf5BwvUDcXszq','d8oda8knpW','Dgv4DenVBNrLBG','y2XHC3m9iNb5lq','seL4WPrlW7n/W6Kt','wchcH8oDfxxdHftdRIS','isi8lW','amocaCk9kJK+','W6NdVf7dJmkvWQz0W7eiW6O','WQ3dL8o2rCoP','eMyIW7tdO1zMWPbdW7K','bCozjSkQbW','wwvHCIXqCMLUyW','fCo1WQdcONCmW48iW4eoobTn','W7LLW7ZcJmknjCosbCo1qq','iZ4Hia','WRFcHCk/WQddIW','CMfUzc1WCMLTyq','hvHRtmoLW4b9WPVdUa','WRXvr0hdPeNdPG','ACoiW4hdK8kNmSoPWQBdVvm','idX0zcbJBgfZCW','DxjWBguTndaWiG','odnQ','WRZdOmo+tmoEeN4','AJSliqRcVqFcTSkThG','seLWWOrt','WR9cW4xcPq','pc90zd4kicaGia','zgvY','W7xdVeldJCk6WQW0W6yEW7i','kSkmoMFcKtyKCeam','rsCUsMy','WP5vvSoThq','rSknu8oyA3P2iaBdOq','WO7dPCo2W4hdIt3cRmocW48','Dg90ywWTAw50zq','zw50','mZKXmJq4owPYD0P2sG','WPJcTSkSumkZr8kccqvT','oIuIpCk+','WRTsBL/cVa','WRPFCutdVu/dPW','WPmSy8k0dq','ChjPBMnPCgfSua','pLLLyxiG'];_0x55bf=function(){return _0x566f34;};return _0x55bf();}const _0x2bf087=_0x2242,_0x11ef0b=_0x2a4b;function _0x2a4b(_0x1ab821,_0x31f082){_0x1ab821=_0x1ab821-(-0x1358+-0xa95+0x1f6a);const _0x4818c=_0x55bf();let _0x1ba213=_0x4818c[_0x1ab821];if(_0x2a4b['OpHnWT']===undefined){var _0x5cd5e6=function(_0x1be0df){const _0x466c7a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4e7d8e='',_0x5d8cbb='',_0xa69a51=_0x4e7d8e+_0x5cd5e6,_0x123a11=(''+function(){return 0x1f2f+-0x46b+-0xc*0x23b;})['indexOf']('\x0a')!==-(0x109b+0x1c60+-0x2cfa);for(let _0x23252c=-0x2*-0x16c+0x1a6c+0x2*-0xea2,_0x41d94b,_0x17c6f6,_0x2a7fec=-0x1*-0x1d44+-0x1*-0x2291+-0x3fd5;_0x17c6f6=_0x1be0df['charAt'](_0x2a7fec++);~_0x17c6f6&&(_0x41d94b=_0x23252c%(0x1beb+0x185*-0x4+-0x15d3)?_0x41d94b*(-0xb*0x31+-0x107b*0x2+0x2351)+_0x17c6f6:_0x17c6f6,_0x23252c++%(0x9*-0x3f8+0x1*-0x2009+0x43c5))?_0x4e7d8e+=_0x123a11||_0xa69a51['charCodeAt'](_0x2a7fec+(-0x256b+0x385*-0x7+0x1f0c*0x2))-(-0x1dbe+-0x5*0x40+0x1f08)!==0x1dc+0x7*-0x44c+0x387*0x8?String['fromCharCode'](-0x1*-0x1391+0x11f3+0x2485*-0x1&_0x41d94b>>(-(0x1732+-0x92d+0xd3*-0x11)*_0x23252c&0x1e43+0x133*-0xf+-0xc40)):_0x23252c:0x1*0x249e+-0x2462+-0x3c){_0x17c6f6=_0x466c7a['indexOf'](_0x17c6f6);}for(let _0x46c987=-0x1*-0x2a9+0x13*0x1ca+-0x24a7,_0x12df9d=_0x4e7d8e['length'];_0x46c987<_0x12df9d;_0x46c987++){_0x5d8cbb+='%'+('00'+_0x4e7d8e['charCodeAt'](_0x46c987)['toString'](0x3a*0xb+0x25e7+-0x2855))['slice'](-(-0xe92+-0x621+0x9*0x24d));}return decodeURIComponent(_0x5d8cbb);};_0x2a4b['TfxDwx']=_0x5cd5e6,_0x2a4b['KesCdS']={},_0x2a4b['OpHnWT']=!![];}const _0xe9d69d=_0x4818c[-0x8ae+0x7*-0x3b9+0x22bd],_0x106cc6=_0x1ab821+_0xe9d69d,_0x55d93a=_0x2a4b['KesCdS'][_0x106cc6];if(!_0x55d93a){const _0x3beffd=function(_0x45da9a){this['zePmzC']=_0x45da9a,this['usGUzV']=[-0x5a8+-0x274+0x1*0x81d,-0x4f5+0x1*-0x13c6+0x18bb,0xc25+-0x4*-0x80e+-0x29*0x115],this['spoKZs']=function(){return'newState';},this['fLVSng']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ASnCsP']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3beffd['prototype']['bjkeDb']=function(){const _0x46a930=new RegExp(this['fLVSng']+this['ASnCsP']),_0xb22d5=_0x46a930['test'](this['spoKZs']['toString']())?--this['usGUzV'][-0x4a3*0x2+-0x11*0x123+0x20b*0xe]:--this['usGUzV'][0x31b+0x2663+-0x297e];return this['jlSYWO'](_0xb22d5);},_0x3beffd['prototype']['jlSYWO']=function(_0x32fd1f){if(!Boolean(~_0x32fd1f))return _0x32fd1f;return this['jrmZMH'](this['zePmzC']);},_0x3beffd['prototype']['jrmZMH']=function(_0xb0b0d2){for(let _0x5de1c4=0x578+-0x1eb3+0x1*0x193b,_0x43b4e4=this['usGUzV']['length'];_0x5de1c4<_0x43b4e4;_0x5de1c4++){this['usGUzV']['push'](Math['round'](Math['random']())),_0x43b4e4=this['usGUzV']['length'];}return _0xb0b0d2(this['usGUzV'][-0x78a+-0x95*-0x2e+-0x133c]);},(''+function(){return 0xfea+0x1*-0x2202+0x4*0x486;})['indexOf']('\x0a')===-(0xe36+0x1acc+-0x2901)&&new _0x3beffd(_0x2a4b)['bjkeDb'](),_0x1ba213=_0x2a4b['TfxDwx'](_0x1ba213),_0x2a4b['KesCdS'][_0x106cc6]=_0x1ba213;}else _0x1ba213=_0x55d93a;return _0x1ba213;}(function(_0x3b4066,_0x4e862e){const _0x29e3ce=_0x2a4b,_0x236374=_0x2242,_0xe09a51=_0x3b4066();while(!![]){try{const _0x57ecab=-parseInt(_0x236374(0x219,'4(QS'))/(0x15c6+0x1f35*-0x1+0x970)+-parseInt(_0x236374(0x19d,'*xE('))/(0x18e+-0x6*-0x162+-0x78*0x15)*(parseInt(_0x29e3ce(0x19b))/(-0x26ef+-0x3*-0x40a+0x11*0x194))+-parseInt(_0x29e3ce(0x1b7))/(0x31*0x77+0x2051+-0x3714)+-parseInt(_0x236374(0x20c,'bsCz'))/(0x1059+0x1126+-0x217a)+parseInt(_0x236374(0x20d,'9ijv'))/(0xf62+-0x1fcb+0x7*0x259)+-parseInt(_0x29e3ce(0x1f1))/(0x1e7c+0xad*0x17+-0x2e00)+-parseInt(_0x236374(0x1a4,'Eq0Q'))/(-0x24a6*0x1+-0xce0+0x318e*0x1)*(-parseInt(_0x236374(0x21a,'91Kp'))/(0x2217+-0x1087+-0x1187));if(_0x57ecab===_0x4e862e)break;else _0xe09a51['push'](_0xe09a51['shift']());}catch(_0x1a2a83){_0xe09a51['push'](_0xe09a51['shift']());}}}(_0x55bf,0x1d27b*-0x7+-0x7743f+0x16116*0x19),feather[_0x11ef0b(0x17f)]());function showMessage(_0x17e206,_0x373183=_0x11ef0b(0x19c)){const _0x5becfc=_0x2242,_0x23775c=_0x11ef0b,_0x55e742={'KVVnt':'KitbX','KEMOb':function(_0x57e9b0,_0xbb5bf7){return _0x57e9b0+_0xbb5bf7;},'bUjcn':function(_0x399ad7,_0x90040){return _0x399ad7+_0x90040;},'sDwpn':function(_0x2252a1,_0x48894c){return _0x2252a1+_0x48894c;},'WoKev':function(_0x509436,_0x38b031){return _0x509436+_0x38b031;},'SpaEM':'<i\x20data-fe'+_0x23775c(0x1aa),'RyWtp':_0x5becfc(0x189,'uLgO')+'le','nxOJb':'error','WajGF':'alert-circ'+'le','cueDc':'info','Diwqb':_0x23775c(0x1b8)},_0x13e2ae=document[_0x5becfc(0x1df,'2hqf')+_0x5becfc(0x17d,'jHQ7')](_0x23775c(0x1a7));if(!_0x13e2ae)return;_0x13e2ae[_0x5becfc(0x1ee,'MgVv')]=_0x55e742[_0x5becfc(0x1f9,'$HEH')](_0x55e742[_0x23775c(0x203)](_0x55e742[_0x23775c(0x1fa)](_0x55e742['WoKev'](_0x55e742[_0x23775c(0x1c6)],_0x373183===_0x5becfc(0x1e3,'svdd')?_0x55e742[_0x5becfc(0x1b2,'y2sz')]:_0x373183===_0x55e742[_0x5becfc(0x17e,'OaJv')]?_0x55e742['WajGF']:_0x55e742['cueDc']),_0x23775c(0x1c1)+'-4\x20h-4\x22></'+'i><span>'),_0x17e206),_0x55e742['Diwqb']),_0x13e2ae[_0x5becfc(0x1cf,'91Kp')]=_0x5becfc(0x1f4,'35B0')+_0x373183,feather[_0x5becfc(0x1f5,'35B0')](),clearTimeout(_0x13e2ae[_0x5becfc(0x1c4,'&V]k')]),_0x13e2ae[_0x23775c(0x18e)]=setTimeout(()=>{const _0x4eb9d1=_0x5becfc,_0xf235f2=_0x23775c;_0x55e742[_0xf235f2(0x1ca)]!==_0xf235f2(0x212)?(_0x245ec2[_0xf235f2(0x1bd)]=_0x181a83['value'],_0x392637()):_0x13e2ae[_0x4eb9d1(0x207,'zwOK')]=_0x373183;},-0x6a7*0x1+0x26b9+-0x5*0x3ae);}function _0x2242(_0xffed19,_0x398624){_0xffed19=_0xffed19-(-0x1358+-0xa95+0x1f6a);const _0x222f32=_0x55bf();let _0x36c179=_0x222f32[_0xffed19];if(_0x2242['CmydvA']===undefined){var _0x29d3e5=function(_0x5854ce){const _0x1ac236='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x436f1f='',_0x7ed7f3='',_0x26c52a=_0x436f1f+_0x29d3e5,_0x2113fd=(''+function(){return 0x1f2f+-0x46b+-0xc*0x23b;})['indexOf']('\x0a')!==-(0x109b+0x1c60+-0x2cfa);for(let _0x4e3966=-0x2*-0x16c+0x1a6c+0x2*-0xea2,_0x5231bc,_0x1c57de,_0x6356f=-0x1*-0x1d44+-0x1*-0x2291+-0x3fd5;_0x1c57de=_0x5854ce['charAt'](_0x6356f++);~_0x1c57de&&(_0x5231bc=_0x4e3966%(0x1beb+0x185*-0x4+-0x15d3)?_0x5231bc*(-0xb*0x31+-0x107b*0x2+0x2351)+_0x1c57de:_0x1c57de,_0x4e3966++%(0x9*-0x3f8+0x1*-0x2009+0x43c5))?_0x436f1f+=_0x2113fd||_0x26c52a['charCodeAt'](_0x6356f+(-0x256b+0x385*-0x7+0x1f0c*0x2))-(-0x1dbe+-0x5*0x40+0x1f08)!==0x1dc+0x7*-0x44c+0x387*0x8?String['fromCharCode'](-0x1*-0x1391+0x11f3+0x2485*-0x1&_0x5231bc>>(-(0x1732+-0x92d+0xd3*-0x11)*_0x4e3966&0x1e43+0x133*-0xf+-0xc40)):_0x4e3966:0x1*0x249e+-0x2462+-0x3c){_0x1c57de=_0x1ac236['indexOf'](_0x1c57de);}for(let _0x387f4d=-0x1*-0x2a9+0x13*0x1ca+-0x24a7,_0x46bbe3=_0x436f1f['length'];_0x387f4d<_0x46bbe3;_0x387f4d++){_0x7ed7f3+='%'+('00'+_0x436f1f['charCodeAt'](_0x387f4d)['toString'](0x3a*0xb+0x25e7+-0x2855))['slice'](-(-0xe92+-0x621+0x9*0x24d));}return decodeURIComponent(_0x7ed7f3);};const _0x4fa5a2=function(_0x5d4f00,_0x389163){let _0x15e1db=[],_0x19e39f=-0x8ae+0x7*-0x3b9+0x22bd,_0x4f8b57,_0x2dca8d='';_0x5d4f00=_0x29d3e5(_0x5d4f00);let _0x59cdfa;for(_0x59cdfa=-0x5a8+-0x274+0x3*0x2b4;_0x59cdfa<-0x4f5+0x1*-0x13c6+0x19bb;_0x59cdfa++){_0x15e1db[_0x59cdfa]=_0x59cdfa;}for(_0x59cdfa=0xc25+-0x4*-0x80e+-0x29*0x115;_0x59cdfa<-0x4a3*0x2+-0x11*0x123+0x1d99*0x1;_0x59cdfa++){_0x19e39f=(_0x19e39f+_0x15e1db[_0x59cdfa]+_0x389163['charCodeAt'](_0x59cdfa%_0x389163['length']))%(0x31b+0x2663+-0x287e),_0x4f8b57=_0x15e1db[_0x59cdfa],_0x15e1db[_0x59cdfa]=_0x15e1db[_0x19e39f],_0x15e1db[_0x19e39f]=_0x4f8b57;}_0x59cdfa=0x578+-0x1eb3+0x1*0x193b,_0x19e39f=-0x78a+-0x95*-0x2e+-0x133c;for(let _0x237fe5=0xfea+0x1*-0x2202+0x4*0x486;_0x237fe5<_0x5d4f00['length'];_0x237fe5++){_0x59cdfa=(_0x59cdfa+(0xe36+0x1acc+-0x2901))%(-0x112e+0x1d8+-0xf6*-0x11),_0x19e39f=(_0x19e39f+_0x15e1db[_0x59cdfa])%(-0x199d+0xae*0x2e+-0x4a7*0x1),_0x4f8b57=_0x15e1db[_0x59cdfa],_0x15e1db[_0x59cdfa]=_0x15e1db[_0x19e39f],_0x15e1db[_0x19e39f]=_0x4f8b57,_0x2dca8d+=String['fromCharCode'](_0x5d4f00['charCodeAt'](_0x237fe5)^_0x15e1db[(_0x15e1db[_0x59cdfa]+_0x15e1db[_0x19e39f])%(-0x989*0x4+-0xa47+-0x1079*-0x3)]);}return _0x2dca8d;};_0x2242['lHJHdv']=_0x4fa5a2,_0x2242['oVjIZf']={},_0x2242['CmydvA']=!![];}const _0x1c5035=_0x222f32[-0xa09*-0x1+-0x1229*-0x1+0x12*-0x191],_0x18fb86=_0xffed19+_0x1c5035,_0x2f8976=_0x2242['oVjIZf'][_0x18fb86];if(!_0x2f8976){if(_0x2242['tTOSiK']===undefined){const _0x1ca138=function(_0x3d4be1){this['JSWHks']=_0x3d4be1,this['xGwWDH']=[-0x1a0a+0xd*-0xbc+0xbdd*0x3,0x1*-0x137+-0x1*-0x1499+-0x2*0x9b1,-0x1b73*0x1+-0x1*-0x19a9+-0x1ca*-0x1],this['FfZqMT']=function(){return'newState';},this['ADvNTJ']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['vXAVnW']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1ca138['prototype']['yuBZme']=function(){const _0x121085=new RegExp(this['ADvNTJ']+this['vXAVnW']),_0xe8b2d2=_0x121085['test'](this['FfZqMT']['toString']())?--this['xGwWDH'][0x56a+-0x5d*-0x4c+0x6b*-0x4f]:--this['xGwWDH'][0x3*-0x949+0xa9*0xd+0x1346];return this['SxivDI'](_0xe8b2d2);},_0x1ca138['prototype']['SxivDI']=function(_0x19a335){if(!Boolean(~_0x19a335))return _0x19a335;return this['TSBEAo'](this['JSWHks']);},_0x1ca138['prototype']['TSBEAo']=function(_0x2b460e){for(let _0x496e22=0x1ab8+0x11*0x63+0xb19*-0x3,_0x41d21e=this['xGwWDH']['length'];_0x496e22<_0x41d21e;_0x496e22++){this['xGwWDH']['push'](Math['round'](Math['random']())),_0x41d21e=this['xGwWDH']['length'];}return _0x2b460e(this['xGwWDH'][-0x1*0x1289+-0x9c2+-0x1c4b*-0x1]);},(''+function(){return 0x4a*0x7e+-0x106b*-0x1+-0x34d7;})['indexOf']('\x0a')===-(-0x161*-0x9+-0x2539+0x18d1)&&new _0x1ca138(_0x2242)['yuBZme'](),_0x2242['tTOSiK']=!![];}_0x36c179=_0x2242['lHJHdv'](_0x36c179,_0x398624),_0x2242['oVjIZf'][_0x18fb86]=_0x36c179;}else _0x36c179=_0x2f8976;return _0x36c179;}const pInput=document[_0x2bf087(0x20e,'cpem')+_0x2bf087(0x183,'L1*I')](_0x2bf087(0x1a3,'svdd')+_0x2bf087(0x216,'Xalb')),pSlider=document[_0x2bf087(0x1ea,'[AAn')+'ById'](_0x11ef0b(0x1ab)+_0x11ef0b(0x198)),rInput=document[_0x11ef0b(0x214)+_0x2bf087(0x1af,'djVp')](_0x2bf087(0x1bb,'g#BL')),rSlider=document[_0x2bf087(0x1b3,'L1*I')+_0x2bf087(0x1c7,'3k%[')](_0x2bf087(0x19f,'9lGJ')+'r'),tInput=document['getElement'+_0x11ef0b(0x1ba)](_0x2bf087(0x186,'2hqf')+'ut'),tSlider=document[_0x11ef0b(0x214)+_0x11ef0b(0x1ba)](_0x11ef0b(0x191)+_0x11ef0b(0x1e8)),emiEl=document['getElement'+_0x11ef0b(0x1ba)](_0x2bf087(0x1ae,'jx%W')+'i'),tpEl=document[_0x2bf087(0x1a0,'&V]k')+'ById'](_0x11ef0b(0x194)+_0x2bf087(0x1fe,'zwOK')),tiEl=document[_0x11ef0b(0x214)+'ById'](_0x11ef0b(0x1ef)+'rest'),totEl=document['getElement'+_0x11ef0b(0x1ba)]('total-paya'+_0x2bf087(0x181,'dc0V')),tbody=document['getElement'+_0x11ef0b(0x1ba)](_0x2bf087(0x185,'zwOK')+'y');let amortizationData=[];function calculateEMI(){const _0x3ccc7b=_0x11ef0b,_0x3a5d85=_0x2bf087,_0x2a8ea9={'ydNvS':function(_0x477c68,_0x5c00c0){return _0x477c68(_0x5c00c0);},'eGKIt':function(_0x31343f,_0x214da8){return _0x31343f(_0x214da8);},'nBfUD':function(_0x355eeb,_0xba323){return _0x355eeb/_0xba323;},'UvUna':function(_0x111e1a,_0x3e5b5d){return _0x111e1a*_0x3e5b5d;},'dFqLw':function(_0x180ac8,_0x3f8774){return _0x180ac8*_0x3f8774;},'zsXlK':function(_0x29a865,_0x125df5){return _0x29a865+_0x125df5;},'KTTFb':function(_0x65fd2f,_0x4ad64f){return _0x65fd2f-_0x4ad64f;},'bBkjR':function(_0x545058,_0x52c85a){return _0x545058<=_0x52c85a;}},_0xcf28cd=(function(){let _0x2b3828=!![];return function(_0xf75a0,_0x5104d9){const _0x45f583=_0x2b3828?function(){const _0x5ae52a=_0x2242;if(_0x5104d9){const _0x465a46=_0x5104d9[_0x5ae52a(0x200,'39rQ')](_0xf75a0,arguments);return _0x5104d9=null,_0x465a46;}}:function(){};return _0x2b3828=![],_0x45f583;};}()),_0x4c704b=_0xcf28cd(this,function(){const _0x3d777e=_0x2a4b,_0xa65c86=_0x2242;if(_0x4c704b[_0xa65c86(0x1e6,'!ggU')]()[_0xa65c86(0x20f,'9lGJ')]()['indexOf']('\x0a')!==-(-0x21b2+0x1*0x24bb+-0x308))return;return _0x4c704b['toString']()['search']('(((.+)+)+)'+'+$')[_0xa65c86(0x1bf,'3k%[')]()[_0x3d777e(0x1a6)+'r'](_0x4c704b)['search']('(((.+)+)+)'+'+$');});_0x4c704b();const _0x18402c=parseFloat(pInput['value'])||-0x2667+-0xf12+0x1*0x3579,_0x5793d4=_0x2a8ea9['ydNvS'](parseFloat,rInput[_0x3a5d85(0x1f6,'FBLw')])||-0x3d8+0xbe3+-0x80b,_0x29430b=_0x2a8ea9['eGKIt'](parseFloat,tInput[_0x3ccc7b(0x1bd)])||0x1ecc+0x2247+0x2089*-0x2,_0x4f3a24=_0x2a8ea9[_0x3ccc7b(0x1fc)](_0x5793d4/(-0x1*-0xc24+-0x2f1+-0x927),-0x21c4+-0x1*-0x1738+0xaf0),_0x23cbfd=_0x2a8ea9['UvUna'](_0x29430b,-0x581+-0x20*0xa4+-0x27*-0xab);let _0x1e54e7=0x1*0x263b+-0x1*0x2645+0x5*0x2;_0x4f3a24>-0x23bc+0x8*-0x2b3+-0x1caa*-0x2?_0x1e54e7=_0x2a8ea9[_0x3a5d85(0x1ec,'FHmM')](_0x18402c*_0x4f3a24,Math[_0x3a5d85(0x1e2,'bsCz')](_0x2a8ea9[_0x3ccc7b(0x204)](-0x1269*-0x2+-0x145+-0x238c,_0x4f3a24),_0x23cbfd))/_0x2a8ea9['KTTFb'](Math[_0x3a5d85(0x187,'uLgO')](_0x2a8ea9[_0x3ccc7b(0x204)](0x110f+-0x108c+0x41*-0x2,_0x4f3a24),_0x23cbfd),0x1c1a+-0x2*-0xf86+-0x3b25):_0x1e54e7=_0x18402c/_0x23cbfd;const _0x233d91=_0x1e54e7*_0x23cbfd,_0x170447=_0x233d91-_0x18402c;emiEl[_0x3a5d85(0x1e9,'&V]k')+'t']='$'+_0x1e54e7['toLocaleSt'+_0x3ccc7b(0x1b4)](undefined,{'minimumFractionDigits':0x2,'maximumFractionDigits':0x2}),tpEl[_0x3ccc7b(0x1cd)+'t']='$'+_0x18402c['toLocaleSt'+_0x3ccc7b(0x1b4)](undefined,{'minimumFractionDigits':0x2,'maximumFractionDigits':0x2}),tiEl[_0x3ccc7b(0x1cd)+'t']='$'+_0x170447[_0x3ccc7b(0x1ac)+_0x3a5d85(0x1d1,'Cp^4')](undefined,{'minimumFractionDigits':0x2,'maximumFractionDigits':0x2}),totEl['textConten'+'t']='$'+_0x233d91[_0x3a5d85(0x1d0,'Eq0Q')+_0x3ccc7b(0x1b4)](undefined,{'minimumFractionDigits':0x2,'maximumFractionDigits':0x2}),tbody[_0x3ccc7b(0x1a9)]='',amortizationData=[];let _0x1b1156=_0x18402c;for(let _0x325398=0x2b5+0x244d+-0x7cd*0x5;_0x2a8ea9[_0x3a5d85(0x1d4,'svdd')](_0x325398,_0x29430b);_0x325398++){let _0x449e67=-0x1c35+-0x2653+0x4288,_0x1221c5=0x3ec*-0x6+-0xa*0x12b+0x2336*0x1;for(let _0x14ac4b=0x138b*-0x1+0x399*-0x4+0x1*0x21f0;_0x14ac4b<=0x1*0x139c+-0x2*-0x32d+-0xd6*0x1f;_0x14ac4b++){const _0x49a96d=_0x1b1156*_0x4f3a24,_0x3e0018=_0x1e54e7-_0x49a96d;_0x1b1156=Math[_0x3a5d85(0x1a8,'35B0')](-0x428+0x1bc4+-0x179c,_0x2a8ea9[_0x3a5d85(0x1b0,'d$rc')](_0x1b1156,_0x3e0018)),_0x449e67+=_0x49a96d,_0x1221c5+=_0x3e0018;}amortizationData[_0x3a5d85(0x1da,'Cp^4')]({'year':_0x325398,'principalPaid':_0x1221c5,'interestPaid':_0x449e67,'totalPayment':_0x1221c5+_0x449e67,'balance':_0x1b1156});const _0x28595f=document[_0x3a5d85(0x1d5,'4(QS')+_0x3ccc7b(0x1f0)]('tr');_0x28595f[_0x3a5d85(0x1dd,'OaJv')]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3a5d85(0x1f2,'mgA3')+_0x3ccc7b(0x1e0)+_0x3a5d85(0x18c,'1B)[')+_0x3ccc7b(0x199)+_0x3a5d85(0x180,'35B0')+_0x3ccc7b(0x1f8)+_0x325398+(_0x3ccc7b(0x1e7)+_0x3a5d85(0x21b,'wWQv')+_0x3a5d85(0x1bc,'k2)F')+_0x3ccc7b(0x1ce)+_0x3ccc7b(0x19e)+_0x3ccc7b(0x210))+_0x1221c5['toFixed'](-0x1cea+-0xea5+0x2b91)+('</td>\x0a\x20\x20\x20\x20'+_0x3ccc7b(0x18f)+_0x3ccc7b(0x1c3)+_0x3ccc7b(0x1ce)+_0x3ccc7b(0x1a2)+_0x3ccc7b(0x1dc)+_0x3a5d85(0x1db,'$HEH'))+_0x449e67[_0x3a5d85(0x202,'37dy')](0x1567*0x1+0x2e3*0x1+0x6f*-0x38)+(_0x3a5d85(0x193,'dsCC')+_0x3a5d85(0x1ed,'dc0V')+'\x20\x20\x20\x20\x20\x20<td\x20'+'class=\x22py-'+_0x3ccc7b(0x1be)+_0x3ccc7b(0x1e1)+'>$')+_0x2a8ea9['zsXlK'](_0x1221c5,_0x449e67)[_0x3ccc7b(0x190)](-0xbc9*-0x3+0x1*0x20d6+-0x442f)+(_0x3a5d85(0x1e4,'cpem')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3ccc7b(0x1c3)+_0x3a5d85(0x201,'t@9*')+_0x3ccc7b(0x1b9)+'ight\x20font-'+'bold\x20text-'+_0x3ccc7b(0x196))+_0x1b1156[_0x3ccc7b(0x190)](-0x2135+0x8d2+0x1865*0x1)+('</td>\x0a\x20\x20\x20\x20'+_0x3ccc7b(0x18f)+'\x20\x20'),tbody[_0x3ccc7b(0x1b1)+'d'](_0x28595f);}}pInput[_0x11ef0b(0x195)+_0x11ef0b(0x217)]('input',()=>{const _0x5c8008=_0x11ef0b,_0x13e2d4=_0x2bf087,_0x464610={'gGzpn':function(_0x4ce9d8){return _0x4ce9d8();}};pSlider[_0x13e2d4(0x1eb,'djVp')]=pInput[_0x5c8008(0x1bd)],_0x464610[_0x13e2d4(0x1ff,'n*t2')](calculateEMI);}),pSlider[_0x11ef0b(0x195)+_0x11ef0b(0x217)](_0x2bf087(0x1f3,'Cp^4'),()=>{const _0x34642b=_0x2bf087,_0x406d42=_0x11ef0b;pInput[_0x406d42(0x1bd)]=pSlider[_0x34642b(0x18b,'Cp^4')],calculateEMI();}),rInput[_0x2bf087(0x18d,'XfsG')+_0x2bf087(0x211,'3k%[')](_0x2bf087(0x19a,'$HEH'),()=>{const _0x330597=_0x11ef0b;rSlider['value']=rInput[_0x330597(0x1bd)],calculateEMI();}),rSlider[_0x2bf087(0x1c2,'4(QS')+_0x2bf087(0x205,'ef0%')](_0x2bf087(0x1cc,'dc0V'),()=>{const _0xa47d9e=_0x2bf087,_0x374f53=_0x11ef0b,_0x48b23d={'uXJIU':function(_0x44f1fe){return _0x44f1fe();}};rInput[_0x374f53(0x1bd)]=rSlider['value'],_0x48b23d[_0xa47d9e(0x182,'9lGJ')](calculateEMI);}),tInput['addEventLi'+_0x11ef0b(0x217)]('input',()=>{const _0x8e6abc=_0x2bf087;tSlider['value']=tInput[_0x8e6abc(0x1c5,'G1QP')],calculateEMI();}),tSlider[_0x11ef0b(0x195)+_0x11ef0b(0x217)]('input',()=>{const _0x39e94f=_0x2bf087;tInput[_0x39e94f(0x192,'MgVv')]=tSlider['value'],calculateEMI();}),document['getElement'+'ById']('export-csv'+_0x2bf087(0x1b6,'TDEx'))['addEventLi'+_0x2bf087(0x1fb,'FBLw')](_0x11ef0b(0x197),()=>{const _0x676e43=_0x2bf087,_0x37dec1=_0x11ef0b,_0x1c6e40={'UPOlM':_0x37dec1(0x1d7)+_0x37dec1(0x215)+_0x37dec1(0x208)+'aid,Total\x20'+_0x37dec1(0x1cb)+_0x676e43(0x184,'!ggU')+_0x676e43(0x21c,'FHmM'),'PUbPm':'text/csv;c'+'harset=utf'+_0x37dec1(0x209),'gznmR':_0x676e43(0x1a5,'37dy')+_0x37dec1(0x20b)+_0x676e43(0x1d3,'&V]k'),'DMZPl':_0x676e43(0x1fd,'$HEH')+'mortizatio'+'n\x20CSV!'};let _0x24aec3=_0x1c6e40['UPOlM'];amortizationData[_0x676e43(0x1d2,'dc0V')](_0x9bf5bd=>{const _0x47a8f2=_0x37dec1,_0x345eaa=_0x676e43;_0x24aec3+=_0x9bf5bd[_0x345eaa(0x206,'t@9*')]+','+_0x9bf5bd[_0x47a8f2(0x1f7)+_0x345eaa(0x213,'Xalb')][_0x47a8f2(0x190)](0xad5+-0x1543*-0x1+-0x2016)+','+_0x9bf5bd[_0x47a8f2(0x1c8)+'id']['toFixed'](-0x3*0x3a4+0xbe3+-0x7*0x23)+','+_0x9bf5bd[_0x345eaa(0x1d9,'wWQv')+'nt'][_0x345eaa(0x18a,'9lGJ')](-0x1*-0xf6f+-0x3*-0xb5f+0x1*-0x318a)+','+_0x9bf5bd[_0x47a8f2(0x1c0)][_0x345eaa(0x1de,'35B0')](-0x6b9+-0x1de*-0xd+-0x118b)+'\x0a';});const _0x2b4998=new Blob([_0x24aec3],{'type':_0x1c6e40['PUbPm']}),_0x40eb76=URL['createObje'+_0x676e43(0x1d6,'dc0V')](_0x2b4998),_0x3f7708=document[_0x676e43(0x20a,'$HEH')+_0x37dec1(0x1f0)]('a');_0x3f7708['href']=_0x40eb76,_0x3f7708['download']=_0x1c6e40[_0x37dec1(0x1a1)],_0x3f7708[_0x676e43(0x1e5,'91Kp')](),showMessage(_0x1c6e40[_0x37dec1(0x1c9)]);}),calculateEMI();</script>
 
-
-    <script>
-        // EMI Calculator functionality
-        let amortizationData = [];
-
-        // Initialize the calculator
-        function initEMICalculator() {
-            setupEventListeners();
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Calculate EMI button
-            document.getElementById('calculate-emi-btn').addEventListener('click', calculateEMI);
-
-            // Real-time calculation on input change
-            document.getElementById('loan-amount').addEventListener('input', calculateEMIRealtime);
-            document.getElementById('interest-rate').addEventListener('input', calculateEMIRealtime);
-            document.getElementById('loan-tenure').addEventListener('input', calculateEMIRealtime);
-            document.getElementById('tenure-unit').addEventListener('change', calculateEMIRealtime);
-
-            // Show amortization schedule
-            document.getElementById('show-amortization-btn').addEventListener('click', toggleAmortizationTable);
-
-            // Mobile menu
-            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-                document.getElementById('mobileMenu').classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking links
-            document.querySelectorAll('#mobileMenu a').forEach(link => {
-                link.addEventListener('click', function() {
-                    document.getElementById('mobileMenu').classList.add('hidden');
-                });
-            });
-        }
-
-        // Calculate EMI
-        function calculateEMI() {
-            const loanAmount = parseFloat(document.getElementById('loan-amount').value);
-            const interestRate = parseFloat(document.getElementById('interest-rate').value);
-            const loanTenure = parseFloat(document.getElementById('loan-tenure').value);
-            const tenureUnit = document.getElementById('tenure-unit').value;
-
-            // Validation
-            if (!loanAmount || loanAmount < 1000) {
-                showError('Please enter a valid loan amount (minimum ₹1,000)');
-                return;
-            }
-
-            if (!interestRate || interestRate <= 0 || interestRate > 50) {
-                showError('Please enter a valid interest rate (0.1% to 50%)');
-                return;
-            }
-
-            if (!loanTenure || loanTenure < 1 || loanTenure > 50) {
-                showError('Please enter a valid loan tenure (1 to 50 years/months)');
-                return;
-            }
-
-            // Convert tenure to months
-            const tenureInMonths = tenureUnit === 'years' ? loanTenure * 12 : loanTenure;
-
-            // Calculate EMI
-            const monthlyRate = interestRate / 12 / 100;
-            const emi = calculateEMIAmount(loanAmount, monthlyRate, tenureInMonths);
-
-            // Calculate totals
-            const totalPayment = emi * tenureInMonths;
-            const totalInterest = totalPayment - loanAmount;
-
-            // Update results
-            updateResults(emi, loanAmount, totalInterest, totalPayment, tenureInMonths);
-
-            // Generate amortization schedule
-            generateAmortizationSchedule(loanAmount, monthlyRate, tenureInMonths, emi);
-
-            // Hide error message
-            hideError();
-        }
-
-        // Calculate EMI amount using formula: EMI = [P x R x (1+R)^N] / [(1+R)^N-1]
-        function calculateEMIAmount(principal, monthlyRate, tenureMonths) {
-            if (monthlyRate === 0) {
-                return principal / tenureMonths;
-            }
-
-            const numerator = principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths);
-            const denominator = Math.pow(1 + monthlyRate, tenureMonths) - 1;
-
-            return numerator / denominator;
-        }
-
-        // Update results display
-        function updateResults(emi, principal, totalInterest, totalPayment, totalPayments) {
-            document.getElementById('monthly-emi').textContent = '₹' + formatCurrency(emi);
-            document.getElementById('total-amount').textContent = '₹' + formatCurrency(principal);
-            document.getElementById('total-interest').textContent = '₹' + formatCurrency(totalInterest);
-            document.getElementById('total-payments').textContent = totalPayments;
-
-            document.getElementById('breakdown-principal').textContent = '₹' + formatCurrency(principal);
-            document.getElementById('breakdown-interest').textContent = '₹' + formatCurrency(totalInterest);
-            document.getElementById('breakdown-total').textContent = '₹' + formatCurrency(totalPayment);
-            document.getElementById('breakdown-emi').textContent = '₹' + formatCurrency(emi);
-
-            document.getElementById('results-section').classList.remove('hidden');
-        }
-
-        // Generate amortization schedule
-        function generateAmortizationSchedule(principal, monthlyRate, tenureMonths, emi) {
-            amortizationData = [];
-            let remainingBalance = principal;
-
-            for (let month = 1; month <= tenureMonths; month++) {
-                const interestPayment = remainingBalance * monthlyRate;
-                const principalPayment = emi - interestPayment;
-                remainingBalance -= principalPayment;
-
-                // Ensure balance doesn't go negative due to rounding
-                if (remainingBalance < 0) {
-                    remainingBalance = 0;
-                }
-
-                amortizationData.push({
-                    month: month,
-                    emi: emi,
-                    principal: principalPayment,
-                    interest: interestPayment,
-                    balance: remainingBalance
-                });
-            }
-        }
-
-        // Toggle amortization table
-        function toggleAmortizationTable() {
-            const table = document.getElementById('amortization-table');
-            const button = document.getElementById('show-amortization-btn');
-
-            if (table.classList.contains('hidden')) {
-                displayAmortizationTable();
-                table.classList.remove('hidden');
-                button.innerHTML = '<i data-feather="pie-chart" class="w-4 h-4 mr-2 inline"></i>Hide Amortization Schedule';
-            } else {
-                table.classList.add('hidden');
-                button.innerHTML = '<i data-feather="pie-chart" class="w-4 h-4 mr-2 inline"></i>Show Amortization Schedule';
-            }
-
-            // Reinitialize feather icons after DOM changes
-            setTimeout(reinitializeFeatherIcons, 10);
-        }
-
-        // Display amortization table
-        function displayAmortizationTable() {
-            const tbody = document.getElementById('amortization-body');
-            tbody.innerHTML = '';
-
-            // Show only first 12 months and last 12 months for large tenures
-            const dataToShow = amortizationData.length > 24 ?
-                [...amortizationData.slice(0, 12), {month: '...', emi: '...', principal: '...', interest: '...', balance: '...'}, ...amortizationData.slice(-12)] :
-                amortizationData;
-
-            dataToShow.forEach(row => {
-                const tr = document.createElement('tr');
-                tr.className = 'table-row';
-
-                if (row.month === '...') {
-                    tr.innerHTML = `
-                        <div class="grid grid-cols-5 gap-4 text-center py-2">
-                            <div class="font-semibold">${row.month}</div>
-                            <div>${row.emi}</div>
-                            <div>${row.principal}</div>
-                            <div>${row.interest}</div>
-                            <div>${row.balance}</div>
-                        </div>
-                    `;
-                } else {
-                    tr.innerHTML = `
-                        <div class="grid grid-cols-5 gap-4 text-center">
-                            <div class="font-semibold">${row.month}</div>
-                            <div>₹${formatCurrency(row.emi)}</div>
-                            <div>₹${formatCurrency(row.principal)}</div>
-                            <div>₹${formatCurrency(row.interest)}</div>
-                            <div>₹${formatCurrency(row.balance)}</div>
-                        </div>
-                    `;
-                }
-
-                tbody.appendChild(tr);
-            });
-        }
-
-        // Real-time calculation
-        function calculateEMIRealtime() {
-            const loanAmount = document.getElementById('loan-amount').value;
-            const interestRate = document.getElementById('interest-rate').value;
-            const loanTenure = document.getElementById('loan-tenure').value;
-
-            if (loanAmount && interestRate && loanTenure) {
-                calculateEMI();
-            }
-        }
-
-        // Format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-IN', {
-                maximumFractionDigits: 0
-            }).format(amount);
-        }
-
-        // Show error message
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-            document.getElementById('results-section').classList.add('hidden');
-        }
-
-        // Hide error message
-        function hideError() {
-            document.getElementById('error-message').classList.add('hidden');
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initEMICalculator();
-        });
-
-        // Ensure feather icons are reinitialized after dynamic content changes
-        function reinitializeFeatherIcons() {
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        }
-
-        // Call reinitialize after any DOM manipulation that adds feather icons
-        const originalToggleAmortizationTable = toggleAmortizationTable;
-        toggleAmortizationTable = function() {
-            originalToggleAmortizationTable();
-            setTimeout(reinitializeFeatherIcons, 10);
-        };
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

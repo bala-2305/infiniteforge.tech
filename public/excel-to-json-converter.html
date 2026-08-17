@@ -1,219 +1,82 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel to JSON Converter - Free Online Tool | Infiniteforge</title>
+    <title>Excel to JSON Converter — Convert XLSX &amp; XLS Spreadsheets | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Convert Excel files to JSON format online. Free tool with multiple output formats, data structure options, and preview. No uploads, no watermarks, completely free.">
-    <meta name="keywords" content="Excel to JSON, Excel converter, JSON export, spreadsheet to JSON, XLSX to JSON, XLS to JSON, data conversion, free online tool">
+    <meta name="description" content="Convert Excel spreadsheets (.xlsx, .xls) to structured JSON format online. 100% client-side, multi-sheet support, and instant download without file uploads.">
+    <meta name="keywords" content="excel to json, xlsx to json, convert spreadsheet to json, excel converter online, sheetjs json converter">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Excel to JSON Converter - Free Online Tool | Infiniteforge">
-    <meta property="og:description" content="Convert Excel spreadsheets to JSON format with multiple output structures and data preview. Free, fast, and privacy-focused.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Excel to JSON Converter | Infiniteforge">
+    <meta property="og:description" content="Convert Excel spreadsheets to JSON structure online.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/excel-to-json-converter.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Excel to JSON Converter - Free Online Tool | Infiniteforge">
-    <meta name="twitter:description" content="Convert Excel spreadsheets to JSON format with multiple output structures and data preview. Free, fast, and privacy-focused.">
+    <meta name="twitter:title" content="Excel to JSON Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert XLSX to JSON directly in your browser.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/excel-to-json-converter.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/excel-to-json-converter.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .tab-active {
-            color: #2563EB;
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        .loading-content {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .json-preview {
-            max-height: 500px;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            background-color: rgba(31, 40, 51, 0.4);
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-        .json-content {
-            padding: 1rem;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-        .option-card {
-            transition: all 0.3s ease;
-        }
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .option-selected {
-            border-color: #10B981;
-            background-color: #ECFDF5;
-        }
-        .format-example {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.75rem;
-            background-color: rgba(31, 40, 51, 0.4);
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            margin-top: 0.5rem;
-        }
-    </style>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x5cc4c4=_0x3e8c,_0xa01dcf=_0x3a00;(function(_0x3857b9,_0x4362b3){var _0x342e6b=_0x3a00,_0x54e084=_0x3e8c,_0x683a92=_0x3857b9();while(!![]){try{var _0xff8cbb=-parseInt(_0x54e084(0x13b,'DdO*'))/(-0x1*-0x221+0x98f+0x3e5*-0x3)+parseInt(_0x54e084(0x152,'P6D9'))/(0x2167+0x11f5*0x2+-0x1*0x454f)+-parseInt(_0x342e6b(0x14a))/(-0x8*-0x11b+0x1*-0x149f+-0x2*-0x5e5)+-parseInt(_0x54e084(0x145,'yEe]'))/(-0x52b+0x2631+-0x2102)*(parseInt(_0x342e6b(0x146))/(0x1bdb+-0x903+-0x1*0x12d3))+parseInt(_0x54e084(0x148,'wBnX'))/(0x3*-0xaab+-0x10df+0x239*0x16)+parseInt(_0x54e084(0x158,'S)@b'))/(-0x22d*-0xb+0x1*0x1de4+-0x35cc)*(-parseInt(_0x54e084(0x14b,'QwfG'))/(-0x109+-0x25a4+0x26b5))+parseInt(_0x54e084(0x155,'uHE@'))/(-0xf*-0x237+0x12fa*-0x1+-0xe36)*(parseInt(_0x54e084(0x147,'Kti8'))/(-0x4*-0x6f3+0x59a+0x4c4*-0x7));if(_0xff8cbb===_0x4362b3)break;else _0x683a92['push'](_0x683a92['shift']());}catch(_0x4ff7d6){_0x683a92['push'](_0x683a92['shift']());}}}(_0x5fd9,0x572d0+0x126483+-0xea305));var _0x383a47=(function(){var _0x450403=!![];return function(_0x5795bc,_0x5cfc35){var _0x592b37=_0x450403?function(){var _0xf0bed0=_0x3e8c;if(_0x5cfc35){var _0x387e98=_0x5cfc35[_0xf0bed0(0x159,'P6D9')](_0x5795bc,arguments);return _0x5cfc35=null,_0x387e98;}}:function(){};return _0x450403=![],_0x592b37;};}()),_0x164f47=_0x383a47(this,function(){var _0x94a088=_0x3e8c,_0x2ee73c=_0x3a00;if(_0x164f47['bind']()[_0x2ee73c(0x14e)]()[_0x2ee73c(0x140)]('\x0a')!==-(0x1a23+0x1de7+-0x3809))return;return _0x164f47['toString']()['search'](_0x2ee73c(0x137)+'+$')['toString']()[_0x2ee73c(0x138)+'r'](_0x164f47)[_0x2ee73c(0x144)](_0x94a088(0x14f,'DsJN')+'+$');});function _0x5fd9(){var _0x22c155=['WQC8WRm0WRNcLXddSZzx','Bw9UB3nWywnL','WQnUW5lcKWy9lq','mJG1nte3ofrbtLrgra','Aw5KzxHpzG','WRJcRSoBWRhdTt3dPMddTY7dISkpWOS','tw9UBW','mZGYntuYmMPYyNbMyW','C2vHCMnO','W4/cJSkoF8kZW6PogJVdS8op','nZbiyNbitMu','s8o/zG8FfSkqW7e','W6faW4ddUSoPWPVcTWO9WPJcOun+','WRufaSk0u0/cOa','mZmWntC3mMHJAhbUuW','tJWfW6xcQSo4wMiIF0fmtW','W7hdOrpdGmorWRWn','outcR8kqi8oeWRhcSCorW7OF','Dg9tDhjPBMC','WOCemY7cImkhW4v5EN0','tfZdLgNcI8ooWRu','j3yjFCoUa8kiWRtdTbrmWRu9','W7RcS3BcVmoZwK4xWQb6W4NcOhi','qrddR8oLz8olWPVcJCoKWPG','WO4pW4jxW4hcHSooW4BdP8oDWPeyoa','W5a2W6pcLSk2WRFcMaWJxCo8tdO','pHa4CetcRxxdQsVcQ8odWPu','y29UzMLN','W7mFf33cNdxcImoh','WQRdUZ7dPmkY','mtriwefYzgC','kcGOlISPkYKRkq','y29UC3rYDwn0BW','ntbYr29Wv2q','i0zgmKe3qq','Ed5BW7bNiqimhwOokW'];_0x5fd9=function(){return _0x22c155;};return _0x5fd9();}function _0x3e8c(_0x43b19d,_0x556ecb){_0x43b19d=_0x43b19d-(-0x1419+-0xf+-0xaaf*-0x2);var _0x5f3ec0=_0x5fd9();var _0x3c54af=_0x5f3ec0[_0x43b19d];if(_0x3e8c['RprkFa']===undefined){var _0x5ea9e5=function(_0x5e05b7){var _0x706ad5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x179b4c='',_0x39bcef='',_0x33d0ae=_0x179b4c+_0x5ea9e5,_0x57f39a=(''+function(){return 0x873+-0xd0*0x5+-0x463;})['indexOf']('\x0a')!==-(-0x5*-0x3df+-0x3*0xbf5+-0x1*-0x1085);for(var _0x56701f=0x39b*-0x1+-0x47*-0x5d+-0x238*0xa,_0x1ec461,_0x1fb913,_0x5d8170=0xd15+-0x122*0x16+0xbd7*0x1;_0x1fb913=_0x5e05b7['charAt'](_0x5d8170++);~_0x1fb913&&(_0x1ec461=_0x56701f%(0xa9a+0x24f5+-0x2f8b)?_0x1ec461*(-0x1fd+-0xc8c+0xec9*0x1)+_0x1fb913:_0x1fb913,_0x56701f++%(-0x128*-0x17+0x4*0x34c+0x3fa*-0xa))?_0x179b4c+=_0x57f39a||_0x33d0ae['charCodeAt'](_0x5d8170+(-0x14e4+0x10*-0xbf+0x20de))-(-0x3c8+0x637+0x1*-0x265)!==-0x1b47+0xb*0xc3+0x973*0x2?String['fromCharCode'](-0x6a3+0x226*-0x8+0xc69*0x2&_0x1ec461>>(-(0x737+-0x49f*-0x1+-0xbd4)*_0x56701f&0x14a5+-0x25e9+0x114a)):_0x56701f:0x238b+0x1*-0x1fa5+0x1f3*-0x2){_0x1fb913=_0x706ad5['indexOf'](_0x1fb913);}for(var _0x2e67b4=0xd80+0x2314+-0x3094,_0x2dc322=_0x179b4c['length'];_0x2e67b4<_0x2dc322;_0x2e67b4++){_0x39bcef+='%'+('00'+_0x179b4c['charCodeAt'](_0x2e67b4)['toString'](-0x676*0x5+-0xccb*-0x1+-0x1393*-0x1))['slice'](-(-0x2386+-0x1b26+-0x71*-0x8e));}return decodeURIComponent(_0x39bcef);};var _0x22d7d1=function(_0x32e3a2,_0x2fa673){var _0x22c044=[],_0x4a244a=0x1*0x395+0x19f5+-0x1d8a*0x1,_0x3e0103,_0x311b62='';_0x32e3a2=_0x5ea9e5(_0x32e3a2);var _0x18c9aa;for(_0x18c9aa=-0xfdf*0x1+0xb34+0x4ab;_0x18c9aa<-0x243b+-0xf0a+0x3445*0x1;_0x18c9aa++){_0x22c044[_0x18c9aa]=_0x18c9aa;}for(_0x18c9aa=0xf4+-0xd37+0xc43;_0x18c9aa<-0xf6f+0x1c06+0x3dd*-0x3;_0x18c9aa++){_0x4a244a=(_0x4a244a+_0x22c044[_0x18c9aa]+_0x2fa673['charCodeAt'](_0x18c9aa%_0x2fa673['length']))%(0x2*0x26+-0x10*-0x13a+-0x1c*0xad),_0x3e0103=_0x22c044[_0x18c9aa],_0x22c044[_0x18c9aa]=_0x22c044[_0x4a244a],_0x22c044[_0x4a244a]=_0x3e0103;}_0x18c9aa=-0xf71+0x8*0x43b+-0x1*0x1267,_0x4a244a=0x395*-0x2+-0x59*-0x5+0x1cf*0x3;for(var _0x479e71=-0x38*-0x2e+-0x5*0x107+0xd*-0x61;_0x479e71<_0x32e3a2['length'];_0x479e71++){_0x18c9aa=(_0x18c9aa+(0x418+-0x63*0xd+0xf0))%(-0x2514+0x1bdb+0xa39),_0x4a244a=(_0x4a244a+_0x22c044[_0x18c9aa])%(0x2623+-0x5f8+0x4f*-0x65),_0x3e0103=_0x22c044[_0x18c9aa],_0x22c044[_0x18c9aa]=_0x22c044[_0x4a244a],_0x22c044[_0x4a244a]=_0x3e0103,_0x311b62+=String['fromCharCode'](_0x32e3a2['charCodeAt'](_0x479e71)^_0x22c044[(_0x22c044[_0x18c9aa]+_0x22c044[_0x4a244a])%(0x8a*-0x18+0x1*0x21d3+-0x13e3)]);}return _0x311b62;};_0x3e8c['qYxCCn']=_0x22d7d1,_0x3e8c['fpVNjp']={},_0x3e8c['RprkFa']=!![];}var _0x69b662=_0x5f3ec0[0xc0+0x547+-0x607],_0x35a210=_0x43b19d+_0x69b662,_0x3f9ad1=_0x3e8c['fpVNjp'][_0x35a210];if(!_0x3f9ad1){if(_0x3e8c['gRvYQK']===undefined){var _0x4bd481=function(_0x547a31){this['lkKXuk']=_0x547a31,this['ToyngP']=[-0xf10+-0x37*0x50+-0x1*-0x2041,0xd85+0x2*0x1366+-0x3b*0xe3,0x7*-0x1eb+-0xa*-0x3d+0xb0b],this['WStwOa']=function(){return'newState';},this['qlIDhv']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['eGOlZY']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4bd481['prototype']['ryOGfu']=function(){var _0x4cdfeb=new RegExp(this['qlIDhv']+this['eGOlZY']),_0x2e5a64=_0x4cdfeb['test'](this['WStwOa']['toString']())?--this['ToyngP'][-0x18fd*0x1+-0x2430+0x29*0x17e]:--this['ToyngP'][-0x1465+0x6*0x177+-0xb9b*-0x1];return this['jmwiwX'](_0x2e5a64);},_0x4bd481['prototype']['jmwiwX']=function(_0x57151d){if(!Boolean(~_0x57151d))return _0x57151d;return this['CAkwWW'](this['lkKXuk']);},_0x4bd481['prototype']['CAkwWW']=function(_0x11439c){for(var _0x2b8227=-0x1fd0+0x2*-0xbcf+0x376e,_0x26af90=this['ToyngP']['length'];_0x2b8227<_0x26af90;_0x2b8227++){this['ToyngP']['push'](Math['round'](Math['random']())),_0x26af90=this['ToyngP']['length'];}return _0x11439c(this['ToyngP'][-0x7*0x3d1+-0xbb3+-0x6*-0x667]);},(''+function(){return 0x86c+0x89*-0xb+-0x1*0x289;})['indexOf']('\x0a')===-(0x15b7*0x1+-0x9d*-0x1f+0x1*-0x28b9)&&new _0x4bd481(_0x3e8c)['ryOGfu'](),_0x3e8c['gRvYQK']=!![];}_0x3c54af=_0x3e8c['qYxCCn'](_0x3c54af,_0x556ecb),_0x3e8c['fpVNjp'][_0x35a210]=_0x3c54af;}else _0x3c54af=_0x3f9ad1;return _0x3c54af;}function _0x3a00(_0x26ecf9,_0x51b05b){_0x26ecf9=_0x26ecf9-(-0x1419+-0xf+-0xaaf*-0x2);var _0x24b050=_0x5fd9();var _0x169c16=_0x24b050[_0x26ecf9];if(_0x3a00['zFPiYN']===undefined){var _0xe5338a=function(_0x1b191c){var _0x4807a5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x46f561='',_0x1fe568='',_0x58f863=_0x46f561+_0xe5338a,_0x481b50=(''+function(){return 0x873+-0xd0*0x5+-0x463;})['indexOf']('\x0a')!==-(-0x5*-0x3df+-0x3*0xbf5+-0x1*-0x1085);for(var _0x4ce665=0x39b*-0x1+-0x47*-0x5d+-0x238*0xa,_0x542b57,_0x39f520,_0xfc7fbf=0xd15+-0x122*0x16+0xbd7*0x1;_0x39f520=_0x1b191c['charAt'](_0xfc7fbf++);~_0x39f520&&(_0x542b57=_0x4ce665%(0xa9a+0x24f5+-0x2f8b)?_0x542b57*(-0x1fd+-0xc8c+0xec9*0x1)+_0x39f520:_0x39f520,_0x4ce665++%(-0x128*-0x17+0x4*0x34c+0x3fa*-0xa))?_0x46f561+=_0x481b50||_0x58f863['charCodeAt'](_0xfc7fbf+(-0x14e4+0x10*-0xbf+0x20de))-(-0x3c8+0x637+0x1*-0x265)!==-0x1b47+0xb*0xc3+0x973*0x2?String['fromCharCode'](-0x6a3+0x226*-0x8+0xc69*0x2&_0x542b57>>(-(0x737+-0x49f*-0x1+-0xbd4)*_0x4ce665&0x14a5+-0x25e9+0x114a)):_0x4ce665:0x238b+0x1*-0x1fa5+0x1f3*-0x2){_0x39f520=_0x4807a5['indexOf'](_0x39f520);}for(var _0x309aef=0xd80+0x2314+-0x3094,_0x3620f8=_0x46f561['length'];_0x309aef<_0x3620f8;_0x309aef++){_0x1fe568+='%'+('00'+_0x46f561['charCodeAt'](_0x309aef)['toString'](-0x676*0x5+-0xccb*-0x1+-0x1393*-0x1))['slice'](-(-0x2386+-0x1b26+-0x71*-0x8e));}return decodeURIComponent(_0x1fe568);};_0x3a00['xwBTJe']=_0xe5338a,_0x3a00['zaMCvb']={},_0x3a00['zFPiYN']=!![];}var _0x5e3c57=_0x24b050[0x1*0x395+0x19f5+-0x1d8a*0x1],_0x286750=_0x26ecf9+_0x5e3c57,_0x8a0641=_0x3a00['zaMCvb'][_0x286750];if(!_0x8a0641){var _0x21e531=function(_0x2e6d1b){this['QiKVUq']=_0x2e6d1b,this['VHhfxs']=[-0xfdf*0x1+0xb34+0x4ac,-0x243b+-0xf0a+0x1117*0x3,0xf4+-0xd37+0xc43],this['GJPuMF']=function(){return'newState';},this['OVbXqL']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ePmDrg']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x21e531['prototype']['sFaoWD']=function(){var _0x1bf16b=new RegExp(this['OVbXqL']+this['ePmDrg']),_0x1d4e88=_0x1bf16b['test'](this['GJPuMF']['toString']())?--this['VHhfxs'][-0xf6f+0x1c06+0x432*-0x3]:--this['VHhfxs'][0x2*0x26+-0x10*-0x13a+-0x33*0x64];return this['uEGvjW'](_0x1d4e88);},_0x21e531['prototype']['uEGvjW']=function(_0x1ab5c9){if(!Boolean(~_0x1ab5c9))return _0x1ab5c9;return this['fsGETF'](this['QiKVUq']);},_0x21e531['prototype']['fsGETF']=function(_0x21e00b){for(var _0x583c99=-0xf71+0x8*0x43b+-0x1*0x1267,_0x188767=this['VHhfxs']['length'];_0x583c99<_0x188767;_0x583c99++){this['VHhfxs']['push'](Math['round'](Math['random']())),_0x188767=this['VHhfxs']['length'];}return _0x21e00b(this['VHhfxs'][0x395*-0x2+-0x59*-0x5+0x1cf*0x3]);},(''+function(){return-0x38*-0x2e+-0x5*0x107+0xd*-0x61;})['indexOf']('\x0a')===-(0x418+-0x63*0xd+0xf0)&&new _0x21e531(_0x3a00)['sFaoWD'](),_0x169c16=_0x3a00['xwBTJe'](_0x169c16),_0x3a00['zaMCvb'][_0x286750]=_0x169c16;}else _0x169c16=_0x8a0641;return _0x169c16;}_0x164f47(),tailwind[_0xa01dcf(0x157)]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x5cc4c4(0x13c,'9AgC')],'mono':[_0x5cc4c4(0x153,'(w0e')+_0xa01dcf(0x142),_0xa01dcf(0x13d)]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x5cc4c4(0x14c,'kK4('),0x2bc:_0x5cc4c4(0x13e,'3&gj')},'brand':{'primary':_0x5cc4c4(0x150,'T1sI'),'secondary':_0xa01dcf(0x13a),'accent':_0x5cc4c4(0x149,'&Ld5')}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        select { background-color: rgba(15,23,42,0.8) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; outline: none !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        textarea { background-color: rgba(15,23,42,0.6) !important; color: #45F3FF !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.75rem 1rem; font-family: 'JetBrains Mono', monospace !important; font-size: 0.85rem; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -224,613 +87,89 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto pt-24 pb-12 px-4">
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center px-4 py-2 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-full text-sm font-medium text-green-700 mb-6">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
-                </svg>
-                Free & Privacy-Focused
-            </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
-                Excel to <span class="text-green-600">JSON</span> Converter
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Excel to JSON Converter
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                Convert Excel spreadsheets to JSON format with multiple output structures and data preview.
-                Perfect for developers and data processing workflows.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert .xlsx and .xls Excel workbooks into structured JSON arrays and objects. 100% private in-browser conversion.
             </p>
         </div>
 
-        <!-- Upload Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                    </svg>
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 5 cols: Dropzone & Settings -->
+            <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
+                <!-- Dropzone -->
+                <div id="dropzone" class="border-2 border-dashed border-white/20 hover:border-brand-primary/60 rounded-2xl p-6 text-center cursor-pointer transition-all bg-dark-900/40">
+                    <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
+                    <i data-feather="file-text" class="w-10 h-10 text-brand-primary mx-auto mb-2"></i>
+                    <p class="text-xs font-semibold text-white">Drop Excel file here or click to browse</p>
+                    <p class="text-[10px] text-gray-400 mt-1">Supports .xlsx, .xls, .csv</p>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-100 mb-2">Upload Your Excel File</h2>
-                <p class="text-gray-400">Supports .xlsx and .xls formats up to 10MB</p>
-            </div>
 
-            <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-green-400 transition-colors duration-300">
-                <input type="file" id="excelFileInput" accept=".xlsx,.xls" class="hidden">
-                <label for="excelFileInput" class="cursor-pointer">
-                    <div class="text-gray-500 mb-4">
-                        <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <p class="text-lg font-medium">Click to select Excel file</p>
-                        <p class="text-sm">or drag and drop here</p>
-                    </div>
-                </label>
-            </div>
-
-            <div id="fileInfo" class="hidden mt-4 p-4 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span id="fileName" class="text-green-300 font-medium"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Options Section -->
-        <div id="optionsSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">JSON Format Options</h3>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Left Column -->
-                <div>
-                    <!-- Sheet Selection -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Select Sheet</label>
-                        <select id="sheetSelect" class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                            <option value="">Loading sheets...</option>
+                <!-- Workbook Details -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Select Sheet</label>
+                        <select id="sheet-select" class="w-full font-mono">
+                            <option value="">No file loaded</option>
                         </select>
                     </div>
 
-                    <!-- JSON Format -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">JSON Format</label>
-                        <div class="space-y-3">
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-format="array">
-                                <div class="flex items-start">
-                                    <input type="radio" name="jsonFormat" value="array" checked class="mt-1 text-green-600 focus:ring-green-500">
-                                    <div class="ml-3">
-                                        <div class="font-medium text-white">Array of Objects</div>
-                                        <div class="text-sm text-gray-400 mt-1">Standard format for most applications</div>
-                                        <div class="format-example">[{"name":"John","age":30},{"name":"Jane","age":25}]</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-format="object">
-                                <div class="flex items-start">
-                                    <input type="radio" name="jsonFormat" value="object" class="mt-1 text-green-600 focus:ring-green-500">
-                                    <div class="ml-3">
-                                        <div class="font-medium text-white">Object with Keys</div>
-                                        <div class="text-sm text-gray-400 mt-1">Uses first column as object keys</div>
-                                        <div class="format-example">{"John":{"age":30},"Jane":{"age":25}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-format="keyvalue">
-                                <div class="flex items-start">
-                                    <input type="radio" name="jsonFormat" value="keyvalue" class="mt-1 text-green-600 focus:ring-green-500">
-                                    <div class="ml-3">
-                                        <div class="font-medium text-white">Key-Value Pairs</div>
-                                        <div class="text-sm text-gray-400 mt-1">Simple key-value structure</div>
-                                        <div class="format-example">{"name":"John","age":"30"}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column -->
-                <div>
-                    <!-- Data Processing Options -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Data Processing</label>
-                        <div class="space-y-3">
-                            <label class="flex items-center">
-                                <input type="checkbox" id="includeHeaders" checked class="rounded border-white/20 text-green-600 focus:ring-green-500">
-                                <span class="ml-2 text-sm text-gray-300">Use first row as headers</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" id="skipEmptyRows" checked class="rounded border-white/20 text-green-600 focus:ring-green-500">
-                                <span class="ml-2 text-sm text-gray-300">Skip empty rows</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" id="trimWhitespace" checked class="rounded border-white/20 text-green-600 focus:ring-green-500">
-                                <span class="ml-2 text-sm text-gray-300">Trim whitespace</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" id="convertNumbers" checked class="rounded border-white/20 text-green-600 focus:ring-green-500">
-                                <span class="ml-2 text-sm text-gray-300">Convert numbers automatically</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Indentation -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">JSON Indentation</label>
-                        <select id="indentation" class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                            <option value="2">2 spaces (Recommended)</option>
-                            <option value="4">4 spaces</option>
-                            <option value="tab">Tab</option>
-                            <option value="0">Minified (no indentation)</option>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">JSON Output Structure</label>
+                        <select id="json-format" class="w-full font-mono">
+                            <option value="objects">Array of Objects [ { col: val } ]</option>
+                            <option value="arrays">2D Array of Rows [ [val1, val2] ]</option>
+                            <option value="all-sheets">All Sheets Object { Sheet1: [...] }</option>
                         </select>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Preview Section -->
-        <div id="previewSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-100">JSON Preview</h3>
-                <div class="flex items-center space-x-4">
-                    <span id="rowCount" class="text-sm text-gray-500"></span>
-                    <button id="copyJsonBtn" class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 hover:bg-dark-700/60 backdrop-blur-md rounded-md transition-colors">
-                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                        </svg>
-                        Copy
-                    </button>
+                <button id="convert-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_20px_rgba(69,243,255,0.3)] flex items-center justify-center gap-2 transition-all">
+                    <i data-feather="code" class="w-4 h-4"></i> Convert to JSON
+                </button>
+            </div>
+
+            <!-- Right 7 cols: JSON Viewer -->
+            <div class="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                    <h3 class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-feather="terminal" class="w-3.5 h-3.5"></i> Converted JSON Viewport
+                    </h3>
+                    <div class="flex gap-2">
+                        <button id="copy-json-btn" class="text-xs text-brand-primary hover:underline">Copy JSON</button>
+                        <button id="download-json-btn" class="text-xs text-gray-400 hover:text-white">Download .json</button>
+                    </div>
                 </div>
-            </div>
-            <div class="json-preview">
-                <div id="jsonContent" class="json-content">{"message":"Upload an Excel file to see JSON preview"}</div>
-            </div>
-        </div>
 
-        <!-- Convert Button -->
-        <div id="convertSection" class="text-center hidden">
-            <button id="convertBtn" class="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-300 shadow-lg hover:shadow-xl font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                Convert to JSON
-            </button>
+                <textarea id="json-output" rows="18" readonly="" class="w-full" placeholder="// Converted JSON will appear here..."></textarea>
+            </div>
         </div>
     </main>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay hidden">
-        <div class="loading-content">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-            <p class="text-gray-300 font-medium" id="loadingText">Processing your file...</p>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-    <script>
-        let workbook = null;
-        let currentSheetData = null;
-        let currentJsonData = null;
-
-        // File input handling
-        const excelFileInput = document.getElementById('excelFileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const optionsSection = document.getElementById('optionsSection');
-        const previewSection = document.getElementById('previewSection');
-        const convertSection = document.getElementById('convertSection');
-        const sheetSelect = document.getElementById('sheetSelect');
-        const jsonContent = document.getElementById('jsonContent');
-        const rowCount = document.getElementById('rowCount');
-        const convertBtn = document.getElementById('convertBtn');
-        const copyJsonBtn = document.getElementById('copyJsonBtn');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingText = document.getElementById('loadingText');
-
-        // Format options
-        const formatCards = document.querySelectorAll('[data-format]');
-        const formatRadios = document.querySelectorAll('input[name="jsonFormat"]');
-
-        function showLoading(text = 'Processing...') {
-            loadingText.textContent = text;
-            loadingOverlay.classList.remove('hidden');
-        }
-
-        function hideLoading() {
-            loadingOverlay.classList.add('hidden');
-        }
-
-        // File selection
-        excelFileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            // Validate file size (10MB limit)
-            if (file.size > 10 * 1024 * 1024) {
-                alert('File size must be less than 10MB');
-                return;
-            }
-
-            showLoading('Reading Excel file...');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    workbook = XLSX.read(data, { type: 'array' });
-
-                    // Update file info
-                    fileName.textContent = `Loaded: ${file.name}`;
-                    fileInfo.classList.remove('hidden');
-
-                    // Populate sheet selector
-                    sheetSelect.innerHTML = '';
-                    workbook.SheetNames.forEach((sheetName, index) => {
-                        const option = document.createElement('option');
-                        option.value = sheetName;
-                        option.textContent = sheetName;
-                        if (index === 0) option.selected = true;
-                        sheetSelect.appendChild(option);
-                    });
-
-                    // Show options and load first sheet
-                    optionsSection.classList.remove('hidden');
-                    loadSheet(workbook.SheetNames[0]);
-
-                    hideLoading();
-                } catch (error) {
-                    console.error('Error reading file:', error);
-                    alert('Error reading Excel file. Please make sure it\'s a valid Excel file.');
-                    hideLoading();
-                }
-            };
-
-            reader.readAsArrayBuffer(file);
-        });
-
-        // Sheet selection
-        sheetSelect.addEventListener('change', function() {
-            loadSheet(this.value);
-        });
-
-        // Format selection
-        formatCards.forEach(card => {
-            card.addEventListener('click', function() {
-                // Remove selected class from all cards
-                formatCards.forEach(c => c.classList.remove('option-selected'));
-                // Add selected class to clicked card
-                this.classList.add('option-selected');
-                // Update radio button
-                const radio = this.querySelector('input[type="radio"]');
-                radio.checked = true;
-                // Update preview if data exists
-                if (currentSheetData) {
-                    generateJson();
-                }
-            });
-        });
-
-        // Update preview when options change
-        document.getElementById('includeHeaders').addEventListener('change', () => {
-            if (currentSheetData) generateJson();
-        });
-        document.getElementById('skipEmptyRows').addEventListener('change', () => {
-            if (currentSheetData) generateJson();
-        });
-        document.getElementById('trimWhitespace').addEventListener('change', () => {
-            if (currentSheetData) generateJson();
-        });
-        document.getElementById('convertNumbers').addEventListener('change', () => {
-            if (currentSheetData) generateJson();
-        });
-        document.getElementById('indentation').addEventListener('change', () => {
-            if (currentJsonData) {
-                updateJsonPreview();
-            }
-        });
-
-        function loadSheet(sheetName) {
-            if (!workbook) return;
-
-            const worksheet = workbook.Sheets[sheetName];
-            currentSheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
-
-            // Normalize data to ensure all rows have the same number of columns
-            if (currentSheetData.length > 0) {
-                const maxCols = Math.max(...currentSheetData.map(row => row.length));
-                currentSheetData = currentSheetData.map(row => {
-                    while (row.length < maxCols) {
-                        row.push('');
-                    }
-                    return row;
-                });
-            }
-
-            generateJson();
-            previewSection.classList.remove('hidden');
-            convertSection.classList.remove('hidden');
-            convertBtn.disabled = false;
-        }
-
-        function generateJson() {
-            if (!currentSheetData || currentSheetData.length === 0) {
-                jsonContent.textContent = '{"error":"No data available"}';
-                rowCount.textContent = '';
-                return;
-            }
-
-            const includeHeaders = document.getElementById('includeHeaders').checked;
-            const skipEmptyRows = document.getElementById('skipEmptyRows').checked;
-            const trimWhitespace = document.getElementById('trimWhitespace').checked;
-            const convertNumbers = document.getElementById('convertNumbers').checked;
-            const format = document.querySelector('input[name="jsonFormat"]:checked').value;
-
-            let processedData = [...currentSheetData];
-
-            // Process data
-            if (trimWhitespace) {
-                processedData = processedData.map(row =>
-                    row.map(cell => typeof cell === 'string' ? cell.trim() : cell)
-                );
-            }
-
-            if (skipEmptyRows) {
-                processedData = processedData.filter(row =>
-                    row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')
-                );
-            }
-
-            // Convert to JSON based on format
-            let jsonResult;
-            const headers = includeHeaders && processedData.length > 0 ? processedData[0] : null;
-            const dataRows = includeHeaders && processedData.length > 1 ? processedData.slice(1) : processedData;
-
-            switch (format) {
-                case 'array':
-                    jsonResult = dataRows.map(row => {
-                        if (!headers) return row;
-                        const obj = {};
-                        headers.forEach((header, index) => {
-                            let value = row[index] ?? '';
-                            if (convertNumbers && !isNaN(value) && value !== '') {
-                                value = Number(value);
-                            }
-                            obj[header] = value;
-                        });
-                        return obj;
-                    });
-                    break;
-
-                case 'object':
-                    jsonResult = {};
-                    dataRows.forEach(row => {
-                        if (row.length > 1) {
-                            const key = String(row[0] ?? '');
-                            const values = row.slice(1);
-                            if (!headers) {
-                                jsonResult[key] = values;
-                            } else {
-                                const obj = {};
-                                headers.slice(1).forEach((header, index) => {
-                                    let value = values[index] ?? '';
-                                    if (convertNumbers && !isNaN(value) && value !== '') {
-                                        value = Number(value);
-                                    }
-                                    obj[header] = value;
-                                });
-                                jsonResult[key] = obj;
-                            }
-                        }
-                    });
-                    break;
-
-                case 'keyvalue':
-                    jsonResult = {};
-                    if (headers && dataRows.length > 0) {
-                        headers.forEach((header, index) => {
-                            let value = dataRows[0][index] ?? '';
-                            if (convertNumbers && !isNaN(value) && value !== '') {
-                                value = Number(value);
-                            }
-                            jsonResult[header] = value;
-                        });
-                    } else if (processedData.length > 0) {
-                        processedData[0].forEach((value, index) => {
-                            if (convertNumbers && !isNaN(value) && value !== '') {
-                                value = Number(value);
-                            }
-                            jsonResult[`column_${index + 1}`] = value;
-                        });
-                    }
-                    break;
-            }
-
-            currentJsonData = jsonResult;
-            updateJsonPreview();
-
-            // Update row count
-            const dataCount = Array.isArray(jsonResult) ? jsonResult.length :
-                             typeof jsonResult === 'object' ? Object.keys(jsonResult).length : 1;
-            rowCount.textContent = `${dataCount} ${format === 'array' ? 'objects' : format === 'object' ? 'keys' : 'pairs'}`;
-        }
-
-        function updateJsonPreview() {
-            if (!currentJsonData) return;
-
-            const indentation = document.getElementById('indentation').value;
-            let indentValue;
-
-            switch (indentation) {
-                case '2':
-                    indentValue = 2;
-                    break;
-                case '4':
-                    indentValue = 4;
-                    break;
-                case 'tab':
-                    indentValue = '\t';
-                    break;
-                case '0':
-                default:
-                    indentValue = 0;
-                    break;
-            }
-
-            try {
-                const jsonString = JSON.stringify(currentJsonData, null, indentValue);
-                jsonContent.textContent = jsonString;
-            } catch (error) {
-                jsonContent.textContent = '{"error":"Failed to generate JSON"}';
-            }
-        }
-
-        // Copy JSON button
-        copyJsonBtn.addEventListener('click', async function() {
-            if (!currentJsonData) return;
-
-            try {
-                const indentation = document.getElementById('indentation').value;
-                let indentValue;
-
-                switch (indentation) {
-                    case '2':
-                        indentValue = 2;
-                        break;
-                    case '4':
-                        indentValue = 4;
-                        break;
-                    case 'tab':
-                        indentValue = '\t';
-                        break;
-                    case '0':
-                    default:
-                        indentValue = 0;
-                        break;
-                }
-
-                const jsonString = JSON.stringify(currentJsonData, null, indentValue);
-                await navigator.clipboard.writeText(jsonString);
-                const originalText = copyJsonBtn.innerHTML;
-                copyJsonBtn.innerHTML = '<svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Copied!';
-                setTimeout(() => {
-                    copyJsonBtn.innerHTML = originalText;
-                }, 2000);
-            } catch (error) {
-                alert('Failed to copy to clipboard');
-            }
-        });
-
-        // Convert button
-        convertBtn.addEventListener('click', function() {
-            if (!currentJsonData) {
-                alert('No data to convert. Please select a valid Excel file.');
-                return;
-            }
-
-            showLoading('Generating JSON file...');
-
-            try {
-                const indentation = document.getElementById('indentation').value;
-                let indentValue;
-
-                switch (indentation) {
-                    case '2':
-                        indentValue = 2;
-                        break;
-                    case '4':
-                        indentValue = 4;
-                        break;
-                    case 'tab':
-                        indentValue = '\t';
-                        break;
-                    case '0':
-                    default:
-                        indentValue = 0;
-                        break;
-                }
-
-                const jsonString = JSON.stringify(currentJsonData, null, indentValue);
-                const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8;' });
-                const fileName = excelFileInput.files[0].name.replace(/\.(xlsx|xls)$/i, '.json');
-                saveAs(blob, fileName);
-
-                hideLoading();
-                alert('Excel file has been converted to JSON successfully!');
-            } catch (error) {
-                console.error('Error during conversion:', error);
-                hideLoading();
-                alert('An error occurred while creating the JSON file. Please try again.');
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when a link is clicked
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Close mobile menu when scrolling
-            window.addEventListener('scroll', () => {
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
-
-        }
-    </script>
-
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x5c61e0=_0x4484,_0x349c81=_0x5eee;function _0x5eee(_0x32780,_0x1d662f){_0x32780=_0x32780-(0x12ca+-0x1625+0xe*0x5d);const _0x2d8929=_0x3f1d();let _0x3ad704=_0x2d8929[_0x32780];if(_0x5eee['HJNUYa']===undefined){var _0x9ef39b=function(_0x10555f){const _0x32558e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1c1c0e='',_0x4ecaa1='',_0x4c2497=_0x1c1c0e+_0x9ef39b,_0x32ac6c=(''+function(){return 0x1110+-0x15e8*-0x1+-0x26f8;})['indexOf']('\x0a')!==-(-0x1f93*-0x1+0x26b5+-0x4647);for(let _0x264b96=-0x3*-0x13f+0xf9f+-0x135c,_0xe76d40,_0x267a7b,_0x495864=-0x19f1+0x1*0x23e+0x17b3;_0x267a7b=_0x10555f['charAt'](_0x495864++);~_0x267a7b&&(_0xe76d40=_0x264b96%(0x52*-0x33+-0x1*-0x70+0xfea)?_0xe76d40*(-0x67d*0x5+0x235*0x1+0x1*0x1e7c)+_0x267a7b:_0x267a7b,_0x264b96++%(-0x2375+0x20bc+0x2bd))?_0x1c1c0e+=_0x32ac6c||_0x4c2497['charCodeAt'](_0x495864+(0xd19+0x125f*0x1+-0x95*0x36))-(-0x1cb5*-0x1+0x38*-0x3b+-0xfc3)!==0x23b0+-0x735+-0x1c7b?String['fromCharCode'](0x2263*-0x1+-0x262c+0x498e&_0xe76d40>>(-(-0x253b+-0x1c03+0x4140)*_0x264b96&0x880*-0x3+-0x9f8+0x237e)):_0x264b96:0x106d+0x2515*0x1+0x2*-0x1ac1){_0x267a7b=_0x32558e['indexOf'](_0x267a7b);}for(let _0x3cf0b1=0x1321+0x4*-0x86b+-0x1*-0xe8b,_0x2844e9=_0x1c1c0e['length'];_0x3cf0b1<_0x2844e9;_0x3cf0b1++){_0x4ecaa1+='%'+('00'+_0x1c1c0e['charCodeAt'](_0x3cf0b1)['toString'](0x124*0x6+-0x1*-0x1ce2+-0x23aa*0x1))['slice'](-(0x1427+-0x1c5*-0xb+-0x279c));}return decodeURIComponent(_0x4ecaa1);};const _0x3916ce=function(_0x1813b,_0x5899db){let _0xcabfac=[],_0x156ba8=0xa0c+0x10c*0x1b+-0x265*0x10,_0x204edb,_0xd8ea2b='';_0x1813b=_0x9ef39b(_0x1813b);let _0x8747ec;for(_0x8747ec=-0x48b+-0x3e+0x4c9;_0x8747ec<0x2551+0x1727+-0x3b78;_0x8747ec++){_0xcabfac[_0x8747ec]=_0x8747ec;}for(_0x8747ec=0x2b9+0x123*0x9+-0xcf4;_0x8747ec<-0xc6+0x1299+-0x10d3;_0x8747ec++){_0x156ba8=(_0x156ba8+_0xcabfac[_0x8747ec]+_0x5899db['charCodeAt'](_0x8747ec%_0x5899db['length']))%(-0x15a8+-0x50e+0x1bb6*0x1),_0x204edb=_0xcabfac[_0x8747ec],_0xcabfac[_0x8747ec]=_0xcabfac[_0x156ba8],_0xcabfac[_0x156ba8]=_0x204edb;}_0x8747ec=0x1*0x15c0+0x7bf*0x1+-0x1d7f,_0x156ba8=-0x52c+0x1ea4+-0x1*0x1978;for(let _0x5c0be3=0x17c7+-0x4dd+-0x10d*0x12;_0x5c0be3<_0x1813b['length'];_0x5c0be3++){_0x8747ec=(_0x8747ec+(-0x167*-0x15+-0x181a+-0x558))%(-0x15*0x177+0x20f6+-0x133),_0x156ba8=(_0x156ba8+_0xcabfac[_0x8747ec])%(-0x1ff7+0x810+0x18e7),_0x204edb=_0xcabfac[_0x8747ec],_0xcabfac[_0x8747ec]=_0xcabfac[_0x156ba8],_0xcabfac[_0x156ba8]=_0x204edb,_0xd8ea2b+=String['fromCharCode'](_0x1813b['charCodeAt'](_0x5c0be3)^_0xcabfac[(_0xcabfac[_0x8747ec]+_0xcabfac[_0x156ba8])%(-0x1*0x33a+-0x1fce+-0x2408*-0x1)]);}return _0xd8ea2b;};_0x5eee['OsLAas']=_0x3916ce,_0x5eee['FAqPvs']={},_0x5eee['HJNUYa']=!![];}const _0x4aac5b=_0x2d8929[0x2f2*0x1+0x218*-0x5+-0x6b*-0x12],_0x72d4de=_0x32780+_0x4aac5b,_0x5da389=_0x5eee['FAqPvs'][_0x72d4de];if(!_0x5da389){if(_0x5eee['uKPTVd']===undefined){const _0x343c17=function(_0x1a66dc){this['BCpYul']=_0x1a66dc,this['ceweyv']=[0x5b*0x3d+0xb02+-0x20b0,0x119a*-0x1+0x22+0x1*0x1178,-0x1cf0+-0xb1*0x1+-0x5ed*-0x5],this['LTqgHi']=function(){return'newState';},this['MksIbj']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['LWrZsY']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x343c17['prototype']['vHwNpT']=function(){const _0x25a350=new RegExp(this['MksIbj']+this['LWrZsY']),_0x1807f1=_0x25a350['test'](this['LTqgHi']['toString']())?--this['ceweyv'][0x8e*0x39+-0x9*-0x34+-0x7*0x4c7]:--this['ceweyv'][0x733*0x1+-0xf90+0x85d];return this['MoQxYB'](_0x1807f1);},_0x343c17['prototype']['MoQxYB']=function(_0x1c0b92){if(!Boolean(~_0x1c0b92))return _0x1c0b92;return this['Ugfyfu'](this['BCpYul']);},_0x343c17['prototype']['Ugfyfu']=function(_0x261311){for(let _0x9f9a24=0x6e6+-0x59d+-0x149,_0x5b52d1=this['ceweyv']['length'];_0x9f9a24<_0x5b52d1;_0x9f9a24++){this['ceweyv']['push'](Math['round'](Math['random']())),_0x5b52d1=this['ceweyv']['length'];}return _0x261311(this['ceweyv'][-0x1293+0x99e+0x8f5*0x1]);},(''+function(){return-0x1*0x94d+0x140b+0xabe*-0x1;})['indexOf']('\x0a')===-(0x671+0xdc2+0xb*-0x1d6)&&new _0x343c17(_0x5eee)['vHwNpT'](),_0x5eee['uKPTVd']=!![];}_0x3ad704=_0x5eee['OsLAas'](_0x3ad704,_0x1d662f),_0x5eee['FAqPvs'][_0x72d4de]=_0x3ad704;}else _0x3ad704=_0x5da389;return _0x3ad704;}(function(_0x348eb2,_0x14bb5d){const _0x168fb3=_0x4484,_0x58bb1a=_0x5eee,_0x249839=_0x348eb2();while(!![]){try{const _0x21b6fd=-parseInt(_0x58bb1a(0x21e,'m2Vm'))/(-0x24e7+0x1*0x2+0x24e6)*(-parseInt(_0x58bb1a(0x1d7,'OaIM'))/(0x1b23+-0x41*-0x95+-0x40f6))+-parseInt(_0x58bb1a(0x1ed,'UsaI'))/(0xe3*-0x25+0xbcc+-0xa83*-0x2)*(-parseInt(_0x58bb1a(0x253,'(uGN'))/(-0x2c*-0x3e+-0x19*-0x5e+-0x76*0x2b))+-parseInt(_0x58bb1a(0x24a,'sMok'))/(-0xcd5+-0x1ab6+0x2790)+-parseInt(_0x168fb3(0x21c))/(-0x12af+0x1a84+-0x7cf)+parseInt(_0x58bb1a(0x211,'86R2'))/(-0x3c0+-0x1a32+-0x1df9*-0x1)+parseInt(_0x58bb1a(0x1f6,'7F2I'))/(-0xc*0x28e+0x1*-0x63d+-0x89*-0x45)+parseInt(_0x168fb3(0x219))/(-0x14e*0x17+-0x1765*-0x1+0x2e*0x25);if(_0x21b6fd===_0x14bb5d)break;else _0x249839['push'](_0x249839['shift']());}catch(_0x5065fd){_0x249839['push'](_0x249839['shift']());}}}(_0x3f1d,0x1a6f*-0x10a+-0x1*0x16129d+0x3feaac),feather[_0x349c81(0x251,'i48D')]());function showMessage(_0x5a18c5,_0x360d74=_0x5c61e0(0x202)){const _0x666263=_0x5c61e0,_0x484a76=_0x349c81,_0x253f64={'npufX':_0x484a76(0x238,'2K$U'),'funIa':function(_0x3fa8ad,_0x4f53f0){return _0x3fa8ad+_0x4f53f0;},'RfZvx':function(_0x336fcf,_0x30db10){return _0x336fcf===_0x30db10;},'GpVYn':_0x666263(0x24d)+'le','Bxthv':_0x484a76(0x221,'8bL7'),'LTnfL':_0x484a76(0x1d3,'Ng)@'),'hQLmB':function(_0x433080,_0x24e3da){return _0x433080(_0x24e3da);},'JzYfg':function(_0x210380,_0x1ff783,_0x3d239a){return _0x210380(_0x1ff783,_0x3d239a);}},_0x310a66=document[_0x666263(0x201)+_0x666263(0x237)](_0x253f64[_0x484a76(0x24c,'6Rt0')]);if(!_0x310a66)return;_0x310a66['innerHTML']=_0x253f64[_0x484a76(0x1c6,'dgas')](_0x666263(0x1ca)+_0x666263(0x235),_0x253f64['RfZvx'](_0x360d74,_0x484a76(0x1dd,'VerQ'))?_0x666263(0x223)+'le':_0x360d74===_0x666263(0x1bd)?_0x253f64[_0x666263(0x1dc)]:_0x666263(0x225))+('\x22\x20class=\x22w'+_0x484a76(0x213,'vJD8')+_0x484a76(0x234,'b*lW'))+_0x5a18c5+_0x253f64[_0x666263(0x231)],_0x310a66['className']=_0x253f64[_0x666263(0x228)]+_0x360d74,feather['replace'](),_0x253f64['hQLmB'](clearTimeout,_0x310a66[_0x666263(0x1c8)]),_0x310a66[_0x666263(0x1c8)]=_0x253f64[_0x666263(0x216)](setTimeout,()=>{const _0xeed5b5=_0x666263;_0x310a66[_0xeed5b5(0x212)]=_0x360d74;},-0x681+0x1d*0xd7+-0x2*0x217);}const dropzone=document[_0x5c61e0(0x201)+_0x349c81(0x229,'mQCX')]('dropzone'),fileInput=document[_0x5c61e0(0x201)+_0x5c61e0(0x237)]('file-input'),sheetSelect=document['getElement'+_0x349c81(0x22c,'SFyC')](_0x5c61e0(0x1c0)+'ct'),formatSelect=document[_0x349c81(0x252,'Wk)[')+_0x5c61e0(0x237)](_0x5c61e0(0x1f3)+'t'),jsonOutput=document[_0x5c61e0(0x201)+_0x349c81(0x220,'b*lW')]('json-outpu'+'t');let workbook=null;dropzone['addEventLi'+_0x349c81(0x1f7,'NUmd')](_0x5c61e0(0x207),()=>fileInput[_0x349c81(0x1c4,'7F2I')]()),dropzone[_0x5c61e0(0x1d1)+_0x349c81(0x23c,'66tx')]('dragover',_0x2c88f6=>{const _0x23be85=_0x349c81,_0x21de63=_0x5c61e0,_0x4f352e={'gJpKb':_0x21de63(0x226)+_0x23be85(0x21f,'RiJV')};_0x2c88f6['preventDef'+_0x23be85(0x1bc,'fJmG')](),dropzone[_0x23be85(0x1c5,'7F2I')]['add'](_0x4f352e[_0x21de63(0x22b)]);}),dropzone[_0x5c61e0(0x1d1)+'stener'](_0x349c81(0x1eb,'oTY^'),()=>dropzone[_0x5c61e0(0x1cf)][_0x349c81(0x24b,'8z@9')](_0x5c61e0(0x226)+'nd-primary')),dropzone[_0x349c81(0x1df,'mQCX')+_0x349c81(0x1c3,'DAQx')]('drop',_0x148ab5=>{const _0x4ee9ea=_0x5c61e0,_0x20c87d=_0x349c81,_0x382fb2={'rHUMF':_0x20c87d(0x236,'O37V')+_0x20c87d(0x1ee,'vJD8')};_0x148ab5[_0x20c87d(0x254,'RiJV')+'ault'](),dropzone['classList'][_0x20c87d(0x1fc,'86R2')](_0x382fb2[_0x4ee9ea(0x214)]);if(_0x148ab5[_0x4ee9ea(0x1e8)+'er'][_0x4ee9ea(0x242)][_0x20c87d(0x22f,'RiJV')])handleFile(_0x148ab5[_0x4ee9ea(0x1e8)+'er']['files'][0x12*-0xa3+0xc17+0x17*-0x7]);}),fileInput['addEventLi'+'stener']('change',_0x299d8e=>{const _0x248be4=_0x5c61e0,_0x304ee4=_0x349c81;if(_0x299d8e[_0x304ee4(0x21b,'mQCX')]['files'][_0x248be4(0x218)])handleFile(_0x299d8e[_0x304ee4(0x1d4,'UsaI')][_0x304ee4(0x1e5,'8ILN')][-0x41a+-0x3e*0x53+0x1834]);});function _0x4484(_0xa25105,_0x57ea99){_0xa25105=_0xa25105-(0x12ca+-0x1625+0xe*0x5d);const _0x5974ea=_0x3f1d();let _0x22cb49=_0x5974ea[_0xa25105];if(_0x4484['ugedff']===undefined){var _0x1712bd=function(_0x162dd0){const _0x1b7620='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x29fd3f='',_0x2bc03b='',_0x8df2ef=_0x29fd3f+_0x1712bd,_0x42c6df=(''+function(){return 0x1110+-0x15e8*-0x1+-0x26f8;})['indexOf']('\x0a')!==-(-0x1f93*-0x1+0x26b5+-0x4647);for(let _0x2ba3cd=-0x3*-0x13f+0xf9f+-0x135c,_0x21268a,_0x315d06,_0x5b8a33=-0x19f1+0x1*0x23e+0x17b3;_0x315d06=_0x162dd0['charAt'](_0x5b8a33++);~_0x315d06&&(_0x21268a=_0x2ba3cd%(0x52*-0x33+-0x1*-0x70+0xfea)?_0x21268a*(-0x67d*0x5+0x235*0x1+0x1*0x1e7c)+_0x315d06:_0x315d06,_0x2ba3cd++%(-0x2375+0x20bc+0x2bd))?_0x29fd3f+=_0x42c6df||_0x8df2ef['charCodeAt'](_0x5b8a33+(0xd19+0x125f*0x1+-0x95*0x36))-(-0x1cb5*-0x1+0x38*-0x3b+-0xfc3)!==0x23b0+-0x735+-0x1c7b?String['fromCharCode'](0x2263*-0x1+-0x262c+0x498e&_0x21268a>>(-(-0x253b+-0x1c03+0x4140)*_0x2ba3cd&0x880*-0x3+-0x9f8+0x237e)):_0x2ba3cd:0x106d+0x2515*0x1+0x2*-0x1ac1){_0x315d06=_0x1b7620['indexOf'](_0x315d06);}for(let _0x3348f2=0x1321+0x4*-0x86b+-0x1*-0xe8b,_0x22e9db=_0x29fd3f['length'];_0x3348f2<_0x22e9db;_0x3348f2++){_0x2bc03b+='%'+('00'+_0x29fd3f['charCodeAt'](_0x3348f2)['toString'](0x124*0x6+-0x1*-0x1ce2+-0x23aa*0x1))['slice'](-(0x1427+-0x1c5*-0xb+-0x279c));}return decodeURIComponent(_0x2bc03b);};_0x4484['vSngAy']=_0x1712bd,_0x4484['NKmitf']={},_0x4484['ugedff']=!![];}const _0x161af5=_0x5974ea[0xa0c+0x10c*0x1b+-0x265*0x10],_0x8ad38d=_0xa25105+_0x161af5,_0x3987c5=_0x4484['NKmitf'][_0x8ad38d];if(!_0x3987c5){const _0x4f6c00=function(_0x59e256){this['raDeWV']=_0x59e256,this['NKNXRR']=[-0x48b+-0x3e+0x4ca,0x2551+0x1727+-0x3c78,0x2b9+0x123*0x9+-0xcf4],this['MMcKPT']=function(){return'newState';},this['neKRGr']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ySBoMC']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4f6c00['prototype']['wWMbbY']=function(){const _0x4f7c8c=new RegExp(this['neKRGr']+this['ySBoMC']),_0x559572=_0x4f7c8c['test'](this['MMcKPT']['toString']())?--this['NKNXRR'][-0xc6+0x1299+-0x11d2]:--this['NKNXRR'][-0x15a8+-0x50e+0x1ab6*0x1];return this['oFYeBq'](_0x559572);},_0x4f6c00['prototype']['oFYeBq']=function(_0x3dcd0c){if(!Boolean(~_0x3dcd0c))return _0x3dcd0c;return this['abYtiK'](this['raDeWV']);},_0x4f6c00['prototype']['abYtiK']=function(_0x163564){for(let _0x4a2730=0x1*0x15c0+0x7bf*0x1+-0x1d7f,_0x3d201d=this['NKNXRR']['length'];_0x4a2730<_0x3d201d;_0x4a2730++){this['NKNXRR']['push'](Math['round'](Math['random']())),_0x3d201d=this['NKNXRR']['length'];}return _0x163564(this['NKNXRR'][-0x52c+0x1ea4+-0x1*0x1978]);},(''+function(){return 0x17c7+-0x4dd+-0x10d*0x12;})['indexOf']('\x0a')===-(-0x167*-0x15+-0x181a+-0x558)&&new _0x4f6c00(_0x4484)['wWMbbY'](),_0x22cb49=_0x4484['vSngAy'](_0x22cb49),_0x4484['NKmitf'][_0x8ad38d]=_0x22cb49;}else _0x22cb49=_0x3987c5;return _0x22cb49;}function handleFile(_0x4ec99f){const _0x2badff=_0x5c61e0,_0x111013=new FileReader();_0x111013[_0x2badff(0x1ec)]=_0x42e0fd=>{const _0x5cdd82=_0x2badff,_0xf42244=_0x5eee,_0x2d0847=new Uint8Array(_0x42e0fd[_0xf42244(0x1c7,'$r(M')][_0xf42244(0x1f8,'7F2I')]);workbook=XLSX[_0x5cdd82(0x1d6)](_0x2d0847,{'type':_0xf42244(0x23b,'sD1S')}),sheetSelect['innerHTML']='',workbook[_0x5cdd82(0x1c1)]['forEach'](_0x1c9828=>{const _0x4f033a=_0xf42244,_0x1a4d44=_0x5cdd82,_0x3dff10=document[_0x1a4d44(0x1de)+_0x1a4d44(0x204)](_0x4f033a(0x24e,'Ng)@'));_0x3dff10[_0x1a4d44(0x23f)]=_0x1c9828,_0x3dff10[_0x4f033a(0x1fa,'*g!n')+'t']=_0x1c9828,sheetSelect['appendChil'+'d'](_0x3dff10);}),showMessage(_0x5cdd82(0x1e1)+_0x4ec99f[_0x5cdd82(0x203)]+_0x5cdd82(0x1db)+workbook['SheetNames'][_0xf42244(0x1fb,'b*lW')]+'\x20sheet(s)'),convertExcel();},_0x111013['readAsArra'+'yBuffer'](_0x4ec99f);}function _0x3f1d(){const _0x5ca326=['zSkiW647Ba','W5SsDZJdL8o5W57cGq','yxrOzxi9iG','nmkKEmkLW5tdGmk2rsOC','qNLjza','d3G1gCkt','iSkJB8kV','C2HLzxrFDg9FAG','amo1eI/dQa','W6pcR8k/lwlcMW','W5yuCxVcQMm','WO3dTfNdSSosW4C','DMfSDwu','smkUdmkMWOtcQJpdLge','W7ldH8kgW4pdN8kIW6/dUSkUFW','zMLSzxm','AhjLzG','W6xcR8kZl3q','WPK+W6dcRmk8WPO','zg93BMXVywq','u2HLzxrZ','C29U','tNldSCkHcmooaSkbW5WH','pSkNFfNdNmoCrmomW4POW6/dUSkf','WOZdPvhdS8obW5a','wcxdGCohta','ywXLCNqTy2LYyW','W45MmKyczW','y29WEs1QC29Ulq','yNrU','WORdQCoseCo4W4xdIq','W6/cKSkVW6bLtSk3WQdcNq0','W7NcVmkDWPZdHhBdRXhcK8oMmG4','xCkVnSkvWRhcGbRcLSkKvW','W6HKWOOtDmo6mSky','yrFdRZBdHfJcI0ZcN8ki','W7ddGmkpW5y','zxjYB3i','u09oiq','WRXhg2K','C2HLzxqTC2vSzq','u2HLzxroyw1LCW','nZHetKHuzKe','WR3dOJzYuSom','xh7dOvFdIW','xh7dQuFdK8k5nmoYWR0','W4ieBeFcPW','DmkkW7Ggt8kw','x3rPBwvY','WQ3dVJjYumoB','pgKGzgf0ys1Mzq','WPy7iSkVWR/dHmoEWRhcLmow','WQVdUcC','qSoaWQBdGmkwW4xdHNfNW7O','W7ldPmo8s8oOW6u','y2XHC3nmAxn0','Aw5KzxHpzG','ywrKrxzLBNrmAq','Aw5Uzxjive1m','W5j+kvHn','xxBdT8kdaCoF','y2HHBMDL','CMvHza','acFcQGJcQILPe8oM','W4NcGKbXWRxcPJ5QW4JdVq','yMLUza','a8oQtCo4W43dRhNcJY7cOW','iIb3AxrOia','r3bwww4','W6j3uxFcVmo9cG','y3jLyxrLrwXLBq','n0VcNmkjnfhdJ8krFmom','W5jLw1ZcGW','tg9HzgvKici','W49JWRWcCSoG','q29UDMvYDgvKia','pCkSEvJdLCoBrmo8W7zpW7RdPmkH','dtTGW5ZcIa','W4j/h2q/','nslcGmoXymkFW5lcIgZdJG','zgf0yvrYyw5ZzG','kSoTxGuh','DxrPBhm','xgWOmHddISkeW6tdUa','B25SB2fK','hI/dGCkQlmo/cCkL','kc7dImoKzSkPW4VcHKhdNq','tLjvwgi','y29UDMvYDc1IDa','xMldUfJdMq','W7iKWRmuACo9z8kCySoM','ANnVBI1MB3jTyq','zM9YrwfJAa','WO7dISo/W58WvatcNSkXsa','cIhcVGhcKCodBCowWQ9sWRjgWRq','lCo3W7TLWQ12','txFdU0hdJmkb','ihnOzwv0khmP','WOtcTgxcLr7cMZhdVCkewa','W55jjsZdK8oW','wCkNcmk5WPdcOa','W5mdA3RcO0pdRCo/aa','W73cOLveWOFdGLyWcKO','wxOTeaRdISklW6BdKua','nJGZndGXmgDAC3D1rq','z2v0rwXLBwvUDa','C3vJy2vZCW','BMfTzq','zw50','zMnKwKy','qK9ZCvq','y2XPy2S','yxbWBgLJyxrPBW','EN/dOmkbemoLdSkjW5CM','WPqWW4uknmkrW68','rxHJzwWGDg8GsG','fSkAW7ZdN8ovWP3cLxHWW4yEzCkk','W4Cfv1ZcIG','WQJdI8kIomkcfZubj8kB','C3rLBMvY','WPRcQutcPqC','hSo0u8oKW5BdTwtdIMBdHCobkSoD','y2XHC3noyw1L','A37dHCo8oCo0WOtdMq/cIW','CKHvtuy','WRtcVMRcJZhcMZ7dRCkeuG','sNPzzMC','WONdTmoIW4K','BgvUz3rO','mtG5nZaWmLDMqKnXDG','u2fTCgXLieL0zq','iK7cISkRj0a','mta3nta4otzPzfPiBMq','Dg9tDhjPBMC','WRlcTmkPcmogW71pW6xdRIC','q8k5FSktWQBcHWpcS8kZsa','W7bvaI8','ASodWRRdVmkFoWu','WOOkW6bpWRWkdtS','y2HLy2STy2LYyW','Bsbb','Aw5MBW','yM9YzgvYlwjYyq','nty4uNr4u29H','tfrUzKW','ffBcSCkO','yxjYyxK','z0PWs2i','W6JcIwX0','igv4Cg9YDc5QCW','zNLpv0C','qCk4pCkeWQdcHG','rLv5z0O','qNH0Ahy','W5vUWP0wyCoxW7tdU0lcM8k7mq'];_0x3f1d=function(){return _0x5ca326;};return _0x3f1d();}function convertExcel(){const _0xf3dec8=_0x5c61e0,_0x21781d=_0x349c81,_0x3c5ff5={'cbpoh':_0x21781d(0x233,'$r(M'),'VMhdN':function(_0x499d4b){return _0x499d4b();},'FUygJ':function(_0x48c301,_0x24aafd){return _0x48c301===_0x24aafd;},'JNYPh':_0x21781d(0x1cd,'RWFi'),'dFdKS':function(_0x3b27a5,_0x2ce6a5){return _0x3b27a5===_0x2ce6a5;}},_0xdfbe75=(function(){let _0x5f0079=!![];return function(_0x3e3f0a,_0x234d9c){const _0x2f32b2=_0x5f0079?function(){const _0x1d187b=_0x5eee;if(_0x234d9c){const _0x2c1287=_0x234d9c[_0x1d187b(0x1f1,'7F2I')](_0x3e3f0a,arguments);return _0x234d9c=null,_0x2c1287;}}:function(){};return _0x5f0079=![],_0x2f32b2;};}()),_0xd5220b=_0xdfbe75(this,function(){const _0x527c71=_0x21781d,_0x578e83=_0x4484,_0x10ece4={'CgiHZ':function(_0x58679d,_0x58211e){return _0x58679d(_0x58211e);}};if(_0x3c5ff5['cbpoh']!==_0x578e83(0x205)){const _0x176546=new _0x15b9d4(_0x2a2518[_0x527c71(0x1c7,'$r(M')][_0x527c71(0x23d,'dgas')]);_0x2f6456=_0x26c8b0[_0x527c71(0x1bf,'u5a&')](_0x176546,{'type':_0x578e83(0x22a)}),_0xb0bdfd[_0x578e83(0x1d2)]='',_0xd4fc9d[_0x578e83(0x1c1)][_0x578e83(0x1f4)](_0x3f8a78=>{const _0x42f671=_0x527c71,_0x1d4a45=_0x3c2c30[_0x42f671(0x241,'fJmG')+_0x42f671(0x1cc,'DAQx')]('option');_0x1d4a45['value']=_0x3f8a78,_0x1d4a45['textConten'+'t']=_0x3f8a78,_0x152616[_0x42f671(0x1f5,'Y&bV')+'d'](_0x1d4a45);}),kDznre[_0x527c71(0x1e0,'VerQ')](_0x1a59dc,_0x527c71(0x222,'Fe7M')+_0x118e9f[_0x578e83(0x203)]+'\x22\x20with\x20'+_0x1be0c6['SheetNames'][_0x578e83(0x218)]+_0x578e83(0x1f9)),_0x3302eb();}else{if(_0xd5220b[_0x578e83(0x1d9)]()[_0x578e83(0x21d)]()[_0x578e83(0x1d0)]('\x0a')!==-(-0x3*0xa0b+-0x3d5+0x21f7))return;return _0xd5220b[_0x578e83(0x21d)]()['search'](_0x527c71(0x1da,'86R2')+'+$')[_0x527c71(0x255,'vrUj')]()['constructo'+'r'](_0xd5220b)[_0x527c71(0x1ce,'m2Vm')]('(((.+)+)+)'+'+$');}});_0x3c5ff5[_0x21781d(0x1e9,'o[vk')](_0xd5220b);if(!workbook){const _0x129a4a=[{'id':0x1,'name':_0xf3dec8(0x21a)+_0xf3dec8(0x224),'price':49.99,'inStock':!![]},{'id':0x2,'name':_0xf3dec8(0x21a)+'m\x20B','price':89.5,'inStock':![]}];jsonOutput[_0xf3dec8(0x23f)]=JSON['stringify'](_0x129a4a,null,0x510+-0x1ae9*0x1+0x15db);return;}const _0x2d31a8=formatSelect['value'];let _0x53291d=null;if(_0x3c5ff5[_0xf3dec8(0x230)](_0x2d31a8,_0x3c5ff5['JNYPh']))_0x53291d={},workbook[_0x21781d(0x209,'UsaI')]['forEach'](_0x285807=>{const _0xf5129b=_0xf3dec8,_0xaef7ea=_0x21781d,_0x5d97f2=workbook[_0xaef7ea(0x1e2,'vrUj')][_0x285807];_0x53291d[_0x285807]=XLSX[_0xf5129b(0x1ea)][_0xf5129b(0x23a)+_0xf5129b(0x248)](_0x5d97f2);});else{const _0x12e501=sheetSelect['value']||workbook['SheetNames'][0xf1d*0x2+-0x9d6+0x24*-0x91],_0x52d87a=workbook[_0xf3dec8(0x247)][_0x12e501];_0x3c5ff5['dFdKS'](_0x2d31a8,'arrays')?_0x53291d=XLSX[_0xf3dec8(0x1ea)][_0x21781d(0x1e7,'vJD8')+_0xf3dec8(0x248)](_0x52d87a,{'header':0x1}):_0x53291d=XLSX[_0x21781d(0x244,'66tx')][_0x21781d(0x1cb,'z^]K')+_0xf3dec8(0x248)](_0x52d87a);}jsonOutput[_0xf3dec8(0x23f)]=JSON['stringify'](_0x53291d,null,0x7b3*-0x4+-0x8d1+0x279f);}document[_0x5c61e0(0x201)+_0x5c61e0(0x237)](_0x5c61e0(0x1f0)+'n')['addEventLi'+_0x349c81(0x23e,'8z@9')](_0x5c61e0(0x207),()=>{const _0x367cde=_0x5c61e0,_0x10963f={'NRUXb':function(_0xd4d9ec){return _0xd4d9ec();},'fyOWG':function(_0x407426,_0x10fe1d){return _0x407426(_0x10fe1d);},'BOsqT':_0x367cde(0x1e3)+_0x367cde(0x20b)+_0x367cde(0x1be)};_0x10963f[_0x367cde(0x1ef)](convertExcel),_0x10963f[_0x367cde(0x22e)](showMessage,_0x10963f[_0x367cde(0x206)]);}),sheetSelect[_0x5c61e0(0x1d1)+'stener'](_0x349c81(0x1c9,'DAQx'),convertExcel),formatSelect[_0x5c61e0(0x1d1)+_0x5c61e0(0x20f)](_0x5c61e0(0x1d5),convertExcel),document[_0x349c81(0x1fe,'%Kv*')+_0x349c81(0x217,'(uGN')](_0x5c61e0(0x24f)+_0x5c61e0(0x250))[_0x349c81(0x1ff,'oTY^')+_0x349c81(0x245,'$xni')]('click',()=>{const _0x39383f=_0x5c61e0,_0x5763f6=_0x349c81,_0xe251d0={'ciYKR':'Copied\x20JSO'+'N\x20to\x20clipb'+'oard!'};navigator[_0x5763f6(0x240,'86R2')][_0x5763f6(0x1fd,'dgas')](jsonOutput[_0x39383f(0x23f)])[_0x5763f6(0x239,'O37V')](()=>{const _0x21daa8=_0x5763f6;showMessage(_0xe251d0[_0x21daa8(0x1e6,'Ng)@')]);});}),document[_0x349c81(0x249,'UsaI')+'ById']('download-j'+_0x349c81(0x20a,'aooi'))['addEventLi'+'stener']('click',()=>{const _0x288173=_0x349c81,_0x9286e=_0x5c61e0,_0x399ce0={'jxYDZ':'export.jso'+'n'},_0x5e1032=new Blob([jsonOutput[_0x9286e(0x23f)]],{'type':_0x9286e(0x208)+_0x288173(0x1f2,'vrUj')+_0x288173(0x20e,'Gs*6')}),_0x25999e=URL['createObje'+_0x288173(0x20d,'dgas')](_0x5e1032),_0x336e04=document[_0x288173(0x1d8,'SFyC')+_0x9286e(0x204)]('a');_0x336e04[_0x9286e(0x243)]=_0x25999e,_0x336e04[_0x9286e(0x246)]=_0x399ce0[_0x288173(0x210,'*g!n')],_0x336e04[_0x9286e(0x207)](),showMessage(_0x288173(0x215,'*g!n')+_0x9286e(0x22d)+'on!');}),convertExcel();</script>
 
-    
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

@@ -1,406 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infiniteforge - PDF to Image Converter | Free Online PDF Tools</title>
-    <meta name="description"
-        content="Convert PDF pages to high-quality images (JPG/PNG) instantly in your browser. Preview, download individually or as a zip file. No uploads, completely free.">
-    <meta name="keywords"
-        content="pdf to image, pdf to jpg, pdf to png, pdf converter, free online tools, privacy, Infiniteforge">
+    <title>PDF to Image Converter — Convert PDF to JPG / PNG | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Convert PDF pages to high-resolution JPG or PNG images online. Download individual page images or all pages in a single ZIP file. 100% private in-browser processing.">
+    <meta name="keywords" content="PDF to image, PDF to JPG, PDF to PNG, convert PDF pages to pictures, extract images from PDF">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-
-    <meta property="og:title" content="Infiniteforge - Free PDF to Image Converter">
-    <meta property="og:description"
-        content="Convert PDF pages to images instantly in your browser. No uploads, no watermarks, completely free.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="PDF to Image Converter | Infiniteforge">
+    <meta property="og:description" content="Convert PDF pages to high-quality JPG and PNG images directly in your browser.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/pdfconverter.html">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
-    <link rel="canonical" href="https://infiniteforge.tech/pdfconverter.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Infiniteforge - Free PDF to Image Converter">
-    <meta name="twitter:description"
-        content="Convert PDF pages to images instantly in your browser. No uploads, no watermarks, completely free.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
+    <meta name="twitter:title" content="PDF to Image Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert PDF documents to image files.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/pdfconverter.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/pdfconverter.html">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    <!-- PDF.js, JSZip, FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-        body {
-            font-size: var(--fluid-font-size);
-        }
-
-        h1 {
-            font-size: var(--fluid-h1) !important;
-        }
-
-        h2 {
-            font-size: var(--fluid-h2) !important;
-        }
-
-        h3 {
-            font-size: var(--fluid-h3) !important;
-        }
-
-        p {
-            font-size: var(--fluid-p) !important;
-        }
-
-        @media (max-width: 640px) {
-
-            .container,
-            .max-w-4xl,
-            .max-w-6xl,
-            .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-
-        .loader {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid #3b82f6;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .page-preview {
-            transition: transform 0.2s ease;
-        }
-
-        .page-preview:hover {
-            transform: scale(1.02);
-        }
-    </style>
-
-    <!-- Comprehensive Structured Data -->
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "InfinityForge",
-        "url": "https://infiniteforge.tech",
-        "logo": "https://infiniteforge.tech/assets/letter-d.png",
-        "sameAs": [
-            "https://www.linkedin.com/in/mahibala-h",
-            "https://x.com/HMahibala42802",
-            "https://www.youtube.com/@echo14-w3y",
-            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
-            "https://www.facebook.com/61557410529583/"
-        ]
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Infiniteforge - Free Online Tools",
-        "url": "https://infiniteforge.tech",
-        "description": "Free online tools for image editing, PDF processing, and document conversion. No uploads, no watermarks, completely free.",
-        "publisher": {
-            "@type": "Organization",
-            "name": "InfinityForge",
-            "url": "https://infiniteforge.tech"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://infiniteforge.tech/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Infiniteforge - PDF to Image Converter | Free Online PDF Tools",
-        "description": "Convert PDF pages to high-quality images (JPG/PNG) instantly in your browser. Preview, download individually or as a zip file. No uploads, completely free.",
-        "url": "https://infiniteforge.tech/pdfconverter.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Infiniteforge - Free Online Tools",
-            "url": "https://infiniteforge.tech"
-        },
-        "primaryImageOfPage": {
-            "@type": "ImageObject",
-            "url": "https://infiniteforge.tech/assets/letter-d.png"
-        },
-        "datePublished": "2025-09-25",
-        "dateModified": "2025-10-15"
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://infiniteforge.tech"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "PDF to Image Converter",
-                "item": "https://infiniteforge.tech/pdfconverter.html"
-            }
-        ]
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How do I convert PDF to images?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Simply select your PDF file, choose your preferred image format (JPG or PNG) and quality settings, then click 'Convert to Images' to process all pages."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What image formats are supported?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "You can convert PDF pages to high-quality JPG or PNG images. JPG is better for photographs and complex images, while PNG is ideal for images with transparency or simple graphics."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I download individual pages or all at once?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! You can download individual pages by clicking the download button on each page preview, or download all pages as a ZIP file for convenience."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is there a file size limit?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "PDF files up to 50MB are supported. For larger files, consider splitting them first or using our PDF compressor to reduce file size."
-                }
-            }
-        ]
-    }</script>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
-    <style>
-        body {
-            background-color: #0B0C10;
-            color: #E2E8F0;
-            overflow-x: hidden;
-        }
 
-        .bg-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150vw;
-            height: 150vh;
-            background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%);
-            z-index: -1;
-            animation: pulse-glow 15s infinite alternate ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes pulse-glow {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 1;
-            }
-        }
-
-        .glass-panel {
-            background: rgba(31, 40, 51, 0.4);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            z-index: -1;
-            animation: float-orb 10s ease-in-out infinite alternate;
-        }
-
-        .orb-1 {
-            background: rgba(122, 0, 255, 0.4);
-            width: 400px;
-            height: 400px;
-            top: 10%;
-            left: 10%;
-        }
-
-        .orb-2 {
-            background: rgba(69, 243, 255, 0.3);
-            width: 300px;
-            height: 300px;
-            top: 40%;
-            right: 10%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float-orb {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-        }
-
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
-            mask-image: radial-gradient(circle at center, black, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
-        }
-
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]),
-        textarea,
-        select {
-            background-color: rgba(31, 40, 51, 0.8) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10,
-        .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
-    </style>
+    <script>var _0x437375=_0x4925,_0x441c74=_0x591b;function _0x1523(){var _0xfe9729=['C2fUCY1ZzxjPzG','Cv3cRmksW4vIrYBcJCklg8ohW6i','yMLUza','iZjdmZuZrG','p8krW6WahNm8W73cSK7dNq','i0zgmKe3qq','Fx5dW4lcTam','W7T+WPBcNchdGmo5W74','mZm2nJK1n1rZDKrytG','tWhcLNHOW7ldLq','tJjfWQvTcee','iZfgmJGZmW','kseAWPddQvhdVCo+W6ukiCkU','W7LZcCkpaSoSWQm','WRnNWQNdIJuOWR7dQG','Dg9tDhjPBMC','W4RcNhxcNSoj','emkxW6hcVL4ivq','mtbwqNn3rvK','sMv0qNjHAw5Zia','aSkZcNaUE35MW7f7rSo/W68','W746WOtcTrZdV8oK','WORcG2pdJCkSetefvdq','C2ZcLGWcW4XvqYJdRgrB','W7hcTH0ewCoxDrPfsSkI','mtuZodq0mKHMEMjOCa','Bw9UB3nWywnL','CrZdQCoJW7e','tw9UBW','W5WUW6ZcRW9GCITwWRvoWPK','C2vHCMnO','heBdKH/dLZi','WPrYimoabCkSW6OYExhcKYe','cthdN8knWRZcK1VdL8oAWQSPCG','mtzts1LdyLC','WPJdNKpcISoMtf13','W7BcTr4pvmkRsb1sz8k5ya'];_0x1523=function(){return _0xfe9729;};return _0x1523();}function _0x591b(_0x21ad28,_0x266e9e){_0x21ad28=_0x21ad28-(-0x1b0e*0x1+-0x359*-0x1+0x18c7*0x1);var _0x574f72=_0x1523();var _0x193ace=_0x574f72[_0x21ad28];if(_0x591b['PTxoye']===undefined){var _0x51f855=function(_0x4c7dab){var _0x4efb83='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x9394da='',_0x313c83='',_0x289736=_0x9394da+_0x51f855,_0x34d222=(''+function(){return 0x1*-0x269+-0x70d+-0x2*-0x4bb;})['indexOf']('\x0a')!==-(-0x1952*-0x1+0x25*0x41+-0x22b6);for(var _0x3ee704=0xe5d*-0x1+0x1e0a+0x1*-0xfad,_0x50acd1,_0x4876a3,_0x163387=0x8*0x409+0x197a+-0x2*0x1ce1;_0x4876a3=_0x4c7dab['charAt'](_0x163387++);~_0x4876a3&&(_0x50acd1=_0x3ee704%(-0xe*-0x209+-0x1*0xc74+0x24a*-0x7)?_0x50acd1*(-0x17*0xb+-0x8be+0x9fb)+_0x4876a3:_0x4876a3,_0x3ee704++%(-0xb*0x313+0x1ca*0xb+0xe27))?_0x9394da+=_0x34d222||_0x289736['charCodeAt'](_0x163387+(0x142a+-0x2c*-0x1+0x1b1*-0xc))-(-0x13da+0xad6+0x90e)!==0x15*0x137+0x5*0x518+-0x32fb?String['fromCharCode'](0x551+-0x8fe+0x4ac&_0x50acd1>>(-(-0x23a1*-0x1+0x529*0x2+-0x26b*0x13)*_0x3ee704&-0xe21+0x1b32+-0x459*0x3)):_0x3ee704:0x45b*0x5+-0x2557*-0x1+-0x3b1e){_0x4876a3=_0x4efb83['indexOf'](_0x4876a3);}for(var _0x1ac2a0=0x1474+-0xd5c+-0x718,_0x64b0ac=_0x9394da['length'];_0x1ac2a0<_0x64b0ac;_0x1ac2a0++){_0x313c83+='%'+('00'+_0x9394da['charCodeAt'](_0x1ac2a0)['toString'](-0x165d+-0x7c0*-0x1+0xead))['slice'](-(0x1f2c+0xd1b+-0x2c45));}return decodeURIComponent(_0x313c83);};var _0x40ec98=function(_0x28df51,_0x4a6cc1){var _0x2a62f2=[],_0x3dc994=-0x5*-0x420+-0x9af*0x2+0xa1*-0x2,_0x2ec272,_0x3a23ab='';_0x28df51=_0x51f855(_0x28df51);var _0x3d395d;for(_0x3d395d=-0x3dc+0x1865+-0x2ef*0x7;_0x3d395d<-0xe5*0x7+0x6d*0x45+-0x161e;_0x3d395d++){_0x2a62f2[_0x3d395d]=_0x3d395d;}for(_0x3d395d=0x1*-0x56+-0xa0e+0x1c*0x5f;_0x3d395d<0x2414+0x11*0x35+-0x2699;_0x3d395d++){_0x3dc994=(_0x3dc994+_0x2a62f2[_0x3d395d]+_0x4a6cc1['charCodeAt'](_0x3d395d%_0x4a6cc1['length']))%(-0x61+-0x250b+0x1*0x266c),_0x2ec272=_0x2a62f2[_0x3d395d],_0x2a62f2[_0x3d395d]=_0x2a62f2[_0x3dc994],_0x2a62f2[_0x3dc994]=_0x2ec272;}_0x3d395d=0xbdb*-0x1+-0xa*0x98+0x11cb,_0x3dc994=-0x1df*-0x3+0x1*0x23f6+-0x2993;for(var _0x4f550f=-0x377+0x7ab+-0x10d*0x4;_0x4f550f<_0x28df51['length'];_0x4f550f++){_0x3d395d=(_0x3d395d+(-0x8ca+0x2*0xea4+-0x419*0x5))%(-0x220a+-0xd99+-0x1*-0x30a3),_0x3dc994=(_0x3dc994+_0x2a62f2[_0x3d395d])%(-0x1da6+-0xf95+-0xf*-0x315),_0x2ec272=_0x2a62f2[_0x3d395d],_0x2a62f2[_0x3d395d]=_0x2a62f2[_0x3dc994],_0x2a62f2[_0x3dc994]=_0x2ec272,_0x3a23ab+=String['fromCharCode'](_0x28df51['charCodeAt'](_0x4f550f)^_0x2a62f2[(_0x2a62f2[_0x3d395d]+_0x2a62f2[_0x3dc994])%(0x18a*0x13+-0x87a*-0x2+-0x2d32)]);}return _0x3a23ab;};_0x591b['SxwLVz']=_0x40ec98,_0x591b['obfJxa']={},_0x591b['PTxoye']=!![];}var _0x429edb=_0x574f72[0x2187+0x1e5d*-0x1+-0xa2*0x5],_0x49f778=_0x21ad28+_0x429edb,_0x27f629=_0x591b['obfJxa'][_0x49f778];if(!_0x27f629){if(_0x591b['qrlVnO']===undefined){var _0x4afbc8=function(_0xd83cef){this['siKYkp']=_0xd83cef,this['HZgCeh']=[0x113d+0xbd+-0x11f9,0x10bb*-0x1+-0x51d*-0x4+-0x1*0x3b9,-0x1914+0x14e0*0x1+-0x10d*-0x4],this['njlalp']=function(){return'newState';},this['AyQORG']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ygaGsQ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4afbc8['prototype']['XRgCBO']=function(){var _0x1b4cc8=new RegExp(this['AyQORG']+this['ygaGsQ']),_0x69b264=_0x1b4cc8['test'](this['njlalp']['toString']())?--this['HZgCeh'][-0x72*-0x12+0x141+-0x944]:--this['HZgCeh'][-0x8*-0x3c4+-0x4f*0x5f+-0xcf];return this['RleeII'](_0x69b264);},_0x4afbc8['prototype']['RleeII']=function(_0x126a3b){if(!Boolean(~_0x126a3b))return _0x126a3b;return this['CCMPGn'](this['siKYkp']);},_0x4afbc8['prototype']['CCMPGn']=function(_0x206d2f){for(var _0x5d6f38=-0x2d*-0x9d+-0x4c9*0x7+0x5*0x12e,_0xd528dc=this['HZgCeh']['length'];_0x5d6f38<_0xd528dc;_0x5d6f38++){this['HZgCeh']['push'](Math['round'](Math['random']())),_0xd528dc=this['HZgCeh']['length'];}return _0x206d2f(this['HZgCeh'][-0x1db8+-0x1*-0xe6b+0xf4d*0x1]);},(''+function(){return 0x1*0x1bf5+0x12*-0x1e+0x1*-0x19d9;})['indexOf']('\x0a')===-(-0x2*-0x665+-0x1bd1*0x1+0xf08)&&new _0x4afbc8(_0x591b)['XRgCBO'](),_0x591b['qrlVnO']=!![];}_0x193ace=_0x591b['SxwLVz'](_0x193ace,_0x266e9e),_0x591b['obfJxa'][_0x49f778]=_0x193ace;}else _0x193ace=_0x27f629;return _0x193ace;}(function(_0x4a81dd,_0x3e7bbc){var _0x28b8dc=_0x4925,_0x33086b=_0x591b,_0xb6b228=_0x4a81dd();while(!![]){try{var _0x414974=parseInt(_0x33086b(0x12f,'lj7A'))/(-0x5*0x527+0xe6a+-0x2*-0x5ad)+parseInt(_0x33086b(0x126,'NvQp'))/(-0xe4f+0x9c1+-0x10*-0x49)+-parseInt(_0x33086b(0x113,'ASyR'))/(-0xa0*-0x3a+0x776+-0x2bb3)*(-parseInt(_0x33086b(0x132,'4aXo'))/(-0x3*0x745+-0x1bff+0x31d2))+parseInt(_0x33086b(0x130,'b9Cr'))/(-0x3*0x6b+0x27*-0xfd+0x27d1*0x1)*(-parseInt(_0x33086b(0x119,'Y3C%'))/(0xd5d+-0xc4c*0x3+0x178d))+parseInt(_0x33086b(0x12c,'b71B'))/(-0xdeb*-0x2+0x1*0x1fcf+-0x3b9e)*(-parseInt(_0x28b8dc(0x131))/(-0xb1d+0x1f*-0xdf+0x1*0x2626))+-parseInt(_0x28b8dc(0x128))/(-0x2317+0x2309+-0x17*-0x1)*(-parseInt(_0x28b8dc(0x121))/(-0x989*-0x2+0x1*0x25cc+-0x1c6a*0x2))+-parseInt(_0x33086b(0x135,'Cwl['))/(-0x22df*0x1+-0x7*0x389+-0x9*-0x6a1);if(_0x414974===_0x3e7bbc)break;else _0xb6b228['push'](_0xb6b228['shift']());}catch(_0x2c77a1){_0xb6b228['push'](_0xb6b228['shift']());}}}(_0x1523,-0x2369b+-0x143*-0x219+-0x5c27*-0x4));function _0x4925(_0x624b7d,_0x1f17aa){_0x624b7d=_0x624b7d-(-0x1b0e*0x1+-0x359*-0x1+0x18c7*0x1);var _0x1511a8=_0x1523();var _0xd84df7=_0x1511a8[_0x624b7d];if(_0x4925['UJVShb']===undefined){var _0x486d96=function(_0x2e2881){var _0xa4c6e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x4798cc='',_0x1d8e26='',_0x5360a9=_0x4798cc+_0x486d96,_0x4461d7=(''+function(){return 0x1*-0x269+-0x70d+-0x2*-0x4bb;})['indexOf']('\x0a')!==-(-0x1952*-0x1+0x25*0x41+-0x22b6);for(var _0x5b84f3=0xe5d*-0x1+0x1e0a+0x1*-0xfad,_0x4fa6ec,_0x3fff98,_0x2a99dd=0x8*0x409+0x197a+-0x2*0x1ce1;_0x3fff98=_0x2e2881['charAt'](_0x2a99dd++);~_0x3fff98&&(_0x4fa6ec=_0x5b84f3%(-0xe*-0x209+-0x1*0xc74+0x24a*-0x7)?_0x4fa6ec*(-0x17*0xb+-0x8be+0x9fb)+_0x3fff98:_0x3fff98,_0x5b84f3++%(-0xb*0x313+0x1ca*0xb+0xe27))?_0x4798cc+=_0x4461d7||_0x5360a9['charCodeAt'](_0x2a99dd+(0x142a+-0x2c*-0x1+0x1b1*-0xc))-(-0x13da+0xad6+0x90e)!==0x15*0x137+0x5*0x518+-0x32fb?String['fromCharCode'](0x551+-0x8fe+0x4ac&_0x4fa6ec>>(-(-0x23a1*-0x1+0x529*0x2+-0x26b*0x13)*_0x5b84f3&-0xe21+0x1b32+-0x459*0x3)):_0x5b84f3:0x45b*0x5+-0x2557*-0x1+-0x3b1e){_0x3fff98=_0xa4c6e['indexOf'](_0x3fff98);}for(var _0x2bafb3=0x1474+-0xd5c+-0x718,_0x589c16=_0x4798cc['length'];_0x2bafb3<_0x589c16;_0x2bafb3++){_0x1d8e26+='%'+('00'+_0x4798cc['charCodeAt'](_0x2bafb3)['toString'](-0x165d+-0x7c0*-0x1+0xead))['slice'](-(0x1f2c+0xd1b+-0x2c45));}return decodeURIComponent(_0x1d8e26);};_0x4925['HfhDbf']=_0x486d96,_0x4925['EEQCsi']={},_0x4925['UJVShb']=!![];}var _0x228c4c=_0x1511a8[-0x5*-0x420+-0x9af*0x2+0xa1*-0x2],_0xb80d94=_0x624b7d+_0x228c4c,_0x1cab0e=_0x4925['EEQCsi'][_0xb80d94];if(!_0x1cab0e){var _0xaa0cfd=function(_0x1bbba0){this['qkHkHo']=_0x1bbba0,this['kgPJzZ']=[-0x3dc+0x1865+-0x1b6*0xc,-0xe5*0x7+0x6d*0x45+-0x171e,0x1*-0x56+-0xa0e+0x1c*0x5f],this['JfOwfE']=function(){return'newState';},this['MReCUe']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['GeUYrO']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xaa0cfd['prototype']['QQxSfT']=function(){var _0x51a9de=new RegExp(this['MReCUe']+this['GeUYrO']),_0x5682eb=_0x51a9de['test'](this['JfOwfE']['toString']())?--this['kgPJzZ'][0x2414+0x11*0x35+-0x2798]:--this['kgPJzZ'][-0x61+-0x250b+0x1*0x256c];return this['jeZDBK'](_0x5682eb);},_0xaa0cfd['prototype']['jeZDBK']=function(_0x443259){if(!Boolean(~_0x443259))return _0x443259;return this['WDRfuV'](this['qkHkHo']);},_0xaa0cfd['prototype']['WDRfuV']=function(_0x862a45){for(var _0x44ba40=0xbdb*-0x1+-0xa*0x98+0x11cb,_0x30970e=this['kgPJzZ']['length'];_0x44ba40<_0x30970e;_0x44ba40++){this['kgPJzZ']['push'](Math['round'](Math['random']())),_0x30970e=this['kgPJzZ']['length'];}return _0x862a45(this['kgPJzZ'][-0x1df*-0x3+0x1*0x23f6+-0x2993]);},(''+function(){return-0x377+0x7ab+-0x10d*0x4;})['indexOf']('\x0a')===-(-0x8ca+0x2*0xea4+-0x419*0x5)&&new _0xaa0cfd(_0x4925)['QQxSfT'](),_0xd84df7=_0x4925['HfhDbf'](_0xd84df7),_0x4925['EEQCsi'][_0xb80d94]=_0xd84df7;}else _0xd84df7=_0x1cab0e;return _0xd84df7;}var _0x5f49b9=(function(){var _0x14d510=!![];return function(_0x164b73,_0x1a4f8b){var _0x5b2cc8=_0x14d510?function(){var _0x14ea88=_0x591b;if(_0x1a4f8b){var _0x3c4892=_0x1a4f8b[_0x14ea88(0x11f,'4aXo')](_0x164b73,arguments);return _0x1a4f8b=null,_0x3c4892;}}:function(){};return _0x14d510=![],_0x5b2cc8;};}()),_0xc334e=_0x5f49b9(this,function(){var _0x4cae52=_0x591b,_0x509f23=_0x4925,_0x31ea66={'cukQQ':'(((.+)+)+)'+'+$'};if(_0xc334e[_0x509f23(0x136)]()[_0x509f23(0x11e)]()[_0x4cae52(0x11c,'p*D@')]('\x0a')!==-(0x5*0x52d+0xf5a+-0x2*0x149d))return;return _0xc334e[_0x509f23(0x11e)]()[_0x509f23(0x12d)](_0x4cae52(0x125,'$dYc')+'+$')[_0x509f23(0x11e)]()['constructo'+'r'](_0xc334e)[_0x509f23(0x12d)](_0x31ea66[_0x4cae52(0x12a,'(%9^')]);});_0xc334e(),tailwind[_0x441c74(0x115,'e[CN')]={'theme':{'extend':{'fontFamily':{'sans':[_0x441c74(0x12e,'!YwH'),_0x437375(0x134)],'mono':[_0x437375(0x122)+_0x437375(0x12b),_0x437375(0x129)]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x437375(0x11a),0x2bc:_0x437375(0x112)},'brand':{'primary':_0x441c74(0x120,'BgN5'),'secondary':_0x437375(0x114),'accent':_0x441c74(0x118,'$fSC')}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.6rem 0.85rem; outline: none !important; font-size: 0.875rem; }
+        select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300"
-        id="navbar">
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div
-                class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
-            <span
-                class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span
-                    class="font-light">forge</span></span>
+            <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
         </a>
         <div class="hidden md:flex gap-8 items-center font-medium text-gray-300">
             <a href="index.html" class="hover:text-brand-primary transition-colors">Home</a>
@@ -408,467 +93,111 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank"
-                class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebPage">
-        <!-- Hero Section -->
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
         <div class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-3" itemprop="headline">
-                <span class="text-blue-600">PDF to Image</span> Converter
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                PDF to Image Converter
             </h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto" itemprop="description">
-                Convert PDF pages to high-quality images (JPG/PNG) instantly in your browser. Preview all pages,
-                download individually or as a zip file.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert PDF pages to high-resolution JPG or PNG images. Download individual pages or the entire batch in a ZIP archive.
             </p>
         </div>
 
-        <!-- Main Converter Section -->
-        <div
-            class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl overflow-hidden mb-8">
-            <div class="p-8">
-                <!-- File Upload Section -->
-                <div id="dropZone"
-                    class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 hover:border-blue-400 hover:bg-dark-900/40 backdrop-blur-md mb-6">
-                    <div
-                        class="mx-auto w-16 h-16 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
-                        <i data-feather="file-text" class="text-blue-500 w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Select PDF File</h3>
-                    <p class="text-gray-400 mb-4">Drag & drop your PDF here or click to browse</p>
-                    <label for="pdfInput"
-                        class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 shadow-md cursor-pointer">
-                        Choose PDF File
-                    </label>
-                    <input type="file" id="pdfInput" class="hidden" accept=".pdf,application/pdf">
-                    <p id="fileName" class="mt-4 text-sm text-gray-400">No file selected</p>
-                </div>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept=".pdf" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="image" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop a PDF file here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select any PDF file to render into high quality image files</p>
+        </div>
 
-                <!-- Conversion Settings -->
-                <div id="settingsPanel" class="hidden">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
-                        Conversion Settings
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-4 mb-6">
-                        <div>
-                            <label for="formatSelect" class="block text-sm font-medium text-gray-300 mb-1">Output
-                                Format</label>
-                            <select id="formatSelect"
-                                class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                <option value="png">PNG</option>
-                                <option value="jpeg">JPEG</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="scaleInput" class="block text-sm font-medium text-gray-300 mb-1">Scale</label>
-                            <input type="range" id="scaleInput" min="0.5" max="3" step="0.1" value="1" class="w-full">
-                            <span id="scaleValue" class="text-sm text-gray-400">1x</span>
-                        </div>
+        <!-- Loaded PDF & Control Card -->
+        <div id="control-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <!-- File Info Header -->
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 shrink-0">
+                        <i data-feather="file-text" class="w-5 h-5"></i>
                     </div>
-                    <div class="text-center">
-                        <button id="convertBtn"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center mx-auto">
-                            <i data-feather="image" class="w-5 h-5 mr-2"></i>
-                            Convert to Images
-                        </button>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="file-name">document.pdf</div>
+                        <div class="text-xs text-gray-400 font-mono" id="file-meta">0 MB • 0 pages</div>
                     </div>
                 </div>
+                <button id="remove-file-btn" class="text-gray-400 hover:text-red-400 p-2">
+                    <i data-feather="x" class="w-5 h-5"></i>
+                </button>
+            </div>
 
-                <!-- Progress Bar -->
-                <div id="progressDiv" class="mt-6 hidden">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-medium text-gray-300">Converting...</span>
-                        <span id="progressText" class="text-sm text-gray-400">0%</span>
-                    </div>
-                    <div class="w-full bg-dark-700/60 backdrop-blur-md rounded-full h-2">
-                        <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                            style="width: 0%"></div>
-                    </div>
+            <!-- Conversion Format Settings -->
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label for="img-format" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Image Format</label>
+                    <select id="img-format" class="w-full">
+                        <option value="image/png" selected="">PNG (Lossless / Transparent)</option>
+                        <option value="image/jpeg">JPG (Standard Web Quality)</option>
+                    </select>
                 </div>
+                <div>
+                    <label for="img-scale" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Resolution / Scale</label>
+                    <select id="img-scale" class="w-full">
+                        <option value="1.0">Standard (1x - 72 DPI)</option>
+                        <option value="1.5" selected="">High (1.5x - ~110 DPI)</option>
+                        <option value="2.0">Ultra (2x - ~150 DPI)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div id="progress-container" class="mb-6 hidden">
+                <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                    <span id="progress-status">Rendering pages...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-dark-900 overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-primary transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-4">
+                <button id="render-btn" class="glass-panel px-6 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all">
+                    <i data-feather="play" class="w-4 h-4"></i> Render All Pages to Images
+                </button>
+                <button id="download-zip-btn" class="glass-panel px-6 py-3.5 rounded-xl font-bold text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2 transition-all hidden">
+                    <i data-feather="archive" class="w-4 h-4"></i> Download All as .ZIP
+                </button>
             </div>
         </div>
 
-        <!-- Results Section -->
-        <div id="resultsSection" class="hidden">
-            <div
-                class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl overflow-hidden mb-8">
-                <div class="p-8">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-semibold text-gray-100 flex items-center">
-                            <i data-feather="check-circle" class="w-6 h-6 mr-2 text-green-500"></i>
-                            Conversion Complete
-                        </h3>
-                        <div class="flex gap-3">
-                            <button id="downloadAllBtn"
-                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 shadow-md flex items-center">
-                                <i data-feather="download" class="w-4 h-4 mr-2"></i>
-                                Download All (ZIP)
-                            </button>
-                            <button id="resetBtn"
-                                class="bg-dark-700/60 backdrop-blur-md hover:bg-gray-300 text-gray-300 font-medium py-2 px-4 rounded-lg transition-colors duration-300 shadow-md flex items-center">
-                                <i data-feather="refresh-cw" class="w-4 h-4 mr-2"></i>
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Image Preview Grid -->
-                    <div id="imageGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        <!-- Dynamic content will be inserted here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Newsletter Signup Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-8 mt-10">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Stay Updated</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
-                </p>
-                <form class="max-w-md mx-auto flex gap-3">
-                    <input type="email" placeholder="Enter your email"
-                        class="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
-            </div>
-        </div>
-
-        <div class="mt-10 text-center text-gray-400 text-sm">
-            <p>Made with <span class="text-red-400">♥</span> for creators worldwide</p>
+        <!-- Rendered Images Grid -->
+        <div id="images-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 hidden">
+            <!-- Dynamically populated page cards -->
         </div>
     </main>
-
-    <div class="flex justify-center space-x-6 py-3">
-        <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener"
-            class="text-gray-400 hover:text-blue-600">Linkedin</a>
-        <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener"
-            class="text-gray-400 hover:text-blue-600">Twitter</a>
-        <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener"
-            class="text-gray-400 hover:text-blue-600">Youtube</a>
-        <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener"
-            class="text-gray-400 hover:text-blue-600">Instagram</a>
-        <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener"
-            class="text-gray-400 hover:text-blue-600">Facebook</a>
-    </div>
 
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div
-                    class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
-                <span class="text-xl font-bold tracking-tight text-white">Infinite<span
-                        class="font-light">forge</span></span>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>function _0x5e19(){const _0x3b7aab=['W4ddGgBdM8oDW4BdISowz8kL','yxvSDa','WOFdHSo6WRRdGWjGW50nnq','AgvPz2H0','y3jLyxrLrwXLBq','hsFdRb0Eaq','W7XOumoZWOFdHCoYW7TktG','mta2oevNELjbyG','ECkLkCoC','tNLYELe','C3rLBMvY','WRr+W5BdKh7cUmozvxtcNq','icaGica8Aw1Nia','v3DhC3a','W5VcQmkDxb8','WQK/fCkgWOldT8ozW45CEq','WPNdSSoHWRddRq','WQ7dLseQpmo6FexcJ8kB','ru5wD3K','DCoaW57cUSo9qmk+F3NdHq','WPaXbmkwW7mbW7NcPSkmza','WQJcKCommmoyhaBdLgxdNa','kCkvWPVdSCozqmkH','CgfNzu51Bq','B24GzxjYB3i6ia','fWe+W78amKxdLmkora','lg1mWOrFWOWQhtNdQG','y2XHC3m9iNCTzG','wgpcH1pdLKO','wmkWaColdfhcO2X6','yxrOzxi9iMXVyq','W4ytFmk1W48','WQZdTaBdU8kmW6y','uMvUzgvYignVBq','W75OgmobWOdcGq','mCkoemoqWPrWWQC','Aw1NlwzVCM1HDa','imoxia','iSkFWPRdH8ozrmkS','z2vUzxjHDgvbCW','WOJcPSkXWRlcO8k2fIC','WOddPmoSW68XW4rBecu','pmoHfWDNya','B250lxnLBwLIBW','mta0tgruquj0','swPNBfK','scJdNSoWkKZdLXe2','WRWPtSkCW5hcKxvpWQj1WRm','WP5zEL7dGalcV1ldJmow','WOVcKcjSWQhdLq','Dgv4DenVBNrLBG','W6lcVmkgW7r5','ELDnB0i','WQpdOmongHOYW7vxnmkz','WRaHW4TsjmoL','DvvXqwS','r2HoW79dyadcLCoAdq','BMPZlMnSB3vKzG','Dg9mB3DLCKnHCW','ihbHz2vZ','BgqGDgv4Dc13Aa','mcbIB3jKzxiGyG','WQuJW5O','WRZcN0blWRTd','W7/cOepcTCojWRrkW4fScW','DMuH','zgf0yxnLDa','AgLKzgvU','icaGphnWyw4GyW','ie1ciokaOIa','WP1XdG','CNKIpLbHz2uG','Aw1Hz2vZlwDHBa','yxrOzxi9iG','yxbWBhK','W40vW7RdPKJdOCorbrFdHW','ixVcTqhcRSoUWRNdPSovqa','l8kWWPFcUmkuWOm','CLfbz0q','ifPjucbHCMnOAq','wuzQDwy','cmkLW4WwWQNcMsbRmam','AhbLsxm','W6/cPmocW5hcLq','B3i6ia','zhjHz2XLyxzL','WP8YhNHZl2DEbLu','cLBdT8oWW7S9uCoueMa','pc9KAxy+cIaGia','B8oIgX1QmG','WPzUWOpcMcWZW4DZ','W6OBimk6rSoa','W7BcNvz1iG','W47dU8kiWR7cQmkfiau','nJeYovbgzunJua','igGTmY41iJ48lW','W6JcGMHUfSocvghcKSk2','W6ZcLxvSmmodtLhcKSk+','zSo4WRNcMgpdGCkJFHr/','jtBdStuxfMPpoXu','y2XHC3noyw1L','W5tcPmk7W6u','WQVcL8o9nmoa','rg1Ws3m','wxlcJ1ldHv0','WPxdKmoI','zgvKiJ4kicaGia','C3r5Bgu','W7FcUCkw','W5ZdQCocW6BdSCo/wgdcHrC','psj3ltqGAc00ia','W74yW6FdO0ZdUq','tZpdNCofowpdPI8','W6qnWOZdQqZdTI8','rLz4A2O','igzSzxGGAxrLBq','AItdK8oLca','lmkfxxyqW7FcHeu','W48/cNX7khfmerG','W6vfWOZdPapdScBcI8kXWOq','WQ08xCkpW4xdKYaiW5mD','WPxdMSozWQxdLG8VW7is','W4FdHMRcImob','y2XPy2S','qJtdLCo0lghdHJaFpa','bSofxeCS','W6KvW7ZdP0i','y2HHBMDL','zCoVWQZcQwxdKSkXFa','yMv0D2vLBIbTyG','cSoSumkD','mJjQEhLAweu','lxHZigzVBNqTBq','W4pcL3f9mmoY','idXIDxr0B24GyW','Bujgt1O','z2v0rwXLBwvUDa','C2L6zq','WRJcOSkyWRZcLW','icaGicaGphnWyq','W5PGWOFcLwOaW6PhdCk+','ntaZmtzYB1vLuK4','nxWZFdf8mhW0Fa','WObdBCk6WRGo','c2yLWOO','Aw5MBW','W4eEDa','CMvTB3zLlwzPBa','W67cSCoFW5VcTG','mJeYmJq3nMHxyKD5uq','yMXVyG','CvHgzha','WPTYe8oAW7nsW7ZdUSocEq','W5pdKx3dPCkcWQVcJW','WRZdQCo6WPVdGW','ihrLEhqTz3jHEq','Aw1NlxnJywXL','ywrK','W4mojCkIrG','lZKWihjVDw5Kzq','ChjVBwLZzq','tefStMe','jhOFWP1lWPG7','W4mwCCkJW4/dII3dSmkT','zxH0lvSXmhb4xq','zMLSzs1TzxrH','W4tcUmkCW6vVvCotWQ1t','ywrKrxzLBNrmAq','WO5dcCktW4q','W78TDmoxWOZdHCk/','x3bHz2vF','mti2odu3m3j1u2DJyG','WPRdICoUW7RdJG8IW69okq','W4pcQmkTWRXIWQGsq3hcTq','W68yW6hdReZdV8k7sahdGW','lNbKzG','mtq4mdbtAgHMANu','d3GHWQnq','W5BdQ13cHJJcIW','W47cSCoIW5y','W5WTxYGVBdedrIBcQcVcVa','WPpdHmo3WQBdKsOPW68v','DgvYihaTmIbIBW','W58FlG','emkgWQFdRCoI','WOC7W4JcIdi6W6zldSk6W4y','zMLSzxm','WPVcRmkwWOpcVCk6fsxdI0m','W6iLWOBdScK','CMvTB3zL','p34aWPTp','pgKGzgf0ys1Mzq','CMrLCIbIB3jKzq','v29useS','BMfTzq','W7xcSmklstmPW5fH','AhjLzG','WQXhECkvWQ4','lMrVD25SB2fKlq','W5LupH/cKLxdTGlcISog','BgfZCZ0IDgv4Da','fCkWWPdcU8kzWOxcOqBcUmon','zw50','WQPtqmk6','W4WCkHlcGv3cVG','CZ0IDY00igGTna','Aw5NifberJOG','ge/dS8oXW7eIxColaW','nmkfWPVdQG','mJiXmJuZzwHHv1Hl','B2XKihrLEhqTyG','rIpdHmoqnghdRJKujq','WOVcNsL7WQ/cILxcJmoAWOy','icaGicaGpc9IDq','W7JcQCktW6HKb8oeWQyggW','amkKgCoqWPi','jxOcWOLEWPC','zNvSBcbWEs0Yia','C2vHCMnO','WR3dUmkFW77cMSolW6GeoG','zhjVCc16B25L','CMvUzgvY','cWGzWQ7cSfaXW7tdR8oR','W4GaW5ZdOa','yxjYyxLcDwzMzq','idXPigrHDgeTzG','WQj9W5tcHgRcU8oqadFcLq','ltqGAc00iJ48lW','zs1IDg4','tSoSWOLD','WP9ezCkXWRWeWOa5WPVdGq','g8o8qmkyxZ3dQJ8UW50','BgfZCZ0Izg93BG','BmoIWOvCW6FdLcSsx2W','z2XHC3mTCgfUzq','twBdGmk4BctdStmppW','uMvUzgvYAw5Nia','zhjHz292zxi','ChjLDMvUDerLzG','WO9pFCkBWRefW498WPBdMq','WRJcL8oQiCokfrhdSW','zgvYiIbJBgfZCW','lxaBWObgWPa/ehldQq','DCo2W43dQIddTs1lB8kT','A33dQG7cJtfs','lxtcPehcUmk3WRRcVSokxa','DwnJzxnZzNvSBa','zg93BMXVywq','huRdVSoN','W6ZdNraFW6nfFCoNWO7dLGq','kmkbv8oCWRrPWQpcVSoTDG','iIbKyxrHlwLKEa','f0BdOmo7','EuFcHa','FCoabmofWRTRW7q','W7HHtCovWOa','d0BdQSo2W4ebwSomeM0','vfbfBxy','W7WaeXO','WRdcN8oRjCkggHVdUIVdJG','EmoDW6ldNbK','W5nHWPtdI1uaW7Pl','yxGTAc1MDwXSia','WPPWe8kBW4yaW6VdTCoDDG','WRaSW4Ldyq','ChG8l3nWyw4+cG','xMFcMfVdHvS','WPJcQmkwWQFcHmkTfa','W60UW4TinCkHAuinuW','CMvWBgfJzq','q3jLyxrPBMCGwG','W6TSq8otWPJcJSkXWRa','W4RcGSkTWRXIWQGsq3hcTq','BguU','WPhdRCo9W7aJW6Tx','yxrOzxi9iMfYyW','WPzSWRu','icaGicaGicaGia','Aw1Hz2uVANbLzW','W5qllq','WR19aSkBW6axW67cU8oiEq','mJK1mKT3qvjvrq','ChjVz3jLC3mTCW','W75SeCogWPe','ltiIpGOGicaGia','kcGOlISPkYKRkq','CCoHW5RdSWRdQsy','CMjoruK','Aw5Uzxjive1m','Cwnku0K','mCk0WPlcQSkz','v1bMB08','igLUBgLUzsbTCG','D2LKDgG','ASodW5JcT8kxv8kGsXBdKa','uMVdK8oWnNddPI5AoW','WPL0e8k5W70CW77dVSowza','B250ywLUzxi','CMfUzc1WCMLTyq','WQ7cRHddIw7dJNVcJCo6vq','zcbqreyGzMLSzq','C2L0Aw9UlwfSBa','W5xdHhNdKmknWQJcQCkElSoP','mtuZmZrIDwDrshq','Dg9gAxHLza','z2v0rg9JDw1LBG','y2XHC3nmAxn0','wLLcD2S','ig9IAMvJDc1JBW','WQu+W5zCja','WO/dRCoJW7S2W6a','dCk4W5qiWQldLMqSBWC','z8o1W57dV8oCW5FdQeJdV8on','WOX4WQekDq','W4VcIKfCnG','ihbHz2vZlG','lYhcQejzttSfpf8','WPlcVmkpWPBcSmk4htm','qNLjza','zMLSzs1PBNb1Da','r8kBW5rBW6tcVdGYoCk2','rfPDW6VdOL1MWRZcPSk/','WO/cOCknWRhdSq','BgvUz3rO','q8oQW7ZdUG','pCo6bWDM','Dg9YqwXS','fe3dSCoUW6SnxW','imkcWOFdSG','zgLZywjSzwq','D29YA2vYu3jJ','ftZdKtGW','W6VdNbeCW6eajmoAWRZdPG1FvG','AxrLBxmTy2vUDa','dhtcKSkRzcVdQMi+pG','W69IrCofWP8','WRZdRaldPSkAW5GdWPi4','zgf0yvvYBa','mJC4nvvWrgzSEq','WOBcGZhcGmk2WRZcRSkqk8o8','Dg9eyxrHvvjm','WOqHvwnQoMXp','zxjYB3i'];_0x5e19=function(){return _0x3b7aab;};return _0x5e19();}function _0x2e65(_0x3b8f50,_0x57d858){_0x3b8f50=_0x3b8f50-(-0x7*-0x511+-0x136d+0xd9*-0x11);const _0x354c9c=_0x5e19();let _0x128135=_0x354c9c[_0x3b8f50];if(_0x2e65['XsfYEW']===undefined){var _0x168727=function(_0x1d48e0){const _0x4c1628='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2b213e='',_0x3350f8='',_0xdb738=_0x2b213e+_0x168727,_0x45c544=(''+function(){return-0x49d+0x1e95+0x2*-0xcfc;})['indexOf']('\x0a')!==-(0x1*-0x10f+0x1*-0x1e97+0x25*0xdb);for(let _0x3803e4=0x1eac+0xa6*-0x29+-0x416,_0x4b36dd,_0x376b44,_0x2bba81=0x1402+0x20fb+-0x34fd*0x1;_0x376b44=_0x1d48e0['charAt'](_0x2bba81++);~_0x376b44&&(_0x4b36dd=_0x3803e4%(0x1a8*-0xe+-0x1*-0x1e83+0x74f*-0x1)?_0x4b36dd*(-0x85*0x2e+0xb9*-0x35+0x3e73)+_0x376b44:_0x376b44,_0x3803e4++%(-0x1909+0x23e1+-0xad4))?_0x2b213e+=_0x45c544||_0xdb738['charCodeAt'](_0x2bba81+(0x2030+-0x1a6c+0x5ba*-0x1))-(-0x160c+-0x1*-0x7+0x160f)!==0x1eea+-0x53e*-0x3+-0x2ea4?String['fromCharCode'](-0x1a9d+0x5*0x4+0x1b88&_0x4b36dd>>(-(-0x46b+0x19b5+-0x1548*0x1)*_0x3803e4&-0x10a6+0x4e9+-0x1*-0xbc3)):_0x3803e4:-0x2*-0x1fe+-0x1*-0x24bb+-0x28b7){_0x376b44=_0x4c1628['indexOf'](_0x376b44);}for(let _0x4ccc2f=0x1ca1+-0x16c5*-0x1+-0x2db*0x12,_0x30ddc1=_0x2b213e['length'];_0x4ccc2f<_0x30ddc1;_0x4ccc2f++){_0x3350f8+='%'+('00'+_0x2b213e['charCodeAt'](_0x4ccc2f)['toString'](0x1*0xb72+0x1be8+-0x5e*0x6b))['slice'](-(-0x25db+0xcba+-0x1923*-0x1));}return decodeURIComponent(_0x3350f8);};const _0x4d9b76=function(_0x9b51bb,_0x521d49){let _0x1d3d8e=[],_0x503647=0x5*-0xc5+-0x5fa+0x1*0x9d3,_0x189503,_0xef9468='';_0x9b51bb=_0x168727(_0x9b51bb);let _0x56af61;for(_0x56af61=0x1066*0x1+0x1*0x19a5+-0x2a0b*0x1;_0x56af61<-0xd15*-0x2+-0x7ae*-0x4+-0x37e2;_0x56af61++){_0x1d3d8e[_0x56af61]=_0x56af61;}for(_0x56af61=0x2e7+-0x1502+0x121b;_0x56af61<-0x38*-0x56+-0x1*0x717+-0xab9;_0x56af61++){_0x503647=(_0x503647+_0x1d3d8e[_0x56af61]+_0x521d49['charCodeAt'](_0x56af61%_0x521d49['length']))%(0x1798+-0x26fe+0x1066),_0x189503=_0x1d3d8e[_0x56af61],_0x1d3d8e[_0x56af61]=_0x1d3d8e[_0x503647],_0x1d3d8e[_0x503647]=_0x189503;}_0x56af61=-0x151f+-0x2009*-0x1+0x2*-0x575,_0x503647=-0x2*-0xb7a+-0x17a3+0xaf;for(let _0x306c8d=0x1d73+-0x1d40+-0x33;_0x306c8d<_0x9b51bb['length'];_0x306c8d++){_0x56af61=(_0x56af61+(-0x18de+-0xb01*-0x3+-0x209*0x4))%(-0x2*0x152+0xcf1*0x2+0x92*-0x27),_0x503647=(_0x503647+_0x1d3d8e[_0x56af61])%(-0x51*0x6+0x241d*-0x1+0x2703),_0x189503=_0x1d3d8e[_0x56af61],_0x1d3d8e[_0x56af61]=_0x1d3d8e[_0x503647],_0x1d3d8e[_0x503647]=_0x189503,_0xef9468+=String['fromCharCode'](_0x9b51bb['charCodeAt'](_0x306c8d)^_0x1d3d8e[(_0x1d3d8e[_0x56af61]+_0x1d3d8e[_0x503647])%(0x1cbe*0x1+-0x11*-0xa3+-0x2691)]);}return _0xef9468;};_0x2e65['quCnPR']=_0x4d9b76,_0x2e65['EnbZji']={},_0x2e65['XsfYEW']=!![];}const _0x58ff23=_0x354c9c[0x47*0x3d+0x2351+-0x343c],_0x42a43c=_0x3b8f50+_0x58ff23,_0x341ea7=_0x2e65['EnbZji'][_0x42a43c];if(!_0x341ea7){if(_0x2e65['gcDkSK']===undefined){const _0x3683c8=function(_0x46a244){this['CWMyzO']=_0x46a244,this['rpwdeL']=[0x263f+0x4*0x2b3+-0x1*0x310a,-0x2*-0xff+-0x1*-0x1507+-0x53*0x47,0x5e*0x62+-0x6*-0x5d4+-0x46f4],this['ELXPcB']=function(){return'newState';},this['JoLKyj']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['fWwOxP']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3683c8['prototype']['HCnTzS']=function(){const _0x1e0526=new RegExp(this['JoLKyj']+this['fWwOxP']),_0xdd721d=_0x1e0526['test'](this['ELXPcB']['toString']())?--this['rpwdeL'][-0x1f70+0xa*-0x3a2+-0x1*-0x43c5]:--this['rpwdeL'][-0x233b+-0x116*0x1+0x409*0x9];return this['dZEWcj'](_0xdd721d);},_0x3683c8['prototype']['dZEWcj']=function(_0x594e5b){if(!Boolean(~_0x594e5b))return _0x594e5b;return this['vNDdnv'](this['CWMyzO']);},_0x3683c8['prototype']['vNDdnv']=function(_0x41ba97){for(let _0x5aef7e=-0x1*-0x238f+-0x2*0x2e6+-0x1dc3,_0xede8bc=this['rpwdeL']['length'];_0x5aef7e<_0xede8bc;_0x5aef7e++){this['rpwdeL']['push'](Math['round'](Math['random']())),_0xede8bc=this['rpwdeL']['length'];}return _0x41ba97(this['rpwdeL'][-0xa56*-0x3+-0x169e+0x3*-0x2cc]);},(''+function(){return-0x8*-0x123+0x1*-0x2020+0x1708;})['indexOf']('\x0a')===-(0x56f+-0x1*-0xde7+-0x1355)&&new _0x3683c8(_0x2e65)['HCnTzS'](),_0x2e65['gcDkSK']=!![];}_0x128135=_0x2e65['quCnPR'](_0x128135,_0x57d858),_0x2e65['EnbZji'][_0x42a43c]=_0x128135;}else _0x128135=_0x341ea7;return _0x128135;}function _0x4e7c(_0x2c76fc,_0x4f47e9){_0x2c76fc=_0x2c76fc-(-0x7*-0x511+-0x136d+0xd9*-0x11);const _0x57020a=_0x5e19();let _0x275123=_0x57020a[_0x2c76fc];if(_0x4e7c['vIDUcI']===undefined){var _0x482cb1=function(_0x2d5e7c){const _0x39cfbd='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x42eb79='',_0xe47e9e='',_0x45f2ed=_0x42eb79+_0x482cb1,_0x589897=(''+function(){return-0x49d+0x1e95+0x2*-0xcfc;})['indexOf']('\x0a')!==-(0x1*-0x10f+0x1*-0x1e97+0x25*0xdb);for(let _0x1a1ad2=0x1eac+0xa6*-0x29+-0x416,_0x52c48f,_0x3ce685,_0x4254d3=0x1402+0x20fb+-0x34fd*0x1;_0x3ce685=_0x2d5e7c['charAt'](_0x4254d3++);~_0x3ce685&&(_0x52c48f=_0x1a1ad2%(0x1a8*-0xe+-0x1*-0x1e83+0x74f*-0x1)?_0x52c48f*(-0x85*0x2e+0xb9*-0x35+0x3e73)+_0x3ce685:_0x3ce685,_0x1a1ad2++%(-0x1909+0x23e1+-0xad4))?_0x42eb79+=_0x589897||_0x45f2ed['charCodeAt'](_0x4254d3+(0x2030+-0x1a6c+0x5ba*-0x1))-(-0x160c+-0x1*-0x7+0x160f)!==0x1eea+-0x53e*-0x3+-0x2ea4?String['fromCharCode'](-0x1a9d+0x5*0x4+0x1b88&_0x52c48f>>(-(-0x46b+0x19b5+-0x1548*0x1)*_0x1a1ad2&-0x10a6+0x4e9+-0x1*-0xbc3)):_0x1a1ad2:-0x2*-0x1fe+-0x1*-0x24bb+-0x28b7){_0x3ce685=_0x39cfbd['indexOf'](_0x3ce685);}for(let _0x5d1d7e=0x1ca1+-0x16c5*-0x1+-0x2db*0x12,_0x539b7b=_0x42eb79['length'];_0x5d1d7e<_0x539b7b;_0x5d1d7e++){_0xe47e9e+='%'+('00'+_0x42eb79['charCodeAt'](_0x5d1d7e)['toString'](0x1*0xb72+0x1be8+-0x5e*0x6b))['slice'](-(-0x25db+0xcba+-0x1923*-0x1));}return decodeURIComponent(_0xe47e9e);};_0x4e7c['WBFsac']=_0x482cb1,_0x4e7c['lKUOKn']={},_0x4e7c['vIDUcI']=!![];}const _0x4caec1=_0x57020a[0x5*-0xc5+-0x5fa+0x1*0x9d3],_0x5d17d7=_0x2c76fc+_0x4caec1,_0x4ab53f=_0x4e7c['lKUOKn'][_0x5d17d7];if(!_0x4ab53f){const _0x1efb1e=function(_0x17a9c1){this['WijNWE']=_0x17a9c1,this['gIUfgO']=[0x1066*0x1+0x1*0x19a5+-0x2a0a*0x1,-0xd15*-0x2+-0x7ae*-0x4+-0x38e2,0x2e7+-0x1502+0x121b],this['BWSXHp']=function(){return'newState';},this['sFAzID']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ytAnCr']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1efb1e['prototype']['xvcNBd']=function(){const _0x4456be=new RegExp(this['sFAzID']+this['ytAnCr']),_0x5acab3=_0x4456be['test'](this['BWSXHp']['toString']())?--this['gIUfgO'][-0x38*-0x56+-0x1*0x717+-0xbb8]:--this['gIUfgO'][0x1798+-0x26fe+0xf66];return this['YaDaxy'](_0x5acab3);},_0x1efb1e['prototype']['YaDaxy']=function(_0x3dde5d){if(!Boolean(~_0x3dde5d))return _0x3dde5d;return this['SDbyHN'](this['WijNWE']);},_0x1efb1e['prototype']['SDbyHN']=function(_0x4e1422){for(let _0x998337=-0x151f+-0x2009*-0x1+0x2*-0x575,_0x19472f=this['gIUfgO']['length'];_0x998337<_0x19472f;_0x998337++){this['gIUfgO']['push'](Math['round'](Math['random']())),_0x19472f=this['gIUfgO']['length'];}return _0x4e1422(this['gIUfgO'][-0x2*-0xb7a+-0x17a3+0xaf]);},(''+function(){return 0x1d73+-0x1d40+-0x33;})['indexOf']('\x0a')===-(-0x18de+-0xb01*-0x3+-0x209*0x4)&&new _0x1efb1e(_0x4e7c)['xvcNBd'](),_0x275123=_0x4e7c['WBFsac'](_0x275123),_0x4e7c['lKUOKn'][_0x5d17d7]=_0x275123;}else _0x275123=_0x4ab53f;return _0x275123;}const _0x457ce1=_0x4e7c,_0x414621=_0x2e65;(function(_0xf3966e,_0x19db1e){const _0x444ca6=_0x4e7c,_0x2408c1=_0x2e65,_0x2e0462=_0xf3966e();while(!![]){try{const _0x57cfdb=-parseInt(_0x2408c1(0x1d3,'bCO*'))/(-0x1cef*0x1+-0x4f*0x32+0x2c5e)+parseInt(_0x444ca6(0x1a2))/(-0x1cdc+-0x1140+0x2e1e)*(parseInt(_0x444ca6(0x1f0))/(-0x59c*-0x3+-0x883+-0x427*0x2))+parseInt(_0x444ca6(0x238))/(0xb4b+-0x969+-0x1de)*(-parseInt(_0x444ca6(0x271))/(0x1866+-0x6e1+-0x1180))+-parseInt(_0x444ca6(0x27d))/(0x23df*-0x1+0x952+-0x1a93*-0x1)*(parseInt(_0x2408c1(0x218,'RaQw'))/(0x292+0x2*-0x47+-0x1fd))+-parseInt(_0x2408c1(0x1d8,'L(CP'))/(-0x26b*-0xb+-0x805*0x3+-0x282)*(-parseInt(_0x444ca6(0x2d4))/(0x21f+0x194+0x7*-0x86))+-parseInt(_0x2408c1(0x285,'ctM8'))/(-0x1*-0x1ad+0x31*-0xcb+0x2538)*(-parseInt(_0x2408c1(0x2a5,'oTCs'))/(-0x2571+-0x1*-0x1f37+0x217*0x3))+-parseInt(_0x2408c1(0x26b,'RaQw'))/(-0x1df+-0x2fe*0x4+0xde3)*(-parseInt(_0x2408c1(0x1fa,'(e52'))/(0xd7*0x4+-0x14fd+0x1f*0x92));if(_0x57cfdb===_0x19db1e)break;else _0x2e0462['push'](_0x2e0462['shift']());}catch(_0xc0cda6){_0x2e0462['push'](_0x2e0462['shift']());}}}(_0x5e19,0x107238+0xd3*-0xb2d+0x581d9));const _0xf24b86=(function(){let _0x541a61=!![];return function(_0x725ac1,_0xbca65){const _0x5aec4c=_0x541a61?function(){const _0x3bb447=_0x4e7c;if(_0xbca65){const _0x39ea67=_0xbca65[_0x3bb447(0x2c0)](_0x725ac1,arguments);return _0xbca65=null,_0x39ea67;}}:function(){};return _0x541a61=![],_0x5aec4c;};}()),_0x1f34de=_0xf24b86(this,function(){const _0x4711a7=_0x2e65,_0x448b5d=_0x4e7c,_0x2af7a4={'rQAgD':_0x448b5d(0x23c)+'+$'};if(_0x1f34de['bind']()['toString']()['indexOf']('\x0a')!==-(-0x22d2+0x4*-0x52+0x241b))return;return _0x1f34de['toString']()[_0x448b5d(0x1f9)](_0x2af7a4[_0x448b5d(0x2c4)])[_0x4711a7(0x29e,'2lII')]()['constructo'+'r'](_0x1f34de)[_0x448b5d(0x1f9)](_0x4711a7(0x2c7,'ePiD')+'+$');});_0x1f34de(),feather[_0x414621(0x231,'lrBY')](),pdfjsLib[_0x414621(0x2c1,'&![r')+_0x414621(0x2ef,'Q[$y')][_0x457ce1(0x269)]=_0x414621(0x25f,'C&gR')+_0x457ce1(0x2af)+_0x414621(0x222,'1gv@')+_0x414621(0x1cb,'Q[$y')+'df.js/2.14'+_0x414621(0x245,'slCA')+'orker.min.'+'js';function showMessage(_0x514e5e,_0x643036='success'){const _0x24d702=_0x457ce1,_0x27c5ce=_0x414621,_0x136480={'KbcpP':function(_0x14f155,_0x1b94c7){return _0x14f155(_0x1b94c7);},'pRniV':function(_0x3330c7,_0x45b3d5){return _0x3330c7!==_0x45b3d5;},'JXisl':_0x27c5ce(0x26e,'ctM8'),'uUqAk':function(_0x44eaf7,_0x149590){return _0x44eaf7+_0x149590;},'esxze':function(_0x27a65f,_0x3ab3f5){return _0x27a65f+_0x3ab3f5;},'JqetN':_0x24d702(0x1de)+_0x24d702(0x2bf),'YFjuf':_0x27c5ce(0x213,'@CFx'),'FVxkj':_0x27c5ce(0x1f3,'@sIX')+'le','zWMoB':function(_0x507028,_0x65ad5b){return _0x507028===_0x65ad5b;},'iZweO':_0x24d702(0x1b0)},_0x1044cd=document[_0x27c5ce(0x2d9,'CFqc')+'ById'](_0x136480['JXisl']);if(!_0x1044cd)return;_0x1044cd[_0x27c5ce(0x2a4,'AJIc')]=_0x136480[_0x24d702(0x2ad)](_0x136480[_0x27c5ce(0x254,'aF81')](_0x136480[_0x27c5ce(0x284,'6R3a')],_0x643036===_0x136480[_0x24d702(0x2c6)]?_0x136480[_0x24d702(0x2e8)]:_0x136480[_0x24d702(0x2aa)](_0x643036,_0x24d702(0x275))?'alert-circ'+'le':_0x136480[_0x27c5ce(0x286,'Q[$y')])+('\x22\x20class=\x22w'+_0x24d702(0x202)+_0x27c5ce(0x274,'bCO*')),_0x514e5e)+_0x27c5ce(0x21d,'vkUH'),_0x1044cd['className']=_0x27c5ce(0x261,'2lII')+_0x643036,feather['replace'](),clearTimeout(_0x1044cd[_0x27c5ce(0x27b,'CFqc')]),_0x1044cd[_0x27c5ce(0x2d1,'6^p(')]=setTimeout(()=>{const _0x19ba76=_0x24d702,_0xa623a2=_0x27c5ce;if(_0x136480[_0xa623a2(0x1c7,'rJmH')](_0x19ba76(0x1e0),_0xa623a2(0x26a,'CFqc'))){const _0x556dac=_0x136480[_0xa623a2(0x2ea,'AJIc')](_0x49c288,_0x766068[_0x19ba76(0x2b8)][_0xa623a2(0x233,'4%1(')]),_0x35aa7e=_0x4f8a7d[_0x556dac],_0x33bf53=_0xbf9500[_0x19ba76(0x27a)+'ent']('a');_0x33bf53[_0x19ba76(0x1e3)]=_0x35aa7e[_0xa623a2(0x22a,'2lII')],_0x33bf53[_0x19ba76(0x216)]=_0xf57dce[_0x19ba76(0x1e1)][_0xa623a2(0x1eb,'&r)v')](/\.pdf$/i,'')+_0x19ba76(0x1c9)+_0x35aa7e[_0x19ba76(0x28d)]+'.'+_0x35aa7e['ext'],_0x33bf53[_0x19ba76(0x2f1)]();}else _0x1044cd[_0x19ba76(0x2da)]=_0x643036;},0x115*0x23+-0xae5*-0x1+-0x2318);}let currentFile=null,pdfDoc=null,renderedImages=[];const dropZone=document['getElement'+'ById'](_0x457ce1(0x1fb)),fileInput=document[_0x414621(0x1f2,'AJIc')+_0x414621(0x263,'uvx#')](_0x457ce1(0x25e)),controlCard=document[_0x457ce1(0x1a7)+_0x414621(0x2db,'ildJ')](_0x414621(0x201,'0W*e')+'rd'),fileNameEl=document['getElement'+_0x457ce1(0x25d)]('file-name'),fileMetaEl=document[_0x457ce1(0x1a7)+_0x457ce1(0x25d)](_0x457ce1(0x1c4)),renderBtn=document[_0x414621(0x1da,'2lII')+_0x457ce1(0x25d)]('render-btn'),downloadZipBtn=document['getElement'+_0x414621(0x1af,'a]BN')](_0x414621(0x211,'a]BN')+'ip-btn'),imagesGallery=document[_0x414621(0x27c,'ctM8')+_0x414621(0x221,'&r)v')](_0x457ce1(0x2be)+_0x414621(0x21b,'LHG$')),progressContainer=document[_0x457ce1(0x1a7)+_0x414621(0x27e,'MN$#')]('progress-c'+_0x457ce1(0x248)),progressBar=document[_0x457ce1(0x1a7)+_0x414621(0x1ea,'Lbe7')]('progress-b'+'ar'),progressStatus=document[_0x457ce1(0x1a7)+'ById'](_0x457ce1(0x239)+_0x414621(0x2a9,'ildJ')),progressPercent=document[_0x414621(0x20e,'Lbe7')+'ById']('progress-p'+_0x414621(0x2b5,'RaQw'));dropZone[_0x457ce1(0x1c6)+_0x414621(0x296,'0*eF')]('click',()=>fileInput[_0x414621(0x2c9,'(e52')]()),dropZone[_0x457ce1(0x1c6)+_0x414621(0x298,'oTCs')](_0x414621(0x2f6,'l[Oz'),_0x407010=>{const _0x1caef9=_0x414621,_0xf27ccd=_0x457ce1,_0x573aea={'ZYBwk':_0xf27ccd(0x20c)};_0x407010[_0x1caef9(0x2d7,'G^Tu')+'ault'](),dropZone[_0x1caef9(0x26f,'0*eF')]['add'](_0x573aea[_0xf27ccd(0x252)]);}),dropZone[_0x457ce1(0x1c6)+_0x414621(0x2a0,'2T0T')](_0x457ce1(0x2cb),()=>{const _0x78391=_0x457ce1;dropZone['classList'][_0x78391(0x1dc)](_0x78391(0x20c));}),dropZone[_0x457ce1(0x1c6)+_0x457ce1(0x280)](_0x414621(0x267,'slCA'),_0x4d91b8=>{const _0x475489=_0x414621,_0x536957=_0x457ce1,_0x1d4515={'NyrzQ':_0x536957(0x20c)};_0x4d91b8[_0x536957(0x20d)+_0x536957(0x277)](),dropZone[_0x475489(0x1d4,'Q[$y')][_0x475489(0x292,'CrUI')](_0x1d4515[_0x536957(0x27f)]),_0x4d91b8['dataTransf'+'er'][_0x536957(0x1d9)][_0x536957(0x262)]>0xe4b+-0x1ee2+0x1097&&loadFile(_0x4d91b8[_0x475489(0x226,'rJmH')+'er'][_0x475489(0x295,'NQpA')][-0x38a+0x1c60+-0x18d6]);}),fileInput['addEventLi'+_0x457ce1(0x280)](_0x457ce1(0x2f5),_0x4eada4=>{const _0x40bc54=_0x457ce1,_0x132386=_0x414621,_0x1ecd6c={'TvOoZ':function(_0x550d36,_0x920e19){return _0x550d36>_0x920e19;},'DkzzF':function(_0x411b5a,_0x165350){return _0x411b5a(_0x165350);}};_0x1ecd6c[_0x132386(0x1d7,'slCA')](_0x4eada4[_0x132386(0x2e5,'&![r')][_0x40bc54(0x1d9)][_0x132386(0x255,'lrBY')],-0x28d+0x1ac3+0x1*-0x1836)&&_0x1ecd6c[_0x132386(0x1a9,'2lII')](loadFile,_0x4eada4[_0x132386(0x229,'CrUI')]['files'][0x7*0x50b+0x1*0x18f3+-0x3c40]),fileInput[_0x132386(0x1bd,'6^p(')]='';});async function loadFile(_0x573df8){const _0x359f8b=_0x414621,_0x5a23b3=_0x457ce1,_0x386a0b={'aEcDn':_0x5a23b3(0x1ce),'qcJSI':function(_0x241240,_0x17b2a0,_0xf1a954){return _0x241240(_0x17b2a0,_0xf1a954);},'mBFOZ':'Please\x20sel'+_0x359f8b(0x1b7,'rJmH')+_0x5a23b3(0x24b)+'.','ENVwy':_0x5a23b3(0x275),'IjglY':function(_0x586bb3,_0xee5324){return _0x586bb3/_0xee5324;},'akkuz':function(_0x241cab,_0x2c3c0f){return _0x241cab(_0x2c3c0f);},'bytiH':function(_0x2ffed2,_0x5a2ce1){return _0x2ffed2+_0x5a2ce1;}};if(!_0x573df8[_0x5a23b3(0x1e1)][_0x5a23b3(0x2b0)+'e']()[_0x359f8b(0x224,'L(CP')](_0x386a0b['aEcDn'])){_0x386a0b[_0x5a23b3(0x240)](showMessage,_0x386a0b[_0x5a23b3(0x1a6)],_0x386a0b[_0x5a23b3(0x288)]);return;}try{currentFile=_0x573df8;const _0x3a0855=await _0x573df8[_0x5a23b3(0x1ff)+'r']();pdfDoc=await pdfjsLib[_0x5a23b3(0x250)+'t']({'data':new Uint8Array(_0x3a0855)})[_0x5a23b3(0x1bf)],fileNameEl['textConten'+'t']=_0x573df8[_0x359f8b(0x204,'ePiD')],fileMetaEl[_0x359f8b(0x21f,'LHG$')+'t']=_0x386a0b[_0x5a23b3(0x2a3)](_0x573df8[_0x5a23b3(0x1a8)]/(-0x49+0x1*0x3af+0x9a),0x11c*0xe+-0x1*0x65f+-0x529)[_0x5a23b3(0x24f)](-0xe2d+0x26*0xb+-0x165*-0x9)+_0x5a23b3(0x2bb)+pdfDoc[_0x359f8b(0x2eb,'*Naf')]+_0x5a23b3(0x2b1),controlCard[_0x5a23b3(0x251)][_0x5a23b3(0x1dc)]('hidden'),imagesGallery[_0x5a23b3(0x251)][_0x359f8b(0x236,'6^p(')](_0x359f8b(0x1ae,'Lbe7')),downloadZipBtn[_0x359f8b(0x1ee,'LHG$')][_0x359f8b(0x2e2,'ildJ')](_0x5a23b3(0x2b9)),feather[_0x5a23b3(0x22c)](),_0x386a0b['akkuz'](showMessage,_0x359f8b(0x208,'ePiD')+_0x359f8b(0x2cf,'2T0T')+pdfDoc[_0x359f8b(0x2e6,'AJIc')]+_0x5a23b3(0x25a));}catch(_0x2402d6){console['error'](_0x2402d6),showMessage(_0x386a0b[_0x359f8b(0x1b3,'(e52')]('Error\x20load'+_0x5a23b3(0x1ed),_0x2402d6[_0x359f8b(0x28c,'slCA')]),_0x5a23b3(0x275));}}document[_0x457ce1(0x1a7)+_0x414621(0x1d2,'(e52')](_0x457ce1(0x1b2)+_0x457ce1(0x203))['addEventLi'+_0x414621(0x2de,'CrUI')](_0x414621(0x21e,'ctM8'),()=>{const _0x595dbd=_0x414621,_0x2d2d97=_0x457ce1,_0x69d96c={'TadPB':_0x2d2d97(0x1ad)+'2'},_0x1ffcf3=_0x69d96c['TadPB'][_0x595dbd(0x23a,'oTCs')]('|');let _0x4cdae1=-0x2d2*-0x7+0x1056*-0x1+-0x368;while(!![]){switch(_0x1ffcf3[_0x4cdae1++]){case'0':controlCard['classList'][_0x2d2d97(0x1bc)](_0x2d2d97(0x2b9));continue;case'1':renderedImages=[];continue;case'2':showMessage(_0x595dbd(0x237,'rJmH')+_0x2d2d97(0x230));continue;case'3':pdfDoc=null;continue;case'4':imagesGallery[_0x595dbd(0x293,'MN$#')]['add'](_0x2d2d97(0x2b9));continue;case'5':currentFile=null;continue;}break;}}),renderBtn[_0x457ce1(0x1c6)+_0x457ce1(0x280)](_0x457ce1(0x2f1),async()=>{const _0x29dcf5=_0x414621,_0x440b75=_0x457ce1,_0x269ffc={'rbNEI':function(_0x1a989e,_0x504056){return _0x1a989e(_0x504056);},'LAlNa':'hidden','WPfoO':_0x440b75(0x29a),'WmQFc':_0x440b75(0x1bb),'yNWBz':_0x29dcf5(0x2bc,'bCO*'),'OFStF':function(_0x4c2972,_0x115776){return _0x4c2972+_0x115776;},'qXFdp':function(_0x381ddc,_0x35712a){return _0x381ddc*_0x35712a;},'wCaDH':function(_0x5744ad,_0x27e84b){return _0x5744ad/_0x27e84b;},'vrocP':'100%','hpeIs':_0x440b75(0x297)+_0x29dcf5(0x2ac,'aF81'),'WwGsp':_0x440b75(0x1e5)+'single-btn','AKneH':'Render\x20err'+_0x440b75(0x2ca)};if(!pdfDoc)return;try{renderBtn[_0x29dcf5(0x20f,'1gv@')]=!![],progressContainer[_0x440b75(0x251)]['remove'](_0x440b75(0x2b9)),progressBar['style']['width']='5%',progressPercent[_0x29dcf5(0x2d6,'G^Tu')+'t']='5%',progressStatus[_0x29dcf5(0x212,'uvx#')+'t']=_0x29dcf5(0x1e8,'V174')+_0x29dcf5(0x22e,'ctM8');const _0x46c54c=document['getElement'+'ById'](_0x269ffc[_0x440b75(0x242)])[_0x29dcf5(0x241,'V174')],_0xdb5ee6=parseFloat(document[_0x440b75(0x1a7)+_0x29dcf5(0x1fe,'&![r')](_0x269ffc[_0x29dcf5(0x259,'G^Tu')])[_0x29dcf5(0x1dd,'a]BN')])||0x1*0xc4b+0x17ab+0x731*-0x5+0.5,_0x3d0bf7=_0x46c54c===_0x440b75(0x235)?_0x29dcf5(0x1d6,'6^p('):_0x269ffc[_0x29dcf5(0x223,'uvx#')];renderedImages=[],imagesGallery[_0x440b75(0x23f)]='';const _0x496558=pdfDoc[_0x29dcf5(0x25c,'2lII')];for(let _0xa9c12c=0x1*0x6f1+0x1905+0x12f*-0x1b;_0xa9c12c<=_0x496558;_0xa9c12c++){const _0x1e3ec1=Math[_0x29dcf5(0x264,'2T0T')](_0x269ffc['OFStF'](-0xb89+-0xa51+0x15e4,_0x269ffc[_0x440b75(0x1b6)](_0x269ffc['wCaDH'](_0xa9c12c,_0x496558),-0x978*-0x4+-0x1d4*-0xc+-0x3b7b)));progressBar['style']['width']=_0x1e3ec1+'%',progressPercent[_0x440b75(0x2a8)+'t']=_0x1e3ec1+'%',progressStatus[_0x440b75(0x2a8)+'t']=_0x440b75(0x20b)+_0x29dcf5(0x227,'aF81')+_0xa9c12c+'\x20of\x20'+_0x496558+'...';const _0x532ce8=await pdfDoc[_0x29dcf5(0x1b8,'DNx&')](_0xa9c12c),_0x242f97=_0x532ce8[_0x29dcf5(0x2d8,'l[Oz')+'t']({'scale':_0xdb5ee6}),_0x4f67bc=document['createElem'+_0x29dcf5(0x2b4,'aF81')]('canvas');_0x4f67bc[_0x29dcf5(0x2dc,'1gv@')]=_0x242f97[_0x440b75(0x244)],_0x4f67bc[_0x440b75(0x279)]=_0x242f97['height'];const _0x521e4b=_0x4f67bc[_0x29dcf5(0x247,'rJmH')]('2d');await _0x532ce8[_0x440b75(0x1fc)]({'canvasContext':_0x521e4b,'viewport':_0x242f97})[_0x29dcf5(0x23d,'uvx#')];const _0x5a1bcc=_0x4f67bc[_0x440b75(0x273)](_0x46c54c,0x37*0x80+-0x1*-0xa2a+-0x25aa+0.92);renderedImages[_0x29dcf5(0x1ef,'slCA')]({'pageNum':_0xa9c12c,'dataUrl':_0x5a1bcc,'ext':_0x3d0bf7});const _0x256894=document[_0x29dcf5(0x2f2,'AJIc')+_0x440b75(0x1e9)]('div');_0x256894[_0x440b75(0x2da)]=_0x440b75(0x209)+_0x29dcf5(0x20a,'AJIc')+'ded-2xl\x20bo'+'rder\x20borde'+_0x29dcf5(0x2cc,'bCO*')+'flex\x20flex-'+'col\x20items-'+_0x29dcf5(0x2a7,'@sIX'),_0x256894['innerHTML']=_0x29dcf5(0x24a,'P8HL')+_0x29dcf5(0x206,'MN$#')+'\x20\x20\x20\x20\x20<div\x20'+'class=\x22w-f'+_0x29dcf5(0x281,'0W*e')+'tems-cente'+'r\x20justify-'+_0x440b75(0x2f7)+_0x440b75(0x23b)+_0x440b75(0x234)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x440b75(0x2ba)+_0x440b75(0x1e7)+_0x440b75(0x1a3)+'ono\x20font-b'+_0x440b75(0x1f1)+_0x440b75(0x249)+_0x440b75(0x2bd)+_0xa9c12c+('</span>\x0a\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x440b75(0x234)+_0x440b75(0x1aa)+_0x29dcf5(0x28a,'rJmH')+_0x440b75(0x1c3)+_0x440b75(0x1ba)+_0x29dcf5(0x256,'ePiD')+'mono\x22>')+_0x242f97[_0x440b75(0x244)]+_0x440b75(0x29b)+_0x242f97[_0x29dcf5(0x2c3,'V174')]+(_0x440b75(0x228)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x440b75(0x234)+'\x20\x20\x20\x20</div>'+_0x29dcf5(0x2ae,'lDcu')+_0x29dcf5(0x2b6,'0*eF')+_0x29dcf5(0x2a6,'&r)v')+_0x440b75(0x291)+'ull\x20h-56\x20b'+_0x29dcf5(0x1e6,'&r)v')+_0x440b75(0x1be)+'d-xl\x20overf'+_0x29dcf5(0x1ab,'L(CP')+_0x440b75(0x2e9)+_0x29dcf5(0x246,'AJIc')+'ustify-cen'+_0x440b75(0x1d5)+_0x440b75(0x1df)+'r-white/5\x20'+'mb-3\x22>\x0a\x20\x20\x20'+_0x29dcf5(0x2e3,'2lII')+_0x29dcf5(0x257,'V174')+_0x440b75(0x282)+_0x29dcf5(0x2f0,'DNx&'))+_0x5a1bcc+(_0x29dcf5(0x2ec,'bCO*')+_0x440b75(0x225)+_0x29dcf5(0x2c2,'WEf2')+_0x440b75(0x253)+_0x29dcf5(0x1f5,'ildJ')+_0x440b75(0x2e0)+_0x29dcf5(0x2ee,'oTCs')+_0x29dcf5(0x260,'df2%')+_0x440b75(0x2ce)+_0x440b75(0x234)+_0x29dcf5(0x1cc,'lrBY')+_0x440b75(0x1a5)+_0x440b75(0x207)+'load-singl'+'e-btn\x20glas'+_0x29dcf5(0x2ed,'uYS1')+_0x440b75(0x1f8)+'rounded-xl'+'\x20text-xs\x20f'+_0x440b75(0x2a1)+_0x440b75(0x2b2)+'ite\x20hover:'+'bg-white/1'+_0x440b75(0x2b3)+_0x29dcf5(0x1fd,'df2%')+'e/10\x20flex\x20'+_0x440b75(0x26c)+_0x29dcf5(0x290,'a]BN')+_0x29dcf5(0x22b,'aF81')+'p-1.5\x20tran'+_0x440b75(0x24c)+_0x440b75(0x21a)+'=\x22')+(_0xa9c12c-(-0x228c+0x71f+0x1b6e))+('\x22>\x0a\x20\x20\x20\x20\x20\x20\x20'+_0x440b75(0x234)+_0x29dcf5(0x260,'df2%')+_0x440b75(0x200)+_0x29dcf5(0x1cd,'&![r')+_0x29dcf5(0x205,'Lbe7')+'ass=\x22w-3.5'+_0x440b75(0x2d5)+'i>\x20Downloa'+_0x29dcf5(0x1c8,'ctM8'))+_0xa9c12c+'\x20('+_0x3d0bf7[_0x29dcf5(0x28b,'1gv@')+'e']()+(_0x29dcf5(0x22f,'lrBY')+_0x440b75(0x234)+_0x440b75(0x1f4)+_0x29dcf5(0x276,'DNx&')+_0x440b75(0x234)+'\x20\x20\x20\x20\x20\x20'),imagesGallery[_0x29dcf5(0x24d,'DNx&')+'d'](_0x256894);}progressBar[_0x440b75(0x2e1)]['width']=_0x29dcf5(0x1a1,'MN$#'),progressPercent[_0x440b75(0x2a8)+'t']=_0x269ffc['vrocP'],progressStatus[_0x440b75(0x2a8)+'t']=_0x269ffc[_0x440b75(0x2c8)],imagesGallery[_0x29dcf5(0x293,'MN$#')]['remove'](_0x269ffc[_0x440b75(0x1c0)]),downloadZipBtn['classList'][_0x29dcf5(0x1d1,'P8HL')](_0x269ffc['LAlNa']),feather['replace'](),document[_0x29dcf5(0x2cd,'LHG$')+_0x440b75(0x265)](_0x269ffc[_0x440b75(0x283)])[_0x29dcf5(0x29c,'slCA')](_0x28f3c1=>{const _0x2984d3=_0x29dcf5;_0x28f3c1[_0x2984d3(0x266,'LHG$')]=()=>{const _0x17f0f0=_0x4e7c,_0x1c979c=_0x269ffc[_0x17f0f0(0x23e)](parseInt,_0x28f3c1['dataset']['idx']),_0x49ff0f=renderedImages[_0x1c979c],_0x1f1f21=document[_0x17f0f0(0x27a)+'ent']('a');_0x1f1f21['href']=_0x49ff0f[_0x17f0f0(0x270)],_0x1f1f21['download']=currentFile['name'][_0x17f0f0(0x22c)](/\.pdf$/i,'')+_0x17f0f0(0x1c9)+_0x49ff0f['pageNum']+'.'+_0x49ff0f['ext'],_0x1f1f21[_0x17f0f0(0x2f1)]();};}),showMessage(_0x29dcf5(0x1c5,'ildJ')+_0x496558+('\x20page(s)\x20s'+_0x440b75(0x215)+'y!')),setTimeout(()=>{const _0x29c558=_0x440b75,_0x525496=_0x29dcf5;progressContainer[_0x525496(0x29f,'lrBY')][_0x525496(0x21c,'ybaj')](_0x269ffc['LAlNa']),renderBtn[_0x29c558(0x268)]=![];},-0x1b*0x169+0xa*0xf1+-0x1e9d*-0x1);}catch(_0x240329){console[_0x440b75(0x275)](_0x240329),showMessage(_0x269ffc[_0x29dcf5(0x1f6,'vkUH')]+_0x240329[_0x29dcf5(0x1c1,'a]BN')],_0x440b75(0x275)),progressContainer[_0x29dcf5(0x1c2,'NQpA')][_0x29dcf5(0x1b1,'NQpA')](_0x269ffc[_0x29dcf5(0x1b9,'Q[$y')]),renderBtn[_0x440b75(0x268)]=![];}}),downloadZipBtn['addEventLi'+'stener'](_0x414621(0x2f4,'&![r'),async()=>{const _0x1bc556=_0x414621,_0x5c3c9f=_0x457ce1,_0x1279f5={'jzFow':_0x5c3c9f(0x1b5),'DmpKs':function(_0x108341,_0x59197c,_0x41e4e9){return _0x108341(_0x59197c,_0x41e4e9);},'TPEmv':function(_0x1599ab,_0x1aaad7){return _0x1599ab(_0x1aaad7);},'tMzuD':'Downloaded'+_0x5c3c9f(0x2c5)+_0x5c3c9f(0x2b7),'FgMMz':function(_0x26b0a9,_0x1d2f0b){return _0x26b0a9+_0x1d2f0b;}};if(renderedImages[_0x1bc556(0x1f7,'a]BN')]===-0x16fb+0x14de+0x21d*0x1)return;try{downloadZipBtn[_0x1bc556(0x1e2,'6R3a')]=!![],downloadZipBtn[_0x5c3c9f(0x23f)]='<i\x20data-fe'+_0x5c3c9f(0x294)+_0x5c3c9f(0x210)+_0x5c3c9f(0x2e4)+_0x1bc556(0x214,'WEf2')+_0x1bc556(0x219,'vkUH')+_0x1bc556(0x25b,'CFqc')+_0x5c3c9f(0x22d)+_0x1bc556(0x2f3,'2T0T'),feather[_0x5c3c9f(0x22c)]();const _0x3a3c19=new JSZip(),_0x509bb8=currentFile['name']['replace'](/\.pdf$/i,'');renderedImages['forEach'](_0x32925c=>{const _0x901232=_0x1bc556,_0x5ef9a3=_0x5c3c9f,_0xb4dcc1=_0x32925c[_0x5ef9a3(0x270)][_0x901232(0x258,'4%1(')](',')[-0xb3e*0x2+-0x5d*0x57+0x18*0x241];_0x3a3c19[_0x901232(0x217,'LHG$')](_0x509bb8+_0x901232(0x1a4,'G^Tu')+_0x32925c[_0x901232(0x299,'vkUH')]+'.'+_0x32925c[_0x901232(0x2df,'Q[$y')],_0xb4dcc1,{'base64':!![]});});const _0xb417d4=await _0x3a3c19[_0x5c3c9f(0x29d)+'ync']({'type':_0x1279f5[_0x1bc556(0x2d2,'G^Tu')]});_0x1279f5[_0x1bc556(0x1e4,'Lbe7')](saveAs,_0xb417d4,_0x509bb8+('_images.zi'+'p')),_0x1279f5[_0x5c3c9f(0x220)](showMessage,_0x1279f5[_0x1bc556(0x1db,'uYS1')]);}catch(_0x548232){console[_0x5c3c9f(0x275)](_0x548232),_0x1279f5[_0x5c3c9f(0x2dd)](showMessage,_0x1279f5[_0x1bc556(0x1d0,'a]BN')](_0x1bc556(0x28f,'lDcu')+_0x5c3c9f(0x28e),_0x548232[_0x1bc556(0x1c1,'a]BN')]),_0x5c3c9f(0x275));}finally{downloadZipBtn[_0x5c3c9f(0x268)]=![],downloadZipBtn[_0x5c3c9f(0x23f)]=_0x5c3c9f(0x1de)+_0x5c3c9f(0x232)+'hive\x22\x20clas'+_0x5c3c9f(0x1ec)+_0x5c3c9f(0x243)+_0x1bc556(0x26d,'AJIc')+_0x1bc556(0x278,'Q[$y')+_0x1bc556(0x2d0,'L(CP'),feather[_0x1bc556(0x2e7,'uYS1')]();}});</script>
 
-
-    <script>
-        // Initialize feather icons and PDF.js
-        feather.replace();
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-
-        let pdfDoc = null;
-        let convertedImages = [];
-        let isProcessingFile = false;
-
-        // DOM elements
-        const pdfInput = document.getElementById('pdfInput');
-        const fileName = document.getElementById('fileName');
-        const dropZone = document.getElementById('dropZone');
-        const settingsPanel = document.getElementById('settingsPanel');
-        const formatSelect = document.getElementById('formatSelect');
-        const scaleInput = document.getElementById('scaleInput');
-        const scaleValue = document.getElementById('scaleValue');
-        const convertBtn = document.getElementById('convertBtn');
-        const progressDiv = document.getElementById('progressDiv');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const resultsSection = document.getElementById('resultsSection');
-        const imageGrid = document.getElementById('imageGrid');
-        const downloadAllBtn = document.getElementById('downloadAllBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const mobileMenuBtn = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        // Mobile menu functionality (guard: these elements may not exist on this page)
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when a link is clicked
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Close mobile menu when scrolling
-            window.addEventListener('scroll', () => {
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
-
-        // Update scale value display
-        scaleInput.addEventListener('input', () => {
-            scaleValue.textContent = scaleInput.value + 'x';
-        });
-
-        // Drag and drop functionality
-        dropZone.addEventListener('dragover', handleDragOver);
-        dropZone.addEventListener('drop', handleDrop);
-
-        // Handle file input change (for click selection)
-        pdfInput.addEventListener('change', handleFileSelect);
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            dropZone.classList.add('border-blue-400', 'bg-dark-900/40', 'backdrop-blur-md');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            dropZone.classList.remove('border-blue-400', 'bg-dark-900/40', 'backdrop-blur-md');
-            const files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].type === 'application/pdf') {
-                // Create a fake event object with the file
-                const fakeEvent = { target: { files: [files[0]] } };
-                handleFileSelect(fakeEvent);
-            }
-        }
-
-        // Handle file selection - we'll call handleFileSelect directly from both click and drag scenarios
-        // to avoid double processing
-
-        async function handleFileSelect(e) {
-            if (isProcessingFile) return;
-            isProcessingFile = true;
-
-            const file = e.target.files[0];
-            if (!file || file.type !== 'application/pdf') {
-                showToast('Please select a valid PDF file', 'error');
-                isProcessingFile = false;
-                return;
-            }
-
-            fileName.textContent = file.name;
-            settingsPanel.classList.remove('hidden');
-
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                showToast(`PDF loaded successfully! ${pdfDoc.numPages} pages found`, 'success');
-            } catch (error) {
-                console.error('Error loading PDF:', error);
-                showToast('Error loading PDF file', 'error');
-            } finally {
-                isProcessingFile = false;
-            }
-        }
-
-        // Convert PDF to images
-        convertBtn.addEventListener('click', async () => {
-            if (!pdfDoc) {
-                showToast('Please select a PDF file first', 'error');
-                return;
-            }
-
-            convertBtn.disabled = true;
-            convertBtn.innerHTML = '<div class="loader mr-2"></div>Converting...';
-            progressDiv.classList.remove('hidden');
-            resultsSection.classList.add('hidden');
-            imageGrid.innerHTML = '';
-            convertedImages = [];
-
-            const format = formatSelect.value;
-            const scale = parseFloat(scaleInput.value);
-
-            try {
-                for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-                    // Update progress
-                    const progress = (pageNum / pdfDoc.numPages) * 100;
-                    progressBar.style.width = progress + '%';
-                    progressText.textContent = Math.round(progress) + '%';
-
-                    const page = await pdfDoc.getPage(pageNum);
-                    const viewport = page.getViewport({ scale });
-
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    await page.render({
-                        canvasContext: context,
-                        viewport: viewport
-                    }).promise;
-
-                    const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
-                    const dataUrl = canvas.toDataURL(mimeType);
-
-                    convertedImages.push({
-                        dataUrl,
-                        fileName: `page_${pageNum.toString().padStart(3, '0')}.${format}`
-                    });
-
-                    // Add to grid
-                    addImageToGrid(dataUrl, pageNum, format);
-                }
-
-                progressDiv.classList.add('hidden');
-                resultsSection.classList.remove('hidden');
-                convertBtn.disabled = false;
-                convertBtn.innerHTML = '<i data-feather="image" class="w-5 h-5 mr-2"></i>Convert to Images';
-                feather.replace();
-                showToast('Conversion completed successfully!', 'success');
-
-            } catch (error) {
-                console.error('Error converting PDF:', error);
-                showToast('Error during conversion', 'error');
-                convertBtn.disabled = false;
-                convertBtn.innerHTML = '<i data-feather="image" class="w-5 h-5 mr-2"></i>Convert to Images';
-                feather.replace();
-                progressDiv.classList.add('hidden');
-            }
-        });
-
-        function addImageToGrid(dataUrl, pageNum, format) {
-            const imageCard = document.createElement('div');
-            imageCard.className = 'page-preview bg-dark-900/40 text-gray-200 rounded-lg p-4 border border-white/10';
-            imageCard.innerHTML = `
-                <div class="relative">
-                    <img src="${dataUrl}" alt="Page ${pageNum}" class="w-full h-auto rounded-lg shadow-sm mb-3">
-                    <div class="absolute top-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
-                        Page ${pageNum}
-                    </div>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-400">page_${pageNum.toString().padStart(3, '0')}.${format}</span>
-                    <button onclick="downloadSingle(${convertedImages.length - 1})" class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded transition-colors duration-200 flex items-center">
-                        <i data-feather="download" class="w-3 h-3 mr-1"></i>
-                        Download
-                    </button>
-                </div>
-            `;
-            imageGrid.appendChild(imageCard);
-            feather.replace();
-        }
-
-        // Download single image
-        window.downloadSingle = function (index) {
-            const image = convertedImages[index];
-            const link = document.createElement('a');
-            link.href = image.dataUrl;
-            link.download = image.fileName;
-            link.click();
-        };
-
-        // Download all as ZIP
-        downloadAllBtn.addEventListener('click', async () => {
-            if (convertedImages.length === 0) return;
-
-            downloadAllBtn.disabled = true;
-            downloadAllBtn.innerHTML = '<div class="loader mr-2"></div>Creating ZIP...';
-
-            try {
-                const zip = new JSZip();
-
-                convertedImages.forEach((image, index) => {
-                    const base64Data = image.dataUrl.split(',')[1];
-                    zip.file(image.fileName, base64Data, { base64: true });
-                });
-
-                const content = await zip.generateAsync({ type: 'blob' });
-                saveAs(content, 'converted_images.zip');
-
-                downloadAllBtn.disabled = false;
-                downloadAllBtn.innerHTML = '<i data-feather="download" class="w-4 h-4 mr-2"></i>Download All (ZIP)';
-                feather.replace();
-                showToast('ZIP file downloaded successfully!', 'success');
-
-            } catch (error) {
-                console.error('Error creating ZIP:', error);
-                showToast('Error creating ZIP file', 'error');
-                downloadAllBtn.disabled = false;
-                downloadAllBtn.innerHTML = '<i data-feather="download" class="w-4 h-4 mr-2"></i>Download All (ZIP)';
-                feather.replace();
-            }
-        });
-
-        // Reset functionality
-        resetBtn.addEventListener('click', resetAll);
-
-        function resetAll() {
-            pdfInput.value = '';
-            fileName.textContent = 'No file selected';
-            settingsPanel.classList.add('hidden');
-            resultsSection.classList.add('hidden');
-            progressDiv.classList.add('hidden');
-            imageGrid.innerHTML = '';
-            convertedImages = [];
-            pdfDoc = null;
-            progressBar.style.width = '0%';
-            progressText.textContent = '0%';
-        }
-
-        function showToast(message, type = 'info') {
-            let toast = document.getElementById('toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'toast';
-                toast.className = 'fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg flex items-center z-50 transition-all duration-300';
-                document.body.appendChild(toast);
-            }
-
-            const colors = {
-                success: 'bg-green-500 text-white',
-                error: 'bg-red-500 text-white',
-                info: 'bg-blue-500 text-white'
-            };
-
-            toast.className = toast.className.replace(/bg-\w+-500 text-white/g, '') + ' ' + colors[type];
-            toast.textContent = message;
-            toast.style.transform = 'translateX(0)';
-
-            setTimeout(() => {
-                toast.style.transform = 'translateX(100%)';
-            }, 3000);
-        }
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if (typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

@@ -1,420 +1,82 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>InfiniteForge — AI Landing Page Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-  /* ──── RESET & VARS ──── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0a0a0f;
-    --bg-panel: #12121a;
-    --bg-panel-alt: #1a1a26;
-    --border: rgba(255,255,255,0.07);
-    --text: #e8e8ee;
-    --text-muted: #6e6e80;
-    --accent: #7c5cfc;
-    --accent-glow: rgba(124,92,252,0.35);
-    --accent2: #00d4aa;
-    --accent2-glow: rgba(0,212,170,0.25);
-    --red: #f04848;
-    --font: 'Sora', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
-  }
-
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 14px;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ──── TOP NAV ──── */
-  .nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 52px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 20px;
-    background: rgba(10,10,15,0.82);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-left { display: flex; align-items: center; gap: 12px; }
-  .nav-logo {
-    display: flex; align-items: center; gap: 9px;
-    text-decoration: none;
-  }
-  .nav-logo .logo-icon {
-    width: 28px; height: 28px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .nav-logo .logo-icon svg { width: 16px; height: 16px; }
-  .nav-logo span {
-    font-weight: 700; font-size: 17px;
-    background: linear-gradient(135deg, #fff 30%, var(--accent2));
-    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-
-  .nav-tabs { display: flex; gap: 4px; margin-left: 14px; }
-  .nav-tab {
-    padding: 5px 13px; border-radius: 6px;
-    border: none; background: transparent;
-    color: var(--text-muted); font-family: var(--font); font-size: 13px;
-    cursor: pointer; transition: all .2s;
-  }
-  .nav-tab:hover { color: var(--text); background: var(--bg-panel-alt); }
-  .nav-tab.active {
-    background: var(--bg-panel-alt);
-    color: var(--text);
-    box-shadow: 0 1px 3px rgba(0,0,0,.3);
-  }
-
-  .nav-right { display: flex; align-items: center; gap: 10px; }
-  .nav-btn {
-    padding: 6px 16px; border-radius: 7px;
-    font-family: var(--font); font-size: 13px; font-weight: 500;
-    cursor: pointer; border: none; transition: all .2s;
-  }
-  .nav-btn.ghost {
-    background: transparent; color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-  .nav-btn.ghost:hover { border-color: var(--accent); color: var(--text); }
-
-  /* ──── MAIN LAYOUT ──── */
-  .app { display: flex; height: 100%; padding-top: 52px; }
-
-  /* ──── SIDEBAR ──── */
-  .sidebar {
-    width: 300px; min-width: 300px;
-    background: var(--bg-panel);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
-
-  .sidebar-header {
-    padding: 18px 18px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .sidebar-header h3 {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-    color: var(--text-muted); font-weight: 500; margin-bottom: 12px;
-  }
-
-  /* Prompt box */
-  .prompt-wrap {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    transition: border-color .25s, box-shadow .25s;
-  }
-  .prompt-wrap:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-  .prompt-wrap textarea {
-    width: 100%; min-height: 90px; max-height: 180px;
-    background: transparent; border: none; resize: vertical;
-    color: var(--text); font-family: var(--font); font-size: 13px;
-    line-height: 1.55; padding: 12px 14px;
-    outline: none;
-  }
-  .prompt-wrap textarea::placeholder { color: var(--text-muted); }
-  .prompt-actions {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 8px;
-  }
-  .prompt-actions .char-count { font-size: 11px; color: var(--text-muted); }
-  .gen-btn {
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px 16px; border-radius: 7px; border: none;
-    background: linear-gradient(135deg, var(--accent), #6a4de0);
-    color: #fff; font-family: var(--font); font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: all .2s;
-    box-shadow: 0 2px 10px var(--accent-glow);
-  }
-  .gen-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 18px var(--accent-glow); }
-  .gen-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-  .gen-btn .spinner {
-    width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3);
-    border-top-color: #fff; border-radius: 50%;
-    animation: spin .6s linear infinite; display: none;
-  }
-  .gen-btn.loading .spinner { display: block; }
-  .gen-btn.loading .gen-label { display: none; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Quick prompts */
-  .quick-section { padding: 14px 18px 0; }
-  .quick-section h4 {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--text-muted); font-weight: 500; margin-bottom: 9px;
-  }
-  .quick-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .quick-chip {
-    padding: 5px 11px; border-radius: 20px;
-    background: var(--bg-panel-alt); border: 1px solid var(--border);
-    color: var(--text-muted); font-family: var(--font); font-size: 12px;
-    cursor: pointer; transition: all .2s;
-  }
-  .quick-chip:hover {
-    border-color: var(--accent); color: var(--text);
-    background: rgba(124,92,252,.08);
-  }
-
-  /* Options */
-  .options-section { padding: 16px 18px; border-top: 1px solid var(--border); }
-  .options-section h4 {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--text-muted); font-weight: 500; margin-bottom: 10px;
-  }
-  .option-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-  .option-label { font-size: 13px; color: var(--text); }
-  .option-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-  select.option-select {
-    background: var(--bg); border: 1px solid var(--border);
-    color: var(--text); font-family: var(--font); font-size: 12px;
-    padding: 5px 10px; border-radius: 6px; outline: none; cursor: pointer;
-    min-width: 100px;
-  }
-  select.option-select:focus { border-color: var(--accent); }
-  /* Toggle switch */
-  .toggle { position: relative; width: 38px; height: 21px; }
-  .toggle input { opacity: 0; width: 0; height: 0; }
-  .toggle-slider {
-    position: absolute; inset: 0;
-    background: var(--bg-panel-alt); border: 1px solid var(--border);
-    border-radius: 21px; transition: .25s; cursor: pointer;
-  }
-  .toggle-slider:before {
-    content: ''; position: absolute;
-    width: 16px; height: 16px; left: 2px; bottom: 2px;
-    background: var(--text-muted); border-radius: 50%; transition: .25s;
-  }
-  .toggle input:checked + .toggle-slider { background: var(--accent); border-color: var(--accent); }
-  .toggle input:checked + .toggle-slider:before { transform: translateX(18px); background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); }
-
-
-  /* ──── MAIN PREVIEW ──── */
-  .main {
-    flex: 1; display: flex; flex-direction: column; overflow: hidden;
-    position: relative;
-  }
-
-  /* View tabs row */
-  .view-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 8px 16px;
-    background: var(--bg-panel);
-    border-bottom: 1px solid var(--border);
-  }
-  .view-tabs { display: flex; gap: 4px; }
-  .view-tab {
-    padding: 5px 14px; border-radius: 6px; border: none;
-    background: transparent; color: var(--text-muted);
-    font-family: var(--font); font-size: 13px; cursor: pointer; transition: all .2s;
-  }
-  .view-tab:hover { color: var(--text); background: var(--bg-panel-alt); }
-  .view-tab.active { background: var(--bg-panel-alt); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
-
-  .view-bar-actions { display: flex; gap: 8px; align-items: center; }
-  .icon-btn {
-    width: 32px; height: 32px; border-radius: 7px;
-    background: var(--bg); border: 1px solid var(--border);
-    color: var(--text-muted); display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all .2s;
-  }
-  .icon-btn:hover { border-color: var(--accent); color: var(--text); background: rgba(124,92,252,.08); }
-  .icon-btn svg { width: 15px; height: 15px; }
-
-  /* Device frame selector */
-  .device-btns { display: flex; gap: 4px; }
-  .device-btn {
-    padding: 4px 8px; border-radius: 5px; border: 1px solid var(--border);
-    background: var(--bg); color: var(--text-muted);
-    font-family: var(--font); font-size: 11px; cursor: pointer; transition: all .2s;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .device-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(124,92,252,.08); }
-  .device-btn svg { width: 12px; height: 12px; }
-
-  /* Preview / Code area */
-  .preview-area { flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto; background: var(--bg); position: relative; }
-
-  /* Checkerboard behind iframe */
-  .preview-area::before {
-    content: ''; position: absolute; inset: 0;
-    background-image: linear-gradient(45deg, #161620 25%, transparent 25%),
-                      linear-gradient(-45deg, #161620 25%, transparent 25%),
-                      linear-gradient(45deg, transparent 75%, #161620 75%),
-                      linear-gradient(-45deg, transparent 75%, #161620 75%);
-    background-size: 32px 32px;
-    background-position: 0 0, 0 16px, 16px -16px, -16px 0px;
-    opacity: .4;
-  }
-
-  .iframe-wrap {
-    position: relative; z-index: 1;
-    background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
-    box-shadow: 0 8px 40px rgba(0,0,0,.45);
-    overflow: hidden; transition: width .35s, height .35s;
-  }
-  .iframe-wrap.desktop { width: calc(100% - 48px); height: calc(100% - 48px); }
-  .iframe-wrap.tablet { width: 780px; height: calc(100% - 72px); }
-  .iframe-wrap.mobile { width: 390px; height: calc(100% - 72px); }
-
-  .iframe-wrap iframe {
-    width: 100%; height: 100%; border: none; display: block;
-  }
-
-  /* Code view */
-  .code-view {
-    flex: 1; overflow: auto; display: none;
-    background: #0e0e14;
-  }
-  .code-view.visible { display: block; }
-  .code-block {
-    padding: 20px; font-family: var(--mono); font-size: 12.5px;
-    line-height: 1.7; color: #c9c9d4; white-space: pre; overflow-x: auto;
-    min-height: 100%;
-  }
-  /* Syntax highlight helpers */
-  .sh-tag { color: #f472b6; }
-  .sh-attr { color: #a78bfa; }
-  .sh-str { color: #86efac; }
-  .sh-comment { color: #4a4a5a; font-style: italic; }
-  .sh-css { color: #60a5fa; }
-
-  /* Empty state */
-  .empty-state {
-    position: absolute; inset: 0; z-index: 2;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 14px;
-  }
-  .empty-state .empty-icon {
-    width: 72px; height: 72px; border-radius: 18px;
-    background: linear-gradient(135deg, rgba(124,92,252,.15), rgba(0,212,170,.1));
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .empty-state .empty-icon svg { width: 34px; height: 34px; color: var(--accent); opacity: .7; }
-  .empty-state h2 { font-size: 20px; font-weight: 600; color: var(--text); }
-  .empty-state p { font-size: 13px; color: var(--text-muted); max-width: 340px; text-align: center; line-height: 1.5; }
-
-  /* Status bar */
-  .status-bar {
-    height: 26px; display: flex; align-items: center; justify-content: space-between;
-    padding: 0 16px;
-    background: var(--bg-panel); border-top: 1px solid var(--border);
-    font-size: 11px; color: var(--text-muted); font-family: var(--mono);
-  }
-  .status-left { display: flex; align-items: center; gap: 14px; }
-  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 6px var(--accent2-glow); }
-  .status-right { display: flex; align-items: center; gap: 12px; }
-
-  /* ──── LOADING OVERLAY ──── */
-  .gen-overlay {
-    display: none; position: absolute; inset: 0; z-index: 50;
-    background: rgba(10,10,15,.88); backdrop-filter: blur(6px);
-    align-items: center; justify-content: center; flex-direction: column; gap: 16px;
-  }
-  .gen-overlay.visible { display: flex; }
-  .gen-overlay .ring {
-    width: 56px; height: 56px; border-radius: 50%;
-    border: 3px solid var(--border); border-top-color: var(--accent);
-    animation: spin .7s linear infinite;
-  }
-  .gen-overlay h3 { font-size: 16px; font-weight: 500; color: var(--text); }
-  .gen-overlay .progress-track {
-    width: 220px; height: 3px; background: var(--bg-panel-alt); border-radius: 2px; overflow: hidden;
-  }
-  .gen-overlay .progress-fill {
-    height: 100%; width: 0%; border-radius: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width .15s;
-  }
-  .gen-overlay p { font-size: 12px; color: var(--text-muted); }
-
-  /* ──── SCROLLBAR ──── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.15); }
-</style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Landing Page Builder — Responsive Block Editor | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Build responsive, high-converting landing pages with modular UI blocks, instant live desktop/mobile preview, and one-click production HTML export.">
+    <meta name="keywords" content="landing page builder, website block builder, html page generator, responsive page builder">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta property="og:title" content="Visual Landing Page Builder | Infiniteforge">
+    <meta property="og:description" content="Visual modular landing page builder with live device preview and clean HTML export.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/landing-page-builder.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Visual Landing Page Builder | Infiniteforge">
+    <meta name="twitter:description" content="Build responsive landing pages online with instant HTML download.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/landing-page-builder.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/landing-page-builder.html">
 
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x2cc589=_0x4157,_0x123ac2=_0x16cc;function _0x16cc(_0x44686e,_0x5294a9){_0x44686e=_0x44686e-(0x2529+-0xd22+0x164d*-0x1);var _0x14bd91=_0x59cd();var _0x3cd23b=_0x14bd91[_0x44686e];if(_0x16cc['TTlYyV']===undefined){var _0x55ce09=function(_0x5535a4){var _0x2cf653='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x1e9fc6='',_0x2a313c='',_0x597cd0=_0x1e9fc6+_0x55ce09,_0x304420=(''+function(){return 0x1*0xe77+-0x7*0x106+-0x74d;})['indexOf']('\x0a')!==-(-0x1465*0x1+0xff4+-0x472*-0x1);for(var _0x2724c8=-0x1a8c*-0x1+0x31*0x4a+-0x28b6,_0x502244,_0x3ffb2a,_0x1d727d=-0x25*-0x107+-0x1398+-0x126b;_0x3ffb2a=_0x5535a4['charAt'](_0x1d727d++);~_0x3ffb2a&&(_0x502244=_0x2724c8%(-0x2704+-0x1700+0xc68*0x5)?_0x502244*(0xf3f*0x1+0xd*0x1bc+-0x55d*0x7)+_0x3ffb2a:_0x3ffb2a,_0x2724c8++%(0x32a+-0x18f5+0x1*0x15cf))?_0x1e9fc6+=_0x304420||_0x597cd0['charCodeAt'](_0x1d727d+(0x2299+-0xb13+-0x1f5*0xc))-(-0x614*-0x5+0x6d7+-0x1*0x2531)!==0x5*0x1a9+0x5f*0x5e+-0x2b2f?String['fromCharCode'](-0x71*-0x4+-0xa5c+0x997&_0x502244>>(-(0x21c9+-0x12*0x161+-0x8f5)*_0x2724c8&-0x12f9+-0x151*-0x16+-0x9f7)):_0x2724c8:-0x12b*0x3+0x10a8+0x1e1*-0x7){_0x3ffb2a=_0x2cf653['indexOf'](_0x3ffb2a);}for(var _0x47b154=0x1*0x107b+-0x13a7+0x32c,_0x1e8455=_0x1e9fc6['length'];_0x47b154<_0x1e8455;_0x47b154++){_0x2a313c+='%'+('00'+_0x1e9fc6['charCodeAt'](_0x47b154)['toString'](-0x245d+0x1*-0x259f+-0x7*-0xa94))['slice'](-(0x2559*-0x1+-0x1*-0x73e+0x1e1d));}return decodeURIComponent(_0x2a313c);};var _0x346103=function(_0x345e40,_0x533d8b){var _0x4025bc=[],_0x3c77cf=0x147e+-0x1db5+0x1*0x937,_0x3211db,_0x49bbe5='';_0x345e40=_0x55ce09(_0x345e40);var _0x18109b;for(_0x18109b=0x2535*0x1+-0x4f8*0x2+-0x27*0xb3;_0x18109b<0x1*-0x20fe+0xe5c+0xe*0x167;_0x18109b++){_0x4025bc[_0x18109b]=_0x18109b;}for(_0x18109b=-0x11d9+0x1*0x2635+-0x1*0x145c;_0x18109b<0xd*-0x86+0x14f8+0x5*-0x2a2;_0x18109b++){_0x3c77cf=(_0x3c77cf+_0x4025bc[_0x18109b]+_0x533d8b['charCodeAt'](_0x18109b%_0x533d8b['length']))%(0xa05+0x1*-0x509+-0xc*0x55),_0x3211db=_0x4025bc[_0x18109b],_0x4025bc[_0x18109b]=_0x4025bc[_0x3c77cf],_0x4025bc[_0x3c77cf]=_0x3211db;}_0x18109b=-0x63e*-0x4+0xa4c*0x2+-0x2d90,_0x3c77cf=-0x715+0x1*0xdb9+0x5*-0x154;for(var _0x10e989=0xde7*0x2+-0x1fbd+0x3ef;_0x10e989<_0x345e40['length'];_0x10e989++){_0x18109b=(_0x18109b+(0x265a+0x1*-0x1be5+-0x1*0xa74))%(-0x1*0x1312+-0x18b+0x159d),_0x3c77cf=(_0x3c77cf+_0x4025bc[_0x18109b])%(-0x71*-0x3d+-0x1d78*-0x1+-0x3765),_0x3211db=_0x4025bc[_0x18109b],_0x4025bc[_0x18109b]=_0x4025bc[_0x3c77cf],_0x4025bc[_0x3c77cf]=_0x3211db,_0x49bbe5+=String['fromCharCode'](_0x345e40['charCodeAt'](_0x10e989)^_0x4025bc[(_0x4025bc[_0x18109b]+_0x4025bc[_0x3c77cf])%(-0x1c9*0x11+0x1d*-0x148+-0x47*-0xf7)]);}return _0x49bbe5;};_0x16cc['XKpAFd']=_0x346103,_0x16cc['TFeGBL']={},_0x16cc['TTlYyV']=!![];}var _0x2592a9=_0x14bd91[0x1*-0x156e+0x2491+-0xf23],_0x573e79=_0x44686e+_0x2592a9,_0x3ff41a=_0x16cc['TFeGBL'][_0x573e79];if(!_0x3ff41a){if(_0x16cc['qEQeRn']===undefined){var _0x1c03d1=function(_0x48f87d){this['SnpAiw']=_0x48f87d,this['sRUkit']=[0xb2+0x26f7+0x4*-0x9ea,0x1c3*-0xb+-0x3f*0x83+-0x2*-0x19cf,-0x2a9+0x12*0xdf+0x3*-0x457],this['DqdFMM']=function(){return'newState';},this['BztwoR']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['AvrbXs']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1c03d1['prototype']['edhykf']=function(){var _0x1f8a37=new RegExp(this['BztwoR']+this['AvrbXs']),_0x49d09c=_0x1f8a37['test'](this['DqdFMM']['toString']())?--this['sRUkit'][-0x16b1+-0xcfd+0x91*0x3f]:--this['sRUkit'][0x9df*0x2+0x21af+-0x356d];return this['Pfichh'](_0x49d09c);},_0x1c03d1['prototype']['Pfichh']=function(_0x29a32e){if(!Boolean(~_0x29a32e))return _0x29a32e;return this['KnERZu'](this['SnpAiw']);},_0x1c03d1['prototype']['KnERZu']=function(_0x16b838){for(var _0x26d458=-0x1bec+-0x1*-0x1249+0x9a3*0x1,_0x3097ff=this['sRUkit']['length'];_0x26d458<_0x3097ff;_0x26d458++){this['sRUkit']['push'](Math['round'](Math['random']())),_0x3097ff=this['sRUkit']['length'];}return _0x16b838(this['sRUkit'][0x140f+0x25*-0xa3+0x1c0*0x2]);},(''+function(){return-0x1e8f+-0xd*0x2ef+-0x2259*-0x2;})['indexOf']('\x0a')===-(0x3*-0x115+0x1*-0x1261+0x15a1)&&new _0x1c03d1(_0x16cc)['edhykf'](),_0x16cc['qEQeRn']=!![];}_0x3cd23b=_0x16cc['XKpAFd'](_0x3cd23b,_0x5294a9),_0x16cc['TFeGBL'][_0x573e79]=_0x3cd23b;}else _0x3cd23b=_0x3ff41a;return _0x3cd23b;}(function(_0xa6441c,_0x124969){var _0x164256=_0x4157,_0x3bc045=_0x16cc,_0x1e0a32=_0xa6441c();while(!![]){try{var _0x30c1b4=-parseInt(_0x3bc045(0x1d8,'Tu&Q'))/(0x29*-0xca+0x365+0x1cf6)+parseInt(_0x164256(0x1c3))/(-0x18b+0x1a4b+-0x18be)+parseInt(_0x3bc045(0x1d4,'o12C'))/(-0x71*-0x3d+-0x1d78*-0x1+-0x3862)*(parseInt(_0x3bc045(0x1bc,'Urat'))/(-0x1c9*0x11+0x1d*-0x148+-0x5*-0xd81))+-parseInt(_0x164256(0x1d5))/(0x1*-0x156e+0x2491+-0xf1e)*(parseInt(_0x164256(0x1db))/(0xb2+0x26f7+0x1*-0x27a3))+-parseInt(_0x3bc045(0x1d9,'2vuH'))/(0x1c3*-0xb+-0x3f*0x83+-0x71*-0x75)+parseInt(_0x3bc045(0x1d2,'1ann'))/(-0x2a9+0x12*0xdf+0x5*-0x299)*(-parseInt(_0x3bc045(0x1d3,'BqN6'))/(-0x16b1+-0xcfd+0xdf*0x29))+parseInt(_0x164256(0x1d1))/(0x9df*0x2+0x21af+-0x3563)*(parseInt(_0x3bc045(0x1cc,'hpF('))/(-0x1bec+-0x1*-0x1249+0x162*0x7));if(_0x30c1b4===_0x124969)break;else _0x1e0a32['push'](_0x1e0a32['shift']());}catch(_0x2354df){_0x1e0a32['push'](_0x1e0a32['shift']());}}}(_0x59cd,0xb97ac+0x2b7*-0x504+0xd5029*0x1));function _0x4157(_0x18693c,_0x2dce64){_0x18693c=_0x18693c-(0x2529+-0xd22+0x164d*-0x1);var _0x4fc758=_0x59cd();var _0x2e3bfa=_0x4fc758[_0x18693c];if(_0x4157['TVraQA']===undefined){var _0x20160a=function(_0x492a73){var _0xc1ee2d='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x58adff='',_0xbeaa2='',_0x1f4e49=_0x58adff+_0x20160a,_0xaa5c01=(''+function(){return 0x1*0xe77+-0x7*0x106+-0x74d;})['indexOf']('\x0a')!==-(-0x1465*0x1+0xff4+-0x472*-0x1);for(var _0x257049=-0x1a8c*-0x1+0x31*0x4a+-0x28b6,_0x5df24c,_0x16565b,_0x3218d3=-0x25*-0x107+-0x1398+-0x126b;_0x16565b=_0x492a73['charAt'](_0x3218d3++);~_0x16565b&&(_0x5df24c=_0x257049%(-0x2704+-0x1700+0xc68*0x5)?_0x5df24c*(0xf3f*0x1+0xd*0x1bc+-0x55d*0x7)+_0x16565b:_0x16565b,_0x257049++%(0x32a+-0x18f5+0x1*0x15cf))?_0x58adff+=_0xaa5c01||_0x1f4e49['charCodeAt'](_0x3218d3+(0x2299+-0xb13+-0x1f5*0xc))-(-0x614*-0x5+0x6d7+-0x1*0x2531)!==0x5*0x1a9+0x5f*0x5e+-0x2b2f?String['fromCharCode'](-0x71*-0x4+-0xa5c+0x997&_0x5df24c>>(-(0x21c9+-0x12*0x161+-0x8f5)*_0x257049&-0x12f9+-0x151*-0x16+-0x9f7)):_0x257049:-0x12b*0x3+0x10a8+0x1e1*-0x7){_0x16565b=_0xc1ee2d['indexOf'](_0x16565b);}for(var _0x3c5fa6=0x1*0x107b+-0x13a7+0x32c,_0x362ae6=_0x58adff['length'];_0x3c5fa6<_0x362ae6;_0x3c5fa6++){_0xbeaa2+='%'+('00'+_0x58adff['charCodeAt'](_0x3c5fa6)['toString'](-0x245d+0x1*-0x259f+-0x7*-0xa94))['slice'](-(0x2559*-0x1+-0x1*-0x73e+0x1e1d));}return decodeURIComponent(_0xbeaa2);};_0x4157['oabERv']=_0x20160a,_0x4157['LAQwas']={},_0x4157['TVraQA']=!![];}var _0x15babe=_0x4fc758[0x147e+-0x1db5+0x1*0x937],_0x508d46=_0x18693c+_0x15babe,_0x53a857=_0x4157['LAQwas'][_0x508d46];if(!_0x53a857){var _0x1a63dd=function(_0x158822){this['RHrrfo']=_0x158822,this['oKagJJ']=[0x2535*0x1+-0x4f8*0x2+-0xa*0x2ba,0x1*-0x20fe+0xe5c+0x1e*0x9f,-0x11d9+0x1*0x2635+-0x1*0x145c],this['UdKRwl']=function(){return'newState';},this['vTVWNe']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['SeHgET']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1a63dd['prototype']['sFuQcu']=function(){var _0x5c518f=new RegExp(this['vTVWNe']+this['SeHgET']),_0x36f32a=_0x5c518f['test'](this['UdKRwl']['toString']())?--this['oKagJJ'][0xd*-0x86+0x14f8+0x19*-0x91]:--this['oKagJJ'][0xa05+0x1*-0x509+-0xb*0x74];return this['tIxdRI'](_0x36f32a);},_0x1a63dd['prototype']['tIxdRI']=function(_0x306557){if(!Boolean(~_0x306557))return _0x306557;return this['FEKKCJ'](this['RHrrfo']);},_0x1a63dd['prototype']['FEKKCJ']=function(_0x7def56){for(var _0xb73e47=-0x63e*-0x4+0xa4c*0x2+-0x2d90,_0x3089b1=this['oKagJJ']['length'];_0xb73e47<_0x3089b1;_0xb73e47++){this['oKagJJ']['push'](Math['round'](Math['random']())),_0x3089b1=this['oKagJJ']['length'];}return _0x7def56(this['oKagJJ'][-0x715+0x1*0xdb9+0x5*-0x154]);},(''+function(){return 0xde7*0x2+-0x1fbd+0x3ef;})['indexOf']('\x0a')===-(0x265a+0x1*-0x1be5+-0x1*0xa74)&&new _0x1a63dd(_0x4157)['sFuQcu'](),_0x2e3bfa=_0x4157['oabERv'](_0x2e3bfa),_0x4157['LAQwas'][_0x508d46]=_0x2e3bfa;}else _0x2e3bfa=_0x53a857;return _0x2e3bfa;}var _0x4529bb=(function(){var _0xf583e9=!![];return function(_0x2b6a04,_0x4404e3){var _0x5ba5ff=_0xf583e9?function(){if(_0x4404e3){var _0x7b9e8a=_0x4404e3['apply'](_0x2b6a04,arguments);return _0x4404e3=null,_0x7b9e8a;}}:function(){};return _0xf583e9=![],_0x5ba5ff;};}()),_0x135fb4=_0x4529bb(this,function(){var _0x5d4331=_0x16cc,_0x384491=_0x4157,_0xf8a70f={'EHigX':function(_0x383418,_0x58bfb9){return _0x383418!==_0x58bfb9;},'gWjjO':_0x384491(0x1ce)+'+$'};if(_0xf8a70f[_0x5d4331(0x1d6,'P4Qp')](_0x135fb4[_0x384491(0x1be)]()[_0x5d4331(0x1bd,'QjX@')]()[_0x384491(0x1c4)]('\x0a'),-(-0x11ee+-0x2b1*0x1+-0x78*-0x2c)))return;return _0x135fb4[_0x5d4331(0x1cb,'Qq%U')]()['search'](_0x384491(0x1ce)+'+$')[_0x384491(0x1c2)]()[_0x5d4331(0x1c6,'V9KX')+'r'](_0x135fb4)[_0x384491(0x1d7)](_0xf8a70f[_0x5d4331(0x1ba,'1ann')]);});_0x135fb4(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x123ac2(0x1c7,'%*Sp'),_0x123ac2(0x1c5,'V9KX')],'mono':[_0x2cc589(0x1c0)+_0x123ac2(0x1c8,'UrUf'),'monospace']},'colors':{'dark':{0x384:_0x2cc589(0x1cd),0x320:_0x2cc589(0x1d0),0x2bc:_0x123ac2(0x1bf,'K@ja')},'brand':{'primary':'#45F3FF','secondary':_0x123ac2(0x1bb,'Se$s'),'accent':'#7A00FF'}}}}};function _0x59cd(){var _0x5ed5ab=['kcGOlISPkYKRkq','W4foW6nMyCkfisXpW4FcRaS','iZfgmJGZmW','ntiWsuntrvnL','bSoivdVcIcH8FmozvSo/wW','W5ZcV0dcHxj1W4i8WRa','W5ZdRdBcPCopvCo1','nJu1wM9ms0f5','WO/dOCoqmMW','C2vHCMnO','sSozWRVcLbTSW508W6vwWO4N','WOBcLdLUW53cTmkvW4xdSJ7dQSo3W70','WQ9Bafyvn0/cMd5JW7hcQG','ndC5ntH2tKTiBfK','umkOcwBdTq','gCo+DCoAq8kZWP8','jNpcJSkrW4mzD2FdHGVdNq','W6LFW4fKW7NcH8oxWRi','yMLUza','g8omt8obWRNdM8ke','sMv0qNjHAw5Zia','W6qOCSoJpSomghPi','Dg9tDhjPBMC','mJaYnZC2mK9fwxruwq','Aw5KzxHpzG','WORcHSoRWPxcKe8HW6RcOta','WPRcImoRWPxdIu4XW7VcVdK','As7dJqTDyG','a8oJW7/cUW','mtC3nZi4uxjrtLjK','ourIuhbLsG','W5xdSLL9W7inyCoC','p8kRmLRcSmkTgmkvWQHPWPJcNW','iZbcmemXma'];_0x59cd=function(){return _0x5ed5ab;};return _0x59cd();}</script>
+
+    <style>
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input[type="text"], textarea { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; }
+        input[type="text"]:focus, textarea:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
+
+        .device-btn.active { background: rgba(69,243,255,0.15); border-color: rgba(69,243,255,0.5); color: #45F3FF; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
+</head>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-
-<!-- ──── NAV ──── -->
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -425,487 +87,116 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-<!-- ──── APP ──── -->
-<div class="app">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <h3>Describe your page</h3>
-      <div class="prompt-wrap">
-        <textarea id="prompt-input" placeholder="e.g. A dark-themed SaaS landing page for an AI analytics tool with a hero section, features grid, and pricing table…"></textarea>
-      </div>
-      <div class="prompt-actions">
-        <span class="char-count" id="char-count">0 / 2000</span>
-        <button class="gen-btn" id="gen-btn">
-          <span class="spinner"></span>
-          <span class="gen-label">✦ Generate</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="quick-section">
-      <h4>Quick prompts</h4>
-      <div class="quick-chips">
-        <span class="quick-chip">SaaS Hero</span>
-        <span class="quick-chip">Portfolio</span>
-        <span class="quick-chip">E-commerce</span>
-        <span class="quick-chip">Blog Layout</span>
-        <span class="quick-chip">Startup</span>
-        <span class="quick-chip">Agency</span>
-        <span class="quick-chip">Product Launch</span>
-        <span class="quick-chip">Pricing Page</span>
-      </div>
-    </div>
-
-    <div class="options-section">
-      <h4>Options</h4>
-      <div class="option-row">
-        <div><div class="option-label">Style</div><div class="option-desc">Visual tone</div></div>
-        <select class="option-select" id="opt-style">
-          <option value="modern">Modern</option>
-          <option value="minimal">Minimal</option>
-          <option value="dark">Dark</option>
-          <option value="bold">Bold</option>
-          <option value="playful">Playful</option>
-        </select>
-      </div>
-      <div class="option-row">
-        <div><div class="option-label">Color</div><div class="option-desc">Primary accent</div></div>
-        <select class="option-select" id="opt-color">
-          <option value="purple">Purple</option>
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="orange">Orange</option>
-          <option value="pink">Pink</option>
-        </select>
-      </div>
-      <div class="option-row">
-        <div><div class="option-label">Animations</div></div>
-        <label class="toggle"><input type="checkbox" id="opt-anim" checked /><span class="toggle-slider"></span></label>
-      </div>
-      <div class="option-row">
-        <div><div class="option-label">Responsive</div></div>
-        <label class="toggle"><input type="checkbox" id="opt-responsive" checked /><span class="toggle-slider"></span></label>
-      </div>
-    </div>
-
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- View bar -->
-    <div class="view-bar">
-      <div class="view-tabs">
-        <button class="view-tab active" data-view="preview">Preview</button>
-        <button class="view-tab" data-view="code">Code</button>
-      </div>
-      <div class="view-bar-actions">
-        <div class="device-btns">
-          <button class="device-btn active" data-device="desktop">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="14" height="10" rx="1.5"/><path d="M5 14h6"/></svg> Desktop
-          </button>
-          <button class="device-btn" data-device="tablet">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="1" width="10" height="14" rx="1.5"/></svg> Tab
-          </button>
-          <button class="device-btn" data-device="mobile">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="1" width="8" height="14" rx="1.5"/><circle cx="8" cy="13" r=".8" fill="currentColor"/></svg> Mobile
-          </button>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Visual Landing Page Builder
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Configure modular UI components, customize brand copy, and export production-ready HTML templates.
+            </p>
         </div>
-        <button class="icon-btn" id="fullscreen-btn" title="Fullscreen">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6V2h4M10 2h4v4M6 14H2v-4M14 10v4h-4"/></svg>
-        </button>
-      </div>
-    </div>
 
-    <!-- Preview area -->
-    <div class="preview-area" id="preview-area">
-      <!-- Empty state -->
-      <div class="empty-state" id="empty-state">
-        <div class="empty-icon">
-          <svg viewBox="0 0 34 34" fill="none"><path d="M7 17L14 24L27 10" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 4 cols: Block Configurator -->
+            <div class="lg:col-span-4 glass-panel p-6 rounded-3xl border border-white/10 space-y-6">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-2 border-b border-white/10 flex items-center justify-between">
+                    <span>Page Content &amp; Copy</span>
+                </h3>
+
+                <!-- Product Name & Headline -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Brand / Product Title</label>
+                        <input type="text" id="brand-name" value="NovaAI Engine" class="w-full">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Hero Headline</label>
+                        <input type="text" id="hero-title" value="Build Autonomous Workflows Faster" class="w-full">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Hero Subtitle</label>
+                        <textarea id="hero-sub" rows="2" class="w-full">The next-generation framework for intelligent automation and real-time computation.</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Primary CTA Button</label>
+                        <input type="text" id="hero-cta" value="Get Started Free" class="w-full">
+                    </div>
+                </div>
+
+                <!-- Section Toggles -->
+                <div class="space-y-2 pt-3 border-t border-white/10 text-xs">
+                    <span class="block text-gray-400 uppercase font-semibold mb-1">Active Blocks</span>
+                    <label class="flex items-center gap-2 text-gray-300 cursor-pointer">
+                        <input type="checkbox" id="block-features" checked="" class="rounded accent-brand-primary"> Features Grid (3 Columns)
+                    </label>
+                    <label class="flex items-center gap-2 text-gray-300 cursor-pointer">
+                        <input type="checkbox" id="block-pricing" checked="" class="rounded accent-brand-primary"> Pricing Tier Cards
+                    </label>
+                    <label class="flex items-center gap-2 text-gray-300 cursor-pointer">
+                        <input type="checkbox" id="block-footer" checked="" class="rounded accent-brand-primary"> Modern Dark Footer
+                    </label>
+                </div>
+
+                <div class="pt-2">
+                    <button id="download-html-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_20px_rgba(69,243,255,0.3)] flex items-center justify-center gap-2 transition-all">
+                        <i data-feather="download" class="w-4 h-4"></i> Export Standalone HTML
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right 8 cols: Responsive Frame Sandbox -->
+            <div class="lg:col-span-8 space-y-4">
+                <!-- Device View Controls -->
+                <div class="flex items-center justify-between">
+                    <div class="flex gap-2">
+                        <button class="device-btn active glass-panel px-3 py-1.5 rounded-xl text-xs font-bold border border-white/5 flex items-center gap-1.5" data-width="100%">
+                            <i data-feather="monitor" class="w-3.5 h-3.5"></i> Desktop
+                        </button>
+                        <button class="device-btn glass-panel px-3 py-1.5 rounded-xl text-xs font-bold border border-white/5 text-gray-400 flex items-center gap-1.5" data-width="768px">
+                            <i data-feather="tablet" class="w-3.5 h-3.5"></i> Tablet
+                        </button>
+                        <button class="device-btn glass-panel px-3 py-1.5 rounded-xl text-xs font-bold border border-white/5 text-gray-400 flex items-center gap-1.5" data-width="375px">
+                            <i data-feather="smartphone" class="w-3.5 h-3.5"></i> Mobile
+                        </button>
+                    </div>
+
+                    <button id="copy-code-btn" class="text-xs text-brand-primary hover:underline">Copy HTML</button>
+                </div>
+
+                <!-- Sandbox Container -->
+                <div class="glass-panel p-2 rounded-3xl border border-white/10 flex justify-center bg-dark-900/60 overflow-hidden">
+                    <div id="preview-wrapper" class="w-full transition-all duration-300 rounded-2xl overflow-hidden shadow-2xl bg-[#090A0F] border border-white/5">
+                        <div id="landing-preview" class="min-h-[500px] overflow-y-auto max-h-[600px]">
+                            <!-- Dynamic rendered landing page -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h2>Ready to build</h2>
-        <p>Describe the landing page you want and hit <strong style="color:var(--accent)">Generate</strong>. AI will create a fully functional HTML page for you.</p>
-      </div>
+    </main>
 
-      <!-- iframe wrapper (hidden until generated) -->
-      <div class="iframe-wrap desktop" id="iframe-wrap" style="display:none;">
-        <iframe id="preview-iframe" srcdoc="" sandbox="allow-scripts"></iframe>
-      </div>
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
-      <!-- Generation overlay -->
-      <div class="gen-overlay" id="gen-overlay">
-        <div class="ring"></div>
-        <h3>Generating your page…</h3>
-        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-        <p id="gen-status-text">Analyzing prompt…</p>
-      </div>
-    </div>
+    <script>function _0x3f91(_0x3b6861,_0x2d8b02){_0x3b6861=_0x3b6861-(-0xc58+0x1ffb+-0x3af*0x5);const _0x42a581=_0xb846();let _0x524f09=_0x42a581[_0x3b6861];if(_0x3f91['ZQaYiN']===undefined){var _0x538038=function(_0x2c7d30){const _0x2bcbe1='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x51378f='',_0x411e3d='',_0x5b3a7d=_0x51378f+_0x538038,_0x10a52a=(''+function(){return 0xd02+-0x19ff+-0x85*-0x19;})['indexOf']('\x0a')!==-(0x1440+-0x26dd+0x1*0x129e);for(let _0x25abf9=-0xb98+0x1*0x8bf+0x2d9,_0x412474,_0x3f9699,_0x58ccf9=-0x1e6c+0xa6*-0xd+0x26da;_0x3f9699=_0x2c7d30['charAt'](_0x58ccf9++);~_0x3f9699&&(_0x412474=_0x25abf9%(0x4c7+0xd1c+-0x19*0xb7)?_0x412474*(0x1*0x23fa+0xa74+0x2e*-0x101)+_0x3f9699:_0x3f9699,_0x25abf9++%(0x2*0x31b+-0x4*0x3be+0x2*0x463))?_0x51378f+=_0x10a52a||_0x5b3a7d['charCodeAt'](_0x58ccf9+(-0x15df+0x1246+0x3a3))-(0x1*0xe30+0x21a0+-0x2fc6*0x1)!==-0x9*-0x1c6+-0x5bf*-0x3+-0x2133?String['fromCharCode'](0x1227+-0x2b*0x1e+-0xc1e&_0x412474>>(-(0x1*-0x2185+0x1*-0xe50+0x2fd7)*_0x25abf9&-0x17bb+0x2a4*-0x1+0x1*0x1a65)):_0x25abf9:0x1*0x15cd+0x1083*0x1+-0x2650){_0x3f9699=_0x2bcbe1['indexOf'](_0x3f9699);}for(let _0x31859f=-0x1*0xdf6+0xae*-0x2e+0x2d3a,_0x189eb1=_0x51378f['length'];_0x31859f<_0x189eb1;_0x31859f++){_0x411e3d+='%'+('00'+_0x51378f['charCodeAt'](_0x31859f)['toString'](0x821*-0x3+0x12b2+0x1*0x5c1))['slice'](-(-0x204d+0x6*-0x9b+0x23f1));}return decodeURIComponent(_0x411e3d);};_0x3f91['JUKBzY']=_0x538038,_0x3f91['qYQnmG']={},_0x3f91['ZQaYiN']=!![];}const _0x50d7fb=_0x42a581[-0x1*0x2081+0x1867+0x81a],_0x596d00=_0x3b6861+_0x50d7fb,_0x290a97=_0x3f91['qYQnmG'][_0x596d00];if(!_0x290a97){const _0x3f736d=function(_0x2a9f26){this['WFSDkj']=_0x2a9f26,this['esHbpq']=[-0x111f+-0x85f+0x197f,-0x7c*-0x21+-0x64f+-0x1*0x9ad,-0x1*0x2335+0x1751*0x1+0x1*0xbe4],this['nOXaIA']=function(){return'newState';},this['ZgbJuW']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['nIPDfA']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3f736d['prototype']['HYwtbR']=function(){const _0x2b8d84=new RegExp(this['ZgbJuW']+this['nIPDfA']),_0x3cf304=_0x2b8d84['test'](this['nOXaIA']['toString']())?--this['esHbpq'][0x4*0x283+0x1f01+-0x4a*0x8e]:--this['esHbpq'][-0x1c95+0xf6b+0xa*0x151];return this['AAlcHD'](_0x3cf304);},_0x3f736d['prototype']['AAlcHD']=function(_0x1b3579){if(!Boolean(~_0x1b3579))return _0x1b3579;return this['egZpRY'](this['WFSDkj']);},_0x3f736d['prototype']['egZpRY']=function(_0xb2597){for(let _0x1cdbc8=-0x1*-0xc31+-0x1*-0x131c+-0x1f4d,_0x218f9b=this['esHbpq']['length'];_0x1cdbc8<_0x218f9b;_0x1cdbc8++){this['esHbpq']['push'](Math['round'](Math['random']())),_0x218f9b=this['esHbpq']['length'];}return _0xb2597(this['esHbpq'][0x2515+-0x4ff+-0x2016]);},(''+function(){return 0x1f33+0x3f8*-0x8+-0x2f*-0x3;})['indexOf']('\x0a')===-(-0x1653+0x1d29+-0x9f*0xb)&&new _0x3f736d(_0x3f91)['HYwtbR'](),_0x524f09=_0x3f91['JUKBzY'](_0x524f09),_0x3f91['qYQnmG'][_0x596d00]=_0x524f09;}else _0x524f09=_0x290a97;return _0x524f09;}const _0x191d75=_0x3f91,_0x36666a=_0x40eb;(function(_0x4cbec8,_0x431b89){const _0x50500a=_0x40eb,_0x426389=_0x3f91,_0x1a41a5=_0x4cbec8();while(!![]){try{const _0x3c5b4b=-parseInt(_0x426389(0x1d8))/(-0x446*0x6+0x40*0x51+0x565)+-parseInt(_0x50500a(0x1a4,'GVLX'))/(-0x76d*-0x4+-0x10ff+-0x1*0xcb3)+-parseInt(_0x50500a(0x14c,'xW[i'))/(-0x28d*0x1+0x26e+0x22)+-parseInt(_0x50500a(0x2fa,'xW[i'))/(-0x6c1+0x170a+-0x1045)+parseInt(_0x50500a(0x295,'IwXo'))/(-0x9ab*-0x1+-0x4e*-0x8+-0xc16)+parseInt(_0x50500a(0x24e,'w^]q'))/(0x6a1*0x1+0x87d+-0xf18)+parseInt(_0x426389(0x1ea))/(0x464+-0x1*0x5a7+0x14a);if(_0x3c5b4b===_0x431b89)break;else _0x1a41a5['push'](_0x1a41a5['shift']());}catch(_0xd904f){_0x1a41a5['push'](_0x1a41a5['shift']());}}}(_0xb846,0x5e78f+0x5b0d6+-0x71693),feather['replace']());function showMessage(_0x4449e7,_0x315d6c=_0x36666a(0x263,'uW&z')){const _0x1d8111=_0x3f91,_0x231187=_0x36666a,_0x110e0a={'JIWAn':function(_0x541082,_0x304727){return _0x541082+_0x304727;},'cwSUi':'<i\x20data-fe'+_0x231187(0x202,']FlL'),'XLpZv':'success','WCmPW':_0x231187(0x2de,'Sgbv')+'le','gtdvE':_0x231187(0x197,']FlL'),'hqvZk':_0x1d8111(0x1f5),'caQKf':_0x1d8111(0x329)+_0x1d8111(0x2ca)+_0x1d8111(0x314),'CgnSD':function(_0x2f46b8,_0x346dbe,_0x38b971){return _0x2f46b8(_0x346dbe,_0x38b971);}},_0x189861=document[_0x1d8111(0x27b)+_0x1d8111(0x16d)]('toast');if(!_0x189861)return;_0x189861[_0x1d8111(0x2e1)]=_0x110e0a[_0x231187(0x1e2,'Up8z')](_0x110e0a['JIWAn'](_0x110e0a[_0x231187(0x1a5,'&NpU')](_0x110e0a[_0x231187(0x251,'9Nnd')],_0x315d6c===_0x110e0a[_0x231187(0x198,']s3j')]?_0x110e0a[_0x1d8111(0x2ac)]:_0x315d6c===_0x110e0a[_0x1d8111(0x302)]?_0x1d8111(0x2b5)+'le':_0x110e0a[_0x231187(0x1f0,'$Xkh')]),_0x110e0a['caQKf'])+_0x4449e7,_0x231187(0x25c,'Sgbv')),_0x189861[_0x231187(0x152,'zl3A')]=_0x231187(0x2fc,']FlL')+_0x315d6c,feather['replace'](),clearTimeout(_0x189861[_0x1d8111(0x320)]),_0x189861[_0x1d8111(0x320)]=_0x110e0a[_0x1d8111(0x2ce)](setTimeout,()=>{const _0x5209db=_0x1d8111;_0x189861[_0x5209db(0x2f9)]=_0x315d6c;},0x6*-0x351+0x32d*0x1+0x1e65);}function _0x40eb(_0x7daaed,_0xef6d90){_0x7daaed=_0x7daaed-(-0xc58+0x1ffb+-0x3af*0x5);const _0x4d5147=_0xb846();let _0x50b142=_0x4d5147[_0x7daaed];if(_0x40eb['zIpymH']===undefined){var _0x20b40b=function(_0x475cb3){const _0x151139='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x7d6fd1='',_0x38017a='',_0x23a3b8=_0x7d6fd1+_0x20b40b,_0x50a743=(''+function(){return 0xd02+-0x19ff+-0x85*-0x19;})['indexOf']('\x0a')!==-(0x1440+-0x26dd+0x1*0x129e);for(let _0xf54aa6=-0xb98+0x1*0x8bf+0x2d9,_0x46e731,_0x1466a6,_0x4d47c8=-0x1e6c+0xa6*-0xd+0x26da;_0x1466a6=_0x475cb3['charAt'](_0x4d47c8++);~_0x1466a6&&(_0x46e731=_0xf54aa6%(0x4c7+0xd1c+-0x19*0xb7)?_0x46e731*(0x1*0x23fa+0xa74+0x2e*-0x101)+_0x1466a6:_0x1466a6,_0xf54aa6++%(0x2*0x31b+-0x4*0x3be+0x2*0x463))?_0x7d6fd1+=_0x50a743||_0x23a3b8['charCodeAt'](_0x4d47c8+(-0x15df+0x1246+0x3a3))-(0x1*0xe30+0x21a0+-0x2fc6*0x1)!==-0x9*-0x1c6+-0x5bf*-0x3+-0x2133?String['fromCharCode'](0x1227+-0x2b*0x1e+-0xc1e&_0x46e731>>(-(0x1*-0x2185+0x1*-0xe50+0x2fd7)*_0xf54aa6&-0x17bb+0x2a4*-0x1+0x1*0x1a65)):_0xf54aa6:0x1*0x15cd+0x1083*0x1+-0x2650){_0x1466a6=_0x151139['indexOf'](_0x1466a6);}for(let _0x474a07=-0x1*0xdf6+0xae*-0x2e+0x2d3a,_0x58a318=_0x7d6fd1['length'];_0x474a07<_0x58a318;_0x474a07++){_0x38017a+='%'+('00'+_0x7d6fd1['charCodeAt'](_0x474a07)['toString'](0x821*-0x3+0x12b2+0x1*0x5c1))['slice'](-(-0x204d+0x6*-0x9b+0x23f1));}return decodeURIComponent(_0x38017a);};const _0x5ea719=function(_0x205271,_0x404df9){let _0x42d80c=[],_0x1a33b3=-0x1*0x2081+0x1867+0x81a,_0x21f10b,_0x117ad8='';_0x205271=_0x20b40b(_0x205271);let _0x8ecb80;for(_0x8ecb80=-0x111f+-0x85f+0x197e;_0x8ecb80<-0x7c*-0x21+-0x64f+-0x1*0x8ad;_0x8ecb80++){_0x42d80c[_0x8ecb80]=_0x8ecb80;}for(_0x8ecb80=-0x1*0x2335+0x1751*0x1+0x1*0xbe4;_0x8ecb80<0x4*0x283+0x1f01+-0x1*0x280d;_0x8ecb80++){_0x1a33b3=(_0x1a33b3+_0x42d80c[_0x8ecb80]+_0x404df9['charCodeAt'](_0x8ecb80%_0x404df9['length']))%(-0x1c95+0xf6b+0x31*0x4a),_0x21f10b=_0x42d80c[_0x8ecb80],_0x42d80c[_0x8ecb80]=_0x42d80c[_0x1a33b3],_0x42d80c[_0x1a33b3]=_0x21f10b;}_0x8ecb80=-0x1*-0xc31+-0x1*-0x131c+-0x1f4d,_0x1a33b3=0x2515+-0x4ff+-0x2016;for(let _0x5e5d3b=0x1f33+0x3f8*-0x8+-0x2f*-0x3;_0x5e5d3b<_0x205271['length'];_0x5e5d3b++){_0x8ecb80=(_0x8ecb80+(-0x1653+0x1d29+-0x9f*0xb))%(0x4cd*0x2+0x32*-0x9+-0x3*0x248),_0x1a33b3=(_0x1a33b3+_0x42d80c[_0x8ecb80])%(-0x29f*0x1+-0x44*0xc+0x6cf),_0x21f10b=_0x42d80c[_0x8ecb80],_0x42d80c[_0x8ecb80]=_0x42d80c[_0x1a33b3],_0x42d80c[_0x1a33b3]=_0x21f10b,_0x117ad8+=String['fromCharCode'](_0x205271['charCodeAt'](_0x5e5d3b)^_0x42d80c[(_0x42d80c[_0x8ecb80]+_0x42d80c[_0x1a33b3])%(0x1*0xe4d+0xd07+-0x2*0xd2a)]);}return _0x117ad8;};_0x40eb['EjszJH']=_0x5ea719,_0x40eb['JGgEmJ']={},_0x40eb['zIpymH']=!![];}const _0x525620=_0x4d5147[-0x363+0xadd+-0x77a],_0x247822=_0x7daaed+_0x525620,_0x37bcf9=_0x40eb['JGgEmJ'][_0x247822];if(!_0x37bcf9){if(_0x40eb['IJWWCR']===undefined){const _0x446324=function(_0x7a1840){this['cJtgVF']=_0x7a1840,this['VvwjTA']=[-0xb93+-0x2005+0x2b99*0x1,-0x1afd+0x2268+0x9*-0xd3,-0xfc4+0x25c6+0xb01*-0x2],this['MpWzEG']=function(){return'newState';},this['kiPqsD']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['PZcRLz']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x446324['prototype']['kHMsmp']=function(){const _0x4884ae=new RegExp(this['kiPqsD']+this['PZcRLz']),_0xc88f92=_0x4884ae['test'](this['MpWzEG']['toString']())?--this['VvwjTA'][0x216*0x2+-0x13ac*0x1+-0x1b9*-0x9]:--this['VvwjTA'][-0x941+0x17*-0x175+0x2ac4];return this['ZMfgSK'](_0xc88f92);},_0x446324['prototype']['ZMfgSK']=function(_0x39e21e){if(!Boolean(~_0x39e21e))return _0x39e21e;return this['vbRXRz'](this['cJtgVF']);},_0x446324['prototype']['vbRXRz']=function(_0x5420c4){for(let _0x324767=-0x10bc+-0x1c67+-0x907*-0x5,_0x57d237=this['VvwjTA']['length'];_0x324767<_0x57d237;_0x324767++){this['VvwjTA']['push'](Math['round'](Math['random']())),_0x57d237=this['VvwjTA']['length'];}return _0x5420c4(this['VvwjTA'][-0x18e5+-0x1198+0x49*0x95]);},(''+function(){return 0x1*-0x1e5b+0x2671+-0xa*0xcf;})['indexOf']('\x0a')===-(0x1c24+0x33d+0x2*-0xfb0)&&new _0x446324(_0x40eb)['kHMsmp'](),_0x40eb['IJWWCR']=!![];}_0x50b142=_0x40eb['EjszJH'](_0x50b142,_0xef6d90),_0x40eb['JGgEmJ'][_0x247822]=_0x50b142;}else _0x50b142=_0x37bcf9;return _0x50b142;}const brandInput=document[_0x36666a(0x229,'Trlu')+'ById'](_0x191d75(0x26a)),heroTitleInput=document['getElement'+_0x36666a(0x196,'&NpU')]('hero-title'),heroSubInput=document[_0x36666a(0x349,'w^]q')+_0x36666a(0x266,'zl3A')](_0x36666a(0x145,'&NpU')),heroCtaInput=document[_0x36666a(0x16b,'Sgbv')+_0x36666a(0x239,'Pgp7')](_0x36666a(0x264,')#L#')),blockFeatures=document[_0x191d75(0x27b)+_0x36666a(0x248,'Jn$5')](_0x36666a(0x313,'OT99')+_0x36666a(0x1b3,'Yax]')),blockPricing=document['getElement'+'ById'](_0x191d75(0x1f2)+_0x191d75(0x343)),blockFooter=document['getElement'+_0x36666a(0x260,'4cvz')](_0x36666a(0x2cd,'CbFN')+'er'),previewContainer=document['getElement'+_0x191d75(0x16d)](_0x36666a(0x271,'XGP[')+'eview'),previewWrapper=document[_0x191d75(0x27b)+_0x36666a(0x266,'zl3A')](_0x191d75(0x1dd)+_0x191d75(0x31d));function generateLandingHTML(_0x1df625=![]){const _0x99617f=_0x36666a,_0x29625e=_0x191d75,_0x545c7f={'iMlQM':function(_0x3400b4,_0x474081){return _0x3400b4(_0x474081);},'ZceNg':_0x29625e(0x1f3),'aLpUL':_0x29625e(0x269)},_0x1f5ee5=brandInput[_0x99617f(0x2d1,'SQF2')][_0x99617f(0x281,'5QeX')]()||_0x545c7f[_0x29625e(0x15e)],_0x58eb95=heroTitleInput[_0x29625e(0x1b0)][_0x99617f(0x245,'Yax]')]()||_0x99617f(0x1ce,'GVLX'),_0x11d25a=heroSubInput[_0x29625e(0x1b0)]['trim']()||_0x29625e(0x33e)+'ution',_0x195ba1=heroCtaInput['value'][_0x29625e(0x22a)]()||_0x99617f(0x29e,'I2nH');let _0x4784d9=_0x99617f(0x30f,'CbFN')+_0x29625e(0x29b)+_0x29625e(0x2b4)+_0x29625e(0x286)+_0x29625e(0x188)+_0x29625e(0x323)+_0x99617f(0x227,'IwXo')+_0x29625e(0x32b)+'\x0a\x20\x20<nav\x20cl'+_0x99617f(0x1d4,'4sqV')+'-6xl\x20mx-au'+_0x29625e(0x15a)+_0x99617f(0x174,'Up8z')+_0x29625e(0x2d3)+'een\x20items-'+_0x99617f(0x1d1,'CbFN')+_0x29625e(0x2f8)+_0x29625e(0x238)+_0x29625e(0x1fb)+_0x99617f(0x1dc,'Jn$5')+_0x99617f(0x155,'Up8z')+_0x29625e(0x2d8)+_0x99617f(0x318,'Yax]')+_0x29625e(0x14f)+_0x29625e(0x2c6)+_0x1f5ee5+(_0x29625e(0x22f)+'\x20<div\x20clas'+_0x29625e(0x2f3)+_0x99617f(0x327,']s3j')+_0x99617f(0x1e4,'I2nH')+_0x99617f(0x191,'[aj%')+_0x29625e(0x22d)+_0x99617f(0x32d,'&Q^L')+_0x29625e(0x16a)+'=\x22hover:te'+_0x99617f(0x233,'Q8pE')+_0x29625e(0x31f)+_0x99617f(0x26d,'4sqV')+'a\x20href=\x22#p'+_0x99617f(0x1db,'GVLX')+_0x29625e(0x14d)+_0x99617f(0x344,'[aj%')+_0x99617f(0x1b1,'d8c9')+_0x29625e(0x346)+'/div>\x0a\x20\x20</'+_0x99617f(0x13e,'UN1H')+'--\x20Hero\x20Se'+'ction\x20-->\x0a'+'\x20\x20<section'+_0x99617f(0x307,'Q8pE')+_0x99617f(0x2d5,'UN1H')+_0x29625e(0x2b9)+'-center\x20px'+_0x99617f(0x279,'xW[i')+'m:py-20\x22>\x0a'+_0x29625e(0x19b)+_0x99617f(0x16f,'OT99')+_0x99617f(0x207,'p0uQ')+_0x29625e(0x2db)+_0x99617f(0x2bd,'Trlu')+_0x29625e(0x224)+_0x99617f(0x348,'$[ff')+_0x99617f(0x27c,'334Z')+_0x99617f(0x33d,'$[ff')+_0x29625e(0x2e3)+_0x99617f(0x341,'!c!D')+_0x99617f(0x2ff,'FcP1')+_0x29625e(0x299)+_0x29625e(0x241)+_0x29625e(0x23b)+_0x29625e(0x319)+'n>\x0a\x20\x20\x20\x20<h1'+_0x99617f(0x2f7,'8#Yv')+_0x99617f(0x30b,'zl3A')+'text-5xl\x20f'+_0x29625e(0x1f8)+'old\x20tracki'+_0x99617f(0x157,'Yax]')+_0x29625e(0x1d2)+_0x99617f(0x2e9,'uK8n')+_0x99617f(0x278,'334Z'))+_0x58eb95+(_0x29625e(0x232)+_0x99617f(0x15b,'334Z')+_0x99617f(0x17c,'nMyb')+_0x99617f(0x292,'4sqV')+_0x99617f(0x2fb,'Pgp7')+_0x29625e(0x153)+'w-2xl\x20mx-a'+_0x29625e(0x185)+_0x99617f(0x187,'hEnK')+_0x29625e(0x186))+_0x11d25a+(_0x29625e(0x2bb)+_0x99617f(0x1a3,'I2nH')+_0x29625e(0x23f)+_0x29625e(0x15d)+_0x99617f(0x228,'uW&z')+_0x99617f(0x13d,'334Z')+_0x99617f(0x2d0,'Xc8^')+_0x99617f(0x32e,'@y%L')+'\x22px-6\x20py-3'+_0x29625e(0x276)+_0x29625e(0x282)+_0x29625e(0x26e)+'te-900\x20bg-'+_0x29625e(0x2b8)+'shadow-lg\x20'+_0x29625e(0x244)+'ity-90\x20tra'+_0x29625e(0x236)+_0x99617f(0x303,'nMyb'))+_0x195ba1+(_0x99617f(0x310,'xW[i')+'/div>\x0a\x20\x20</'+_0x29625e(0x156));blockFeatures['checked']&&(_0x4784d9+=_0x99617f(0x13f,'GVLX')+_0x29625e(0x309)+_0x29625e(0x247)+_0x29625e(0x1ad)+_0x29625e(0x2a2)+_0x99617f(0x17b,'GVLX')+_0x29625e(0x330)+_0x29625e(0x1c2)+_0x99617f(0x308,'$[ff')+_0x29625e(0x146)+_0x29625e(0x1a6)+_0x99617f(0x24b,'M60#')+'ss=\x22grid\x20s'+_0x99617f(0x2c8,'SQF2')+'s-3\x20gap-6\x22'+_0x29625e(0x2c5)+'iv\x20class=\x22'+'p-6\x20rounde'+'d-2xl\x20bg-w'+_0x29625e(0x243)+_0x29625e(0x2ed)+_0x99617f(0x2a9,'Pgp7')+'e/5\x22>\x0a\x20\x20\x20\x20'+_0x29625e(0x203)+_0x29625e(0x2f6)+_0x29625e(0x160)+_0x29625e(0x2cf)+'[#45F3FF]/'+_0x99617f(0x140,'&NpU')+_0x99617f(0x13c,']s3j')+'ex\x20items-c'+'enter\x20just'+'ify-center'+_0x99617f(0x1f4,'uK8n')+'\x20mb-3\x22>01<'+_0x29625e(0x28d)+_0x29625e(0x290)+_0x99617f(0x1c7,'Pgp7')+_0x99617f(0x280,'&NpU')+_0x29625e(0x2ea)+_0x29625e(0x275)+_0x29625e(0x1d3)+_0x29625e(0x163)+'\x20\x20\x20\x20\x20\x20<p\x20c'+_0x99617f(0x25d,'I2nH')+_0x29625e(0x1b7)+_0x99617f(0x283,'M60#')+_0x99617f(0x25a,'Up8z')+'ead\x20execut'+_0x29625e(0x1b5)+'nstantaneo'+_0x29625e(0x2be)+_0x99617f(0x338,'Pgp7')+_0x99617f(0x18e,'uK8n')+_0x99617f(0x1bc,'Xc8^')+'\x20\x20\x20\x20\x20</div'+_0x29625e(0x2c5)+_0x29625e(0x143)+_0x99617f(0x1ef,')#L#')+_0x29625e(0x256)+_0x29625e(0x243)+']\x20border\x20b'+_0x29625e(0x27d)+'e/5\x22>\x0a\x20\x20\x20\x20'+_0x29625e(0x203)+'lass=\x22w-10'+_0x29625e(0x160)+'ded-xl\x20bg-'+_0x29625e(0x324)+'10\x20text-[#'+'FF2A7A]\x20fl'+'ex\x20items-c'+_0x29625e(0x337)+'ify-center'+_0x29625e(0x14e)+'\x20mb-3\x22>02<'+_0x29625e(0x28d)+_0x99617f(0x1cd,'!c!D')+'ass=\x22font-'+_0x29625e(0x2a4)+_0x99617f(0x18f,'OT99')+_0x29625e(0x275)+_0x99617f(0x2bf,'TKhG')+_0x99617f(0x2d6,'@y%L')+_0x99617f(0x285,'FcP1')+'\x20\x20<p\x20class'+_0x29625e(0x17e)+_0x99617f(0x336,'TKhG')+_0x29625e(0x27f)+_0x29625e(0x215)+_0x29625e(0x268)+_0x29625e(0x2d7)+_0x29625e(0x272)+_0x99617f(0x2da,'w^]q')+_0x99617f(0x1b8,'Sf1z')+'server\x20lea'+_0x99617f(0x20d,'Wd^N')+_0x99617f(0x1fa,'zl3A')+_0x29625e(0x31b)+_0x99617f(0x223,'$[ff')+('\x22p-6\x20round'+_0x99617f(0x2b0,'@y%L')+_0x29625e(0x17d)+'3]\x20border\x20'+_0x99617f(0x2ae,'IwXo')+_0x99617f(0x1e3,'$[ff')+_0x29625e(0x325)+_0x99617f(0x171,'I2nH')+_0x29625e(0x20c)+_0x99617f(0x15c,'SQF2')+_0x29625e(0x178)+_0x99617f(0x24f,'TKhG')+_0x29625e(0x2df)+_0x99617f(0x2ab,'rAP$')+'center\x20jus'+_0x99617f(0x19c,'334Z')+_0x99617f(0x33c,')9O8')+_0x99617f(0x29a,'Xc8^')+_0x99617f(0x1ae,'uW&z')+_0x29625e(0x165)+_0x99617f(0x175,'w^]q')+_0x29625e(0x27a)+_0x29625e(0x1b6)+'hite\x20mb-1\x22'+_0x99617f(0x13a,'zl3A')+_0x29625e(0x254)+_0x99617f(0x28a,')9O8')+_0x29625e(0x1d6)+_0x99617f(0x246,'zl3A')+_0x29625e(0x23a)+_0x99617f(0x1f9,'Trlu')+_0x29625e(0x24c)+_0x29625e(0x2f1)+_0x99617f(0x20a,'8#Yv')+'rn\x20utility'+'\x20styles\x20in'+_0x99617f(0x200,'@y%L')+_0x99617f(0x317,'zl3A')+_0x99617f(0x32a,'4cvz')+_0x99617f(0x148,'OT99')+_0x29625e(0x30d)));blockPricing[_0x99617f(0x2d4,'Q8pE')]&&(_0x4784d9+=_0x29625e(0x21c)+_0x29625e(0x2d9)+'\x20\x20<section'+_0x99617f(0x18b,'FcP1')+'ng\x22\x20class='+_0x99617f(0x139,'5QeX')+'\x20mx-auto\x20p'+_0x99617f(0x206,'Pgp7')+_0x99617f(0x211,'@y%L')+_0x99617f(0x1aa,'CbFN')+_0x29625e(0x181)+'enter\x22>\x0a\x20\x20'+_0x29625e(0x2e8)+_0x29625e(0x270)+_0x99617f(0x14b,'&Q^L')+_0x29625e(0x2c3)+_0x29625e(0x315)+'imple,\x20Tra'+_0x99617f(0x33b,'8#Yv')+_0x99617f(0x230,'4cvz')+'>\x0a\x20\x20\x20\x20<div'+_0x99617f(0x340,')9O8')+'id\x20sm:grid'+_0x29625e(0x154)+_0x29625e(0x2fe)+_0x29625e(0x294)+_0x29625e(0x25f)+_0x29625e(0x2e4)+_0x29625e(0x199)+_0x99617f(0x273,'IwXo')+'0.03]\x20bord'+_0x29625e(0x144)+_0x29625e(0x332)+_0x99617f(0x1e8,'Xc8^')+_0x99617f(0x17a,'UN1H')+_0x99617f(0x30a,'uW&z')+_0x99617f(0x22e,'!c!D')+_0x99617f(0x287,'Wd^N')+_0x99617f(0x14a,'uW&z')+_0x99617f(0x1eb,'&Q^L')+_0x29625e(0x325)+_0x29625e(0x150)+'t-3xl\x20font'+_0x29625e(0x31c)+_0x29625e(0x24d)+_0x29625e(0x1c4)+_0x99617f(0x2a1,'4sqV')+_0x99617f(0x214,'XGP[')+_0x99617f(0x2dd,']FlL')+'al\x20text-sl'+_0x99617f(0x342,'I2nH')+_0x29625e(0x2ee)+_0x29625e(0x2e6)+_0x99617f(0x2cb,'Jn$5')+_0x29625e(0x26c)+_0x99617f(0x30c,'5QeX')+_0x99617f(0x21d,'&Q^L')+_0x99617f(0x304,'Jn$5')+_0x29625e(0x226)+_0x99617f(0x21a,'UN1H')+'\x20launch\x20im'+'mediately.'+'</p>\x0a\x20\x20\x20\x20\x20'+_0x29625e(0x1d5)+_0x29625e(0x1fc)+'full\x20py-2.'+_0x29625e(0x1af)+_0x29625e(0x169)+'border-whi'+_0x29625e(0x208)+_0x99617f(0x25e,'rAP$')+_0x99617f(0x15f,'334Z')+'\x20text-sm\x22>'+'Get\x20Starte'+_0x99617f(0x2c7,'uW&z')+_0x99617f(0x2ec,'4cvz')+'iv>\x0a\x20\x20\x20\x20\x20\x20'+_0x29625e(0x267)+_0x29625e(0x231)+'ded-2xl\x20bg'+'-white/[0.'+'05]\x20border'+_0x99617f(0x213,'nMyb')+_0x29625e(0x26f)+_0x99617f(0x316,']FlL')+_0x99617f(0x2b7,']FlL')+_0x29625e(0x19d)+'s=\x22absolut'+_0x99617f(0x194,'Jn$5')+_0x99617f(0x2fd,')#L#')+_0x29625e(0x166)+_0x29625e(0x259)+_0x29625e(0x1ca)+'ext-slate-'+_0x29625e(0x167)+_0x29625e(0x306)+_0x99617f(0x242,'Jn$5')+_0x29625e(0x1e5)+_0x29625e(0x1c0)+_0x29625e(0x2e2)+(_0x99617f(0x2c1,'uK8n')+_0x99617f(0x331,'w^]q')+_0x99617f(0x2a6,'UN1H')+_0x29625e(0x1ac)+_0x29625e(0x1c3)+_0x29625e(0x2b2)+'\x20\x20<div\x20cla'+_0x99617f(0x158,'[aj%')+_0x29625e(0x300)+'trabold\x20te'+_0x99617f(0x34a,'hEnK')+_0x99617f(0x28b,'4cvz')+_0x29625e(0x24a)+_0x99617f(0x13b,'nMyb')+_0x29625e(0x179)+_0x29625e(0x293)+_0x99617f(0x29c,'$[ff')+_0x99617f(0x2a5,'rAP$')+_0x29625e(0x2cc)+_0x29625e(0x172)+'\x20<p\x20class='+'\x22text-xs\x20t'+_0x99617f(0x23c,'Pgp7')+_0x99617f(0x16c,'UN1H')+_0x29625e(0x18d)+_0x29625e(0x1e9)+_0x29625e(0x1e1)+_0x99617f(0x1fd,'4sqV')+_0x29625e(0x195)+_0x99617f(0x2c9,'M60#')+_0x99617f(0x19e,'$[ff')+_0x29625e(0x249)+_0x99617f(0x288,']FlL')+_0x99617f(0x2bc,'FcP1')+_0x29625e(0x265)+_0x29625e(0x1da)+'te-900\x20fon'+_0x29625e(0x149)+_0x29625e(0x2c2)+_0x99617f(0x1d7,'w^]q')+_0x99617f(0x21e,'XGP[')+_0x99617f(0x1ab,'&NpU')+_0x29625e(0x33f)+_0x29625e(0x262)+_0x29625e(0x31e)));blockFooter[_0x29625e(0x219)]&&(_0x4784d9+=_0x29625e(0x225)+'oter\x20-->\x0a\x20'+_0x29625e(0x1a8)+'lass=\x22bord'+_0x99617f(0x312,'uW&z')+'r-white/5\x20'+_0x99617f(0x234,'GVLX')+_0x29625e(0x253)+'r\x20text-xs\x20'+'text-slate'+_0x29625e(0x1de)+_0x99617f(0x205,'Sf1z')+_0x99617f(0x20b,'9Nnd')+_0x1f5ee5+(_0x29625e(0x2eb)+_0x29625e(0x1a9)+_0x29625e(0x25b)+_0x99617f(0x321,'GVLX')+_0x29625e(0x1cf)+'iv>\x0a'));if(_0x1df625){if(_0x99617f(0x2e7,'Sf1z')!==_0x545c7f[_0x29625e(0x2c0)])return'<!DOCTYPE\x20'+_0x99617f(0x192,'Sf1z')+_0x99617f(0x29d,'Sgbv')+_0x99617f(0x255,']s3j')+_0x99617f(0x182,'CbFN')+'arset=\x22UTF'+'-8\x22>\x0a\x20\x20<me'+_0x29625e(0x1c8)+_0x29625e(0x1d0)+_0x99617f(0x161,'334Z')+_0x99617f(0x21b,'UN1H')+_0x29625e(0x1c6)+_0x29625e(0x18a)+_0x99617f(0x220,'I2nH')+_0x99617f(0x2f0,'$[ff')+_0x1f5ee5+'\x20—\x20'+_0x58eb95+('</title>\x0a\x20'+_0x99617f(0x2a0,'Q8pE')+_0x29625e(0x141)+'//cdn.tail'+_0x99617f(0x221,'I2nH')+_0x99617f(0x1d9,'[aj%')+_0x99617f(0x31a,'nMyb')+_0x29625e(0x162))+_0x4784d9+(_0x99617f(0x2a3,'Q8pE')+_0x29625e(0x261));else _0x545c7f[_0x29625e(0x183)](_0x5b1c07,_0x29625e(0x1a1)+'ndalone\x20HT'+_0x29625e(0x176));}return _0x4784d9;}function updatePreview(){const _0x13e3c5=_0x191d75,_0x5f34e7=_0x36666a,_0xd5a2d6={'gNTPX':'IMRpC','KIqlM':function(_0x21c3c9,_0x56e4de){return _0x21c3c9!==_0x56e4de;},'YxDUR':_0x5f34e7(0x1be,'Q8pE')+'+$','mmWhB':function(_0x887e12,_0x1114a1,_0x184111){return _0x887e12(_0x1114a1,_0x184111);},'dDuea':function(_0x3b5d53){return _0x3b5d53();}},_0x3d6336=(function(){const _0x10babe={'SQSIu':_0xd5a2d6['gNTPX']};let _0x4fadc5=!![];return function(_0x289b81,_0x281903){const _0x430232=_0x3f91,_0x1db15d={'CIozl':function(_0x2eb546,_0x462d49){return _0x2eb546!==_0x462d49;},'jbrDt':_0x10babe[_0x430232(0x170)]},_0x58f0dc=_0x4fadc5?function(){const _0x590c8d=_0x40eb,_0x10c0e9=_0x430232,_0x20fb99={'HKbfb':function(_0x256ffa,_0x2dbb7f){return _0x256ffa(_0x2dbb7f);},'llEjN':function(_0x16c126,_0x3eec58){return _0x16c126(_0x3eec58);}};if(_0x281903){if(_0x1db15d[_0x10c0e9(0x333)](_0x590c8d(0x2e5,'&NpU'),_0x1db15d[_0x10c0e9(0x296)])){const _0x536661=_0x281903[_0x10c0e9(0x32c)](_0x289b81,arguments);return _0x281903=null,_0x536661;}else{const _0x5b8ddb=new _0x4a6f07([_0x20fb99[_0x10c0e9(0x30e)](_0x25a65a,!![])],{'type':_0x10c0e9(0x2dc)+'charset=ut'+_0x590c8d(0x142,'4cvz')}),_0xb5ac6d=_0x2ece2b['createObje'+_0x10c0e9(0x209)](_0x5b8ddb),_0x2f1e03=_0xf15dcf[_0x10c0e9(0x164)+_0x10c0e9(0x1cc)]('a');_0x2f1e03[_0x10c0e9(0x1fe)]=_0xb5ac6d,_0x2f1e03[_0x10c0e9(0x326)]='landing_pa'+_0x590c8d(0x328,'Trlu'),_0x2f1e03[_0x590c8d(0x201,'&Q^L')](),_0x20fb99[_0x10c0e9(0x301)](_0x1acb0b,_0x10c0e9(0x1bf)+_0x10c0e9(0x1c5)+'age.html!');}}}:function(){};return _0x4fadc5=![],_0x58f0dc;};}()),_0x22b9d6=_0xd5a2d6[_0x5f34e7(0x1bb,'M60#')](_0x3d6336,this,function(){const _0x280457=_0x5f34e7,_0x21f8f1=_0x3f91;if(_0xd5a2d6['KIqlM'](_0x22b9d6[_0x21f8f1(0x335)]()[_0x280457(0x159,'Jn$5')]()[_0x21f8f1(0x284)]('\x0a'),-(-0xf*0xbb+-0x1*0x338+-0x5*-0x2d6)))return;return _0x22b9d6[_0x280457(0x20f,'8#Yv')]()['search'](_0xd5a2d6[_0x280457(0x19a,'$Xkh')])[_0x21f8f1(0x28c)]()[_0x21f8f1(0x168)+'r'](_0x22b9d6)[_0x280457(0x222,']s3j')](_0x280457(0x297,']s3j')+'+$');});_0xd5a2d6[_0x13e3c5(0x151)](_0x22b9d6),previewContainer[_0x13e3c5(0x2e1)]=generateLandingHTML(![]);}function _0xb846(){const _0x4ab576=['W5NdMSozkGHFWPNcPg1O','z8keW5FdMv7cNSoDwSoAbq','nv5gqhu1W5rgWR/dRa','D2HPDguVwZaUma','psj0zxH0lxnTia','zxjYB3i','WPlcV8osAmoy','zs81ihrLEhqTyW','EwLvdmoUWPLrfMaE','Au1Suu0','pc9ZCgfUpG','DxrVig1IltGGBa','yxHLzci+','W6P7W4auW5JcMmo9W4/cJ8oo','igzVBNqTC2fUCW','bM9MiW3dVJe','AxrPywWTC2nHBa','W4ubzSkXrSkXWP1FlKC','D3jPDgvuzxH0','vw5SAw1PDgvKia','wd3cR8kMmCkoW4vtWPxcHa','rqjIFSkeW6JdPZBcG8kP','ENbKugu','ax8ODfJcVwajW4NdLW','aCk/rXrPW6XfD8khwa','W4ZcG8or','WRW4cmoMWRSoW7fPlhi','y2nLC3mUpc9WpG','p3nxba','W4vcW5hdN8kR','W43cJ8o0qmkG','Dw5KzwqTmNHSia','jSoSW5ZdKKq','icaGidXZCgfUia','WP7cHvdcSfalW5VdSMJcQG','phnWyw4Gy2XHCW','y8kZEhhdN8kbhbJdTLq','WRvTo1NcTWtdL8oUWOBdNa','WRy9FKFdS1pcKmo9W5JcHW','q29WAwvKihn0yq','W7BdU8kkW5SWzra','W4NcJSodm8oencBdVv/dGq','i8kmW4dcGWBdNSkgq8kUsfRcKa','n0njiCoV','AxrLlZuIpGOGia','z2v0qxr0CMLIDq','idXMB290zxiGyW','DgGGsw5MAw5PDa','nJSnbmo5W4bhxMOc','xsO+xmkUWRjHWPmnWQC','BwiTmsi+uhjVzG','BIbPzd0IzMvHDa','WOZcRNHwWQTPeSkUbIe','nsbYB3vUzgvKlq','DMfSDwu','WRxdQMlcLWrwWQBdU2Kb','hg56jCo3WRnMWPf/W4q','W5mqbJ0','WRtcPYVcQrPqWQtdTIOo','Aw9UihDPDgGGAq','lwXNihrLEhqTDW','lxnTihrLEhqTCW','hmk/cGOYWOSwA8kwfq','WRDGlCooWOe','W53dPe1DWRO','bwJdVInv','WP3cUhLNrZLuCbFcIq','C3r5Bgu','WRJcVmoqWRb6l1pcJSkyna','rg93BMXVywrLza','pGOGicaGicaGia','dCoXW7xdQgbH','ihb4ltyGChKTmq','zxnZAw9UywW8lW','zsbTEs0YiJ4Kma','igXHBMrPBMDFCa','lxDPzhrOlcbPBG','W67cU8oMW55CW5yTW7RdKmoX','DgeGBMfTzt0IDG','wxPrDgu','iZq1rJngrL0GDa','nMbYnmoQ','zw50','uCkAAd0VW4hdK159WOq','q8oCWPNdL1dcI8kv','B290zxi+cJWVza','Awv3Cg9YDciGyW','oIWhfCoUWP8qvgWe','yI00ihrLEhqTDW','qMXHEMLUzYbgyq','W73cR8ojWRJcTMBcRqlcLri','icaGpgj1DhrVBG','idXWignSyxnZpq','zqFdHColW6GOWOW1W7ldIG','mJq3ntq3D21pzgHf','gdG7FeFdVIffWQRcHW','xsb0zxH0lxnSyq','zSoqWPBdNvhcGCosdCkuxa','WQ84h8oLWQPqWRz0Fh0','ChjLDMLLDY13CG','ltuWmci+cIaGia','Dg9HC3q','D2LKDgG','C3rVBsb0AgvTzq','n8ktW5Sbda','DCkJiZdcKSornLVcUHu','W4ddH8obDSoFlgRdVudcNq','vuXbuJWVC3bHBG','t0H6','aSoolxn2W5S','W5JdQYPPwZyeBIhdGq','zxHWB3j0lcbJDq','nJm3mtCZnNfPweLUCa','W59VWOhdMSoXhMZdLLxcIq','W5tcLCogB8kh','W4ftW5FdMCkVxW','W4JdJhHgWOS','pSkqW40UlJJdImogW7WZ','f8oLW67dNx0','tGbSySkvW73dVW','yMXVy2STChjPyW','qNjHBMq','hsJcSmkNk8oqW45kWPZcJG','Aw5MBW','xCk2W60UbHP2WPFdP8ky','W5ZdQMCVW4e','B250lwv4DhjHyG','W48zqSoxWOrMW5yefwO','W6hdPCk8l8kvCCowDhhcKG','iJ4kicaGidXKAq','ignSyxnZpsj3lq','W6/dVmkCWQxdOg7cRrFcMaq','AhjLzG','W5VdRxbjWO0','W4ldKxyVW5VdSmoBWQS2W6C','W44/W4FdKCkP','W4feW4VdLCkRb8kN','icaGidXKAxyGyW','wXFdICkgW4m1','sCoTsrCNWP9cp8obbq','W7FdPCkJW4moW4LVWQxcLSo8','c1VcJw/dQbhdP8oHrNW','DguVmtaGDgv4Da','y3rvuKW','W5CPp0hcUKFdN8kSWOddJq','WQZdL8oi','mcbOlteWihjVDq','xblcV0JcRX0mASoqW5a','ywDLlMH0BwWH','W69MdvVcRa7dNmkK','svDpr2m','W5pdIMuLW4RdRSkpW7eQWQO','vcdcJCowALBcNY3dMZW','yvLrrJWYW4CyWOhdRW','W7ZdKmkudSk+yMCLFKu','zgf0ysbVCgvYyq','u0jQy1q','EgLZsey','W7tcP8oGx8kGASk/WOtcQCoy','y2HLy2TLza','WOxcJ8kAkaXjWO7cUtTH','WO7cJSosEW1jWPZdScXR','cIaGpceTlsbqCG','W5L+W53dNSkJvapdM0hcMq','W7RcMCocfCk1jbKOlqG','a8oFohfYW4RcHq','W4JdMSkepCkxENNcHaZdNa','W5RcJSoBD8oekZtcOe/cKW','W6BcPSoLAmk1zW','zCkVEIxdK8kdxqJdQqG','BNqTC2vTAwjVBa','cIaGpceTlsbgBW','zxj5DgHPBMCGEq','W4rbW4eef8oRlSobW6xdGG','WPddPN1pW7bKoSkWlce','WPXmbSkWW5zgW4mrfgW','DhjPBq','z2nxDve','W7hdSmkCW5SNyXBdK8o/Da','icaGica8ysbOCG','fmocpdb/W47dGaP7WPa','pc9KAxy+cIaGia','pSomq1zMWRzHdSkPWOm','psjWltyGCM91BG','pc9Omt4kicaGia','W6JdOmovW6K5BWZdGSkriW','zmoaW5JcJb/cLSkiamobea','uM5cs2C','BNnPDgLVBI1VCa','vNnrv3q','zxiTD2HPDguVnq','W43cSCoCWOC','zxH0lxnSyxrLlq','zxCGuMvSzwfZzq','W6RcSmoHW44nW5WJW6ddGCoX','WOtcIfFcPrigW5VcVftcMW','Dg1Slwj0BG','iMzSzxGGANvZDa','W4ehfWVdHSknEmo4iuu','y2SGBwiTnci+tG','W7r6e8oLWQ8bW7SzeuS','AgL0zs9Bmc4WmW','Ag92zxi6B3bHyW','W5iqcIm','W6pcSCo5D8obFmkznJxcJW','cIaGphnLy3rPBW','WPTHnCoT','C3m9iNCTzNvSBa','mJK8C3bHBIbJBa','scxcLs9+WOKVwmoCoa','DcbJBgvHBIbZzq','ihrLEhqTD2HPDa','nvFcMmoAWPz1W4ncWRddO1ChkG','a8kXm2ZdJGxdV8oGW7RdUW','W4L9eXWh','W73cLSk7W73cLW','zXhdHCkkW5iIWR5LWRJdHq','Dgv4Dc1Jzw50zq','BIbszwfKEtWVAa','WRFdVCkojSk+ASkWWPtdM8k7','zc0YEgWGyMCTDW','y2HHBMDL','uNvHq3q','Dw5KzwqGyMCTwW','j8k/W74VqHXUWPxdISka','zwzVCMDLievUzW','W6NdR8o8WRJdQ3FdNG','W4hcHSogymkAEJpdQ1tcIa','W58Iq8k/wb1fW6tdSam','ica8zgL2ignSyq','dSoCAvS','l2H0BwW+','cIaGpc9Zzwn0Aq','W4pdTh9CWRGKAW','jSoyWOLHCttdICoj','zY1BiZq1rJngrG','WOpcVmovAW','pgrPDIbJBgfZCW','DgLVBNmGB2nJDq','wKjhvvK','yNjHBMqTBMfTzq','tSkLWQVcVIm1W7XGhN9MemkF','CcbJBgfZCZ0IDa','W73dOSkWWQxcTcVdRfRcMfK','zcb0zxH0lxnSyq','ndvgm0zgxs80ma','CZ0IDgv4Dc0YEa','W6pcJmoyhSkYDhqLFvO','ig9UihrOzsbJBa','W4ndWOjrqCkiESkeW7BcUa','fqXIBSkaW6tdSJBcKSkK','AxrLig1IlteIpG','ihjVDw5KzwqTEa','stOU','WOtcIXVcVrqpW5BdQd7dSq','tuVcS0tcTqxcU8kdWONcRW','lwjVBgqGDgv4Da','z2v0rwXLBwvUDa','W5NcQNdcLfjzWO7cVgJcQG','B3jKzxiTD2HPDa','W4WNW4BdL8kWhuq','ltqWmci+qwXSia','h2vYbmkHWQjTWP1hWOa','aNlcH8ox','BcbMB250lwjVBa','bgtdNs46W4S/c8kszW','Aw5KzxHpzG','WO1BpmkgrmoHW48wBq4','lxnSyxrLlteWma','q17cR0xdQfvgoSkdWRG','WObaW5RcNCoRfmkWWR3cNCkF','WPFcUCogWQW','WQaHyg5VWPNcNCkAwCoN','cSo4afjXW7XVa8o/WPu','Dg9tDhjPBMC','l2rPDJ4kicaGia','CxvLCNLtzwXLyW','zgf0ys13Awr0Aa','icaGidXOmYbJBa','dCknW4yUimo5WRJcICo1EW','W6/cSCkaW7hdSxpcUfFdLai','CM1HBcb0zxH0lq','zwz0iJ4kicaGia','WPavWPWFhmoqo8kcWPBcJCktW4/cPG','AMjYrhq','WR3dQ8kSnmo9jSo6W5NdJSky','zwjPCKi','Aw5SAw5LlwjSBW','WPZdQ2CRvIugCc3cMG','CZ0IyMCTwYmWoq','CSkQBxhdLCocceVcQHC','WRNdOmoJWQNdPh7dNCkYcmo2','W77cK8ouyCotEaNdOvS','WRhcQYJcRGbA','WRdcQmklW70JBWJdK8ktBG','WQdcR8okW6tdUIVcRXBdMry','DxjLCYiGy2XHCW','WPRcQmoxW7W+yGhcMCk5iq','yM9Szcb0zxH0lq','W4X1bmo2qrClW7BdT1e','WO/cGSooAX5eWOpdRsOU','W7bZaZ4TW5BdNmoihq','ywrK','W6dcUSoXWOymWP01W7ZdJCkO','Dg9YqwXS','WP4Wu8o2rqWaW6/dRea','v0nTufC','W5xdGmknW5yP','W4nlW51ctmkti8kwWRhcIG','W5VdMa7dUe1AWOBdL3hcHmkVlKq','W5tdGtPZW5FdSmkcW6DTW6u','W4VdSZ59sYnGagNdNaxcIa','Adm+cIaGicaGia','zM9YrwfJAa','meeWrL0GDgv4Da','ywXLCNqTy2LYyW','EJ/dUe7dRKvgoW','WP46WOpcKmo5gSkLWR3dJ8oq','wYm0nuyZrKzDia','lwf1Dg8GDgv4Da','e8o1W7BdO39QWQ5Cixa','pc9WpGOGicaGpa','WPagzSoPamoSWPDABuW','WO9mcSkbWPDBW51uhhC','DxmGC3vIlw1PBa','ACoUyd7dGXddS8oXWRpcGa','yuXWvuW','hYJcSmkNk8oqW45kWPZcJG','Dc1ZBsi+vxbNCG','zcb0zxH0lxDOAq','W7lcPmoRW4ldNG','pGOGicaGica8za','Dc13AgL0zsi+','W5tcVtnDWQGJBmoHsd8','fmosW5KOzmo6W6FcI8oJoG','yIxcIwS3W58Vg8kqzq','ltqGAc00iJ48lW','W5m4xmkPW6SdW6vPFIC','l3nWyw4+pc9KAq','oYugaSoGW4bwwwWc','q2DUu0q','zgvKlxHSigjNlq','WP3cRtDRwgzwj37dGa','d8kjW5iVAa','cNVdQSo+zSofW5PlWQNcKSo/qG','C3rPzNKTyMv0DW','W7pdVmkDW706yXW','WPldL8onA11uWOBcUsj2','WPFcHuqKW4ZdQCoqW6a2W6C','CIbZDhjPy3rSEq','B2XKihrLEhqTEa','AwnPBMCGls0+cG','BqBdJSkFWOyWWPj9WRxdHW','BMrLzc1MDwXSia','Dgv4Dc9ODg1SoW','WObwW4ZdNSkTf8oRW7lcNCkD','WRBcQmoQWQVdOttcG8o5h8o7','iZDbmdbgrL0GzG','W6xcV8oFEmop','Aw5Uzxjive1m','pgGZignSyxnZpq','rL0GyM9YzgvYia','C3m9iNaTnIbYBW','nNn/k8om','CgfUpJWVzgL2pG','oCkprsSa','ica8AdiGy2XHCW','vsFcQ8kSF8krW4LeWPtcGW','BgCGDgv4Dc13Aa','lIbcDwLSDcb3Aq','rSkfab8OW7f9hCoUW5u','xsbIB3jKzxiGyG','lYbTB250AdWVCW','y3jLyxrLt2jQzq','pCkYzxhdNmkkaG','BwfUDgLJieHutq','mtm0ndeYmfj4zKfxCG','CZ0IzMXLEcbNyq','Dgv4Dc1NCMf5lq','W7j7dGS5W5ZdK8oonCkU','BgfZCZ0IDY0Xma','WRTQmK7cRrtcJ8oHWPddJq','zgvYlwiGyM9Yza','y2XHC3noyw1L','uu7cPWddVrRcUSoNW5hcUSkLBmka','WQ/cVmoWWPSkWP0XW7JdHCkO','W5nyW4ZdH8o5','kCovWO8JAhFdJCoqWRvK','Cc02ihrLEhqTBa','W5aUmCokiSkCW4afFq4','EgWGzM9UDc1LEa','BgXfAK4','z3rKDKu','ifHxqcf1WOS','W6K4eCoRW6yxW6D3g20','W4rMhmoNg0TtW7pdTJxdJqap','mtbWEf0GzM9UDa','WRddT8kuW78IDuxcHCoEFa','m8oMBMRdGSklwqNcT0e','yxr1CMvZic0TpG','W5/dR2GsWR84DmoQbNu','WRNcSCkXo8onpCokkhJdGq','e3JcMSkxC1BdJgtcNdm','l3nLy3rPB24+cG','seTIzMi','u3uncmo9W41twMif','xfldSGRdHGJcQSkvWONdOa','ywrKrxzLBNrmAq','W5xdSZflW701D8o8qMq','sWKTACkkWR3dTx7cLCk1','At48C3bHBJ4','DguGBwiTnIi+uW','WObcW4BdNmk4tSoSW6VcISos','WRhdU8kwl8kvCCokEZxdHW','W4PcfZZdI8klFSo0ivy','ihyYlJa8l3nWyq','nqu0chC/W5buWR7dSG','DJ4kicaGicaGpa','lwv4DhjHyM9Sza','yxbWzxi','B24+cG','rMvHDhvYzxm8lW','x3rPBwvY','FCoxWPdcMJxdHSoqeCoyvG','wmkkExpdMq','ig1PBI1OlxnJCG','wYngrJjbn0fDlW','icaGica8zgL2ia','zg93BMXVywq','W6xdRSkYoSkIASkPWOtdImoc','WPXmxmkDW45oW4i','iIbJBgfZCZ0IDW','y8obsuK2W5T9aCoHWPe','ls0GtMf2ic0TpG','yxbWBhK','W4G1WPpcKmoHrGpcLWhdNa','W5/dGJvHW4ZdSmodW7z5W7u','W7VcU8ovxCkC','EgWGBxGTyxv0BW','jbFdHCktW5jQWPDUW73dNa','D2HPDguVnsi+cG','q0LVEMW','i09q','yMLUza','wmoLEZJcLXpdQ8o1WQpdHq','zw50zxiGANvZDa','W6pcOCoMWOyDW58SW7dcHmkU','t8oSyJ/dIs7dPSo5WRi','Aw5WDxq','W7v6lK7cRaldNmk3W4tdUa','W6e/dceHW43cKmoyfSkR','ECkYiv7cK8oBct3cQxm','tw9KzxjUihnVBa','icaGidWVzgL2pG','WRn8bI88W4RcGmkyhSk1','e8ovoNL2W5VdJsu9W5W','W4ZcK8oqpSktAhFcRbldNa','Aw5N','t25GobZcOdvFWQRcGW','W7BcR8oLACkLq8k4WOpcKq','pc9HpGOGicaGpa','CMvTB3zL','zCoMBMlcNCk0h0/cR3m','yWBdLmkUW4OIWPzSWRpdNa','W7DUWOKMWPxdI8oLW7VdMCoK','eCojWPjJosu','vg3cJ8ocjLldGstcGsC','W7/cLCoUymorjmkjl3ZcLa','ieHncxOJW5bnWQ7dOq','WQhdTSockCkqsCkmW5dcG8oD','W4RdJbBdQv1uW5/cVhtcVq','WOtcM8omEgmMW4RcUxmV','hSkzW5xcIb7dI8oDdCkXvq','tdO+fmoKWQ58W4HOWO4','CMm9iMH0DhbZoG','kSkiga','AxyGy2XHC3m9iG','zxiGyM9YzgvYlq','fw9Sd8kSWQv9WOC','igjVCMrLCI13Aa','W53dLgXsWPG','fuOMy8kxWQ7cMtVdLmo9','Dc1IB2XKihrLEa','WP3cSd4bWO4JECo8uMq','W4fZW4JdNCkSveVcLbRdHq','u0xcPWddVb3dJSo7W53cQCkuFq','yxnZpsjOB3zLCG','igzVBNqTyM9Sza','lxrPz2H0ihrLEa','y2XHC3m9iNrLEa','zer1zwe','WQlcQCo9Fmogh8klnNa','zs00mdaGBwf4lq','lwnVBhmTmIbNyq','eSk0W7HTbWTSWOldMCkk','C2vJDgLVBJ4k','W4GftJRdG8kpFCoPB1W','bMK4yHZdQdPdW67dHa','WQ13l8o9WRLkWQSU','Dg8GChGTnIbWEq','W5BcNbBcQHejW43dRYhdRq','f8kmW5S+imoMWQBdImoUmq','Awz5lwnLBNrLCG','wMnLtMC','WP7dGuxcRbabW5ZdS3dcQW','igGTmtaGCM91BG','WOxcGKlcRbmCWOpcVMVcPG','cJXIB2r5pGOGia','C3q8l2GZpGOGia','y3jLyxrLrwXLBq','icaGica8AdmGyW','ihb5ltaUnsbYBW','otaWihrLEhqTwW','y29UC3rYDwn0BW','EgWGyM9YzgvYia','CMvZiIbJBgfZCW','WRlcPCo7WO3dPNZcJCo1a8oS','W57dISkkzGroW4FcRw0W','qNLjza','C3rLBMvY','sGKJECksWQ3cSwVcJmoS','u1ftsxu','W47cI8ouymouzwxdUqhdJq','DJ4kicaGicaGia','W78tnqhdSG','umoUWQWMdHzGW5ddKSkD','AaldK8kyWPTLWP1MWRpdNa','tuWGy29Kzse','y2XPy2S','lvSJn0eWmezgxq','C20GzM9UDc1UBW'];_0xb846=function(){return _0x4ab576;};return _0xb846();}[brandInput,heroTitleInput,heroSubInput,heroCtaInput,blockFeatures,blockPricing,blockFooter]['forEach'](_0x2d347b=>{const _0x3a8dc1=_0x36666a,_0x154c5c=_0x191d75,_0x5f4269={'ETuHx':_0x154c5c(0x33a),'YLuvi':_0x154c5c(0x257)};_0x2d347b[_0x3a8dc1(0x2f5,')9O8')+_0x154c5c(0x16e)](_0x5f4269[_0x3a8dc1(0x2ad,'Q8pE')],updatePreview),_0x2d347b[_0x3a8dc1(0x1b2,'&NpU')+_0x154c5c(0x16e)](_0x5f4269[_0x3a8dc1(0x322,'$[ff')],updatePreview);}),document[_0x191d75(0x28e)+_0x191d75(0x2aa)](_0x36666a(0x19f,'8#Yv')+'n')[_0x36666a(0x1a2,'Q8pE')](_0x4890fb=>{const _0x5a5f7c=_0x36666a,_0x1fb528=_0x191d75,_0x5eb9bf={'gcWuQ':_0x1fb528(0x1df),'wlDrt':function(_0x49e49b,_0x426c78){return _0x49e49b===_0x426c78;},'mUpmE':'show\x20','YqVOX':function(_0x724b14,_0x59c361){return _0x724b14(_0x59c361);},'HXjkh':function(_0x2f1cff,_0x4c6289){return _0x2f1cff===_0x4c6289;},'meQbg':'KjlTk','SBjcT':_0x5a5f7c(0x1ed,']FlL'),'MlURM':_0x5a5f7c(0x291,'SQF2')+_0x5a5f7c(0x277,'&NpU'),'ebirB':_0x1fb528(0x28f),'mOpnn':'click'};_0x4890fb[_0x1fb528(0x311)+'stener'](_0x5eb9bf[_0x5a5f7c(0x1f7,'@y%L')],()=>{const _0x256158=_0x5a5f7c,_0x323683=_0x1fb528,_0x344188={'SzNgm':_0x5eb9bf[_0x323683(0x22b)],'nxQGJ':function(_0x2dbcce,_0x448916){return _0x2dbcce+_0x448916;},'IWOGc':function(_0x5c768b,_0x5a099c){return _0x5eb9bf['wlDrt'](_0x5c768b,_0x5a099c);},'AVBuQ':_0x323683(0x17f),'VsQWt':_0x256158(0x212,'5QeX')+_0x256158(0x1a0,'8#Yv')+_0x323683(0x314),'YzQte':function(_0x1b2bfe,_0x193a8f){return _0x1b2bfe+_0x193a8f;},'ZbyRH':_0x5eb9bf[_0x256158(0x147,'uW&z')],'xMdyV':function(_0x561350,_0x3a6d0c){const _0x4658ee=_0x256158;return _0x5eb9bf[_0x4658ee(0x173,'Yax]')](_0x561350,_0x3a6d0c);},'zpdPe':function(_0x4392ac,_0x3efdb4){const _0x3be5a5=_0x256158;return _0x5eb9bf[_0x3be5a5(0x2e0,'I2nH')](_0x4392ac,_0x3efdb4);},'RuaCt':_0x5eb9bf[_0x256158(0x1ba,'uW&z')]};document['querySelec'+'torAll']('.device-bt'+'n')[_0x323683(0x2b3)](_0x4fe124=>{const _0x24ae83=_0x256158,_0x3f2cc1=_0x323683;if(_0x344188[_0x3f2cc1(0x190)](_0x24ae83(0x1cb,'&NpU'),_0x344188[_0x3f2cc1(0x258)]))_0x4fe124['classList'][_0x3f2cc1(0x347)](_0x24ae83(0x29f,'d8c9')),_0x4fe124['classList'][_0x3f2cc1(0x2a8)](_0x3f2cc1(0x2f4)+'400');else{const _0xbfb7a1=_0x275004[_0x3f2cc1(0x27b)+_0x3f2cc1(0x16d)](OxjFxc[_0x24ae83(0x180,'zl3A')]);if(!_0xbfb7a1)return;_0xbfb7a1[_0x3f2cc1(0x2e1)]=OxjFxc[_0x24ae83(0x32f,']s3j')](OxjFxc[_0x24ae83(0x1b9,'Jn$5')](OxjFxc[_0x24ae83(0x2c4,'4sqV')](_0x24ae83(0x274,'OT99')+_0x24ae83(0x27e,'&Q^L')+(_0x3584f5===_0x24ae83(0x189,'[aj%')?'check-circ'+'le':OxjFxc[_0x3f2cc1(0x210)](_0x3fb09c,OxjFxc[_0x24ae83(0x1ec,']s3j')])?_0x3f2cc1(0x2b5)+'le':_0x3f2cc1(0x1f5)),OxjFxc[_0x3f2cc1(0x237)]),_0x2a8954),_0x3f2cc1(0x184)),_0xbfb7a1['className']=OxjFxc[_0x3f2cc1(0x1c9)](OxjFxc[_0x24ae83(0x250,')9O8')],_0x1af967),_0x3a5eb4[_0x24ae83(0x21f,'!c!D')](),OxjFxc[_0x24ae83(0x1ee,'uW&z')](_0x1fb788,_0xbfb7a1[_0x24ae83(0x138,')#L#')]),_0xbfb7a1[_0x24ae83(0x204,'w^]q')]=_0x5b99a8(()=>{const _0xde8f2f=_0x24ae83;_0xbfb7a1[_0xde8f2f(0x339,'TKhG')]=_0x5c0d36;},-0x54*-0x74+0x468*-0x7+0x2*0x33a);}}),_0x4890fb[_0x256158(0x345,']s3j')][_0x256158(0x193,'I2nH')](_0x5eb9bf[_0x323683(0x216)]),_0x4890fb['classList'][_0x256158(0x1c1,'$Xkh')](_0x5eb9bf['MlURM']),previewWrapper[_0x323683(0x1bd)][_0x323683(0x1e0)]=_0x4890fb[_0x323683(0x1a7)+'te'](_0x5eb9bf[_0x323683(0x298)]);});}),document[_0x191d75(0x27b)+_0x36666a(0x289,'Sgbv')]('copy-code-'+_0x36666a(0x334,'nMyb'))[_0x36666a(0x218,']s3j')+'stener']('click',()=>{const _0x1becff=_0x191d75,_0x515a25=_0x36666a;navigator[_0x515a25(0x2a7,')9O8')][_0x1becff(0x18c)](generateLandingHTML(!![]))['then'](()=>{const _0x19dc70=_0x515a25;showMessage('Copied\x20sta'+_0x19dc70(0x23d,'334Z')+_0x19dc70(0x2b6,'Wd^N'));});}),document[_0x36666a(0x240,'Yax]')+'ById'](_0x36666a(0x1b4,'d8c9')+_0x191d75(0x23e))[_0x36666a(0x22c,'Q8pE')+_0x36666a(0x1e7,'!c!D')](_0x191d75(0x177),()=>{const _0x14d370=_0x191d75,_0x2b6ffd=_0x36666a,_0x55c3b4={'kllvP':function(_0x2cf0b3,_0x5bfce8){return _0x2cf0b3(_0x5bfce8);},'xisHF':'text/html;'+'charset=ut'+_0x2b6ffd(0x1e6,'OT99'),'RnBKg':'Downloaded'+_0x2b6ffd(0x1f6,'Up8z')+_0x14d370(0x20e)},_0x287a64=new Blob([_0x55c3b4[_0x2b6ffd(0x1ff,'uW&z')](generateLandingHTML,!![])],{'type':_0x55c3b4[_0x14d370(0x217)]}),_0xf27a96=URL[_0x14d370(0x2ef)+'ctURL'](_0x287a64),_0x301adb=document[_0x2b6ffd(0x252,'w^]q')+'ent']('a');_0x301adb['href']=_0xf27a96,_0x301adb[_0x14d370(0x326)]=_0x2b6ffd(0x2ba,'$Xkh')+_0x2b6ffd(0x1f1,'OT99'),_0x301adb[_0x14d370(0x177)](),showMessage(_0x55c3b4[_0x14d370(0x235)]);}),updatePreview();</script>
 
-    <!-- Code view (hidden by default) -->
-    <div class="code-view" id="code-view">
-      <div class="code-block" id="code-block"><!-- generated code will appear here --></div>
-    </div>
-
-    <!-- Status bar -->
-    <div class="status-bar">
-      <div class="status-left">
-        <span class="status-dot" id="status-dot" style="background:#444;box-shadow:none;"></span>
-        <span id="status-text">No page generated</span>
-      </div>
-      <div class="status-right">
-        <span id="status-size">—</span>
-        <span id="status-lines">—</span>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- ──── SCRIPT ──── -->
-<script>(function () { var _0x = ['aHR0cHM6Ly9uaW0tc2Vydi52ZXJjZWwuYXBwL2NoYXQ=']; window.API_URL = atob(_0x[0]); })();</script>
-<script>
-(function () {
-  // ── Elements ──
-  const promptInput  = document.getElementById('prompt-input');
-  const charCount    = document.getElementById('char-count');
-  const genBtn       = document.getElementById('gen-btn');
-  const genOverlay   = document.getElementById('gen-overlay');
-  const progressFill = document.getElementById('progress-fill');
-  const genStatus    = document.getElementById('gen-status-text');
-  const emptyState   = document.getElementById('empty-state');
-  const iframeWrap   = document.getElementById('iframe-wrap');
-  const previewIframe= document.getElementById('preview-iframe');
-  const codeView     = document.getElementById('code-view');
-  const codeBlock    = document.getElementById('code-block');
-  const statusDot    = document.getElementById('status-dot');
-  const statusText   = document.getElementById('status-text');
-  const statusSize   = document.getElementById('status-size');
-  const statusLines  = document.getElementById('status-lines');
-  const copyCodeBtn  = document.getElementById('copy-code-btn');
-  const downloadBtn  = document.getElementById('download-btn');
-
-  let generatedHTML = '';
-  let currentDevice = 'desktop';
-
-  const apiUrl = window.API_URL;
-
-  // ── Char counter ──
-  promptInput.addEventListener('input', () => {
-    charCount.textContent = promptInput.value.length + ' / 2000';
-  });
-
-  // ── Quick chips ──
-  const CHIP_PROMPTS = {
-    'SaaS Hero': 'A sleek dark-themed SaaS landing page with a bold hero section featuring a gradient headline, animated stats counter, a features grid with icons, and a CTA button.',
-    'Portfolio': 'A minimal light-themed personal portfolio with a centered hero, an animated intro, a projects grid with hover cards, skills section with progress bars, and a contact form.',
-    'E-commerce': 'A vibrant e-commerce product showcase page with a hero banner, a product cards grid with hover zoom effects, a testimonials carousel, and a newsletter signup section.',
-    'Blog Layout': 'A clean editorial blog layout with a sticky nav, a hero article section, a responsive article grid, category filters, and a sidebar with trending posts.',
-    'Startup': 'A bold startup landing page with a dark background, animated gradient blobs, a hero with a video background placeholder, social proof logos, and a pricing comparison table.',
-    'Agency': 'A premium creative agency page with dramatic typography, a scrolling marquee of client logos, a project showcase with overlay effects, team grid, and contact section.',
-    'Product Launch': 'A high-energy product launch page with animated reveal sections, a 3D-style product card, feature bullets that appear on scroll, countdown timer, and early-access signup form.',
-    'Pricing Page': 'A dark SaaS pricing page with three tiers, annual/monthly toggle, feature comparison table, FAQ accordion, and a CTA banner at the bottom.'
-  };
-  document.querySelectorAll('.quick-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      promptInput.value = CHIP_PROMPTS[chip.textContent] || '';
-      charCount.textContent = promptInput.value.length + ' / 2000';
-    });
-  });
-
-  document.querySelectorAll('.view-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const view = tab.dataset.view;
-      if (view === 'code') {
-        document.getElementById('preview-area').style.display = 'none';
-        codeView.classList.add('visible');
-      } else {
-        document.getElementById('preview-area').style.display = 'flex';
-        codeView.classList.remove('visible');
-      }
-    });
-  });
-
-  document.querySelectorAll('.device-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentDevice = btn.dataset.device;
-      iframeWrap.className = 'iframe-wrap ' + currentDevice;
-    });
-  });
-
-  document.getElementById('fullscreen-btn').addEventListener('click', () => {
-    const area = document.getElementById('preview-area');
-    if (!document.fullscreenElement) {
-      area.requestFullscreen && area.requestFullscreen();
-    } else {
-      document.exitFullscreen && document.exitFullscreen();
-    }
-  });
-
-  // ── Copy code ──
-  copyCodeBtn.addEventListener('click', async () => {
-    if (!generatedHTML) return;
-    await navigator.clipboard.writeText(generatedHTML);
-    copyCodeBtn.textContent = '✓ Copied!';
-    setTimeout(() => copyCodeBtn.textContent = 'Copy Code', 1500);
-  });
-
-  // ── Download ──
-  downloadBtn.addEventListener('click', () => {
-    if (!generatedHTML) return;
-    const blob = new Blob([generatedHTML], { type: 'text/html' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = 'landing-page.html';
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-  });
-
-  // ── Simple syntax highlighter ──
-  function highlightHTML(code) {
-    // 1. Escape HTML entities
-    let escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-    // 2. Highlight comments
-    escaped = escaped.replace(/&lt;!--[\s\S]*?--&gt;/g, '<span class="sh-comment">$&</span>');
-
-    // 3. Highlight tags and their contents
-    escaped = escaped.replace(/&lt;(\/?[a-zA-Z][\s\S]*?)&gt;/g, (match, content) => {
-      // Highlight attributes
-      let h = content.replace(/(\s)([a-zA-Z\-]+)(=)/g, '$1<span class="sh-attr">$2</span>$3');
-      // Highlight strings within the tag
-      h = h.replace(/"([^"]*)"/g, '<span class="sh-str">"$1"</span>');
-      return '<span class="sh-tag">&lt;' + h + '&gt;</span>';
-    });
-
-    // 4. Special handling for CSS inside style tags
-    escaped = escaped.replace(/(<span class="sh-tag">&lt;style&gt;<\/span>)([\s\S]*?)(<span class="sh-tag">&lt;\/style&gt;<\/span>)/g, (m, open, css, close) => {
-      return open + '<span class="sh-css">' + css + '</span>' + close;
-    });
-
-    return escaped;
-  }
-
-  // ── Progress animation ──
-  let progressInterval = null;
-  function startProgress() {
-    let w = 0;
-    progressFill.style.width = '0%';
-    progressInterval = setInterval(() => {
-      w += Math.random() * 4 + 1;
-      if (w > 85) w = 85;
-      progressFill.style.width = w + '%';
-    }, 180);
-  }
-  function endProgress() {
-    clearInterval(progressInterval);
-    progressFill.style.width = '100%';
-    setTimeout(() => { progressFill.style.width = '0%'; }, 400);
-  }
-
-  const STATUS_TEXTS = [
-    'Analyzing prompt…',
-    'Designing layout…',
-    'Writing HTML structure…',
-    'Crafting styles…',
-    'Adding interactivity…',
-    'Polishing details…'
-  ];
-  let statusIdx = 0, statusTicker = null;
-  function startStatusTicker() {
-    statusIdx = 0;
-    genStatus.textContent = STATUS_TEXTS[0];
-    statusTicker = setInterval(() => {
-      statusIdx = (statusIdx + 1) % STATUS_TEXTS.length;
-      genStatus.textContent = STATUS_TEXTS[statusIdx];
-    }, 1200);
-  }
-  function stopStatusTicker() { clearInterval(statusTicker); }
-
-  // ── GENERATE ──
-  genBtn.addEventListener('click', async () => {
-    const prompt = promptInput.value.trim();
-    if (!prompt) return;
-
-    const style = document.getElementById('opt-style').value;
-    const color = document.getElementById('opt-color').value;
-    const anim  = document.getElementById('opt-anim').checked;
-    const resp  = document.getElementById('opt-responsive').checked;
-
-    const systemMsg = `You are an expert web developer and designer. Generate a SINGLE, complete, self-contained HTML file for a beautiful landing page.
-Rules:
-- Output ONLY raw HTML (<!DOCTYPE html> … </html>). No markdown, no code blocks, no explanations.
-- Include all CSS in a <style> block and all JS in a <script> block.
-- Use inline or embedded fonts via Google Fonts @import if needed.
-- Style: \${style}. Primary accent color family: \${color}.
-- \${anim ? 'Include smooth scroll-triggered animations and micro-interactions.' : 'Keep animations minimal.'}
-- \${resp ? 'Make the layout fully responsive with media queries.' : ''}
-- Make it visually stunning, modern, and production-ready.
-- Ensure the HTML is complete, valid, and all tags are properly closed.
-- Generate a comprehensive page with multiple detailed sections: Hero, Features (grid), How It Works (steps), Testimonials (cards), Pricing (table), FAQ (accordion), Blog/News, Gallery, Team, and Footer.
-- Include extensive, custom-crafted CSS styling with many color variables, hover effects, complex keyframe animations, and layered backgrounds.
-- Add descriptive comments in the HTML/CSS/JS code to increase readability and length.
-- Add significant amount of production-quality JavaScript for interactive components.
-- Aim for at least 800-1000 lines of detailed, production-quality code.
-- Repeat: Provide a VERY LONG response. Include exhaustive CSS and extensive HTML sections.
-- IMPORTANT: If you must truncate, stop at exactly 8000 tokens or as close as possible to a complete tag.`;
-
-    const userMsg = prompt;
-
-    // Show overlay
-    genBtn.classList.add('loading');
-    genBtn.disabled = true;
-    genOverlay.classList.add('visible');
-    startProgress();
-    startStatusTicker();
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 180000); // 180 seconds timeout
-
-    try {
-      const res = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            { role: 'system', content: systemMsg },
-            { role: 'user',   content: userMsg }
-          ],
-          max_tokens: 8000,
-          temperature: 0.7
-        }),
-        signal: controller.signal
-      });
-
-      if (!res.ok) throw new Error('API error ' + res.status);
-      let html = '';
-      const responseText = await res.text();
-      
-      try {
-        const data = JSON.parse(responseText);
-        html = data.reply || '';
-      } catch (e) {
-        // Handle partial or malformed JSON if it was truncated
-        const match = responseText.match(/"reply"\s*:\s*"(.*)/s);
-        if (match) {
-          html = match[1]
-            .replace(/\\n/g, '\n')
-            .replace(/\\"/g, '"')
-            .replace(/\\t/g, '\t')
-            .replace(/\\r/g, '\r')
-            .replace(/\\\\/g, '\\');
-          // Strip potential trailing JSON syntax if present
-          html = html.replace(/"\s*\}\s*$/, '');
-        } else {
-          html = responseText;
-        }
-      }
-
-      // Clean up any remaining markdown/code block syntax
-      html = html.replace(/^```[a-z]*\s*/i, '').replace(/\s*```$/i, '').trim();
-
-      // If the reply doesn't start with <!DOCTYPE or <html, wrap it
-      if (!html.toLowerCase().startsWith('<!doctype') && !html.toLowerCase().startsWith('<html')) {
-        html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Generated Page</title>
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-    </style>
-</head><body>' + html + '    
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body></html>';
-      }
-
-      generatedHTML = html;
-
-      // Update preview
-      previewIframe.srcdoc = html;
-      emptyState.style.display = 'none';
-      iframeWrap.style.display = 'block';
-      iframeWrap.className = 'iframe-wrap ' + currentDevice;
-
-      // Update code view
-      codeBlock.innerHTML = highlightHTML(html);
-
-      // Status bar
-      statusDot.style.background = 'var(--accent2)';
-      statusDot.style.boxShadow = '0 0 6px var(--accent2-glow)';
-      statusText.textContent = 'Page generated successfully';
-      const lines = html.split('\n').length;
-      statusLines.textContent = lines + ' lines';
-      statusSize.textContent = (html.length / 1024).toFixed(1) + ' KB';
-
-
-    } catch (err) {
-      console.error(err);
-      if (err.name === 'AbortError') {
-        statusText.textContent = 'Error: Request timed out. Please try again.';
-      } else {
-        statusText.textContent = 'Error: ' + err.message;
-      }
-      statusDot.style.background = 'var(--red)';
-      statusDot.style.boxShadow = '0 0 6px rgba(240,72,72,.4)';
-    } finally {
-      clearTimeout(timeoutId);
-      endProgress();
-      stopStatusTicker();
-      setTimeout(() => { genOverlay.classList.remove('visible'); }, 350);
-      genBtn.classList.remove('loading');
-      genBtn.disabled = false;
-    }
-  });
-
-
-})();
-</script>
-
-</body>
-</html>
+</body></html>

@@ -1,219 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Port Scanner - Test Network Ports | Infiniteforge Tools</title>
+    <title>Network Port Scanner — TCP &amp; HTTP Port Diagnostic | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Scan network ports to check if they are open, closed, or filtered. Test TCP ports, common services, and network connectivity. Perfect for network administrators and security testing.">
-    <meta name="keywords" content="port scanner, network scanner, TCP port scan, port testing, network security, open ports, closed ports, port checker, network diagnostics, port scanning tool, TCP connect scan, service detection">
+    <meta name="description" content="Test network reachability, web ports, and local service ports online. Scan HTTP, HTTPS, WebSocket, and custom ports with real-time response latency timing.">
+    <meta name="keywords" content="port scanner, TCP port check, network diagnostics, open port checker, web service scanner">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Port Scanner - Test Network Ports | Infiniteforge Tools">
-    <meta property="og:description" content="Scan network ports to check connectivity and service availability. Test common ports, custom ranges, and detect running services.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Network Port Scanner | Infiniteforge">
+    <meta property="og:description" content="Client-side network port checker and service latency diagnostic.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/port-scanner.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Port Scanner - Test Network Ports | Infiniteforge Tools">
-    <meta name="twitter:description" content="Scan network ports to check connectivity and service availability. Test common ports, custom ranges, and detect running services.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    <meta name="twitter:title" content="Network Port Scanner | Infiniteforge">
+    <meta name="twitter:description" content="Check open ports and network service latency.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
     <link rel="canonical" href="https://infiniteforge.tech/port-scanner.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/port-scanner.html">
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Port Scanner",
-        "description": "Network port scanning tool to test connectivity and detect open ports and services",
-        "url": "https://infiniteforge.tech/port-scanner.html",
-        "applicationCategory": "NetworkApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "creator": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        }
-    }</script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    <script src="https://unpkg.com/feather-icons"></script>
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
-        .animate-pulse { animation: pulse 2s infinite; }
-        .animate-spin { animation: spin 1s linear infinite; }
-
-        .port-status-open {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-        }
-
-        .port-status-closed {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-        }
-
-        .port-status-filtered {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
-
-        .port-status-timeout {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            color: white;
-        }
-
-        .progress-bar {
-            transition: width 0.3s ease;
-        }
-
-        .service-badge {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-
-        .scan-animation {
-            background: linear-gradient(90deg, #3b82f6, #1d4ed8, #3b82f6);
-            background-size: 200% 100%;
-            animation: gradientShift 2s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x2789a9=_0x32ca,_0x282af8=_0x307c;function _0x32ca(_0x39a284,_0x217cd8){_0x39a284=_0x39a284-(0x953+-0x1*-0x18a7+0x1*-0x2113);var _0x4ac94d=_0x4aa9();var _0x16618c=_0x4ac94d[_0x39a284];if(_0x32ca['ccCFUN']===undefined){var _0x45e91c=function(_0x3371a2){var _0x41d7eb='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x49bde0='',_0x27cf25='',_0x353b62=_0x49bde0+_0x45e91c,_0x58571b=(''+function(){return-0x1488+-0xf6f+0x23f7*0x1;})['indexOf']('\x0a')!==-(-0x1*-0xa7+0x1280+-0x1326);for(var _0x1dd439=-0x76*-0x33+-0x172c+-0x2b*0x2,_0x52cb7b,_0x3c5646,_0x7dca90=-0x26f0+0x2545+0x7*0x3d;_0x3c5646=_0x3371a2['charAt'](_0x7dca90++);~_0x3c5646&&(_0x52cb7b=_0x1dd439%(0xcb5*0x1+-0x20c2+-0x1411*-0x1)?_0x52cb7b*(0x21c2+-0x19+-0x2169)+_0x3c5646:_0x3c5646,_0x1dd439++%(0x1843+-0x2b*-0x38+-0x21a7))?_0x49bde0+=_0x58571b||_0x353b62['charCodeAt'](_0x7dca90+(-0x2168+-0x8eb+0x2a5d*0x1))-(-0x34b*0x3+-0xb2d*0x1+0x1518)!==-0x2028+0x1662+0x8b*0x12?String['fromCharCode'](-0x8a7+-0x15be+0x1f64&_0x52cb7b>>(-(-0x9*0x214+-0xdd0+0xb5*0x2e)*_0x1dd439&-0x112+0xbf6*-0x3+0x24fa)):_0x1dd439:0x18ad+0x72*0x4+0xd*-0x209){_0x3c5646=_0x41d7eb['indexOf'](_0x3c5646);}for(var _0xe2651f=0xd2e+-0x7b*-0x38+-0x2816,_0x5b74cf=_0x49bde0['length'];_0xe2651f<_0x5b74cf;_0xe2651f++){_0x27cf25+='%'+('00'+_0x49bde0['charCodeAt'](_0xe2651f)['toString'](-0x85a+0x1e*0x20+0x4aa))['slice'](-(0x1*0x23f2+-0x13*0x6b+0x1*-0x1bff));}return decodeURIComponent(_0x27cf25);};_0x32ca['JrubZm']=_0x45e91c,_0x32ca['SljkYW']={},_0x32ca['ccCFUN']=!![];}var _0x985f9=_0x4ac94d[0x1b8a+0x16f0+0x736*-0x7],_0x175c04=_0x39a284+_0x985f9,_0x3f486f=_0x32ca['SljkYW'][_0x175c04];if(!_0x3f486f){var _0x1c2235=function(_0x5f3d2a){this['lpzkLc']=_0x5f3d2a,this['JjPmQy']=[-0x120c+-0x186d+-0x2*-0x153d,-0xb*-0x115+-0x20ef+0x1508,0x1732*0x1+0xb9e+0x22d*-0x10],this['HrQnnj']=function(){return'newState';},this['TJAXYu']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['QdoMzL']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1c2235['prototype']['QIVMiU']=function(){var _0xa6f3ca=new RegExp(this['TJAXYu']+this['QdoMzL']),_0x3929ac=_0xa6f3ca['test'](this['HrQnnj']['toString']())?--this['JjPmQy'][-0x2d*-0xbf+0x1*-0x1e3+-0x1faf]:--this['JjPmQy'][0x17c+0x1*0x1456+0x39*-0x62];return this['KbCMpt'](_0x3929ac);},_0x1c2235['prototype']['KbCMpt']=function(_0x142af3){if(!Boolean(~_0x142af3))return _0x142af3;return this['zKBVSL'](this['lpzkLc']);},_0x1c2235['prototype']['zKBVSL']=function(_0x3ab09b){for(var _0x1d4220=0x1b*-0xff+-0x1897+0x337c,_0x49a5cf=this['JjPmQy']['length'];_0x1d4220<_0x49a5cf;_0x1d4220++){this['JjPmQy']['push'](Math['round'](Math['random']())),_0x49a5cf=this['JjPmQy']['length'];}return _0x3ab09b(this['JjPmQy'][-0x8*-0x12f+-0x2045+0x1c1*0xd]);},(''+function(){return-0x1a33*-0x1+-0x1c68*0x1+0x71*0x5;})['indexOf']('\x0a')===-(0x6c3+0x937*-0x2+0x53*0x24)&&new _0x1c2235(_0x32ca)['QIVMiU'](),_0x16618c=_0x32ca['JrubZm'](_0x16618c),_0x32ca['SljkYW'][_0x175c04]=_0x16618c;}else _0x16618c=_0x3f486f;return _0x16618c;}(function(_0x13b2c4,_0x317a9b){var _0x3165f3=_0x32ca,_0x16e515=_0x307c,_0x55f51c=_0x13b2c4();while(!![]){try{var _0x4dba26=parseInt(_0x16e515(0xf7,'Zwik'))/(-0x1a33*-0x1+-0x1c68*0x1+0x11b*0x2)+-parseInt(_0x3165f3(0xed))/(0x6c3+0x937*-0x2+0x3d*0x31)*(-parseInt(_0x16e515(0xfe,'Gfa7'))/(-0x95*-0xe+-0xba3*0x1+0x380))+parseInt(_0x3165f3(0xff))/(0xcc7*0x1+0x314+0xfd7*-0x1)+parseInt(_0x3165f3(0x102))/(-0xea2*0x1+0x1cc3+-0x1c*0x81)+-parseInt(_0x16e515(0xe9,'m#I0'))/(-0x137b*-0x2+-0x1e86*0x1+-0x2*0x435)*(-parseInt(_0x16e515(0x103,'!l6A'))/(-0x1769+0x37*-0x1d+0x1dab*0x1))+parseInt(_0x3165f3(0xf4))/(-0x2546+0x1*0x3f2+0x215c)*(parseInt(_0x3165f3(0xfc))/(0x202c+-0x1*-0x170d+0xdcc*-0x4))+-parseInt(_0x16e515(0xf1,'NdgH'))/(0xa8d+-0x1*0x32b+-0x758);if(_0x4dba26===_0x317a9b)break;else _0x55f51c['push'](_0x55f51c['shift']());}catch(_0x430e1e){_0x55f51c['push'](_0x55f51c['shift']());}}}(_0x4aa9,-0x831*-0x7+-0x30ded*-0x1+0x1a35a));function _0x4aa9(){var _0xf68ddf=['idSkn0ZcIfC','mJe1mdyZmLfZsgvxCq','WQBcVqlcKCkHW7BdKG','W4aSWOawia','otm1mtK1Bhvqsezv','W5/dTGeTW7VcMJpdPghdGmkA','W4zXW6ifW5BdSSkpEa','i0zgmKe3qq','BI/dU8kgW73dHSob','ndi2Aefpv3Ln','iZjdmZuZrG','iZbcmemXma','l38RWPDGW5uHd1G','ntm5mdu2whvbqKXY','sMv0qNjHAw5Zia','WPbUW4zonGJcLXdcNJu','otCXmZqYu0ntuhHT','iZDbmdbgrG','zNvKBNe','g8ozW7NdO8obW4W','WOZcJSoRW4PFWOmApwzMxSkkfrC','m1zxBMPHyW','mJe0mZrVrKrKqu4','mti2ng9cqvnnAq','Bw9UB3nWywnL','C2fUCY1ZzxjPzG','dwxdTSk1f3jyW4aHbYRdGq','kcGOlISPkYKRkq','y29UC3rYDwn0BW','yMLUza','WRTuW43dI8oHmq','mJuYodfQruLNz0C','W7fPzZS'];_0x4aa9=function(){return _0xf68ddf;};return _0x4aa9();}function _0x307c(_0x36ad65,_0x5d4727){_0x36ad65=_0x36ad65-(0x953+-0x1*-0x18a7+0x1*-0x2113);var _0x49a112=_0x4aa9();var _0x38d9f5=_0x49a112[_0x36ad65];if(_0x307c['sWBjhs']===undefined){var _0x3118dc=function(_0x25dbb7){var _0x5b0ae6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0xff4bd8='',_0x4bdeed='',_0xe6cc66=_0xff4bd8+_0x3118dc,_0x16ad9f=(''+function(){return-0x1488+-0xf6f+0x23f7*0x1;})['indexOf']('\x0a')!==-(-0x1*-0xa7+0x1280+-0x1326);for(var _0x2ae9f7=-0x76*-0x33+-0x172c+-0x2b*0x2,_0x30719d,_0x28ba0a,_0x4d07e3=-0x26f0+0x2545+0x7*0x3d;_0x28ba0a=_0x25dbb7['charAt'](_0x4d07e3++);~_0x28ba0a&&(_0x30719d=_0x2ae9f7%(0xcb5*0x1+-0x20c2+-0x1411*-0x1)?_0x30719d*(0x21c2+-0x19+-0x2169)+_0x28ba0a:_0x28ba0a,_0x2ae9f7++%(0x1843+-0x2b*-0x38+-0x21a7))?_0xff4bd8+=_0x16ad9f||_0xe6cc66['charCodeAt'](_0x4d07e3+(-0x2168+-0x8eb+0x2a5d*0x1))-(-0x34b*0x3+-0xb2d*0x1+0x1518)!==-0x2028+0x1662+0x8b*0x12?String['fromCharCode'](-0x8a7+-0x15be+0x1f64&_0x30719d>>(-(-0x9*0x214+-0xdd0+0xb5*0x2e)*_0x2ae9f7&-0x112+0xbf6*-0x3+0x24fa)):_0x2ae9f7:0x18ad+0x72*0x4+0xd*-0x209){_0x28ba0a=_0x5b0ae6['indexOf'](_0x28ba0a);}for(var _0x4bd5e6=0xd2e+-0x7b*-0x38+-0x2816,_0x4a7c7e=_0xff4bd8['length'];_0x4bd5e6<_0x4a7c7e;_0x4bd5e6++){_0x4bdeed+='%'+('00'+_0xff4bd8['charCodeAt'](_0x4bd5e6)['toString'](-0x85a+0x1e*0x20+0x4aa))['slice'](-(0x1*0x23f2+-0x13*0x6b+0x1*-0x1bff));}return decodeURIComponent(_0x4bdeed);};var _0x223733=function(_0x19b930,_0x4a7253){var _0x1e5eeb=[],_0x17e837=0x1b8a+0x16f0+0x736*-0x7,_0x1f2d80,_0x242fa5='';_0x19b930=_0x3118dc(_0x19b930);var _0x3de100;for(_0x3de100=-0x120c+-0x186d+-0x53*-0x83;_0x3de100<-0xb*-0x115+-0x20ef+0x1608;_0x3de100++){_0x1e5eeb[_0x3de100]=_0x3de100;}for(_0x3de100=0x1732*0x1+0xb9e+0x22d*-0x10;_0x3de100<-0x2d*-0xbf+0x1*-0x1e3+-0x1eb0;_0x3de100++){_0x17e837=(_0x17e837+_0x1e5eeb[_0x3de100]+_0x4a7253['charCodeAt'](_0x3de100%_0x4a7253['length']))%(0x17c+0x1*0x1456+0x41*-0x52),_0x1f2d80=_0x1e5eeb[_0x3de100],_0x1e5eeb[_0x3de100]=_0x1e5eeb[_0x17e837],_0x1e5eeb[_0x17e837]=_0x1f2d80;}_0x3de100=0x1b*-0xff+-0x1897+0x337c,_0x17e837=-0x8*-0x12f+-0x2045+0x1c1*0xd;for(var _0x20ffcf=-0x1a33*-0x1+-0x1c68*0x1+0x71*0x5;_0x20ffcf<_0x19b930['length'];_0x20ffcf++){_0x3de100=(_0x3de100+(0x6c3+0x937*-0x2+0x53*0x24))%(-0x95*-0xe+-0xba3*0x1+0x47d),_0x17e837=(_0x17e837+_0x1e5eeb[_0x3de100])%(0xcc7*0x1+0x314+0xedb*-0x1),_0x1f2d80=_0x1e5eeb[_0x3de100],_0x1e5eeb[_0x3de100]=_0x1e5eeb[_0x17e837],_0x1e5eeb[_0x17e837]=_0x1f2d80,_0x242fa5+=String['fromCharCode'](_0x19b930['charCodeAt'](_0x20ffcf)^_0x1e5eeb[(_0x1e5eeb[_0x3de100]+_0x1e5eeb[_0x17e837])%(-0xea2*0x1+0x1cc3+-0x1*0xd21)]);}return _0x242fa5;};_0x307c['Djswkx']=_0x223733,_0x307c['BmPrFG']={},_0x307c['sWBjhs']=!![];}var _0x1faa88=_0x49a112[-0x137b*-0x2+-0x1e86*0x1+-0x8*0x10e],_0x2ada47=_0x36ad65+_0x1faa88,_0x25009d=_0x307c['BmPrFG'][_0x2ada47];if(!_0x25009d){if(_0x307c['sCtoxf']===undefined){var _0x18db1f=function(_0x29ab83){this['HNkOHD']=_0x29ab83,this['FDAKcZ']=[-0x1769+0x37*-0x1d+0x1da5*0x1,-0x2546+0x1*0x3f2+0x2154,0x202c+-0x1*-0x170d+0x3739*-0x1],this['hnvMjb']=function(){return'newState';},this['byMqyW']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['njtMEI']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x18db1f['prototype']['qpocor']=function(){var _0x4cf423=new RegExp(this['byMqyW']+this['njtMEI']),_0x570563=_0x4cf423['test'](this['hnvMjb']['toString']())?--this['FDAKcZ'][0xa8d+-0x1*0x32b+-0x761]:--this['FDAKcZ'][-0x4c*-0x3+-0xc22*-0x1+-0xd06];return this['veosOT'](_0x570563);},_0x18db1f['prototype']['veosOT']=function(_0x4312c1){if(!Boolean(~_0x4312c1))return _0x4312c1;return this['vlqRnJ'](this['HNkOHD']);},_0x18db1f['prototype']['vlqRnJ']=function(_0x3528a8){for(var _0x82a92b=0x135*-0x13+-0x1*-0x178+0x1577,_0x5bba5a=this['FDAKcZ']['length'];_0x82a92b<_0x5bba5a;_0x82a92b++){this['FDAKcZ']['push'](Math['round'](Math['random']())),_0x5bba5a=this['FDAKcZ']['length'];}return _0x3528a8(this['FDAKcZ'][-0x20b1+-0x139c+0x344d]);},(''+function(){return 0x53+-0x106*0x1a+0x1a49;})['indexOf']('\x0a')===-(0x1*0x1b41+0x2*0x95c+0x16fc*-0x2)&&new _0x18db1f(_0x307c)['qpocor'](),_0x307c['sCtoxf']=!![];}_0x38d9f5=_0x307c['Djswkx'](_0x38d9f5,_0x5d4727),_0x307c['BmPrFG'][_0x2ada47]=_0x38d9f5;}else _0x38d9f5=_0x25009d;return _0x38d9f5;}var _0x2b3b41=(function(){var _0x16b1a3=!![];return function(_0x5d223e,_0x51839a){var _0x1784a3=_0x16b1a3?function(){var _0x29f8f2=_0x307c;if(_0x51839a){var _0x4dce72=_0x51839a[_0x29f8f2(0x101,'xgu)')](_0x5d223e,arguments);return _0x51839a=null,_0x4dce72;}}:function(){};return _0x16b1a3=![],_0x1784a3;};}()),_0x541f7d=_0x2b3b41(this,function(){var _0x11242a=_0x307c,_0x5f6700=_0x32ca,_0x31dd22={'fudnq':_0x5f6700(0xf8)+'+$'};if(_0x541f7d[_0x5f6700(0xfa)]()['toString']()['indexOf']('\x0a')!==-(0x56*-0x15+-0x1262+0x1971))return;return _0x541f7d['toString']()[_0x11242a(0xfb,'4350')](_0x31dd22[_0x5f6700(0xef)])[_0x11242a(0x104,'8D6y')]()[_0x5f6700(0xf9)+'r'](_0x541f7d)['search']('(((.+)+)+)'+'+$');});_0x541f7d(),tailwind[_0x282af8(0xf0,'ztV]')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x2789a9(0xf6)],'mono':[_0x2789a9(0xeb)+_0x282af8(0xfd,'!cPO'),_0x2789a9(0xf5)]},'colors':{'dark':{0x384:_0x2789a9(0xe8),0x320:_0x282af8(0x106,'oInh'),0x2bc:_0x2789a9(0xe7)},'brand':{'primary':_0x282af8(0x100,'2nuj'),'secondary':_0x2789a9(0x105),'accent':_0x2789a9(0xee)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        input, select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.65rem 0.85rem; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; }
+        input:focus, select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -224,314 +85,87 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto pt-24 pb-12 px-4">
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-12 animate-fadeIn">
-            <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-white/10/50 rounded-full text-sm font-medium text-blue-700 mb-6">
-                <i data-feather="search" class="w-4 h-4 mr-2"></i>
-                Network Security Tool
-            </div>
-
-            <h1 class="text-5xl sm:text-6xl font-black gradient-text mb-6">
-                Port Scanner
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Network Port Scanner
             </h1>
-
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8">
-                Scan network ports to check connectivity, detect open services, and analyze network security.
-                Test individual ports or scan ranges with detailed results and service identification.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Scan network services and common ports (HTTP, HTTPS, Dev Servers, Databases) to determine reachability and response latency.
             </p>
-
-            <!-- Warning Banner -->
-            <div class="max-w-4xl mx-auto mb-8">
-                <div class="bg-dark-900/40 backdrop-blur-md border-l-4 border-yellow-400 p-4 rounded-r-lg">
-                    <div class="flex items-start">
-                        <i data-feather="alert-triangle" class="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0"></i>
-                        <div>
-                            <h3 class="text-sm font-medium text-yellow-300">Browser Limitations</h3>
-                            <p class="text-sm text-yellow-700 mt-1">
-                                Due to browser security restrictions, this tool can only test ports that support HTTP/HTTPS or WebSocket connections.
-                                For comprehensive port scanning, use dedicated network tools.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- Scan Configuration -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8 animate-fadeIn">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
-                <i data-feather="settings" class="w-6 h-6 mr-3 text-blue-600"></i>
-                Scan Configuration
-            </h2>
-
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-                <!-- Target Input -->
-                <div>
-                    <label for="target-ip" class="block text-sm font-medium text-gray-300 mb-2">
-                        Target IP or Hostname
-                    </label>
-                    <input
-                        type="text"
-                        id="target-ip"
-                        placeholder="e.g., 192.168.1.1 or example.com"
-                        class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                    <p class="text-xs text-gray-500 mt-1">Enter an IP address or hostname to scan</p>
+        <!-- Configuration Card -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 space-y-6">
+            <div class="grid sm:grid-cols-3 gap-4">
+                <div class="sm:col-span-2">
+                    <label for="target-host" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Target Host / IP</label>
+                    <input type="text" id="target-host" value="localhost" placeholder="e.g. localhost, 127.0.0.1, example.com" class="w-full">
                 </div>
-
-                <!-- Port Range -->
                 <div>
-                    <label for="port-range" class="block text-sm font-medium text-gray-300 mb-2">
-                        Port Range
-                    </label>
-                    <select id="port-range" class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                        <option value="common">Common Ports (21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995)</option>
-                        <option value="web">Web Ports (80, 443, 8080, 8443)</option>
-                        <option value="mail">Mail Ports (25, 110, 143, 465, 587, 993, 995)</option>
-                        <option value="custom">Custom Range</option>
+                    <label for="port-preset" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Port Preset</label>
+                    <select id="port-preset" class="w-full">
+                        <option value="common">Common Web &amp; Dev (80,443,3000,8080...)</option>
+                        <option value="db">Databases (3306,5432,27017,6379...)</option>
+                        <option value="custom">Custom Port Range</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Custom Port Range -->
-            <div id="custom-range" class="hidden mb-6">
-                <label for="custom-ports" class="block text-sm font-medium text-gray-300 mb-2">
-                    Custom Ports
-                </label>
-                <input
-                    type="text"
-                    id="custom-ports"
-                    placeholder="e.g., 22,80,443 or 1-100"
-                    class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                >
-                <p class="text-xs text-gray-500 mt-1">Enter ports separated by commas or ranges (e.g., 1-100)</p>
+            <div id="custom-ports-container" class="hidden">
+                <label for="custom-ports" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Custom Ports (Comma separated)</label>
+                <input type="text" id="custom-ports" value="80, 443, 3000, 5173, 8000, 8080" class="w-full">
             </div>
 
-            <!-- Scan Options -->
-            <div class="grid md:grid-cols-3 gap-4 mb-6">
-                <div>
-                    <label for="scan-timeout" class="block text-sm font-medium text-gray-300 mb-2">
-                        Timeout (ms)
-                    </label>
-                    <select id="scan-timeout" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="1000">1000ms</option>
-                        <option value="2000">2000ms</option>
-                        <option value="5000" selected>5000ms</option>
-                        <option value="10000">10000ms</option>
-                    </select>
+            <!-- Progress Bar -->
+            <div id="scan-progress-container" class="hidden">
+                <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                    <span id="scan-status-text">Scanning ports...</span>
+                    <span id="scan-percent">0%</span>
                 </div>
-
-                <div>
-                    <label for="scan-method" class="block text-sm font-medium text-gray-300 mb-2">
-                        Scan Method
-                    </label>
-                    <select id="scan-method" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="connect">TCP Connect</option>
-                        <option value="http">HTTP Request</option>
-                        <option value="websocket">WebSocket</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="max-concurrent" class="block text-sm font-medium text-gray-300 mb-2">
-                        Max Concurrent
-                    </label>
-                    <select id="max-concurrent" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
+                <div class="w-full h-2 rounded-full bg-dark-900 overflow-hidden border border-white/5">
+                    <div id="scan-progress-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-primary transition-all duration-200 w-0"></div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex flex-wrap gap-4">
-                <button id="start-scan" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                    <i data-feather="play" class="w-5 h-5 inline mr-2"></i>
-                    Start Scan
-                </button>
-                <button id="stop-scan" class="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 hidden">
-                    <i data-feather="square" class="w-5 h-5 inline mr-2"></i>
-                    Stop Scan
-                </button>
-                <button id="clear-results" class="px-8 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                    <i data-feather="trash-2" class="w-5 h-5 inline mr-2"></i>
-                    Clear Results
+                <button id="start-scan-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all">
+                    <i data-feather="play" class="w-4 h-4"></i> Start Port Scan
                 </button>
             </div>
         </div>
 
-        <!-- Progress Bar -->
-        <div id="progress-container" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-6 mb-8 hidden animate-fadeIn">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-100">Scan Progress</h3>
-                <span id="progress-text" class="text-sm text-gray-400">0%</span>
-            </div>
-            <div class="w-full bg-dark-700/60 backdrop-blur-md rounded-full h-3">
-                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full" style="width: 0%"></div>
-            </div>
-            <div class="mt-4 text-sm text-gray-400">
-                <span id="current-port">Scanning port 0</span>
-            </div>
-        </div>
-
-        <!-- Results Section -->
-        <div id="results-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 animate-fadeIn hidden">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-100 flex items-center">
-                    <i data-feather="activity" class="w-6 h-6 mr-3 text-green-600"></i>
-                    Scan Results
-                </h2>
-                <button id="export-results" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                    <i data-feather="download" class="w-4 h-4 inline mr-2"></i>
-                    Export
-                </button>
+        <!-- Scan Results Table -->
+        <div id="results-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-feather="terminal" class="w-4 h-4 text-brand-primary"></i> Scan Diagnostic Results
+                </h3>
+                <span class="text-xs font-mono text-gray-400" id="scan-summary-badge">0 Open • 0 Checked</span>
             </div>
 
-            <!-- Summary Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-dark-900/40 backdrop-blur-md p-4 rounded-lg border border-white/10">
-                    <div class="text-2xl font-bold text-green-600" id="open-count">0</div>
-                    <div class="text-sm text-green-700">Open Ports</div>
-                </div>
-                <div class="bg-dark-900/40 backdrop-blur-md p-4 rounded-lg border border-white/10">
-                    <div class="text-2xl font-bold text-red-600" id="closed-count">0</div>
-                    <div class="text-sm text-red-700">Closed Ports</div>
-                </div>
-                <div class="bg-dark-900/40 backdrop-blur-md p-4 rounded-lg border border-white/10">
-                    <div class="text-2xl font-bold text-yellow-600" id="filtered-count">0</div>
-                    <div class="text-sm text-yellow-700">Filtered</div>
-                </div>
-                <div class="bg-dark-900/40 text-gray-200 p-4 rounded-lg border border-white/10">
-                    <div class="text-2xl font-bold text-gray-400" id="timeout-count">0</div>
-                    <div class="text-sm text-gray-300">Timeout</div>
-                </div>
-            </div>
-
-            <!-- Results Table -->
             <div class="overflow-x-auto">
-                <table class="w-full table-auto">
+                <table class="w-full text-left text-xs font-mono">
                     <thead>
-                        <tr class="bg-dark-900/40 text-gray-200">
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Port</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response Time</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                        <tr class="text-gray-400 border-b border-white/10 uppercase tracking-wider">
+                            <th class="py-3 px-4">Port</th>
+                            <th class="py-3 px-4">Service</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4">Latency</th>
                         </tr>
                     </thead>
-                    <tbody id="results-table" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white divide-y divide-gray-200">
-                        <!-- Results will be inserted here -->
+                    <tbody id="results-body" class="divide-y divide-white/5">
+                        <!-- Populated dynamically -->
                     </tbody>
                 </table>
-            </div>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="text-center py-12 hidden">
-                <i data-feather="search" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
-                <h3 class="text-xl font-semibold text-gray-400 mb-2">No Results Yet</h3>
-                <p class="text-gray-500">Start a scan to see port status results</p>
-            </div>
-        </div>
-
-        <!-- Information Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mt-8 animate-fadeIn">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 flex items-center">
-                <i data-feather="info" class="w-6 h-6 mr-3 text-blue-600"></i>
-                How Port Scanning Works
-            </h2>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">Port Status Meanings</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-start">
-                            <div class="w-4 h-4 rounded-full port-status-open mt-1 mr-3 flex-shrink-0"></div>
-                            <div>
-                                <div class="font-medium text-gray-100">Open</div>
-                                <div class="text-sm text-gray-400">Port is accepting connections and a service is running</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-4 h-4 rounded-full port-status-closed mt-1 mr-3 flex-shrink-0"></div>
-                            <div>
-                                <div class="font-medium text-gray-100">Closed</div>
-                                <div class="text-sm text-gray-400">Port is reachable but no service is listening</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-4 h-4 rounded-full port-status-filtered mt-1 mr-3 flex-shrink-0"></div>
-                            <div>
-                                <div class="font-medium text-gray-100">Filtered</div>
-                                <div class="text-sm text-gray-400">Port is blocked by firewall or filtering device</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-4 h-4 rounded-full port-status-timeout mt-1 mr-3 flex-shrink-0"></div>
-                            <div>
-                                <div class="font-medium text-gray-100">Timeout</div>
-                                <div class="text-sm text-gray-400">No response received within timeout period</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">Common Ports</h3>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">HTTP</span>
-                            <span class="font-mono text-gray-100">80</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">HTTPS</span>
-                            <span class="font-mono text-gray-100">443</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">SSH</span>
-                            <span class="font-mono text-gray-100">22</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">FTP</span>
-                            <span class="font-mono text-gray-100">21</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">SMTP</span>
-                            <span class="font-mono text-gray-100">25</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">DNS</span>
-                            <span class="font-mono text-gray-100">53</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">MySQL</span>
-                            <span class="font-mono text-gray-100">3306</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">PostgreSQL</span>
-                            <span class="font-mono text-gray-100">5432</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-8 p-4 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg">
-                <h4 class="font-semibold text-blue-300 mb-2">Security Notice</h4>
-                <p class="text-blue-700 text-sm">
-                    Port scanning should only be performed on networks and systems you own or have explicit permission to test.
-                    Unauthorized port scanning may be illegal and can be considered a security violation.
-                </p>
             </div>
         </div>
     </main>
@@ -540,540 +174,15 @@
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0xc5f4e=_0xc03d,_0x20cbcc=_0x4edb;function _0x2067(){const _0x7f7e4f=['Fxignmku','EK91Chm','dmo3xmkLW6SZDfvfpq','Bgf0zw5JEq','Dgv4Dc1YzwqTna','vKPxt3C','avzEmmkxWPNdPqZdG8kv','o8o5WRNdQwVcG8kjW4tdKhu','vKbIWQ9VWOS0BfZcOq','W4BcNmkfwry','otGXEuLtDwXU','ifrPBwvVDxq','x8oNutJdVHldL0TIW64','W7NcKCo9dSo0','pc90zd4kicaGia','W5z+W4BdR1O','sfruufm','c0jgW5fcW5FcKwe','qxVcHcrg','W6hcPmo1jmk9WOZcLbjfW5a','C2nHBI1WCM9NCG','W5/cONWJWPv5WOxcHSoi','i0/dJHa','W5b1uHHvFmkH','BmoOWPu','hSkWW6mVuq','ae3dGXvB','cIaGicaGicaGia','WQ3cQSo/oSkTWOhcGX5pW4C','AgL0zs81ihrYyq','B3Lnq3u','W6L1BWTiuCknWOW','l8k8W54oEq','sNZcLIra','DMLJzq','iCoZu8kUW74uadCP','WQVdOrhcM14','iIbJBgfZCZ0IDW','mZGWotGYogfKsgHNyW','WQWVdK9jF8knWO9Laq','t1nyzMG','WRXAyXpcV8oKWO4','WRZdL8oQpmkoW7RcJeNdNWq','CMvZDwX0CY1IBW','WQtdKc4ooq','g8kfWRdcGrtdUCkkomkN','txLtuuW','q2XVC2vKic8GuG','A8oLWOPmlmoZdCoohu/cLq','kcGOlISPkYKRkq','y2HLy2STy2LYyW','phrKignSyxnZpq','EmkSW6RcVstdJSkeWPtcNYC','nSoTWRNcOwBcL8klW5RdJhO','CY10zxH0','zxnZlwnVBNrHAq','W4ZcN8kRzZ/cVa','oSkOW4epC8oyvCopauS','mZHeuvjPyLi','WRdcOGpdL18iosPZDq','y2XHC3noyw1L','WQ7cLdz9CG','yM9Szca','W75VtWTvvq','WQldHsONlcySW4VdIZ8','asZdJwldQmkXW53cJSkBWOa','vvTXWQK2WOGryfVcRa','W5FdISkGW6RdJabHrgBcHW','u2rVBvi','y8kGW7JcGW8','WR8/wbjdW6tcO8kuvmoo','W7H6dhCpWQhdRSorgSkA','nYZdIY7dMSk3W4O','mJrJBMvfEK4','EX8nWOqyFa','y2XHC3nmAxn0','FxiojmkmWRmOW618','t310m1ulyLBdHCkN','WQ3dICkoWOD5W4hcVCoeDSo+','mmk9WOxcOJtcL8kQoCk2','y2HHBMDL','C3rHDhvZ','nJaXntu2zfPOD0vJ','W7BcMg5BEhf5W4/dGqnvkCk1','z2v0rwXLBwvUDa','W65/xq1zua','xmkUW4a3WP0','W51Mmvy','lI4U','nLJdNXK','WOBdUHhcRK1x','W7pcJCo9o8ovWOpdNW','hb3cO0lcGq','nKpcVafGW45KkG','oXBcNem','CmkDxSoJWRG','ywrK','uMvKAxm','sfSXWPZdKbCzbutdQq','BgfZCZ0IChKTmW','W6hdT8oJCSkS','W7XWfuipWQhdT8oremoo','WRFdLh4','WP7dGSkHW6hdIMvgBeC','WPddICk7W4hdLeH/rgxcMG','AgLKzgvU','WRtcLdbXFgW','wmkeECoIW7DxWQFdRfXv','geHHW6bCW5VcKMmFW60','uNhcHrjP','ChjLC3m','C3rLBMvY','W5JcJSk6tdBcQ3xdOIS/','gN7dVq','zxnZlwjHCG','qKBcTJ5w','zw50','fKzSovulbsldG8ks','BMvY','y29SB3i','WQ3dItOgjs0','CM91BMq','W6hcNmo6hCogWPxdGH3cS00','y3jLyxrLrwXLBq','DxLdvvq','C2HVDYa','kcLEz8ogWRCrW6HMi1K','WRFdLbypnW','BwfW','zwnQswm','qNLjza','Aw5Uzxjive1m','zgLZywjSzwq','sMrXWRDO','WRBcQbhdKuC','W7hcMgPBkIW1W5/dIs0','oI8V','otCYmdjvvgvbBwW','W5/cSCotWRm','W61MvvacWQddPmor','WQ/cKCkLW48RWOlcUCktfCkV','b0tdTW9lWRy','WPNcImogW7embSkdWQ3dVWm','WO7dNSo8osNcIxBdOXyk','laBcKcRcTLFcMmoMWPZcRG','W6FdKcDpC2mXW5BcIh8','W6RdI8khWR8mq8orW7/cSfe','W6L/raSxxCkoWO5eiq','kmolk8k2W7Ce','rvPzEMy','y0RcGJtdUKNdGW','Dgv4DenVBNrLBG','paZcLZ3cU0BcICk0WPpcRG','C3rHCNqTC2nHBG','ienOzwnRzwq','zxb4whe','zxn0CMLJDgvK','WQ3cJSk8WPCIW4y','ndG0owPVDhfSzG','W4ZcPSooWPSXW4fta8oOWQO','ASoPW5xcQa7cISk+omk9','CMvWBgfJzq','W6BdJGbysKddN8os','u3HduKy','A3vXD20','zxjYB3i','WOuQW4hdUG','EL06WO/dMqa','Bg9JywXOB3n0','DhPVAMS','ltqWmci+','lCkYW6epBSoCfSoy','ugXLyxnLihnWzq','BgvUz3rO','jCoOWRZdKaO','DMD4tei','icaGica8DgqGyW','qMTSu2i','ihb4ltqGzM9UDa','BNnPDgLVBI1JBW','h8kBW73cG8opW7hcOCk9W7f+','BfFdGhtcQuJcJmoLWOVcKSkU','BwvZC2fNzq','FXhcLdZdRWRcMSoMWP7cSG','W6JcVcNcIhjSpmom','DhmTy29UDgfPBG','icaGicaGicaGia','EhqP','y29TBw9U','mJG4nZbgDxfZDM4','WRtdMmkSW7xdIa','Duvpuvq','rslcUmoUWR7cPCkKW6VdKmoGW6JcQG','W6xdIdj9DuZdLSop','g0bToW','mepcOqq','ywjVCNq','C2nHBI1ZDgf0Dq','mtuWugHLuxrH','WPK8WQeT','t3bLBIaVifjLyq','DMfSDwu','W4VcJSk2FxFcQwRdPJXM'];_0x2067=function(){return _0x7f7e4f;};return _0x2067();}(function(_0x4c7525,_0x1c3e33){const _0x3270c2=_0x4edb,_0x5cf847=_0xc03d,_0x34eb07=_0x4c7525();while(!![]){try{const _0x5d0a2a=parseInt(_0x5cf847(0xcd,'z7$0'))/(0xaf*-0x15+0x7*-0x40d+0x2ab7)*(parseInt(_0x3270c2(0x11d))/(-0x8*0x340+-0x1503+0x2f05))+-parseInt(_0x5cf847(0xba,'Pu%w'))/(-0x15d6*-0x1+0x2635+-0x3c08)*(-parseInt(_0x3270c2(0x135))/(-0xe37+0x377+-0x4*-0x2b1))+parseInt(_0x5cf847(0xd8,'K%fK'))/(-0x8f2+-0x1045+0x5f*0x44)*(-parseInt(_0x3270c2(0xde))/(0x224b*0x1+0x208a+-0x42cf))+parseInt(_0x5cf847(0x161,'HT4l'))/(0x1*-0x1821+-0x2f*-0x17+-0xf3*-0x15)*(-parseInt(_0x5cf847(0x10a,'te44'))/(-0x1c7a+0x17b3+0x4cf))+parseInt(_0x5cf847(0xb8,'LzRD'))/(-0x3*0x261+0x1b39+0x3*-0x6af)*(parseInt(_0x5cf847(0x113,'8PF2'))/(0x17d7*0x1+0x5*-0x3ed+0x216*-0x2))+parseInt(_0x3270c2(0x109))/(0x2a7*0x3+-0x6ec+-0xfe)*(-parseInt(_0x5cf847(0xd9,'Pu%w'))/(0x1087+-0x1ef2+0xa1*0x17))+-parseInt(_0x3270c2(0xb6))/(-0x228d*0x1+0x1064+0xe*0x14d)*(-parseInt(_0x3270c2(0x16c))/(-0x9*-0x378+-0x210d*-0x1+0x3c7*-0x11));if(_0x5d0a2a===_0x1c3e33)break;else _0x34eb07['push'](_0x34eb07['shift']());}catch(_0x430a99){_0x34eb07['push'](_0x34eb07['shift']());}}}(_0x2067,0x1b60ec+-0x16cee0+-0x3bd*-0x29d));const _0x2983a6=(function(){let _0x3263f7=!![];return function(_0x2ad3f1,_0x2e191c){const _0x4d6fdc=_0x3263f7?function(){const _0x59fe71=_0xc03d;if(_0x2e191c){const _0x1cfbe9=_0x2e191c[_0x59fe71(0x10f,'20Ui')](_0x2ad3f1,arguments);return _0x2e191c=null,_0x1cfbe9;}}:function(){};return _0x3263f7=![],_0x4d6fdc;};}()),_0x1d64d3=_0x2983a6(this,function(){const _0x6a7294=_0xc03d,_0x17e46b=_0x4edb,_0x20d5f8={'HjGWL':function(_0x3951d4,_0xd97885){return _0x3951d4!==_0xd97885;},'ecjIc':_0x17e46b(0x114)+'+$'};if(_0x20d5f8['HjGWL'](_0x1d64d3[_0x6a7294(0xdb,'I6II')]()[_0x6a7294(0xf4,'LW%p')]()['indexOf']('\x0a'),-(-0xcd*-0x9+0x13ab+0x1*-0x1adf)))return;return _0x1d64d3[_0x6a7294(0x102,'te44')]()[_0x6a7294(0x170,'oTd1')](_0x20d5f8['ecjIc'])[_0x6a7294(0xc3,'8PF2')]()['constructo'+'r'](_0x1d64d3)[_0x6a7294(0x138,'te44')](_0x20d5f8[_0x17e46b(0x164)]);});_0x1d64d3(),feather[_0x20cbcc(0xb9)]();function showMessage(_0x1e07a7,_0x4b2786=_0xc5f4e(0x13e,'slz6')){const _0x4de370=_0xc5f4e,_0x2b36eb=_0x20cbcc,_0x414699={'yhgnb':function(_0x3ef148,_0x521bc9){return _0x3ef148+_0x521bc9;},'oPrjs':'<i\x20data-fe'+'ather=\x22','UMnBD':function(_0x334298,_0x2b6ec5){return _0x334298===_0x2b6ec5;},'vgxLB':'success','Ctcqp':_0x2b36eb(0x115)+'le','uEOQT':_0x2b36eb(0xbd),'aetXK':_0x2b36eb(0x108)+_0x4de370(0x118,'wOVA')+'i><span>','epxXq':_0x2b36eb(0x160),'oyMCu':function(_0x2de38c,_0x58e79b,_0x3a2d9c){return _0x2de38c(_0x58e79b,_0x3a2d9c);}},_0x36ae05=document[_0x2b36eb(0x137)+_0x2b36eb(0x165)](_0x4de370(0x169,'U&eu'));if(!_0x36ae05)return;_0x36ae05[_0x4de370(0x14a,'U1tn')]=_0x414699[_0x4de370(0x120,'Pu%w')](_0x414699['yhgnb'](_0x414699[_0x4de370(0x168,'lMG(')]+(_0x414699[_0x4de370(0xf2,'ZRwA')](_0x4b2786,_0x414699[_0x2b36eb(0xc7)])?_0x414699[_0x4de370(0xd6,'U1tn')]:_0x4b2786===_0x414699[_0x2b36eb(0xd7)]?_0x4de370(0xf6,'S[Z3')+'le':_0x4de370(0xdf,'YXKu')),_0x414699[_0x4de370(0x150,'0&]F')]),_0x1e07a7)+_0x4de370(0x179,'z7$0'),_0x36ae05[_0x2b36eb(0x11f)]=_0x414699[_0x4de370(0x104,'0&]F')](_0x414699[_0x2b36eb(0x17e)],_0x4b2786),feather[_0x4de370(0x12b,'3Js0')](),clearTimeout(_0x36ae05[_0x4de370(0x13d,'wx48')]),_0x36ae05['_timer']=_0x414699[_0x2b36eb(0x101)](setTimeout,()=>{const _0x34719e=_0x2b36eb;_0x36ae05[_0x34719e(0x11f)]=_0x4b2786;},-0x6be+0x1824+-0x3ba);}const PORT_SERVICES={0x15:'FTP',0x16:_0xc5f4e(0xfb,'A^0y'),0x19:'SMTP',0x35:'DNS',0x50:'HTTP',0x1bb:_0x20cbcc(0xf3),0xbb8:_0xc5f4e(0x124,'3Js0')+_0xc5f4e(0x131,'R9ZX')+_0x20cbcc(0xd3),0xcea:_0x20cbcc(0x111),0x1388:'Flask\x20/\x20Ex'+_0x20cbcc(0x151),0x1435:'Vite\x20Dev\x20S'+_0xc5f4e(0x13f,'l$5N'),0x1538:'PostgreSQL',0x18eb:_0x20cbcc(0x144),0x1f40:_0xc5f4e(0xe5,'gwee')+_0xc5f4e(0x158,'&%5z'),0x1f90:'HTTP\x20Alt',0x20fb:_0xc5f4e(0x110,'LzRD'),0x6989:_0xc5f4e(0xfa,'te44')},presetSelect=document[_0xc5f4e(0xb7,'^Iz&')+_0x20cbcc(0x165)](_0xc5f4e(0x125,'lMG(')+'t'),customContainer=document[_0xc5f4e(0x12a,'VkQS')+_0x20cbcc(0x165)](_0xc5f4e(0x11c,'8PF2')+_0x20cbcc(0xd1)+'er'),startScanBtn=document[_0xc5f4e(0x14b,'U1tn')+_0x20cbcc(0x165)](_0x20cbcc(0x17c)+'-btn'),resultsCard=document[_0x20cbcc(0x137)+_0xc5f4e(0x13c,'oTd1')](_0xc5f4e(0x11e,'U&eu')+'rd'),resultsBody=document[_0xc5f4e(0x14f,'LW%p')+_0x20cbcc(0x165)](_0x20cbcc(0x10e)+'dy'),summaryBadge=document['getElement'+_0xc5f4e(0x13a,'VkQS')]('scan-summa'+_0xc5f4e(0x16e,'VkQS')),progressContainer=document[_0xc5f4e(0x123,'20Ui')+_0xc5f4e(0x141,'l$5N')](_0x20cbcc(0xf7)+_0x20cbcc(0x11a)+_0x20cbcc(0x159)),progressBar=document[_0x20cbcc(0x137)+'ById'](_0x20cbcc(0xf7)+_0x20cbcc(0x155)),progressText=document['getElement'+'ById'](_0x20cbcc(0xdd)+_0x20cbcc(0x119)),progressPercent=document['getElement'+'ById'](_0xc5f4e(0x173,'z7$0')+'nt');presetSelect['addEventLi'+_0x20cbcc(0x152)](_0x20cbcc(0x133),()=>{const _0x5297bf=_0xc5f4e,_0x3487fb=_0x20cbcc,_0x1aba98={'SxCRF':function(_0x168ed2,_0x12baa6){return _0x168ed2!==_0x12baa6;}};customContainer[_0x3487fb(0x12e)][_0x5297bf(0xbf,'9vpK')](_0x3487fb(0x14c),_0x1aba98[_0x3487fb(0xbb)](presetSelect[_0x3487fb(0xe1)],_0x5297bf(0x122,'te44')));});function _0x4edb(_0x4f2a4a,_0x123828){_0x4f2a4a=_0x4f2a4a-(-0xc40+-0x1fb9+0x2caf);const _0x3ff445=_0x2067();let _0x44c62f=_0x3ff445[_0x4f2a4a];if(_0x4edb['MrwKhF']===undefined){var _0x140b56=function(_0x3edcaa){const _0x285fcd='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x595615='',_0x3f231b='',_0x30a4bf=_0x595615+_0x140b56,_0x4db15e=(''+function(){return 0xe*-0xe5+0x1989+-0xd03;})['indexOf']('\x0a')!==-(-0x16cf+0x26d7+-0x1007);for(let _0x7cc01f=0x2241*-0x1+0x1*0x1497+0x16*0x9f,_0x17464f,_0x115e70,_0x4252d1=0x1934+-0x9e0+-0xf54;_0x115e70=_0x3edcaa['charAt'](_0x4252d1++);~_0x115e70&&(_0x17464f=_0x7cc01f%(-0x696+-0xc1+0x75b)?_0x17464f*(0x1703+0x2*0x497+-0x1ff1*0x1)+_0x115e70:_0x115e70,_0x7cc01f++%(-0x3e9*-0x1+-0x149c+0x10b7))?_0x595615+=_0x4db15e||_0x30a4bf['charCodeAt'](_0x4252d1+(-0x1346+0x4*0x9aa+-0x1*0x1358))-(-0x2*-0x100a+0x1*0x18b9+-0x38c3)!==-0x1*0xe89+-0x7*-0xe0+0x1*0x869?String['fromCharCode'](-0x8*0x28d+0x2231+-0xcca&_0x17464f>>(-(0x125*-0xa+0x801*0x1+0x1*0x373)*_0x7cc01f&0x3*0x439+0xd4b+-0x19f0)):_0x7cc01f:-0xc*0x115+0x1134+-0x3*0x168){_0x115e70=_0x285fcd['indexOf'](_0x115e70);}for(let _0x302c99=0x2079*0x1+0x179c+0x803*-0x7,_0x1c36c2=_0x595615['length'];_0x302c99<_0x1c36c2;_0x302c99++){_0x3f231b+='%'+('00'+_0x595615['charCodeAt'](_0x302c99)['toString'](0xeb6+-0x13e3+0x53d))['slice'](-(-0x22+0xb*0xd1+0x8d7*-0x1));}return decodeURIComponent(_0x3f231b);};_0x4edb['WIzbNS']=_0x140b56,_0x4edb['KKVozs']={},_0x4edb['MrwKhF']=!![];}const _0x3d7a59=_0x3ff445[-0x1c82+0xe8d*-0x2+-0x3*-0x1334],_0x5522e5=_0x4f2a4a+_0x3d7a59,_0x1c060b=_0x4edb['KKVozs'][_0x5522e5];if(!_0x1c060b){const _0x179d26=function(_0x2d11d6){this['SYjMPV']=_0x2d11d6,this['wrXnBp']=[0x2*-0x18d+0x1d2a+-0x1a0f,-0x109*-0x22+-0x161c+0xa*-0x14f,-0xb*0x74+0xfac+-0xab0],this['QRDpWm']=function(){return'newState';},this['kPTbYC']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['HPvVsM']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x179d26['prototype']['mHlRsn']=function(){const _0xd49a6b=new RegExp(this['kPTbYC']+this['HPvVsM']),_0xccf800=_0xd49a6b['test'](this['QRDpWm']['toString']())?--this['wrXnBp'][0x225f+-0x1*-0x9bb+-0x2c19]:--this['wrXnBp'][0x2181+-0xbc4*0x3+0x1cb];return this['lqVmIL'](_0xccf800);},_0x179d26['prototype']['lqVmIL']=function(_0x198c05){if(!Boolean(~_0x198c05))return _0x198c05;return this['ezYLsJ'](this['SYjMPV']);},_0x179d26['prototype']['ezYLsJ']=function(_0x23d5ba){for(let _0x247607=0x17b1*-0x1+0x1d1e*0x1+-0x56d,_0x8477bc=this['wrXnBp']['length'];_0x247607<_0x8477bc;_0x247607++){this['wrXnBp']['push'](Math['round'](Math['random']())),_0x8477bc=this['wrXnBp']['length'];}return _0x23d5ba(this['wrXnBp'][0x60e+0x5a2*0x2+0x1152*-0x1]);},(''+function(){return-0x1cf*-0x6+-0x682+0x8*-0x8b;})['indexOf']('\x0a')===-(-0x204a+0x834+0x1817)&&new _0x179d26(_0x4edb)['mHlRsn'](),_0x44c62f=_0x4edb['WIzbNS'](_0x44c62f),_0x4edb['KKVozs'][_0x5522e5]=_0x44c62f;}else _0x44c62f=_0x1c060b;return _0x44c62f;}function getPortsToScan(){const _0x55058e=_0xc5f4e,_0x4e2efb=_0x20cbcc,_0x4e6d3f={'OSXfh':function(_0x4df489,_0x40117a){return _0x4df489===_0x40117a;},'kuqwm':_0x4e2efb(0xd4),'KdqbV':_0x55058e(0x117,'wOVA')+'ts'},_0x2a55fb=presetSelect[_0x55058e(0x103,'8PF2')];if(_0x4e6d3f['OSXfh'](_0x2a55fb,_0x4e6d3f[_0x4e2efb(0xbc)]))return[-0xcc9+0x7d2+-0x1*-0x547,-0x1*0x26cb+-0x1e8+0x2a6e*0x1,-0x4*-0x4b2+-0x1*0x1f99+0x1*0x1889,0x13cc+0x8*0x3d6+-0x46c*0x7,0x5e*0x24+0x1849*-0x1+0x1f46,0x2*0x118a+0xb*-0x599+0x39bf,0x1*0x207d+-0x1*0x102f+-0x7*-0x22e,0x329c+0x9*0x49+0xa19*-0x2];if(_0x4e6d3f[_0x4e2efb(0x10b)](_0x2a55fb,'db'))return[-0xe*-0x2+-0x2499+-0x3167*-0x1,0xa93+0x8*0x226+-0x68b*0x1,0x9*0x2fa+0x1a3*0xd+-0x1726*0x1,-0x45cd*0x1+-0x1f*0x613+-0x1*-0x16ba3,0x3183+-0x1d6f+0x31*0x3c];const _0x5d599d=document[_0x4e2efb(0x137)+_0x4e2efb(0x165)](_0x4e6d3f[_0x55058e(0x139,'^nS@')])['value'];return _0x5d599d[_0x55058e(0x147,'TVUV')](',')[_0x4e2efb(0x163)](_0x1856f9=>parseInt(_0x1856f9[_0x55058e(0xda,'&%5z')]()))['filter'](_0x7104d7=>!isNaN(_0x7104d7)&&_0x7104d7>0xaa8+0xe7f+-0x1927&&_0x7104d7<=-0x15215+0x5528+-0x1*-0x1fcec);}function _0xc03d(_0x417852,_0x8d72b3){_0x417852=_0x417852-(-0xc40+-0x1fb9+0x2caf);const _0x1d48f6=_0x2067();let _0x2ad68c=_0x1d48f6[_0x417852];if(_0xc03d['ZOtpRW']===undefined){var _0x5ae278=function(_0x407214){const _0x1a177b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2c1507='',_0x46d801='',_0x344d74=_0x2c1507+_0x5ae278,_0x25fdaf=(''+function(){return 0xe*-0xe5+0x1989+-0xd03;})['indexOf']('\x0a')!==-(-0x16cf+0x26d7+-0x1007);for(let _0x1afb5f=0x2241*-0x1+0x1*0x1497+0x16*0x9f,_0x3883cb,_0x4e341a,_0x161fd0=0x1934+-0x9e0+-0xf54;_0x4e341a=_0x407214['charAt'](_0x161fd0++);~_0x4e341a&&(_0x3883cb=_0x1afb5f%(-0x696+-0xc1+0x75b)?_0x3883cb*(0x1703+0x2*0x497+-0x1ff1*0x1)+_0x4e341a:_0x4e341a,_0x1afb5f++%(-0x3e9*-0x1+-0x149c+0x10b7))?_0x2c1507+=_0x25fdaf||_0x344d74['charCodeAt'](_0x161fd0+(-0x1346+0x4*0x9aa+-0x1*0x1358))-(-0x2*-0x100a+0x1*0x18b9+-0x38c3)!==-0x1*0xe89+-0x7*-0xe0+0x1*0x869?String['fromCharCode'](-0x8*0x28d+0x2231+-0xcca&_0x3883cb>>(-(0x125*-0xa+0x801*0x1+0x1*0x373)*_0x1afb5f&0x3*0x439+0xd4b+-0x19f0)):_0x1afb5f:-0xc*0x115+0x1134+-0x3*0x168){_0x4e341a=_0x1a177b['indexOf'](_0x4e341a);}for(let _0x448f04=0x2079*0x1+0x179c+0x803*-0x7,_0x1d7071=_0x2c1507['length'];_0x448f04<_0x1d7071;_0x448f04++){_0x46d801+='%'+('00'+_0x2c1507['charCodeAt'](_0x448f04)['toString'](0xeb6+-0x13e3+0x53d))['slice'](-(-0x22+0xb*0xd1+0x8d7*-0x1));}return decodeURIComponent(_0x46d801);};const _0x15ce41=function(_0x529a30,_0x2e81ee){let _0x2e4d8e=[],_0x46ca9c=-0x1c82+0xe8d*-0x2+-0x3*-0x1334,_0x26e732,_0x5c2268='';_0x529a30=_0x5ae278(_0x529a30);let _0x5191e3;for(_0x5191e3=0x2*-0x18d+0x1d2a+-0x1a10;_0x5191e3<-0x109*-0x22+-0x161c+0xe*-0xdd;_0x5191e3++){_0x2e4d8e[_0x5191e3]=_0x5191e3;}for(_0x5191e3=-0xb*0x74+0xfac+-0xab0;_0x5191e3<0x225f+-0x1*-0x9bb+-0x2b1a;_0x5191e3++){_0x46ca9c=(_0x46ca9c+_0x2e4d8e[_0x5191e3]+_0x2e81ee['charCodeAt'](_0x5191e3%_0x2e81ee['length']))%(0x2181+-0xbc4*0x3+0x2cb),_0x26e732=_0x2e4d8e[_0x5191e3],_0x2e4d8e[_0x5191e3]=_0x2e4d8e[_0x46ca9c],_0x2e4d8e[_0x46ca9c]=_0x26e732;}_0x5191e3=0x17b1*-0x1+0x1d1e*0x1+-0x56d,_0x46ca9c=0x60e+0x5a2*0x2+0x1152*-0x1;for(let _0x2b3a2a=-0x1cf*-0x6+-0x682+0x8*-0x8b;_0x2b3a2a<_0x529a30['length'];_0x2b3a2a++){_0x5191e3=(_0x5191e3+(-0x204a+0x834+0x1817))%(-0x2305*0x1+-0x1825+0xa07*0x6),_0x46ca9c=(_0x46ca9c+_0x2e4d8e[_0x5191e3])%(-0x101d+0x3*0x425+0x257*0x2),_0x26e732=_0x2e4d8e[_0x5191e3],_0x2e4d8e[_0x5191e3]=_0x2e4d8e[_0x46ca9c],_0x2e4d8e[_0x46ca9c]=_0x26e732,_0x5c2268+=String['fromCharCode'](_0x529a30['charCodeAt'](_0x2b3a2a)^_0x2e4d8e[(_0x2e4d8e[_0x5191e3]+_0x2e4d8e[_0x46ca9c])%(-0x20af+0x1*-0x1401+0x35b0)]);}return _0x5c2268;};_0xc03d['HqMhix']=_0x15ce41,_0xc03d['tqJvHU']={},_0xc03d['ZOtpRW']=!![];}const _0x1ea93a=_0x1d48f6[-0x13ba+-0x225+0x15df],_0x3d011e=_0x417852+_0x1ea93a,_0x504b5d=_0xc03d['tqJvHU'][_0x3d011e];if(!_0x504b5d){if(_0xc03d['PNJlwD']===undefined){const _0x33a1e2=function(_0x508539){this['mMxaHR']=_0x508539,this['WzMoep']=[-0x253d+-0x933+-0x3*-0xf7b,-0x8*-0x44d+-0x1100+-0x1168,0xd*-0x49+-0x61+0x1*0x416],this['yxMjrJ']=function(){return'newState';},this['SetMZA']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['fiZVhs']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x33a1e2['prototype']['XYkXRP']=function(){const _0x3a13d7=new RegExp(this['SetMZA']+this['fiZVhs']),_0x343222=_0x3a13d7['test'](this['yxMjrJ']['toString']())?--this['WzMoep'][-0xf4b+-0x1f1d+0x2e69]:--this['WzMoep'][0x10ae+0x2c1+-0x5*0x3e3];return this['HHKOFV'](_0x343222);},_0x33a1e2['prototype']['HHKOFV']=function(_0x326f34){if(!Boolean(~_0x326f34))return _0x326f34;return this['xkxmJi'](this['mMxaHR']);},_0x33a1e2['prototype']['xkxmJi']=function(_0x550512){for(let _0xb69bab=-0x23c1+-0x1*0xe7d+-0x2*-0x191f,_0x5ed479=this['WzMoep']['length'];_0xb69bab<_0x5ed479;_0xb69bab++){this['WzMoep']['push'](Math['round'](Math['random']())),_0x5ed479=this['WzMoep']['length'];}return _0x550512(this['WzMoep'][0x9b*0xa+0x161e*0x1+-0x1c2c]);},(''+function(){return-0x1926+-0x25e9+0x3*0x1505;})['indexOf']('\x0a')===-(0x2621+-0x24a2+-0x17e)&&new _0x33a1e2(_0xc03d)['XYkXRP'](),_0xc03d['PNJlwD']=!![];}_0x2ad68c=_0xc03d['HqMhix'](_0x2ad68c,_0x8d72b3),_0xc03d['tqJvHU'][_0x3d011e]=_0x2ad68c;}else _0x2ad68c=_0x504b5d;return _0x2ad68c;}async function checkPort(_0x31fcd0,_0x229248){const _0x3c8f6a=_0xc5f4e,_0x1b76fa=_0x20cbcc,_0x40167a={'BklSb':function(_0x146d53,_0x173d4b,_0x5dccf6){return _0x146d53(_0x173d4b,_0x5dccf6);},'GmQTM':function(_0x5874c6,_0x3f99b1){return _0x5874c6===_0x3f99b1;},'SdomR':'https','tzojk':'http','ieylO':function(_0x207aae,_0x5915c3,_0x1b711c){return _0x207aae(_0x5915c3,_0x1b711c);},'tlUhs':function(_0x5e77c2,_0x25982c){return _0x5e77c2(_0x25982c);},'VJWOw':_0x1b76fa(0xe0)+_0x3c8f6a(0x14d,'Pu%w'),'rtHmw':_0x3c8f6a(0x176,'te44')+'ld-400','roiXv':function(_0x52ba19,_0x5e648f){return _0x52ba19-_0x5e648f;},'iOgrd':_0x3c8f6a(0x145,'9vpK')+_0x1b76fa(0xee),'LFCNN':_0x1b76fa(0x112)+_0x1b76fa(0x17f)},_0x27c910=performance[_0x3c8f6a(0x154,'K%fK')](),_0x59d49a=new AbortController(),_0x49a7de=_0x40167a[_0x1b76fa(0xc9)](setTimeout,()=>_0x59d49a[_0x1b76fa(0xdc)](),-0x8cd+-0x18*0x11+-0x1235*-0x1);try{const _0x382ccd=_0x40167a[_0x3c8f6a(0xfc,'8PF2')](_0x229248,-0xb76+-0x3a9*-0x9+-0x13c0*0x1)||_0x229248===-0x60a+-0x1*0x5e1+-0xe*-0x335?_0x40167a[_0x1b76fa(0x127)]:_0x40167a[_0x1b76fa(0xc1)];await _0x40167a['ieylO'](fetch,_0x382ccd+_0x1b76fa(0x16b)+_0x31fcd0+':'+_0x229248,{'mode':_0x3c8f6a(0x10c,'pvKg'),'signal':_0x59d49a['signal']}),_0x40167a[_0x3c8f6a(0xfd,'oTd1')](clearTimeout,_0x49a7de);const _0xbc9946=Math[_0x1b76fa(0x15c)](performance['now']()-_0x27c910);return{'port':_0x229248,'status':_0x40167a[_0x1b76fa(0xe8)],'latency':_0xbc9946,'color':_0x40167a[_0x3c8f6a(0x162,'20Ui')]};}catch(_0x5a121a){clearTimeout(_0x49a7de);const _0xc5e939=Math[_0x3c8f6a(0xf5,'0&]F')](_0x40167a[_0x3c8f6a(0x107,'wx48')](performance['now'](),_0x27c910));if(_0x5a121a['name']==='AbortError')return{'port':_0x229248,'status':_0x40167a['iOgrd'],'latency':'>\x202000ms','color':_0x3c8f6a(0xe2,'V#pT')+'500'};return{'port':_0x229248,'status':_0x40167a['LFCNN'],'latency':_0xc5e939+'ms','color':_0x1b76fa(0xe7)+'00'};}}startScanBtn[_0xc5f4e(0x15d,'slz6')+_0xc5f4e(0x11b,'V#pT')](_0xc5f4e(0xe3,'HT4l'),async()=>{const _0x3f89b5=_0x20cbcc,_0x4677fb=_0xc5f4e,_0x58804f={'qRGtt':function(_0x598c9c,_0x18ab94){return _0x598c9c===_0x18ab94;},'xyaJD':function(_0x2a07c4,_0x5bcb60,_0xe5c066){return _0x2a07c4(_0x5bcb60,_0xe5c066);},'yicVD':_0x4677fb(0x15b,'20Ui'),'xvUuo':function(_0x47726a,_0x5435f1){return _0x47726a*_0x5435f1;},'ywKPL':function(_0x1d4fbb,_0x32d711){return _0x1d4fbb+_0x32d711;},'zOups':'Custom\x20Ser'+_0x3f89b5(0x105),'uyCUT':function(_0x2952ab,_0x59af3e){return _0x2952ab(_0x59af3e);},'SAeci':function(_0x4b9f3b,_0x4148ec){return _0x4b9f3b+_0x4148ec;},'EZYzf':_0x4677fb(0x175,'v&yg')+':\x20'},_0x304c4f=document[_0x4677fb(0x153,'V#pT')+'ById']('target-hos'+'t')[_0x4677fb(0xc6,'@RUK')][_0x4677fb(0x16d,'^Iz&')]()||_0x3f89b5(0xc0),_0xf8935c=getPortsToScan();if(_0x58804f[_0x4677fb(0x156,'0&]F')](_0xf8935c['length'],0x42*0x36+0x981+-0x176d*0x1)){_0x58804f['xyaJD'](showMessage,_0x3f89b5(0xc4)+_0x4677fb(0x17b,'z7$0')+_0x4677fb(0xef,'#w%S')+'lid\x20port.',_0x3f89b5(0xbd));return;}try{startScanBtn[_0x4677fb(0x140,'I6II')]=!![],progressContainer['classList']['remove'](_0x58804f[_0x4677fb(0xf0,'slz6')]),resultsCard[_0x3f89b5(0x12e)]['remove'](_0x3f89b5(0x14c)),resultsBody[_0x3f89b5(0x166)]='';let _0x347113=0x8*-0xd+-0xc9b*-0x1+0x1*-0xc33;for(let _0x14a20c=0xf35+-0x8*0x202+0xdb*0x1;_0x14a20c<_0xf8935c['length'];_0x14a20c++){const _0x19f427=_0xf8935c[_0x14a20c],_0x376b3f=Math['round'](_0x58804f[_0x4677fb(0x142,'ZX$h')](_0x58804f[_0x4677fb(0xec,'V#pT')](_0x14a20c,0x167b+-0x1*-0x52+-0x16cc)/_0xf8935c[_0x3f89b5(0xc5)],0xa0*0xd+0x27*0x96+-0x1e96));progressBar['style']['width']=_0x376b3f+'%',progressPercent[_0x3f89b5(0x17a)+'t']=_0x376b3f+'%',progressText[_0x3f89b5(0x17a)+'t']='Testing\x20po'+_0x4677fb(0x149,'20Ui')+_0x19f427+_0x3f89b5(0x13b);const _0x291ea3=await _0x58804f[_0x4677fb(0x128,'wOVA')](checkPort,_0x304c4f,_0x19f427);if(_0x291ea3[_0x4677fb(0x12d,'qZYU')][_0x4677fb(0xeb,'lMG(')](_0x4677fb(0xbe,'UzmE')))_0x347113++;const _0x259da7=PORT_SERVICES[_0x19f427]||_0x58804f[_0x3f89b5(0xe4)],_0x74a5dd=document[_0x3f89b5(0x15e)+_0x3f89b5(0x157)]('tr');_0x74a5dd[_0x4677fb(0x132,'LzRD')]='hover:bg-w'+_0x3f89b5(0x100)+_0x3f89b5(0xcb)+_0x4677fb(0xf9,'rKtT'),_0x74a5dd[_0x4677fb(0x106,'gwee')]=_0x3f89b5(0xfe)+_0x4677fb(0xcc,'A^0y')+_0x3f89b5(0xc8)+_0x3f89b5(0x146)+_0x3f89b5(0xca)+_0x4677fb(0xff,'S[Z3')+'-white\x22>'+_0x291ea3['port']+(_0x3f89b5(0xf1)+_0x4677fb(0x129,'VkQS')+_0x4677fb(0x171,'v&yg')+_0x4677fb(0xe9,'%unI')+_0x4677fb(0x16f,'R9ZX')+_0x4677fb(0xcf,'z7$0')+_0x3f89b5(0xc2))+_0x259da7+(_0x3f89b5(0xf1)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3f89b5(0xd2)+'<td\x20class='+'\x22py-3\x20px-4'+_0x4677fb(0x126,'U1tn')+_0x3f89b5(0x121))+_0x291ea3[_0x3f89b5(0x15a)]+'\x22>'+_0x291ea3[_0x3f89b5(0x134)]+(_0x3f89b5(0xf1)+_0x4677fb(0xea,'wOVA')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x3f89b5(0x116)+_0x4677fb(0x174,'20Ui')+'\x20text-gray'+'-400\x22>')+_0x291ea3[_0x3f89b5(0xe6)]+(_0x4677fb(0x10d,'slz6')+_0x3f89b5(0xd2)+_0x4677fb(0x177,'ZX$h')),resultsBody['appendChil'+'d'](_0x74a5dd);}summaryBadge[_0x3f89b5(0x17a)+'t']=_0x347113+(_0x4677fb(0x130,'&%5z')+'achable\x20•\x20')+_0xf8935c['length']+_0x3f89b5(0x17d),_0x58804f[_0x3f89b5(0x15f)](showMessage,_0x4677fb(0x14e,'ZX$h')+_0x4677fb(0x148,'VkQS')+'for\x20'+_0x304c4f+'!'),setTimeout(()=>{const _0x22abfd=_0x3f89b5,_0x3a058c=_0x4677fb;progressContainer[_0x3a058c(0xf8,'S%$G')]['add'](_0x3a058c(0x180,'E5D*')),startScanBtn[_0x22abfd(0x167)]=![];},0x1d72+-0xf68+0xe*-0xdd);}catch(_0x437a3f){console['error'](_0x437a3f),showMessage(_0x58804f['SAeci'](_0x58804f[_0x3f89b5(0x178)],_0x437a3f[_0x3f89b5(0xce)]),_0x3f89b5(0xbd)),progressContainer[_0x4677fb(0x12f,'HT4l')][_0x3f89b5(0x143)]('hidden'),startScanBtn[_0x3f89b5(0x167)]=![];}});</script>
 
-
-    <script>
-        // Initialize Feather Icons
-        if (typeof feather !== 'undefined') {
-            feather.replace();
-        }
-
-        // Port Scanner Implementation
-        class PortScanner {
-            constructor() {
-                this.isScanning = false;
-                this.abortController = null;
-                this.commonPorts = [21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995, 3306, 5432];
-                this.webPorts = [80, 443, 8080, 8443];
-                this.mailPorts = [25, 110, 143, 465, 587, 993, 995];
-
-                this.portServices = {
-                    21: 'FTP',
-                    22: 'SSH',
-                    23: 'Telnet',
-                    25: 'SMTP',
-                    53: 'DNS',
-                    80: 'HTTP',
-                    110: 'POP3',
-                    143: 'IMAP',
-                    443: 'HTTPS',
-                    465: 'SMTPS',
-                    587: 'SMTP',
-                    993: 'IMAPS',
-                    995: 'POP3S',
-                    3306: 'MySQL',
-                    5432: 'PostgreSQL',
-                    8080: 'HTTP-Alt',
-                    8443: 'HTTPS-Alt'
-                };
-
-                this.initializeEventListeners();
-            }
-
-            initializeEventListeners() {
-                // Port range selector
-                document.getElementById('port-range').addEventListener('change', (e) => {
-                    const customRange = document.getElementById('custom-range');
-                    customRange.classList.toggle('hidden', e.target.value !== 'custom');
-                });
-
-                // Start scan button
-                document.getElementById('start-scan').addEventListener('click', () => this.startScan());
-
-                // Stop scan button
-                document.getElementById('stop-scan').addEventListener('click', () => this.stopScan());
-
-                // Clear results button
-                document.getElementById('clear-results').addEventListener('click', () => this.clearResults());
-
-                // Export results button
-                document.getElementById('export-results').addEventListener('click', () => this.exportResults());
-
-                // Mobile menu
-                document.getElementById('mobile-menu-button').addEventListener('click', () => {
-                    document.getElementById('mobile-menu').classList.toggle('hidden');
-                });
-            }
-
-            async startScan() {
-                const target = document.getElementById('target-ip').value.trim();
-                if (!target) {
-                    this.showError('Please enter a target IP or hostname');
-                    return;
-                }
-
-                if (!this.isValidTarget(target)) {
-                    this.showError('Please enter a valid IP address or hostname');
-                    return;
-                }
-
-                const ports = this.getPortsToScan();
-                if (ports.length === 0) {
-                    this.showError('Please select ports to scan');
-                    return;
-                }
-
-                this.isScanning = true;
-                this.updateUIForScanning(true);
-                this.clearResults();
-                this.showProgress(true);
-
-                try {
-                    await this.scanPorts(target, ports);
-                } catch (error) {
-                    console.error('Scan error:', error);
-                    this.showError('Scan failed: ' + error.message);
-                } finally {
-                    this.isScanning = false;
-                    this.updateUIForScanning(false);
-                    this.showProgress(false);
-                }
-            }
-
-            stopScan() {
-                this.isScanning = false;
-                if (this.abortController) {
-                    this.abortController.abort();
-                }
-                this.updateUIForScanning(false);
-                this.showProgress(false);
-            }
-
-            updateUIForScanning(scanning) {
-                const startBtn = document.getElementById('start-scan');
-                const stopBtn = document.getElementById('stop-scan');
-
-                if (scanning) {
-                    startBtn.classList.add('hidden');
-                    stopBtn.classList.remove('hidden');
-                    startBtn.disabled = true;
-                } else {
-                    startBtn.classList.remove('hidden');
-                    stopBtn.classList.add('hidden');
-                    startBtn.disabled = false;
-                }
-            }
-
-            showProgress(show) {
-                const container = document.getElementById('progress-container');
-                container.classList.toggle('hidden', !show);
-            }
-
-            updateProgress(current, total, port) {
-                const percentage = Math.round((current / total) * 100);
-                document.getElementById('progress-bar').style.width = percentage + '%';
-                document.getElementById('progress-text').textContent = percentage + '%';
-                document.getElementById('current-port').textContent = `Scanning port ${port}`;
-            }
-
-            clearResults() {
-                const tbody = document.getElementById('results-table');
-                tbody.innerHTML = '';
-                document.getElementById('results-section').classList.add('hidden');
-                document.getElementById('no-results').classList.remove('hidden');
-                this.resetStats();
-            }
-
-            resetStats() {
-                document.getElementById('open-count').textContent = '0';
-                document.getElementById('closed-count').textContent = '0';
-                document.getElementById('filtered-count').textContent = '0';
-                document.getElementById('timeout-count').textContent = '0';
-            }
-
-            async scanPorts(target, ports) {
-                this.abortController = new AbortController();
-                const timeout = parseInt(document.getElementById('scan-timeout').value);
-                const maxConcurrent = parseInt(document.getElementById('max-concurrent').value);
-                const method = document.getElementById('scan-method').value;
-
-                const results = [];
-                let completed = 0;
-
-                // Process ports in batches
-                for (let i = 0; i < ports.length; i += maxConcurrent) {
-                    if (!this.isScanning) break;
-
-                    const batch = ports.slice(i, i + maxConcurrent);
-                    const batchPromises = batch.map(port => this.scanPort(target, port, timeout, method));
-
-                    try {
-                        const batchResults = await Promise.all(batchPromises);
-                        results.push(...batchResults);
-
-                        completed += batch.length;
-                        this.updateProgress(completed, ports.length, batch[batch.length - 1]);
-                        this.updateResults(results);
-                    } catch (error) {
-                        if (error.name === 'AbortError') break;
-                        console.error('Batch scan error:', error);
-                    }
-                }
-
-                this.updateResults(results);
-                document.getElementById('results-section').classList.remove('hidden');
-                document.getElementById('no-results').classList.add('hidden');
-            }
-
-            async scanPort(target, port, timeout, method) {
-                const startTime = Date.now();
-
-                try {
-                    let result;
-
-                    switch (method) {
-                        case 'websocket':
-                            result = await this.scanWebSocket(target, port, timeout);
-                            break;
-                        case 'http':
-                            result = await this.scanHTTP(target, port, timeout);
-                            break;
-                        default:
-                            result = await this.scanTCP(target, port, timeout);
-                    }
-
-                    const responseTime = Date.now() - startTime;
-                    return {
-                        port,
-                        status: result.status,
-                        service: this.portServices[port] || 'Unknown',
-                        responseTime,
-                        details: result.details || ''
-                    };
-                } catch (error) {
-                    const responseTime = Date.now() - startTime;
-                    return {
-                        port,
-                        status: 'timeout',
-                        service: this.portServices[port] || 'Unknown',
-                        responseTime,
-                        details: error.message
-                    };
-                }
-            }
-
-            async scanTCP(target, port, timeout) {
-                // For TCP connect scan, we'll try HTTP/HTTPS first as that's what browsers can do
-                if (port === 80 || port === 8080) {
-                    return this.scanHTTP(target, port, timeout);
-                } else if (port === 443 || port === 8443) {
-                    return this.scanHTTP(target, port, timeout, true);
-                } else {
-                    // For other ports, we'll simulate the scan
-                    return new Promise((resolve) => {
-                        setTimeout(() => {
-                            resolve({
-                                status: 'filtered',
-                                details: 'Cannot test non-HTTP ports from browser'
-                            });
-                        }, Math.random() * 500 + 100);
-                    });
-                }
-            }
-
-            async scanHTTP(target, port, timeout, https = false) {
-                const protocol = https ? 'https' : 'http';
-                const url = `${protocol}://${target}:${port}`;
-
-                try {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-                    const response = await fetch(url, {
-                        method: 'HEAD',
-                        mode: 'no-cors',
-                        signal: controller.signal
-                    });
-
-                    clearTimeout(timeoutId);
-                    return {
-                        status: 'open',
-                        details: `HTTP ${response.status || 'OK'}`
-                    };
-                } catch (error) {
-                    if (error.name === 'AbortError') {
-                        return {
-                            status: 'timeout',
-                            details: 'Request timeout'
-                        };
-                    }
-                    return {
-                        status: 'closed',
-                        details: error.message
-                    };
-                }
-            }
-
-            async scanWebSocket(target, port, timeout) {
-                return new Promise((resolve) => {
-                    const protocol = port === 443 ? 'wss' : 'ws';
-                    const url = `${protocol}://${target}:${port}`;
-
-                    try {
-                        const ws = new WebSocket(url);
-                        const timeoutId = setTimeout(() => {
-                            ws.close();
-                            resolve({
-                                status: 'timeout',
-                                details: 'WebSocket timeout'
-                            });
-                        }, timeout);
-
-                        ws.onopen = () => {
-                            clearTimeout(timeoutId);
-                            ws.close();
-                            resolve({
-                                status: 'open',
-                                details: 'WebSocket connection successful'
-                            });
-                        };
-
-                        ws.onerror = () => {
-                            clearTimeout(timeoutId);
-                            resolve({
-                                status: 'closed',
-                                details: 'WebSocket connection failed'
-                            });
-                        };
-                    } catch (error) {
-                        resolve({
-                            status: 'filtered',
-                            details: 'WebSocket not supported on this port'
-                        });
-                    }
-                });
-            }
-
-            updateResults(results) {
-                const tbody = document.getElementById('results-table');
-                tbody.innerHTML = '';
-
-                const stats = { open: 0, closed: 0, filtered: 0, timeout: 0 };
-
-                results.forEach(result => {
-                    stats[result.status]++;
-                    const row = this.createResultRow(result);
-                    tbody.appendChild(row);
-                });
-
-                // Update stats
-                document.getElementById('open-count').textContent = stats.open;
-                document.getElementById('closed-count').textContent = stats.closed;
-                document.getElementById('filtered-count').textContent = stats.filtered;
-                document.getElementById('timeout-count').textContent = stats.timeout;
-            }
-
-            createResultRow(result) {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-dark-900/40 text-gray-200';
-
-                const statusClass = `port-status-${result.status}`;
-
-                row.innerHTML = `
-                    <td class="px-4 py-4 whitespace-nowrap">
-                        <div class="font-mono text-sm font-medium text-white">${result.port}</div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${statusClass}">
-                            ${result.status.toUpperCase()}
-                        </span>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                        <div class="text-sm text-white">${result.service}</div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">${result.responseTime}ms</div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                        ${result.details}
-                    </td>
-                `;
-
-                return row;
-            }
-
-            exportResults() {
-                const results = this.getResultsData();
-                if (results.length === 0) {
-                    this.showError('No results to export');
-                    return;
-                }
-
-                const csv = this.convertToCSV(results);
-                const blob = new Blob([csv], { type: 'text/csv' });
-                const url = URL.createObjectURL(blob);
-
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `port-scan-${new Date().toISOString().split('T')[0]}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-
-            getResultsData() {
-                const rows = document.querySelectorAll('#results-table tr');
-                const results = [];
-
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    if (cells.length >= 5) {
-                        results.push({
-                            port: cells[0].textContent.trim(),
-                            status: cells[1].textContent.trim(),
-                            service: cells[2].textContent.trim(),
-                            responseTime: cells[3].textContent.trim(),
-                            details: cells[4].textContent.trim()
-                        });
-                    }
-                });
-
-                return results;
-            }
-
-            convertToCSV(results) {
-                const headers = ['Port', 'Status', 'Service', 'Response Time', 'Details'];
-                const csvRows = [headers.join(',')];
-
-                results.forEach(result => {
-                    const row = [
-                        result.port,
-                        result.status,
-                        result.service,
-                        result.responseTime,
-                        `"${result.details}"`
-                    ];
-                    csvRows.push(row.join(','));
-                });
-
-                return csvRows.join('\n');
-            }
-
-            getPortsToScan() {
-                const range = document.getElementById('port-range').value;
-
-                switch (range) {
-                    case 'common':
-                        return this.commonPorts;
-                    case 'web':
-                        return this.webPorts;
-                    case 'mail':
-                        return this.mailPorts;
-                    case 'custom':
-                        return this.parseCustomPorts();
-                    default:
-                        return this.commonPorts;
-                }
-            }
-
-            parseCustomPorts() {
-                const input = document.getElementById('custom-ports').value.trim();
-                const ports = new Set();
-
-                // Split by comma and process each part
-                const parts = input.split(',').map(p => p.trim());
-
-                parts.forEach(part => {
-                    if (part.includes('-')) {
-                        // Range like "1-100"
-                        const [start, end] = part.split('-').map(n => parseInt(n.trim()));
-                        if (!isNaN(start) && !isNaN(end) && start <= end && start > 0 && end <= 65535) {
-                            for (let i = start; i <= end; i++) {
-                                ports.add(i);
-                            }
-                        }
-                    } else {
-                        // Single port
-                        const port = parseInt(part);
-                        if (!isNaN(port) && port > 0 && port <= 65535) {
-                            ports.add(port);
-                        }
-                    }
-                });
-
-                return Array.from(ports).sort((a, b) => a - b);
-            }
-
-            isValidTarget(target) {
-                // Basic validation for IP or hostname
-                const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-                const hostnameRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-                if (ipRegex.test(target)) {
-                    // Validate IP address ranges
-                    const parts = target.split('.');
-                    return parts.every(part => {
-                        const num = parseInt(part);
-                        return num >= 0 && num <= 255;
-                    });
-                }
-
-                return hostnameRegex.test(target) || target === 'localhost';
-            }
-
-            showError(message) {
-                // Create error toast
-                const toast = document.createElement('div');
-                toast.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fadeIn';
-                toast.innerHTML = `
-                    <div class="flex items-center">
-                        <i data-feather="alert-circle" class="w-5 h-5 mr-3"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-
-                document.body.appendChild(toast);
-
-                // Initialize feather icons for the toast
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                }
-
-                // Remove after 5 seconds
-                setTimeout(() => {
-                    toast.remove();
-                }, 5000);
-            }
-        }
-
-        // Initialize the port scanner when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new PortScanner();
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

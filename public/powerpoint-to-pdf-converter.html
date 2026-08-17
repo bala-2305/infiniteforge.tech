@@ -1,215 +1,85 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PowerPoint to PDF Converter - Free Online Tool | Infiniteforge</title>
+    <title>PowerPoint to PDF Converter — Convert PPTX to PDF | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Convert PowerPoint presentations to PDF format online. Extract actual slide content, titles, and speaker notes. Free tool with slide layout preservation, multiple formats support, and professional output. No uploads, no watermarks, completely free.">
-    <meta name="keywords" content="PowerPoint to PDF, PPT to PDF, PPTX to PDF, presentation to PDF, PowerPoint converter, PDF export, slide to PDF, free online tool">
+    <meta name="description" content="Convert PowerPoint (.pptx, .ppt) presentations to high quality PDF documents online for free. Extracts slide content, titles, and speaker notes with clean slide layouts.">
+    <meta name="keywords" content="PowerPoint to PDF, PPT to PDF, PPTX to PDF, presentation to PDF, PowerPoint converter, slide to PDF">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="PowerPoint to PDF Converter - Free Online Tool | Infiniteforge">
-    <meta property="og:description" content="Convert PowerPoint presentations to professional PDF documents with slide layout preservation and formatting. Free, fast, and privacy-focused.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="PowerPoint to PDF Converter | Infiniteforge">
+    <meta property="og:description" content="Convert PowerPoint PPTX presentations to PDF in your browser.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/powerpoint-to-pdf-converter.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PowerPoint to PDF Converter - Free Online Tool | Infiniteforge">
-    <meta name="twitter:description" content="Convert PowerPoint presentations to professional PDF documents with slide layout preservation and formatting. Free, fast, and privacy-focused.">
+    <meta name="twitter:title" content="PowerPoint to PDF Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert presentation slides to PDF format.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/powerpoint-to-pdf-converter.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/powerpoint-to-pdf-converter.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- JSZip, PDF Lib, FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .tab-active {
-            color: #2563EB;
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        .loading-content {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .slide-preview {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-        }
-        .slide-item {
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            transition: background-color 0.2s;
-        }
-        .slide-item:hover {
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-        .slide-number {
-            font-weight: 600;
-            color: #2563EB;
-            margin-right: 0.5rem;
-        }
-        .option-card {
-            transition: all 0.3s ease;
-        }
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .option-selected {
-            border-color: #DC2626;
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-    </style>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x255f4e=_0x542f,_0x2e2f8f=_0x2d86;function _0x2d86(_0x39b967,_0x16e265){_0x39b967=_0x39b967-(-0xd84+-0xec4+-0x1cbb*-0x1);var _0x364ec0=_0x490c();var _0x4f0a93=_0x364ec0[_0x39b967];if(_0x2d86['gHkQHp']===undefined){var _0x52dc4e=function(_0x40c955){var _0x2c69cd='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x3f34b0='',_0xa9d4d9='',_0x25909d=_0x3f34b0+_0x52dc4e,_0x1a8c59=(''+function(){return 0x1de7+0x1488+-0x326f;})['indexOf']('\x0a')!==-(0x720+0x1ae1*0x1+0x200*-0x11);for(var _0x539c2f=0x2*-0x23e+0x2*-0x11e0+-0x4*-0xa0f,_0x1835c8,_0x2ef86a,_0x199605=0xe0c+0x18df*0x1+-0x29*0xf3;_0x2ef86a=_0x40c955['charAt'](_0x199605++);~_0x2ef86a&&(_0x1835c8=_0x539c2f%(0x493+0x12b6+-0x17*0x103)?_0x1835c8*(0xb*0x31f+0x2266+-0x447b*0x1)+_0x2ef86a:_0x2ef86a,_0x539c2f++%(-0xc8c+0xc30+0x60))?_0x3f34b0+=_0x1a8c59||_0x25909d['charCodeAt'](_0x199605+(0x1c1*0x7+-0x146d+0x830))-(-0x2c0*-0x5+0xe16*-0x1+0x60)!==-0x1be7+-0x1002*0x2+0x3beb?String['fromCharCode'](-0x1f06+-0x1ee+0x21f3&_0x1835c8>>(-(0xa1*-0x4+-0x14f0+0x1776)*_0x539c2f&0x4*-0x2a9+-0x1f63+0x5*0x869)):_0x539c2f:0x11c*0x8+-0x2089+0x17a9){_0x2ef86a=_0x2c69cd['indexOf'](_0x2ef86a);}for(var _0x4dde9f=-0x25d0+-0x210a+0x46da,_0x3382a6=_0x3f34b0['length'];_0x4dde9f<_0x3382a6;_0x4dde9f++){_0xa9d4d9+='%'+('00'+_0x3f34b0['charCodeAt'](_0x4dde9f)['toString'](0xb1a*-0x1+-0x19ef+0x2519))['slice'](-(-0x2491+0x1e1d+-0x33b*-0x2));}return decodeURIComponent(_0xa9d4d9);};var _0x1eb340=function(_0x3277d1,_0x2c3eb1){var _0x5a7b3d=[],_0x30f05a=0x24e7*0x1+-0xed1+-0x1616,_0x637dad,_0x1336eb='';_0x3277d1=_0x52dc4e(_0x3277d1);var _0x337b78;for(_0x337b78=-0x1a47+0x1678+0x3cf;_0x337b78<0x1077+0x77b+-0x16f2;_0x337b78++){_0x5a7b3d[_0x337b78]=_0x337b78;}for(_0x337b78=0x12*0x1ad+-0x18ab+-0x57f;_0x337b78<0x262+-0x6fa*0x4+-0xa*-0x2a7;_0x337b78++){_0x30f05a=(_0x30f05a+_0x5a7b3d[_0x337b78]+_0x2c3eb1['charCodeAt'](_0x337b78%_0x2c3eb1['length']))%(-0x72+0x2*-0xc28+-0x13a*-0x15),_0x637dad=_0x5a7b3d[_0x337b78],_0x5a7b3d[_0x337b78]=_0x5a7b3d[_0x30f05a],_0x5a7b3d[_0x30f05a]=_0x637dad;}_0x337b78=0x2*0x19f+0x1a33+-0x1*0x1d71,_0x30f05a=-0x1*-0x175b+0x1220+-0x297b;for(var _0x462ad7=0x1*0x3c9+-0xc27+0x6*0x165;_0x462ad7<_0x3277d1['length'];_0x462ad7++){_0x337b78=(_0x337b78+(0x771+-0x1819+0x10a9))%(0x14ce+-0x3*0x353+-0x9d5),_0x30f05a=(_0x30f05a+_0x5a7b3d[_0x337b78])%(-0x1*-0x1e8+0x2515+-0x185*0x19),_0x637dad=_0x5a7b3d[_0x337b78],_0x5a7b3d[_0x337b78]=_0x5a7b3d[_0x30f05a],_0x5a7b3d[_0x30f05a]=_0x637dad,_0x1336eb+=String['fromCharCode'](_0x3277d1['charCodeAt'](_0x462ad7)^_0x5a7b3d[(_0x5a7b3d[_0x337b78]+_0x5a7b3d[_0x30f05a])%(0x26c1+0xd4e+-0x330f)]);}return _0x1336eb;};_0x2d86['ubkvXV']=_0x1eb340,_0x2d86['FCiGqv']={},_0x2d86['gHkQHp']=!![];}var _0x40dd9c=_0x364ec0[-0x1208*-0x1+0x8*0x277+-0x25c0],_0x375685=_0x39b967+_0x40dd9c,_0x9f7115=_0x2d86['FCiGqv'][_0x375685];if(!_0x9f7115){if(_0x2d86['pRqVZT']===undefined){var _0x31b161=function(_0x4c8a74){this['fYxrHn']=_0x4c8a74,this['yoQskb']=[-0x32*0xac+-0xd*0x18e+-0x5f*-0x91,-0x25d6+-0x1*0x208f+0x4665,0x674+-0x1c13+0x159f],this['pilUvg']=function(){return'newState';},this['AMVwzE']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['jVTaBe']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x31b161['prototype']['XmoWSB']=function(){var _0x1f323a=new RegExp(this['AMVwzE']+this['jVTaBe']),_0x2beedc=_0x1f323a['test'](this['pilUvg']['toString']())?--this['yoQskb'][-0x4*-0x508+0x15b2*-0x1+0x193]:--this['yoQskb'][-0xe*0xa7+-0x1b1b+0x243d];return this['QgDcWK'](_0x2beedc);},_0x31b161['prototype']['QgDcWK']=function(_0x346a44){if(!Boolean(~_0x346a44))return _0x346a44;return this['uciWII'](this['fYxrHn']);},_0x31b161['prototype']['uciWII']=function(_0x19828b){for(var _0x28321e=-0xe9c+0x1*-0x16f5+0x2591,_0x37c900=this['yoQskb']['length'];_0x28321e<_0x37c900;_0x28321e++){this['yoQskb']['push'](Math['round'](Math['random']())),_0x37c900=this['yoQskb']['length'];}return _0x19828b(this['yoQskb'][0x14db+0x1c1d+0x2*-0x187c]);},(''+function(){return 0x2302+-0xe77*0x1+-0x148b;})['indexOf']('\x0a')===-(0x1*-0x15ca+-0x3*0x30b+0x2*0xf76)&&new _0x31b161(_0x2d86)['XmoWSB'](),_0x2d86['pRqVZT']=!![];}_0x4f0a93=_0x2d86['ubkvXV'](_0x4f0a93,_0x16e265),_0x2d86['FCiGqv'][_0x375685]=_0x4f0a93;}else _0x4f0a93=_0x9f7115;return _0x4f0a93;}(function(_0x151836,_0x248b75){var _0x44de55=_0x542f,_0xb8db2b=_0x2d86,_0x56ecd0=_0x151836();while(!![]){try{var _0x3387b9=parseInt(_0xb8db2b(0x8c,'tfgH'))/(0x65*-0x53+0x1e8+0x1ed8)+parseInt(_0x44de55(0x73))/(0x3*0x6e6+-0x14b5+0x5)+-parseInt(_0xb8db2b(0x87,'nAVP'))/(0x1*-0xa8e+0x1208+0x27*-0x31)*(parseInt(_0xb8db2b(0x85,'wicD'))/(-0x191c+-0x32*0xac+-0x4*-0xeae))+-parseInt(_0xb8db2b(0x8a,'aeCj'))/(0x2511+-0x115a+-0x13b2)*(parseInt(_0x44de55(0x90))/(0x1ee2+-0x2f*0x13+-0x1b5f))+parseInt(_0xb8db2b(0x8e,'iQdp'))/(-0x204d*0x1+-0x1*0xac9+0xe5f*0x3)*(-parseInt(_0xb8db2b(0x76,'S*NO'))/(-0xbc7+-0xe*0xa7+0x14f1))+parseInt(_0xb8db2b(0x7c,'Q@oJ'))/(-0x1b66+-0xe9c+0x1*0x2a0b)+-parseInt(_0xb8db2b(0x88,'S*NO'))/(-0x1246*0x2+0x14db+0x1*0xfbb);if(_0x3387b9===_0x248b75)break;else _0x56ecd0['push'](_0x56ecd0['shift']());}catch(_0x5d110e){_0x56ecd0['push'](_0x56ecd0['shift']());}}}(_0x490c,0x6def9+-0x2d6e9*0x1+-0x32a0));var _0x38b89d=(function(){var _0x2cd95b=!![];return function(_0x210736,_0x189e08){var _0x75d04b=_0x2cd95b?function(){var _0x12a871=_0x2d86;if(_0x189e08){var _0x256348=_0x189e08[_0x12a871(0x7a,'v!Ff')](_0x210736,arguments);return _0x189e08=null,_0x256348;}}:function(){};return _0x2cd95b=![],_0x75d04b;};}()),_0x475444=_0x38b89d(this,function(){var _0x11b2f7=_0x2d86,_0x401728=_0x542f,_0x5c03e8={'dUZsh':function(_0x1bed5d,_0x222391){return _0x1bed5d!==_0x222391;},'FTnas':_0x401728(0x89)+'+$'};if(_0x5c03e8['dUZsh'](_0x475444['bind']()[_0x401728(0x7b)]()['indexOf']('\x0a'),-(0x1*-0x22bd+0xf97+0x1327*0x1)))return;return _0x475444['toString']()['search'](_0x5c03e8[_0x401728(0x8b)])[_0x11b2f7(0x79,'e[vA')]()['constructo'+'r'](_0x475444)['search'](_0x5c03e8[_0x401728(0x8b)]);});function _0x490c(){var _0x5c2b49=['W5C2W54/xsD0hW','rLrUyxm','cMpdSI/dLY7cTCkYWPP1W4RcVW','WRjMW51YEuJdI8k7uWvvW74','WQKBArPKp24FW63cVM4IjW','W4u0W7DMmvf4','nJm1odi2q1jprwTq','W7pcHSkIdMJcP8kB','DcCNWQtdRaZdMafjW4S+iW','otK5mZaWrxvVD1vQ','mty0nJi5nxjqtu54DW','WRDHW5b8EKRcUCkZwqvuW5GL','WR5kW6pcU8kVW6rOCq','uSkawcn1qGTF','W6pcTSkuW7BcOmkgCHu','WPhdMSopwmoffbyw','lg5UW7VcPq','Dg9tDhjPBMC','sdOWkCkYW6HHW6T9Fu8PWQW','iZDbmdbgrG','W57dOmkgjHZdL8ke','sMv0qNjHAw5Zia','t3v0zML0','mZq0odK5Au9ZzhPl','yCkQWOpdLJZdGq','WQCtWQ54cKNdIq','mZm5mdiWAe50A1P3','W6pcTSkmW7JcTSkDrXK','tw9UBW','WRLLlSorFmoCrCoMgH7dU8k4','WRXpWRBdImoVWO1bswFcO8kcW7O','kcGOlISPkYKRkq'];_0x490c=function(){return _0x5c2b49;};return _0x490c();}function _0x542f(_0x491512,_0x2383d3){_0x491512=_0x491512-(-0xd84+-0xec4+-0x1cbb*-0x1);var _0x139d9f=_0x490c();var _0x5e7baf=_0x139d9f[_0x491512];if(_0x542f['GdUYZc']===undefined){var _0x295153=function(_0x4c3c7e){var _0x2c6b4c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x261177='',_0x48f2c5='',_0x166a6c=_0x261177+_0x295153,_0x5efc76=(''+function(){return 0x1de7+0x1488+-0x326f;})['indexOf']('\x0a')!==-(0x720+0x1ae1*0x1+0x200*-0x11);for(var _0x3fed4c=0x2*-0x23e+0x2*-0x11e0+-0x4*-0xa0f,_0xded0cd,_0x2bd562,_0x22cee8=0xe0c+0x18df*0x1+-0x29*0xf3;_0x2bd562=_0x4c3c7e['charAt'](_0x22cee8++);~_0x2bd562&&(_0xded0cd=_0x3fed4c%(0x493+0x12b6+-0x17*0x103)?_0xded0cd*(0xb*0x31f+0x2266+-0x447b*0x1)+_0x2bd562:_0x2bd562,_0x3fed4c++%(-0xc8c+0xc30+0x60))?_0x261177+=_0x5efc76||_0x166a6c['charCodeAt'](_0x22cee8+(0x1c1*0x7+-0x146d+0x830))-(-0x2c0*-0x5+0xe16*-0x1+0x60)!==-0x1be7+-0x1002*0x2+0x3beb?String['fromCharCode'](-0x1f06+-0x1ee+0x21f3&_0xded0cd>>(-(0xa1*-0x4+-0x14f0+0x1776)*_0x3fed4c&0x4*-0x2a9+-0x1f63+0x5*0x869)):_0x3fed4c:0x11c*0x8+-0x2089+0x17a9){_0x2bd562=_0x2c6b4c['indexOf'](_0x2bd562);}for(var _0x45b1e1=-0x25d0+-0x210a+0x46da,_0x47c0d7=_0x261177['length'];_0x45b1e1<_0x47c0d7;_0x45b1e1++){_0x48f2c5+='%'+('00'+_0x261177['charCodeAt'](_0x45b1e1)['toString'](0xb1a*-0x1+-0x19ef+0x2519))['slice'](-(-0x2491+0x1e1d+-0x33b*-0x2));}return decodeURIComponent(_0x48f2c5);};_0x542f['IGpWxB']=_0x295153,_0x542f['oLamwv']={},_0x542f['GdUYZc']=!![];}var _0x7b8387=_0x139d9f[0x24e7*0x1+-0xed1+-0x1616],_0x32039a=_0x491512+_0x7b8387,_0x5cf22c=_0x542f['oLamwv'][_0x32039a];if(!_0x5cf22c){var _0x331137=function(_0x47b256){this['CAJkvb']=_0x47b256,this['qHzyUH']=[-0x1a47+0x1678+0x3d0,0x1077+0x77b+-0x17f2,0x12*0x1ad+-0x18ab+-0x57f],this['nSpIXF']=function(){return'newState';},this['LpEPjl']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['PTPsDg']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x331137['prototype']['zMsUHb']=function(){var _0x5a4061=new RegExp(this['LpEPjl']+this['PTPsDg']),_0x44bfaf=_0x5a4061['test'](this['nSpIXF']['toString']())?--this['qHzyUH'][0x262+-0x6fa*0x4+-0x5*-0x51b]:--this['qHzyUH'][-0x72+0x2*-0xc28+-0xc61*-0x2];return this['VyCSuo'](_0x44bfaf);},_0x331137['prototype']['VyCSuo']=function(_0x110af0){if(!Boolean(~_0x110af0))return _0x110af0;return this['dyGqqI'](this['CAJkvb']);},_0x331137['prototype']['dyGqqI']=function(_0x6af3f7){for(var _0x1704ff=0x2*0x19f+0x1a33+-0x1*0x1d71,_0x4db804=this['qHzyUH']['length'];_0x1704ff<_0x4db804;_0x1704ff++){this['qHzyUH']['push'](Math['round'](Math['random']())),_0x4db804=this['qHzyUH']['length'];}return _0x6af3f7(this['qHzyUH'][-0x1*-0x175b+0x1220+-0x297b]);},(''+function(){return 0x1*0x3c9+-0xc27+0x6*0x165;})['indexOf']('\x0a')===-(0x771+-0x1819+0x10a9)&&new _0x331137(_0x542f)['zMsUHb'](),_0x5e7baf=_0x542f['IGpWxB'](_0x5e7baf),_0x542f['oLamwv'][_0x32039a]=_0x5e7baf;}else _0x5e7baf=_0x5cf22c;return _0x5e7baf;}_0x475444(),tailwind[_0x2e2f8f(0x82,'J9UC')]={'theme':{'extend':{'fontFamily':{'sans':[_0x255f4e(0x80),'sans-serif'],'mono':[_0x255f4e(0x7f)+_0x255f4e(0x86),'monospace']},'colors':{'dark':{0x384:_0x2e2f8f(0x91,'EK&)'),0x320:_0x2e2f8f(0x7e,'Loye'),0x2bc:_0x2e2f8f(0x8f,'aeCj')},'brand':{'primary':'#45F3FF','secondary':_0x2e2f8f(0x83,'abu4'),'accent':_0x255f4e(0x7d)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -220,671 +90,90 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto pt-24 pb-12 px-4">
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center px-4 py-2 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-full text-sm font-medium text-red-700 mb-6">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                Free & Privacy-Focused
-            </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
-                <span class="text-red-600">PowerPoint</span> to PDF Converter
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                PowerPoint (.PPTX) to PDF Converter
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                Convert PowerPoint presentations to PDF format with actual slide content extraction.
-                Extracts titles, text content, and speaker notes from .pptx files. Fast, free, and completely private.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert PowerPoint presentation slides to PDF documents with clean slide titles, body text, and notes.
             </p>
         </div>
 
-        <!-- Upload Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-100 mb-2">Upload Your PowerPoint File</h2>
-                <p class="text-gray-400">Supports .ppt and .pptx files up to 50MB</p>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept=".pptx,.ppt" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="monitor" class="w-8 h-8"></i>
             </div>
-
-            <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-red-400 transition-colors duration-300">
-                <input type="file" id="pptFileInput" accept=".ppt,.pptx" class="hidden">
-                <label for="pptFileInput" class="cursor-pointer">
-                    <div class="text-gray-500 mb-4">
-                        <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <p class="text-lg font-medium">Click to select PowerPoint file</p>
-                        <p class="text-sm">or drag and drop here</p>
-                    </div>
-                </label>
-            </div>
-
-            <div id="fileInfo" class="hidden mt-4 p-4 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span id="fileName" class="text-red-300 font-medium"></span>
-                </div>
-            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop a PowerPoint presentation here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select any .pptx presentation file to transform into a PDF slide deck</p>
         </div>
 
-        <!-- Options Section -->
-        <div id="optionsSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">PDF Conversion Options</h3>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Left Column -->
-                <div>
-                    <!-- Page Size -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Page Size</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-size="a4">
-                                <div class="text-center">
-                                    <div class="text-2xl font-bold text-gray-100 mb-1">A4</div>
-                                    <div class="text-sm text-gray-400">Standard</div>
-                                </div>
-                            </div>
-                            <div class="option-card p-4 border-2 border-white/10 rounded-lg cursor-pointer" data-size="letter">
-                                <div class="text-center">
-                                    <div class="text-2xl font-bold text-gray-100 mb-1">Letter</div>
-                                    <div class="text-sm text-gray-400">US Standard</div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Loaded Presentation Card -->
+        <div id="control-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <!-- File Info Header -->
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 shrink-0">
+                        <i data-feather="airplay" class="w-5 h-5"></i>
                     </div>
-
-                    <!-- Quality -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Output Quality</label>
-                        <select id="quality" class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                            <option value="high" selected>High Quality - Best for printing</option>
-                            <option value="medium">Medium Quality - Balanced</option>
-                            <option value="low">Low Quality - Smaller file size</option>
-                        </select>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="file-name">presentation.pptx</div>
+                        <div class="text-xs text-gray-400 font-mono" id="file-meta">0 MB • 0 slides</div>
                     </div>
                 </div>
-
-                <!-- Right Column -->
-                <div>
-                    <!-- Slide Range -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Slide Range</label>
-                        <div class="space-y-3">
-                            <label class="flex items-center">
-                                <input type="radio" name="slideRange" value="all" checked class="rounded border-white/20 text-red-600 focus:ring-red-500">
-                                <span class="ml-2 text-sm text-gray-300">All slides</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="slideRange" value="custom" class="rounded border-white/20 text-red-600 focus:ring-red-500">
-                                <span class="ml-2 text-sm text-gray-300">Custom range</span>
-                            </label>
-                            <div id="customRange" class="hidden ml-6">
-                                <input type="text" id="slideRangeInput" placeholder="e.g., 1-5, 8, 10-12" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Include Notes -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-3">Additional Options</label>
-                        <div class="space-y-3">
-                            <label class="flex items-center">
-                                <input type="checkbox" id="includeNotes" class="rounded border-white/20 text-red-600 focus:ring-red-500">
-                                <span class="ml-2 text-sm text-gray-300">Include speaker notes (if available)</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" id="includeHidden" class="rounded border-white/20 text-red-600 focus:ring-red-500">
-                                <span class="ml-2 text-sm text-gray-300">Include hidden slides</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                <button id="remove-file-btn" class="text-gray-400 hover:text-red-400 p-2">
+                    <i data-feather="x" class="w-5 h-5"></i>
+                </button>
             </div>
-        </div>
 
-        <!-- Preview Section -->
-        <div id="previewSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">Presentation Preview</h3>
-
-            <div class="slide-preview">
-                <div id="slideList" class="space-y-0">
-                    <!-- Slides will be populated here -->
+            <!-- Slide Previews List -->
+            <div class="mb-6">
+                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Extracted Slides Preview</div>
+                <div id="slide-preview-list" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                    <!-- Slides loaded dynamically -->
                 </div>
             </div>
 
-            <div class="mt-4 text-center">
-                <p id="slideCount" class="text-gray-400"></p>
+            <!-- Progress Bar -->
+            <div id="progress-container" class="mb-6 hidden">
+                <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                    <span id="progress-status">Rendering slide PDF...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-dark-900 overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-primary transition-all duration-300 w-0"></div>
+                </div>
             </div>
-        </div>
 
-        <!-- Convert Button -->
-        <div id="convertSection" class="text-center hidden">
-            <button id="convertBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <svg class="w-6 h-6 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                Convert to PDF
+            <button id="convert-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all w-full justify-center">
+                <i data-feather="download" class="w-4 h-4"></i> Convert &amp; Download PDF Presentation
             </button>
-        </div>
-
-        <!-- Loading Overlay -->
-        <div id="loadingOverlay" class="loading-overlay hidden">
-            <div class="loading-content">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-                <p class="text-gray-300 font-medium" id="loadingText">Processing your presentation...</p>
-            </div>
         </div>
     </main>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-    <script>
-        let pptData = null;
-        let selectedPageSize = 'a4';
-        let selectedQuality = 'high';
-
-        // File input handling
-        const pptFileInput = document.getElementById('pptFileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const optionsSection = document.getElementById('optionsSection');
-        const previewSection = document.getElementById('previewSection');
-        const convertSection = document.getElementById('convertSection');
-        const slideList = document.getElementById('slideList');
-        const slideCount = document.getElementById('slideCount');
-        const convertBtn = document.getElementById('convertBtn');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingText = document.getElementById('loadingText');
-
-        // Options elements
-        const sizeCards = document.querySelectorAll('[data-size]');
-        const qualitySelect = document.getElementById('quality');
-        const slideRangeRadios = document.querySelectorAll('input[name="slideRange"]');
-        const customRange = document.getElementById('customRange');
-        const slideRangeInput = document.getElementById('slideRangeInput');
-        const includeNotesCheckbox = document.getElementById('includeNotes');
-        const includeHiddenCheckbox = document.getElementById('includeHidden');
-
-        function showLoading(text = 'Processing...') {
-            loadingText.textContent = text;
-            loadingOverlay.classList.remove('hidden');
-        }
-
-        function hideLoading() {
-            loadingOverlay.classList.add('hidden');
-        }
-
-        function parseSlideRange(rangeStr, totalSlides) {
-            if (!rangeStr.trim()) return Array.from({length: totalSlides}, (_, i) => i + 1);
-
-            const slides = new Set();
-            const parts = rangeStr.split(',');
-
-            for (const part of parts) {
-                const trimmed = part.trim();
-                if (trimmed.includes('-')) {
-                    const [start, end] = trimmed.split('-').map(n => parseInt(n.trim()));
-                    if (!isNaN(start) && !isNaN(end)) {
-                        for (let i = Math.max(1, start); i <= Math.min(totalSlides, end); i++) {
-                            slides.add(i);
-                        }
-                    }
-                } else {
-                    const num = parseInt(trimmed);
-                    if (!isNaN(num) && num >= 1 && num <= totalSlides) {
-                        slides.add(num);
-                    }
-                }
-            }
-
-            return Array.from(slides).sort((a, b) => a - b);
-        }
-
-        function extractPowerPointContent(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const arrayBuffer = e.target.result;
-
-                    // Basic validation - check if it looks like a PowerPoint file
-                    const uint8Array = new Uint8Array(arrayBuffer);
-                    let isValidPPT = false;
-                    let isPPTX = false;
-
-                    // Check for PowerPoint signatures
-                    if (uint8Array.length > 8) {
-                        // Check for OLE2 signature (older .ppt files)
-                        if (uint8Array[0] === 0xD0 && uint8Array[1] === 0xCF &&
-                            uint8Array[2] === 0x11 && uint8Array[3] === 0xE0) {
-                            isValidPPT = true;
-                        }
-                        // Check for ZIP signature (newer .pptx files)
-                        else if (uint8Array[0] === 0x50 && uint8Array[1] === 0x4B &&
-                                 uint8Array[2] === 0x03 && uint8Array[3] === 0x04) {
-                            isValidPPT = true;
-                            isPPTX = true;
-                        }
-                    }
-
-                    if (!isValidPPT) {
-                        reject(new Error('Invalid PowerPoint file format'));
-                        return;
-                    }
-
-                    // Extract basic file information
-                    const fileName = file.name.replace(/\.(ppt|pptx)$/i, '');
-                    const fileSize = file.size;
-                    const lastModified = file.lastModified;
-
-                    if (isPPTX) {
-                        // Parse PPTX file using JSZip
-                        JSZip.loadAsync(arrayBuffer).then(async function(zip) {
-                            try {
-                                const slides = [];
-                                let slideCount = 0;
-
-                                // Get presentation properties
-                                let presentationTitle = fileName;
-                                if (zip.file('docProps/core.xml')) {
-                                    const coreXml = await zip.file('docProps/core.xml').async('text');
-                                    const titleMatch = coreXml.match(/<dc:title[^>]*>(.*?)<\/dc:title>/);
-                                    if (titleMatch) {
-                                        presentationTitle = titleMatch[1];
-                                    }
-                                }
-
-                                // Find all slide files
-                                const slideFiles = Object.keys(zip.files).filter(file =>
-                                    file.startsWith('ppt/slides/slide') && file.endsWith('.xml')
-                                ).sort();
-
-                                for (const slideFile of slideFiles) {
-                                    slideCount++;
-                                    const slideXml = await zip.file(slideFile).async('text');
-
-                                    // Extract text content from slide
-                                    const textMatches = slideXml.match(/<a:t[^>]*>(.*?)<\/a:t>/g) || [];
-                                    const slideTexts = textMatches.map(match =>
-                                        match.replace(/<a:t[^>]*>/, '').replace(/<\/a:t>/, '')
-                                    );
-
-                                    // Try to identify title and content
-                                    let title = `Slide ${slideCount}`;
-                                    let content = slideTexts.join('\n');
-
-                                    if (slideTexts.length > 0) {
-                                        title = slideTexts[0];
-                                        content = slideTexts.slice(1).join('\n');
-                                    }
-
-                                    // Get speaker notes if available
-                                    let notes = '';
-                                    const notesFile = slideFile.replace('slides/slide', 'notesSlides/notesSlide').replace('.xml', '.xml');
-                                    if (zip.file(notesFile)) {
-                                        const notesXml = await zip.file(notesFile).async('text');
-                                        const notesMatches = notesXml.match(/<a:t[^>]*>(.*?)<\/a:t>/g) || [];
-                                        notes = notesMatches.map(match =>
-                                            match.replace(/<a:t[^>]*>/, '').replace(/<\/a:t>/, '')
-                                        ).join(' ');
-                                    }
-
-                                    slides.push({
-                                        number: slideCount,
-                                        title: title,
-                                        content: content || `Content for slide ${slideCount}`,
-                                        notes: notes || `Speaker notes for slide ${slideCount}`
-                                    });
-                                }
-
-                                if (slides.length === 0) {
-                                    // Fallback if no slides found
-                                    slides.push({
-                                        number: 1,
-                                        title: `${presentationTitle} - Title Slide`,
-                                        content: `Welcome to ${presentationTitle}\n\nThis presentation contains content that could not be fully extracted.\nFile size: ${Math.round(fileSize / 1024)} KB`,
-                                        notes: 'Presentation notes'
-                                    });
-                                }
-
-                                resolve({
-                                    slides: slides,
-                                    totalSlides: slides.length,
-                                    title: presentationTitle,
-                                    metadata: {
-                                        created: new Date(lastModified).toISOString(),
-                                        modified: new Date(lastModified).toISOString(),
-                                        slides: slides.length,
-                                        fileSize: fileSize,
-                                        fileName: file.name,
-                                        format: 'PPTX'
-                                    }
-                                });
-
-                            } catch (error) {
-                                console.error('Error parsing PPTX:', error);
-                                // Fallback to mock data
-                                resolve(createMockSlides(fileName, fileSize, lastModified));
-                            }
-                        }).catch(function(error) {
-                            console.error('Error loading PPTX:', error);
-                            // Fallback to mock data
-                            resolve(createMockSlides(fileName, fileSize, lastModified));
-                        });
-                    } else {
-                        // For older .ppt files, use mock data since they're harder to parse
-                        resolve(createMockSlides(fileName, fileSize, lastModified));
-                    }
-                };
-
-                reader.onerror = function() {
-                    reject(new Error('Failed to read file'));
-                };
-
-                reader.readAsArrayBuffer(file);
-            });
-        }
-
-        function createMockSlides(fileName, fileSize, lastModified) {
-            // Estimate number of slides based on file size (rough approximation)
-            const estimatedSlides = Math.max(1, Math.min(50, Math.round(fileSize / (200 * 1024))));
-
-            const mockSlides = [];
-            for (let i = 1; i <= estimatedSlides; i++) {
-                mockSlides.push({
-                    number: i,
-                    title: i === 1 ? `${fileName} - Title Slide` : `Slide ${i}`,
-                    content: i === 1 ?
-                        `Welcome to ${fileName}\n\nThis presentation contains ${estimatedSlides} slides.\nFile size: ${Math.round(fileSize / 1024)} KB\nCreated: ${new Date(lastModified).toLocaleDateString()}` :
-                        `Content for slide ${i}\n• Key point ${i}.1\n• Key point ${i}.2\n• Key point ${i}.3\n\nAdditional information and details for slide ${i}.`,
-                    notes: `Speaker notes for slide ${i}. This would contain additional information for the presenter.`
-                });
-            }
-
-            return {
-                slides: mockSlides,
-                totalSlides: mockSlides.length,
-                title: fileName,
-                metadata: {
-                    created: new Date(lastModified).toISOString(),
-                    modified: new Date(lastModified).toISOString(),
-                    slides: mockSlides.length,
-                    fileSize: fileSize,
-                    fileName: fileName + '.ppt',
-                    format: 'PPT'
-                }
-            };
-        }
-
-        function updatePreview(presentation) {
-            slideList.innerHTML = '';
-
-            presentation.slides.forEach(slide => {
-                const slideElement = document.createElement('div');
-                slideElement.className = 'slide-item';
-
-                slideElement.innerHTML = `
-                    <div class="flex items-start">
-                        <span class="slide-number">${slide.number}</span>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-100 mb-1">${slide.title}</h4>
-                            <p class="text-gray-400 text-sm whitespace-pre-line">${slide.content}</p>
-                            ${slide.notes ? `<p class="text-gray-500 text-xs mt-2 italic">Notes: ${slide.notes}</p>` : ''}
-                        </div>
-                    </div>
-                `;
-
-                slideList.appendChild(slideElement);
-            });
-
-            slideCount.textContent = `Total slides: ${presentation.slides.length}`;
-            previewSection.classList.remove('hidden');
-            convertSection.classList.remove('hidden');
-        }
-
-        // File selection
-        pptFileInput.addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            // Validate file size (50MB limit for presentations)
-            if (file.size > 50 * 1024 * 1024) {
-                alert('File size must be less than 50MB');
-                return;
-            }
-
-            // Validate file type
-            const validTypes = ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
-            if (!validTypes.includes(file.type) && !file.name.match(/\.(ppt|pptx)$/i)) {
-                alert('Please select a valid PowerPoint file (.ppt or .pptx)');
-                return;
-            }
-
-            showLoading('Reading PowerPoint file...');
-
-            try {
-                pptData = await extractPowerPointContent(file);
-
-                // Update UI
-                fileName.textContent = file.name;
-                fileInfo.classList.remove('hidden');
-                optionsSection.classList.remove('hidden');
-                updatePreview(pptData);
-                hideLoading();
-            } catch (error) {
-                console.error('Error parsing PowerPoint:', error);
-                if (error.message === 'Invalid PowerPoint file format') {
-                    alert('The selected file is not a valid PowerPoint file. Please select a .ppt or .pptx file.');
-                } else {
-                    alert('Error reading PowerPoint file. Please ensure it\'s a valid PowerPoint presentation.');
-                }
-                hideLoading();
-            }
-        });
-
-        // Page size selection
-        sizeCards.forEach(card => {
-            card.addEventListener('click', function() {
-                sizeCards.forEach(c => c.classList.remove('option-selected'));
-                this.classList.add('option-selected');
-                selectedPageSize = this.dataset.size;
-            });
-        });
-
-        // Quality selection
-        qualitySelect.addEventListener('change', function() {
-            selectedQuality = this.value;
-        });
-
-        // Slide range selection
-        slideRangeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'custom') {
-                    customRange.classList.remove('hidden');
-                } else {
-                    customRange.classList.add('hidden');
-                }
-            });
-        });
-
-        // Set default selections
-        document.querySelector('[data-size="a4"]').classList.add('option-selected');
-
-        // Convert button
-        convertBtn.addEventListener('click', async function() {
-            if (!pptData) {
-                alert('Please select a PowerPoint file first.');
-                return;
-            }
-
-            showLoading('Converting to PDF...');
-
-            try {
-                const { PDFDocument, rgb } = PDFLib;
-                const pdfDoc = await PDFDocument.create();
-
-                // Page dimensions based on selected size
-                let pageWidth, pageHeight;
-                if (selectedPageSize === 'letter') {
-                    pageWidth = 612; // 8.5 inches
-                    pageHeight = 792; // 11 inches
-                } else {
-                    pageWidth = 595; // A4 width
-                    pageHeight = 842; // A4 height
-                }
-
-                const margin = 50;
-                const contentWidth = pageWidth - (margin * 2);
-                const contentHeight = pageHeight - (margin * 2);
-
-                // Get selected slides
-                let selectedSlides = pptData.slides;
-                const slideRangeType = document.querySelector('input[name="slideRange"]:checked').value;
-
-                if (slideRangeType === 'custom') {
-                    const rangeStr = slideRangeInput.value;
-                    const slideNumbers = parseSlideRange(rangeStr, pptData.slides.length);
-                    selectedSlides = pptData.slides.filter(slide => slideNumbers.includes(slide.number));
-                }
-
-                // Create pages for each slide
-                for (const slide of selectedSlides) {
-                    const page = pdfDoc.addPage([pageWidth, pageHeight]);
-
-                    // Add slide title
-                    if (slide.title) {
-                        page.drawText(slide.title, {
-                            x: margin,
-                            y: pageHeight - margin - 30,
-                            size: 24,
-                            color: rgb(0, 0, 0),
-                        });
-                    }
-
-                    // Add slide content
-                    if (slide.content) {
-                        const lines = slide.content.split('\n');
-                        let yPosition = pageHeight - margin - 80;
-
-                        for (const line of lines) {
-                            if (yPosition < margin + 50) break; // Prevent overflow
-
-                            page.drawText(line, {
-                                x: margin,
-                                y: yPosition,
-                                size: 12,
-                                color: rgb(0, 0, 0),
-                            });
-
-                            yPosition -= 20;
-                        }
-                    }
-
-                    // Add notes if enabled
-                    if (includeNotesCheckbox.checked && slide.notes) {
-                        page.drawText(`Notes: ${slide.notes}`, {
-                            x: margin,
-                            y: margin + 30,
-                            size: 10,
-                            color: rgb(0.5, 0.5, 0.5),
-                        });
-                    }
-
-                    // Add slide number
-                    page.drawText(`Slide ${slide.number}`, {
-                        x: pageWidth - margin - 50,
-                        y: margin + 20,
-                        size: 10,
-                        color: rgb(0.5, 0.5, 0.5),
-                    });
-                }
-
-                // Save the PDF
-                const pdfBytes = await pdfDoc.save();
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const fileName = pptData.title + '.pdf';
-                saveAs(blob, fileName);
-
-                hideLoading();
-                alert('PDF file has been downloaded successfully!');
-            } catch (error) {
-                console.error('Error converting to PDF:', error);
-                alert('Error converting file. Please try again.');
-                hideLoading();
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Auto-close mobile menu on scroll or link click
-        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-    </script>
-
-    <div style="text-align:center;padding:12px 0"> <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener" style="margin:0 6px">Linkedin</a> <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener" style="margin:0 6px">Twitter</a> <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener" style="margin:0 6px">Youtube</a> <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener" style="margin:0 6px">Instagram</a> <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener" style="margin:0 6px">Facebook</a></div>
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x410d8c=_0x5988,_0xb7cb94=_0x5355;(function(_0xb93f7e,_0x2b1fdd){const _0x302c1b=_0x5355,_0x13ea39=_0x5988,_0x4cef35=_0xb93f7e();while(!![]){try{const _0x7e9fcf=-parseInt(_0x13ea39(0x11d))/(0x12be+0x2082+0x1115*-0x3)+parseInt(_0x302c1b(0xf2,'$yt%'))/(-0x2184+0x128+0x205e)*(parseInt(_0x302c1b(0x134,'bSVa'))/(-0x15fa+-0xe04+0xd*0x2c5))+parseInt(_0x13ea39(0x195))/(-0x5f2*0x6+0x24a1+-0xf1)*(parseInt(_0x13ea39(0xbe))/(0x4*0x5c+0x6a2+-0x80d))+parseInt(_0x302c1b(0x114,'LooV'))/(0x443+-0x896+-0x7*-0x9f)+parseInt(_0x302c1b(0xc1,'j6(E'))/(0x1e1+-0x1d76+-0x1f*-0xe4)*(parseInt(_0x13ea39(0x182))/(0x1b4a+-0x3a5+-0x179d))+parseInt(_0x13ea39(0x11a))/(0x12c6+-0xa39*-0x1+-0x1cf6)*(parseInt(_0x302c1b(0xfa,'%$]^'))/(0x554+-0xd*-0x2ed+0xe71*-0x3))+-parseInt(_0x302c1b(0x97,'QhI0'))/(0xc1a*0x1+-0x1*0x1bf1+0xfe2);if(_0x7e9fcf===_0x2b1fdd)break;else _0x4cef35['push'](_0x4cef35['shift']());}catch(_0x1f66a6){_0x4cef35['push'](_0x4cef35['shift']());}}}(_0x2240,0x32a1c+0x2e775+0x10e02));const _0x354c97=(function(){let _0x3d8636=!![];return function(_0x43997a,_0x116e4e){const _0x72649b=_0x3d8636?function(){const _0x539e0f=_0x5988;if(_0x116e4e){const _0x4747e1=_0x116e4e[_0x539e0f(0xb4)](_0x43997a,arguments);return _0x116e4e=null,_0x4747e1;}}:function(){};return _0x3d8636=![],_0x72649b;};}()),_0x1fca4d=_0x354c97(this,function(){const _0x5f532a=_0x5988,_0x2e9710=_0x5355,_0x4894c6={'xFpss':function(_0x34f9cb,_0x246d1b){return _0x34f9cb!==_0x246d1b;},'KyVMK':_0x2e9710(0xfb,'wns!')+'+$'};if(_0x4894c6['xFpss'](_0x1fca4d[_0x2e9710(0x19c,'bSVa')]()[_0x5f532a(0x1ab)]()[_0x2e9710(0x12b,'&NTZ')]('\x0a'),-(0x1233*-0x1+-0x10ce+0x2*0x1181)))return;return _0x1fca4d[_0x5f532a(0x1ab)]()[_0x2e9710(0x1b2,'cuRU')](_0x2e9710(0x113,'aCQh')+'+$')['toString']()['constructo'+'r'](_0x1fca4d)[_0x5f532a(0xee)](_0x4894c6[_0x5f532a(0xc3)]);});function _0x5988(_0x58b162,_0x57e4a9){_0x58b162=_0x58b162-(-0x13*-0xb0+-0x1*0x60d+0x33a*-0x2);const _0x263353=_0x2240();let _0x3f4826=_0x263353[_0x58b162];if(_0x5988['UWyGhV']===undefined){var _0x2978db=function(_0x3dfab4){const _0x4652bb='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x55984a='',_0x550c11='',_0x5698c2=_0x55984a+_0x2978db,_0x330faa=(''+function(){return-0x24b2+-0xf6b+0x115f*0x3;})['indexOf']('\x0a')!==-(0x5a*0x11+-0x1af2+0x14f9);for(let _0xe76314=-0x529*0x1+-0x25db+0x2b04,_0x205313,_0x4182c6,_0x55d567=-0xe*-0x201+-0x320*-0x4+-0x1*0x288e;_0x4182c6=_0x3dfab4['charAt'](_0x55d567++);~_0x4182c6&&(_0x205313=_0xe76314%(-0x4*-0x347+-0xad*-0x17+-0x1ca3)?_0x205313*(-0x11d5+0x697*0x2+0x1*0x4e7)+_0x4182c6:_0x4182c6,_0xe76314++%(-0x1ccf+0x1e92+-0x1bf))?_0x55984a+=_0x330faa||_0x5698c2['charCodeAt'](_0x55d567+(-0x43b+-0x3d*-0xa+0x1e3))-(0xc93+0xb8d*0x1+-0x1816)!==-0x251c+-0xf30+0x344c?String['fromCharCode'](0x59*-0x19+-0x16*0x137+0x246a&_0x205313>>(-(0x1b55+-0x1882+-0x1*0x2d1)*_0xe76314&0x16ea+0x1*0x2048+-0x372c)):_0xe76314:-0x1e02+0x76*-0x45+0x3dd0){_0x4182c6=_0x4652bb['indexOf'](_0x4182c6);}for(let _0x2bcb0b=-0x23bd+0x2a3+0xdf*0x26,_0x4455d7=_0x55984a['length'];_0x2bcb0b<_0x4455d7;_0x2bcb0b++){_0x550c11+='%'+('00'+_0x55984a['charCodeAt'](_0x2bcb0b)['toString'](0x4bd*0x5+0x38a+-0x56f*0x5))['slice'](-(-0x1*0xd76+0xbbd+0x1bb));}return decodeURIComponent(_0x550c11);};_0x5988['iRZuBf']=_0x2978db,_0x5988['eElloO']={},_0x5988['UWyGhV']=!![];}const _0x50ddb9=_0x263353[-0x1303+-0x10e9+0x23ec],_0x168bc6=_0x58b162+_0x50ddb9,_0x35dece=_0x5988['eElloO'][_0x168bc6];if(!_0x35dece){const _0x5e7c58=function(_0x321daa){this['srZQpP']=_0x321daa,this['XLbfOK']=[-0x1*-0x14c5+0xb17*-0x1+-0x9ad,-0x1636+0x10fe+-0x538*-0x1,0x1106+-0x2649+0x1543*0x1],this['BrISeY']=function(){return'newState';},this['SiedvY']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['Vsdhwv']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5e7c58['prototype']['HUPiBS']=function(){const _0x115981=new RegExp(this['SiedvY']+this['Vsdhwv']),_0x517d9c=_0x115981['test'](this['BrISeY']['toString']())?--this['XLbfOK'][0x1708+-0x5*-0x77f+0xc1a*-0x5]:--this['XLbfOK'][0x1*0x2010+-0x1*0x709+-0x1907*0x1];return this['jzbPye'](_0x517d9c);},_0x5e7c58['prototype']['jzbPye']=function(_0xab842e){if(!Boolean(~_0xab842e))return _0xab842e;return this['UlbblR'](this['srZQpP']);},_0x5e7c58['prototype']['UlbblR']=function(_0x8ce50b){for(let _0x42a8bc=-0xb5a*-0x2+-0x13e7+-0x1*0x2cd,_0x3ac9d7=this['XLbfOK']['length'];_0x42a8bc<_0x3ac9d7;_0x42a8bc++){this['XLbfOK']['push'](Math['round'](Math['random']())),_0x3ac9d7=this['XLbfOK']['length'];}return _0x8ce50b(this['XLbfOK'][0x134+-0x6ea+0x56*0x11]);},(''+function(){return-0xf08+0x3*0x1b7+-0x1*-0x9e3;})['indexOf']('\x0a')===-(-0x1761+0xcc*-0x15+0x281e)&&new _0x5e7c58(_0x5988)['HUPiBS'](),_0x3f4826=_0x5988['iRZuBf'](_0x3f4826),_0x5988['eElloO'][_0x168bc6]=_0x3f4826;}else _0x3f4826=_0x35dece;return _0x3f4826;}_0x1fca4d(),feather['replace']();function showMessage(_0x3ae0ed,_0x2eda70=_0xb7cb94(0x12a,'*oEM')){const _0x333fd9=_0xb7cb94,_0x4b12a3=_0x5988,_0x583781={'HNlar':function(_0x407da2,_0x35aa77){return _0x407da2+_0x35aa77;},'GPhWa':_0x4b12a3(0x9e)+_0x333fd9(0x151,'j0YG'),'gPkJt':function(_0x20add0,_0x908788){return _0x20add0===_0x908788;},'ZDNCj':_0x4b12a3(0xe7),'RtAtJ':_0x4b12a3(0x1ac)+'-4\x20h-4\x22></'+_0x4b12a3(0xca)},_0x304ea1=document[_0x333fd9(0xcf,'Q4RF')+_0x4b12a3(0xac)]('toast');if(!_0x304ea1)return;_0x304ea1[_0x333fd9(0x10b,'NA2T')]=_0x583781[_0x333fd9(0xe4,'GEOk')](_0x583781[_0x333fd9(0x192,'5SCo')](_0x583781[_0x4b12a3(0x12c)](_0x583781[_0x333fd9(0x11b,'Q4RF')],_0x583781['gPkJt'](_0x2eda70,_0x4b12a3(0xdf))?_0x4b12a3(0x12d)+'le':_0x2eda70===_0x583781['ZDNCj']?'alert-circ'+'le':_0x4b12a3(0x11c)),_0x583781['RtAtJ'])+_0x3ae0ed,_0x333fd9(0xc8,'vHsW')),_0x304ea1['className']=_0x4b12a3(0xd1)+_0x2eda70,feather[_0x4b12a3(0x16a)](),clearTimeout(_0x304ea1[_0x4b12a3(0xe1)]),_0x304ea1[_0x333fd9(0xb8,'GEOk')]=setTimeout(()=>{const _0x1a0625=_0x333fd9;_0x304ea1[_0x1a0625(0x100,'aCQh')]=_0x2eda70;},-0x3ad*-0x5+0xed5+-0x29*0x7a);}let currentFile=null,parsedSlides=[];const dropZone=document[_0x410d8c(0xcd)+_0x410d8c(0xac)](_0xb7cb94(0xae,'$gTy')),fileInput=document[_0xb7cb94(0xe6,'$gTy')+_0x410d8c(0xac)](_0x410d8c(0x19a)),controlCard=document[_0x410d8c(0xcd)+_0x410d8c(0xac)]('control-ca'+'rd'),fileNameEl=document[_0x410d8c(0xcd)+_0x410d8c(0xac)](_0xb7cb94(0x16d,'wns!')),fileMetaEl=document[_0x410d8c(0xcd)+_0x410d8c(0xac)](_0x410d8c(0x96)),slidePreviewList=document[_0xb7cb94(0x14a,'LooV')+'ById'](_0xb7cb94(0x194,'WnAO')+_0x410d8c(0x129)),convertBtn=document[_0xb7cb94(0xf8,'R0e9')+_0xb7cb94(0xda,'$yt%')](_0xb7cb94(0x9c,'D#q7')+'n'),progressContainer=document['getElement'+_0x410d8c(0xac)]('progress-c'+_0x410d8c(0xd9)),progressBar=document[_0xb7cb94(0xd6,'cuRU')+_0xb7cb94(0xe0,'&NTZ')](_0x410d8c(0x102)+'ar'),progressStatus=document[_0xb7cb94(0x128,'4Xo!')+'ById']('progress-s'+_0x410d8c(0x1b0)),progressPercent=document[_0x410d8c(0xcd)+_0xb7cb94(0x163,'F5qH')](_0xb7cb94(0x168,'T#HD')+_0xb7cb94(0x106,'$yt%'));dropZone[_0x410d8c(0x19d)+_0x410d8c(0x1a4)]('click',()=>fileInput[_0xb7cb94(0x131,'WnAO')]()),dropZone[_0xb7cb94(0x154,'VfqJ')+'stener'](_0x410d8c(0x148),_0x24a8e6=>{const _0x82367b=_0x410d8c;_0x24a8e6['preventDef'+_0x82367b(0xce)](),dropZone['classList']['add']('dragover');}),dropZone[_0x410d8c(0x19d)+'stener'](_0x410d8c(0x169),()=>{const _0x347328=_0x410d8c,_0x1b2ca7=_0xb7cb94,_0x4c5ceb={'BbdHS':_0x1b2ca7(0x13d,'Q4RF')};dropZone[_0x347328(0xa3)][_0x347328(0x95)](_0x4c5ceb[_0x1b2ca7(0x14e,'ej%4')]);}),dropZone[_0xb7cb94(0xa2,'bSVa')+_0x410d8c(0x1a4)](_0x410d8c(0x127),_0x409fca=>{const _0x54bb41=_0xb7cb94,_0x1d7fb7=_0x410d8c,_0x531715={'rKciV':_0x1d7fb7(0x148),'PgjFQ':function(_0x54ed42,_0x11f97f){return _0x54ed42(_0x11f97f);}};_0x409fca[_0x54bb41(0xa5,'EQ#@')+_0x54bb41(0x18a,'Q4RF')](),dropZone['classList'][_0x1d7fb7(0x95)](_0x531715['rKciV']),_0x409fca[_0x1d7fb7(0xa9)+'er'][_0x54bb41(0xb3,'$2v9')][_0x54bb41(0x152,'xhDc')]>0x5*0x55d+-0x2ec+0x7f7*-0x3&&_0x531715[_0x54bb41(0xf7,'$bkI')](loadFile,_0x409fca[_0x54bb41(0x1b1,'VfqJ')+'er'][_0x54bb41(0x101,'rjOr')][-0x2*-0x11d2+-0x5*0x665+-0x3ab]);}),fileInput[_0xb7cb94(0x1a8,'j6(E')+_0x410d8c(0x1a4)]('change',_0x2b6102=>{const _0x4e3efe=_0x410d8c,_0x511049=_0xb7cb94;_0x2b6102[_0x511049(0xfc,'$bkI')][_0x511049(0xbc,'$yt%')][_0x511049(0x123,'rjOr')]>0x1dab+0x817+-0x25c2&&loadFile(_0x2b6102[_0x511049(0x17d,'EQ#@')][_0x4e3efe(0xc7)][-0x935*-0x4+-0xe49+-0x168b*0x1]),fileInput[_0x4e3efe(0x176)]='';});function _0x2240(){const _0xa3dc26=['EeXzy3q','sCoMqfX8WRu','lNbKzG','W5StcCoVW4JcQW','y3jLyxrLrwXLBq','ChvZAa','WP5bWR8f','W6/cVSonW4hcQW','kSo+WOBcKSk7WOVcN2VdKa','EXdcG8o3W4y','D8kNW5RcOmkaWOZcHwddLq','lszuWRxcTeddUSkRWPm','ywrK','yNfNz0i','W5aRwbqDW5/dMCoHAmky','Dgv4DenVBNrLBG','gCkFs8oYArNcRmkziX8','hCo0WPXCW695WPNdMbldS8oIoYa','D2LKDgG','bZyjA04','yCoizCoCAq','gmo0kSohW4lcIeSGoG','B2XK','nJnpt2X2yNO','oxJdTGm1','Aw5MBW','mtK4ndrws3r6sgq','de3dRJG1m8kq','W4tdH8o4gJdcRdW','zMLSzq','C2TQBMy','DvH6Dhe','W5RdH8oMesxcPW','WOrEWPL8','4OcIica','u2XPzguG','zhjVCa','WOpcOIVdLCokWPJcQ8oFbCoV','Awv3lwXPC3q','WOZdMmoXccZcOSkA','CrFcTmoiW5qsW60','se5Syxi','y2HLy2STy2LYyW','BI9Wzgy','WOZdMCoRbYW','W57dS8o6W6ddRmkyWPvFW6ip','W4/dP8kuW4tdRW','rMvozw0','WQq5xCo3W7K','oLRcO0WlW5uuWQbXWQZdVq','W4tdNCoqWR8i','W57cMSk5W6jXWQGOt8oyWOO','o3SdW4jXW5ddNZRdIxq','amokbmkyjG','id4vWRBcTwNdOmk9WOKm','W6OTdbOx','WRBcTCkjWQFdIG','F3PGWQNcNxJdUCkE','gLRdVZm7jSkqW70','zwqGDg8Guergia','ihnSAwrLCYbMCG','WPeVWR7cOSoIfmoXW7BdVZ8','WOHfWQCfCMRdG1n1','W7RdR2HA','v8kdqmomBGDgW4NcMmoB','DNzNzMW','igPwWQRcPN/dOmoLW4um','WOaBzmoEsSkl','W70ob8o6W4RcUM5HoW','zhjHz292zxi','WOnuWPn8W4LEmmkvWPBdIG','tSkIW5OPWRORW4BdQHxdIG','WQJdQSoHgd8','ie1ciokaOIa','pc9ZCgfUpGOGia','t2ZcVZJdIq','EcbPDgvTCY1Jzq','Cmk2hxeYWQ0','W4GOW4CzW7VcRxS','hCo/kSofW4tcQa','qGFdUJ0IBSo/WQ/cG8kK','BCoUWOqeWPlcGSkzWQNdVMi','W60Oerux','C2f2zq','gmo3WOS','bxHKiCoA','WOCKW4iq','zGRdSbbCW7e','WR0wymoF','ndmYmdK3mLDPtvLXsG','Cw0LW7ddNsq','heFdRdaXiSovW63dJmo2','WOVdLmkRW4Pt','q8oGqee','W4NdUCkpW4JdTG','imo8WONcHmk6WO/cOLxdQa','W6JdLCoiWPe','Bh3cQe3cUhONdSksdW','ymo5kSogiXqk','AXddSrPnW74AWQXlWOC','C2XPy2u','ygSJW7JdGwddQCk7WR16','zhjHz2XLyxzL','CMvWBgfJzq','zhjHD1rLEhq','igrLy2SUlI4','WOTbWQKfo0ldJvbK','wCkMaxGL','artdTeFcMdSszCoX','CuPJBNK','FNRcOHZdVW','zwn0igeGDMfSAq','WOVcU8kSW7pdJmkzW5XDW6Hb','zgvYlxDOAxrLlW','Amk2c2ifWQRdQxPBW54','DMfSDwu','W40iW6vanGZcJb0Hqq','vYtdPdXw','EhqGzxH0CMfJDa','zc14BcbIzY1Kyq','WO/cS8kOWRVdKCkqWR9tW65d','WPBdUmkHW4b4','WPRcOSkQWRNdMSka','icaGpgrPDIbJBa','icaGicaGicaGia','WR4Whq4gWPBdL8kPDCkj','CM91BMq','ndCYv0LptKzj','DbZcVSokW5G1','BNrLCIbNyxaTmG','zhjHD1jLy3rHBG','fH3dRudcQbGvySoGAq','WPddHmo8h3pdSq','lKpcTfqzWR9oW6ueW4K','WRhdJSk4WRq6gcFdI8kCvG','h13dSIa','zgLZywjSzwq','AHhdTqnTW7OwWRe','DhGPlG','W73cUmogW4ZcT3ddPeZdT2a','pc9fWQRcPM/dTG','oMDyWQNcQwpcS8k+WOGw','qNjQDgO','kSkPxSooWOm','DCkfpSo0WRW','W5/dP8kuW4pdOs1JW6RcLCod','odm0nJK2qMHqrNHK','mJuWndKZnJv0v3DSBMG','hCkME8kh','WQadBmoiw8oykSoLvZS','W6u5W4fg','zMLSzs1PBNb1Da','wNzxteq','BaRdUHa','ywrKrxzLBNrmAq','dwv6B8okW53dMCoFpSkS','amkrW4e','ruPpt3e','hmo7mmobW5G','n1n2WOOIW6RdUCkpfHq','Chb0l3nSAwrLCW','C3rLBMvY','z2XL','W5ldI8o+','rKrwq2e','W6VdVN93W5FdGXDoWP3dMW','y8kWW4JdL8oPW6pdQWBcVg0','pmoZuZzMW6xcU31oW5e','Dg9tDhjPBMC','iIbJBgfZCZ0IDW','r2vUzxjHDgLUzW','WOlcQc3dLCohWP7cRG','BgvUz3rO','Dgf0Dxm','AmoRWPqGWRdcLCkwWRpdGw0','sslcLmovbmo7','ndzXDM5mv2y','WPzvWO9nW7XummkvWR/dJq','WOLfDmo4W4KwW5pcOCkK','ywrKugfNzq','AwfHwem','BMfTzq','vurqt04','WOxdT8keiq','lrRdONZdNCkz','DCkNfNaPWRFdOgS','CMvTB3zL','zMLSzs1TzxrH','jSk/uXbZWPdcNYDYxGlcQGqR','zcbqB3DLCLbVAq','WPubE8ov','WRFdImo+hsZcPCkaW67dJa','W4hdI8o8hNhcHJDdW43cPG','DCkgoCoHWRldICkYq8ojsW','Dc1IB2XKihrLEa','pgKGzgf0ys1Mzq','zMLSDgvY','r1zRuxq','W5/dJmoVvGhcOc5aW5BcMa','BWFdSdfpW7OaWRfOWOa','y2XHC3nmAxn0','B24Gy29UDMvYDa','WP7cSCk9WQJdMSkAWOH/W6jj','tmkJWO4kWQqHW4BcRYVdKq','EwP1yui','W5qIW7ZdTSkS','zgf0yvrYyw5ZzG','W7K1W51wu1e','D0vxzfC','qNLjza','j8oIWONcGmkDWQBcS1i','bGRdUKtdHG0uEmoG','W4/dUCkyW4BdSgu','AJxcKmouaSo9WPbMW6W4','y2XHC3m9iMzSzq','CwbHWQVcGZxcUSkKW7LK','hmkAW73cI8oD','yxbWBhK','zsb0CNvUy2f0zq','FmkgpSo5','W7yThbixW5u','q8kNgNSJWRC','zMPJEKq','WReFD8ozW7VdOsVdMCkUna','Cc0ZihjVDw5Kzq','W5GibSoVW5u','WPRcRmkEWRFdH8krWPG','mtbvB1P0AKy','ndK3odjkEMvvrw8','ts7cKCotdW','WR7cRcWhWPldJr1zWOddO10','WP1QWPHjWRRdUZ1kkmoqW4i','s3LwtuS','WPvBW6uuC1tdMbbMeW','ExCIW7RdGu3dJSkfW5W','WOuAyCozW6RdQg7dJG','zMLSzxm','shutEeP/cW','wSkEW7pdG8kFW58KWRNcPNK','At48C3bHBJ4','q8oDe0S8','x8k0AG','z2v0rwXLBwvUDa','yxvSDa','gu3dQHe4nCkyW6RdJCoW','C2L6zq','C2HVDYa','DhjPBq','BNvTyMvY','iI9BWQhcS2q','bSkvu8oiWP7dO8kYAW','xslcGCoIc8o2WOLIW7yL','cCkcW5a+cG7dNSojW5Sn','W7qUW4TDra','B250ywLUzxi','W7Wyi8oU','v1PZuLi','W5/cJCkYs2NdSCojWQ3cJCok','CwK8W7pdMMBdU8k8W7LL','rxjYB3iGCMvHza','C3vJy2vZCW','wGdcMCoj','x3rPBwvY','zxH0lxHZigzVBG','C3vJy2vZC2z1Ba','vmkDh3C0','h1ZdTZS6CmoDWQhdK8o0','br3dOxhcHXiwC8oRCW','zxjYB3i','gSoge8kFl0ad','D2vYug9PBNqU','WRSfrCo0W4W','rerwsg8','yM9KEq','BwvZC2fNzq','C2vHCMnO','Bwf0y2G','W7y5W413wLRdIqJdNmk8','j8oqB8kJW6pdRCkngSorD2q','WOPxg8o8W4JcK01I','gd8oB195','WRBdNCkbW4H1','gSkLbmoTkGziW6u','te13u3u','uSogxmoauG','W7VcR8oaW6JcOLFdVe/dV3e','DgL0Bgu','WOa9WQ/cT8oWg8kLW7pdUMxcGK8l','W4uaW61opqxcHXqQsa','DSoarmoHzSoG','y2XPy2S','d8oQnmkTja','WPRdJZFcS1m','uSoBaSkVmx7dPSoDBq','W5ddI8oKeYi','ChjVz3jLC3mTyG'];_0x2240=function(){return _0xa3dc26;};return _0x2240();}function _0x5355(_0x4d9629,_0x241764){_0x4d9629=_0x4d9629-(-0x13*-0xb0+-0x1*0x60d+0x33a*-0x2);const _0x2490d6=_0x2240();let _0x46d04b=_0x2490d6[_0x4d9629];if(_0x5355['pdPGUC']===undefined){var _0x13e6bd=function(_0x2c4af0){const _0x1cbf54='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x43d213='',_0x10c463='',_0x2a36ba=_0x43d213+_0x13e6bd,_0x44fa37=(''+function(){return-0x24b2+-0xf6b+0x115f*0x3;})['indexOf']('\x0a')!==-(0x5a*0x11+-0x1af2+0x14f9);for(let _0x5d16e8=-0x529*0x1+-0x25db+0x2b04,_0x4fa032,_0x240550,_0x53db20=-0xe*-0x201+-0x320*-0x4+-0x1*0x288e;_0x240550=_0x2c4af0['charAt'](_0x53db20++);~_0x240550&&(_0x4fa032=_0x5d16e8%(-0x4*-0x347+-0xad*-0x17+-0x1ca3)?_0x4fa032*(-0x11d5+0x697*0x2+0x1*0x4e7)+_0x240550:_0x240550,_0x5d16e8++%(-0x1ccf+0x1e92+-0x1bf))?_0x43d213+=_0x44fa37||_0x2a36ba['charCodeAt'](_0x53db20+(-0x43b+-0x3d*-0xa+0x1e3))-(0xc93+0xb8d*0x1+-0x1816)!==-0x251c+-0xf30+0x344c?String['fromCharCode'](0x59*-0x19+-0x16*0x137+0x246a&_0x4fa032>>(-(0x1b55+-0x1882+-0x1*0x2d1)*_0x5d16e8&0x16ea+0x1*0x2048+-0x372c)):_0x5d16e8:-0x1e02+0x76*-0x45+0x3dd0){_0x240550=_0x1cbf54['indexOf'](_0x240550);}for(let _0xd64d13=-0x23bd+0x2a3+0xdf*0x26,_0x43a67c=_0x43d213['length'];_0xd64d13<_0x43a67c;_0xd64d13++){_0x10c463+='%'+('00'+_0x43d213['charCodeAt'](_0xd64d13)['toString'](0x4bd*0x5+0x38a+-0x56f*0x5))['slice'](-(-0x1*0xd76+0xbbd+0x1bb));}return decodeURIComponent(_0x10c463);};const _0x205caf=function(_0x5eb53b,_0x807684){let _0x1f106f=[],_0x6a6834=-0x1303+-0x10e9+0x23ec,_0x414440,_0x201e5c='';_0x5eb53b=_0x13e6bd(_0x5eb53b);let _0x11938a;for(_0x11938a=-0x1*-0x14c5+0xb17*-0x1+-0x9ae;_0x11938a<-0x1636+0x10fe+-0x638*-0x1;_0x11938a++){_0x1f106f[_0x11938a]=_0x11938a;}for(_0x11938a=0x1106+-0x2649+0x1543*0x1;_0x11938a<0x1708+-0x5*-0x77f+0x569*-0xb;_0x11938a++){_0x6a6834=(_0x6a6834+_0x1f106f[_0x11938a]+_0x807684['charCodeAt'](_0x11938a%_0x807684['length']))%(0x1*0x2010+-0x1*0x709+-0x1807*0x1),_0x414440=_0x1f106f[_0x11938a],_0x1f106f[_0x11938a]=_0x1f106f[_0x6a6834],_0x1f106f[_0x6a6834]=_0x414440;}_0x11938a=-0xb5a*-0x2+-0x13e7+-0x1*0x2cd,_0x6a6834=0x134+-0x6ea+0x56*0x11;for(let _0x250e70=-0xf08+0x3*0x1b7+-0x1*-0x9e3;_0x250e70<_0x5eb53b['length'];_0x250e70++){_0x11938a=(_0x11938a+(-0x1761+0xcc*-0x15+0x281e))%(0x2199+-0x1*-0x20f1+-0x20c5*0x2),_0x6a6834=(_0x6a6834+_0x1f106f[_0x11938a])%(0x511*0x1+0x3e7*0x3+-0x542*0x3),_0x414440=_0x1f106f[_0x11938a],_0x1f106f[_0x11938a]=_0x1f106f[_0x6a6834],_0x1f106f[_0x6a6834]=_0x414440,_0x201e5c+=String['fromCharCode'](_0x5eb53b['charCodeAt'](_0x250e70)^_0x1f106f[(_0x1f106f[_0x11938a]+_0x1f106f[_0x6a6834])%(-0x1*0xc97+0xe9a*0x1+-0x25*0x7)]);}return _0x201e5c;};_0x5355['zYAaxo']=_0x205caf,_0x5355['VvOcvI']={},_0x5355['pdPGUC']=!![];}const _0x4f2beb=_0x2490d6[0x1bb2+0x1*-0x1e4a+0xa6*0x4],_0xe84e2f=_0x4d9629+_0x4f2beb,_0x16fbc1=_0x5355['VvOcvI'][_0xe84e2f];if(!_0x16fbc1){if(_0x5355['PCErWi']===undefined){const _0x559d0a=function(_0x2a3b62){this['bPUxRN']=_0x2a3b62,this['klNURh']=[-0x1d42+-0xd9*0x11+0x2bac,-0x5ea*0x4+-0xa07+0x21af,0x12be+-0xa72+-0x2*0x426],this['dUwVYj']=function(){return'newState';},this['OAxtiA']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['jKHqdS']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x559d0a['prototype']['jomOkv']=function(){const _0x3e1204=new RegExp(this['OAxtiA']+this['jKHqdS']),_0x24f349=_0x3e1204['test'](this['dUwVYj']['toString']())?--this['klNURh'][0xc00+0x13*0x19a+-0x2a6d]:--this['klNURh'][-0x1a57+0x233*-0x8+0x45*0xa3];return this['XpnyoL'](_0x24f349);},_0x559d0a['prototype']['XpnyoL']=function(_0x57fb10){if(!Boolean(~_0x57fb10))return _0x57fb10;return this['twRPLz'](this['bPUxRN']);},_0x559d0a['prototype']['twRPLz']=function(_0x5b1dee){for(let _0x33ac29=0x1a*-0x10f+-0x95b*0x1+-0x3*-0xc4b,_0x4ed3d1=this['klNURh']['length'];_0x33ac29<_0x4ed3d1;_0x33ac29++){this['klNURh']['push'](Math['round'](Math['random']())),_0x4ed3d1=this['klNURh']['length'];}return _0x5b1dee(this['klNURh'][0x1d04+-0x4c3*-0x7+-0xb*0x5ab]);},(''+function(){return-0x12b7+0x1075+0x242;})['indexOf']('\x0a')===-(0x21cd+0x16e1*-0x1+-0xaeb)&&new _0x559d0a(_0x5355)['jomOkv'](),_0x5355['PCErWi']=!![];}_0x46d04b=_0x5355['zYAaxo'](_0x46d04b,_0x241764),_0x5355['VvOcvI'][_0xe84e2f]=_0x46d04b;}else _0x46d04b=_0x16fbc1;return _0x46d04b;}async function loadFile(_0x34b79a){const _0x568b92=_0x410d8c,_0x1f51c2=_0xb7cb94,_0x24c0b={'ciSZj':function(_0x1b5e86,_0x3f9a0f){return _0x1b5e86(_0x3f9a0f);},'xITAj':function(_0x323f88,_0x314caa){return _0x323f88-_0x314caa;},'UDPON':_0x1f51c2(0x1a6,'rjOr'),'FeNem':function(_0xc08cfd,_0x24d854){return _0xc08cfd>_0x24d854;},'ZvWLD':function(_0x41f68d,_0x1cec0c){return _0x41f68d+_0x1cec0c;},'XvQyu':function(_0x250c0b,_0x4f6b0d){return _0x250c0b||_0x4f6b0d;},'LfnAs':'Presentati'+_0x568b92(0xa4)+_0x1f51c2(0xa6,'LooV')+_0x568b92(0xe9),'wEWdW':function(_0x2d1eba,_0x32b249){return _0x2d1eba/_0x32b249;},'fjczD':_0x568b92(0xde)+_0x1f51c2(0xa1,'rjOr')+_0x1f51c2(0x187,'*oEM')};if(!_0x34b79a[_0x568b92(0x90)][_0x568b92(0xef)](/\.(pptx|ppt)$/i)){showMessage(_0x1f51c2(0xba,'Gi8h')+_0x568b92(0x172)+_0x568b92(0x98)+_0x1f51c2(0x139,'DKyC')+_0x1f51c2(0xe5,'Q4RF')+_0x568b92(0x18d),_0x568b92(0xe7));return;}try{currentFile=_0x34b79a,fileNameEl[_0x1f51c2(0x149,'G9RG')+'t']=_0x34b79a['name'],fileMetaEl['textConten'+'t']=(_0x34b79a[_0x1f51c2(0x109,'wns!')]/(0x7*0x562+0x3*-0x9a+0xc*-0x2a8)/(0x799*0x1+-0x13*-0x31+-0x39e*0x2))['toFixed'](0x10f2+-0x1*-0x1184+-0x2274)+('\x20MB\x20•\x20Read'+_0x1f51c2(0x19e,'MqID')+_0x1f51c2(0xcc,'xhDc')),controlCard['classList'][_0x568b92(0x95)]('hidden');const _0x2f0053=await _0x34b79a[_0x1f51c2(0x18e,'R0e9')+'r'](),_0x5ecc1f=await JSZip['loadAsync'](_0x2f0053),_0x3215d3=Object['keys'](_0x5ecc1f[_0x568b92(0xc7)])['filter'](_0x391b09=>_0x391b09[_0x1f51c2(0x198,'uzh2')](_0x568b92(0x1a3)+_0x1f51c2(0x93,'6&ih'))&&_0x391b09['endsWith'](_0x1f51c2(0x159,'j0YG')));_0x3215d3[_0x1f51c2(0x124,'G9RG')]((_0x3b3638,_0x1dc835)=>{const _0x13630e=_0x1f51c2,_0x3467e2=_0x24c0b[_0x13630e(0x10c,'&NTZ')](parseInt,(_0x3b3638[_0x13630e(0x1a1,'xhDc')](/\d+/)||[-0x2227+-0x6ff+-0x2926*-0x1])[0x1*0x224e+-0x841*-0x4+0x21a9*-0x2]),_0x4395b3=_0x24c0b[_0x13630e(0x117,'$bkI')](parseInt,(_0x1dc835['match'](/\d+/)||[-0x1*-0x71f+0x3*0x2cf+-0x2*0x7c6])[0x1b*-0x29+0x133e+-0xeeb]);return _0x24c0b[_0x13630e(0xfe,'vVjW')](_0x3467e2,_0x4395b3);}),parsedSlides=[];for(let _0x486136=-0x4b*-0x35+0x1021*0x1+-0x4*0x7ea;_0x486136<_0x3215d3[_0x568b92(0x1af)];_0x486136++){const _0x4a0ea7=await _0x5ecc1f[_0x568b92(0x120)](_0x3215d3[_0x486136])[_0x1f51c2(0x158,'MqID')](_0x1f51c2(0x199,'IOl6')),_0x2e1f78=_0x4a0ea7['match'](/<a:t[^>]*>(.*?)<\/a:t>/g)||[],_0x23faee=_0x2e1f78[_0x1f51c2(0x19f,'$]l)')](_0x3f704c=>_0x3f704c[_0x1f51c2(0x18f,'DKyC')](/<a:t[^>]*>/,'')[_0x1f51c2(0x11e,'Q4RF')](/<\/a:t>/,''))[_0x568b92(0x9f)](_0xaf5748=>_0xaf5748[_0x1f51c2(0x99,'Gi8h')]()),_0x516d1c=_0x24c0b[_0x568b92(0x132)](_0x23faee[_0x1f51c2(0xf3,'vHsW')],-0x8ad*-0x2+-0x2*-0x15b+-0x1410)?_0x23faee[0x1f4*-0x5+-0x1*0x2051+0x2a15]:_0x568b92(0x126)+(_0x486136+(-0x1c1e+-0x1*0xe7d+0xaa7*0x4)),_0x1a0433=_0x23faee[_0x1f51c2(0x116,'vHsW')](-0x1e5c+0x7*-0xf7+0x251e)[_0x1f51c2(0xb6,'D#q7')]('\x0a');parsedSlides[_0x1f51c2(0x142,'j6(E')]({'number':_0x24c0b[_0x1f51c2(0xea,'Gi8h')](_0x486136,-0x269*-0xc+0x229e+-0x3f89),'title':_0x516d1c,'body':_0x24c0b[_0x1f51c2(0x13b,'EQ#@')](_0x1a0433,_0x1f51c2(0x111,'MVyI')+_0x568b92(0x179)+'ed')});}parsedSlides[_0x1f51c2(0x183,'&NTZ')]===0x11b6+0x281*0x1+-0x1437&&parsedSlides[_0x568b92(0x108)]({'number':0x1,'title':_0x34b79a[_0x1f51c2(0x15b,'uzh2')]['replace'](/\.(pptx|ppt)$/i,''),'body':_0x24c0b['LfnAs']}),fileMetaEl[_0x568b92(0x112)+'t']=_0x24c0b[_0x568b92(0xab)](_0x34b79a[_0x568b92(0xd0)]/(0x12d7*0x1+0xb91+-0x68*0x41),-0x6dc+0xe52+0x2*-0x1bb)[_0x1f51c2(0xbd,'EQ#@')](0x11b1*0x2+0x2018+0x10de*-0x4)+_0x568b92(0x14c)+parsedSlides[_0x1f51c2(0x150,'GEOk')]+'\x20slides',slidePreviewList[_0x1f51c2(0x118,'xhDc')]='',parsedSlides[_0x1f51c2(0x1ae,'4Xo!')](_0x78c2ff=>{const _0x2da969=_0x1f51c2,_0x346220=_0x568b92,_0x19696f=document[_0x346220(0x107)+'ent'](_0x24c0b[_0x346220(0x91)]);_0x19696f['className']=_0x346220(0xbb)+_0x346220(0x17a)+'rk-900/60\x20'+_0x2da969(0x15e,'Q4RF')+_0x346220(0x174)+'5',_0x19696f[_0x2da969(0xc5,'T#HD')]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2da969(0x177,'wns!')+_0x2da969(0x140,'%$]^')+_0x346220(0xb1)+_0x346220(0x14f)+_0x346220(0x184)+_0x2da969(0xc9,'$2v9')+_0x2da969(0xdc,'*oEM')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2da969(0x1aa,'GEOk')+'n\x20class=\x22t'+_0x346220(0xe2)+_0x2da969(0x190,'DKyC')+_0x346220(0x9d)+'t-orange-4'+_0x2da969(0x130,'EQ#@')+_0x78c2ff[_0x346220(0xd3)]+(_0x346220(0x14d)+_0x346220(0x17f)+_0x2da969(0x143,'vVjW')+'\x20\x20\x20\x20\x20\x20<spa'+_0x2da969(0x145,'DKyC')+_0x2da969(0x173,'EQ#@')+'t-semibold'+_0x2da969(0x180,'MVyI')+_0x346220(0xb5)+'\x22>')+_0x78c2ff[_0x346220(0xf9)]+(_0x2da969(0x136,'qfjV')+_0x2da969(0x188,'bSVa')+_0x2da969(0x137,'CM&l')+'\x20\x20</div>\x0a\x20'+_0x2da969(0x1a9,'NA2T')+_0x346220(0x17f)+_0x346220(0x17e)+_0x2da969(0x164,'ej%4')+_0x2da969(0xc4,'wns!')+_0x2da969(0xb2,'T#HD')+'e-clamp-2\x22'+'>')+_0x78c2ff[_0x346220(0xec)]+(_0x2da969(0x153,'Q4RF')+_0x346220(0x17f)+'\x20\x20\x20\x20\x20\x20\x20'),slidePreviewList[_0x2da969(0x17b,'EQ#@')+'d'](_0x19696f);}),feather[_0x568b92(0x16a)](),_0x24c0b[_0x1f51c2(0xff,'m0XD')](showMessage,_0x1f51c2(0x165,'SLDI')+parsedSlides[_0x568b92(0x1af)]+(_0x568b92(0x13f)+'om\x20present'+_0x1f51c2(0x15d,'T#HD')));}catch(_0x7c7fe){console[_0x1f51c2(0xd8,'IOl6')](_0x7c7fe),showMessage(_0x24c0b[_0x568b92(0x19b)](_0x24c0b[_0x568b92(0xb9)],_0x7c7fe[_0x1f51c2(0xe8,'vVjW')]),'error');}}document[_0xb7cb94(0xf0,'IOl6')+_0xb7cb94(0x92,'d#!]')]('remove-fil'+_0xb7cb94(0xa8,'%$]^'))[_0xb7cb94(0x1a2,'o%2P')+_0x410d8c(0x1a4)](_0x410d8c(0xfd),()=>{const _0x2a448e=_0x410d8c,_0x3bb5be=_0xb7cb94,_0x559dab={'skjnf':_0x3bb5be(0xb7,'MVyI')};currentFile=null,parsedSlides=[],controlCard['classList'][_0x2a448e(0x10f)](_0x559dab[_0x2a448e(0x121)]),showMessage('Cleared\x20pr'+_0x3bb5be(0x166,'bSVa')+'.');}),convertBtn[_0xb7cb94(0x1b4,'G9RG')+_0x410d8c(0x1a4)](_0xb7cb94(0x193,'D#q7'),async()=>{const _0x5d2feb=_0x410d8c,_0x57db8f=_0xb7cb94,_0xda3468={'WZsRR':_0x57db8f(0x104,'05Vo'),'WWpov':_0x57db8f(0xd5,'5SCo'),'bqggB':function(_0x123396,_0x321178){return _0x123396===_0x321178;},'Brjtj':_0x57db8f(0x157,'LooV'),'nqQJO':_0x5d2feb(0x1ad)+_0x57db8f(0x189,'q]D$')+_0x5d2feb(0x16c),'qJcny':function(_0x2c2821,_0x163685){return _0x2c2821!==_0x163685;},'LMwSu':_0x5d2feb(0xa0),'vvgfl':function(_0x283369,_0x56101b){return _0x283369-_0x56101b;},'uXztq':function(_0xde640d,_0x321893,_0x3e0e4d,_0x362f04){return _0xde640d(_0x321893,_0x3e0e4d,_0x362f04);},'DDVHo':function(_0x529799,_0x4d0841){return _0x529799-_0x4d0841;},'EJOOq':function(_0x3375d7,_0x179e53,_0x5d58e0,_0x305fe0){return _0x3375d7(_0x179e53,_0x5d58e0,_0x305fe0);},'YGpHo':function(_0x24d25f,_0x376982){return _0x24d25f-_0x376982;},'jQyxZ':function(_0x1a35a5,_0xa526bc){return _0x1a35a5*_0xa526bc;},'FDVCa':function(_0x47dcb5,_0x1bb82e){return _0x47dcb5/_0x1bb82e;},'iaaXC':_0x57db8f(0x197,'SLDI'),'WGssv':_0x57db8f(0xdd,'T#HD')+_0x5d2feb(0x12e),'Eurnc':function(_0x5ad297,_0x5e1ae7,_0x4c3f76){return _0x5ad297(_0x5e1ae7,_0x4c3f76);},'yjuaB':_0x57db8f(0xf4,'qfjV')};if(_0xda3468[_0x5d2feb(0x110)](parsedSlides[_0x5d2feb(0x1af)],0xff*0x1+-0xe0a+0xd0b))return;try{convertBtn[_0x57db8f(0xc6,'Gi8h')]=!![],progressContainer[_0x57db8f(0x1b5,'Z!qM')]['remove'](_0x57db8f(0x15a,'bSVa')),progressBar[_0x57db8f(0x12f,'*oEM')][_0x57db8f(0xc0,'cuRU')]=_0xda3468[_0x5d2feb(0x191)],progressPercent[_0x57db8f(0x186,'$gTy')+'t']=_0xda3468[_0x5d2feb(0x191)],progressStatus[_0x5d2feb(0x112)+'t']=_0xda3468[_0x57db8f(0x135,'F5qH')];const {PDFDocument:_0x14800c,StandardFonts:_0x13e59b,rgb:_0x4bc1a8}=PDFLib,_0x14e305=await _0x14800c[_0x57db8f(0xaf,'WnAO')](),_0x68d2fb=await _0x14e305[_0x57db8f(0x141,'wns!')](_0x13e59b['HelveticaB'+_0x5d2feb(0x119)]),_0x202dbe=await _0x14e305['embedFont'](_0x13e59b[_0x57db8f(0x9a,'*oEM')]),_0x16f21c=0x190e*-0x1+-0x1172+0x16e5*0x2,_0x5131fd=0x96c+0x1f*-0xb3+0xe94;for(let _0x300cb0=0x25*0xe+-0x23b8+0x21b2;_0x300cb0<parsedSlides[_0x5d2feb(0x1af)];_0x300cb0++){if(_0xda3468[_0x5d2feb(0x170)](_0xda3468[_0x5d2feb(0xf6)],_0x57db8f(0x17c,'qfjV'))){const _0x24041c=parsedSlides[_0x300cb0],_0x14b511=_0x14e305[_0x5d2feb(0x1b6)]([_0x16f21c,_0x5131fd]);_0x14b511[_0x57db8f(0xd7,'$]l)')+_0x5d2feb(0x1a5)]({'x':0x0,'y':0x0,'width':_0x16f21c,'height':_0x5131fd,'color':_0x4bc1a8(-0x13*0x13+0x2376+0x1*-0x220d+0.97,0x1d29+0x11f3+-0x4b6*0xa+0.98,0x107*0x14+0x86*-0x29+0x4e*0x3+0.99)}),_0x14b511[_0x5d2feb(0x185)+_0x5d2feb(0x1a5)]({'x':0x0,'y':_0xda3468[_0x5d2feb(0x144)](_0x5131fd,0x1f3*0x2+-0x4f1+-0x37*-0x5),'width':_0x16f21c,'height':0x8,'color':_0xda3468[_0x5d2feb(0x122)](_0x4bc1a8,-0x1*0x1b2e+0x23f9*-0x1+0x3f27+0.27,0x15fd+-0x1d7*0x10+0x773*0x1+0.6,-0x3d3+0x18fa+-0x11d*0x13+0.95)}),_0x14b511[_0x57db8f(0xad,'NA2T')](_0x57db8f(0x146,'uzh2')+_0x24041c['number']+'\x20/\x20'+parsedSlides[_0x57db8f(0xd4,'DKyC')],{'x':_0xda3468[_0x5d2feb(0x144)](_0x16f21c,0x1f1*-0x3+-0x14a5+0x1ae6),'y':_0xda3468['DDVHo'](_0x5131fd,0x7*0x4b2+0x15d6+-0x368c),'size':0xa,'font':_0x202dbe,'color':_0xda3468[_0x57db8f(0x133,'Gi8h')](_0x4bc1a8,-0x1a35+-0x2449+0x3e7e+0.5,0x1*-0x19c6+0x2aa+0x1d*0xcc+0.5,-0x1*-0x153e+0x1*-0x35b+-0x1*0x11e3+0.5)}),_0x14b511[_0x57db8f(0x18c,'bSVa')](_0x24041c[_0x57db8f(0x13a,'MVyI')][_0x5d2feb(0x167)](-0x326*-0x4+0x1*-0x289+-0xa0f,-0x9d*0x17+0x166*0x19+-0x148b*0x1),{'x':0x3c,'y':_0x5131fd-(-0x1ab5+-0x526*0x1+-0x2026*-0x1),'size':0x16,'font':_0x68d2fb,'color':_0x4bc1a8(-0x1b78+-0x1a17+0x358f+0.1,-0x132d+0x1e5a+-0xb2d+0.15,-0xf6f*-0x2+-0x1702+-0x4*0x1f7+0.25)}),_0x14b511['drawLine']({'start':{'x':0x3c,'y':_0xda3468[_0x5d2feb(0xeb)](_0x5131fd,-0x1f77+-0x11*-0x97+0x15cf)},'end':{'x':_0xda3468[_0x57db8f(0x178,'bSVa')](_0x16f21c,-0x735+-0x527*-0x3+-0x804),'y':_0x5131fd-(0x2061+0x1fe1+0x5*-0xcc7)},'thickness':0x1,'color':_0x4bc1a8(0xa8+-0x559*0x3+0xf63+0.85,0x11*-0x22d+-0x15*0x54+0x2be1+0.88,0xc6d+0x1531+-0xd*0x296+0.92)});const _0x55750b=_0x24041c[_0x57db8f(0x160,'05Vo')]['split']('\x0a')['filter'](_0x143336=>_0x143336[_0x5d2feb(0xd2)]());let _0x4822ce=_0x5131fd-(-0x95*0x20+0x2b*0x6d+-0x6c*-0x2);for(let _0x1ceccc of _0x55750b[_0x5d2feb(0x167)](0x5*-0x732+-0xdd4+-0x55*-0x96,0x23b*-0x2+0xdd9*-0x1+0x92f*0x2)){_0x14b511[_0x5d2feb(0x16b)](_0x5d2feb(0x125)+_0x1ceccc[_0x57db8f(0x155,'MVyI')](0x7e8+-0x7dc+-0xc,-0x2043+-0x502*-0x4+-0x167*-0x9),{'x':0x46,'y':_0x4822ce,'size':0xd,'font':_0x202dbe,'color':_0xda3468[_0x5d2feb(0x1a0)](_0x4bc1a8,-0x1*-0x1b2d+-0x1*-0x21a+-0x1d47+0.2,0x1b31+-0xc35*-0x1+0x691*-0x6+0.25,0x8be+0x1f45+0x1*-0x2803+0.3)}),_0x4822ce-=0x3fa*0x4+0x1529+-0x1*0x24f9;}_0x14b511['drawText']('Generated\x20'+_0x57db8f(0x9b,'rjOr')+_0x57db8f(0x94,'GEOk'),{'x':0x3c,'y':0x1e,'size':0x9,'font':_0x202dbe,'color':_0xda3468[_0x5d2feb(0x122)](_0x4bc1a8,0x1365+0x8*-0x26e+0xb+0.6,0x192f+-0x53e+0x3fd*-0x5+0.6,0x2554*0x1+-0x11a9+-0x13ab+0.6)});const _0x4ff32d=Math[_0x5d2feb(0x181)](-0x2*0x55+-0x1537*-0x1+-0x147e+_0xda3468['jQyxZ'](_0xda3468[_0x5d2feb(0x1a7)](_0x300cb0,parsedSlides[_0x57db8f(0x152,'xhDc')]),0x503+0x1715+0x8*-0x379));progressBar[_0x57db8f(0x10a,'R0e9')][_0x57db8f(0x138,'vVjW')]=_0x4ff32d+'%',progressPercent[_0x5d2feb(0x112)+'t']=_0x4ff32d+'%';}else _0x33185c['classList'][_0x5d2feb(0x10f)](_0xda3468['WZsRR']),_0x469043[_0x5d2feb(0x18b)]=![];}progressBar[_0x57db8f(0x171,'ej%4')][_0x5d2feb(0x115)]=_0xda3468[_0x5d2feb(0x8f)],progressPercent['textConten'+'t']=_0xda3468[_0x57db8f(0x15f,'qfjV')],progressStatus[_0x57db8f(0x175,'GEOk')+'t']=_0x57db8f(0x147,'$yt%');const _0x242c6b=await _0x14e305[_0x5d2feb(0x156)](),_0x37c84e=new Blob([_0x242c6b],{'type':_0xda3468[_0x57db8f(0x14b,'*oEM')]}),_0x591f81=currentFile[_0x5d2feb(0x90)][_0x57db8f(0x11f,'rjOr')](/\.(pptx|ppt)$/i,'')+_0x5d2feb(0x105);saveAs(_0x37c84e,_0x591f81),showMessage(_0x57db8f(0xb0,'cuRU')+_0x5d2feb(0xa4)+_0x5d2feb(0x13e)+_0x5d2feb(0xe3)+'ly!'),_0xda3468[_0x57db8f(0x16e,'GEOk')](setTimeout,()=>{const _0x5f397a=_0x57db8f;progressContainer[_0x5f397a(0x16f,'$gTy')]['add'](_0x5f397a(0xaa,'IOl6')),convertBtn['disabled']=![];},0x69d*0x3+0x6de+-0x18c1*0x1);}catch(_0x48de07){_0x5d2feb(0x103)===_0xda3468[_0x5d2feb(0xa7)]?_0x1c6115[_0x57db8f(0x10e,'DKyC')][_0x5d2feb(0x95)](orCTKw[_0x57db8f(0xcb,'QhI0')]):(console['error'](_0x48de07),showMessage('PDF\x20creati'+'on\x20error:\x20'+_0x48de07[_0x5d2feb(0xed)],_0x57db8f(0x161,'WnAO')),progressContainer[_0x57db8f(0x162,'NA2T')]['add'](_0xda3468[_0x5d2feb(0xdb)]),convertBtn[_0x5d2feb(0x18b)]=![]);}});</script>
 
-    
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

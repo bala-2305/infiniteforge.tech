@@ -1,294 +1,87 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect Four Game — Infiniteforge</title>
+    <title>Connect Four Game — Play vs AI or 2 Players | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Play Connect Four online: Drop discs to get four in a row! Classic strategy game with smooth animations and win detection.">
-    <meta name="keywords" content="connect four, connect 4, strategy game, board game, disc game, four in a row, puzzle game, logic game, turn based game, strategy puzzle, connect four online, board game online">
+    <meta name="description" content="Play the classic Connect Four strategy game online. Challenge our smart AI bot or play with a friend in 2-player mode with neon graphics and smooth physics.">
+    <meta name="keywords" content="connect four game, connect 4, play connect 4 online, 2 player board game, strategy game">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Connect Four Game — Infiniteforge">
-    <meta property="og:description" content="Play Connect Four online: Drop discs to get four in a row! Classic strategy game with smooth animations and win detection.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Connect Four Game | Infiniteforge">
+    <meta property="og:description" content="Classic Connect Four strategy game with neon glow graphics and smart AI.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/connect-four-game.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Connect Four Game — Infiniteforge">
-    <meta name="twitter:description" content="Play Connect Four online: Drop discs to get four in a row! Classic strategy game with smooth animations and win detection.">
+    <meta name="twitter:title" content="Connect Four Game | Infiniteforge">
+    <meta name="twitter:description" content="Play Connect Four online against AI or with friends.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/connect-four-game.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/connect-four-game.html">
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Connect Four Game — Infiniteforge",
-        "description": "Play Connect Four online: Drop discs to get four in a row! Classic strategy game with smooth animations and win detection.",
-        "url": "https://infiniteforge.tech/connect-four-game.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Infiniteforge",
-            "url": "https://infiniteforge.tech"
-        },
-        "primaryImageOfPage": {
-            "@type": "ImageObject",
-            "url": "https://infiniteforge.tech/assets/letter-d.png"
-        },
-        "datePublished": "2025-10-07",
-        "dateModified": "2025-10-07"
-    }</script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <style>
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            background: #1e40af;
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
-        }
 
-        .column {
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-        .column:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-
-        .cell {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 3px solid #1e40af;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .disc {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: absolute;
-            transition: all 0.3s ease-in-out;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .disc.red {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        .disc.yellow {
-            background: linear-gradient(135deg, #eab308, #ca8a04);
-        }
-
-        .disc.falling {
-            animation: fall 0.5s ease-in-out;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-300px); }
-            100% { transform: translateY(0); }
-        }
-
-        .winning-cells .disc {
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .drop-zone {
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            transition: background-color 0.2s ease;
-        }
-
-        .column:hover .drop-zone {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .player-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .player-indicator.active {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .player-red {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            color: #dc2626;
-            border: 2px solid #dc2626;
-        }
-
-        .player-yellow {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            color: #ca8a04;
-            border: 2px solid #ca8a04;
-        }
-
-        @media (max-width: 640px) {
-            .cell {
-                width: 45px;
-                height: 45px;
-            }
-
-            .game-board {
-                padding: 15px;
-                gap: 6px;
-                max-width: 350px;
-            }
-
-            .column {
-                gap: 6px;
-            }
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>function _0x3a48(_0x4fcdfe,_0x514c6a){_0x4fcdfe=_0x4fcdfe-(0x2*0x321+-0x2*0xca+-0x437*0x1);var _0x5e49f9=_0x25f2();var _0x38a589=_0x5e49f9[_0x4fcdfe];if(_0x3a48['bFsAGR']===undefined){var _0x5a5ef3=function(_0x17af29){var _0x373b93='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x597f94='',_0x93a723='',_0x54e6cf=_0x597f94+_0x5a5ef3,_0x541a94=(''+function(){return-0xa92+-0x198f*-0x1+-0x4ff*0x3;})['indexOf']('\x0a')!==-(-0x4*0x8b6+-0x5*0x246+-0x2e37*-0x1);for(var _0x1cc24b=-0x9*0x2d3+-0x1a53+0x33be,_0xb3db9e,_0x2a4175,_0x5c0542=0x11ef+-0x1*-0x199+-0x1388;_0x2a4175=_0x17af29['charAt'](_0x5c0542++);~_0x2a4175&&(_0xb3db9e=_0x1cc24b%(-0x1a7d+-0x1*-0x1bb6+-0x135)?_0xb3db9e*(-0x163f+0x2329+0xcaa*-0x1)+_0x2a4175:_0x2a4175,_0x1cc24b++%(0x1b95*-0x1+0x117*-0x3+0x1ede))?_0x597f94+=_0x541a94||_0x54e6cf['charCodeAt'](_0x5c0542+(-0x25e+-0x1844+0x1aac))-(0x1*0xa21+-0x420+-0x5f7)!==-0x16*0x153+0x1c3*0x2+0x199c?String['fromCharCode'](-0x1eb+-0x3a*0xa9+0x12*0x24a&_0xb3db9e>>(-(0xb1d*0x2+0xbfe*0x1+-0x2236*0x1)*_0x1cc24b&-0x21*0x26+-0x1*-0xa29+-0x53d)):_0x1cc24b:0x309+0x1631+-0xc9d*0x2){_0x2a4175=_0x373b93['indexOf'](_0x2a4175);}for(var _0x510f6e=-0xb1*-0x27+0x1b44+0x1*-0x363b,_0x2fc273=_0x597f94['length'];_0x510f6e<_0x2fc273;_0x510f6e++){_0x93a723+='%'+('00'+_0x597f94['charCodeAt'](_0x510f6e)['toString'](-0x1153+0x1*-0x1130+0x35*0xa7))['slice'](-(-0x1cb7+0x2*0x3b3+0x1553));}return decodeURIComponent(_0x93a723);};_0x3a48['uxdjrk']=_0x5a5ef3,_0x3a48['mtbUng']={},_0x3a48['bFsAGR']=!![];}var _0x51af97=_0x5e49f9[-0x206a+0x2*-0x953+0x3310],_0x127f0b=_0x4fcdfe+_0x51af97,_0x584b35=_0x3a48['mtbUng'][_0x127f0b];if(!_0x584b35){var _0x4fc62c=function(_0x2cd16c){this['ZzETMp']=_0x2cd16c,this['sDMGTG']=[-0xcf2+-0x1de8+0x2adb,0x7b7+0x195a+-0x2111,0xb26*-0x1+-0x1b04+0x7a2*0x5],this['GEXoga']=function(){return'newState';},this['kjyYQy']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ejjssQ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4fc62c['prototype']['AonZQs']=function(){var _0x492ee4=new RegExp(this['kjyYQy']+this['ejjssQ']),_0x70db32=_0x492ee4['test'](this['GEXoga']['toString']())?--this['sDMGTG'][0xf4c+0x1215+-0x2*0x10b0]:--this['sDMGTG'][-0xc70+0xa77+0x1*0x1f9];return this['GZcJaO'](_0x70db32);},_0x4fc62c['prototype']['GZcJaO']=function(_0x50ce17){if(!Boolean(~_0x50ce17))return _0x50ce17;return this['YmPwVw'](this['ZzETMp']);},_0x4fc62c['prototype']['YmPwVw']=function(_0x269656){for(var _0x3e83e1=0x1a25+-0x4b5+0xe*-0x188,_0x27418c=this['sDMGTG']['length'];_0x3e83e1<_0x27418c;_0x3e83e1++){this['sDMGTG']['push'](Math['round'](Math['random']())),_0x27418c=this['sDMGTG']['length'];}return _0x269656(this['sDMGTG'][-0x125f+0xc91*-0x3+-0x1c09*-0x2]);},(''+function(){return 0x15ed+0x2248+0x1*-0x3835;})['indexOf']('\x0a')===-(0x3*0x80e+-0x1*0x14fe+0x32b*-0x1)&&new _0x4fc62c(_0x3a48)['AonZQs'](),_0x38a589=_0x3a48['uxdjrk'](_0x38a589),_0x3a48['mtbUng'][_0x127f0b]=_0x38a589;}else _0x38a589=_0x584b35;return _0x38a589;}function _0x4f60(_0x504461,_0x6bcfba){_0x504461=_0x504461-(0x2*0x321+-0x2*0xca+-0x437*0x1);var _0x162227=_0x25f2();var _0x433c4b=_0x162227[_0x504461];if(_0x4f60['XiJjMc']===undefined){var _0x5ab8f8=function(_0x1a1469){var _0xec0c90='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x20928e='',_0x32517b='',_0x59ad61=_0x20928e+_0x5ab8f8,_0x6be2d8=(''+function(){return-0xa92+-0x198f*-0x1+-0x4ff*0x3;})['indexOf']('\x0a')!==-(-0x4*0x8b6+-0x5*0x246+-0x2e37*-0x1);for(var _0x31e099=-0x9*0x2d3+-0x1a53+0x33be,_0x39536a,_0x551bb6,_0x49a914=0x11ef+-0x1*-0x199+-0x1388;_0x551bb6=_0x1a1469['charAt'](_0x49a914++);~_0x551bb6&&(_0x39536a=_0x31e099%(-0x1a7d+-0x1*-0x1bb6+-0x135)?_0x39536a*(-0x163f+0x2329+0xcaa*-0x1)+_0x551bb6:_0x551bb6,_0x31e099++%(0x1b95*-0x1+0x117*-0x3+0x1ede))?_0x20928e+=_0x6be2d8||_0x59ad61['charCodeAt'](_0x49a914+(-0x25e+-0x1844+0x1aac))-(0x1*0xa21+-0x420+-0x5f7)!==-0x16*0x153+0x1c3*0x2+0x199c?String['fromCharCode'](-0x1eb+-0x3a*0xa9+0x12*0x24a&_0x39536a>>(-(0xb1d*0x2+0xbfe*0x1+-0x2236*0x1)*_0x31e099&-0x21*0x26+-0x1*-0xa29+-0x53d)):_0x31e099:0x309+0x1631+-0xc9d*0x2){_0x551bb6=_0xec0c90['indexOf'](_0x551bb6);}for(var _0x27d3d4=-0xb1*-0x27+0x1b44+0x1*-0x363b,_0xb74682=_0x20928e['length'];_0x27d3d4<_0xb74682;_0x27d3d4++){_0x32517b+='%'+('00'+_0x20928e['charCodeAt'](_0x27d3d4)['toString'](-0x1153+0x1*-0x1130+0x35*0xa7))['slice'](-(-0x1cb7+0x2*0x3b3+0x1553));}return decodeURIComponent(_0x32517b);};var _0x68bb82=function(_0x301d32,_0x1670fb){var _0x4be802=[],_0x1b3c19=-0x206a+0x2*-0x953+0x3310,_0xfef894,_0x48b45f='';_0x301d32=_0x5ab8f8(_0x301d32);var _0x4cf2d8;for(_0x4cf2d8=-0xcf2+-0x1de8+0x2ada;_0x4cf2d8<0x7b7+0x195a+-0x2011;_0x4cf2d8++){_0x4be802[_0x4cf2d8]=_0x4cf2d8;}for(_0x4cf2d8=0xb26*-0x1+-0x1b04+0x7a2*0x5;_0x4cf2d8<0xf4c+0x1215+-0x1*0x2061;_0x4cf2d8++){_0x1b3c19=(_0x1b3c19+_0x4be802[_0x4cf2d8]+_0x1670fb['charCodeAt'](_0x4cf2d8%_0x1670fb['length']))%(-0xc70+0xa77+0x1*0x2f9),_0xfef894=_0x4be802[_0x4cf2d8],_0x4be802[_0x4cf2d8]=_0x4be802[_0x1b3c19],_0x4be802[_0x1b3c19]=_0xfef894;}_0x4cf2d8=0x1a25+-0x4b5+0xe*-0x188,_0x1b3c19=-0x125f+0xc91*-0x3+-0x1c09*-0x2;for(var _0x2b8e70=0x15ed+0x2248+0x1*-0x3835;_0x2b8e70<_0x301d32['length'];_0x2b8e70++){_0x4cf2d8=(_0x4cf2d8+(0x3*0x80e+-0x1*0x14fe+0x32b*-0x1))%(0x2*0xd28+0x1d6*0xf+-0x34da),_0x1b3c19=(_0x1b3c19+_0x4be802[_0x4cf2d8])%(0x2145*0x1+-0x13ab+0xc9a*-0x1),_0xfef894=_0x4be802[_0x4cf2d8],_0x4be802[_0x4cf2d8]=_0x4be802[_0x1b3c19],_0x4be802[_0x1b3c19]=_0xfef894,_0x48b45f+=String['fromCharCode'](_0x301d32['charCodeAt'](_0x2b8e70)^_0x4be802[(_0x4be802[_0x4cf2d8]+_0x4be802[_0x1b3c19])%(-0xf82+0x2b7*-0xb+0xf75*0x3)]);}return _0x48b45f;};_0x4f60['gOZdId']=_0x68bb82,_0x4f60['wTFRVM']={},_0x4f60['XiJjMc']=!![];}var _0x4a8c04=_0x162227[-0x25a+-0x1*-0x14e3+-0x5*0x3b5],_0x25e4af=_0x504461+_0x4a8c04,_0xa1ee9b=_0x4f60['wTFRVM'][_0x25e4af];if(!_0xa1ee9b){if(_0x4f60['StWppZ']===undefined){var _0x4e967b=function(_0x18b59e){this['wjTzzM']=_0x18b59e,this['SXmWZW']=[0x1*-0x673+-0x1*0x88d+0xf01,-0x1*-0x199b+-0x17*-0x1+0xcd9*-0x2,-0x1aee+0x1*0x2566+-0xa78],this['ZDQlJH']=function(){return'newState';},this['wsapjs']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ffbPyW']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4e967b['prototype']['PsqcrW']=function(){var _0x1853c1=new RegExp(this['wsapjs']+this['ffbPyW']),_0x3e4fc9=_0x1853c1['test'](this['ZDQlJH']['toString']())?--this['SXmWZW'][-0x37c*-0xa+0x2*-0x7f6+-0x12eb]:--this['SXmWZW'][0x94*0x17+-0x1370+-0x4*-0x189];return this['OAVCIu'](_0x3e4fc9);},_0x4e967b['prototype']['OAVCIu']=function(_0x5599f4){if(!Boolean(~_0x5599f4))return _0x5599f4;return this['HxCIDm'](this['wjTzzM']);},_0x4e967b['prototype']['HxCIDm']=function(_0x57d00c){for(var _0x5dba96=0x2*0x552+0x11f*0x1d+-0x1*0x2b27,_0x498736=this['SXmWZW']['length'];_0x5dba96<_0x498736;_0x5dba96++){this['SXmWZW']['push'](Math['round'](Math['random']())),_0x498736=this['SXmWZW']['length'];}return _0x57d00c(this['SXmWZW'][0x172b+-0x1*-0x1c7c+-0x33a7]);},(''+function(){return 0x1*0xe95+-0x1*0x1c6f+-0x6ed*-0x2;})['indexOf']('\x0a')===-(-0x2*0x1064+-0x2a7+0x1b*0x150)&&new _0x4e967b(_0x4f60)['PsqcrW'](),_0x4f60['StWppZ']=!![];}_0x433c4b=_0x4f60['gOZdId'](_0x433c4b,_0x6bcfba),_0x4f60['wTFRVM'][_0x25e4af]=_0x433c4b;}else _0x433c4b=_0xa1ee9b;return _0x433c4b;}function _0x25f2(){var _0x9f2383=['mZG1ntK1mNbWCxnPqW','iZjdmZuZrG','nJiZmZKXm3nYuKnsDW','wfxdRCkoW7tcVMzOW6b1xq','i8kGW7qkW70','nfpcHH7cOGSQW5TQz2LWxW','mti2otrUC1Hezxi','pmoDW7BcSqhcLq','y29UC3rYDwn0BW','y29UzMLN','mHiqsmoiW7LwB8klWP41EI4D','sMv0qNjHAw5Zia','otG0mZaZzK1rv21p','Dg9tDhjPBMC','WQRcGaCGWPxdKvddLCkiW6iXdmkXW7a','iZfgmJGZmW','mJCYmJC3mfDXsfnltq','W7ymW60IW5VcQWRdKa','WPLkWQ1dWOqGwSk9WO5XdCkzW6W','WPPEB2mWWQpdOCkLWPFdT8kXbHO','W6LWASkcWRT2AG','iZDbmdbgrG','dwKRch3dMSoiqq','WP1jWPmHWOhcGb/dTu04rSkMDa','iZq1rJngrG','mtq2rxjjshDL','nNLKrxLYrW','W5ldQCoilaeqWQCaW7a','WPLdW4nNW7ldVupdPa','kcGOlISPkYKRkq','W5mfWOxcTCozB3dcTsThW4f4W6C','WQHqW6W0W6NcRai'];_0x25f2=function(){return _0x9f2383;};return _0x25f2();}var _0x11ba4e=_0x4f60,_0x5bd70c=_0x3a48;(function(_0x4bf750,_0x527475){var _0x3bb2cd=_0x4f60,_0x41e6b8=_0x3a48,_0x2bab9a=_0x4bf750();while(!![]){try{var _0x58e635=parseInt(_0x41e6b8(0x7f))/(0xa7f*-0x2+0x202d+0x6a*-0x1b)*(-parseInt(_0x41e6b8(0x8c))/(0x2*0xd28+0x1d6*0xf+-0x35d8))+parseInt(_0x3bb2cd(0x78,'wg]n'))/(0x2145*0x1+-0x13ab+0x1f1*-0x7)+parseInt(_0x41e6b8(0x86))/(-0xf82+0x2b7*-0xb+0xf21*0x3)+parseInt(_0x41e6b8(0x96))/(-0x25a+-0x1*-0x14e3+-0x5*0x3b4)+parseInt(_0x41e6b8(0x80))/(0x1*-0x673+-0x1*0x88d+0xf06)*(-parseInt(_0x3bb2cd(0x79,'689n'))/(-0x1*-0x199b+-0x17*-0x1+0x19ab*-0x1))+parseInt(_0x3bb2cd(0x77,'FIg2'))/(-0x1aee+0x1*0x2566+-0xa70)*(-parseInt(_0x41e6b8(0x92))/(-0x37c*-0xa+0x2*-0x7f6+-0x12e3))+parseInt(_0x3bb2cd(0x94,'fSSU'))/(0x94*0x17+-0x1370+-0x7*-0xe2);if(_0x58e635===_0x527475)break;else _0x2bab9a['push'](_0x2bab9a['shift']());}catch(_0x2b1049){_0x2bab9a['push'](_0x2bab9a['shift']());}}}(_0x25f2,0x3*0x1e9e6+0x4627a*0x4+-0x25*0x582b));var _0x5477e8=(function(){var _0x190a29=!![];return function(_0x44c3f6,_0x2dbbac){var _0x1c38dc=_0x190a29?function(){if(_0x2dbbac){var _0x336476=_0x2dbbac['apply'](_0x44c3f6,arguments);return _0x2dbbac=null,_0x336476;}}:function(){};return _0x190a29=![],_0x1c38dc;};}()),_0x356da5=_0x5477e8(this,function(){var _0x27ee6e=_0x4f60,_0x49a550=_0x3a48,_0x4ac5f0={'xTItq':function(_0x2f6680,_0x172ae1){return _0x2f6680!==_0x172ae1;},'KOHYU':_0x49a550(0x83)+'+$'};if(_0x4ac5f0['xTItq'](_0x356da5['bind']()[_0x27ee6e(0x7c,'#mLf')]()[_0x27ee6e(0x85,'FIg2')]('\x0a'),-(-0x5cc*-0x1+0x2460+0x1*-0x2a2b)))return;return _0x356da5['toString']()['search']('(((.+)+)+)'+'+$')[_0x49a550(0x93)]()[_0x49a550(0x8e)+'r'](_0x356da5)[_0x27ee6e(0x8d,'XOe^')](_0x4ac5f0[_0x27ee6e(0x8a,'Nr#s')]);});_0x356da5(),tailwind[_0x5bd70c(0x8f)]={'theme':{'extend':{'fontFamily':{'sans':['Outfit','sans-serif'],'mono':[_0x5bd70c(0x91)+'Mono',_0x11ba4e(0x81,'eWRr')]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x5bd70c(0x95),0x2bc:_0x5bd70c(0x87)},'brand':{'primary':_0x5bd70c(0x7e),'secondary':_0x11ba4e(0x7a,'j3Vq'),'accent':_0x5bd70c(0x7b)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .board-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; background: rgba(15, 23, 42, 0.8); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .board-col { display: flex; flex-direction: column-reverse; gap: 10px; cursor: pointer; border-radius: 12px; transition: background-color 0.2s ease; padding: 4px; }
+        .board-col:hover { background-color: rgba(255, 255, 255, 0.05); }
+        
+        .board-cell { aspect-ratio: 1/1; border-radius: 50%; background: #0B0C10; border: 2px solid rgba(255, 255, 255, 0.08); transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; }
+        .board-cell.cyan { background: #45F3FF; box-shadow: 0 0 20px rgba(69, 243, 255, 0.6); border-color: #45F3FF; }
+        .board-cell.pink { background: #FF2A7A; box-shadow: 0 0 20px rgba(255, 42, 122, 0.6); border-color: #FF2A7A; }
+        .board-cell.winner { animation: win-pulse 1s infinite alternate; }
+        @keyframes win-pulse { 0% { transform: scale(0.92); filter: brightness(1); } 100% { transform: scale(1.08); filter: brightness(1.4); } }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -299,481 +92,79 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-24 pb-12 px-4" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4" itemprop="headline">Connect Four Game</h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto" itemprop="description">
-                Drop colored discs into the grid and be the first to get four in a row! Classic strategy game with smooth animations.
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Connect Four
+            </h1>
+            <p class="text-base text-gray-400 max-w-lg mx-auto">
+                Drop discs to connect 4 in a row vertically, horizontally, or diagonally.
             </p>
         </div>
 
-        <div class="grid lg:grid-cols-4 gap-8 mb-8">
-            <!-- Game Controls -->
-            <div class="lg:col-span-1">
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="settings" class="w-5 h-5 mr-2 text-blue-500"></i>
-                        Game Controls
-                    </h3>
-                    <div class="space-y-4">
-                        <button id="new-game" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors font-medium">
-                            New Game
-                        </button>
-                        <button id="reset-scores" class="w-full bg-dark-900/40 text-gray-2000 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors">
-                            Reset Scores
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Current Player -->
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md mt-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="user" class="w-5 h-5 mr-2 text-indigo-500"></i>
-                        Current Turn
-                    </h3>
-                    <div id="current-player" class="text-center">
-                        <div class="player-indicator player-red active">
-                            <div class="w-4 h-4 rounded-full bg-red-500 mr-2"></div>
-                            <span>Red Player</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Stats -->
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md mt-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-500"></i>
-                        Game Stats
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Red Wins</span>
-                            <span class="font-semibold text-red-600" id="red-wins">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Yellow Wins</span>
-                            <span class="font-semibold text-yellow-600" id="yellow-wins">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Draws</span>
-                            <span class="font-semibold text-gray-400" id="draws">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Total Games</span>
-                            <span class="font-semibold" id="total-games">0</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Scoreboard & Controls Header -->
+        <div class="grid grid-cols-3 gap-3 mb-6 max-w-xl mx-auto">
+            <div class="glass-panel p-3.5 rounded-2xl border border-white/5 text-center">
+                <div class="text-[11px] text-gray-400 font-semibold uppercase">Player 1 (Cyan)</div>
+                <div class="text-2xl font-bold font-mono text-brand-primary" id="score-p1">0</div>
             </div>
-
-            <!-- Game Board -->
-            <div class="lg:col-span-3">
-                <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-xl shadow-md">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-semibold text-gray-100 mb-2">Game Board</h2>
-                        <div id="game-status" class="text-lg text-gray-400">Click a column to drop your disc!</div>
-                    </div>
-
-                    <div class="game-board" id="game-board">
-                        <!-- Columns will be generated here -->
-                    </div>
-                </div>
+            <div class="glass-panel p-3.5 rounded-2xl border border-white/5 text-center">
+                <div class="text-[11px] text-gray-400 font-semibold uppercase">Draws</div>
+                <div class="text-2xl font-bold font-mono text-gray-400" id="score-draws">0</div>
+            </div>
+            <div class="glass-panel p-3.5 rounded-2xl border border-white/5 text-center">
+                <div class="text-[11px] text-gray-400 font-semibold uppercase" id="p2-name-label">AI Bot (Pink)</div>
+                <div class="text-2xl font-bold font-mono text-pink-400" id="score-p2">0</div>
             </div>
         </div>
 
-        <!-- Instructions -->
-        <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                    <i data-feather="book-open" class="w-5 h-5 mr-2 text-blue-500"></i>
-                    How to Play
-                </h3>
-                <div class="space-y-3 text-sm text-gray-400">
-                    <p><strong>🎯 Goal:</strong> Get four discs in a row (horizontal, vertical, or diagonal)</p>
-                    <p><strong>🔴 Players:</strong> Red goes first, then Yellow takes turns</p>
-                    <p><strong>⬇️ Movement:</strong> Click any column to drop your disc to the bottom</p>
-                    <p><strong>🏁 Win Conditions:</strong> Four in a row wins the game</p>
-                    <p><strong>🤝 Draw:</strong> Game ends when board is full with no winner</p>
-                    <p><strong>🔄 New Game:</strong> Click "New Game" to start over</p>
-                </div>
+        <!-- Status & Mode Switcher -->
+        <div class="glass-panel p-4 rounded-2xl border border-white/10 mb-6 flex flex-wrap items-center justify-between gap-4 max-w-xl mx-auto">
+            <div class="flex items-center gap-2">
+                <div class="w-3.5 h-3.5 rounded-full bg-brand-primary shadow-[0_0_10px_#45F3FF]" id="turn-indicator"></div>
+                <span class="text-sm font-bold text-white font-mono" id="turn-text">Player 1's Turn</span>
             </div>
 
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                    <i data-feather="target" class="w-5 h-5 mr-2 text-green-500"></i>
-                    Strategy Tips
-                </h3>
-                <div class="space-y-3 text-sm text-gray-400">
-                    <p><strong>🎯 Center Control:</strong> Middle columns are most valuable</p>
-                    <p><strong>🛡️ Defense:</strong> Block opponent's winning moves</p>
-                    <p><strong>⚡ Offense:</strong> Create multiple threats simultaneously</p>
-                    <p><strong>👁️ Vision:</strong> Look ahead 2-3 moves</p>
-                    <p><strong>🔄 Traps:</strong> Set up winning positions while blocking</p>
-                    <p><strong>🎪 Practice:</strong> Each game improves your strategic thinking</p>
-                </div>
+            <div class="flex items-center gap-2">
+                <select id="game-mode" class="bg-dark-900/80 text-white text-xs border border-white/10 rounded-xl px-3 py-1.5 outline-none font-semibold">
+                    <option value="ai">Single Player vs AI</option>
+                    <option value="pvp">2-Player Pass &amp; Play</option>
+                </select>
+                <button id="restart-btn" class="glass-panel px-3.5 py-1.5 rounded-xl text-xs font-bold text-white hover:bg-white/10 border border-white/10 flex items-center gap-1.5 transition-all">
+                    <i data-feather="rotate-ccw" class="w-3.5 h-3.5"></i> Restart
+                </button>
             </div>
         </div>
 
-        <!-- Fun Facts -->
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h4 class="font-semibold text-gray-100 mb-2 flex items-center">
-                    <i data-feather="brain" class="w-4 h-4 mr-2 text-blue-500"></i>
-                    Strategic Thinking
-                </h4>
-                <p class="text-sm text-gray-400">Connect Four develops pattern recognition, planning ahead, and defensive strategies.</p>
-            </div>
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h4 class="font-semibold text-gray-100 mb-2 flex items-center">
-                    <i data-feather="users" class="w-4 h-4 mr-2 text-green-500"></i>
-                    Social Game
-                </h4>
-                <p class="text-sm text-gray-400">Perfect for playing with friends, family, or colleagues during breaks.</p>
-            </div>
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <h4 class="font-semibold text-gray-100 mb-2 flex items-center">
-                    <i data-feather="clock" class="w-4 h-4 mr-2 text-purple-500"></i>
-                    Quick Sessions
-                </h4>
-                <p class="text-sm text-gray-400">Games typically last 2-5 minutes, making it ideal for short breaks.</p>
+        <!-- Connect Four Board -->
+        <div class="max-w-xl mx-auto mb-8">
+            <div class="board-grid" id="board">
+                <!-- 7 Columns with 6 Cells each -->
             </div>
         </div>
-
-        <div id="message" class="mt-4 text-center text-sm text-gray-400"></div>
     </main>
 
-    <script>
-        // Defer initialization until page loads to improve INP
-        window.addEventListener('load', function() {
-            // Initialize Feather Icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-
-                // Close mobile menu when a link is clicked
-                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-                mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
-                });
-
-                // Close mobile menu when scrolling
-                window.addEventListener('scroll', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-        }
-
-            }
-        });
-    </script>
-
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>function _0x4dda(){const _0x817f45=['pCo+iCo5vq','BMSTntaWihnOyq','wxL4u2C','iCovoCk8','hw/dJCkRWQK','mtuYoti5ntLZvu9RuMG','Aw5KzxHpzG','y29UC3rYDwn0BW','ugXHEwvYideNCW','WPVcPLpdN8o6','WONcJ17cSd8HfCka','pc9ZCgfUpG','hqjWW4beWOS','vKTQsLK','W5VdTMRdH8kKbXdcM1pcJW','W5xcPLWkWRK','n8ozl8kSWRxcSdimoqW','s8oWW4VdP8obW6/cPSk2CbZcKG','Dw5Kiq','WPNdNmkvWR/cK8opWQhdQcH+','WPZdVmomWOpcHq','pYvsW6FdOW','W4NdLCkuiwpcKfGiW7u','ndK3mtG0CeDoyNfy','ChrJDe0','ddvSWP0','sKD5zxG','W63dMmkynZdcRfWwW6tdKq','W5qWWPJdMa','ASkDeSkEqt0','ifr1CM4GkfbPBG','b8kdf8oHWO8','tbaDFCknW6SRrSkgWQi','ugXHEwvYideGyW','W5NcU8kTW5FdVb7cUg7dRvLEWPalWQm','zNjVBq','8j+oIsbqBgf5zxiGmq','mtjoDxfmyMK','BePuyvy','u8obW59wWRmZWPpdISokmG','bMDFiG','WRLZWQ7cKIi','WRRdO8kdWOlcOa','udFdQq','WOBcL8kH','vCkZy8kNWPtdPIGUWOBcQq','b2VdUCkeWPO','rdxdV8k1ja','sHawFCkVW7yXh8kbWRG','egnhzvpdQIjwma','D2LUBMvY','urSdzG','k8kpW5xcIq','WOtcLSkPWO/cHW','DhvYBI1PBMrPyW','dmkkWOKvDW','BSoermoEew/cVbnbW4W','yxbWzw5Kq2HPBa','nmkpuSoOnq8','uKnQuK0','WRtcQcfNc1i','yxrOzxi9iG','WPKCvSkLvCki','vwviEvi','W7VdT8kyc2C','W4VdPHpdGmopevxcIaS','CmkVxSkg','uJ/dRmkJiWdcO23cQW','B8kig8kfqq','qahcPCk+W7JcM8kYfH3cKW','r8oxW51wWQK','umk5DSkqWPZcRIyUWOtcSq','quKGAxmGDgHPBG','8lA3MxnQWR47kmkDWP9lCq','y1vfCNy','tMLvCeC','quKGqM90ihDVBG','WPi7WRddUIJcLSk7xSkT','y2HLy2STy2LYyW','v8ooWPFcV8o6lJu1r8kZ','WPWWWQRdMJBcU8kcDSkpW68','W7rKWOtcOMX+WQNdShBdKW','C2nVCMuTCde','W77cGCohW7tdGSoOW6tcKNLEfG','AmoZdmoNtSkt','ugLUAYK','gWjMW53dQW','nmotW6iTmvT4W4ZdSmoj','WQJcSSksWOJdRW','W4LaWPJcU18','EMj4Cxm','oeT3r3zIsG','ywrKrxzLBNrmAq','A2LUzY4UlG','v2vHy3e','y3jLyxrLrwXLBq','D3PcEhm','WO7cIuNcTHLJc8oga8oy','Cmonfmk0b1ddL8o4t0a','WOBdImoklH4','W4yQh8kYWQK','WQ7dGmoxWPNcJq','WPldTCkZWQK8W5TTWR16EG','rSohdCkYib/dN8o5rKi','y2XHC3nmAxn0','W6PLW7lcTCo0AmohWQZdTG','cSoRjmoHrq','W7zGWPdcO0O','j8okrCo9vCoBW7pcLZD9','qNLjza','W5dcPrHQWP4','W7FcT8oyWOldSae8W7K','C2HVDYa','yMvS','Dgv4DenVBNrLBG','W6VcLKSiWPeSsmoyac4','Dg9tDhjPBMC','WPVcJmodWOTT','WPNdK8oSpstcPmkYW7VdM3u','zgf0yxnLDa','zw50','WQSTwmoipSk0ns5Xaq','ltqGAc00iJ48lW','y2XHC3noyw1L','WRH6W6VcMmkZa8oIW7hdMWm','BMSP','BeDLDKe','W7Gch8kjsCoDWQutW6ldTW','sYHgwaWfW49Un8kP','uhHOBw0','CMf3lG','W4ZcR8kAWO0VW6LCWPO','WPJdU8oSWOy','CgLUAW','rw9mqui','ySoDW45kWRGLW7dcKmkdkq','BMXPAg8','amk4qCo/iG','WQHOWQC','mSoxW6i+pa','vfPYweK','lSkaWROLESo5WRxcPfSc','y2vSBc0','zNvSBcbIzY1WAq','B1PJEKS','i8ooW5q4n1DtW4C','odaXnZrQz0H2v1K','EsbZAgfKB3CTwW','W6GJBSkPBW','CxbIDNC','ExquW4VcUqxcNSojyYVdTby','EgXYCfi','gX1ZW51p','mf8WxZeWChHFiW','vbSGtmkI','DY0ZlJuGAc0ZlG','W48Qu8k+qW','zM9YrwfJAa','tuTHtfy','WOZcNmkImHG','grRdT8k1W6S','WPhdUHuyWRfDnW','rZyrjXJcKJTIcGC6WRy','EvvvzeC','C2vHCMnO','aSkWCxH8','m2DJrMrTvW','CYRdHmk0','zMLSBa','WQpdKSkWWQ/cLa','wKrKzwC','a8krWRChAa','fhj3p8oZWOO/WQuydG','WORdRCkaih7dVHeMW6NdKq','WO07zSkb','At48C3bHBJ4','qJ1Oy1hdQILm','D2TQrhK','AvvcELm','vfjjzvG','C2f2W4BdVa','y2XPy2S','C3vJy2vZCW','sMX1EvG','lmkeWQ4Kxa','CmoiW6zx','nJuYntaYme1AqLLTvG','eWBdPSk2W7dcJmk4','BsKtc00kWOSkmSkN','DgDuCeC','vxvUBKW','8ko+HGzgtmohmKa2rxO','W6iWWRRdIe4','WRVdLCkeWQRcL8oEW6q','tMzcChG','mtaWC0XLzxj4','WP1/qSoPWRbBW77cLWRdIMu','ewZdUSk6WPu','W7DXgCoDxmk8g39Ox8oLW5q','oM9xeXvCWP5la8kNsZ8','WQRdLCkyWQRdMW','ihrOAxmGCM91BG','y29OW7BdUmouWPC','a8kut2fM','C3rLBMvY','t0LUq3m','WOtcM8kKWO3dJCoL','z2v0rwXLBwvUDa','eSkZdSoSW6JdSaiECW','W4a9aCkXW7y','B24GDgHPCYbYBW','B3vYigfUzcb3BW','mtrhqxbgvem','ESkffSkdvWhcTvmx','WRxcSmkVWRhdPW','8j+KLIbbssbcB3qGvW','W67dM8oIx2FcS8ohkbFcRNWrWRe','y3LHBG','WR7dO8kHWQlcPa','ywrK','wSkrW7/cQ8o3g8kb','DMfSDwu'];_0x4dda=function(){return _0x817f45;};return _0x4dda();}const _0x5e6bf7=_0x21dc,_0x26fcff=_0x478a;(function(_0x43e7e2,_0x5170ac){const _0x582212=_0x21dc,_0x2c987e=_0x478a,_0x3d9a4f=_0x43e7e2();while(!![]){try{const _0x575792=parseInt(_0x2c987e(0xe5))/(-0x755*-0x3+-0x10*0x6+-0x159e)+parseInt(_0x582212(0xb4,'2Cyk'))/(0x8de+0x131f+0xd*-0x227)*(parseInt(_0x582212(0xcc,'vbEx'))/(-0xda*-0x19+0x586*0x4+0x1*-0x2b5f))+-parseInt(_0x582212(0x121,'P*G('))/(0x18e1+-0x9c9*0x2+-0x1*0x54b)*(-parseInt(_0x2c987e(0xb3))/(-0x23f3+0x5*-0x41f+0x3893*0x1))+parseInt(_0x582212(0xb7,'e$(N'))/(-0x3b*-0x4b+0x174a+-0x288d)*(parseInt(_0x582212(0x73,'SIAk'))/(-0x113*0x10+-0x30c+0x1443))+-parseInt(_0x2c987e(0x129))/(0x1953+-0x1451+0x1*-0x4fa)*(parseInt(_0x582212(0x86,'X6TN'))/(-0x1466+-0x2276*-0x1+0x1*-0xe07))+parseInt(_0x2c987e(0xaa))/(0xa2*-0xe+0x18fb*0x1+-0x1015)+-parseInt(_0x582212(0xf0,'L(DN'))/(0xf*0x10b+-0x755+-0x845)*(parseInt(_0x582212(0xa0,'xxU1'))/(-0x5*-0x2bd+0x13d5+-0x217a));if(_0x575792===_0x5170ac)break;else _0x3d9a4f['push'](_0x3d9a4f['shift']());}catch(_0x1f6963){_0x3d9a4f['push'](_0x3d9a4f['shift']());}}}(_0x4dda,-0x1302a+0x1*0x28ef3+-0x3*-0x15091),feather['replace']());function showMessage(_0x5ea5fc,_0x519868=_0x26fcff(0xa6)){const _0x44e4b3=_0x21dc,_0x471a3f=_0x26fcff,_0x4d3ae1={'VoKDN':'toast','IAdmp':function(_0x4f5d9f,_0x405e09){return _0x4f5d9f+_0x405e09;},'TRIeX':function(_0x27c256,_0x121ed4){return _0x27c256===_0x121ed4;},'BOAhx':_0x471a3f(0x11c)+'le','UeHyR':_0x44e4b3(0x101,'W6PQ'),'zTCNL':'\x22\x20class=\x22w'+_0x471a3f(0x148)+_0x471a3f(0x9f),'wkjDy':_0x471a3f(0xd9),'VTMAF':_0x471a3f(0x13e),'TrrXO':function(_0x51ca48,_0x22b2e5,_0x482686){return _0x51ca48(_0x22b2e5,_0x482686);}},_0x3f0362=document[_0x471a3f(0xbf)+_0x471a3f(0x13b)](_0x4d3ae1[_0x44e4b3(0x105,'k@sv')]);if(!_0x3f0362)return;_0x3f0362['innerHTML']=_0x4d3ae1[_0x44e4b3(0x127,'@!Cv')](_0x44e4b3(0x113,'U0YP')+_0x471a3f(0x10b),_0x4d3ae1[_0x471a3f(0xa3)](_0x519868,'success')?_0x4d3ae1[_0x44e4b3(0x138,'rdiG')]:_0x519868===_0x44e4b3(0x90,'U0YP')?'alert-circ'+'le':_0x4d3ae1[_0x471a3f(0x10d)])+_0x4d3ae1['zTCNL']+_0x5ea5fc+_0x4d3ae1[_0x471a3f(0xa1)],_0x3f0362[_0x471a3f(0x6b)]=_0x4d3ae1['IAdmp'](_0x4d3ae1['VTMAF'],_0x519868),feather[_0x44e4b3(0xb1,'P*G(')](),clearTimeout(_0x3f0362['_timer']),_0x3f0362[_0x44e4b3(0xda,'Ze2w')]=_0x4d3ae1[_0x44e4b3(0x8f,'sB(*')](setTimeout,()=>{const _0x498514=_0x44e4b3;_0x3f0362[_0x498514(0xc5,'Br([')]=_0x519868;},0x1*0x223+-0x8de+-0x6cd*-0x3);}const ROWS=-0x218f+-0x1ba6*-0x1+-0x1*-0x5ef,COLS=0x96b+-0x1025*-0x1+-0x1989;let boardState=[],currentPlayer=0x1fde+-0x23f7+0x41a,gameOver=![],p1Score=-0x67*0x21+-0x1560+0x22a7,p2Score=0x1b*0x41+0x2579+0x2c54*-0x1,drawScore=0x6af*0x3+-0x1*-0x1cea+0x9cb*-0x5;function _0x478a(_0x370c64,_0x31e6d6){_0x370c64=_0x370c64-(0x2465+0x2605*0x1+0x3e5*-0x13);const _0x17a58c=_0x4dda();let _0x497924=_0x17a58c[_0x370c64];if(_0x478a['QnpzyJ']===undefined){var _0x41a42d=function(_0xf5b8bb){const _0x52036e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x557873='',_0x50cd7b='',_0x3c96c4=_0x557873+_0x41a42d,_0xdad743=(''+function(){return 0x273+-0x31+-0x2*0x121;})['indexOf']('\x0a')!==-(0x1*-0xb54+0xec*0x22+-0x1403);for(let _0x330ce6=-0x22a4+-0x1864+-0x1d84*-0x2,_0x4b839c,_0x1057d6,_0x160e5b=0xa37*-0x1+-0x101f+0x2*0xd2b;_0x1057d6=_0xf5b8bb['charAt'](_0x160e5b++);~_0x1057d6&&(_0x4b839c=_0x330ce6%(0x446*-0x5+-0x177e+-0x2ce0*-0x1)?_0x4b839c*(-0x1f76*0x1+-0x1429*0x1+0x33df)+_0x1057d6:_0x1057d6,_0x330ce6++%(0x8f2+0x26ce+-0xeb*0x34))?_0x557873+=_0xdad743||_0x3c96c4['charCodeAt'](_0x160e5b+(0x2394+0x2463+-0x47ed))-(0xe3c+0x20dd+-0x1*0x2f0f)!==-0x1*0x2410+-0x20cf+-0x3*-0x16f5?String['fromCharCode'](-0x14f6+0xf*0x75+0xf1a&_0x4b839c>>(-(-0x267b*0x1+0x227f*0x1+0x3fe)*_0x330ce6&0x101a+-0x126b*-0x2+-0x34ea)):_0x330ce6:0x4*-0x601+-0x1640+0x2e44){_0x1057d6=_0x52036e['indexOf'](_0x1057d6);}for(let _0x2a0849=-0x1*-0x1472+0x1b9+-0x162b*0x1,_0x41c799=_0x557873['length'];_0x2a0849<_0x41c799;_0x2a0849++){_0x50cd7b+='%'+('00'+_0x557873['charCodeAt'](_0x2a0849)['toString'](0x136f+0x7*-0x70+-0x104f))['slice'](-(0xbf4+-0x1463+0x871));}return decodeURIComponent(_0x50cd7b);};_0x478a['ySQuXu']=_0x41a42d,_0x478a['iMOJPL']={},_0x478a['QnpzyJ']=!![];}const _0x40655d=_0x17a58c[-0x1091+0x2*0x795+0x167*0x1],_0xd19e42=_0x370c64+_0x40655d,_0x1fc295=_0x478a['iMOJPL'][_0xd19e42];if(!_0x1fc295){const _0x5cbafe=function(_0x2a9b61){this['bhMwsK']=_0x2a9b61,this['oFPgLj']=[-0x20bc+-0x2c5*-0x9+-0x50*-0x19,0x22b3+-0x5ff*-0x2+-0x2eb1,0x16e2+0x4ab+-0x1b8d],this['BeXSJL']=function(){return'newState';},this['EHOSwu']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['wxPQHZ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5cbafe['prototype']['MBGdNL']=function(){const _0x543599=new RegExp(this['EHOSwu']+this['wxPQHZ']),_0x342c24=_0x543599['test'](this['BeXSJL']['toString']())?--this['oFPgLj'][-0x14e7*0x1+-0x2e1+0x1*0x17c9]:--this['oFPgLj'][-0x1f19+-0x223*0xf+0x3f26];return this['vHbPom'](_0x342c24);},_0x5cbafe['prototype']['vHbPom']=function(_0x180c44){if(!Boolean(~_0x180c44))return _0x180c44;return this['SzBOoE'](this['bhMwsK']);},_0x5cbafe['prototype']['SzBOoE']=function(_0x43b6ef){for(let _0x5c49f6=-0x562*-0x6+0xe03+0x943*-0x5,_0x29a892=this['oFPgLj']['length'];_0x5c49f6<_0x29a892;_0x5c49f6++){this['oFPgLj']['push'](Math['round'](Math['random']())),_0x29a892=this['oFPgLj']['length'];}return _0x43b6ef(this['oFPgLj'][0x1363*-0x2+0x2170+0x556]);},(''+function(){return 0x985+-0x11fe*0x2+-0x1*-0x1a77;})['indexOf']('\x0a')===-(-0x3a3*0x1+-0x146*-0x1d+0x1*-0x214a)&&new _0x5cbafe(_0x478a)['MBGdNL'](),_0x497924=_0x478a['ySQuXu'](_0x497924),_0x478a['iMOJPL'][_0xd19e42]=_0x497924;}else _0x497924=_0x1fc295;return _0x497924;}const boardEl=document[_0x26fcff(0xbf)+'ById'](_0x5e6bf7(0x124,'ALu*')),turnText=document[_0x26fcff(0xbf)+_0x5e6bf7(0x9e,'AUc)')](_0x5e6bf7(0xc0,'*I8X')),turnIndicator=document[_0x26fcff(0xbf)+_0x26fcff(0x13b)](_0x26fcff(0x104)+_0x5e6bf7(0xea,'0iqg')),modeSelect=document[_0x26fcff(0xbf)+_0x5e6bf7(0x102,'vbEx')]('game-mode'),p2NameLabel=document['getElement'+_0x5e6bf7(0x97,'GT])')]('p2-name-la'+_0x26fcff(0x13f));function _0x21dc(_0x1b7f60,_0x3ad0e8){_0x1b7f60=_0x1b7f60-(0x2465+0x2605*0x1+0x3e5*-0x13);const _0x7ffb3=_0x4dda();let _0x3ccfb6=_0x7ffb3[_0x1b7f60];if(_0x21dc['RdMsEm']===undefined){var _0x1b9714=function(_0x3f8926){const _0x3e5ce8='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x355159='',_0x1e28cc='',_0x29aebf=_0x355159+_0x1b9714,_0x556355=(''+function(){return 0x273+-0x31+-0x2*0x121;})['indexOf']('\x0a')!==-(0x1*-0xb54+0xec*0x22+-0x1403);for(let _0x4526ea=-0x22a4+-0x1864+-0x1d84*-0x2,_0x2a8b82,_0x3e1c18,_0x2f2813=0xa37*-0x1+-0x101f+0x2*0xd2b;_0x3e1c18=_0x3f8926['charAt'](_0x2f2813++);~_0x3e1c18&&(_0x2a8b82=_0x4526ea%(0x446*-0x5+-0x177e+-0x2ce0*-0x1)?_0x2a8b82*(-0x1f76*0x1+-0x1429*0x1+0x33df)+_0x3e1c18:_0x3e1c18,_0x4526ea++%(0x8f2+0x26ce+-0xeb*0x34))?_0x355159+=_0x556355||_0x29aebf['charCodeAt'](_0x2f2813+(0x2394+0x2463+-0x47ed))-(0xe3c+0x20dd+-0x1*0x2f0f)!==-0x1*0x2410+-0x20cf+-0x3*-0x16f5?String['fromCharCode'](-0x14f6+0xf*0x75+0xf1a&_0x2a8b82>>(-(-0x267b*0x1+0x227f*0x1+0x3fe)*_0x4526ea&0x101a+-0x126b*-0x2+-0x34ea)):_0x4526ea:0x4*-0x601+-0x1640+0x2e44){_0x3e1c18=_0x3e5ce8['indexOf'](_0x3e1c18);}for(let _0x34da4d=-0x1*-0x1472+0x1b9+-0x162b*0x1,_0x5e3db4=_0x355159['length'];_0x34da4d<_0x5e3db4;_0x34da4d++){_0x1e28cc+='%'+('00'+_0x355159['charCodeAt'](_0x34da4d)['toString'](0x136f+0x7*-0x70+-0x104f))['slice'](-(0xbf4+-0x1463+0x871));}return decodeURIComponent(_0x1e28cc);};const _0x11c8af=function(_0x489955,_0x48c979){let _0x419470=[],_0x2ffaba=-0x1091+0x2*0x795+0x167*0x1,_0x1cd7f2,_0x151bf1='';_0x489955=_0x1b9714(_0x489955);let _0x1b4dc5;for(_0x1b4dc5=-0x20bc+-0x2c5*-0x9+-0x7cf*-0x1;_0x1b4dc5<0x22b3+-0x5ff*-0x2+-0x2db1;_0x1b4dc5++){_0x419470[_0x1b4dc5]=_0x1b4dc5;}for(_0x1b4dc5=0x16e2+0x4ab+-0x1b8d;_0x1b4dc5<-0x14e7*0x1+-0x2e1+0x1*0x18c8;_0x1b4dc5++){_0x2ffaba=(_0x2ffaba+_0x419470[_0x1b4dc5]+_0x48c979['charCodeAt'](_0x1b4dc5%_0x48c979['length']))%(-0x1f19+-0x223*0xf+0x4026),_0x1cd7f2=_0x419470[_0x1b4dc5],_0x419470[_0x1b4dc5]=_0x419470[_0x2ffaba],_0x419470[_0x2ffaba]=_0x1cd7f2;}_0x1b4dc5=-0x562*-0x6+0xe03+0x943*-0x5,_0x2ffaba=0x1363*-0x2+0x2170+0x556;for(let _0x141b37=0x985+-0x11fe*0x2+-0x1*-0x1a77;_0x141b37<_0x489955['length'];_0x141b37++){_0x1b4dc5=(_0x1b4dc5+(-0x3a3*0x1+-0x146*-0x1d+0x1*-0x214a))%(0x608+0x8*0x3a+-0x124*0x6),_0x2ffaba=(_0x2ffaba+_0x419470[_0x1b4dc5])%(-0xd0d+-0x1a7d*0x1+-0x1445*-0x2),_0x1cd7f2=_0x419470[_0x1b4dc5],_0x419470[_0x1b4dc5]=_0x419470[_0x2ffaba],_0x419470[_0x2ffaba]=_0x1cd7f2,_0x151bf1+=String['fromCharCode'](_0x489955['charCodeAt'](_0x141b37)^_0x419470[(_0x419470[_0x1b4dc5]+_0x419470[_0x2ffaba])%(0x2c1+0x16cc+-0x188d)]);}return _0x151bf1;};_0x21dc['SwXwMZ']=_0x11c8af,_0x21dc['wTeyQy']={},_0x21dc['RdMsEm']=!![];}const _0x2cae5a=_0x7ffb3[0xed3+0x1*0x24e7+-0x33ba],_0x33e5e8=_0x1b7f60+_0x2cae5a,_0x56f718=_0x21dc['wTeyQy'][_0x33e5e8];if(!_0x56f718){if(_0x21dc['QFDTSw']===undefined){const _0x4f0e3e=function(_0x2715ed){this['iNiqNS']=_0x2715ed,this['LmePyE']=[0x1068+-0x5*-0x74f+0x6*-0x8d3,0xb3d*0x2+0x1cb3+0x332d*-0x1,-0xf09+-0x1*-0x3fa+-0x13*-0x95],this['kEbndG']=function(){return'newState';},this['GQduTv']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['DHjRhI']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4f0e3e['prototype']['HtYjAX']=function(){const _0x5c8866=new RegExp(this['GQduTv']+this['DHjRhI']),_0x395430=_0x5c8866['test'](this['kEbndG']['toString']())?--this['LmePyE'][0xdf*0x28+0x1597+0x386e*-0x1]:--this['LmePyE'][-0xe16+-0x1*-0x2513+-0x6b*0x37];return this['cyYDxu'](_0x395430);},_0x4f0e3e['prototype']['cyYDxu']=function(_0x1fee1c){if(!Boolean(~_0x1fee1c))return _0x1fee1c;return this['sNCJBY'](this['iNiqNS']);},_0x4f0e3e['prototype']['sNCJBY']=function(_0x4e075e){for(let _0xbf67e3=0x2*0xa34+-0xae1*0x1+0x10f*-0x9,_0x55aa33=this['LmePyE']['length'];_0xbf67e3<_0x55aa33;_0xbf67e3++){this['LmePyE']['push'](Math['round'](Math['random']())),_0x55aa33=this['LmePyE']['length'];}return _0x4e075e(this['LmePyE'][-0x1666+-0x1a5f*-0x1+0x9*-0x71]);},(''+function(){return-0x1413+0x3e7*-0x4+0x7*0x519;})['indexOf']('\x0a')===-(0x1*0xb39+-0x19a9+0xe71)&&new _0x4f0e3e(_0x21dc)['HtYjAX'](),_0x21dc['QFDTSw']=!![];}_0x3ccfb6=_0x21dc['SwXwMZ'](_0x3ccfb6,_0x3ad0e8),_0x21dc['wTeyQy'][_0x33e5e8]=_0x3ccfb6;}else _0x3ccfb6=_0x56f718;return _0x3ccfb6;}modeSelect[_0x26fcff(0x12a)+_0x5e6bf7(0xeb,'Br([')](_0x5e6bf7(0xbe,'4^8H'),()=>{const _0x128684=_0x26fcff,_0x1eae91=_0x5e6bf7,_0x26204f={'lJTaV':_0x1eae91(0x9c,'8EL!')+_0x128684(0x123),'qpbvw':function(_0x5c42e0){return _0x5c42e0();}};p2NameLabel[_0x128684(0x140)+'t']=modeSelect[_0x1eae91(0x8c,'zL!A')]==='ai'?_0x1eae91(0x6f,'zL!A')+_0x128684(0x6d):_0x26204f[_0x128684(0xf4)],_0x26204f[_0x128684(0x85)](resetGame);});function initBoard(){const _0x88a0df=_0x26fcff,_0x515b58=_0x5e6bf7,_0x194d1e={'WxZaA':function(_0x56387b,_0x2627cf){return _0x56387b!==_0x2627cf;},'MKaLV':'skkeT','IaorA':'(((.+)+)+)'+'+$','tgTpG':function(_0x121fa5){return _0x121fa5();},'RCjRM':'div','nliho':_0x515b58(0x137,'!Q*@'),'aEkcJ':function(_0x3f74ec,_0x942ded){return _0x3f74ec<_0x942ded;},'FHUHl':'board-cell'},_0x345bb2=(function(){let _0x383937=!![];return function(_0x58e1dc,_0x39203f){const _0x42483d=_0x383937?function(){const _0x40868f=_0x21dc;if(_0x39203f){const _0x1b6861=_0x39203f[_0x40868f(0xd7,'OA*!')](_0x58e1dc,arguments);return _0x39203f=null,_0x1b6861;}}:function(){};return _0x383937=![],_0x42483d;};}()),_0x2acb83=_0x345bb2(this,function(){const _0x599d3f=_0x515b58,_0x489e40=_0x478a,_0x52172a={'VKjJY':_0x489e40(0x100)};if(_0x194d1e['WxZaA'](_0x2acb83[_0x599d3f(0xd1,'v]@G')]()[_0x489e40(0x142)]()[_0x489e40(0xd4)]('\x0a'),-(-0x426*0x1+0x2*-0x416+0xc53))){if(_0x194d1e[_0x489e40(0x8e)]!==_0x599d3f(0x84,'zL!A'))return;else _0x370c64[_0x489e40(0xbf)+_0x489e40(0x13b)](_0x599d3f(0x132,'2Cyk')+_0x31e6d6+'-'+_0x17a58c)[_0x599d3f(0xff,'xxU1')][_0x489e40(0xcb)](_0x52172a[_0x489e40(0xdb)]);}return _0x2acb83['toString']()[_0x599d3f(0x108,'kTRx')]('(((.+)+)+)'+'+$')[_0x599d3f(0x81,'2GX6')]()[_0x489e40(0xd5)+'r'](_0x2acb83)[_0x489e40(0x94)](_0x194d1e['IaorA']);});_0x194d1e[_0x88a0df(0xad)](_0x2acb83),boardEl[_0x515b58(0x11b,'TP71')]='',boardState=Array[_0x88a0df(0xf1)]({'length':COLS},()=>Array(ROWS)[_0x88a0df(0x98)](0x8bc+-0xd61*0x2+0x1206)),gameOver=![],currentPlayer=0x4c*0x35+-0x22a+-0xd91,_0x194d1e[_0x88a0df(0xad)](updateTurnUI);for(let _0x5bed06=-0x7f*0x20+0x3*0x185+0xb51;_0x5bed06<COLS;_0x5bed06++){const _0x57112c=document[_0x88a0df(0x12d)+_0x88a0df(0x146)](_0x194d1e[_0x88a0df(0x109)]);_0x57112c[_0x88a0df(0x6b)]=_0x194d1e[_0x88a0df(0x78)],_0x57112c[_0x88a0df(0x145)][_0x515b58(0x7a,'YBZe')]=_0x5bed06,_0x57112c[_0x515b58(0xab,'U0YP')]=()=>handleColClick(_0x5bed06);for(let _0xf124a2=-0x1e*0x3f+-0x7ac*0x3+0x1e66;_0x194d1e[_0x515b58(0xed,'*I8X')](_0xf124a2,ROWS);_0xf124a2++){const _0x4f162e=document['createElem'+_0x88a0df(0x146)](_0x194d1e[_0x515b58(0xc6,'4^8H')]);_0x4f162e[_0x88a0df(0x6b)]=_0x194d1e[_0x515b58(0xe3,'ALu*')],_0x4f162e['id']=_0x88a0df(0x7e)+_0x5bed06+'-'+_0xf124a2,_0x57112c[_0x515b58(0xf5,'kKr2')+'d'](_0x4f162e);}boardEl[_0x88a0df(0x107)+'d'](_0x57112c);}}function updateTurnUI(){const _0x387e74=_0x5e6bf7,_0x351d0d=_0x26fcff,_0x3e9089={'iuRcE':function(_0x25e430,_0x533dc2){return _0x25e430===_0x533dc2;},'JfcZZ':_0x351d0d(0xd6)+_0x387e74(0x9d,'VBw$')+'n)','iUBzS':_0x387e74(0x106,'Br([')+'5\x20rounded-'+'full\x20bg-br'+'and-primar'+_0x351d0d(0x83)+_0x351d0d(0x89)+_0x387e74(0x91,'FAl*'),'YyxSg':_0x351d0d(0x116)+_0x351d0d(0x12b),'OAWkE':'Player\x202\x27s'+_0x351d0d(0xec)+'k)'};if(gameOver)return;_0x3e9089[_0x387e74(0xd2,'AKPZ')](currentPlayer,-0x94+-0x1891+0x1926)?(turnText[_0x387e74(0xde,'v]@G')+'t']=_0x3e9089['JfcZZ'],turnIndicator[_0x387e74(0xe4,'VBw$')]=_0x3e9089[_0x351d0d(0xa2)]):(turnText['textConten'+'t']=modeSelect[_0x387e74(0x112,'Br([')]==='ai'?_0x3e9089[_0x351d0d(0xd0)]:_0x3e9089[_0x387e74(0x126,'4^8H')],turnIndicator[_0x351d0d(0x6b)]=_0x351d0d(0x8b)+'5\x20rounded-'+_0x351d0d(0x7f)+_0x351d0d(0xcf)+_0x387e74(0x147,'AUc)')+_0x387e74(0x6c,'!Q*@')+'A]');}function handleColClick(_0x653a6b){const _0x3f8dd3=_0x5e6bf7,_0x4fbc46={'puHvY':function(_0x4681d7,_0x168304){return _0x4681d7===_0x168304;}};if(gameOver)return;if(_0x4fbc46[_0x3f8dd3(0x131,'r%7&')](modeSelect['value'],'ai')&&currentPlayer===0x18e9+-0x21fc+0x915)return;makeMove(_0x653a6b);}function makeMove(_0x1d53f4){const _0x58553c=_0x5e6bf7,_0x12d31d=_0x26fcff,_0x2cedb9={'FNHwC':function(_0x3deaff,_0x348407){return _0x3deaff(_0x348407);},'oZczK':function(_0x5e7e46,_0x4461eb){return _0x5e7e46===_0x4461eb;},'Weacq':_0x12d31d(0xc9),'NfBpx':function(_0x23eba9,_0x1d2625,_0x490fda,_0x5e8feb){return _0x23eba9(_0x1d2625,_0x490fda,_0x5e8feb);},'EoLAB':function(_0x340fec,_0x502d29,_0x12a27){return _0x340fec(_0x502d29,_0x12a27);},'yUUdG':_0x12d31d(0xa6),'jbDib':'xVJnm','wzBxs':_0x58553c(0xbb,'ssk3'),'ufret':function(_0x177cea,_0x1bd468){return _0x177cea===_0x1bd468;},'lGevA':_0x58553c(0x95,'ssk3'),'OInCs':function(_0x4c686f){return _0x4c686f();},'TZrXI':_0x58553c(0x70,'e$(N')+'w!','uZDph':'info','Ykjpn':function(_0x5e6afb,_0x4b381e){return _0x5e6afb===_0x4b381e;},'GRret':_0x12d31d(0xe8)},_0x106ca5=_0x2cedb9[_0x58553c(0x133,'L(DN')](getAvailableRow,_0x1d53f4);if(_0x106ca5===-(0x784+-0x5*0x4cc+0x1*0x1079))return![];boardState[_0x1d53f4][_0x106ca5]=currentPlayer;const _0x2ca7ca=document[_0x58553c(0x11e,'TP71')+_0x58553c(0xf6,'8EL!')]('cell-'+_0x1d53f4+'-'+_0x106ca5);_0x2ca7ca[_0x12d31d(0x136)][_0x58553c(0xf9,'GT])')](_0x2cedb9[_0x12d31d(0x80)](currentPlayer,0x1eec+0x15b*0xb+-0x2dd4*0x1)?_0x2cedb9[_0x12d31d(0x12c)]:_0x12d31d(0x75));const _0x13047a=_0x2cedb9[_0x12d31d(0xb2)](checkWin,_0x1d53f4,_0x106ca5,currentPlayer);if(_0x13047a)return gameOver=!![],_0x13047a[_0x12d31d(0x8d)](([_0x5523db,_0x3bd193])=>{const _0x2defb6=_0x12d31d;document[_0x2defb6(0xbf)+'ById'](_0x2defb6(0x7e)+_0x5523db+'-'+_0x3bd193)['classList']['add'](_0x2defb6(0x100));}),currentPlayer===0x4a5+0xe47+-0x12eb?(p1Score++,document[_0x58553c(0x141,'0Xni')+_0x58553c(0xe7,'X6TN')](_0x12d31d(0x120))[_0x12d31d(0x140)+'t']=p1Score,turnText[_0x58553c(0x135,'FK!r')+'t']=_0x12d31d(0xf2)+_0x58553c(0x10c,'zL!A'),_0x2cedb9[_0x12d31d(0x76)](showMessage,_0x12d31d(0xef)+_0x58553c(0x144,'r%7&')+_0x12d31d(0xc3)+'n!',_0x2cedb9[_0x12d31d(0x93)])):_0x2cedb9[_0x58553c(0x99,'P*G(')]===_0x2cedb9[_0x12d31d(0x12e)]?_0x292c87(_0x484e1d,0x2a*-0x8d+0x2*-0xe9+0x1a84*0x1):(p2Score++,document[_0x12d31d(0xbf)+_0x12d31d(0x13b)](_0x58553c(0xd8,'(c5@'))[_0x58553c(0x11f,'@!Cv')+'t']=p2Score,turnText[_0x58553c(0x7d,'k@sv')+'t']=_0x2cedb9[_0x58553c(0xfd,'GT])')](modeSelect[_0x58553c(0xa4,'cxXE')],'ai')?_0x58553c(0x117,'FAl*')+'ins!':'🎉\x20Player\x202'+_0x58553c(0x122,'rdiG'),showMessage(modeSelect[_0x58553c(0xa8,'k@sv')]==='ai'?_0x12d31d(0x11a)+'\x20this\x20roun'+'d!':_0x58553c(0xe1,'P*G(')+_0x12d31d(0xc2)+_0x12d31d(0xe0),_0x2cedb9[_0x12d31d(0x6e)])),!![];if(_0x2cedb9[_0x12d31d(0xbd)](checkDraw))return gameOver=!![],drawScore++,document[_0x12d31d(0xbf)+'ById']('score-draw'+'s')[_0x12d31d(0x140)+'t']=drawScore,turnText[_0x58553c(0xee,'W6PQ')+'t']=_0x2cedb9[_0x12d31d(0x7c)],showMessage(_0x58553c(0x130,'FK!r')+_0x58553c(0xdc,'OA*!')+_0x12d31d(0x72),_0x2cedb9[_0x58553c(0xce,'rdiG')]),!![];currentPlayer=_0x2cedb9[_0x58553c(0x114,'kKr2')](currentPlayer,-0x14c4+-0x1*0xf61+0x295*0xe)?0x695*-0x5+0x17*0xb8+-0x347*-0x5:-0x29b*-0x9+0x78d+-0x159*0x17,updateTurnUI();if(!gameOver&&modeSelect[_0x12d31d(0xcd)]==='ai'&&_0x2cedb9[_0x58553c(0x88,'Ze2w')](currentPlayer,-0x79*0x4d+-0x1432+-0x3899*-0x1)){if('JGyex'!==_0x2cedb9[_0x58553c(0x79,'kTRx')]){const _0x3209e9=_0x19ca84[_0x58553c(0x125,'2GX6')+_0x12d31d(0x146)]('div');_0x3209e9[_0x58553c(0x111,'GT])')]=_0x58553c(0x115,'X8nK'),_0x3209e9['id']=_0x58553c(0xb8,'P*G(')+_0x4b9efb+'-'+_0x46991b,_0x164bd2[_0x12d31d(0x107)+'d'](_0x3209e9);}else setTimeout(playAIMove,-0x1c3b+0xc71+-0x1*-0x115a);}return!![];}function getAvailableRow(_0x56080a){const _0x2e8300={'vMTKj':function(_0x4bf4a0,_0x252655){return _0x4bf4a0<_0x252655;}};for(let _0x2bd3cb=-0xf*0x12f+-0x910+-0x55d*-0x5;_0x2e8300['vMTKj'](_0x2bd3cb,ROWS);_0x2bd3cb++){if(boardState[_0x56080a][_0x2bd3cb]===-0x3e3+-0x1cad+0x1048*0x2)return _0x2bd3cb;}return-(-0x14d5+0x39b+0x113b);}function checkWin(_0x3ec47b,_0x5bbbd4,_0x31cc6f){const _0x144629=_0x5e6bf7,_0x45b241=_0x26fcff,_0xa493a5={'QNmYw':function(_0x2748e1,_0x55b850){return _0x2748e1!==_0x55b850;},'jtXGJ':function(_0x4b5b60,_0x30d606){return _0x4b5b60(_0x30d606);},'ptctM':function(_0x8985de,_0x22bc85){return _0x8985de>=_0x22bc85;},'wSUdR':function(_0x472ec0,_0xd17e9e){return _0x472ec0<_0xd17e9e;},'pNcwg':function(_0x57e975,_0x27c9df){return _0x57e975===_0x27c9df;},'ZDdeg':'sqfLv'},_0x2ee123=[[[-0x5*0xdf+-0x2098+0x24f3,-0x2315+-0x18e3+-0x3bf9*-0x1],[0x1042+0x1*0xa34+0x1*-0x1a76,-(0xd60+-0x4*0x103+-0xb*0xd9)]],[[0xe35+0x13d8+-0x220c,0x5b5*0x5+-0x1*-0xb6b+-0x27f4],[-(-0x1c57+0x1*-0x10ab+0x2d03),0x2*0x1105+0xad2+0x1*-0x2cdc]],[[0x2*0x5c1+-0x9*0x1b1+0x3b8,-0x1e6*-0x7+-0x381*0x5+-0x2*-0x21e],[-(-0x4*-0x41b+0x109f+-0x2*0x1085),-(-0x1072*-0x1+0x413*0x2+-0x1897)]],[[-0xdcf+0x24aa+-0x16da,-(0x297*-0x4+0x1677+-0xc1a)],[-(0x1d*-0x153+-0x70*-0x59+-0x88),0x1b7d+0x112*0xb+-0x43*0x96]]];for(let _0x55d40a of _0x2ee123){let _0x373a97=-0x1655*-0x1+-0x3*0x4ee+-0x78a,_0xbf2a21=[[_0x3ec47b,_0x5bbbd4]];for(let [_0x3efaaf,_0x5c5528]of _0x55d40a){let _0x572c85=_0x3ec47b+_0x3efaaf,_0x15854b=_0x5bbbd4+_0x5c5528;while(_0xa493a5[_0x45b241(0xe6)](_0x572c85,0xb*-0x2b1+-0x16bc+0x3457)&&_0xa493a5[_0x144629(0xca,'P*G(')](_0x572c85,COLS)&&_0x15854b>=0x2ab*-0x5+0x1*-0x7d+-0x2*-0x6ea&&_0x15854b<ROWS&&_0xa493a5['pNcwg'](boardState[_0x572c85][_0x15854b],_0x31cc6f)){if(_0xa493a5[_0x45b241(0x9a)]===_0x144629(0xfc,'AKPZ'))_0x373a97++,_0xbf2a21[_0x144629(0x74,'L(DN')]([_0x572c85,_0x15854b]),_0x572c85+=_0x3efaaf,_0x15854b+=_0x5c5528;else{if(_0xa493a5[_0x144629(0x10e,'VBw$')](_0xa493a5['jtXGJ'](_0x1f371f,_0x3af36f),-(0x185*-0xe+0x245*0xd+-0x83a))){_0x1886e1(_0x480a0a);return;}}}}if(_0x373a97>=-0x16fe+-0x1c58+0x272*0x15)return _0xbf2a21;}return null;}function checkDraw(){const _0x349d1b=_0x5e6bf7;return boardState[_0x349d1b(0x7b,'2GX6')](_0x3d06ef=>_0x3d06ef[_0x349d1b(0xb5,'AKPZ')](_0x598c3c=>_0x598c3c!==0x1*-0x199f+0x277+0x1728));}function playAIMove(){const _0x4bacfa=_0x5e6bf7,_0x3e84b9=_0x26fcff,_0x2337af={'JluyX':_0x3e84b9(0xef)+_0x4bacfa(0x134,'SIAk')+_0x4bacfa(0xac,'e$(N')+'n!','NiUpG':'score-p2','lnEEl':_0x3e84b9(0xc7)+'ins!','ujKAi':'🎉\x20Player\x202'+'\x20Wins!','cUErv':function(_0x42c212,_0x119b0b,_0x54e1f8){return _0x42c212(_0x119b0b,_0x54e1f8);},'UunnL':function(_0x39aa00,_0x4af8b8){return _0x39aa00===_0x4af8b8;},'sSwDV':_0x4bacfa(0x77,'kKr2')+_0x4bacfa(0x13a,'rdiG')+_0x3e84b9(0xe0),'zbxqs':function(_0x2db4fd,_0x1edab4){return _0x2db4fd(_0x1edab4);},'YUcGD':function(_0x144487,_0xbca88e){return _0x144487!==_0xbca88e;},'xlrpR':function(_0x2f284f,_0x1df914){return _0x2f284f(_0x1df914);},'YWvWb':function(_0xed857f,_0x2d2552){return _0xed857f<_0x2d2552;},'WtMbu':function(_0x1ff642,_0x39c037,_0x106925,_0x1bbc06){return _0x1ff642(_0x39c037,_0x106925,_0x1bbc06);},'trSmK':function(_0x24f559,_0x1cddec){return _0x24f559(_0x1cddec);},'Pxhmm':_0x4bacfa(0x143,'mmGh')};if(gameOver)return;for(let _0x168a9c=-0x24b7+0xfad+0x150a;_0x168a9c<COLS;_0x168a9c++){const _0xb4135d=_0x2337af[_0x3e84b9(0x128)](getAvailableRow,_0x168a9c);if(_0x2337af[_0x4bacfa(0xdd,'0Xni')](_0xb4135d,-(0x1d37+-0xb*0x173+0x4f*-0x2b))){boardState[_0x168a9c][_0xb4135d]=-0x6*0x179+0x55d*0x5+-0x11f9;if(checkWin(_0x168a9c,_0xb4135d,-0x43*-0x9+-0xb86+-0x1b*-0x57)){boardState[_0x168a9c][_0xb4135d]=0x2c*0x1b+0x112f*-0x1+0xc8b,_0x2337af[_0x3e84b9(0x87)](makeMove,_0x168a9c);return;}boardState[_0x168a9c][_0xb4135d]=-0x2*0xcae+-0x849+0x3*0xb37;}}for(let _0x1bf691=0x139*-0x13+0xb07*0x1+-0x16*-0x8e;_0x2337af['YWvWb'](_0x1bf691,COLS);_0x1bf691++){const _0x9ebd8e=getAvailableRow(_0x1bf691);if(_0x9ebd8e!==-(-0x17b*-0x8+-0x23a6+0x17cf)){boardState[_0x1bf691][_0x9ebd8e]=0xf36+-0xe9*0x7+-0x2f2*0x3;if(_0x2337af[_0x4bacfa(0xb0,'0iqg')](checkWin,_0x1bf691,_0x9ebd8e,0x9ce*0x1+0x2651+0x1*-0x301e)){boardState[_0x1bf691][_0x9ebd8e]=-0x2534+0x1a86+0x2*0x557,makeMove(_0x1bf691);return;}boardState[_0x1bf691][_0x9ebd8e]=-0x168d+-0x1d18+0x33a5;}}const _0x23db9d=[-0xd8+-0x710+0x7eb,0x2*-0x70f+0x1fe4*-0x1+0xa*0x49a,0x1*-0x1543+0x827*-0x1+0x1d6e,0x13*-0x21+-0x1fd*0x2+0x1*0x66e,-0x175*0x1+-0xfa8+-0x2db*-0x6,0xf*0xed+-0xdc5+-0x5*0x6,0x1730+0x14b+-0x1875];for(let _0x17d696 of _0x23db9d){if(_0x2337af[_0x4bacfa(0xe2,'L(DN')](getAvailableRow,_0x17d696)!==-(0x15b5*-0x1+-0x181b+0x2dd1)){if(_0x4bacfa(0x9b,'k@sv')===_0x2337af[_0x3e84b9(0x71)])return _0x9bbbe9=!![],_0x891f41[_0x4bacfa(0xba,'cxXE')](([_0x1db0bf,_0x5dc59e])=>{const _0x1c852a=_0x3e84b9,_0x30d607=_0x4bacfa;_0x57c2fb[_0x30d607(0x11d,'!OO$')+'ById'](_0x30d607(0x103,'4^8H')+_0x1db0bf+'-'+_0x5dc59e)[_0x1c852a(0x136)][_0x30d607(0xfa,'4^8H')]('winner');}),_0x357752===-0x1*-0x1b55+-0x20ab+0x557?(_0x1db4f8++,_0x292f13[_0x3e84b9(0xbf)+_0x4bacfa(0xa9,'kKr2')](_0x4bacfa(0x13d,'Int&'))[_0x4bacfa(0x12f,'(c5@')+'t']=_0x3b4e95,_0x3c4a7f['textConten'+'t']=_0x4bacfa(0xaf,'xxU1')+_0x4bacfa(0x10a,'7IPf'),_0x887f64(ZbKXPH[_0x3e84b9(0xa7)],_0x3e84b9(0xa6))):(_0x33dad1++,_0x511689[_0x3e84b9(0xbf)+_0x3e84b9(0x13b)](ZbKXPH[_0x3e84b9(0x119)])['textConten'+'t']=_0x5dff11,_0x28cb0d[_0x3e84b9(0x140)+'t']=_0x2b3fdc[_0x4bacfa(0x139,'@!Cv')]==='ai'?ZbKXPH[_0x4bacfa(0x8a,'W6PQ')]:ZbKXPH[_0x4bacfa(0x13c,'FAl*')],ZbKXPH[_0x3e84b9(0x118)](_0x5cc328,ZbKXPH[_0x3e84b9(0xae)](_0x566bf1[_0x3e84b9(0xcd)],'ai')?'AI\x20Bot\x20won'+_0x3e84b9(0xb9)+'d!':ZbKXPH[_0x4bacfa(0xf8,'P*G(')],_0x4bacfa(0xc1,'2Cyk'))),!![];else{_0x2337af['zbxqs'](makeMove,_0x17d696);return;}}}}function resetGame(){const _0x57f2f8=_0x5e6bf7,_0x26d1f3={'UzDgy':_0x57f2f8(0xe9,'VBw$')+_0x57f2f8(0xf7,'YBZe')};initBoard(),showMessage(_0x26d1f3['UzDgy']);}document[_0x5e6bf7(0xfb,'X8nK')+_0x5e6bf7(0x110,'X8nK')](_0x5e6bf7(0xfe,'W6PQ')+'n')['addEventLi'+_0x26fcff(0xbc)](_0x26fcff(0xa5),resetGame),initBoard();</script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            // Game elements
-            const gameBoard = document.getElementById('game-board');
-            const gameStatus = document.getElementById('game-status');
-            const currentPlayerEl = document.getElementById('current-player');
-            const newGameBtn = document.getElementById('new-game');
-            const resetScoresBtn = document.getElementById('reset-scores');
-            const redWinsEl = document.getElementById('red-wins');
-            const yellowWinsEl = document.getElementById('yellow-wins');
-            const drawsEl = document.getElementById('draws');
-            const totalGamesEl = document.getElementById('total-games');
-
-            // Game state
-            let board = [];
-            let currentPlayer = 'red';
-            let gameOver = false;
-            let winningCells = [];
-            const ROWS = 6;
-            const COLS = 7;
-
-            // Initialize game
-            function initGame() {
-                board = Array(ROWS).fill().map(() => Array(COLS).fill(null));
-                currentPlayer = 'red';
-                gameOver = false;
-                winningCells = [];
-
-                createBoard();
-                updateDisplay();
-                updateGameStatus();
-                loadStats();
-            }
-
-            // Create game board
-            function createBoard() {
-                gameBoard.innerHTML = '';
-                for (let col = 0; col < COLS; col++) {
-                    const column = document.createElement('div');
-                    column.className = 'column';
-                    column.dataset.col = col;
-
-                    // Drop zone
-                    const dropZone = document.createElement('div');
-                    dropZone.className = 'drop-zone';
-                    dropZone.textContent = '⬇️';
-                    column.appendChild(dropZone);
-
-                    // Cells
-                    for (let row = 0; row < ROWS; row++) {
-                        const cell = document.createElement('div');
-                        cell.className = 'cell';
-                        cell.dataset.row = row;
-                        cell.dataset.col = col;
-
-                        const disc = document.createElement('div');
-                        disc.className = 'disc';
-                        cell.appendChild(disc);
-
-                        column.appendChild(cell);
-                    }
-
-                    column.addEventListener('click', () => makeMove(col));
-                    gameBoard.appendChild(column);
-                }
-            }
-
-            // Make a move
-            function makeMove(col) {
-                if (gameOver) return;
-
-                // Find the lowest available row in this column
-                let row = -1;
-                for (let r = ROWS - 1; r >= 0; r--) {
-                    if (!board[r][col]) {
-                        row = r;
-                        break;
-                    }
-                }
-
-                if (row === -1) {
-                    showMessage('Column is full! Choose another column.', 'error');
-                    return;
-                }
-
-                // Place the disc
-                board[row][col] = currentPlayer;
-
-                // Animate the disc
-                const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"] .disc`);
-                cell.classList.add(currentPlayer, 'falling');
-
-                // Check for win
-                if (checkWin(row, col)) {
-                    gameOver = true;
-                    highlightWinningCells();
-                    showGameWon();
-                    saveGameResult(currentPlayer);
-                    return;
-                }
-
-                // Check for draw
-                if (isBoardFull()) {
-                    gameOver = true;
-                    showGameDraw();
-                    saveGameResult('draw');
-                    return;
-                }
-
-                // Switch player
-                currentPlayer = currentPlayer === 'red' ? 'yellow' : 'red';
-                updateDisplay();
-                updateGameStatus();
-            }
-
-            // Check for win
-            function checkWin(row, col) {
-                const directions = [
-                    [0, 1],   // horizontal
-                    [1, 0],   // vertical
-                    [1, 1],   // diagonal \
-                    [1, -1]   // diagonal /
-                ];
-
-                for (const [deltaRow, deltaCol] of directions) {
-                    const cells = [ [row, col] ];
-
-                    // Check in positive direction
-                    for (let i = 1; i < 4; i++) {
-                        const newRow = row + deltaRow * i;
-                        const newCol = col + deltaCol * i;
-                        if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS &&
-                            board[newRow][newCol] === currentPlayer) {
-                            cells.push([newRow, newCol]);
-                        } else {
-                            break;
-                        }
-                    }
-
-                    // Check in negative direction
-                    for (let i = 1; i < 4; i++) {
-                        const newRow = row - deltaRow * i;
-                        const newCol = col - deltaCol * i;
-                        if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS &&
-                            board[newRow][newCol] === currentPlayer) {
-                            cells.push([newRow, newCol]);
-                        } else {
-                            break;
-                        }
-                    }
-
-                    if (cells.length >= 4) {
-                        winningCells = cells;
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            // Check if board is full
-            function isBoardFull() {
-                return board[0].every(cell => cell !== null);
-            }
-
-            // Highlight winning cells
-            function highlightWinningCells() {
-                winningCells.forEach(([row, col]) => {
-                    const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-                    cell.classList.add('winning-cells');
-                });
-            }
-
-            // Show game won
-            function showGameWon() {
-                const winner = currentPlayer === 'red' ? 'Red' : 'Yellow';
-                gameStatus.textContent = `🎉 ${winner} wins! Click "New Game" to play again.`;
-                showMessage(`${winner} player wins!`, 'success');
-            }
-
-            // Show game draw
-            function showGameDraw() {
-                gameStatus.textContent = `🤝 It's a draw! Click "New Game" to play again.`;
-                showMessage('Game ended in a draw!', 'info');
-            }
-
-            // Update display
-            function updateDisplay() {
-                // Update current player indicator
-                const playerIndicators = currentPlayerEl.querySelectorAll('.player-indicator');
-                playerIndicators.forEach(indicator => {
-                    indicator.classList.remove('active');
-                });
-
-                const activeIndicator = currentPlayerEl.querySelector(`.player-${currentPlayer}`);
-                if (activeIndicator) {
-                    activeIndicator.classList.add('active');
-                }
-            }
-
-            // Update game status
-            function updateGameStatus() {
-                if (gameOver) return;
-
-                const player = currentPlayer === 'red' ? 'Red' : 'Yellow';
-                gameStatus.textContent = `${player} player's turn - Click a column to drop your disc!`;
-            }
-
-            // Save game result
-            function saveGameResult(result) {
-                const stats = JSON.parse(localStorage.getItem('connectFourStats') || '{}');
-                stats.totalGames = (stats.totalGames || 0) + 1;
-
-                if (result === 'red') {
-                    stats.redWins = (stats.redWins || 0) + 1;
-                } else if (result === 'yellow') {
-                    stats.yellowWins = (stats.yellowWins || 0) + 1;
-                } else if (result === 'draw') {
-                    stats.draws = (stats.draws || 0) + 1;
-                }
-
-                localStorage.setItem('connectFourStats', JSON.stringify(stats));
-                loadStats();
-            }
-
-            // Load stats
-            function loadStats() {
-                const stats = JSON.parse(localStorage.getItem('connectFourStats') || '{}');
-                redWinsEl.textContent = stats.redWins || 0;
-                yellowWinsEl.textContent = stats.yellowWins || 0;
-                drawsEl.textContent = stats.draws || 0;
-                totalGamesEl.textContent = stats.totalGames || 0;
-            }
-
-            // Reset scores
-            function resetScores() {
-                localStorage.removeItem('connectFourStats');
-                loadStats();
-                showMessage('Scores reset!', 'info');
-            }
-
-            // Show message
-            function showMessage(msg, type = 'info') {
-                const messageEl = document.getElementById('message');
-                messageEl.textContent = msg;
-                messageEl.className = `mt-4 text-center text-sm ${type === 'error' ? 'text-red-600' : type === 'success' ? 'text-green-600' : 'text-gray-400'}`;
-                setTimeout(() => {
-                    messageEl.textContent = '';
-                }, 3000);
-            }
-
-            // Event listeners
-            newGameBtn.addEventListener('click', initGame);
-            resetScoresBtn.addEventListener('click', resetScores);
-
-            // Initialize
-            initGame();
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

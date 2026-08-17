@@ -1,349 +1,77 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Benchmark Score — Infiniteforge | Free Performance Testing Tool</title>
+    <title>System Benchmark Score — Real-time CPU &amp; Hardware Benchmark | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Test your system's performance with our free JavaScript benchmark. Measure CPU speed, memory performance, and overall computational power with detailed scoring.">
-    <meta name="keywords"
-        content="system benchmark, performance test, CPU benchmark, JavaScript benchmark, system performance, computer speed test, benchmark score">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="System Benchmark Score — Infiniteforge">
-    <meta property="og:description"
-        content="Test your system's performance with a comprehensive JavaScript benchmark and get detailed performance scores.">
+    <meta name="description" content="Benchmark your processor, memory, and graphics throughput directly in your browser. Real-time compute score, multi-core worker tests, and tier rankings.">
+    <meta name="keywords" content="system benchmark score, cpu benchmark, browser speed test, hardware performance score, javascript benchmark">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="System Benchmark Score | Infiniteforge">
+    <meta property="og:description" content="Test your system performance with real-time browser compute benchmarks.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/system-benchmark-score.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="System Benchmark Score — Infiniteforge">
-    <meta name="twitter:description" content="Test your system's performance with a comprehensive JavaScript benchmark.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/system-benchmark-score.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .benchmark-score {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 4rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .score-ring {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .score-ring::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary-gradient) 0deg, var(--primary-gradient) var(--progress), #e2e8f0 var(--progress));
-            mask: radial-gradient(farthest-side, transparent calc(100% - 15px), black calc(100% - 14px));
-            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 15px), black calc(100% - 14px));
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .test-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .test-item.running {
-            background: rgba(31, 40, 51, 0.4);
-            border-color: #f59e0b;
-        }
-
-        .test-item.completed {
-            background: rgba(31, 40, 51, 0.4);
-            border-color: #10b981;
-        }
-
-        .test-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .status-icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .status-icon.pending {
-            background: #e2e8f0;
-        }
-
-        .status-icon.running {
-            background: rgba(31, 40, 51, 0.4);
-            animation: pulse 1s infinite;
-        }
-
-        .status-icon.completed {
-            background: #10b981;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="System Benchmark Score | Infiniteforge">
+    <meta name="twitter:description" content="Benchmark CPU &amp; GPU performance in your browser.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/system-benchmark-score.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/system-benchmark-score.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x460bba=_0x204e,_0x17d129=_0x4c16;(function(_0x271b77,_0xb86277){var _0x27cc9e=_0x4c16,_0x5238da=_0x204e,_0x2ac9d0=_0x271b77();while(!![]){try{var _0x316a25=parseInt(_0x5238da(0x132))/(-0x126a+0x9cb*-0x3+0x13*0x284)+parseInt(_0x27cc9e(0x139,'b]sf'))/(0x175b+0x1242+0x299b*-0x1)*(parseInt(_0x5238da(0x120))/(-0x10*-0x229+0x16d8+-0x3965))+-parseInt(_0x5238da(0x140))/(0x9a3*0x2+-0x1ac4+0x2*0x3c1)*(parseInt(_0x27cc9e(0x13b,'3kqg'))/(0x1ea9+0x1ca3+-0x19*0x25f))+parseInt(_0x27cc9e(0x12d,'3qwX'))/(0x1b88+-0x110f+-0x19*0x6b)*(parseInt(_0x27cc9e(0x136,'BrB#'))/(-0x13ce+0x241c+0x1*-0x1047))+parseInt(_0x5238da(0x135))/(-0x943*-0x1+0x589+-0x23*0x6c)+parseInt(_0x27cc9e(0x131,'QzK]'))/(0x1dbc+-0x1*-0x9b5+-0x2768)+parseInt(_0x5238da(0x127))/(-0x25f*-0xd+-0x236+-0x1c93)*(-parseInt(_0x27cc9e(0x11f,'kuNP'))/(-0x119c+0x90e+0x899));if(_0x316a25===_0xb86277)break;else _0x2ac9d0['push'](_0x2ac9d0['shift']());}catch(_0x519e37){_0x2ac9d0['push'](_0x2ac9d0['shift']());}}}(_0x580b,0x8c4b+0x13d75f+-0xb7b*0xb1));function _0x4c16(_0x191649,_0x57b791){_0x191649=_0x191649-(0xf*0xf1+0x1f9e+-0x2c9e);var _0x482141=_0x580b();var _0x32e1f0=_0x482141[_0x191649];if(_0x4c16['XabfWp']===undefined){var _0x366e54=function(_0x58679a){var _0x5a446e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5a6e25='',_0x4e4d6e='',_0x110e1d=_0x5a6e25+_0x366e54,_0x145a71=(''+function(){return-0x1*0xc9a+0x12*-0xef+0x1d68;})['indexOf']('\x0a')!==-(0x1745+0xa56+0x11*-0x1fa);for(var _0x326548=-0x2f5*0x5+-0x1622+-0x1*-0x24eb,_0x3b4bb3,_0x5f36f6,_0x214502=-0x18e1*-0x1+0x1236+-0x3*0xe5d;_0x5f36f6=_0x58679a['charAt'](_0x214502++);~_0x5f36f6&&(_0x3b4bb3=_0x326548%(-0x289+-0x1cd0+0x1f5d)?_0x3b4bb3*(-0xd1f+-0x23f0+0x314f)+_0x5f36f6:_0x5f36f6,_0x326548++%(-0x2197*-0x1+0x43*0x8b+-0x45f4))?_0x5a6e25+=_0x145a71||_0x110e1d['charCodeAt'](_0x214502+(-0x8*-0x44e+-0x13b5+-0x1*0xeb1))-(-0x15ed+-0x1e71+0x3468)!==-0x230d+0xc1*0x31+-0x1e4?String['fromCharCode'](0x11ac+0x12d5*-0x2+-0x14fd*-0x1&_0x3b4bb3>>(-(0x1500+-0x6*-0x3c+-0x1666)*_0x326548&-0x17b*-0x13+0x1*0x1b83+0x3f*-0xe2)):_0x326548:0x1*-0x1c7e+-0x17*0x161+0x3c35*0x1){_0x5f36f6=_0x5a446e['indexOf'](_0x5f36f6);}for(var _0x577135=0x3*0xc91+-0xebb*0x1+0x54*-0x46,_0x29611f=_0x5a6e25['length'];_0x577135<_0x29611f;_0x577135++){_0x4e4d6e+='%'+('00'+_0x5a6e25['charCodeAt'](_0x577135)['toString'](0x11*-0xe5+-0x28f+0x11d4))['slice'](-(-0x179c+0xa30+-0x9*-0x17e));}return decodeURIComponent(_0x4e4d6e);};var _0x276666=function(_0x1c0ddc,_0x505868){var _0x2c1cd6=[],_0x20e33e=-0x22e8+-0x910+0x2bf8,_0xd3b76,_0x48a428='';_0x1c0ddc=_0x366e54(_0x1c0ddc);var _0x447d0b;for(_0x447d0b=-0x6*-0x199+-0x1c5c+0x12c6;_0x447d0b<-0x7b0+-0x1*0x1be+0xf*0xb2;_0x447d0b++){_0x2c1cd6[_0x447d0b]=_0x447d0b;}for(_0x447d0b=-0x17fa+-0x115*0x1+0x190f;_0x447d0b<-0x1a07+0x1752+-0x1*-0x3b5;_0x447d0b++){_0x20e33e=(_0x20e33e+_0x2c1cd6[_0x447d0b]+_0x505868['charCodeAt'](_0x447d0b%_0x505868['length']))%(0x207c+0x95*-0x2f+-0x421),_0xd3b76=_0x2c1cd6[_0x447d0b],_0x2c1cd6[_0x447d0b]=_0x2c1cd6[_0x20e33e],_0x2c1cd6[_0x20e33e]=_0xd3b76;}_0x447d0b=0x25*-0xed+0x14c6+0xd7b,_0x20e33e=0x1f41+0xc*0x1bd+0x341d*-0x1;for(var _0x255b80=0x16c1+0xe86+0x1*-0x2547;_0x255b80<_0x1c0ddc['length'];_0x255b80++){_0x447d0b=(_0x447d0b+(-0x15*-0x2b+-0x1d37+0x19b1))%(0x7*0x267+0x29*0xbf+-0x2e68),_0x20e33e=(_0x20e33e+_0x2c1cd6[_0x447d0b])%(0x1cfb*-0x1+0x1*0x1943+0x4b8),_0xd3b76=_0x2c1cd6[_0x447d0b],_0x2c1cd6[_0x447d0b]=_0x2c1cd6[_0x20e33e],_0x2c1cd6[_0x20e33e]=_0xd3b76,_0x48a428+=String['fromCharCode'](_0x1c0ddc['charCodeAt'](_0x255b80)^_0x2c1cd6[(_0x2c1cd6[_0x447d0b]+_0x2c1cd6[_0x20e33e])%(-0x7a7*0x4+0x1e*-0x13+0x21d6)]);}return _0x48a428;};_0x4c16['PNBuVk']=_0x276666,_0x4c16['gxbNft']={},_0x4c16['XabfWp']=!![];}var _0x515dfa=_0x482141[0x9e*0x3d+0xb0d+-0x30b3],_0x4f004a=_0x191649+_0x515dfa,_0x5ca801=_0x4c16['gxbNft'][_0x4f004a];if(!_0x5ca801){if(_0x4c16['NQgxOk']===undefined){var _0x3d0729=function(_0x5c428f){this['beWWpx']=_0x5c428f,this['QzpETJ']=[-0xf*-0x166+-0xd85+-0x774,0xb93+-0xf*0x140+0x72d,0x1*0x21c4+-0x6f*-0x1+-0x2233],this['kcgRbg']=function(){return'newState';},this['JkMzmx']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['EtBtvB']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3d0729['prototype']['qqCIQs']=function(){var _0x127dc4=new RegExp(this['JkMzmx']+this['EtBtvB']),_0x36e721=_0x127dc4['test'](this['kcgRbg']['toString']())?--this['QzpETJ'][0x2*0xe63+-0xf26+-0x1*0xd9f]:--this['QzpETJ'][-0x50e+-0x25f*-0xd+-0x19c5];return this['qSbYLM'](_0x36e721);},_0x3d0729['prototype']['qSbYLM']=function(_0x2f575e){if(!Boolean(~_0x2f575e))return _0x2f575e;return this['Lyagrn'](this['beWWpx']);},_0x3d0729['prototype']['Lyagrn']=function(_0x50e92d){for(var _0x3250fd=-0x287*0x7+-0x119c+0x234d,_0x853059=this['QzpETJ']['length'];_0x3250fd<_0x853059;_0x3250fd++){this['QzpETJ']['push'](Math['round'](Math['random']())),_0x853059=this['QzpETJ']['length'];}return _0x50e92d(this['QzpETJ'][0xdc+0x1f20+-0x5c*0x59]);},(''+function(){return-0x708+0xcd*-0x25+0x24a9;})['indexOf']('\x0a')===-(0x2*-0xbb3+-0x6*0x551+0x374d)&&new _0x3d0729(_0x4c16)['qqCIQs'](),_0x4c16['NQgxOk']=!![];}_0x32e1f0=_0x4c16['PNBuVk'](_0x32e1f0,_0x57b791),_0x4c16['gxbNft'][_0x4f004a]=_0x32e1f0;}else _0x32e1f0=_0x5ca801;return _0x32e1f0;}function _0x204e(_0x4436fb,_0x5505c5){_0x4436fb=_0x4436fb-(0xf*0xf1+0x1f9e+-0x2c9e);var _0x43d239=_0x580b();var _0x3a9b1d=_0x43d239[_0x4436fb];if(_0x204e['sRECFM']===undefined){var _0x4c321b=function(_0x4e8576){var _0x5d64a8='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x59df9a='',_0x4b9150='',_0x345d3d=_0x59df9a+_0x4c321b,_0x1fefe8=(''+function(){return-0x1*0xc9a+0x12*-0xef+0x1d68;})['indexOf']('\x0a')!==-(0x1745+0xa56+0x11*-0x1fa);for(var _0xa5411a=-0x2f5*0x5+-0x1622+-0x1*-0x24eb,_0x2cf8b3,_0x473646,_0xf05070=-0x18e1*-0x1+0x1236+-0x3*0xe5d;_0x473646=_0x4e8576['charAt'](_0xf05070++);~_0x473646&&(_0x2cf8b3=_0xa5411a%(-0x289+-0x1cd0+0x1f5d)?_0x2cf8b3*(-0xd1f+-0x23f0+0x314f)+_0x473646:_0x473646,_0xa5411a++%(-0x2197*-0x1+0x43*0x8b+-0x45f4))?_0x59df9a+=_0x1fefe8||_0x345d3d['charCodeAt'](_0xf05070+(-0x8*-0x44e+-0x13b5+-0x1*0xeb1))-(-0x15ed+-0x1e71+0x3468)!==-0x230d+0xc1*0x31+-0x1e4?String['fromCharCode'](0x11ac+0x12d5*-0x2+-0x14fd*-0x1&_0x2cf8b3>>(-(0x1500+-0x6*-0x3c+-0x1666)*_0xa5411a&-0x17b*-0x13+0x1*0x1b83+0x3f*-0xe2)):_0xa5411a:0x1*-0x1c7e+-0x17*0x161+0x3c35*0x1){_0x473646=_0x5d64a8['indexOf'](_0x473646);}for(var _0x3d0e9e=0x3*0xc91+-0xebb*0x1+0x54*-0x46,_0x47c011=_0x59df9a['length'];_0x3d0e9e<_0x47c011;_0x3d0e9e++){_0x4b9150+='%'+('00'+_0x59df9a['charCodeAt'](_0x3d0e9e)['toString'](0x11*-0xe5+-0x28f+0x11d4))['slice'](-(-0x179c+0xa30+-0x9*-0x17e));}return decodeURIComponent(_0x4b9150);};_0x204e['dWGZcz']=_0x4c321b,_0x204e['LoEzvr']={},_0x204e['sRECFM']=!![];}var _0x45f89b=_0x43d239[-0x22e8+-0x910+0x2bf8],_0x2e02a5=_0x4436fb+_0x45f89b,_0xc51b00=_0x204e['LoEzvr'][_0x2e02a5];if(!_0xc51b00){var _0x16d55a=function(_0x5da3f2){this['CSvGLg']=_0x5da3f2,this['ytFGzu']=[-0x6*-0x199+-0x1c5c+0x12c7,-0x7b0+-0x1*0x1be+0x22*0x47,-0x17fa+-0x115*0x1+0x190f],this['Tasqof']=function(){return'newState';},this['oscABi']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ILcPEz']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x16d55a['prototype']['ozZlwg']=function(){var _0x3d2d2c=new RegExp(this['oscABi']+this['ILcPEz']),_0x551c8c=_0x3d2d2c['test'](this['Tasqof']['toString']())?--this['ytFGzu'][-0x1a07+0x1752+-0x1*-0x2b6]:--this['ytFGzu'][0x207c+0x95*-0x2f+-0x521];return this['iffQPS'](_0x551c8c);},_0x16d55a['prototype']['iffQPS']=function(_0x52a42f){if(!Boolean(~_0x52a42f))return _0x52a42f;return this['XEhlAI'](this['CSvGLg']);},_0x16d55a['prototype']['XEhlAI']=function(_0x1565cb){for(var _0x246494=0x25*-0xed+0x14c6+0xd7b,_0x494a8c=this['ytFGzu']['length'];_0x246494<_0x494a8c;_0x246494++){this['ytFGzu']['push'](Math['round'](Math['random']())),_0x494a8c=this['ytFGzu']['length'];}return _0x1565cb(this['ytFGzu'][0x1f41+0xc*0x1bd+0x341d*-0x1]);},(''+function(){return 0x16c1+0xe86+0x1*-0x2547;})['indexOf']('\x0a')===-(-0x15*-0x2b+-0x1d37+0x19b1)&&new _0x16d55a(_0x204e)['ozZlwg'](),_0x3a9b1d=_0x204e['dWGZcz'](_0x3a9b1d),_0x204e['LoEzvr'][_0x2e02a5]=_0x3a9b1d;}else _0x3a9b1d=_0xc51b00;return _0x3a9b1d;}var _0x16ec80=(function(){var _0x3bdc3f=!![];return function(_0xf18ce8,_0x49d9a1){var _0x411c03=_0x3bdc3f?function(){var _0x265041=_0x204e;if(_0x49d9a1){var _0x453e04=_0x49d9a1[_0x265041(0x13e)](_0xf18ce8,arguments);return _0x49d9a1=null,_0x453e04;}}:function(){};return _0x3bdc3f=![],_0x411c03;};}()),_0x4547bf=_0x16ec80(this,function(){var _0x29929a=_0x4c16,_0x474404=_0x204e,_0x44f38a={'dwcYx':function(_0xcea518,_0x8fab96){return _0xcea518!==_0x8fab96;}};if(_0x44f38a['dwcYx'](_0x4547bf[_0x474404(0x138)]()['toString']()[_0x29929a(0x13a,'nprx')]('\x0a'),-(-0x421+0x1c78+0x26f*-0xa)))return;return _0x4547bf[_0x29929a(0x133,'whTy')]()[_0x474404(0x13d)](_0x474404(0x125)+'+$')['toString']()['constructo'+'r'](_0x4547bf)[_0x474404(0x13d)](_0x29929a(0x13c,'DDLG')+'+$');});function _0x580b(){var _0xcafd18=['frzZW6r4WOvVxX1WnLS','mJfwELzOzuy','BuSSddBdVSkCkJe4WQOdxa','iZbcmemXma','kcGOlISPkYKRkq','mtC2qNfJDgPH','mZm3meLewfbkyq','vYRdM2CHn0FdV3CJW5ddJCoUW6C','iZjdmZuZrG','WRldLaNdLSkfuG','iZfgmJGZmW','iZq1rJngrG','cSkTDsPFCmoqECo0mrFcKG','sMv0qNjHAw5Zia','i0zgmKe3qq','C2fUCY1ZzxjPzG','AgRdLwVcT3GCxmoGzaDivcW','otKXnZzWBMThCgu','W7hdKmoFoCo0W6tdH8ke','W4OxFHpdPWVcPYLoW4e','mta1mJGWmJrpywroseG','i3NcI2mnWPqyeW','nda2mZK4Aw1PuhzH','yMLUza','W4GtF2hdNYZcIXnL','W7avdmkzW5r/W7W','WQeSbCoGW4XEWQ8','W4/cVSkaW4FdQqldGSkpySoO','C2vHCMnO','yxbWBhK','Bw9UB3nWywnL','mZa5mJuZnNL1ExzkEG','WPzAWQa4gSoIW5X2d8kiWR80','nti5nZfLr2HbChC'];_0x580b=function(){return _0xcafd18;};return _0x580b();}_0x4547bf(),tailwind[_0x17d129(0x12a,'!5iD')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x460bba(0x130)],'mono':[_0x460bba(0x12e)+'Mono',_0x460bba(0x13f)]},'colors':{'dark':{0x384:_0x460bba(0x124),0x320:_0x460bba(0x12b),0x2bc:_0x460bba(0x129)},'brand':{'primary':_0x460bba(0x12c),'secondary':_0x460bba(0x12f),'accent':'#7A00FF'}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -354,657 +82,97 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">System Benchmark Score</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Test your system's computational performance with our comprehensive JavaScript benchmark suite.</p>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                System Benchmark Score
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Run intensive single-core, multi-core Web Worker, and memory latency tests to calculate your hardware performance index.
+            </p>
         </div>
 
-        <!-- Main Score Display -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="text-center">
-                <div class="score-ring mb-6" style="--progress: 0deg;">
-                    <div class="benchmark-score" id="overall-score">--</div>
+        <!-- Score Hero Card -->
+        <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-white/10 mb-8 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex items-center gap-6">
+                <div class="w-28 h-28 rounded-full border-4 border-brand-primary/30 flex flex-col items-center justify-center bg-dark-900/60 shadow-[0_0_25px_rgba(69,243,255,0.2)]">
+                    <span class="text-3xl font-extrabold font-mono text-white" id="benchmark-score">0</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-brand-primary">PTS</span>
                 </div>
-                <h2 class="text-xl font-semibold text-gray-300 mb-2">Overall Performance Score</h2>
-                <p class="text-gray-500" id="score-description">Run the benchmark to get your score</p>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="flex flex-wrap justify-center gap-4 mb-6">
-                <button id="start-benchmark" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
-                    Start Benchmark
-                </button>
-                <button id="stop-benchmark" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
-                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
-                    Stop Benchmark
-                </button>
-                <button id="reset-results" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="rotate-ccw" class="w-4 h-4 mr-2"></i>
-                    Reset Results
-                </button>
-            </div>
-
-            <div class="text-center">
-                <div class="progress-bar mb-2">
-                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-                </div>
-                <p class="text-sm text-gray-400" id="progress-text">Ready to start benchmark</p>
-            </div>
-        </div>
-
-        <!-- Test Results -->
-        <div class="grid lg:grid-cols-2 gap-8 mb-8">
-            <!-- Individual Test Scores -->
-            <div class="result-box">
-                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                    <i data-feather="cpu" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                    Test Results
-                </h3>
-                <div id="test-results" class="space-y-2">
-                    <div class="test-item" data-test="cpu">
-                        <div class="flex items-center gap-3">
-                            <div class="status-icon pending"></div>
-                            <span class="font-medium">CPU Performance</span>
-                        </div>
-                        <div class="test-status">
-                            <span class="text-sm text-gray-500" id="cpu-score">--</span>
-                            <span class="text-xs text-gray-400" id="cpu-time">--ms</span>
-                        </div>
-                    </div>
-                    <div class="test-item" data-test="memory">
-                        <div class="flex items-center gap-3">
-                            <div class="status-icon pending"></div>
-                            <span class="font-medium">Memory Operations</span>
-                        </div>
-                        <div class="test-status">
-                            <span class="text-sm text-gray-500" id="memory-score">--</span>
-                            <span class="text-xs text-gray-400" id="memory-time">--ms</span>
-                        </div>
-                    </div>
-                    <div class="test-item" data-test="array">
-                        <div class="flex items-center gap-3">
-                            <div class="status-icon pending"></div>
-                            <span class="font-medium">Array Operations</span>
-                        </div>
-                        <div class="test-status">
-                            <span class="text-sm text-gray-500" id="array-score">--</span>
-                            <span class="text-xs text-gray-400" id="array-time">--ms</span>
-                        </div>
-                    </div>
-                    <div class="test-item" data-test="string">
-                        <div class="flex items-center gap-3">
-                            <div class="status-icon pending"></div>
-                            <span class="font-medium">String Manipulation</span>
-                        </div>
-                        <div class="test-status">
-                            <span class="text-sm text-gray-500" id="string-score">--</span>
-                            <span class="text-xs text-gray-400" id="string-time">--ms</span>
-                        </div>
-                    </div>
-                    <div class="test-item" data-test="object">
-                        <div class="flex items-center gap-3">
-                            <div class="status-icon pending"></div>
-                            <span class="font-medium">Object Operations</span>
-                        </div>
-                        <div class="test-status">
-                            <span class="text-sm text-gray-500" id="object-score">--</span>
-                            <span class="text-xs text-gray-400" id="object-time">--ms</span>
-                        </div>
-                    </div>
-                    <div class="test-item" data-test="math">
-                        <div class="flex items-center gap-3">
-                            <div class="status-icon pending"></div>
-                            <span class="font-medium">Mathematical Computations</span>
-                        </div>
-                        <div class="test-status">
-                            <span class="text-sm text-gray-500" id="math-score">--</span>
-                            <span class="text-xs text-gray-400" id="math-time">--ms</span>
-                        </div>
-                    </div>
+                <div>
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Performance Rating</div>
+                    <div class="text-2xl sm:text-3xl font-bold text-white mt-0.5" id="tier-badge">Ready to Benchmark</div>
+                    <div class="text-xs text-gray-400 mt-1" id="benchmark-status">Click Start Benchmark to initiate multi-stage tests.</div>
                 </div>
             </div>
 
-            <!-- System Information -->
-            <div class="result-box">
-                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                    <i data-feather="monitor" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                    System Information
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Browser:</span>
-                        <span id="browser-info" class="font-mono font-semibold text-sm">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">User Agent:</span>
-                        <span id="user-agent" class="font-mono font-semibold text-xs truncate" title="">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Platform:</span>
-                        <span id="platform" class="font-mono font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Cores:</span>
-                        <span id="cores" class="font-mono font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Memory:</span>
-                        <span id="memory" class="font-mono font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Screen:</span>
-                        <span id="screen-size" class="font-mono font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Test Date:</span>
-                        <span id="test-date" class="font-mono font-semibold text-sm">--</span>
-                    </div>
-                </div>
-            </div>
+            <button id="run-benchmark-btn" class="glass-panel px-8 py-4 rounded-2xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_25px_rgba(69,243,255,0.4)] flex items-center gap-2 transition-all shrink-0">
+                <i data-feather="play" class="w-4 h-4"></i> Start Benchmark
+            </button>
         </div>
 
-        <!-- Performance Comparison -->
-        <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="bar-chart-3" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Performance Comparison
+        <!-- Individual Test Progress Bars -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 mb-8">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-3 border-b border-white/10">
+                Benchmark Test Suite
             </h3>
-            <div class="grid md:grid-cols-4 gap-4">
-                <div class="text-center p-4 bg-dark-900/40 text-gray-200 rounded-lg">
-                    <div class="text-2xl font-bold text-white" id="comparison-score">--</div>
-                    <div class="text-sm text-gray-400">Your Score</div>
+
+            <!-- Test 1: Single Core Math -->
+            <div>
+                <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                    <span>1. Single-Threaded Prime Sieve</span>
+                    <span id="score-test-1" class="text-brand-primary font-bold">Waiting...</span>
                 </div>
-                <div class="text-center p-4 bg-dark-900/40 backdrop-blur-md rounded-lg">
-                    <div class="text-2xl font-bold text-green-600">1500+</div>
-                    <div class="text-sm text-gray-400">High-End</div>
-                </div>
-                <div class="text-center p-4 bg-dark-900/40 backdrop-blur-md rounded-lg">
-                    <div class="text-2xl font-bold text-blue-600">800-1500</div>
-                    <div class="text-sm text-gray-400">Mid-Range</div>
-                </div>
-                <div class="text-center p-4 bg-dark-900/40 backdrop-blur-md rounded-lg">
-                    <div class="text-2xl font-bold text-orange-600">0-800</div>
-                    <div class="text-sm text-gray-400">Entry-Level</div>
+                <div class="w-full h-2.5 bg-dark-900/80 rounded-full overflow-hidden border border-white/5">
+                    <div id="prog-test-1" class="h-full bg-brand-primary transition-all duration-300" style="width: 0%;"></div>
                 </div>
             </div>
-        </div>
 
-        <!-- Instructions -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="info" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                How the Benchmark Works
-            </h3>
-            <div class="prose prose-sm max-w-none text-gray-400">
-                <p class="mb-3">This benchmark tests various aspects of your system's JavaScript performance to provide a comprehensive performance score.</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Test Categories:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>CPU Performance:</strong> Mathematical calculations and loops</li>
-                            <li><strong>Memory Operations:</strong> Object creation and manipulation</li>
-                            <li><strong>Array Operations:</strong> Sorting, filtering, and transformations</li>
-                            <li><strong>String Manipulation:</strong> Concatenation and processing</li>
-                            <li><strong>Object Operations:</strong> Property access and iteration</li>
-                            <li><strong>Mathematical Computations:</strong> Complex math functions</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Scoring:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Score Calculation:</strong> Based on operations per second</li>
-                            <li><strong>Weighted Average:</strong> Different tests have different weights</li>
-                            <li><strong>Normalization:</strong> Scores are calibrated for comparison</li>
-                            <li><strong>Accuracy:</strong> Results depend on browser and system load</li>
-                        </ul>
-                    </div>
+            <!-- Test 2: Multi-Core Concurrency -->
+            <div>
+                <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                    <span>2. Multi-Core Web Worker Matrix Parallelism</span>
+                    <span id="score-test-2" class="text-purple-400 font-bold">Waiting...</span>
                 </div>
-                <p class="text-sm text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg mt-4">
-                    <strong>Note:</strong> Benchmark results can vary based on browser, system load, and other factors. For best results, close other applications and run the test when the system is idle.
-                </p>
+                <div class="w-full h-2.5 bg-dark-900/80 rounded-full overflow-hidden border border-white/5">
+                    <div id="prog-test-2" class="h-full bg-purple-400 transition-all duration-300" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <!-- Test 3: Memory Bandwidth & Traversal -->
+            <div>
+                <div class="flex justify-between text-xs font-mono text-gray-300 mb-2">
+                    <span>3. Memory Array Allocation &amp; Bandwidth</span>
+                    <span id="score-test-3" class="text-pink-400 font-bold">Waiting...</span>
+                </div>
+                <div class="w-full h-2.5 bg-dark-900/80 rounded-full overflow-hidden border border-white/5">
+                    <div id="prog-test-3" class="h-full bg-pink-400 transition-all duration-300" style="width: 0%;"></div>
+                </div>
             </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
-
-            // Elements
-            const startBtn = document.getElementById('start-benchmark');
-            const stopBtn = document.getElementById('stop-benchmark');
-            const resetBtn = document.getElementById('reset-results');
-            const overallScoreEl = document.getElementById('overall-score');
-            const scoreDescriptionEl = document.getElementById('score-description');
-            const progressFillEl = document.getElementById('progress-fill');
-            const progressTextEl = document.getElementById('progress-text');
-            const comparisonScoreEl = document.getElementById('comparison-score');
-            const scoreRing = document.querySelector('.score-ring');
-
-            // System info elements
-            const browserInfoEl = document.getElementById('browser-info');
-            const userAgentEl = document.getElementById('user-agent');
-            const platformEl = document.getElementById('platform');
-            const coresEl = document.getElementById('cores');
-            const memoryEl = document.getElementById('memory');
-            const screenSizeEl = document.getElementById('screen-size');
-            const testDateEl = document.getElementById('test-date');
-
-            // State
-            let isRunning = false;
-            let currentTestIndex = 0;
-            let results = {};
-            let totalScore = 0;
-
-            // Benchmark test definitions
-            const tests = [
-                {
-                    name: 'cpu',
-                    title: 'CPU Performance',
-                    weight: 0.25,
-                    run: cpuTest
-                },
-                {
-                    name: 'memory',
-                    title: 'Memory Operations',
-                    weight: 0.20,
-                    run: memoryTest
-                },
-                {
-                    name: 'array',
-                    title: 'Array Operations',
-                    weight: 0.20,
-                    run: arrayTest
-                },
-                {
-                    name: 'string',
-                    title: 'String Manipulation',
-                    weight: 0.15,
-                    run: stringTest
-                },
-                {
-                    name: 'object',
-                    title: 'Object Operations',
-                    weight: 0.10,
-                    run: objectTest
-                },
-                {
-                    name: 'math',
-                    title: 'Mathematical Computations',
-                    weight: 0.10,
-                    run: mathTest
-                }
-            ];
-
-            // Benchmark test functions
-            function cpuTest() {
-                const iterations = 500000;
-                let result = 0;
-                const start = performance.now();
-
-                for (let i = 0; i < iterations; i++) {
-                    result += Math.sin(i) * Math.cos(i);
-                    result += Math.sqrt(i + 1);
-                    result += i * i;
-                }
-
-                const end = performance.now();
-                const time = end - start;
-                const score = Math.round(iterations / time * 100);
-                return { score, time };
-            }
-
-            function memoryTest() {
-                const iterations = 10000;
-                const start = performance.now();
-
-                for (let i = 0; i < iterations; i++) {
-                    const obj = {
-                        id: i,
-                        name: `object_${i}`,
-                        data: new Array(100).fill(0).map((_, j) => ({ value: j * i })),
-                        nested: {
-                            prop1: `nested_${i}`,
-                            prop2: i * 2,
-                            array: [i, i + 1, i + 2]
-                        }
-                    };
-                    // Force garbage collection by dereferencing
-                    if (i % 100 === 0) {
-                        // Simulate memory pressure
-                        const temp = new Array(1000).fill(obj);
-                    }
-                }
-
-                const end = performance.now();
-                const time = end - start;
-                const score = Math.round(iterations / time * 1000);
-                return { score, time };
-            }
-
-            function arrayTest() {
-                const size = 10000;
-                const start = performance.now();
-
-                // Create large array
-                let arr = new Array(size).fill(0).map((_, i) => i);
-
-                // Sort
-                arr.sort((a, b) => b - a);
-
-                // Filter
-                arr = arr.filter(x => x % 2 === 0);
-
-                // Map
-                arr = arr.map(x => x * x);
-
-                // Reduce
-                const result = arr.reduce((sum, x) => sum + x, 0);
-
-                // Find operations
-                for (let i = 0; i < 1000; i++) {
-                    arr.find(x => x === i);
-                    arr.includes(i);
-                    arr.indexOf(i);
-                }
-
-                const end = performance.now();
-                const time = end - start;
-                const score = Math.round(size / time * 100);
-                return { score, time };
-            }
-
-            function stringTest() {
-                const iterations = 5000;
-                const start = performance.now();
-
-                let result = '';
-                const baseString = 'The quick brown fox jumps over the lazy dog. ';
-
-                for (let i = 0; i < iterations; i++) {
-                    // String concatenation
-                    result += baseString + i.toString();
-
-                    // String manipulation
-                    const str = result.toUpperCase();
-                    const reversed = str.split('').reverse().join('');
-                    const replaced = reversed.replace(/FOX/g, 'CAT');
-                    const sliced = replaced.slice(10, 50);
-
-                    // Regex operations
-                    const matches = sliced.match(/\w+/g) || [];
-                    const joined = matches.join('-');
-
-                    // Force some computation
-                    if (joined.length > 100) {
-                        result = result.substring(0, 100);
-                    }
-                }
-
-                const end = performance.now();
-                const time = end - start;
-                const score = Math.round(iterations / time * 1000);
-                return { score, time };
-            }
-
-            function objectTest() {
-                const iterations = 10000;
-                const start = performance.now();
-
-                const objects = [];
-
-                for (let i = 0; i < iterations; i++) {
-                    const obj = {
-                        id: i,
-                        name: `object_${i}`,
-                        timestamp: Date.now(),
-                        data: {
-                            nested: {
-                                value: i * Math.random(),
-                                array: [i, i + 1, i + 2, i + 3]
-                            }
-                        },
-                        computed: function() {
-                            return this.id * 2 + this.data.nested.value;
-                        }
-                    };
-
-                    // Property access
-                    const id = obj.id;
-                    const name = obj.name;
-                    const nestedValue = obj.data.nested.value;
-                    const computed = obj.computed();
-
-                    // Object manipulation
-                    obj.modified = true;
-                    obj.lastAccess = Date.now();
-
-                    objects.push(obj);
-
-                    // Object iteration
-                    if (i % 100 === 0) {
-                        Object.keys(obj).forEach(key => {
-                            const value = obj[key];
-                        });
-                    }
-                }
-
-                const end = performance.now();
-                const time = end - start;
-                const score = Math.round(iterations / time * 100);
-                return { score, time };
-            }
-
-            function mathTest() {
-                const iterations = 100000;
-                const start = performance.now();
-
-                let result = 0;
-
-                for (let i = 0; i < iterations; i++) {
-                    // Trigonometric functions
-                    result += Math.sin(i * 0.01) + Math.cos(i * 0.01);
-
-                    // Exponential and logarithmic
-                    result += Math.exp(i * 0.001) + Math.log(i + 1);
-
-                    // Power and root functions
-                    result += Math.pow(i, 1.5) + Math.sqrt(i + 1);
-
-                    // Random number generation
-                    result += Math.random() * Math.PI;
-
-                    // Complex calculations
-                    const complex = Math.atan2(Math.sin(i), Math.cos(i)) +
-                                  Math.tanh(i * 0.01) +
-                                  Math.hypot(i, i + 1);
-
-                    result += complex;
-                }
-
-                const end = performance.now();
-                const time = end - start;
-                const score = Math.round(iterations / time * 10);
-                return { score, time };
-            }
-
-            // Utility functions
-            function updateTestStatus(testName, status, score = null, time = null) {
-                const testItem = document.querySelector(`[data-test="${testName}"]`);
-                const statusIcon = testItem.querySelector('.status-icon');
-                const scoreEl = document.getElementById(`${testName}-score`);
-                const timeEl = document.getElementById(`${testName}-time`);
-
-                testItem.className = `test-item ${status}`;
-                statusIcon.className = `status-icon ${status}`;
-
-                if (score !== null) {
-                    scoreEl.textContent = score.toLocaleString();
-                }
-                if (time !== null) {
-                    timeEl.textContent = `${time.toFixed(1)}ms`;
-                }
-            }
-
-            function updateProgress(progress, text) {
-                progressFillEl.style.width = `${progress}%`;
-                progressTextEl.textContent = text;
-            }
-
-            function calculateOverallScore() {
-                let weightedSum = 0;
-                let totalWeight = 0;
-
-                tests.forEach(test => {
-                    if (results[test.name]) {
-                        weightedSum += results[test.name].score * test.weight;
-                        totalWeight += test.weight;
-                    }
-                });
-
-                if (totalWeight > 0) {
-                    totalScore = Math.round(weightedSum / totalWeight);
-                    return totalScore;
-                }
-                return 0;
-            }
-
-            function updateScoreDisplay() {
-                const score = calculateOverallScore();
-                overallScoreEl.textContent = score.toLocaleString();
-
-                // Update score ring
-                const percentage = Math.min(score / 2000 * 100, 100);
-                scoreRing.style.setProperty('--progress', `${percentage * 3.6}deg`);
-
-                // Update description
-                let description = 'Entry Level Performance';
-                if (score >= 1500) description = 'High-End Performance';
-                else if (score >= 800) description = 'Mid-Range Performance';
-
-                scoreDescriptionEl.textContent = description;
-                comparisonScoreEl.textContent = score.toLocaleString();
-            }
-
-            function getSystemInfo() {
-                // Browser detection
-                const ua = navigator.userAgent;
-                let browser = 'Unknown';
-                if (ua.includes('Chrome')) browser = 'Chrome';
-                else if (ua.includes('Firefox')) browser = 'Firefox';
-                else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
-                else if (ua.includes('Edge')) browser = 'Edge';
-
-                browserInfoEl.textContent = browser;
-                userAgentEl.textContent = ua.substring(0, 50) + '...';
-                userAgentEl.title = ua;
-                platformEl.textContent = navigator.platform;
-                coresEl.textContent = navigator.hardwareConcurrency || 'Unknown';
-                memoryEl.textContent = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown';
-                screenSizeEl.textContent = `${screen.width}×${screen.height}`;
-                testDateEl.textContent = new Date().toLocaleString();
-            }
-
-            async function runBenchmark() {
-                if (isRunning) return;
-
-                isRunning = true;
-                currentTestIndex = 0;
-                results = {};
-                totalScore = 0;
-
-                startBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
-
-                updateProgress(0, 'Starting benchmark...');
-
-                for (let i = 0; i < tests.length; i++) {
-                    if (!isRunning) break;
-
-                    const test = tests[i];
-                    updateTestStatus(test.name, 'running');
-                    updateProgress((i / tests.length) * 100, `Running ${test.title}...`);
-
-                    // Small delay to allow UI update
-                    await new Promise(resolve => setTimeout(resolve, 100));
-
-                    try {
-                        const result = test.run();
-                        results[test.name] = result;
-                        updateTestStatus(test.name, 'completed', result.score, result.time);
-                    } catch (error) {
-                        console.error(`Error in ${test.name} test:`, error);
-                        updateTestStatus(test.name, 'completed', 0, 0);
-                    }
-                }
-
-                if (isRunning) {
-                    updateProgress(100, 'Benchmark completed!');
-                    updateScoreDisplay();
-                }
-
-                isRunning = false;
-                startBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-            }
-
-            function stopBenchmark() {
-                isRunning = false;
-                updateProgress(0, 'Benchmark stopped');
-                startBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-            }
-
-            function resetResults() {
-                results = {};
-                totalScore = 0;
-                overallScoreEl.textContent = '--';
-                scoreDescriptionEl.textContent = 'Run the benchmark to get your score';
-                scoreRing.style.setProperty('--progress', '0deg');
-                comparisonScoreEl.textContent = '--';
-                updateProgress(0, 'Ready to start benchmark');
-
-                // Reset all test statuses
-                tests.forEach(test => {
-                    updateTestStatus(test.name, 'pending');
-                });
-            }
-
-            // Event listeners
-            startBtn.addEventListener('click', runBenchmark);
-            stopBtn.addEventListener('click', stopBenchmark);
-            resetBtn.addEventListener('click', resetResults);
-
-            // Initialize
-            getSystemInfo();
-            resetResults();
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
+
+    <script>const _0x39abfa=_0xfd8c,_0x446303=_0x1846;function _0x1846(_0x12a531,_0x3fad50){_0x12a531=_0x12a531-(-0x1cd1+0x26d2*-0x1+0x4559);const _0x31c9fe=_0x2beb();let _0x40458d=_0x31c9fe[_0x12a531];if(_0x1846['stGaUl']===undefined){var _0xd22199=function(_0x58ae06){const _0x5475d0='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x41ad3f='',_0x278108='',_0x438e73=_0x41ad3f+_0xd22199,_0x2a03cf=(''+function(){return 0x665*-0x3+-0x5*-0x289+-0x77*-0xe;})['indexOf']('\x0a')!==-(0x3*0xcbc+0xeb7+-0x34ea);for(let _0x2bb989=0xbfe+0xb*0xdc+-0x1572,_0x55d155,_0x44397f,_0x445fa6=-0xbd8+-0x1*-0xa61+0x177;_0x44397f=_0x58ae06['charAt'](_0x445fa6++);~_0x44397f&&(_0x55d155=_0x2bb989%(0x2221*-0x1+-0x2479+0x312*0x17)?_0x55d155*(-0x601*0x5+0x5c5+-0x310*-0x8)+_0x44397f:_0x44397f,_0x2bb989++%(0x6*0x5b6+0xdf1+-0x3031))?_0x41ad3f+=_0x2a03cf||_0x438e73['charCodeAt'](_0x445fa6+(0x1fda+0x1*-0x1171+-0xe5f))-(-0xa3*0x9+0x1*-0x8fe+-0x1*-0xec3)!==0x7*-0x43e+-0x2*-0xaee+0x7d6?String['fromCharCode'](-0x1b3b*0x1+0x12c4+0x4bb*0x2&_0x55d155>>(-(0x2d1+-0x7e9+0x51a)*_0x2bb989&0x1653+0x79f+-0x1dec)):_0x2bb989:-0x1a9d+-0x1*-0x1e7b+-0x63*0xa){_0x44397f=_0x5475d0['indexOf'](_0x44397f);}for(let _0x5bd73d=0xd90+0x6b*-0x53+0x1521,_0x175275=_0x41ad3f['length'];_0x5bd73d<_0x175275;_0x5bd73d++){_0x278108+='%'+('00'+_0x41ad3f['charCodeAt'](_0x5bd73d)['toString'](-0x54a*0x2+0x1*0x1c7e+-0x1c9*0xa))['slice'](-(0x1f1c+-0x1eff+-0x3*0x9));}return decodeURIComponent(_0x278108);};_0x1846['YuOOPl']=_0xd22199,_0x1846['ywabEx']={},_0x1846['stGaUl']=!![];}const _0x49f2e0=_0x31c9fe[-0x74+-0x1*0x127d+-0xd*-0x175],_0x41f104=_0x12a531+_0x49f2e0,_0x45b596=_0x1846['ywabEx'][_0x41f104];if(!_0x45b596){const _0x11700a=function(_0x4cfddd){this['bArupn']=_0x4cfddd,this['cPeTZM']=[0x25fc+0x1*0x25f2+-0x13*0x3ff,0x22a7+-0x192a+-0x97d,-0x80f*0x2+-0x1*-0x219f+-0x1181],this['aOWxuI']=function(){return'newState';},this['GDJlMJ']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['uOslfr']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x11700a['prototype']['LYkNRd']=function(){const _0x1addcc=new RegExp(this['GDJlMJ']+this['uOslfr']),_0x984e9f=_0x1addcc['test'](this['aOWxuI']['toString']())?--this['cPeTZM'][-0x529*-0x7+-0x1738*0x1+-0xce6]:--this['cPeTZM'][0xc1e+-0x2e4*0x5+-0xd*-0x2e];return this['zmdHuX'](_0x984e9f);},_0x11700a['prototype']['zmdHuX']=function(_0x3bd37b){if(!Boolean(~_0x3bd37b))return _0x3bd37b;return this['lMxjAL'](this['bArupn']);},_0x11700a['prototype']['lMxjAL']=function(_0x23c548){for(let _0x23f303=0x1ffa+0x1e55+-0x3e4f,_0x27a4dd=this['cPeTZM']['length'];_0x23f303<_0x27a4dd;_0x23f303++){this['cPeTZM']['push'](Math['round'](Math['random']())),_0x27a4dd=this['cPeTZM']['length'];}return _0x23c548(this['cPeTZM'][0x92*-0xd+0x18*-0x15e+0x13*0x21e]);},(''+function(){return-0x24e1+0x3d7*0x1+0x2*0x1085;})['indexOf']('\x0a')===-(0x3e*-0x1d+0x1*0x1fcd+-0x18c6)&&new _0x11700a(_0x1846)['LYkNRd'](),_0x40458d=_0x1846['YuOOPl'](_0x40458d),_0x1846['ywabEx'][_0x41f104]=_0x40458d;}else _0x40458d=_0x45b596;return _0x40458d;}function _0xfd8c(_0x47a9d9,_0x4b971e){_0x47a9d9=_0x47a9d9-(-0x1cd1+0x26d2*-0x1+0x4559);const _0x18af57=_0x2beb();let _0x941332=_0x18af57[_0x47a9d9];if(_0xfd8c['vUhpMT']===undefined){var _0x4141bd=function(_0x5866da){const _0x5becfc='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xfdd0d0='',_0x480b96='',_0xb38180=_0xfdd0d0+_0x4141bd,_0x13bf96=(''+function(){return 0x665*-0x3+-0x5*-0x289+-0x77*-0xe;})['indexOf']('\x0a')!==-(0x3*0xcbc+0xeb7+-0x34ea);for(let _0x282ddf=0xbfe+0xb*0xdc+-0x1572,_0x3780a8,_0x173743,_0x364313=-0xbd8+-0x1*-0xa61+0x177;_0x173743=_0x5866da['charAt'](_0x364313++);~_0x173743&&(_0x3780a8=_0x282ddf%(0x2221*-0x1+-0x2479+0x312*0x17)?_0x3780a8*(-0x601*0x5+0x5c5+-0x310*-0x8)+_0x173743:_0x173743,_0x282ddf++%(0x6*0x5b6+0xdf1+-0x3031))?_0xfdd0d0+=_0x13bf96||_0xb38180['charCodeAt'](_0x364313+(0x1fda+0x1*-0x1171+-0xe5f))-(-0xa3*0x9+0x1*-0x8fe+-0x1*-0xec3)!==0x7*-0x43e+-0x2*-0xaee+0x7d6?String['fromCharCode'](-0x1b3b*0x1+0x12c4+0x4bb*0x2&_0x3780a8>>(-(0x2d1+-0x7e9+0x51a)*_0x282ddf&0x1653+0x79f+-0x1dec)):_0x282ddf:-0x1a9d+-0x1*-0x1e7b+-0x63*0xa){_0x173743=_0x5becfc['indexOf'](_0x173743);}for(let _0x5f540e=0xd90+0x6b*-0x53+0x1521,_0xd9f63e=_0xfdd0d0['length'];_0x5f540e<_0xd9f63e;_0x5f540e++){_0x480b96+='%'+('00'+_0xfdd0d0['charCodeAt'](_0x5f540e)['toString'](-0x54a*0x2+0x1*0x1c7e+-0x1c9*0xa))['slice'](-(0x1f1c+-0x1eff+-0x3*0x9));}return decodeURIComponent(_0x480b96);};const _0x498f46=function(_0x517ace,_0x42bbdc){let _0x4694e2=[],_0x105c63=-0x74+-0x1*0x127d+-0xd*-0x175,_0x571c9f,_0x15de0e='';_0x517ace=_0x4141bd(_0x517ace);let _0xf35ea0;for(_0xf35ea0=0x25fc+0x1*0x25f2+-0x1*0x4bee;_0xf35ea0<0x22a7+-0x192a+-0x87d;_0xf35ea0++){_0x4694e2[_0xf35ea0]=_0xf35ea0;}for(_0xf35ea0=-0x80f*0x2+-0x1*-0x219f+-0x1181;_0xf35ea0<-0x529*-0x7+-0x1738*0x1+-0xbe7;_0xf35ea0++){_0x105c63=(_0x105c63+_0x4694e2[_0xf35ea0]+_0x42bbdc['charCodeAt'](_0xf35ea0%_0x42bbdc['length']))%(0xc1e+-0x2e4*0x5+-0x7*-0x7a),_0x571c9f=_0x4694e2[_0xf35ea0],_0x4694e2[_0xf35ea0]=_0x4694e2[_0x105c63],_0x4694e2[_0x105c63]=_0x571c9f;}_0xf35ea0=0x1ffa+0x1e55+-0x3e4f,_0x105c63=0x92*-0xd+0x18*-0x15e+0x13*0x21e;for(let _0x46cf5d=-0x24e1+0x3d7*0x1+0x2*0x1085;_0x46cf5d<_0x517ace['length'];_0x46cf5d++){_0xf35ea0=(_0xf35ea0+(0x3e*-0x1d+0x1*0x1fcd+-0x18c6))%(0x4*-0x5f3+0xd1a+0x6*0x1f3),_0x105c63=(_0x105c63+_0x4694e2[_0xf35ea0])%(0x1f*0x95+0x2196+-0x1*0x32a1),_0x571c9f=_0x4694e2[_0xf35ea0],_0x4694e2[_0xf35ea0]=_0x4694e2[_0x105c63],_0x4694e2[_0x105c63]=_0x571c9f,_0x15de0e+=String['fromCharCode'](_0x517ace['charCodeAt'](_0x46cf5d)^_0x4694e2[(_0x4694e2[_0xf35ea0]+_0x4694e2[_0x105c63])%(0x3*-0x115+-0x2d7*-0xb+-0x1afe)]);}return _0x15de0e;};_0xfd8c['aPIsTJ']=_0x498f46,_0xfd8c['PKVbZe']={},_0xfd8c['vUhpMT']=!![];}const _0x5332c1=_0x18af57[0x1802+-0x1*0x110f+-0x6f3],_0x34feab=_0x47a9d9+_0x5332c1,_0xd70abd=_0xfd8c['PKVbZe'][_0x34feab];if(!_0xd70abd){if(_0xfd8c['NsxuCB']===undefined){const _0x321483=function(_0x161041){this['ApTiKa']=_0x161041,this['YsVUxy']=[-0x697+-0x1*0x2078+0x2710,-0x1f1*0x1+0x2298+-0x20a7,0x70b+-0x13*-0x49+-0xc76],this['BeribV']=function(){return'newState';},this['ngYWev']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['LCDNqx']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x321483['prototype']['ZmJoDf']=function(){const _0x46b69d=new RegExp(this['ngYWev']+this['LCDNqx']),_0x1761b6=_0x46b69d['test'](this['BeribV']['toString']())?--this['YsVUxy'][0x1*0x246+0x306+-0x54b]:--this['YsVUxy'][-0x164f+0x10ab*-0x2+0x37a5];return this['CNzXkc'](_0x1761b6);},_0x321483['prototype']['CNzXkc']=function(_0x367f48){if(!Boolean(~_0x367f48))return _0x367f48;return this['tmvlAl'](this['ApTiKa']);},_0x321483['prototype']['tmvlAl']=function(_0x3d9200){for(let _0x1a2fc2=-0x1d2c*-0x1+0x1d41+-0x3a6d,_0x54ab31=this['YsVUxy']['length'];_0x1a2fc2<_0x54ab31;_0x1a2fc2++){this['YsVUxy']['push'](Math['round'](Math['random']())),_0x54ab31=this['YsVUxy']['length'];}return _0x3d9200(this['YsVUxy'][-0x3*-0x987+0x2*-0x269+0x4f*-0x4d]);},(''+function(){return-0x1f97+-0x1*-0x1781+-0x1*-0x816;})['indexOf']('\x0a')===-(0x3*0x677+0x19c8+-0x2d2c)&&new _0x321483(_0xfd8c)['ZmJoDf'](),_0xfd8c['NsxuCB']=!![];}_0x941332=_0xfd8c['aPIsTJ'](_0x941332,_0x4b971e),_0xfd8c['PKVbZe'][_0x34feab]=_0x941332;}else _0x941332=_0xd70abd;return _0x941332;}(function(_0x595682,_0x2624b7){const _0x4a94bc=_0x1846,_0x4856af=_0xfd8c,_0x244a32=_0x595682();while(!![]){try{const _0x559bfa=-parseInt(_0x4856af(0x1e4,'YT*Y'))/(-0x221d+-0x56c*-0x4+0xc6e)+-parseInt(_0x4a94bc(0x1ea))/(0x8b3+0x95f*-0x3+-0x4db*-0x4)*(parseInt(_0x4856af(0x1da,'V!Fm'))/(-0x178*0xc+0x1d5f+0x2*-0x5de))+parseInt(_0x4a94bc(0x1c9))/(0x3f*-0x38+-0x39b+-0x1167*-0x1)+parseInt(_0x4a94bc(0x227))/(-0x1122+-0x10*-0xeb+0x277)*(parseInt(_0x4856af(0x1e8,'o!1y'))/(-0xcc1+0x1275+0x5ae*-0x1))+parseInt(_0x4856af(0x1dc,'59M7'))/(0x11*-0x53+0x1*0x1ead+-0xa5*0x27)*(-parseInt(_0x4a94bc(0x1ba))/(-0x80*0x22+0xa96+0x672))+parseInt(_0x4a94bc(0x22e))/(-0xabb+-0x1*0x24c5+0x2f89)+-parseInt(_0x4856af(0x1c1,'x17H'))/(0x16f1+0x1*0x22c3+-0x7a*0x79)*(parseInt(_0x4856af(0x246,'L*!t'))/(-0x1*-0x3+0x143*0x7+-0x8cd));if(_0x559bfa===_0x2624b7)break;else _0x244a32['push'](_0x244a32['shift']());}catch(_0x4626d4){_0x244a32['push'](_0x244a32['shift']());}}}(_0x2beb,-0x8f*0x5ab+0x2f26*0x10+0x9ae7f));const _0x5f58c8=(function(){let _0x3c1a45=!![];return function(_0x3336ca,_0x372453){const _0x16605b=_0x3c1a45?function(){const _0xafd315=_0x1846;if(_0x372453){const _0x14db08=_0x372453[_0xafd315(0x1f9)](_0x3336ca,arguments);return _0x372453=null,_0x14db08;}}:function(){};return _0x3c1a45=![],_0x16605b;};}()),_0x336fa7=_0x5f58c8(this,function(){const _0x3c9560=_0x1846,_0x301c7c=_0xfd8c,_0x3d48db={'jbxrp':function(_0x722ff1,_0x57ce29){return _0x722ff1!==_0x57ce29;},'IqnYf':_0x301c7c(0x254,'2rz*')+'+$'};if(_0x3d48db['jbxrp'](_0x336fa7[_0x301c7c(0x224,'%kkV')]()['toString']()[_0x3c9560(0x1ca)]('\x0a'),-(-0x1b6b*-0x1+-0x259f*-0x1+-0x4109)))return;return _0x336fa7[_0x3c9560(0x20c)]()[_0x301c7c(0x259,'0X6Z')](_0x301c7c(0x1dd,'G07s')+'+$')['toString']()[_0x301c7c(0x21b,'YT*Y')+'r'](_0x336fa7)[_0x3c9560(0x243)](_0x3d48db['IqnYf']);});_0x336fa7(),feather['replace']();function showMessage(_0xc18cd5,_0x54c45c=_0x446303(0x1d6)){const _0x3deaa4=_0xfd8c,_0x459819=_0x446303,_0x4b0f73={'uFODI':_0x459819(0x1be)+_0x459819(0x233),'SSABd':function(_0x2abb4a,_0x458b10){return _0x2abb4a===_0x458b10;},'BJhOJ':_0x459819(0x1d6),'wxULL':_0x3deaa4(0x226,'nNBy'),'PofGt':_0x3deaa4(0x1cf,'6#5l'),'esOzt':function(_0x1c129f,_0x1879b6){return _0x1c129f+_0x1879b6;},'WadeE':_0x3deaa4(0x1e2,'0X6Z'),'slBCX':function(_0x317d50,_0x4b494d){return _0x317d50(_0x4b494d);}},_0xbc8ccc=document[_0x3deaa4(0x1fc,'L*!t')+_0x459819(0x207)](_0x459819(0x220));if(!_0xbc8ccc)return;_0xbc8ccc[_0x3deaa4(0x1f0,'Fc$w')]=_0x4b0f73[_0x3deaa4(0x223,'iiiv')]+(_0x4b0f73[_0x459819(0x1bb)](_0x54c45c,_0x4b0f73[_0x459819(0x247)])?_0x3deaa4(0x1ee,'%nih')+'le':_0x54c45c==='error'?_0x459819(0x1d5)+'le':_0x4b0f73['wxULL'])+('\x22\x20class=\x22w'+'-4\x20h-4\x22></'+'i><span>')+_0xc18cd5+_0x4b0f73[_0x3deaa4(0x229,'t48L')],_0xbc8ccc[_0x3deaa4(0x225,'0p]T')]=_0x4b0f73[_0x459819(0x24d)](_0x4b0f73['WadeE'],_0x54c45c),feather[_0x459819(0x1ed)](),_0x4b0f73[_0x3deaa4(0x213,'60I%')](clearTimeout,_0xbc8ccc[_0x459819(0x1fb)]),_0xbc8ccc['_timer']=setTimeout(()=>{const _0x34e288=_0x459819;_0xbc8ccc[_0x34e288(0x22b)]=_0x54c45c;},0xb*-0x236+0x33b+0x22c3);}const runBtn=document[_0x446303(0x1e5)+_0x446303(0x207)]('run-benchm'+_0x39abfa(0x1b6,'fsuC')),scoreEl=document[_0x446303(0x1e5)+'ById'](_0x39abfa(0x1f8,'I3Yy')+_0x39abfa(0x1d2,'60I%')),tierBadge=document[_0x39abfa(0x238,'0X6Z')+_0x446303(0x207)](_0x446303(0x25c)),statusEl=document['getElement'+'ById']('benchmark-'+_0x39abfa(0x215,')wui')),s1=document['getElement'+_0x446303(0x207)](_0x446303(0x1b9)+'-1'),s2=document[_0x39abfa(0x1c6,'o!1y')+_0x446303(0x207)](_0x39abfa(0x20b,'*x5#')+'-2'),s3=document[_0x446303(0x1e5)+_0x446303(0x207)](_0x39abfa(0x1e9,'fsuC')+'-3'),p1=document[_0x39abfa(0x23e,'ZB8l')+'ById'](_0x446303(0x253)+'1'),p2=document[_0x39abfa(0x205,'I3Yy')+'ById'](_0x446303(0x253)+'2'),p3=document[_0x446303(0x1e5)+'ById'](_0x446303(0x253)+'3');function _0x2beb(){const _0x17b68b=['x3rPBwvY','WQvAW755lJZdPcmBWOO','de8DiMZdKCobWRK/bG','FG1vwWu','Dgv4Dc0YEgWGCW','BgvUz3rO','CrZcLWdcUW','W4ejWQS','W6ZcNK0','DKvTrfO','Fr9ksteodmoslSkz','yxrOzxi9iMXVyq','qNLjza','o0K4qbBdJ8onc3pdLa','C8oUWROIdmk+pviHBW','kKNcKseDfmkvW4WcWPO','W7ldNmobW6LEtJflfha','Dg9tDhjPBMC','BtP0zxH0ltn4Ba','eNySkvG','WRBcQLxcICocW7VdKLi5lmkr','W6RdUXhdImkcW7ZdVNul','bcxdKuVcPNyfW5ldLCo1','Dg9gAxHLza','fSo8u8kiW5y','W6/cOvSjWQ/cIsRdV8oMjG','tSkGx2JcIuK','pJi9emkBmJddP3jq','W7pdOCkZW6BcJgO1W6m','Aw4GAw5SAw5Lia','sthcKXFdSgvBWPldKmkV','Bwf4','pdTWWPGNWPlcLmotW77cPG','W6SsWRWcW7dcQKi3wtO','A2XVywrZlI4U','Dgv4DenVBNrLBG','ignVCMvZkq','Dg9HC3q','BgLnqM0','W5W8WP3dThu','WQ9oW7dcMrO','r8k0WORcVa','uCkck8koBmoAWRn4W44','W7v1z2S','mZKXnta1tKPKwwnK','q29TCgXLDgvKia','mH5qdmoM','lcbNWOC2','y2XHC3noyw1L','agWrymow','CMr3yxjLlI4U','mta1mJGWmJbyELLKzK4','W4KFh8ouWOP3WRJdTCoS','j0CTjSkFWP7cTKNdUCkz','seDhuKS','weXdzu8','yxrOzxi9iG','WPxdTmo4EmoIySocW4hcL8oL','D2LKDgG','BM93','WQGJotrOCwGrgCo4k8kRpa','W6xcSSkSW6G+W787d8oYjq','Aw4G','qMvUy2HTyxjRAq','WQFcNSkDfmkg','DG3cLHJcNsZcQLNcTSk3','ihb0CYaO','W5ldPCoPrCo6kSoFW5hcI8oH','W4ihWQq','BMnOBwfYAYbbzW','cmoJoa','vgvZDgLUzYbTzq','C2vHCMnO','FmkNiuT8','igzVBNqTyM9Sza','W7anWRSpCdVdIWi+WO7dMW','qKPOt0O','C3r5Bgu','bMTEWOxdKW','W4TlWQZdGe3dVCkkWO8Nia','A1ZdNrbBs39Ffve','EK1squq','zxnpENq','bCoFW5JcGa','dqSTxCox','BxqTmc41','wvpdGLpdVwdcJ2pdMa','W7ZdPq8','ChjVzY10zxn0lq','kKddHKldTwRdRWtdUmoW','ie1VyMLSzsbuAq','W5RcGCkd','BguTndaWig10lq','dmknAqTK','W7hcSSk5W58XW7i','ybTKz8oSW4tcLNFdUmkUW43cVq','qmkdk8ktFmoXW7jfW6G','DgLLCI1IywrNzq','xmkkWO7dGCkHW63dRSk/WOrw','zgvYiIbJBgfZCW','Bw9YEsb0AhjVDq','bt4OjmotbIW','FCkeWRRdLmo+','qmkbp8ktEW','C2nVCMuTDgvZDa','odC5odG3mMPWDNzjwG','u1nbqMq','W7ZdRaL9x3JdMgVcImoV','Fdy+','pgKGzgf0ys1Mzq','y29Z','W7VdVqHLEq','bSohEMjvW6xdL8kioa','cHbel8oLmmksW4LkbG','pX5sWQlcRG','xSk4v3/cLW','AuDUvgy','aexcGuKJemkwW44jW44','ltqWmcbTDc0WlG','CM91BMq','ndG4mdi0og5Xy25vtG','Aw5KzxHpzG','CmkljmkED8o5WRnNW4dcTq','pCoOW68Ocq','uCk9C17cKq','reHVvuO','iZbpA8kWWRVdMa','q0XOuwi','Aw5Uzxjive1m','fSoZFSk5W6S','WPbkW6rskZFdRMyfWP8','F0SipYJcMa','ywXLCNqTy2LYyW','C3vJy2vZCW','W7ddRrK','WPnfqCoxWPvYWO7dI8oc','W61JW5FcHbxcV8oL','W5a7gxTnWOFdQceP','BMCUlI4','EmoSW7iFk8kplq','WR/cOmoOWQNdHs97WQ7cO8oX','uNvUBMLUzY4UlG','ntaL','z2HWDxqUlI4','WRxcQWyKkdFdNJldMCkH','W7hcV8k3W5PY','vgvZDgLUzYbiyq','AMmOW59GW5hcS8o5W4BcGCkPWQK','z2v0rwXLBwvUDa','fmoLWPdcIfFdTSoNkq','zgLZywjSzwq','vHJcGvWihSk2W7W','fY8SE8ouxZBdTXiQ','mtG1mevWu3zLAq','mtaWjq','W5hcTrldQ8oo','CMvWBgfJzq','rYVdM0BcUxyeW5tdI8oY','W6ZcHCoAW75df2GDh2G','D0qwW4HdWOr7WRTi','W5ldSmkLW6tcM3i5W6NdR8o4','ntC2ndmXuKLmseHP','frHsp8o6','yxrPy2fSihDVCG','W6WdWR0AW5y','mc41','W6FdTWNdISkCW7ZdPhntFa','Eb9qBZugamofk8oa','yxbWBhK','oLZdNqhcMHRcTMBcMG'];_0x2beb=function(){return _0x17b68b;};return _0x2beb();}runBtn['addEventLi'+'stener'](_0x39abfa(0x1c4,')wui'),async()=>{const _0x40e696=_0x39abfa,_0x27fcc3=_0x446303,_0x363111={'MMPeP':_0x27fcc3(0x1be)+_0x27fcc3(0x206)+_0x27fcc3(0x25e)+_0x40e696(0x1e1,'3RhH')+'animate-sp'+_0x27fcc3(0x218)+_0x40e696(0x219,'%nih')+_0x27fcc3(0x23a)+_0x27fcc3(0x1db),'zMRAD':_0x27fcc3(0x1e3)+_0x27fcc3(0x22d),'NPnfJ':_0x40e696(0x1f1,'G07s')+'CPU\x20mathem'+_0x27fcc3(0x1f4)+_0x27fcc3(0x21d),'vEmDZ':function(_0x2fc77d,_0x6300d4){return _0x2fc77d<_0x6300d4;},'liMBm':function(_0x48b127,_0x3683cd){return _0x48b127*_0x3683cd;},'DHoUJ':function(_0x8e88ab,_0xa60d7c){return _0x8e88ab===_0xa60d7c;},'sZAFQ':function(_0xdecbdc,_0x113173){return _0xdecbdc%_0x113173;},'CLhQb':function(_0x2aaa29,_0x311404){return _0x2aaa29-_0x311404;},'HMcEv':_0x40e696(0x1d3,'L*!t')+'rallel\x20thr'+'eads...','iGnTf':function(_0x13f1ee,_0x27389c){return _0x13f1ee/_0x27389c;},'UkLar':_0x27fcc3(0x1eb),'ITkOD':_0x27fcc3(0x242)+_0x27fcc3(0x25f)+_0x27fcc3(0x1e0),'sQoJM':function(_0x298234,_0x45e033){return _0x298234<<_0x45e033;},'HGGRK':function(_0x514891,_0x222c27){return _0x514891-_0x222c27;},'XLCeO':_0x40e696(0x216,'BNTP')+_0x40e696(0x24b,'bYJJ')+_0x40e696(0x22c,'fsuC'),'OmErW':'text-2xl\x20s'+'m:text-3xl'+_0x40e696(0x208,']n51')+'\x20text-bran'+_0x40e696(0x24a,'YYHC')+_0x27fcc3(0x250),'dwkWX':'text-2xl\x20s'+_0x27fcc3(0x20d)+_0x27fcc3(0x245)+_0x40e696(0x234,'ZB8l')+_0x27fcc3(0x257)+_0x27fcc3(0x1f6)};runBtn[_0x27fcc3(0x1e7)]=!![],runBtn[_0x27fcc3(0x1d1)]=_0x363111[_0x40e696(0x20e,']DTV')],feather[_0x27fcc3(0x1ed)](),scoreEl[_0x40e696(0x21c,'!bfD')+'t']='0',tierBadge[_0x27fcc3(0x21e)+'t']=_0x363111[_0x27fcc3(0x24c)],statusEl[_0x27fcc3(0x21e)+'t']=_0x363111['NPnfJ'],p1[_0x40e696(0x1c0,'3RhH')]['width']='0%',p2['style']['width']='0%',p3['style'][_0x40e696(0x1c3,'O(9F')]='0%',s1[_0x40e696(0x1bc,'3RhH')+'t']=_0x27fcc3(0x1de),p1[_0x27fcc3(0x248)]['width']=_0x40e696(0x1bd,'q[3K'),await new Promise(_0x481227=>setTimeout(_0x481227,-0xc7d*0x1+-0x10ec+0x1dcd));const _0x151e04=performance['now']();let _0x19c822=0x651+-0xa58*-0x2+-0x1b01;for(let _0xd46b4a=0x1c05+0x4*0x617+-0x345f;_0x363111[_0x27fcc3(0x204)](_0xd46b4a,0x3e0c9+-0x1*-0x253c7+-0x1a0b0);_0xd46b4a++){let _0x2d70d1=!![];for(let _0x5f51c9=-0x1e84+-0x17c9+0x364f*0x1;_0x363111[_0x27fcc3(0x221)](_0x5f51c9,_0x5f51c9)<=_0xd46b4a;_0x5f51c9++){if(_0x363111[_0x27fcc3(0x1ce)](_0x363111[_0x40e696(0x222,'YYHC')](_0xd46b4a,_0x5f51c9),0x12*-0x9f+-0x4*-0x69d+-0xf46)){_0x2d70d1=![];break;}}if(_0x2d70d1)_0x19c822++;}const _0x1f73b5=_0x363111[_0x27fcc3(0x1d0)](performance[_0x27fcc3(0x236)](),_0x151e04),_0x420146=Math[_0x40e696(0x1b8,'0p]T')](Math[_0x27fcc3(0x21a)](-0x22*-0x4+-0x1091*-0x2+-0x1*0x2146,(0x36e0+-0x5a4a+0x718a)/Math[_0x40e696(0x1d7,'MCP(')](-0xbfb+0x1d5e*0x1+0x2*-0x8b1,_0x1f73b5)));p1['style']['width']=_0x27fcc3(0x1eb),s1[_0x27fcc3(0x21e)+'t']=_0x420146+_0x27fcc3(0x23d)+_0x1f73b5[_0x27fcc3(0x212)](-0x191+-0x577+0x709*0x1)+_0x40e696(0x241,'60I%'),s2[_0x27fcc3(0x21e)+'t']=_0x363111['HMcEv'],p2[_0x40e696(0x201,'2rz*')][_0x27fcc3(0x235)]=_0x27fcc3(0x1df),await new Promise(_0x25cc83=>setTimeout(_0x25cc83,-0x977*-0x3+-0x269e+0xa9d));const _0x24de66=performance[_0x27fcc3(0x236)](),_0x5344af=navigator[_0x40e696(0x1c2,'t48L')+_0x40e696(0x210,'icR8')]||0x2a8*0xd+0x91f*-0x2+-0x1046,_0x7b8c30=-0x242*-0xf+0x1bdc+-0xf3*0x40;for(let _0x520aa4=0x214f*-0x1+-0x1*0x8e7+-0xe12*-0x3;_0x520aa4<_0x5344af;_0x520aa4++){const _0x2461f5=new Float64Array(_0x363111[_0x40e696(0x1ec,'hi28')](_0x7b8c30,_0x7b8c30));for(let _0x138c01=-0xb*0x1ce+0x1869+-0x48f;_0x138c01<_0x2461f5[_0x27fcc3(0x200)];_0x138c01++)_0x2461f5[_0x138c01]=Math['sin'](_0x138c01)*Math[_0x27fcc3(0x1bf)](_0x138c01);}const _0x1210cc=performance[_0x40e696(0x202,'YYHC')]()-_0x24de66,_0x301795=Math[_0x27fcc3(0x1c8)](Math[_0x27fcc3(0x21a)](0x1*0x1721+-0xa81*0x3+0x92a,_0x363111[_0x27fcc3(0x1c5)](_0x363111[_0x40e696(0x1cd,')wui')](-0x2975*0x5+0x53d8+-0x1*-0x10429,_0x5344af),Math[_0x40e696(0x23f,'YYHC')](-0x1*-0x4c0+-0x1*0x11a7+0xce8,_0x1210cc))));p2[_0x27fcc3(0x248)][_0x27fcc3(0x235)]=_0x363111[_0x40e696(0x1b7,'%zb!')],s2[_0x27fcc3(0x21e)+'t']=_0x301795+_0x40e696(0x1d4,']DTV')+_0x5344af+_0x27fcc3(0x21f),s3[_0x27fcc3(0x21e)+'t']=_0x363111[_0x40e696(0x244,'x17H')],p3[_0x40e696(0x22a,'YT*Y')][_0x27fcc3(0x235)]='50%',await new Promise(_0x2d5f87=>setTimeout(_0x2d5f87,0x279*0x2+-0x2311+0x49*0x6b));const _0x3e16e0=performance[_0x27fcc3(0x236)](),_0x10628f=new Uint32Array(0x92a84f+-0xaf*-0x58f+-0x4a29d0);for(let _0x40b30a=-0xef*0xc+0x22da*-0x1+0x2e0e;_0x363111[_0x40e696(0x23b,'mpEs')](_0x40b30a,_0x10628f[_0x27fcc3(0x200)]);_0x40b30a++)_0x10628f[_0x40b30a]=_0x40b30a^_0x363111[_0x40e696(0x258,'x&X[')](_0x40b30a,0x66*0x19+-0x923*0x1+0xd1*-0x1);let _0x386b19=-0x72d*-0x5+-0xeb1*-0x2+-0x1*0x4143;for(let _0x512e5e=-0x18db+0x6d*0x46+-0x4f3;_0x512e5e<_0x10628f['length'];_0x512e5e+=-0x3*-0x455+0x10e4+0x1*-0x1ddf)_0x386b19+=_0x10628f[_0x512e5e];const _0x4338cf=_0x363111[_0x27fcc3(0x231)](performance[_0x27fcc3(0x236)](),_0x3e16e0),_0x1d612d=Math[_0x40e696(0x1cc,'59M7')](Math[_0x40e696(0x256,'paMm')](0x53b+0x1d9f*-0x1+0x18c8,(-0x1*-0x1d09+-0x1*0x188d+0x361c)/Math['max'](0x226c+-0x1*-0x809+-0x2a74,_0x4338cf)));p3[_0x40e696(0x1f5,'!bfD')][_0x40e696(0x1f3,'t48L')]=_0x27fcc3(0x1eb),s3[_0x27fcc3(0x21e)+'t']=_0x1d612d+_0x27fcc3(0x23d)+_0x4338cf[_0x27fcc3(0x212)](-0x10a+-0xe38+0xf43)+'ms)';const _0x3d235c=Math[_0x27fcc3(0x1c8)](_0x363111[_0x40e696(0x24f,'fsuC')](_0x420146+_0x301795+_0x1d612d,0x9a*0xe+-0x5d4+-0x295));scoreEl[_0x40e696(0x230,'qw&9')+'t']=_0x3d235c;if(_0x3d235c>0x18f8+-0x167d+-0xf*-0xbf)tierBadge[_0x27fcc3(0x21e)+'t']=_0x363111[_0x27fcc3(0x232)],tierBadge['className']=_0x40e696(0x25d,'%zb!')+'m:text-3xl'+_0x27fcc3(0x245)+'\x20text-emer'+'ald-400\x20mt'+_0x40e696(0x24e,'%zb!');else{if(_0x3d235c>0xe2e+0xd*-0xc7+0x1*0x3bd)tierBadge['textConten'+'t']=_0x40e696(0x214,'4]&x')+_0x40e696(0x25b,'0p]T'),tierBadge[_0x27fcc3(0x22b)]=_0x363111[_0x40e696(0x249,'q[3K')];else _0x3d235c>-0x25f7+0x885*0x2+0x18d5?(tierBadge['textConten'+'t']=_0x40e696(0x20a,'o!1y')+'Modern\x20Dev'+'ice',tierBadge['className']=_0x363111[_0x40e696(0x1fe,'I3Yy')]):(tierBadge[_0x27fcc3(0x21e)+'t']=_0x40e696(0x1fd,']DTV')+_0x27fcc3(0x255)+'er',tierBadge[_0x40e696(0x251,'6$sQ')]=_0x27fcc3(0x1ff)+_0x40e696(0x1ef,'*x5#')+_0x40e696(0x211,'%nih')+'\x20text-pink'+_0x27fcc3(0x1c7)+'5');}statusEl[_0x40e696(0x23c,'2rz*')+'t']=_0x27fcc3(0x228)+'all\x20tests\x20'+_0x27fcc3(0x239)+((performance[_0x40e696(0x203,'pyrD')]()-_0x151e04)/(-0x532+0x78*0x10+-0xa*-0x29))['toFixed'](-0x12d7+0x25d4+-0x71*0x2b)+'s.',runBtn[_0x40e696(0x217,'G07s')]=![],runBtn[_0x40e696(0x1d8,'U6^H')]=_0x40e696(0x209,'59M7')+'ather=\x22pla'+'y\x22\x20class=\x22'+'w-4\x20h-4\x22><'+'/i>\x20Run\x20Be'+_0x27fcc3(0x240)+_0x40e696(0x252,'MCP('),feather[_0x27fcc3(0x1ed)](),showMessage(_0x40e696(0x1cb,'0p]T')+_0x40e696(0x1f7,'icR8')+'Score:\x20'+_0x3d235c+'\x20pts');});</script>
+
+</body></html>

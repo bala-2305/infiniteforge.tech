@@ -1,307 +1,83 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Refresh Rate Checker — Infiniteforge | Free Monitor Testing Tool</title>
+    <title>Display Refresh Rate Checker - Monitor Hz Test | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Test your display's refresh rate with our free online tool. Measure monitor refresh rates, frame rates, and display performance in real-time.">
-    <meta name="keywords"
-        content="display refresh rate checker, monitor refresh rate, fps test, display performance, screen refresh, monitor test, frame rate">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="Display Refresh Rate Checker — Infiniteforge">
-    <meta property="og:description"
-        content="Test your display's refresh rate and measure monitor performance in real-time.">
+    <meta name="description" content="Test your monitor's display refresh rate (Hz) and FPS in real-time. Detect 60Hz, 120Hz, 144Hz, 240Hz, 360Hz displays with frame pacing metrics and test animations.">
+    <meta name="keywords" content="display refresh rate checker, monitor refresh rate, fps test, screen hz tester, 144hz test, 240hz test, monitor test, frame rate">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Display Refresh Rate Checker - Infiniteforge">
+    <meta property="og:description" content="Test your display's refresh rate and measure monitor performance in real-time.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/display-refresh-rate-checker.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Display Refresh Rate Checker — Infiniteforge">
-    <meta name="twitter:description" content="Test your display refresh rate and monitor performance.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/display-refresh-rate-checker.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .refresh-display {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .test-pattern {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000);
-            background-size: 400% 400%;
-            animation: gradientShift 2s ease infinite;
-            border-radius: 0.75rem;
-            margin: 1rem 0;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .spinning-square {
-            width: 100px;
-            height: 100px;
-            background: var(--primary-gradient);
-            animation: spin 1s linear infinite;
-            border-radius: 0.5rem;
-            margin: 2rem auto;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .flicker-test {
-            width: 100%;
-            height: 100px;
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: flicker 0.1s infinite alternate;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        @keyframes flicker {
-            0% { background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #1e293b; }
-            100% { background: black; color: white; }
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Display Refresh Rate Checker - Infiniteforge">
+    <meta name="twitter:description" content="Test your display refresh rate and monitor performance in real-time.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/display-refresh-rate-checker.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/display-refresh-rate-checker.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x2cf5(){var _0x1084af=['yxbWBhK','mMDkwvPUrG','mJy4ntK3nNbfrNzICa','nty5ntq2Effrv0jJ','i8o/Ah7cI8oSd8oBW5zY','d8keEM8sqCkmx2pcUxJdM8oV','WRhcSW7cL34NW4y','iZq1rJngrG','m3bfCvDWwG','C2vHCMnO','mZa2BK1lAhvX','W6tdTMaaWQddLSobCJtcPctdUmox','nZG2mu5Azfv0zq','FGvHW7uYWR86WO5cW4BcNui','tCo9hIqEtCoo','t8otWPRdPCk6fmkH','mtKWotC5nu5pue5VDq','vgRcTSozemooW5lcKmkrgW7dS8onWP0','v0Dpr2S','ndi3nJKWvNPIzeHx','EmoYrCkaWQbT','iZbcmemXma','WR3dKGddI8kdWOu5WQy','C2fUCY1ZzxjPzG','jI3dQttcNgNdOW','mYtcTYlcP8orW7NcLSkD','WQlcRf4+W79HDmor','W6noWPxdTJW6W41xtmkDdSogjCo+','yMLUza','Dg9tDhjPBMC','BejwWQb9cCku','ltlcGcRcHWBcJK07cW','iZfgmJGZmW'];_0x2cf5=function(){return _0x1084af;};return _0x2cf5();}var _0x130885=_0x4cd9,_0x4a17fb=_0x5a2e;function _0x5a2e(_0x5b5a69,_0xbaeddc){_0x5b5a69=_0x5b5a69-(-0x1939+0x336*0x9+-0x318);var _0x405a77=_0x2cf5();var _0x50020c=_0x405a77[_0x5b5a69];if(_0x5a2e['BZQjhr']===undefined){var _0x2c9e50=function(_0x1f181e){var _0x6b96ce='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x343d5f='',_0xbf448a='',_0x1f4527=_0x343d5f+_0x2c9e50,_0x38a990=(''+function(){return 0x1*0x17e4+0x2578+-0x165*0x2c;})['indexOf']('\x0a')!==-(0x3*0xb9b+-0xd9e+-0x1532);for(var _0x4d6c7e=0x117+-0x2ef*-0x6+-0x12b1,_0x246425,_0x9eea9c,_0x5787e2=-0xe4a+0x2*-0x5e+0x281*0x6;_0x9eea9c=_0x1f181e['charAt'](_0x5787e2++);~_0x9eea9c&&(_0x246425=_0x4d6c7e%(0x697+0x20ab+-0x273e*0x1)?_0x246425*(0xef1*-0x2+-0x25b*0x2+0x22d8)+_0x9eea9c:_0x9eea9c,_0x4d6c7e++%(0x10e2+-0x1e9*0x3+0x1*-0xb23))?_0x343d5f+=_0x38a990||_0x1f4527['charCodeAt'](_0x5787e2+(0x6*0xe6+0x7d0+-0xd2a))-(0x40b+-0x1*-0x1591+0xcc9*-0x2)!==0x11*0x1b+-0x18c+-0x3f?String['fromCharCode'](0x7*0x4e1+0x93b+0x3*-0xe21&_0x246425>>(-(-0x1681+0x80e+-0xe75*-0x1)*_0x4d6c7e&0x1aaf+-0x4d6+0x15d3*-0x1)):_0x4d6c7e:0x131f+0x1*-0xe71+-0x1*0x4ae){_0x9eea9c=_0x6b96ce['indexOf'](_0x9eea9c);}for(var _0x5be5e7=0x2*0xb62+0x3c9+0x7*-0x3cb,_0x32f8c1=_0x343d5f['length'];_0x5be5e7<_0x32f8c1;_0x5be5e7++){_0xbf448a+='%'+('00'+_0x343d5f['charCodeAt'](_0x5be5e7)['toString'](-0x1*0x1796+0x24e6+0xd40*-0x1))['slice'](-(-0x1*-0x2683+0xd6*-0x16+0x1*-0x141d));}return decodeURIComponent(_0xbf448a);};var _0x21de2a=function(_0x54d06c,_0x5c519f){var _0x273667=[],_0x44997d=-0xd*0x2ab+-0x3*0x581+-0x2*-0x1999,_0x4356e3,_0x2a8a31='';_0x54d06c=_0x2c9e50(_0x54d06c);var _0xe7b63b;for(_0xe7b63b=0x69d+0x78f+-0xe2c;_0xe7b63b<0x67*0x34+0x1666+-0x2a52;_0xe7b63b++){_0x273667[_0xe7b63b]=_0xe7b63b;}for(_0xe7b63b=-0x2ba*0x7+0x131f+-0x9;_0xe7b63b<0x13bf+-0x5*-0x7c7+-0x39a2;_0xe7b63b++){_0x44997d=(_0x44997d+_0x273667[_0xe7b63b]+_0x5c519f['charCodeAt'](_0xe7b63b%_0x5c519f['length']))%(0xa53*-0x3+0xdb2+-0x1*-0x1247),_0x4356e3=_0x273667[_0xe7b63b],_0x273667[_0xe7b63b]=_0x273667[_0x44997d],_0x273667[_0x44997d]=_0x4356e3;}_0xe7b63b=-0x1*-0x713+-0x1265+-0x1*-0xb52,_0x44997d=0x24f1*-0x1+0x69e*-0x5+-0xd*-0x563;for(var _0x124679=0x1db4+0xeee+-0xc5*0x3a;_0x124679<_0x54d06c['length'];_0x124679++){_0xe7b63b=(_0xe7b63b+(0x3*0x2b9+0x1*-0x5e4+-0x2*0x123))%(0xe2*0x17+0x19cf+-0x2d1d*0x1),_0x44997d=(_0x44997d+_0x273667[_0xe7b63b])%(0x1*-0x1d4f+0x1503+0x94c),_0x4356e3=_0x273667[_0xe7b63b],_0x273667[_0xe7b63b]=_0x273667[_0x44997d],_0x273667[_0x44997d]=_0x4356e3,_0x2a8a31+=String['fromCharCode'](_0x54d06c['charCodeAt'](_0x124679)^_0x273667[(_0x273667[_0xe7b63b]+_0x273667[_0x44997d])%(-0x2ea*0x3+0xc06+-0x248)]);}return _0x2a8a31;};_0x5a2e['zogLbt']=_0x21de2a,_0x5a2e['abeJUb']={},_0x5a2e['BZQjhr']=!![];}var _0x157328=_0x405a77[0x5*-0x47f+-0x1*0x157+0x17d2],_0x14d3fe=_0x5b5a69+_0x157328,_0x468920=_0x5a2e['abeJUb'][_0x14d3fe];if(!_0x468920){if(_0x5a2e['TVmprv']===undefined){var _0x522f68=function(_0x4f6757){this['fUaXDL']=_0x4f6757,this['juGNAU']=[-0x12bf*-0x1+0x1443+-0x2701,-0x16f+-0x1*0x1fc9+0x2138,0x402*0x9+0x43d*0x7+-0x41bd],this['FtcMri']=function(){return'newState';},this['MIASsE']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['fTbcjm']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x522f68['prototype']['WnNcnh']=function(){var _0x2fbe80=new RegExp(this['MIASsE']+this['fTbcjm']),_0x720d75=_0x2fbe80['test'](this['FtcMri']['toString']())?--this['juGNAU'][-0x635*0x4+0x25d1+0x33f*-0x4]:--this['juGNAU'][0x386+0xc42*0x3+-0x284c];return this['tlTVue'](_0x720d75);},_0x522f68['prototype']['tlTVue']=function(_0x507fa9){if(!Boolean(~_0x507fa9))return _0x507fa9;return this['IWyDjH'](this['fUaXDL']);},_0x522f68['prototype']['IWyDjH']=function(_0x469ae5){for(var _0x4ff4bc=0x840*-0x2+-0x3*-0x775+-0x3*0x1f5,_0x375985=this['juGNAU']['length'];_0x4ff4bc<_0x375985;_0x4ff4bc++){this['juGNAU']['push'](Math['round'](Math['random']())),_0x375985=this['juGNAU']['length'];}return _0x469ae5(this['juGNAU'][0xf92+-0x11b*-0x17+-0x28ff]);},(''+function(){return-0x56*0x2+-0x21a9+0x2255;})['indexOf']('\x0a')===-(0x1d8c*0x1+0x6*0x20+-0x1e4b)&&new _0x522f68(_0x5a2e)['WnNcnh'](),_0x5a2e['TVmprv']=!![];}_0x50020c=_0x5a2e['zogLbt'](_0x50020c,_0xbaeddc),_0x5a2e['abeJUb'][_0x14d3fe]=_0x50020c;}else _0x50020c=_0x468920;return _0x50020c;}(function(_0x42b0ff,_0x4eb8a2){var _0x17ff78=_0x4cd9,_0x2ddd01=_0x5a2e,_0x140278=_0x42b0ff();while(!![]){try{var _0x4c73f9=parseInt(_0x2ddd01(0xb2,'nQXe'))/(-0x40*0x12+-0x1*0x7+0x5*0xe8)*(-parseInt(_0x17ff78(0xaf))/(-0x11*-0x20d+0x26*0x7+0xbf7*-0x3))+parseInt(_0x17ff78(0xb4))/(-0x1bd8+0x210d+0x299*-0x2)*(-parseInt(_0x17ff78(0xae))/(0x219+-0x1378+0x1163*0x1))+parseInt(_0x17ff78(0x9b))/(-0x1c92+-0x4b2+0x2149)+parseInt(_0x2ddd01(0xa4,'@Gh7'))/(-0x1*-0x1063+0xf11+0x95*-0x36)*(parseInt(_0x17ff78(0x97))/(0x228b+-0x1b33+-0x751))+parseInt(_0x2ddd01(0xb1,'9HRU'))/(-0x1*0x1fc9+-0x1b50+0x3b21*0x1)+parseInt(_0x2ddd01(0xa5,'r[!5'))/(0x389*0x4+0x206a+-0x2e85)*(-parseInt(_0x2ddd01(0x98,'LueH'))/(0x25d1+0x22a0+0x695*-0xb))+parseInt(_0x2ddd01(0xa6,'yWEd'))/(0x386+0xc42*0x3+-0x2841);if(_0x4c73f9===_0x4eb8a2)break;else _0x140278['push'](_0x140278['shift']());}catch(_0xfa4dc1){_0x140278['push'](_0x140278['shift']());}}}(_0x2cf5,0x9ed97*-0x1+-0x1*-0xd764d+-0x1*-0x83817));function _0x4cd9(_0x487813,_0x4f3080){_0x487813=_0x487813-(-0x1939+0x336*0x9+-0x318);var _0x547862=_0x2cf5();var _0x52857e=_0x547862[_0x487813];if(_0x4cd9['ouuCRH']===undefined){var _0xdb3d5b=function(_0x4955c9){var _0x599f50='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x324000='',_0x17edc2='',_0x94f5b4=_0x324000+_0xdb3d5b,_0x25048d=(''+function(){return 0x1*0x17e4+0x2578+-0x165*0x2c;})['indexOf']('\x0a')!==-(0x3*0xb9b+-0xd9e+-0x1532);for(var _0x3e5ce0=0x117+-0x2ef*-0x6+-0x12b1,_0x599438,_0xcd1aea,_0x29f5b4=-0xe4a+0x2*-0x5e+0x281*0x6;_0xcd1aea=_0x4955c9['charAt'](_0x29f5b4++);~_0xcd1aea&&(_0x599438=_0x3e5ce0%(0x697+0x20ab+-0x273e*0x1)?_0x599438*(0xef1*-0x2+-0x25b*0x2+0x22d8)+_0xcd1aea:_0xcd1aea,_0x3e5ce0++%(0x10e2+-0x1e9*0x3+0x1*-0xb23))?_0x324000+=_0x25048d||_0x94f5b4['charCodeAt'](_0x29f5b4+(0x6*0xe6+0x7d0+-0xd2a))-(0x40b+-0x1*-0x1591+0xcc9*-0x2)!==0x11*0x1b+-0x18c+-0x3f?String['fromCharCode'](0x7*0x4e1+0x93b+0x3*-0xe21&_0x599438>>(-(-0x1681+0x80e+-0xe75*-0x1)*_0x3e5ce0&0x1aaf+-0x4d6+0x15d3*-0x1)):_0x3e5ce0:0x131f+0x1*-0xe71+-0x1*0x4ae){_0xcd1aea=_0x599f50['indexOf'](_0xcd1aea);}for(var _0x1b2840=0x2*0xb62+0x3c9+0x7*-0x3cb,_0x143feb=_0x324000['length'];_0x1b2840<_0x143feb;_0x1b2840++){_0x17edc2+='%'+('00'+_0x324000['charCodeAt'](_0x1b2840)['toString'](-0x1*0x1796+0x24e6+0xd40*-0x1))['slice'](-(-0x1*-0x2683+0xd6*-0x16+0x1*-0x141d));}return decodeURIComponent(_0x17edc2);};_0x4cd9['eZWaRL']=_0xdb3d5b,_0x4cd9['Zoxpnn']={},_0x4cd9['ouuCRH']=!![];}var _0x580698=_0x547862[-0xd*0x2ab+-0x3*0x581+-0x2*-0x1999],_0xf1a876=_0x487813+_0x580698,_0xbeb2aa=_0x4cd9['Zoxpnn'][_0xf1a876];if(!_0xbeb2aa){var _0x2e0d4a=function(_0x43afc3){this['sIPOcu']=_0x43afc3,this['dLetDw']=[0x69d+0x78f+-0xe2b,0x67*0x34+0x1666+-0x2b52,-0x2ba*0x7+0x131f+-0x9],this['JjGXcf']=function(){return'newState';},this['HJgOgT']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['QiFXEv']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2e0d4a['prototype']['yGxwTp']=function(){var _0x421368=new RegExp(this['HJgOgT']+this['QiFXEv']),_0x42051e=_0x421368['test'](this['JjGXcf']['toString']())?--this['dLetDw'][0x13bf+-0x5*-0x7c7+-0x3aa1]:--this['dLetDw'][0xa53*-0x3+0xdb2+-0x1*-0x1147];return this['DbisZn'](_0x42051e);},_0x2e0d4a['prototype']['DbisZn']=function(_0x2dd344){if(!Boolean(~_0x2dd344))return _0x2dd344;return this['lyQihb'](this['sIPOcu']);},_0x2e0d4a['prototype']['lyQihb']=function(_0x1494c6){for(var _0x469222=-0x1*-0x713+-0x1265+-0x1*-0xb52,_0x486b4f=this['dLetDw']['length'];_0x469222<_0x486b4f;_0x469222++){this['dLetDw']['push'](Math['round'](Math['random']())),_0x486b4f=this['dLetDw']['length'];}return _0x1494c6(this['dLetDw'][0x24f1*-0x1+0x69e*-0x5+-0xd*-0x563]);},(''+function(){return 0x1db4+0xeee+-0xc5*0x3a;})['indexOf']('\x0a')===-(0x3*0x2b9+0x1*-0x5e4+-0x2*0x123)&&new _0x2e0d4a(_0x4cd9)['yGxwTp'](),_0x52857e=_0x4cd9['eZWaRL'](_0x52857e),_0x4cd9['Zoxpnn'][_0xf1a876]=_0x52857e;}else _0x52857e=_0xbeb2aa;return _0x52857e;}var _0x516812=(function(){var _0x50414e=!![];return function(_0x29c987,_0x1750ec){var _0x2c1929=_0x50414e?function(){var _0x20d8b8=_0x4cd9;if(_0x1750ec){var _0x4816bd=_0x1750ec[_0x20d8b8(0xac)](_0x29c987,arguments);return _0x1750ec=null,_0x4816bd;}}:function(){};return _0x50414e=![],_0x2c1929;};}()),_0x4421b3=_0x516812(this,function(){var _0x1654c1=_0x4cd9,_0x20c092=_0x5a2e,_0x5776b3={'WGOGk':_0x20c092(0xaa,'b0Dc')+'+$'};if(_0x4421b3[_0x1654c1(0xa7)]()['toString']()[_0x20c092(0x9a,'B5Wl')]('\x0a')!==-(-0xae*-0x16+-0x1681+-0x3c7*-0x2))return;return _0x4421b3[_0x1654c1(0xa8)]()['search'](_0x5776b3[_0x1654c1(0x9d)])[_0x20c092(0xa1,'jko)')]()['constructo'+'r'](_0x4421b3)[_0x1654c1(0xb5)]('(((.+)+)+)'+'+$');});_0x4421b3(),tailwind[_0x4a17fb(0x9f,'(tZj')]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x130885(0xa2)]},'colors':{'dark':{0x384:_0x130885(0xa0),0x320:_0x130885(0xab),0x2bc:_0x4a17fb(0x99,'m9T%')},'brand':{'primary':_0x130885(0xb3),'secondary':_0x4a17fb(0xa9,'A1Md'),'accent':_0x4a17fb(0xa3,'b0Dc')}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .hz-number { font-family: 'Outfit', monospace; font-size: 5rem; font-weight: 800; line-height: 1; text-shadow: 0 0 35px rgba(69,243,255,0.4); }
+        
+        .spin-box { width: 64px; height: 64px; border-radius: 12px; background: linear-gradient(135deg, #45F3FF 0%, #7A00FF 100%); box-shadow: 0 0 25px rgba(69,243,255,0.3); }
+        .motion-lane { position: relative; width: 100%; height: 70px; background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+        .motion-block { position: absolute; top: 12px; left: 0; width: 46px; height: 46px; border-radius: 8px; }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -312,469 +88,191 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">Display Refresh Rate Checker</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Test your monitor's refresh rate and display performance. Measure FPS and screen update frequency in real-time.</p>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Display Refresh Rate Checker
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Measure your monitor's true hardware refresh rate in real-time using high-precision browser timestamps and frame delta analysis.
+            </p>
         </div>
 
-        <!-- Controls Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 sm:p-10 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <h2 class="text-2xl font-bold text-white mb-8 flex items-center">
-                <span class="w-8 h-8 rounded-lg bg-dark-800/60 backdrop-blur-md text-indigo-600 flex items-center justify-center mr-3">
-                    <i data-feather="monitor" class="w-4 h-4"></i>
-                </span>
-                Test Controls
-            </h2>
-
-            <div class="flex flex-wrap gap-4 mb-6">
-                <button id="start-test" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
-                    Start Test
-                </button>
-                <button id="stop-test" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
-                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
-                    Stop Test
-                </button>
-                <button id="reset-stats" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="rotate-ccw" class="w-4 h-4 mr-2"></i>
-                    Reset Stats
-                </button>
+        <!-- Live Refresh Rate Display Card -->
+        <div class="glass-panel p-8 md:p-12 rounded-3xl mb-8 border border-white/10 text-center relative overflow-hidden shadow-[0_0_35px_rgba(0,0,0,0.5)]">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="text-sm font-semibold uppercase tracking-widest text-emerald-400" id="measurement-status">Measuring Frame Delta</span>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="hz-number text-brand-primary mb-2">
+                <span id="detected-hz">--</span>
+                <span class="text-3xl text-gray-300 font-bold">Hz</span>
+            </div>
+            
+            <p class="text-gray-400 text-sm max-w-md mx-auto mb-6" id="rating-text">
+                Calculating stable frequency...
+            </p>
+
+            <!-- Live Metrics Strip -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-4 border-t border-white/10">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Test Duration (seconds)</label>
-                    <input id="test-duration" type="number" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white"
-                        placeholder="30" value="30" min="5" max="300">
-                    <p class="text-xs text-gray-500 mt-1">How long to run the refresh rate test (5-300 seconds)</p>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">FPS</div>
+                    <div class="text-xl font-bold font-mono text-white" id="live-fps">--</div>
                 </div>
-
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Display Mode</label>
-                    <select id="display-mode" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="spinning">Spinning Square</option>
-                        <option value="gradient">Gradient Animation</option>
-                        <option value="flicker">Flicker Test</option>
-                        <option value="none">No Animation</option>
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Choose a visual test pattern</p>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Frame Time</div>
+                    <div class="text-xl font-bold font-mono text-brand-primary" id="frame-time">-- ms</div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Jitter / Variance</div>
+                    <div class="text-xl font-bold font-mono text-white" id="frame-jitter">-- ms</div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Samples Tested</div>
+                    <div class="text-xl font-bold font-mono text-gray-300" id="sample-count">0</div>
                 </div>
             </div>
         </div>
 
-        <!-- Results Section -->
-        <div class="grid lg:grid-cols-4 gap-6 mb-8">
-            <!-- Current Refresh Rate -->
-            <div class="stats-card">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-semibold text-gray-300">Refresh Rate</h3>
-                    <div id="test-status" class="flex items-center">
-                        <div class="w-2 h-2 rounded-full bg-gray-400"></div>
+        <!-- Controls -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <button id="toggle-test-btn" class="glass-panel px-6 py-3 rounded-xl font-semibold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/30 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(69,243,255,0.15)]">
+                <i data-feather="refresh-cw" class="w-4 h-4"></i> Restart Measurement
+            </button>
+            <button id="fullscreen-btn" class="glass-panel px-6 py-3 rounded-xl font-semibold hover:bg-white/5 border border-white/10 text-gray-300 transition-all flex items-center gap-2">
+                <i data-feather="maximize" class="w-4 h-4"></i> Test Fullscreen
+            </button>
+        </div>
+
+        <!-- Visual UFO / Motion Pacing Test -->
+        <div class="glass-panel p-8 rounded-3xl mb-8 border border-white/10">
+            <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                <i data-feather="activity" class="w-5 h-5 text-brand-primary"></i> Motion Smoothness &amp; Ghosting Test
+            </h3>
+            <p class="text-sm text-gray-400 mb-6">Compare visual smoothness across different target frame rates on this display:</p>
+
+            <div class="space-y-4">
+                <!-- Native Track -->
+                <div>
+                    <div class="flex justify-between text-xs font-semibold text-gray-400 mb-1.5">
+                        <span class="text-brand-primary">Native Refresh Rate (<span id="track-native-label">--</span> Hz)</span>
+                        <span>Full GPU Refresh</span>
+                    </div>
+                    <div class="motion-lane">
+                        <div id="block-native" class="motion-block bg-brand-primary shadow-[0_0_15px_rgba(69,243,255,0.5)]"></div>
                     </div>
                 </div>
-                <div class="refresh-display text-center">
-                    <span id="current-refresh">--</span> <span class="text-sm text-gray-500">Hz</span>
-                </div>
-            </div>
 
-            <!-- Frame Time -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Frame Time</h3>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-white" id="frame-time">--</div>
-                    <div class="text-xs text-gray-500">milliseconds</div>
+                <!-- 60 FPS Track -->
+                <div>
+                    <div class="flex justify-between text-xs font-semibold text-gray-400 mb-1.5">
+                        <span class="text-pink-400">Fixed 60 FPS</span>
+                        <span>Standard 60Hz Pacing</span>
+                    </div>
+                    <div class="motion-lane">
+                        <div id="block-60" class="motion-block bg-pink-500 shadow-[0_0_15px_rgba(255,42,122,0.4)]"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- FPS -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">FPS</h3>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-white" id="fps">--</div>
-                    <div class="text-xs text-gray-500">frames/second</div>
-                </div>
-            </div>
-
-            <!-- Test Progress -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Test Progress</h3>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-white" id="test-progress">0%</div>
-                    <div class="text-xs text-gray-500" id="time-remaining">--s</div>
+                <!-- 30 FPS Track -->
+                <div>
+                    <div class="flex justify-between text-xs font-semibold text-gray-400 mb-1.5">
+                        <span class="text-amber-400">Fixed 30 FPS</span>
+                        <span>Half Rate Pacing</span>
+                    </div>
+                    <div class="motion-lane">
+                        <div id="block-30" class="motion-block bg-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Statistics -->
-        <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div class="result-box">
-                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                    <i data-feather="bar-chart-2" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                    Statistics
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Average Refresh Rate:</span>
-                        <span id="avg-refresh" class="font-mono font-semibold">-- Hz</span>
+        <!-- Display Capabilities Info Grid -->
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                    <i data-feather="monitor" class="w-4 h-4 text-brand-primary"></i> Screen Info
+                </h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Resolution:</span>
+                        <span class="font-mono text-white" id="screen-res">--</span>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Minimum Refresh Rate:</span>
-                        <span id="min-refresh" class="font-mono font-semibold">-- Hz</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Maximum Refresh Rate:</span>
-                        <span id="max-refresh" class="font-mono font-semibold">-- Hz</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Standard Deviation:</span>
-                        <span id="std-dev" class="font-mono font-semibold">-- Hz</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Total Frames Measured:</span>
-                        <span id="total-frames" class="font-mono font-semibold">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="result-box">
-                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                    <i data-feather="info" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                    Display Info
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Screen Resolution:</span>
-                        <span id="screen-resolution" class="font-mono font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between">
                         <span class="text-gray-400">Color Depth:</span>
-                        <span id="color-depth" class="font-mono font-semibold">--</span>
+                        <span class="font-mono text-white" id="screen-depth">--</span>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Device Pixel Ratio:</span>
-                        <span id="pixel-ratio" class="font-mono font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Browser:</span>
-                        <span id="browser-info" class="font-mono font-semibold text-xs">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Test Method:</span>
-                        <span class="font-mono font-semibold text-xs">requestAnimationFrame</span>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Pixel Ratio:</span>
+                        <span class="font-mono text-brand-primary" id="pixel-ratio">--</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Visual Test Area -->
-        <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="eye" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Visual Test Pattern
-            </h3>
-            <div id="visual-test" class="flex items-center justify-center">
-                <div class="text-center text-gray-500">
-                    <i data-feather="play-circle" class="w-16 h-16 mb-4"></i>
-                    <p>Start the test to see the visual pattern</p>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                    <i data-feather="check-circle" class="w-4 h-4 text-brand-primary"></i> Verified Standards
+                </h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">60Hz Standard:</span>
+                        <span class="font-mono text-emerald-400 font-semibold" id="std-60">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">120Hz/144Hz Gaming:</span>
+                        <span class="font-mono text-gray-300 font-semibold" id="std-144">--</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">240Hz+ Esports:</span>
+                        <span class="font-mono text-gray-300 font-semibold" id="std-240">--</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Instructions -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                How It Works
-            </h3>
-            <div class="prose prose-sm max-w-none text-gray-400">
-                <p class="mb-3">This tool measures your display's refresh rate using the browser's <code>requestAnimationFrame</code> API, which synchronizes with your monitor's refresh cycle.</p>
-                <ul class="list-disc list-inside space-y-1 mb-3">
-                    <li><strong>Refresh Rate:</strong> How many times per second your display updates (typically 60Hz, 120Hz, 144Hz, etc.)</li>
-                    <li><strong>Frame Time:</strong> Time between frames in milliseconds (1000ms / refresh rate)</li>
-                    <li><strong>FPS:</strong> Frames per second your browser can render (may be limited by refresh rate)</li>
-                    <li><strong>Accuracy:</strong> Results are most accurate when the browser tab is focused and active</li>
-                </ul>
-                <p class="text-sm text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg">
-                    <strong>Note:</strong> This measures the effective refresh rate as seen by the browser. Actual hardware refresh rates may vary slightly due to browser limitations and system load.
-                </p>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                    <i data-feather="shield" class="w-4 h-4 text-brand-primary"></i> Environment
+                </h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Hardware Accel:</span>
+                        <span class="font-mono text-emerald-400">Active</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">RAF Precision:</span>
+                        <span class="font-mono text-brand-primary">High (DOMHighRes)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">VSync Lock:</span>
+                        <span class="font-mono text-white" id="vsync-status">Locked</span>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
-            // Elements
-            const startBtn = document.getElementById('start-test');
-            const stopBtn = document.getElementById('stop-test');
-            const resetBtn = document.getElementById('reset-stats');
-            const testDurationInput = document.getElementById('test-duration');
-            const displayModeSelect = document.getElementById('display-mode');
-            const currentRefreshEl = document.getElementById('current-refresh');
-            const frameTimeEl = document.getElementById('frame-time');
-            const fpsEl = document.getElementById('fps');
-            const testProgressEl = document.getElementById('test-progress');
-            const timeRemainingEl = document.getElementById('time-remaining');
-            const testStatusEl = document.getElementById('test-status');
-            const avgRefreshEl = document.getElementById('avg-refresh');
-            const minRefreshEl = document.getElementById('min-refresh');
-            const maxRefreshEl = document.getElementById('max-refresh');
-            const stdDevEl = document.getElementById('std-dev');
-            const totalFramesEl = document.getElementById('total-frames');
-            const screenResolutionEl = document.getElementById('screen-resolution');
-            const colorDepthEl = document.getElementById('color-depth');
-            const pixelRatioEl = document.getElementById('pixel-ratio');
-            const browserInfoEl = document.getElementById('browser-info');
-            const visualTestEl = document.getElementById('visual-test');
+    <script>const _0x22105e=_0x1282,_0x4bf335=_0x44d3;function _0x44d3(_0x29470f,_0x2f2fee){_0x29470f=_0x29470f-(-0xd0f*-0x1+-0x18be*0x1+0x9*0x16f);const _0x1afee3=_0xa9d7();let _0x523929=_0x1afee3[_0x29470f];if(_0x44d3['Mmmqca']===undefined){var _0xa469b9=function(_0x15abef){const _0xfba714='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x49dbe8='',_0x28edb7='',_0x5b0205=_0x49dbe8+_0xa469b9,_0x54c249=(''+function(){return-0xf61*0x2+-0x1979*0x1+0x383b;})['indexOf']('\x0a')!==-(-0x2*-0x743+0x104d+-0x1ed2);for(let _0x23da76=-0x2cf+0x1*0x17+-0x3*-0xe8,_0x5b460b,_0x182719,_0x11833b=-0x25f0+-0x2cd+0x28bd;_0x182719=_0x15abef['charAt'](_0x11833b++);~_0x182719&&(_0x5b460b=_0x23da76%(-0x388+0x14d6*-0x1+0x2*0xc31)?_0x5b460b*(-0x1271*-0x1+0x1a7a+-0x1*0x2cab)+_0x182719:_0x182719,_0x23da76++%(-0xaf4+-0x1c1*-0x2+0x776))?_0x49dbe8+=_0x54c249||_0x5b0205['charCodeAt'](_0x11833b+(-0x18a2+0x1a36+-0x18a))-(-0x2*-0xe6e+-0x9ad+0x1*-0x1325)!==0xee6+0x237*0x5+-0x3d*0x6d?String['fromCharCode'](-0x2396+-0x25e+0x2ff*0xd&_0x5b460b>>(-(0x197e*0x1+-0x346*-0x2+-0x2008)*_0x23da76&0x12a6+0x162d+-0x28cd)):_0x23da76:0x20*0x9d+-0x42e+0x1*-0xf72){_0x182719=_0xfba714['indexOf'](_0x182719);}for(let _0x237b38=0x2*-0x392+-0x25db+0x2cff,_0x7f615=_0x49dbe8['length'];_0x237b38<_0x7f615;_0x237b38++){_0x28edb7+='%'+('00'+_0x49dbe8['charCodeAt'](_0x237b38)['toString'](-0x3ae+0x10d*-0x17+-0x1*-0x1be9))['slice'](-(0x232c+0xde+0x902*-0x4));}return decodeURIComponent(_0x28edb7);};_0x44d3['pWYCjG']=_0xa469b9,_0x44d3['XVWydj']={},_0x44d3['Mmmqca']=!![];}const _0x5c57a2=_0x1afee3[-0x1645+0xf1*-0x23+0x4*0xdce],_0x4732e8=_0x29470f+_0x5c57a2,_0x54a42a=_0x44d3['XVWydj'][_0x4732e8];if(!_0x54a42a){const _0x59806f=function(_0x5f3fc1){this['AMxVEI']=_0x5f3fc1,this['NlEXwO']=[0xb*-0x22c+0x53*-0x3+0x18de,-0x7b*-0x49+0x7f*0xd+0x2986*-0x1,-0x205+-0x1019+0x6*0x305],this['sqIPUK']=function(){return'newState';},this['uyrslu']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ZBdOZD']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x59806f['prototype']['JFltYM']=function(){const _0x560e71=new RegExp(this['uyrslu']+this['ZBdOZD']),_0x5aeaac=_0x560e71['test'](this['sqIPUK']['toString']())?--this['NlEXwO'][-0x1*0x18b8+0x1e05+0x71*-0xc]:--this['NlEXwO'][-0x170d+-0xc66+0x2373];return this['KOsTsS'](_0x5aeaac);},_0x59806f['prototype']['KOsTsS']=function(_0x1b8449){if(!Boolean(~_0x1b8449))return _0x1b8449;return this['fisyuh'](this['AMxVEI']);},_0x59806f['prototype']['fisyuh']=function(_0x585220){for(let _0x15ea80=-0x2015+0x1156+0xebf,_0x58fa51=this['NlEXwO']['length'];_0x15ea80<_0x58fa51;_0x15ea80++){this['NlEXwO']['push'](Math['round'](Math['random']())),_0x58fa51=this['NlEXwO']['length'];}return _0x585220(this['NlEXwO'][0x4f*-0x33+-0xc3f+-0x9*-0x31c]);},(''+function(){return-0x178e+0x328*0x1+0x1466;})['indexOf']('\x0a')===-(0x845+-0xd*0x13d+-0x7d5*-0x1)&&new _0x59806f(_0x44d3)['JFltYM'](),_0x523929=_0x44d3['pWYCjG'](_0x523929),_0x44d3['XVWydj'][_0x4732e8]=_0x523929;}else _0x523929=_0x54a42a;return _0x523929;}(function(_0x509e16,_0x2f94da){const _0x1d76bc=_0x44d3,_0x409b6d=_0x1282,_0x3aab8a=_0x509e16();while(!![]){try{const _0x2b3b0c=parseInt(_0x409b6d(0x14e,'tYDF'))/(0x1859+0x2231+-0x3a89)*(-parseInt(_0x409b6d(0x1eb,'GZ3V'))/(0x883+-0xe09*0x2+0x1391*0x1))+parseInt(_0x1d76bc(0x191))/(0x4*0x268+0x1191*0x1+0x31*-0x8e)*(-parseInt(_0x409b6d(0x1d3,'IKJ$'))/(-0x19df*0x1+0x1c5*-0x12+0x39bd))+-parseInt(_0x1d76bc(0x150))/(-0x18ee+0x5a*-0x2+0xc7*0x21)*(parseInt(_0x409b6d(0x18b,'IKJ$'))/(0x1ffa+0x1b4d*-0x1+-0x4a7))+-parseInt(_0x409b6d(0x1a7,'IQwk'))/(0xe09*-0x1+-0xa6*0x3+0x1002)*(-parseInt(_0x409b6d(0x15d,'!AP5'))/(-0xbc3*-0x2+0x13a2+-0x2b20))+parseInt(_0x1d76bc(0x13e))/(0x3*0x20c+0x2*0x1173+-0x2901)+-parseInt(_0x409b6d(0x185,'Hxu4'))/(0xc74+0x1fff*0x1+-0x1*0x2c69)+parseInt(_0x409b6d(0x141,'2Ac1'))/(-0x2135+0x15e1+0xb5f)*(parseInt(_0x1d76bc(0x157))/(0x40b*-0x9+-0x207a*-0x1+0x3f5*0x1));if(_0x2b3b0c===_0x2f94da)break;else _0x3aab8a['push'](_0x3aab8a['shift']());}catch(_0x40b4b9){_0x3aab8a['push'](_0x3aab8a['shift']());}}}(_0xa9d7,0x96e64+-0xc30a0+-0x1*-0xbec73));const _0x466560=(function(){let _0x5d5925=!![];return function(_0x4b6114,_0x3c9d8a){const _0x358b93=_0x5d5925?function(){const _0x5c1cb3=_0x1282;if(_0x3c9d8a){const _0x2d9ee8=_0x3c9d8a[_0x5c1cb3(0x147,'GrOA')](_0x4b6114,arguments);return _0x3c9d8a=null,_0x2d9ee8;}}:function(){};return _0x5d5925=![],_0x358b93;};}()),_0xfb0016=_0x466560(this,function(){const _0x4f4054=_0x1282,_0x509d45=_0x44d3,_0x209451={'MUliO':_0x509d45(0x195)+'+$'};if(_0xfb0016[_0x509d45(0x14c)]()[_0x4f4054(0x1e1,'Vykx')]()[_0x4f4054(0x160,'!AP5')]('\x0a')!==-(0x9e1+-0x232e+0x194e))return;return _0xfb0016[_0x4f4054(0x1e1,'Vykx')]()['search'](_0x209451[_0x509d45(0x156)])['toString']()[_0x509d45(0x18d)+'r'](_0xfb0016)[_0x509d45(0x138)](_0x209451[_0x509d45(0x156)]);});_0xfb0016(),feather[_0x4bf335(0x176)]();function showMessage(_0x411889,_0x36355b=_0x22105e(0x1bb,'TWvw')){const _0x10abcb=_0x4bf335,_0x128a8d=_0x22105e,_0x366d8e={'lWSaF':_0x128a8d(0x1c3,'!AP5'),'FpkWR':function(_0xe4aa9,_0x544ae1){return _0xe4aa9+_0x544ae1;},'LRQhu':function(_0x4bdf12,_0x25bca2){return _0x4bdf12===_0x25bca2;},'brWap':_0x128a8d(0x1d8,'OsT]')+'le','UiDrU':_0x10abcb(0x1e9)+'-4\x20h-4\x22></'+'i><span>','rfzVf':_0x128a8d(0x1ba,'IKJ$'),'NwWLk':function(_0x45b552,_0x5e97ce,_0x427217){return _0x45b552(_0x5e97ce,_0x427217);}},_0x183eca=document[_0x128a8d(0x170,'yMLK')+_0x10abcb(0x1a6)](_0x366d8e[_0x128a8d(0x173,'SD#p')]);if(!_0x183eca)return;_0x183eca[_0x128a8d(0x13a,'tYDF')]=_0x366d8e['FpkWR'](_0x366d8e[_0x128a8d(0x1a3,'IQoN')](_0x366d8e[_0x10abcb(0x1a4)](_0x366d8e[_0x10abcb(0x1a4)]('<i\x20data-fe'+'ather=\x22',_0x366d8e[_0x10abcb(0x1a5)](_0x36355b,_0x10abcb(0x1bd))?_0x128a8d(0x13b,'@&sr')+'le':_0x366d8e[_0x128a8d(0x1b9,'IKJ$')]),_0x366d8e[_0x10abcb(0x1db)]),_0x411889),_0x366d8e['rfzVf']),_0x183eca[_0x10abcb(0x1e0)]=_0x366d8e[_0x128a8d(0x190,'eFWu')](_0x128a8d(0x17b,'TpDM'),_0x36355b),feather['replace'](),clearTimeout(_0x183eca[_0x128a8d(0x1c4,'@&sr')]),_0x183eca[_0x128a8d(0x1c6,'SD#p')]=_0x366d8e[_0x10abcb(0x18e)](setTimeout,()=>{const _0x54e179=_0x128a8d;_0x183eca[_0x54e179(0x140,'3Org')]=_0x36355b;},-0x1951+0xb*0xd6+0x1dcb);}function _0xa9d7(){const _0x2523e6=['CMf0Aw5NlxrLEa','eMBcRSoEW6zlBc5A','WQ9Ij0qlDq1H','W6pcPSkXua','W4RdIYWLzq','ywrKrxzLBNrmAq','WO/dUa7dPgZdJSoSeSoTrG','W4xcJmoFWRGU','fSkfW4f5wa','asVdK08','W7NdVmkjEmopbG','mJm4nhbuD1ffwq','WQavAe4','yMLUza','ig1Z','yMqeWOBcVXbefSkKnmk/gq','uhztBxy','mteXndbvy2LNyvK','uuvYrxK','ACkdFCo5wSkuqM9lW5G','C3r5Bgu','gSoGC2pcNZJcS8olgsW','imoxoCkdWOFdGWKBWO1D','tvvSAu8','mJG5nJy2otjWEvjry2e','EbhdLI/dLSo7W4KqkSoz','Dg9Nz2XLlxrLCW','ChmU','zfD7zW','iCozoSkgfG','WRlcOgldRxraW5RcM8oIW5u','r1bZyvO','W6NcQSolW6O','W6NdVt7cVhXBW4S','y2f0y2G','B3iGz2fTAw5Nia','emkqW4vqtv3cJ8kOWOiU','W7ddLKJdOCo1','C2GGuMf0zsbeAq','jmoYW7C','AgvPz2H0','D2LKDgG','zg9JDw1LBNrfBa','W7RdNsHwW4tcKqFcTceH','EsSafmkNW5pdUSk8lmor','pbNdKW','y8o5WPGX','BfjHDgLV','W6jVWRtdRmkR','W77cScJcHGmbxmkwW4VdJG','y2XPy2S','r0Xb','W67cI8o/WRGY','W58WW4ldTmkDWORcPSkxxMi','iJddQq','CMvWBgfJzq','ywjZ','Dgv4DenVBNrLBG','nCkmW7HX','sgLNAcbszwzYzq','Beu3W47dTa','WR3dHgjEWRFcGL3cVhu','BhnJCMvLBG','yqxdVxySW4K','zhrXrgC','W5xcUSkaqe5iW7f9WPuq','p2xdR8kfWQm1rtKw','zsaO','shOP','yMXVy2STmZa','jv7cUIb4WPhcNb/cPquHWPPv','nCo0W4BdTf4','W6hcVmk4WQ3cKG','W4xcR08+qSoPiKdcGmoK','EgnLBgXLBNqGzG','lwjPDa','WPddR8obdh9KW7H/WOG2','ywLgsNu','y29UC3rYDwn0BW','tNDxtgS','Ev85W5tcSCknf8kcW6Dy','WQpcM8kEdwe','mtm1BhbkwvPA','W47dH8kWxSo6','WPajrv/cMuO','WOdcHCkb','kcGOlISPkYKRkq','Dg9gAxHLza','wwvZicHqyxnZkq','W4lcVLnNn8k2','mta5ohjdz3z4sa','W45lv1BcL8kMD8k3','W6v0WQpdJaK','W4BdGNKcWQRdNJRcTtqQ','CMvKDwnL','dCoPyNlcSIpcISowgdy','ww1QuhK','W4njWRNdGZq2z3lcNsm','igFcUxqpW5rKxW','W7CPbwVcRSkhqG','hsRcOfqf','rNbRv1i','tfjrAhu','qNLjza','ACoJWQLYk8ovr0pcUSkfW5K','CIb3B3jRzMXVDW','W5zlWPBdHcTZzG','W7lcTSoXWQ5q','n8orp8kdWOhdMq','W7RdTSkdEmogrvtcM8kfW5m','BfKHW5xcSq','WOddI8kynv0sWRb4qt4','yMXVy2STnJa','ihGG','DhjHBNnMB3jT','FK8R','y8o8WO8RzSoY','lwj0BG','WOvlW6VdGCoUg0ykBLldOq','W7DbWRRdHZS','CMvXDwvZDez1Ba','WRqvg2BdMmoAaCoXW7pdQW','W4pcRCkVvx0','WP3dSmklrgXjWQe','W4lcV1qPzmo1pW','WPinu0/cLfVdNCkAaY8','C3vJy2vZCW','lf0bamkzWRHCDW','WOlcJSkbh18EWQLYxtK','tCkpwmoX','CMLLBMnLlG','EeGSW7ZcUmofdSkoW6rj','W7tdVdVcQNa','g8ogjmklWOhdHq','zwzYzxnOifjHDa','W53cQmofWRqrW6m','rw5Oyw5JzwqGuG','WOenvuNcKG','ChGP','CuiV','eXObo0xcICk9W50jqxO','DhjHBNnSyxrLwa','WQFcKSk8pG','d8oNEa','iCokjmksWQldGGatW5nw','fcpdP8kLW5SRwtRdOgC','WPyjwv7cUuddTSkcaYW','WQRcJmkLW5aTW64TWQyDDG','WPtdQ8olddv/W6XtWR4xqq','u3rHBMrHCMqGnG','eZ/dJCkdW50','C3bSyxKGka','WODkWO49CJ58W4FdHty','WP4wsg7cRCoAuSkjWPNcRG','mtiWshOGvwX0CG','W4lcSmkuw39JW7P5WOqw','vwLeCLu','W5O5W5NdKSkAW4lcPCktrh8','W6rLWRNdTSkmzCoDl8kCWQC','BSoSo8o4','mtqXmZu5z2nfs3bx','y2XHC3noyw1L','zmoNWRKXCCoPWPtcLG','WQnbWQy0','r0bwiX7cO8kRW6yZrW','BgvUz3rO','n3ldQe42w8k6jNNcHq','C3rKlte0na','jCo8hNi6Fc3cUmkzWR4','WOnmCKFcLuddRmkErGy','iIbJBgfZCZ0IDW','zmobimkjWOVdGWqrW4vg','WQNcPrZcSX3dNCoRCW','W4CrWQVcKCk7fa0brfi','Bmo8lCo+','mtrrBNf0qLO','aL9VW6e','mSkzW5r4rfBcLG','W7/dPsxcQSkIcSoUWP/dUmkB','W6NdS8ksFSob','C2vHCMnO','D3zIs24','oJ5BW5ddUgf3omkT','j8oAkmkfWO/cMG8wW5jw','mmoxnCksWQFdMailW4vB','z2v0rwXLBwvUDa','mtq1ndKYmM9qv05stW'];_0xa9d7=function(){return _0x2523e6;};return _0xa9d7();}document[_0x4bf335(0x13d)+_0x22105e(0x142,'IKJ$')](_0x22105e(0x1ec,'iDTs'))[_0x22105e(0x188,'TWvw')+'t']=window[_0x22105e(0x149,'pW!@')][_0x4bf335(0x168)]+_0x4bf335(0x1b0)+window[_0x22105e(0x1ab,'@&sr')][_0x4bf335(0x167)],document[_0x4bf335(0x13d)+_0x22105e(0x179,'GrOA')]('screen-dep'+'th')[_0x4bf335(0x178)+'t']=window[_0x22105e(0x17e,'Hxu4')][_0x22105e(0x1da,'IKJ$')]+_0x4bf335(0x18a),document[_0x4bf335(0x13d)+_0x4bf335(0x1a6)](_0x22105e(0x1ac,'pW!@')+'o')[_0x22105e(0x1d1,'7uMm')+'t']=(window[_0x22105e(0x158,'Z&k2')+_0x4bf335(0x16e)]||0x20*-0x5+-0x2f9*0x4+0xc85)+'x';let frameTimes=[],lastTime=performance['now'](),totalFrames=0x9*-0x3f+0xa72*0x1+-0x83b,animationId=null;const detectedHzEl=document[_0x4bf335(0x13d)+_0x4bf335(0x1a6)](_0x22105e(0x155,'@&sr')+'z'),liveFpsEl=document[_0x22105e(0x1c2,'TpDM')+_0x22105e(0x1ef,']k@S')](_0x22105e(0x1a1,'%L24')),frameTimeEl=document[_0x4bf335(0x13d)+_0x4bf335(0x1a6)](_0x22105e(0x18f,'TpDM')),frameJitterEl=document[_0x4bf335(0x13d)+_0x4bf335(0x1a6)](_0x22105e(0x1d7,')%Ad')+'er'),sampleCountEl=document['getElement'+_0x22105e(0x1e2,')%Ad')]('sample-cou'+'nt'),ratingTextEl=document[_0x4bf335(0x13d)+_0x22105e(0x1c0,'zo#K')](_0x4bf335(0x13f)+'t'),nativeLabelEl=document[_0x22105e(0x1dc,'o&Ga')+'ById']('track-nati'+_0x22105e(0x1be,'@DNp'));let posNative=0x3*-0x5cf+0x6*0x2c6+0xc9,pos60=-0x2fd+0x1c17+0x3*-0x85e,pos30=-0xf53*-0x1+0x18f9+-0x1426*0x2,last60Time=performance[_0x22105e(0x1ca,'TpDM')](),last30Time=performance['now']();const blockNative=document[_0x4bf335(0x13d)+'ById'](_0x22105e(0x174,'o&Ga')+'ve'),block60=document[_0x4bf335(0x13d)+_0x4bf335(0x1a6)](_0x4bf335(0x1af)),block30=document[_0x4bf335(0x13d)+_0x22105e(0x15f,'O[Xe')](_0x4bf335(0x184));function _0x1282(_0x4d4a1e,_0x47ce7d){_0x4d4a1e=_0x4d4a1e-(-0xd0f*-0x1+-0x18be*0x1+0x9*0x16f);const _0x292966=_0xa9d7();let _0x594a9f=_0x292966[_0x4d4a1e];if(_0x1282['uPXoqO']===undefined){var _0x44616d=function(_0x140b9c){const _0x369fd6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x191501='',_0x4fc4d6='',_0x241315=_0x191501+_0x44616d,_0xff8624=(''+function(){return-0xf61*0x2+-0x1979*0x1+0x383b;})['indexOf']('\x0a')!==-(-0x2*-0x743+0x104d+-0x1ed2);for(let _0x2b5c31=-0x2cf+0x1*0x17+-0x3*-0xe8,_0x5821f3,_0xfe3172,_0x1c60df=-0x25f0+-0x2cd+0x28bd;_0xfe3172=_0x140b9c['charAt'](_0x1c60df++);~_0xfe3172&&(_0x5821f3=_0x2b5c31%(-0x388+0x14d6*-0x1+0x2*0xc31)?_0x5821f3*(-0x1271*-0x1+0x1a7a+-0x1*0x2cab)+_0xfe3172:_0xfe3172,_0x2b5c31++%(-0xaf4+-0x1c1*-0x2+0x776))?_0x191501+=_0xff8624||_0x241315['charCodeAt'](_0x1c60df+(-0x18a2+0x1a36+-0x18a))-(-0x2*-0xe6e+-0x9ad+0x1*-0x1325)!==0xee6+0x237*0x5+-0x3d*0x6d?String['fromCharCode'](-0x2396+-0x25e+0x2ff*0xd&_0x5821f3>>(-(0x197e*0x1+-0x346*-0x2+-0x2008)*_0x2b5c31&0x12a6+0x162d+-0x28cd)):_0x2b5c31:0x20*0x9d+-0x42e+0x1*-0xf72){_0xfe3172=_0x369fd6['indexOf'](_0xfe3172);}for(let _0x5044d4=0x2*-0x392+-0x25db+0x2cff,_0x2137b8=_0x191501['length'];_0x5044d4<_0x2137b8;_0x5044d4++){_0x4fc4d6+='%'+('00'+_0x191501['charCodeAt'](_0x5044d4)['toString'](-0x3ae+0x10d*-0x17+-0x1*-0x1be9))['slice'](-(0x232c+0xde+0x902*-0x4));}return decodeURIComponent(_0x4fc4d6);};const _0x1a3b27=function(_0xb0dfb,_0x43a550){let _0x405023=[],_0x141534=-0x1645+0xf1*-0x23+0x4*0xdce,_0x2298ee,_0x4f3307='';_0xb0dfb=_0x44616d(_0xb0dfb);let _0x4f6fb5;for(_0x4f6fb5=0xb*-0x22c+0x53*-0x3+0x18dd;_0x4f6fb5<-0x7b*-0x49+0x7f*0xd+0xd82*-0x3;_0x4f6fb5++){_0x405023[_0x4f6fb5]=_0x4f6fb5;}for(_0x4f6fb5=-0x205+-0x1019+0x6*0x305;_0x4f6fb5<-0x1*0x18b8+0x1e05+0x16f*-0x3;_0x4f6fb5++){_0x141534=(_0x141534+_0x405023[_0x4f6fb5]+_0x43a550['charCodeAt'](_0x4f6fb5%_0x43a550['length']))%(-0x170d+-0xc66+0x2473),_0x2298ee=_0x405023[_0x4f6fb5],_0x405023[_0x4f6fb5]=_0x405023[_0x141534],_0x405023[_0x141534]=_0x2298ee;}_0x4f6fb5=-0x2015+0x1156+0xebf,_0x141534=0x4f*-0x33+-0xc3f+-0x9*-0x31c;for(let _0x1af622=-0x178e+0x328*0x1+0x1466;_0x1af622<_0xb0dfb['length'];_0x1af622++){_0x4f6fb5=(_0x4f6fb5+(0x845+-0xd*0x13d+-0x7d5*-0x1))%(-0x541+-0x23*0x3+0x2*0x355),_0x141534=(_0x141534+_0x405023[_0x4f6fb5])%(0x1e47+-0x3*0x71b+0x7f6*-0x1),_0x2298ee=_0x405023[_0x4f6fb5],_0x405023[_0x4f6fb5]=_0x405023[_0x141534],_0x405023[_0x141534]=_0x2298ee,_0x4f3307+=String['fromCharCode'](_0xb0dfb['charCodeAt'](_0x1af622)^_0x405023[(_0x405023[_0x4f6fb5]+_0x405023[_0x141534])%(-0x9b2+0x23b6+-0x1904)]);}return _0x4f3307;};_0x1282['zbCnnA']=_0x1a3b27,_0x1282['KSPMfB']={},_0x1282['uPXoqO']=!![];}const _0x1407d3=_0x292966[0x586*-0x7+-0x51*0x6d+-0x133*-0x3d],_0x21ac21=_0x4d4a1e+_0x1407d3,_0x546cf6=_0x1282['KSPMfB'][_0x21ac21];if(!_0x546cf6){if(_0x1282['dEBDgH']===undefined){const _0x4cfb6c=function(_0x383f22){this['itQPNM']=_0x383f22,this['nObuHS']=[0x21d4+-0x2*-0xdae+0x3*-0x1465,0x314*-0x5+-0x1707+0x266b,-0xbe9+-0x2*0x11f1+0x2fcb],this['yHofgn']=function(){return'newState';},this['AEXlph']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['UQSgOX']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4cfb6c['prototype']['wHKbkI']=function(){const _0x58f701=new RegExp(this['AEXlph']+this['UQSgOX']),_0x555d0e=_0x58f701['test'](this['yHofgn']['toString']())?--this['nObuHS'][0xfa8+0x4*0x5cf+0x389*-0xb]:--this['nObuHS'][0x2f*-0x97+-0x8d3+0x248c];return this['bHCqTx'](_0x555d0e);},_0x4cfb6c['prototype']['bHCqTx']=function(_0x252c33){if(!Boolean(~_0x252c33))return _0x252c33;return this['Ccyyec'](this['itQPNM']);},_0x4cfb6c['prototype']['Ccyyec']=function(_0x99233b){for(let _0x5a90dc=-0x2492*0x1+-0xc79+0x310b,_0x569d3c=this['nObuHS']['length'];_0x5a90dc<_0x569d3c;_0x5a90dc++){this['nObuHS']['push'](Math['round'](Math['random']())),_0x569d3c=this['nObuHS']['length'];}return _0x99233b(this['nObuHS'][0x907+-0x3d*-0x83+-0xca*0x33]);},(''+function(){return-0x1494+-0xd10+-0x10d2*-0x2;})['indexOf']('\x0a')===-(0x39e*-0x1+0x461*-0x1+0x800)&&new _0x4cfb6c(_0x1282)['wHKbkI'](),_0x1282['dEBDgH']=!![];}_0x594a9f=_0x1282['zbCnnA'](_0x594a9f,_0x47ce7d),_0x1282['KSPMfB'][_0x21ac21]=_0x594a9f;}else _0x594a9f=_0x546cf6;return _0x594a9f;}function loop(_0x4da185){const _0x1e04d2=_0x4bf335,_0x2e0e17=_0x22105e,_0x19e017={'RRoPE':function(_0x55f4f2,_0x37a065){return _0x55f4f2>_0x37a065;},'wvbKn':function(_0x5d11a6,_0x146bb6){return _0x5d11a6<=_0x146bb6;},'YmjPy':function(_0x371a33,_0x301884){return _0x371a33<=_0x301884;},'GPsaZ':function(_0x8d5941,_0x5f07b1){return _0x8d5941-_0x5f07b1;},'PvSmv':function(_0x4aa0b6,_0xcbd552){return _0x4aa0b6<=_0xcbd552;},'gQbfS':function(_0x26e5e8,_0x5ab52c){return _0x26e5e8-_0x5ab52c;},'dtqDg':function(_0x152cd6,_0x66f3b2){return _0x152cd6+_0x66f3b2;},'aiFJu':function(_0x5d321d,_0x35c3b9){return _0x5d321d>=_0x35c3b9;},'GIDkz':_0x2e0e17(0x198,'TWvw'),'QErEy':_0x1e04d2(0x197),'Uejjh':_0x1e04d2(0x1e6),'KobWj':function(_0x30899f,_0x2c2c3c){return _0x30899f>=_0x2c2c3c;},'QtpqZ':function(_0x237183,_0x248eee){return _0x237183%_0x248eee;},'wfhfb':function(_0x39cf8c,_0x202eb6){return _0x39cf8c/_0x202eb6;},'sSdTa':function(_0x241e33,_0x41d7b0){return _0x241e33/_0x41d7b0;},'DXKCP':function(_0x461138,_0x2e6b47){return _0x461138+_0x2e6b47;}},_0x1c03cc=_0x4da185-lastTime;lastTime=_0x4da185;if(_0x19e017['RRoPE'](_0x1c03cc,-0x1*-0x20a3+0x1*-0x1706+-0x99d*0x1)&&_0x1c03cc<0x1bc5+0x1fb*-0x11+0x64a){frameTimes[_0x2e0e17(0x1de,'j02q')](_0x1c03cc);if(frameTimes[_0x1e04d2(0x1e4)]>0x20db*0x1+0x1*0x2333+-0x4396)frameTimes['shift']();totalFrames++;const _0x1f82ff=frameTimes[_0x2e0e17(0x193,'7uMm')]((_0x2e0d87,_0x3d3a88)=>_0x2e0d87+_0x3d3a88,0x1b69+0x2584+-0x40ed*0x1)/frameTimes['length'],_0x1918e3=(0x13e8+-0x191f+0x91f)/_0x1f82ff,_0x2b9254=frameTimes[_0x1e04d2(0x19d)]((_0x3a6c35,_0x51ffb8)=>_0x3a6c35+Math[_0x2e0e17(0x166,']nEy')](_0x51ffb8-_0x1f82ff,-0xbc*0x17+-0xd27+0x1e0d),-0x1*0x1db3+-0x7c9*-0x1+-0xbb*-0x1e)/frameTimes[_0x1e04d2(0x1e4)],_0x18cfe3=Math[_0x2e0e17(0x16d,'Vykx')](_0x2b9254);let _0x55641=Math[_0x2e0e17(0x16f,'0x@6')](_0x1918e3);if(_0x19e017[_0x1e04d2(0x139)](Math[_0x1e04d2(0x177)](_0x1918e3-(0x2147+-0x5f*0x61+-0xbd*-0x4)),0x497*0x1+0xeb9*0x2+0x1*-0x2207))_0x55641=-0x6*-0x641+-0x19e0+-0xb6a;else{if(_0x19e017[_0x1e04d2(0x19f)](Math[_0x2e0e17(0x175,'ycge')](_0x19e017[_0x2e0e17(0x146,'SD#p')](_0x1918e3,-0x20fc+-0x1*0xbd2+0x1*0x2d19)),-0x62*-0x29+-0x1*0x89b+-0x103*0x7))_0x55641=-0x5*0x21e+0x23a5+-0x18c4;else{if(_0x19e017['YmjPy'](Math[_0x2e0e17(0x1ce,'CsmR')](_0x1918e3-(-0x2*0x2b9+-0x1*-0x341+0xe3*0x3)),-0x1*-0x1bca+-0x1483+-0x744))_0x55641=0x1f0b+0xd*0x2b6+-0x245*0x1d;else{if(_0x19e017[_0x1e04d2(0x14f)](Math[_0x2e0e17(0x1b2,'TpDM')](_0x19e017[_0x1e04d2(0x15e)](_0x1918e3,-0x31f*-0xb+-0x26b7+-0x2*-0x279)),0x1d57+-0x5b*-0x11+-0x5*0x713))_0x55641=-0x732+-0xfec+0x2*0xbd7;else{if(_0x19e017['wvbKn'](Math[_0x2e0e17(0x1b2,'TpDM')](_0x1918e3-(-0x15d9+0x636*0x3+-0x1*-0x3dc)),-0x2*-0x134f+-0x32*0xc+0x1*-0x2443))_0x55641=-0x7*0x65+0x503+-0x19b;else{if(Math[_0x1e04d2(0x177)](_0x19e017['gQbfS'](_0x1918e3,-0x1f08+-0x1323+-0x7*-0x74d))<=-0x956+-0x23c6+0x2d20)_0x55641=0x32e*-0x3+-0x1*0x1e3f+0x28b9;else{if(Math[_0x2e0e17(0x172,'a[[J')](_0x19e017[_0x2e0e17(0x19b,'dm@1')](_0x1918e3,-0x11*0x22d+0x6fd+0x1f68))<=0x23e+0x6*0x54f+-0x2213)_0x55641=-0x1*0xa4d+0x2331+-0x177c;}}}}}}detectedHzEl[_0x1e04d2(0x178)+'t']=_0x55641,nativeLabelEl[_0x2e0e17(0x13c,'@&sr')+'t']=_0x55641,liveFpsEl['textConten'+'t']=_0x1918e3[_0x2e0e17(0x1a9,'dm@1')](-0x5d9+-0x2*-0x805+-0x10*0xa3),frameTimeEl['textConten'+'t']=_0x19e017[_0x1e04d2(0x17f)](_0x1f82ff[_0x1e04d2(0x196)](-0x1452+-0x2*-0x3d0+0xcb4),_0x1e04d2(0x14d)),frameJitterEl[_0x2e0e17(0x1d2,'wKh2')+'t']=_0x18cfe3['toFixed'](-0x1*0x17cd+-0x1491+-0xa*-0x470)+_0x2e0e17(0x16c,'Z&k2'),sampleCountEl['textConten'+'t']=totalFrames;if(totalFrames>-0x2539+0xca7*0x1+0x316*0x8){if(_0x55641>=0x1181+0x5cb+-0x16bc)ratingTextEl[_0x1e04d2(0x178)+'t']=_0x1e04d2(0x17a)+_0x1e04d2(0x165)+_0x1e04d2(0x1d6)+_0x55641+(_0x2e0e17(0x19c,'Gk$Q')+'r\x20smooth\x20g'+_0x2e0e17(0x1a0,'dm@1')+_0x1e04d2(0x1c1));else{if(_0x19e017[_0x2e0e17(0x186,']nEy')](_0x55641,0xa2+0x1a2b+-0x1a55))ratingTextEl[_0x1e04d2(0x178)+'t']=_0x1e04d2(0x1d9)+_0x2e0e17(0x1e8,'7uMm')+_0x2e0e17(0x16b,'OOOQ')+_0x1e04d2(0x189)+_0x1e04d2(0x162)+_0x2e0e17(0x1e3,'a[[J')+_0x1e04d2(0x1a8)+'s.';else _0x19e017[_0x1e04d2(0x18c)](_0x55641,0x1d89+-0x111f+-0xc1f)?ratingTextEl[_0x2e0e17(0x16a,'Gk$Q')+'t']=_0x1e04d2(0x1c7)+_0x1e04d2(0x1c5)+_0x1e04d2(0x182)+_0x55641+(_0x2e0e17(0x1f1,'0&8]')+'e\x20standard'+_0x2e0e17(0x1ea,'@&sr')+'s.'):ratingTextEl['textConten'+'t']=_0x1e04d2(0x1d4)+_0x2e0e17(0x1b8,'cMAf')+'y\x20-\x20Typica'+'l\x20for\x20stan'+'dard\x20offic'+_0x2e0e17(0x1ae,'eFWu')+'\x20and\x20lapto'+_0x1e04d2(0x15a);}document[_0x1e04d2(0x13d)+_0x2e0e17(0x1cd,'eFWu')](_0x19e017[_0x2e0e17(0x164,'0&8]')])[_0x2e0e17(0x180,'IKJ$')+'t']=_0x55641>=0xa*-0x8f+-0x33b*-0xb+-0x1*0x1db7?_0x19e017[_0x1e04d2(0x151)]:'No',document['getElement'+_0x2e0e17(0x15b,'a[[J')](_0x19e017[_0x2e0e17(0x1b6,'dm@1')])[_0x1e04d2(0x178)+'t']=_0x19e017[_0x2e0e17(0x1d5,'z]nN')](_0x55641,-0x758+-0x13c4+0x5*0x584)?'Yes\x20('+_0x55641+_0x1e04d2(0x183):_0x2e0e17(0x181,'3Org'),document[_0x2e0e17(0x1bf,'eFWu')+_0x2e0e17(0x14b,'7uMm')](_0x2e0e17(0x1a2,'cMAf'))[_0x2e0e17(0x154,'CsmR')+'t']=_0x19e017['KobWj'](_0x55641,0x394*-0x7+0x101b+0x34b*0x3)?_0x2e0e17(0x1aa,'O[Xe')+_0x55641+_0x1e04d2(0x183):'No';}}const _0x5970d7=blockNative[_0x2e0e17(0x1bc,'7uMm')+_0x2e0e17(0x194,'eFWu')][_0x2e0e17(0x19e,'CsmR')+'h']-(0x1ffd+-0x1c35+-0x1*0x39a),_0x5393fb=0x2*0x2f1+-0x1*0x1645+-0x5*-0x397;posNative=_0x19e017['QtpqZ'](posNative+_0x5393fb*(_0x1c03cc/(-0x1*-0x1fc5+-0x174c+-0x1*0x491)),_0x5970d7),blockNative[_0x2e0e17(0x1ad,'TpDM')][_0x1e04d2(0x1b1)]='translateX'+'('+posNative+_0x1e04d2(0x1c9);if(_0x19e017['gQbfS'](_0x4da185,last60Time)>=_0x19e017['wfhfb'](0x3*0x954+0xd*-0x293+0x963,0x1*-0x699+0x13f9*0x1+-0xd24)){const _0x547bda=_0x19e017[_0x2e0e17(0x15c,'lEsK')](_0x19e017[_0x2e0e17(0x143,'4()H')](_0x4da185,last60Time),-0x189d+0x2244+-0x5bf);last60Time=_0x4da185,pos60=_0x19e017[_0x2e0e17(0x192,'pW!@')](pos60,_0x5393fb*_0x547bda)%_0x5970d7,block60['style']['transform']=_0x1e04d2(0x1cc)+'('+pos60+_0x1e04d2(0x1c9);}if(_0x4da185-last30Time>=_0x19e017['wfhfb'](0x6e9*-0x1+-0x76a+0xd*0x167,-0x5*0x6bb+-0x61*-0x3+0x2*0x1051)){const _0x225737=(_0x4da185-last30Time)/(0x4c7*-0x5+-0x1786+0x3351);last30Time=_0x4da185,pos30=(pos30+_0x5393fb*_0x225737)%_0x5970d7,block30[_0x1e04d2(0x153)]['transform']=_0x1e04d2(0x1cc)+'('+pos30+_0x1e04d2(0x1c9);}animationId=requestAnimationFrame(loop);}animationId=requestAnimationFrame(loop),document[_0x4bf335(0x13d)+_0x22105e(0x148,'ycge')](_0x4bf335(0x159)+'t-btn')[_0x22105e(0x1e7,'hClI')+'stener'](_0x22105e(0x1f2,'pW!@'),()=>{const _0x3e7c3f=_0x22105e,_0x1fb7a1=_0x3e7c3f(0x17c,'Gk$Q')['split']('|');let _0x458395=-0x1959*-0x1+0x5*-0x269+-0xd4c;while(!![]){switch(_0x1fb7a1[_0x458395++]){case'0':lastTime=performance['now']();continue;case'1':showMessage(_0x3e7c3f(0x145,'(kkF')+_0x3e7c3f(0x1e5,'ycge')+'d.');continue;case'2':totalFrames=-0x17e5+-0xbf5+0x1a*0x161;continue;case'3':frameTimes=[];continue;case'4':detectedHzEl[_0x3e7c3f(0x1dd,'0x@6')+'t']='--';continue;}break;}}),document[_0x22105e(0x163,'GrOA')+_0x4bf335(0x1a6)](_0x22105e(0x1d0,'z]nN')+_0x4bf335(0x1b4))[_0x4bf335(0x144)+_0x22105e(0x1b3,'Vykx')](_0x4bf335(0x171),()=>{const _0x3b6d81=_0x4bf335,_0x404213=_0x22105e;!document[_0x404213(0x152,'zo#K')+_0x404213(0x1f0,'GrOA')]?document[_0x3b6d81(0x169)+_0x404213(0x187,'AmX1')][_0x3b6d81(0x1b7)+_0x3b6d81(0x17d)]()[_0x3b6d81(0x161)](()=>{}):document[_0x404213(0x1cf,'@&sr')+_0x404213(0x1ed,'j02q')]()[_0x404213(0x1c8,'7uMm')](()=>{});});</script>
 
-            // State
-            let isTesting = false;
-            let animationId = null;
-            let startTime = null;
-            let endTime = null;
-            let frameCount = 0;
-            let lastFrameTime = 0;
-            let refreshRates = [];
-            let testDuration = 30; // seconds
-
-            // Display info
-            function updateDisplayInfo() {
-                screenResolutionEl.textContent = `${screen.width} × ${screen.height}`;
-                colorDepthEl.textContent = `${screen.colorDepth}-bit`;
-                pixelRatioEl.textContent = window.devicePixelRatio.toFixed(1);
-
-                // Browser detection
-                const ua = navigator.userAgent;
-                let browser = 'Unknown';
-                if (ua.includes('Chrome')) browser = 'Chrome';
-                else if (ua.includes('Firefox')) browser = 'Firefox';
-                else if (ua.includes('Safari')) browser = 'Safari';
-                else if (ua.includes('Edge')) browser = 'Edge';
-
-                browserInfoEl.textContent = browser;
-            }
-
-            // Visual test patterns
-            function createSpinningSquare() {
-                const square = document.createElement('div');
-                square.className = 'spinning-square';
-                return square;
-            }
-
-            function createGradientAnimation() {
-                const gradient = document.createElement('div');
-                gradient.className = 'test-pattern';
-                return gradient;
-            }
-
-            function createFlickerTest() {
-                const flicker = document.createElement('div');
-                flicker.className = 'flicker-test';
-                flicker.textContent = 'FLICKER TEST';
-                return flicker;
-            }
-
-            function updateVisualTest() {
-                visualTestEl.innerHTML = '';
-
-                if (!isTesting) {
-                    visualTestEl.innerHTML = `
-                        <div class="text-center text-gray-500">
-                            <i data-feather="play-circle" class="w-16 h-16 mb-4"></i>
-                            <p>Start the test to see the visual pattern</p>
-                        </div>
-                    `;
-                    feather.replace();
-                    return;
-                }
-
-                const mode = displayModeSelect.value;
-                let element;
-
-                switch (mode) {
-                    case 'spinning':
-                        element = createSpinningSquare();
-                        break;
-                    case 'gradient':
-                        element = createGradientAnimation();
-                        break;
-                    case 'flicker':
-                        element = createFlickerTest();
-                        break;
-                    case 'none':
-                    default:
-                        element = document.createElement('div');
-                        element.className = 'text-center text-gray-500 p-8';
-                        element.innerHTML = '<p>No visual pattern selected</p>';
-                        break;
-                }
-
-                visualTestEl.appendChild(element);
-            }
-
-            // Statistics calculations
-            function calculateStats() {
-                if (refreshRates.length === 0) return;
-
-                const sum = refreshRates.reduce((a, b) => a + b, 0);
-                const avg = sum / refreshRates.length;
-                const min = Math.min(...refreshRates);
-                const max = Math.max(...refreshRates);
-
-                // Standard deviation
-                const variance = refreshRates.reduce((acc, rate) => acc + Math.pow(rate - avg, 2), 0) / refreshRates.length;
-                const stdDev = Math.sqrt(variance);
-
-                avgRefreshEl.textContent = `${avg.toFixed(1)} Hz`;
-                minRefreshEl.textContent = `${min.toFixed(1)} Hz`;
-                maxRefreshEl.textContent = `${max.toFixed(1)} Hz`;
-                stdDevEl.textContent = `${stdDev.toFixed(1)} Hz`;
-                totalFramesEl.textContent = refreshRates.length.toString();
-            }
-
-            // Animation frame callback
-            function measureFrame(currentTime) {
-                if (!isTesting) return;
-
-                frameCount++;
-
-                if (lastFrameTime !== 0) {
-                    const frameTime = currentTime - lastFrameTime;
-                    const refreshRate = 1000 / frameTime;
-
-                    // Only record reasonable refresh rates (30-400 Hz)
-                    if (refreshRate >= 30 && refreshRate <= 400) {
-                        refreshRates.push(refreshRate);
-
-                        // Update current values
-                        currentRefreshEl.textContent = refreshRate.toFixed(1);
-                        frameTimeEl.textContent = frameTime.toFixed(2);
-                        fpsEl.textContent = refreshRate.toFixed(1);
-                    }
-                }
-
-                lastFrameTime = currentTime;
-
-                // Update progress
-                const elapsed = (currentTime - startTime) / 1000;
-                const progress = Math.min((elapsed / testDuration) * 100, 100);
-                testProgressEl.textContent = `${progress.toFixed(1)}%`;
-                timeRemainingEl.textContent = `${Math.max(0, (testDuration - elapsed)).toFixed(1)}s`;
-
-                // Check if test should end
-                if (elapsed >= testDuration) {
-                    stopTest();
-                    return;
-                }
-
-                animationId = requestAnimationFrame(measureFrame);
-            }
-
-            // Test controls
-            function startTest() {
-                if (isTesting) return;
-
-                isTesting = true;
-                startTime = performance.now();
-                frameCount = 0;
-                lastFrameTime = 0;
-                refreshRates = [];
-
-                testDuration = parseInt(testDurationInput.value) || 30;
-
-                startBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
-
-                testStatusEl.querySelector('div').className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
-
-                updateVisualTest();
-                animationId = requestAnimationFrame(measureFrame);
-            }
-
-            function stopTest() {
-                if (!isTesting) return;
-
-                isTesting = false;
-                endTime = performance.now();
-
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                    animationId = null;
-                }
-
-                startBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-
-                testStatusEl.querySelector('div').className = 'w-2 h-2 rounded-full bg-gray-400';
-
-                calculateStats();
-                updateVisualTest();
-            }
-
-            function resetStats() {
-                refreshRates = [];
-                frameCount = 0;
-                currentRefreshEl.textContent = '--';
-                frameTimeEl.textContent = '--';
-                fpsEl.textContent = '--';
-                testProgressEl.textContent = '0%';
-                timeRemainingEl.textContent = '--s';
-                avgRefreshEl.textContent = '-- Hz';
-                minRefreshEl.textContent = '-- Hz';
-                maxRefreshEl.textContent = '-- Hz';
-                stdDevEl.textContent = '-- Hz';
-                totalFramesEl.textContent = '0';
-                updateVisualTest();
-            }
-
-            // Event listeners
-            startBtn.addEventListener('click', startTest);
-            stopBtn.addEventListener('click', stopTest);
-            resetBtn.addEventListener('click', resetStats);
-            displayModeSelect.addEventListener('change', updateVisualTest);
-
-            // Input validation
-            testDurationInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                if (value < 5) this.value = 5;
-                if (value > 300) this.value = 300;
-            });
-
-            // Initialize
-            updateDisplayInfo();
-            updateVisualTest();
-
-            // Cleanup on page unload
-            window.addEventListener('beforeunload', function() {
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                }
-            });
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

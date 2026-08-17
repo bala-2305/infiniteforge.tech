@@ -1,332 +1,82 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel to Word Converter - Free Online Tools Suite</title>
-    <meta name="description" content="Convert Excel files to Word documents online for free. Preview, edit, and convert XLSX/XLS to DOCX securely in your browser.">
-    <meta name="keywords" content="excel to word, xlsx to docx, excel converter, free converter, online tools, Infiniteforge">
-    <meta name="author" content="Infiniteforge">
+    <title>Excel to Word Converter — Convert Spreadsheets to DOCX Documents | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Convert Excel spreadsheets (.xlsx, .xls) to Microsoft Word (.docx) documents with styled table layouts and multi-sheet support. 100% private in-browser.">
+    <meta name="keywords" content="excel to word, xlsx to docx, convert excel to word, spreadsheet to docx, docx converter">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Excel to Word Converter - Free Online Tools">
-    <meta property="og:description" content="Free online tool to convert Excel files to Word documents. Preview, edit, and convert XLSX to DOCX securely in your browser.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Excel to Word Converter | Infiniteforge">
+    <meta property="og:description" content="Convert Excel spreadsheets to Word DOCX documents online.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/excel-to-word-converter.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta property="og:site_name" content="Infiniteforge Tools">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Excel to Word Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert XLSX to Word DOCX directly in your browser.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
     <link rel="canonical" href="https://infiniteforge.tech/excel-to-word-converter.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/excel-to-word-converter.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Excel to Word Converter - Free Online Tools">
-    <meta name="twitter:description" content="Free online tool to convert Excel files to Word documents. Preview, edit, and convert XLSX to DOCX securely in your browser.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:site" content="@InfiniteforgeTools">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://unpkg.com/docx@7.3.0/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-    <style>
-        .tab-active {
-            color: #2563EB;
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .loader {
-            border: 4px solid #f3f4f6;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .editable-cell {
-            min-width: 100px;
-            padding: 4px;
-            border: 1px solid #e5e7eb;
-        }
-        .editable-cell:focus {
-            outline: 2px solid #3b82f6;
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-    </style>
-
-    <!-- Comprehensive Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Excel to Word Converter",
-        "description": "Free online tool for converting Excel files to Word documents. Preview, edit, and convert XLSX/XLS to DOCX securely in your browser.",
-        "url": "https://infiniteforge.tech/excel-to-word-converter.html",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Any",
-        "browserRequirements": "Modern web browser with JavaScript support",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock"
-        },
-        "featureList": [
-            "Excel to Word conversion",
-            "Preview Excel data",
-            "Edit data before conversion",
-            "Multiple sheet support",
-            "Privacy-first design",
-            "No file uploads"
-        ],
-        "screenshot": "https://infiniteforge.tech/assets/letter-d.png"
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Infiniteforge Tools",
-        "url": "https://infiniteforge.tech",
-        "logo": "https://infiniteforge.tech/assets/letter-d.png",
-        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
-        "foundingDate": "2024",
-        "sameAs": [
-            "https://www.youtube.com/@echo14-w3y",
-            "https://x.com/HMahibala42802",
-            "https://www.linkedin.com/in/mahibala-h",
-            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
-            "https://www.facebook.com/61557410529583/"
-        ]
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Infiniteforge Tools",
-        "url": "https://infiniteforge.tech",
-        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
-        "publisher": {
-            "@type": "Organization",
-            "name": "Infiniteforge Tools",
-            "url": "https://infiniteforge.tech"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://infiniteforge.tech/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Excel to Word Converter - Free Online Tools Suite",
-        "description": "Convert Excel files to Word documents online for free. Preview, edit, and convert XLSX/XLS to DOCX securely in your browser.",
-        "url": "https://infiniteforge.tech/excel-to-word-converter.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Infiniteforge Tools",
-            "url": "https://infiniteforge.tech"
-        },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Home",
-                    "item": "https://infiniteforge.tech"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Excel to Word Converter",
-                    "item": "https://infiniteforge.tech/excel-to-word-converter.html"
-                }
-            ]
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How do I convert Excel to Word?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Simply upload your Excel file (.xlsx or .xls), preview and edit the data if needed, then click convert to download the Word document. All processing happens locally in your browser."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I edit the Excel data before converting?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, you can preview the Excel data in a table format and edit any cell values before converting to Word."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is my Excel data secure?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, all processing happens locally in your browser. Your Excel files never leave your device, ensuring complete privacy and security."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What formats are supported?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The tool supports .xlsx and .xls Excel file formats for input, and outputs .docx Word documents."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Are there any file size limits?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "File size limits depend on your browser and device capabilities. For best performance, we recommend files under 50MB."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>function _0x3391(_0x1b2772,_0x3bbc7a){_0x1b2772=_0x1b2772-(0x7d*0x3f+0x5f7+-0x22f7);var _0x4c37ab=_0x25eb();var _0x4801b8=_0x4c37ab[_0x1b2772];if(_0x3391['oaXGHH']===undefined){var _0x341521=function(_0x210e43){var _0x2026ec='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x2cc169='',_0x2ccff2='',_0xc04255=_0x2cc169+_0x341521,_0x94a576=(''+function(){return-0xd24*0x2+-0x218+0x10*0x1c6;})['indexOf']('\x0a')!==-(-0x16*-0x25+-0x6*-0x22c+-0x1035);for(var _0x35149f=0x47*0x19+-0x2387+0x1e*0xf4,_0x50102a,_0x1c4512,_0x457a7c=-0x1681+0x1*-0x1127+0x27a8;_0x1c4512=_0x210e43['charAt'](_0x457a7c++);~_0x1c4512&&(_0x50102a=_0x35149f%(0x22ea+-0x49*-0x3c+0xe*-0x3b7)?_0x50102a*(-0x1*0xbe3+0x1fbe+-0x139b)+_0x1c4512:_0x1c4512,_0x35149f++%(0x253b+-0x129c+-0xb*0x1b1))?_0x2cc169+=_0x94a576||_0xc04255['charCodeAt'](_0x457a7c+(0x1465+0x1e20+0x327b*-0x1))-(0x9*0x2c0+0x10*-0x17f+-0xc6)!==0x1788+-0xe71+-0x917*0x1?String['fromCharCode'](0x187b+-0x1f08+0x78c&_0x50102a>>(-(0x1ee4+0x815+-0x26f7)*_0x35149f&-0xc*0x200+0x47c*-0x6+0xf6*0x35)):_0x35149f:-0x1*-0x11f2+0x7*-0x3f4+-0x3*-0x33e){_0x1c4512=_0x2026ec['indexOf'](_0x1c4512);}for(var _0x2ba53d=-0x212*-0x3+0x395*-0x8+-0xdd*-0x1a,_0x875238=_0x2cc169['length'];_0x2ba53d<_0x875238;_0x2ba53d++){_0x2ccff2+='%'+('00'+_0x2cc169['charCodeAt'](_0x2ba53d)['toString'](0x1d99*-0x1+0x2259+0x78*-0xa))['slice'](-(0x17bf*0x1+0x4a7+-0x1c64));}return decodeURIComponent(_0x2ccff2);};var _0x555130=function(_0x1838d0,_0x5c1673){var _0x3a42ba=[],_0x11aece=-0x589+-0xe93*0x1+0x11e*0x12,_0x474fd1,_0x32da57='';_0x1838d0=_0x341521(_0x1838d0);var _0x4f492e;for(_0x4f492e=0x1e1*0x7+0x1*0x20e3+-0x2e0a;_0x4f492e<0x51c*-0x5+0x11b8+-0x46a*-0x2;_0x4f492e++){_0x3a42ba[_0x4f492e]=_0x4f492e;}for(_0x4f492e=-0x5c3+0x20b3+0xd78*-0x2;_0x4f492e<0x6b3+-0xdc*0x24+0x1*0x193d;_0x4f492e++){_0x11aece=(_0x11aece+_0x3a42ba[_0x4f492e]+_0x5c1673['charCodeAt'](_0x4f492e%_0x5c1673['length']))%(0xa9f*-0x2+0x20dd+-0xa9f*0x1),_0x474fd1=_0x3a42ba[_0x4f492e],_0x3a42ba[_0x4f492e]=_0x3a42ba[_0x11aece],_0x3a42ba[_0x11aece]=_0x474fd1;}_0x4f492e=-0x1c5b+0x20b4+-0x459,_0x11aece=0x57+0x140e+0xe3*-0x17;for(var _0x4d0e78=0x3*0xb79+0x3*-0xa03+-0x231*0x2;_0x4d0e78<_0x1838d0['length'];_0x4d0e78++){_0x4f492e=(_0x4f492e+(0x828+-0x1*-0x17ce+-0x51*0x65))%(-0xcd9+0x8*-0x165+0x1901*0x1),_0x11aece=(_0x11aece+_0x3a42ba[_0x4f492e])%(0x1dc5*-0x1+0x9a7+0x22*0x9f),_0x474fd1=_0x3a42ba[_0x4f492e],_0x3a42ba[_0x4f492e]=_0x3a42ba[_0x11aece],_0x3a42ba[_0x11aece]=_0x474fd1,_0x32da57+=String['fromCharCode'](_0x1838d0['charCodeAt'](_0x4d0e78)^_0x3a42ba[(_0x3a42ba[_0x4f492e]+_0x3a42ba[_0x11aece])%(0x1a*-0x11a+0xba2+-0x1*-0x1202)]);}return _0x32da57;};_0x3391['XCKSyu']=_0x555130,_0x3391['kZayWM']={},_0x3391['oaXGHH']=!![];}var _0x55ca6f=_0x4c37ab[-0x8*-0x313+0x17*0x1b+-0x1b05],_0x2c7780=_0x1b2772+_0x55ca6f,_0x7bc115=_0x3391['kZayWM'][_0x2c7780];if(!_0x7bc115){if(_0x3391['GqBfDy']===undefined){var _0x41d0c7=function(_0x29e21e){this['oMvAvS']=_0x29e21e,this['kxGFpx']=[0x20c6+0x1a21+0x2ce*-0x15,0xb1b+0xe68+-0x1983,0x2081*-0x1+-0xc2d+0x7*0x662],this['AfHYTv']=function(){return'newState';},this['ibhNdI']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['eYRFja']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x41d0c7['prototype']['GWYVpx']=function(){var _0x12b37b=new RegExp(this['ibhNdI']+this['eYRFja']),_0x2d7d8d=_0x12b37b['test'](this['AfHYTv']['toString']())?--this['kxGFpx'][0xd4*0x18+0x12ed+0x2fc*-0xd]:--this['kxGFpx'][-0x4b6+0x1ecb+-0x1a15];return this['rlxKaB'](_0x2d7d8d);},_0x41d0c7['prototype']['rlxKaB']=function(_0x35bce6){if(!Boolean(~_0x35bce6))return _0x35bce6;return this['hGUGRK'](this['oMvAvS']);},_0x41d0c7['prototype']['hGUGRK']=function(_0x54e809){for(var _0x2934e3=-0x22a8+0xcbb+-0x3*-0x74f,_0x29ef6e=this['kxGFpx']['length'];_0x2934e3<_0x29ef6e;_0x2934e3++){this['kxGFpx']['push'](Math['round'](Math['random']())),_0x29ef6e=this['kxGFpx']['length'];}return _0x54e809(this['kxGFpx'][0x1fb*-0x6+-0x85*0x1+-0x5*-0x27b]);},(''+function(){return 0x10f5+0x1*-0x1d9+-0x1*0xf1c;})['indexOf']('\x0a')===-(0x167*0x11+0x6f5+-0x1ecb)&&new _0x41d0c7(_0x3391)['GWYVpx'](),_0x3391['GqBfDy']=!![];}_0x4801b8=_0x3391['XCKSyu'](_0x4801b8,_0x3bbc7a),_0x3391['kZayWM'][_0x2c7780]=_0x4801b8;}else _0x4801b8=_0x7bc115;return _0x4801b8;}var _0x157edd=_0x3391,_0xfc530a=_0xf9c0;function _0xf9c0(_0x20020a,_0x2212e1){_0x20020a=_0x20020a-(0x7d*0x3f+0x5f7+-0x22f7);var _0x2dc59f=_0x25eb();var _0x4a9e02=_0x2dc59f[_0x20020a];if(_0xf9c0['WWYSSW']===undefined){var _0x3959ce=function(_0x3b789b){var _0x50a052='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x494a90='',_0x528873='',_0x33ea1f=_0x494a90+_0x3959ce,_0x406159=(''+function(){return-0xd24*0x2+-0x218+0x10*0x1c6;})['indexOf']('\x0a')!==-(-0x16*-0x25+-0x6*-0x22c+-0x1035);for(var _0xcbb1c8=0x47*0x19+-0x2387+0x1e*0xf4,_0x3de2ea,_0x308bb9,_0x3f2ee0=-0x1681+0x1*-0x1127+0x27a8;_0x308bb9=_0x3b789b['charAt'](_0x3f2ee0++);~_0x308bb9&&(_0x3de2ea=_0xcbb1c8%(0x22ea+-0x49*-0x3c+0xe*-0x3b7)?_0x3de2ea*(-0x1*0xbe3+0x1fbe+-0x139b)+_0x308bb9:_0x308bb9,_0xcbb1c8++%(0x253b+-0x129c+-0xb*0x1b1))?_0x494a90+=_0x406159||_0x33ea1f['charCodeAt'](_0x3f2ee0+(0x1465+0x1e20+0x327b*-0x1))-(0x9*0x2c0+0x10*-0x17f+-0xc6)!==0x1788+-0xe71+-0x917*0x1?String['fromCharCode'](0x187b+-0x1f08+0x78c&_0x3de2ea>>(-(0x1ee4+0x815+-0x26f7)*_0xcbb1c8&-0xc*0x200+0x47c*-0x6+0xf6*0x35)):_0xcbb1c8:-0x1*-0x11f2+0x7*-0x3f4+-0x3*-0x33e){_0x308bb9=_0x50a052['indexOf'](_0x308bb9);}for(var _0xe87279=-0x212*-0x3+0x395*-0x8+-0xdd*-0x1a,_0x424ab8=_0x494a90['length'];_0xe87279<_0x424ab8;_0xe87279++){_0x528873+='%'+('00'+_0x494a90['charCodeAt'](_0xe87279)['toString'](0x1d99*-0x1+0x2259+0x78*-0xa))['slice'](-(0x17bf*0x1+0x4a7+-0x1c64));}return decodeURIComponent(_0x528873);};_0xf9c0['javeds']=_0x3959ce,_0xf9c0['OWYBhb']={},_0xf9c0['WWYSSW']=!![];}var _0x3e0bc3=_0x2dc59f[-0x589+-0xe93*0x1+0x11e*0x12],_0x5c99de=_0x20020a+_0x3e0bc3,_0xb5b082=_0xf9c0['OWYBhb'][_0x5c99de];if(!_0xb5b082){var _0x2d35d0=function(_0x4db51b){this['MzwKyZ']=_0x4db51b,this['qUmXQx']=[0x1e1*0x7+0x1*0x20e3+-0x2e09,0x51c*-0x5+0x11b8+-0x3ea*-0x2,-0x5c3+0x20b3+0xd78*-0x2],this['dmyXFh']=function(){return'newState';},this['ZoVioA']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['yANIKP']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2d35d0['prototype']['IofBlr']=function(){var _0x32a6ca=new RegExp(this['ZoVioA']+this['yANIKP']),_0x3a1524=_0x32a6ca['test'](this['dmyXFh']['toString']())?--this['qUmXQx'][0x6b3+-0xdc*0x24+0x1*0x183e]:--this['qUmXQx'][0xa9f*-0x2+0x20dd+-0x1a9*0x7];return this['ckOQVf'](_0x3a1524);},_0x2d35d0['prototype']['ckOQVf']=function(_0x18f281){if(!Boolean(~_0x18f281))return _0x18f281;return this['GnfPPb'](this['MzwKyZ']);},_0x2d35d0['prototype']['GnfPPb']=function(_0x427d19){for(var _0x46f1a5=-0x1c5b+0x20b4+-0x459,_0xd6414d=this['qUmXQx']['length'];_0x46f1a5<_0xd6414d;_0x46f1a5++){this['qUmXQx']['push'](Math['round'](Math['random']())),_0xd6414d=this['qUmXQx']['length'];}return _0x427d19(this['qUmXQx'][0x57+0x140e+0xe3*-0x17]);},(''+function(){return 0x3*0xb79+0x3*-0xa03+-0x231*0x2;})['indexOf']('\x0a')===-(0x828+-0x1*-0x17ce+-0x51*0x65)&&new _0x2d35d0(_0xf9c0)['IofBlr'](),_0x4a9e02=_0xf9c0['javeds'](_0x4a9e02),_0xf9c0['OWYBhb'][_0x5c99de]=_0x4a9e02;}else _0x4a9e02=_0xb5b082;return _0x4a9e02;}(function(_0x2ccff2,_0xc04255){var _0x543cc1=_0xf9c0,_0x39c9c1=_0x3391,_0x94a576=_0x2ccff2();while(!![]){try{var _0x35149f=-parseInt(_0x39c9c1(0x1d6,'pxTR'))/(0x8*-0x165+0x192*-0x1+0xcbb)*(-parseInt(_0x39c9c1(0x1e9,'$T1g'))/(-0x9a7*-0x1+0x2f*0x93+-0x24a2))+-parseInt(_0x543cc1(0x1e2))/(-0x5d1*-0x2+-0x1*-0xb4+0x1*-0xc53)*(parseInt(_0x39c9c1(0x1c9,'#XE%'))/(0x14*0x6d+-0x12a2+0x511*0x2))+-parseInt(_0x39c9c1(0x1d2,'pvdh'))/(0x133*-0x19+0xe*-0x5c+0x2308)*(-parseInt(_0x543cc1(0x1e6))/(-0xfd8+-0xfb3+0x1f91*0x1))+parseInt(_0x543cc1(0x1e5))/(0x60*-0x48+0x304*0x8+-0x1*-0x2e7)*(-parseInt(_0x39c9c1(0x1e3,'PGev'))/(0xd5c+-0x5*-0x542+-0x279e))+-parseInt(_0x543cc1(0x1c6))/(-0x10fd*0x1+-0x22a8+-0x5a*-0x93)*(-parseInt(_0x543cc1(0x1c8))/(0x1fb*-0x6+-0x85*0x1+-0xd*-0xf5))+parseInt(_0x543cc1(0x1df))/(0x10f5+0x1*-0x1d9+-0x1*0xf11)+parseInt(_0x39c9c1(0x1da,'Dv3x'))/(0x167*0x11+0x6f5+-0x1ec0)*(parseInt(_0x543cc1(0x1d0))/(0x49*-0x3b+0x169*0x7+0x701));if(_0x35149f===_0xc04255)break;else _0x94a576['push'](_0x94a576['shift']());}catch(_0x50102a){_0x94a576['push'](_0x94a576['shift']());}}}(_0x25eb,-0x15f082+0x14a9a5+0xe5e18));var _0x2916ac=(function(){var _0xed9684=!![];return function(_0x589cd0,_0x235b0b){var _0x3f2ed6=_0xed9684?function(){var _0x39f1e3=_0xf9c0;if(_0x235b0b){var _0x581763=_0x235b0b[_0x39f1e3(0x1d7)](_0x589cd0,arguments);return _0x235b0b=null,_0x581763;}}:function(){};return _0xed9684=![],_0x3f2ed6;};}()),_0x4ac8b4=_0x2916ac(this,function(){var _0x43dbfc=_0xf9c0,_0x207bcb=_0x3391,_0x480fbd={'fadsU':'(((.+)+)+)'+'+$'};if(_0x4ac8b4[_0x207bcb(0x1e7,'fw$$')]()[_0x43dbfc(0x1c3)]()[_0x207bcb(0x1c4,'nVaO')]('\x0a')!==-(0x815+-0x2419+0x1c05))return;return _0x4ac8b4[_0x207bcb(0x1dc,'xDze')]()[_0x207bcb(0x1cd,'BIdi')]('(((.+)+)+)'+'+$')[_0x207bcb(0x1d5,'vcIE')]()[_0x43dbfc(0x1cf)+'r'](_0x4ac8b4)[_0x207bcb(0x1eb,'#XE%')](_0x480fbd[_0x43dbfc(0x1c5)]);});function _0x25eb(){var _0x1c9809=['W5hdGmkeWQpcVCkHsXK','vmk5CsnEyWaT','yxbWBhK','tw9UBW','iZDbmdbgrG','iuatAmoVW4TqxaNdJvC','i0zgmKe3qq','brToW6VcPIpdRhq','mtnABfPuueq','C8oeW7j0tSoMW5JdNSozDq','mZa1mtu3nLvtv2DgqW','Bw9UB3nWywnL','lmo/W4tdKmkICmko','mtGYmZe2owjoyuPtsq','hePUWOdcTSkmW5pcPW','Dmk7WRFcOCoYW5HkW45VmW','mZa0odKYv0vMDK9P','nMr3vNbYqq','W4/dTsbf','fSoQfW5whSklFW','WQdcR8kHWQObWQvVWPhdIYWoqG','y29UzMLN','lCoYqaTYAW','Dg9tDhjPBMC','WQGXhej7pmk4','zMfKC1u','ntq2m25vzwHwAG','C2fUCY1ZzxjPzG','ndG3mgv2qu5OBW','zSobEcXvrH4','ofzzvurfBG','iYPRWRZdSSkE','iZq1rJngrG','WQZcSSovlXjo','rSk6Ax9hbMa','y29UC3rYDwn0BW','otq5y1H6vhbY','WRNcPaPbnSkGW4xdVYVcLSkdW4y','WRVcOWXpp8kMWQFdKWhcT8kzW4es','iZjdmZuZrG','WRy1FvjEySkEWR7cR8oCwCkK'];_0x25eb=function(){return _0x1c9809;};return _0x25eb();}_0x4ac8b4(),tailwind[_0xfc530a(0x1ea)]={'theme':{'extend':{'fontFamily':{'sans':[_0x157edd(0x1cb,'imi6'),_0xfc530a(0x1c7)],'mono':[_0x157edd(0x1e4,'7g@%')+_0xfc530a(0x1d8),_0xfc530a(0x1e0)]},'colors':{'dark':{0x384:_0x157edd(0x1ce,'pxTR'),0x320:_0x157edd(0x1e1,'^xSH'),0x2bc:_0xfc530a(0x1d3)},'brand':{'primary':_0xfc530a(0x1cc),'secondary':_0xfc530a(0x1db),'accent':_0xfc530a(0x1d9)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        select { background-color: rgba(15,23,42,0.8) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; outline: none !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -337,464 +87,75 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="w-full max-w-4xl mx-auto pt-24 px-4">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl sm:text-5xl font-bold text-gray-100 mb-4">Excel to Word Converter</h1>
-            <p class="text-md sm:text-lg text-gray-400 max-w-3xl mx-auto">Convert your Excel files to Word documents with preview and edit capabilities.</p>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Excel to Word Converter
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert spreadsheet data into Microsoft Word (.docx) tables with custom styling and formatting.
+            </p>
         </div>
 
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/60 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden">
-            <div class="p-4 sm:p-8">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-100 mb-2">Excel to Word Converter</h3>
-                <p class="text-gray-400 mb-6">Upload an Excel file (.xlsx or .xls) to preview, edit, and convert it to a Word document.</p>
-                
-                <input type="file" id="excel-file" accept=".xlsx,.xls" class="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-dark-800/60 backdrop-blur-md file:text-blue-700 hover:file:bg-dark-700/60 backdrop-blur-md cursor-pointer mb-4"/>
-                
-                <div id="sheet-selector" class="mb-4 hidden">
-                    <label for="sheet-select" class="block text-sm font-medium text-gray-300 mb-2">Select Sheet:</label>
-                    <select id="sheet-select" class="block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></select>
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 5 cols: Dropzone & Settings -->
+            <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
+                <!-- Dropzone -->
+                <div id="dropzone" class="border-2 border-dashed border-white/20 hover:border-brand-primary/60 rounded-2xl p-6 text-center cursor-pointer transition-all bg-dark-900/40">
+                    <input type="file" id="file-input" accept=".xlsx,.xls,.csv" class="hidden">
+                    <i data-feather="file-text" class="w-10 h-10 text-brand-primary mx-auto mb-2"></i>
+                    <p class="text-xs font-semibold text-white">Drop Excel file here or click to browse</p>
+                    <p class="text-[10px] text-gray-400 mt-1">Supports .xlsx, .xls, .csv</p>
                 </div>
-                
-                <div id="preview-container" class="mt-4 p-4 border rounded-lg bg-dark-900/40 text-gray-200 hidden">
-                    <h4 class="text-lg font-semibold mb-2">Preview & Edit Data</h4>
-                    <div id="table-container" class="overflow-x-auto max-h-96"></div>
+
+                <!-- Workbook Details -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Select Sheet</label>
+                        <select id="sheet-select" class="w-full font-mono">
+                            <option value="">No file loaded</option>
+                        </select>
+                    </div>
                 </div>
-                
-                <button id="convert-btn" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105" disabled>
-                    <i data-feather="arrow-down-circle" class="inline-block mr-2" aria-label="Download icon"></i>Convert to Word
+
+                <button id="download-docx-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_20px_rgba(69,243,255,0.3)] flex items-center justify-center gap-2 transition-all">
+                    <i data-feather="download" class="w-4 h-4"></i> Download Word Document (.docx)
                 </button>
             </div>
-        </div>
-        
-        <div id="loading-overlay" class="fixed inset-0 bg-gray-900 bg-dark-900/40 backdrop-blur-md flex items-center justify-center z-50 hidden">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-lg shadow-xl text-center">
-                <div class="loader mx-auto"></div>
-                <p id="loading-message" class="mt-4 text-lg font-semibold text-gray-300">Processing...</p>
-            </div>
-        </div>
 
-        <!-- Social Sharing Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mt-10">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share Our Excel to Word Converter</h2>
-            <p class="text-gray-400 text-center mb-6">Help others discover our free Excel to Word conversion tools</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
-                <a href="https://twitter.com/intent/tweet?text=Convert%20Excel%20to%20Word%20for%20free%20with%20Infiniteforge%20-%20preview%2C%20edit%2C%20and%20convert%20XLSX%20to%20DOCX%20securely&url=https://infiniteforge.tech/excel-to-word-converter.html&via=InfiniteforgeTools"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="twitter" class="w-5 h-5"></i>
-                    <span>Share on Twitter</span>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/excel-to-word-converter.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="facebook" class="w-5 h-5"></i>
-                    <span>Share on Facebook</span>
-                </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/excel-to-word-converter.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="linkedin" class="w-5 h-5"></i>
-                    <span>Share on LinkedIn</span>
-                </a>
-                <a href="https://wa.me/?text=Check%20out%20this%20free%20Excel%20to%20Word%20converter:%20https://infiniteforge.tech/excel-to-word-converter.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="message-circle" class="w-5 h-5"></i>
-                    <span>Share on WhatsApp</span>
-                </a>
+            <!-- Right 7 cols: Table Preview -->
+            <div class="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+                <h3 class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5 pb-2 border-b border-white/10">
+                    <i data-feather="eye" class="w-3.5 h-3.5"></i> Table Preview
+                </h3>
+                <div id="table-preview-container" class="overflow-x-auto max-h-96 text-xs">
+                    <!-- Dynamic Table Preview -->
+                </div>
             </div>
         </div>
-
-        <!-- Newsletter Signup Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-8 mt-10">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Stay Updated</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
-                </p>
-                <form class="max-w-md mx-auto flex gap-3">
-                    <input type="email" placeholder="Enter your email"
-                           class="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-                    <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
-            </div>
-        </div>
-        
     </main>
 
-    <!-- About Excel to Word Conversion Section -->
-    <section class="max-w-4xl mx-auto px-4 py-12">
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">About Excel to Word Conversion</h2>
-            <div class="prose max-w-none">
-                <p class="mb-4 text-gray-300">
-                    Excel to Word conversion is a powerful tool for transforming spreadsheet data into formatted documents. Whether you're converting financial reports, data tables, or inventory lists, our free online converter makes the process simple, secure, and efficient.
-                </p>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Preview and Edit Capabilities</h3>
-                <p class="mb-4 text-gray-300">
-                    Before converting your Excel file, you can preview the data in a table format and make any necessary edits directly in your browser. This ensures your Word document contains exactly the information you want, with corrections made on the fly.
-                </p>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Multiple Sheet Support</h3>
-                <p class="mb-4 text-gray-300">
-                    Our converter supports Excel files with multiple worksheets. You can select which sheet to convert, allowing you to focus on the specific data you need in your Word document.
-                </p>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Privacy and Security</h3>
-                <p class="mb-4 text-gray-300">
-                    Your Excel data privacy is our top priority. All conversion processing happens directly in your web browser, meaning your files never leave your device or get uploaded to any external servers. This approach ensures complete confidentiality for sensitive business data, financial information, and personal spreadsheets.
-                </p>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Fast and Reliable Processing</h3>
-                <p class="mb-4 text-gray-300">
-                    Our optimized conversion algorithms ensure quick processing times without compromising quality. Most Excel files convert in just a few seconds, allowing you to maintain productivity in your workflow. The browser-based approach eliminates download times and software installation.
-                </p>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Supported Formats and Compatibility</h3>
-                <p class="mb-4 text-gray-300">
-                    We support industry-standard Excel formats to ensure maximum compatibility:
-                </p>
-                <ul class="list-disc pl-6 mb-4 text-gray-300">
-                    <li><strong>Input Formats:</strong> .xlsx (Excel 2007+), .xls (Excel 97-2003)</li>
-                    <li><strong>Output Formats:</strong> .docx (Word document with table)</li>
-                    <li><strong>Compatibility:</strong> Works across all modern browsers and devices</li>
-                    <li><strong>Size Limits:</strong> Handles files up to reasonable sizes for web processing</li>
-                </ul>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Use Cases and Applications</h3>
-                <p class="mb-4 text-gray-300">
-                    Excel to Word conversion serves various professional and personal needs:
-                </p>
-                <ul class="list-disc pl-6 mb-4 text-gray-300">
-                    <li><strong>Business Reports:</strong> Convert financial data and reports into Word documents</li>
-                    <li><strong>Data Tables:</strong> Transform spreadsheet tables into formatted Word tables</li>
-                    <li><strong>Inventory Lists:</strong> Create printable inventory documents from Excel sheets</li>
-                    <li><strong>Educational Materials:</strong> Convert grade sheets or data into Word format</li>
-                    <li><strong>Administrative Work:</strong> Standardize data presentation for official documents</li>
-                </ul>
-
-                <h3 class="text-2xl font-semibold mb-3 text-gray-100">Quality and Accuracy</h3>
-                <p class="mb-4 text-gray-300">
-                    We use industry-leading libraries for Excel parsing and Word document generation to ensure the highest quality output. Data integrity is preserved during conversion, and the resulting Word documents maintain the tabular structure of your Excel data.
-                </p>
-
-                <p class="text-sm text-gray-400">
-                    By using our Excel to Word converter, you agree to our <a href="privacy.html" class="text-blue-600 hover:underline">Privacy Policy</a>
-                    and <a href="terms.html" class="text-blue-600 hover:underline">Terms of Service</a>.
-                </p>
-            </div>
-        </div>
-
-        <!-- Social Media Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Follow Us on Social Media</h2>
-            <p class="text-gray-300 text-center mb-8 max-w-2xl mx-auto">
-                Stay updated with the latest document processing tips, new features, and productivity insights
-                from Infiniteforge. Join our community of professionals and creators.
-            </p>
-            <div class="flex justify-center space-x-8">
-                <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer" class="text-red-600 hover:text-red-300 transition-colors">
-                    <i data-feather="youtube" class="w-10 h-10" aria-label="YouTube"></i>
-                </a>
-                <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 transition-colors">
-                    <i data-feather="twitter" class="w-10 h-10" aria-label="Twitter"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-200 transition-colors">
-                    <i data-feather="linkedin" class="w-10 h-10" aria-label="LinkedIn"></i>
-                </a>
-                <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener noreferrer" class="text-pink-600 hover:text-pink-300 transition-colors">
-                    <i data-feather="instagram" class="w-10 h-10" aria-label="Instagram"></i>
-                </a>
-                <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-300 transition-colors">
-                    <i data-feather="facebook" class="w-10 h-10" aria-label="Facebook"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x2b3340=_0x5d95,_0x4c0790=_0x274e;(function(_0x4bdf6a,_0x228d6e){const _0xa2bcd2=_0x5d95,_0xe892e9=_0x274e,_0x4fe184=_0x4bdf6a();while(!![]){try{const _0x55ce2e=-parseInt(_0xe892e9(0x113))/(-0x95f+0x1a72+-0xbe*0x17)*(parseInt(_0xe892e9(0x9a))/(0x4f5*0x6+-0x106*0x17+-0x632))+parseInt(_0xa2bcd2(0x122,'vOx^'))/(-0x4*-0x971+-0x2d*0x5d+-0x1568)*(-parseInt(_0xa2bcd2(0x94,'^VlD'))/(-0x1cb+-0x3*0x5db+0x1360))+parseInt(_0xa2bcd2(0x141,'qq83'))/(0x191d+0x26a8+0x66*-0xa0)*(-parseInt(_0xa2bcd2(0x140,'Bq9L'))/(-0xa3*-0x16+0x2f*0x9d+-0x2acf))+-parseInt(_0xe892e9(0xfc))/(-0x2545+-0x16*-0x4f+-0x8e*-0x37)*(-parseInt(_0xe892e9(0x117))/(-0x561+-0x165f+-0x38*-0x7f))+-parseInt(_0xa2bcd2(0xe5,'i[*O'))/(0xf2c+-0x4*0x75a+-0x119*-0xd)+parseInt(_0xe892e9(0xa6))/(-0xd*0x1cf+0x69e*-0x1+-0x1*-0x1e2b)*(parseInt(_0xe892e9(0xf1))/(0x1*0x9bb+-0x14ca*-0x1+0x53*-0x5e))+parseInt(_0xa2bcd2(0x9e,'pR[&'))/(0xaba+-0xb*-0x265+-0x2505);if(_0x55ce2e===_0x228d6e)break;else _0x4fe184['push'](_0x4fe184['shift']());}catch(_0x7fd8a8){_0x4fe184['push'](_0x4fe184['shift']());}}}(_0x3e8f,-0x9*0xcd75+0x6eae*0x12+0x43711),feather['replace']());function showMessage(_0x483ad0,_0x551c33=_0x4c0790(0xce)){const _0x254d94=_0x4c0790,_0x36c8ce=_0x5d95,_0xaacbf6={'IVwpD':'check-circ'+'le','yxNGV':function(_0x448837,_0x284df9){return _0x448837===_0x284df9;},'VMSlI':function(_0x4937dc,_0x36060c){return _0x4937dc+_0x36060c;},'qsOWy':_0x36c8ce(0xa1,'PBKV')},_0x27ed8f=document[_0x254d94(0x136)+'ById'](_0x254d94(0x111));if(!_0x27ed8f)return;_0x27ed8f['innerHTML']=_0x254d94(0x11c)+_0x36c8ce(0xcb,'i[*O')+(_0x551c33==='success'?_0xaacbf6['IVwpD']:_0xaacbf6[_0x36c8ce(0x125,'i[*O')](_0x551c33,_0x36c8ce(0xfb,'PBKV'))?'alert-circ'+'le':_0x254d94(0x12e))+(_0x36c8ce(0x149,'vOx^')+_0x254d94(0xb2)+_0x36c8ce(0x9f,'vOx^'))+_0x483ad0+'</span>',_0x27ed8f[_0x36c8ce(0x127,'gNRn')]=_0xaacbf6['VMSlI'](_0xaacbf6[_0x36c8ce(0xdc,'pPL%')],_0x551c33),feather[_0x254d94(0x10a)](),clearTimeout(_0x27ed8f[_0x254d94(0x107)]),_0x27ed8f['_timer']=setTimeout(()=>{_0x27ed8f['className']=_0x551c33;},-0x56*0x6b+-0x134b+-0x1*-0x44e9);}const dropzone=document[_0x4c0790(0x136)+_0x2b3340(0xc2,'Aqc2')](_0x4c0790(0xfe)),fileInput=document['getElement'+_0x4c0790(0x100)](_0x4c0790(0xd6)),sheetSelect=document[_0x2b3340(0xb5,'vOx^')+_0x4c0790(0x100)](_0x4c0790(0xd1)+'ct'),previewContainer=document['getElement'+_0x4c0790(0x100)](_0x4c0790(0xef)+'iew-contai'+_0x4c0790(0xee));let workbook=null,sheetData=[];function _0x3e8f(){const _0x26e76a=['m11dWPza','mc3dRLRdL8kP','W5ldJWeSzv1zu8k8iq','WOywW64yaW','rw5NAw5LzxjPBG','bc3dVKFdKCkZWPZdH8oZWQW','B3jKzxiTyIbIBW','WRSAWRFcTSo+W5u','odqXodGYu2LNt0Tj','W7BdOCosW64d','WQ0uWRFcTCo+W5pdMCokiCkK','n8ocfSktca','qY7cGbH3WOBcMfPnWQnwWPJdMSom','umohWQ3cGHBdUCovWP8','WRZdJCoUuapcMGPRWPBdKa','ceddIuddTa','pgrPDIbJBgfZCW','iMHVDMvYoMjNlq','ygNdOeDz','qLPszwO','mtbnrvnpt2u','C2vHCMnO','v3PqCNm','A8kQdSoOgW','nGtcRvGKamkCW6vBW5W','mda2nJK5','WOGPW7VdJ8k3','CLtcLcn5pmo6kCoRbW','CMrLCI13AgL0zq','CgvJDgf0Aw9UCW','W7ddKmoS','D8kHs8oSo0NcPmk4faS','ltqGAc00iJ48lW','WRaAW5q','C2HLzxrFDg9FAG','xSkCW6xcTaRdVCowW4tdU8oL','A8k8rSo6jK7cVCo0bb0','BMqTChjPBwfYEq','rxHJzwvKCYbfEa','rgvZAwDU','y3f5txy','m23dP3pcNr1DW4WA','zhjHz292zxi','W5pdG8oXDWu','mtG0mte0ntzQA1HWBwW','hd3dUu9qW7jBW6C','ywrK','W5JcMsrfW5/dVmofWRdcKa','WQyhW4hdSW','DMfSDwu','ywrKrxzLBNrmAq','y3jLyxrLrwXLBq','jbxcHs4zzW','bmofWPXYr8kzWRnHW5ZdNG','lZeWihrLEhqTyG','ugvYzM9YBwfUyW','eCklWQ1sWRhdKglcJrjy','jmocoSkIhgNcSW','WQBcNSktBSk9WRNdLrxdSq','WOhcH8kAW67cJW','C3vJy2vZCW','EdVcQXddT04DW4tcPq','iNaTmI41igjNlq','C2HLzxqTC2vSzq','pc90CJ48l3rOzq','phrOzwfKpJX0CG','yw1Z','W7tdN8oYsSkfE8oVWOFcMG','zMLSzs1PBNb1Da','Aw5KzxHpzG','kCoTW7mzlM9QzmkElW','psj0zxH0lwDYyq','x23dLxPo','B25SB2fK','ihtcNxSK','W5JdHKVcIW','C3m9iNCTzNvSBa','mYRdRSojWRi','W6NdKmo+q8ksdq','W4KSbhzxoL1xb3O','WQNcU8kOW4/cSmkiD8o4','C3rLBMvY','y2HHBMDL','Cmkhy8oXxwFcQCocArn0WQdcJa','v1vOshm','BgXHChnLihrLEa','zg93BMXVywqTza','zNjwvg4','ChjLDMvUDerLzG','zgfYAY05mdaGyG','zM9YrwfJAa','zupdHwHgia','BMvY','DgfIBguTChjLDG','WRahW5CtWQRdLIjNFmoz','ntK3ndG3vK9drvPl','t3v0C3rHBMrPBG','rKrhWPnKW7NcH2ZcJxe','rSoEWRb6uW','vhrUAvC','l8ohW60pwq','W7/dQ8og','W7pdPmoxW6GB','BgvUz3rO','ECoCWRqM','hLRdLfJcPG','otG3u2Xwwuru','rw1WBg95zwuGtG','zhjVChPVBMu','WQhdOmofWRxdO2S','qNLjza','uu5VtKe','CJJcSdJdIa','zsbsyxrPBMC','phrYignSyxnZpq','exRdNuOT','tCouW6NcGKBdVSouW4/dOCk8','x3rPBwvY','rH9sWOm2','WOZcUSkNW47cP8kKa8kxW5S','CMvWBgfJzq','CwDVtgG','zw50','W7xdHmocyWu','q2XHCMeGt3n3yq','i1JdM2Ch','aSkZf8o1WPKeECkOW4Li','Dg9HC3q','y2fLvKe','mwzrq2nYuq','DcbfEhbVCNq6ia','wKrdWOL8WRhdI2RcH2q','gKZdGNlcOJz0W6DNWOO','mJiWnZj6D0fABge','ihrLEhqTy2vUDa','A2PhChm','pc90Ad4','WPFcSCkKW4tcO8kj','pgKGzgf0ys1Mzq','u2HLzxrZ','zMLSzxm','rgvWyxj0BwvUDa','fhNdHMWNW5hdHq','iNaTmIbIB3jKzq','dCoaWQpcOWxdMSolW4FdKG','W57dIqKInI5WACk0cslcTW','mJxcRSopWOe','pmoohmkaoa','fYtdTfddMW','gvXhWOj7W5ldHMlcHa','jmktjSkGlmk8WPhdRCoTW6a','re7dK3HEgSo+iCo6va','nKHPtwzluq','x8kwW6pcTaFdU8ot','DgfYz2v0','W5PLaHndmefhlMe','Aw5MBW','rg93BMXVywrLza','Dg9tDhjPBMC','WOutW60','b8orWPLIW7KFlNJdTSoB','kcGOlISPkYKRkq','u2HLzxroyw1LCW','d0FdTupcPJP0W7q','z2v0rwXLBwvUDa','pc90zd4','lc/dV8oBWQy','i8kUW4dcO1xdQCkWW7O','W7fjaYvg','A0XWywO','C3bYzwfKC2HLzq','yxvSDa','WRiBW4yfWRFdVGH8yq','yw1L','WOicW6ZdHCkLocy','cCkrW4r3WQnbEMpdQmk0WQ1qmq','td7cMCoNWPnyWRZdVCoXWR4','sSknW7tcNWpdQG','DxrPBhm','CMfUzc1WCMLTyq','t8oiW6aR','rw1uvvK','y2DhEva','g8ozW7lcNqFdQ8oiWPZcT8oM','BwvUDcaOlMrVyW'];_0x3e8f=function(){return _0x26e76a;};return _0x3e8f();}function _0x274e(_0x9f3347,_0x40453b){_0x9f3347=_0x9f3347-(-0x2080+0x942+0x17*0x109);const _0x5c6c24=_0x3e8f();let _0x38c5a6=_0x5c6c24[_0x9f3347];if(_0x274e['pMrBBQ']===undefined){var _0x3e994b=function(_0x13ebfb){const _0x30cdfa='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3f5e70='',_0x3ccdea='',_0x5d2c65=_0x3f5e70+_0x3e994b,_0x47da36=(''+function(){return-0x36f*0x2+0x51*-0x4f+0x1fdd*0x1;})['indexOf']('\x0a')!==-(0xa92+0x3*-0x7a+-0x923);for(let _0x533e56=-0x3ee*0x7+0x1d9+0x19a9*0x1,_0x4095cb,_0x53bf33,_0x340de4=0x1cf6+-0x1b63+0x1f*-0xd;_0x53bf33=_0x13ebfb['charAt'](_0x340de4++);~_0x53bf33&&(_0x4095cb=_0x533e56%(0x6fb+-0x2217+-0x8*-0x364)?_0x4095cb*(0x1dcd+-0xc*0x191+-0xac1*0x1)+_0x53bf33:_0x53bf33,_0x533e56++%(-0x389+-0x1*0x191+0x1*0x51e))?_0x3f5e70+=_0x47da36||_0x5d2c65['charCodeAt'](_0x340de4+(0x2365+0x2*-0xa37+-0xeed))-(-0x1e87+-0x26*-0x45+-0x2b*-0x79)!==-0x1813*-0x1+-0x8*0x290+-0x393*0x1?String['fromCharCode'](-0x258f+-0x7d3+0x2e61&_0x4095cb>>(-(-0xe95*0x1+-0x1*0x11bd+0x2*0x102a)*_0x533e56&-0x1*0x39e+-0x9*-0x5d+-0x5f*-0x1)):_0x533e56:-0x1005+0x5ac+0x1*0xa59){_0x53bf33=_0x30cdfa['indexOf'](_0x53bf33);}for(let _0x515dce=0x1e85*-0x1+0x1*-0x19c0+0x2b*0x14f,_0x378419=_0x3f5e70['length'];_0x515dce<_0x378419;_0x515dce++){_0x3ccdea+='%'+('00'+_0x3f5e70['charCodeAt'](_0x515dce)['toString'](0x6b8+0x2452+0x2afa*-0x1))['slice'](-(0x1b39+0x12bf+-0x9f*0x4a));}return decodeURIComponent(_0x3ccdea);};_0x274e['RoDLgi']=_0x3e994b,_0x274e['cWtGAp']={},_0x274e['pMrBBQ']=!![];}const _0x27d6cb=_0x5c6c24[0x84d*0x1+0x1a*0x9f+-0x1873],_0x3faaf3=_0x9f3347+_0x27d6cb,_0x4c5c08=_0x274e['cWtGAp'][_0x3faaf3];if(!_0x4c5c08){const _0x294429=function(_0x153050){this['ZDlVRg']=_0x153050,this['OIvuvs']=[-0x11*0x59+0x3*0x1c1+0xa7,0x1*-0x2077+0x387*-0x3+0x2b0c*0x1,0x67d+-0x5*0x521+0x265*0x8],this['mAJnmb']=function(){return'newState';},this['XZomjo']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['yVtPfD']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x294429['prototype']['UimESm']=function(){const _0x557a71=new RegExp(this['XZomjo']+this['yVtPfD']),_0xe99575=_0x557a71['test'](this['mAJnmb']['toString']())?--this['OIvuvs'][0x1e14+0x4dc*-0x4+-0x185*0x7]:--this['OIvuvs'][0x368+-0x1b*0xf3+0x1639];return this['ompreW'](_0xe99575);},_0x294429['prototype']['ompreW']=function(_0x2ebc45){if(!Boolean(~_0x2ebc45))return _0x2ebc45;return this['EbliYQ'](this['ZDlVRg']);},_0x294429['prototype']['EbliYQ']=function(_0x34109e){for(let _0x42b22d=-0x71*-0x58+0x2da*0x1+-0x29b2,_0x4ed2ef=this['OIvuvs']['length'];_0x42b22d<_0x4ed2ef;_0x42b22d++){this['OIvuvs']['push'](Math['round'](Math['random']())),_0x4ed2ef=this['OIvuvs']['length'];}return _0x34109e(this['OIvuvs'][-0x305+0x203*-0xa+-0x1*-0x1723]);},(''+function(){return-0x20ad+0xd*-0x14b+0x317c;})['indexOf']('\x0a')===-(0xd4d+0x25bb+-0x3307)&&new _0x294429(_0x274e)['UimESm'](),_0x38c5a6=_0x274e['RoDLgi'](_0x38c5a6),_0x274e['cWtGAp'][_0x3faaf3]=_0x38c5a6;}else _0x38c5a6=_0x4c5c08;return _0x38c5a6;}function _0x5d95(_0x3d6b17,_0x8c6f0f){_0x3d6b17=_0x3d6b17-(-0x2080+0x942+0x17*0x109);const _0x226b31=_0x3e8f();let _0x2183ea=_0x226b31[_0x3d6b17];if(_0x5d95['LgpwLY']===undefined){var _0x160b61=function(_0x261978){const _0x26999e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x12b88b='',_0x5e71ec='',_0x17296b=_0x12b88b+_0x160b61,_0x5edff4=(''+function(){return-0x36f*0x2+0x51*-0x4f+0x1fdd*0x1;})['indexOf']('\x0a')!==-(0xa92+0x3*-0x7a+-0x923);for(let _0x1a4ffc=-0x3ee*0x7+0x1d9+0x19a9*0x1,_0x5d50f1,_0x5888ef,_0x2a1108=0x1cf6+-0x1b63+0x1f*-0xd;_0x5888ef=_0x261978['charAt'](_0x2a1108++);~_0x5888ef&&(_0x5d50f1=_0x1a4ffc%(0x6fb+-0x2217+-0x8*-0x364)?_0x5d50f1*(0x1dcd+-0xc*0x191+-0xac1*0x1)+_0x5888ef:_0x5888ef,_0x1a4ffc++%(-0x389+-0x1*0x191+0x1*0x51e))?_0x12b88b+=_0x5edff4||_0x17296b['charCodeAt'](_0x2a1108+(0x2365+0x2*-0xa37+-0xeed))-(-0x1e87+-0x26*-0x45+-0x2b*-0x79)!==-0x1813*-0x1+-0x8*0x290+-0x393*0x1?String['fromCharCode'](-0x258f+-0x7d3+0x2e61&_0x5d50f1>>(-(-0xe95*0x1+-0x1*0x11bd+0x2*0x102a)*_0x1a4ffc&-0x1*0x39e+-0x9*-0x5d+-0x5f*-0x1)):_0x1a4ffc:-0x1005+0x5ac+0x1*0xa59){_0x5888ef=_0x26999e['indexOf'](_0x5888ef);}for(let _0x289f43=0x1e85*-0x1+0x1*-0x19c0+0x2b*0x14f,_0x4fe54d=_0x12b88b['length'];_0x289f43<_0x4fe54d;_0x289f43++){_0x5e71ec+='%'+('00'+_0x12b88b['charCodeAt'](_0x289f43)['toString'](0x6b8+0x2452+0x2afa*-0x1))['slice'](-(0x1b39+0x12bf+-0x9f*0x4a));}return decodeURIComponent(_0x5e71ec);};const _0x1ecf41=function(_0x29a0ce,_0x3f6217){let _0x4f8a29=[],_0xa324b2=0x84d*0x1+0x1a*0x9f+-0x1873,_0x25c260,_0x5559c3='';_0x29a0ce=_0x160b61(_0x29a0ce);let _0x1c776f;for(_0x1c776f=-0x11*0x59+0x3*0x1c1+0xa6;_0x1c776f<0x1*-0x2077+0x387*-0x3+0x2c0c*0x1;_0x1c776f++){_0x4f8a29[_0x1c776f]=_0x1c776f;}for(_0x1c776f=0x67d+-0x5*0x521+0x265*0x8;_0x1c776f<0x1e14+0x4dc*-0x4+-0x269*0x4;_0x1c776f++){_0xa324b2=(_0xa324b2+_0x4f8a29[_0x1c776f]+_0x3f6217['charCodeAt'](_0x1c776f%_0x3f6217['length']))%(0x368+-0x1b*0xf3+0x1739),_0x25c260=_0x4f8a29[_0x1c776f],_0x4f8a29[_0x1c776f]=_0x4f8a29[_0xa324b2],_0x4f8a29[_0xa324b2]=_0x25c260;}_0x1c776f=-0x71*-0x58+0x2da*0x1+-0x29b2,_0xa324b2=-0x305+0x203*-0xa+-0x1*-0x1723;for(let _0x2acaac=-0x20ad+0xd*-0x14b+0x317c;_0x2acaac<_0x29a0ce['length'];_0x2acaac++){_0x1c776f=(_0x1c776f+(0xd4d+0x25bb+-0x3307))%(0x2*-0xf76+-0x2*-0x6cb+0x92b*0x2),_0xa324b2=(_0xa324b2+_0x4f8a29[_0x1c776f])%(-0x5b0*0x4+0x12*0xd+0x25*0x9e),_0x25c260=_0x4f8a29[_0x1c776f],_0x4f8a29[_0x1c776f]=_0x4f8a29[_0xa324b2],_0x4f8a29[_0xa324b2]=_0x25c260,_0x5559c3+=String['fromCharCode'](_0x29a0ce['charCodeAt'](_0x2acaac)^_0x4f8a29[(_0x4f8a29[_0x1c776f]+_0x4f8a29[_0xa324b2])%(0x1*0x1d8b+-0x2468+0x7dd)]);}return _0x5559c3;};_0x5d95['kftdkA']=_0x1ecf41,_0x5d95['NfxiwU']={},_0x5d95['LgpwLY']=!![];}const _0x23d3b2=_0x226b31[0x1ef6+-0x1b1c+0x3a*-0x11],_0x41c9fe=_0x3d6b17+_0x23d3b2,_0x359c85=_0x5d95['NfxiwU'][_0x41c9fe];if(!_0x359c85){if(_0x5d95['SazYun']===undefined){const _0x4cd9ba=function(_0xe91ddb){this['dHxvph']=_0xe91ddb,this['VZSbfQ']=[-0x23e9+0x626+0x1dc4,0x3d6*-0x1+-0x1db8+0x218e,-0x10f1+0x503*0x1+0xbee],this['WrAdhB']=function(){return'newState';},this['jjUhMI']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['rELZRq']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4cd9ba['prototype']['uoalwh']=function(){const _0x45b825=new RegExp(this['jjUhMI']+this['rELZRq']),_0x351d84=_0x45b825['test'](this['WrAdhB']['toString']())?--this['VZSbfQ'][-0xfa4+0x1488+-0x4e3]:--this['VZSbfQ'][-0x1*0x2ba+-0x1566*-0x1+-0x12ac];return this['pqsZYP'](_0x351d84);},_0x4cd9ba['prototype']['pqsZYP']=function(_0x5bc9b6){if(!Boolean(~_0x5bc9b6))return _0x5bc9b6;return this['UbVibi'](this['dHxvph']);},_0x4cd9ba['prototype']['UbVibi']=function(_0x55632a){for(let _0x3d7c36=-0x2485+-0x1*-0xda2+0x16e3,_0x436e0c=this['VZSbfQ']['length'];_0x3d7c36<_0x436e0c;_0x3d7c36++){this['VZSbfQ']['push'](Math['round'](Math['random']())),_0x436e0c=this['VZSbfQ']['length'];}return _0x55632a(this['VZSbfQ'][-0x17*0x101+-0x1*0x22c1+0x39d8]);},(''+function(){return-0x3*0xd03+-0x93f+0x3048;})['indexOf']('\x0a')===-(-0x1e20*0x1+-0x37e*-0x3+0x27*0x81)&&new _0x4cd9ba(_0x5d95)['uoalwh'](),_0x5d95['SazYun']=!![];}_0x2183ea=_0x5d95['kftdkA'](_0x2183ea,_0x8c6f0f),_0x5d95['NfxiwU'][_0x41c9fe]=_0x2183ea;}else _0x2183ea=_0x359c85;return _0x2183ea;}dropzone['addEventLi'+'stener'](_0x2b3340(0x105,'pR[&'),()=>fileInput[_0x2b3340(0xf8,'n5MM')]()),dropzone['addEventLi'+_0x4c0790(0xe3)](_0x4c0790(0xbc),_0x41fab8=>{const _0x3e3148=_0x4c0790,_0x5c40cf=_0x2b3340,_0x421bed={'ijBsL':_0x5c40cf(0x9c,'Nl]y')+'nd-primary'};_0x41fab8[_0x3e3148(0xea)+'ault'](),dropzone['classList'][_0x3e3148(0xc0)](_0x421bed['ijBsL']);}),dropzone[_0x4c0790(0xc4)+_0x2b3340(0xff,'p(^h')](_0x2b3340(0xcf,'&*mL'),()=>dropzone[_0x2b3340(0xcc,')bld')]['remove']('border-bra'+_0x2b3340(0xb6,'[]Yw'))),dropzone[_0x2b3340(0x12d,'%4qV')+_0x4c0790(0xe3)]('drop',_0x37dec5=>{const _0x5870f2=_0x2b3340,_0x4309cb=_0x4c0790,_0x50f7f8={'EmTUY':'border-bra'+_0x4309cb(0xb7)};_0x37dec5[_0x4309cb(0xea)+_0x4309cb(0x13d)](),dropzone[_0x5870f2(0x13e,'5moK')][_0x5870f2(0x11b,'MYhX')](_0x50f7f8[_0x4309cb(0x147)]);if(_0x37dec5[_0x5870f2(0x110,'ShPC')+'er'][_0x5870f2(0x9b,'n5MM')]['length'])handleFile(_0x37dec5['dataTransf'+'er']['files'][0x2*0x7f7+0x302+-0x1*0x12f0]);}),fileInput['addEventLi'+_0x2b3340(0x143,'vOx^')](_0x4c0790(0xe4),_0x5e1ef4=>{const _0x114572=_0x4c0790;if(_0x5e1ef4[_0x114572(0x12c)][_0x114572(0x11e)][_0x114572(0xf9)])handleFile(_0x5e1ef4['target']['files'][-0x1982+0x6ff+-0x1*-0x1283]);});function handleFile(_0x5c392a){const _0x514c16=_0x4c0790,_0xd82377={'cqyMv':function(_0x272b25){return _0x272b25();}},_0x5e9005=new FileReader();_0x5e9005[_0x514c16(0xdb)]=_0x5911f6=>{const _0x2abb68=_0x514c16,_0x3915e4=_0x5d95,_0xd2c2ab=new Uint8Array(_0x5911f6[_0x3915e4(0x99,'Nl]y')][_0x3915e4(0xed,'*Yu0')]);workbook=XLSX['read'](_0xd2c2ab,{'type':'array'}),sheetSelect[_0x3915e4(0xd5,'1(u5')]='',workbook[_0x3915e4(0x129,'*Yu0')][_0x3915e4(0x12b,'vOx^')](_0x55fdc6=>{const _0x3e361a=_0x3915e4,_0x632278=_0x274e,_0x26d25f=document[_0x632278(0xc5)+_0x632278(0x10c)]('option');_0x26d25f[_0x632278(0xc3)]=_0x55fdc6,_0x26d25f[_0x3e361a(0x128,'*^Qp')+'t']=_0x55fdc6,sheetSelect[_0x3e361a(0xf0,'5moK')+'d'](_0x26d25f);}),showMessage(_0x3915e4(0xe2,'MYhX')+_0x5c392a['name']+'\x22'),_0xd82377[_0x2abb68(0xba)](renderTablePreview);},_0x5e9005['readAsArra'+'yBuffer'](_0x5c392a);}function renderTablePreview(){const _0x10c8fd=_0x4c0790,_0x261ab6=_0x2b3340,_0x1dd6c1={'QNoNA':'Operations','WUhHs':_0x261ab6(0x13a,'%4qV'),'frVTn':function(_0x447db2,_0x499bd3){return _0x447db2!==_0x499bd3;},'uORHv':_0x10c8fd(0x133)+'+$','jJCZb':function(_0x591e86,_0x20ad1b){return _0x591e86||_0x20ad1b;},'DRCns':function(_0x418aee){return _0x418aee();},'lWsXH':_0x10c8fd(0xfd)+_0x261ab6(0x131,'Aqc2'),'pLtsL':_0x261ab6(0xca,'adb5'),'BZRej':'Liam\x20Vance','PSyub':'Exceeds\x20Ex'+_0x10c8fd(0xaf),'kLpaj':_0x10c8fd(0xf2)+'g','BKjwW':function(_0xa5a32d,_0x10bed0){return _0xa5a32d===_0x10bed0;},'qgoLh':_0x261ab6(0xf3,'gNRn')+_0x10c8fd(0xde)+_0x261ab6(0x115,'gNRn')+_0x261ab6(0xa0,'2JpY')+_0x10c8fd(0xe7)+_0x261ab6(0x106,'vOx^')+'mono\x20text-'+'gray-300\x22>','cgGyP':function(_0x4fac4c,_0x2dbf59){return _0x4fac4c<_0x2dbf59;},'caeVA':_0x10c8fd(0x104)+_0x10c8fd(0xa3)+'white/5\x22>'},_0x205f24=(function(){const _0x247a8c=_0x10c8fd,_0x28a838={'dSSEZ':_0x247a8c(0xfd)+_0x247a8c(0x13f),'HiwBb':'Liam\x20Vance','rtDTf':_0x247a8c(0x96)+'g','HKcgd':_0x1dd6c1[_0x247a8c(0x101)],'kjGps':function(_0x21751e,_0x1a93cb){return _0x21751e!==_0x1a93cb;},'TtniW':_0x1dd6c1[_0x247a8c(0xe6)]};let _0x4a546d=!![];return function(_0x2097ea,_0x59f528){const _0x796d7d=_0x4a546d?function(){const _0x32b6a7=_0x274e,_0x1298f1=_0x5d95,_0x2b86e8={'ImegH':_0x28a838[_0x1298f1(0xcd,'MYhX')],'ikCAb':_0x32b6a7(0x11f),'nqzOS':_0x28a838['HiwBb'],'wOVZs':_0x28a838[_0x1298f1(0x9d,'i[*O')],'nrebO':_0x1298f1(0x93,'SZ!5'),'OlpUb':'Outstandin'+'g','WzPrs':_0x28a838[_0x1298f1(0xda,'*Yu0')]};if(_0x59f528){if(_0x28a838[_0x32b6a7(0x119)]('JHess',_0x28a838[_0x32b6a7(0xf5)]))_0x5dbcde=[['ID',_0x2b86e8[_0x1298f1(0x92,'gNRn')],_0x2b86e8[_0x1298f1(0x10d,'2JpY')],_0x32b6a7(0xc9)+_0x32b6a7(0x103)],['1',_0x2b86e8[_0x1298f1(0x102,'&*mL')],_0x2b86e8[_0x1298f1(0xa4,'*Yu0')],'Exceeds\x20Ex'+_0x1298f1(0x97,'SZ!5')],['2',_0x32b6a7(0x10e)+'ld',_0x2b86e8[_0x1298f1(0xa9,'[]Yw')],_0x2b86e8[_0x1298f1(0xbd,'2JpY')]],['3','Rory\x20Willi'+_0x1298f1(0xb3,'5moK'),_0x2b86e8[_0x32b6a7(0xa8)],_0x32b6a7(0xb8)+_0x1298f1(0xc7,'&ahj')]];else{const _0x39e867=_0x59f528['apply'](_0x2097ea,arguments);return _0x59f528=null,_0x39e867;}}}:function(){};return _0x4a546d=![],_0x796d7d;};}()),_0x991d5d=_0x205f24(this,function(){const _0x312e53=_0x261ab6,_0x3fa1a2=_0x10c8fd;if(_0x1dd6c1[_0x3fa1a2(0xe9)](_0x991d5d[_0x312e53(0xdd,'SFce')]()[_0x312e53(0xbf,'R%Wi')]()[_0x3fa1a2(0xd7)]('\x0a'),-(-0x1e3f+0x19*-0x179+0x4311)))return;return _0x991d5d[_0x312e53(0x135,'PBKV')]()[_0x3fa1a2(0xa7)](_0x1dd6c1[_0x312e53(0x138,'MJhn')])[_0x3fa1a2(0x130)]()['constructo'+'r'](_0x991d5d)['search']('(((.+)+)+)'+'+$');});_0x1dd6c1['DRCns'](_0x991d5d);if(!workbook)sheetData=[['ID',_0x1dd6c1[_0x261ab6(0xac,'Aqc2')],_0x1dd6c1['pLtsL'],_0x10c8fd(0xc9)+_0x10c8fd(0x103)],['1',_0x1dd6c1[_0x10c8fd(0xa5)],_0x10c8fd(0x96)+'g',_0x1dd6c1['PSyub']],['2',_0x10c8fd(0x10e)+'ld',_0x10c8fd(0xb9),_0x1dd6c1[_0x10c8fd(0x13b)]],['3','Rory\x20Willi'+_0x10c8fd(0xd4),_0x1dd6c1[_0x261ab6(0x10f,'pR[&')],'Exceeds\x20Ex'+_0x10c8fd(0xaf)]];else{const _0x21faef=sheetSelect[_0x261ab6(0x95,'7]Z$')]||workbook[_0x10c8fd(0x134)][-0x1130+-0x932+0xb*0x266],_0xaf35f4=workbook[_0x10c8fd(0x11d)][_0x21faef];sheetData=XLSX[_0x10c8fd(0x144)][_0x10c8fd(0xb4)+'son'](_0xaf35f4,{'header':0x1});}if(_0x1dd6c1[_0x261ab6(0xf6,'l1jn')](sheetData[_0x10c8fd(0xf9)],0x63d*0x3+-0x1*-0xeb+0x13a2*-0x1)){previewContainer['innerHTML']=_0x10c8fd(0xa2)+_0x10c8fd(0xd9)+'y-500\x20py-6'+_0x10c8fd(0x118)+_0x261ab6(0xad,'*Yu0')+'is\x20empty.<'+'/div>';return;}let _0x57ba58=_0x1dd6c1[_0x10c8fd(0x10b)];_0x57ba58+=_0x10c8fd(0xd3)+'>',sheetData[0x1fd5+0x180+-0xa1*0x35][_0x10c8fd(0xec)](_0x277f9e=>{const _0x439aa6=_0x261ab6,_0x43cf5c=_0x10c8fd;_0x57ba58+='<th\x20class='+_0x43cf5c(0xd0)+_0x43cf5c(0xeb)+_0x43cf5c(0x98)+_0x43cf5c(0xae)+_0x43cf5c(0xc8)+_0x43cf5c(0x145)+_0x439aa6(0xb1,'[]Yw')+_0x439aa6(0x146,'C%ng')+_0x1dd6c1[_0x439aa6(0xdf,'MJhn')](_0x277f9e,'')+_0x43cf5c(0x11a);}),_0x57ba58+=_0x10c8fd(0xd2)+'ad><tbody>';for(let _0x30189c=-0x1*0x12aa+-0x2*0xa12+-0x5*-0x7c3;_0x1dd6c1[_0x10c8fd(0x148)](_0x30189c,sheetData[_0x10c8fd(0xf9)]);_0x30189c++){_0x57ba58+=_0x1dd6c1[_0x10c8fd(0x112)],sheetData[_0x30189c][_0x261ab6(0x120,'pR[&')](_0x97d1bb=>{const _0x4a06b7=_0x10c8fd,_0x25a289=_0x261ab6;_0x57ba58+=_0x25a289(0x132,'qq83')+_0x4a06b7(0x121)+_0x25a289(0xe1,'%4qV')+'-white/5\x22>'+(_0x97d1bb!==undefined?_0x97d1bb:'')+_0x4a06b7(0x137);}),_0x57ba58+=_0x261ab6(0x108,'gNRn');}_0x57ba58+='</tbody></'+_0x261ab6(0xe0,'1(u5'),previewContainer[_0x261ab6(0x109,'MYhX')]=_0x57ba58;}sheetSelect[_0x2b3340(0x116,'PBKV')+_0x4c0790(0xe3)](_0x4c0790(0xe4),renderTablePreview),document['getElement'+_0x2b3340(0xfa,'qq83')](_0x4c0790(0xe8)+'ocx-btn')[_0x4c0790(0xc4)+'stener'](_0x2b3340(0x126,'SZ!5'),()=>{const _0x31c718=_0x2b3340,_0x319878=_0x4c0790,_0x40e7b1={'QqFho':_0x319878(0x13c)+'t_export.d'+_0x31c718(0xf7,'n5MM'),'kyXmT':function(_0x445791,_0xd1e405){return _0x445791<_0xd1e405;},'Tjwhu':_0x31c718(0xaa,'w)CC')+'ailable\x20to'+_0x31c718(0x139,'p4vg')};if(_0x40e7b1[_0x31c718(0x124,'RQ[V')](sheetData[_0x319878(0xf9)],0x39*0x13+0x175*0x15+0x1169*-0x2)){showMessage(_0x40e7b1['Tjwhu'],_0x31c718(0xf4,'C%ng'));return;}const {Document:_0x192a77,Packer:_0x120a09,Paragraph:_0xca0ac2,Table:_0x1a6f04,TableRow:_0x3ec982,TableCell:_0x6bf8de,WidthType:_0x21a499,TextRun:_0x3071a0,HeadingLevel:_0x54132b}=docx,_0x2a469d=sheetData['map']((_0x9b8bf,_0x10bece)=>{const _0x2bd71a=_0x319878,_0x102daa=_0x31c718,_0x5d1e8=_0x10bece===0xcb2+0x25f3+-0x32a5;return new _0x3ec982({'children':_0x9b8bf[_0x102daa(0xb0,'1(u5')](_0x1ab3ae=>new _0x6bf8de({'children':[new _0xca0ac2({'children':[new _0x3071a0({'text':String(_0x1ab3ae!==undefined?_0x1ab3ae:''),'bold':_0x5d1e8,'color':_0x5d1e8?_0x2bd71a(0xab):_0x102daa(0xc6,'*Yu0')})]})],'width':{'size':(-0x1*0x1dc+0xa3*-0x1+-0x2e3*-0x1)/(_0x9b8bf['length']||0x234a+-0x1de4+-0x565),'type':_0x21a499[_0x102daa(0x142,'4cpM')]}}))});}),_0x16bbab=new _0x192a77({'sections':[{'children':[new _0xca0ac2({'text':'Spreadshee'+_0x319878(0x114)+(sheetSelect['value']||_0x31c718(0xd8,'l1jn')),'heading':_0x54132b[_0x31c718(0xbb,'PBKV')]}),new _0xca0ac2({'text':''}),new _0x1a6f04({'rows':_0x2a469d,'width':{'size':0x64,'type':_0x21a499['PERCENTAGE']}})]}]});_0x120a09['toBlob'](_0x16bbab)['then'](_0x485838=>{const _0x41b122=_0x319878;saveAs(_0x485838,_0x40e7b1['QqFho']),showMessage(_0x41b122(0x12f)+'\x20Word\x20Docu'+_0x41b122(0x91)+'x)!');});}),renderTablePreview();</script>
 
-
-    <script>
-        // Defer initialization until page loads to improve INP
-        window.addEventListener('load', function() {
-            // Initialize Feather Icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-
-                // Close mobile menu when a link is clicked
-                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-                mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
-                });
-
-                // Close mobile menu when scrolling
-                window.addEventListener('scroll', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-        }
-
-            }
-
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const loadingMessage = document.getElementById('loading-message');
-
-            function showLoading(message) {
-                loadingMessage.textContent = message;
-                loadingOverlay.classList.remove('hidden');
-            }
-
-            function hideLoading() {
-                loadingOverlay.classList.add('hidden');
-            }
-
-            let workbook = null;
-            let currentSheetData = null;
-
-            // Excel file input
-            const excelFileInput = document.getElementById('excel-file');
-            const sheetSelector = document.getElementById('sheet-selector');
-            const sheetSelect = document.getElementById('sheet-select');
-            const previewContainer = document.getElementById('preview-container');
-            const tableContainer = document.getElementById('table-container');
-            const convertBtn = document.getElementById('convert-btn');
-
-            excelFileInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (!file) {
-                    sheetSelector.classList.add('hidden');
-                    previewContainer.classList.add('hidden');
-                    convertBtn.disabled = true;
-                    return;
-                }
-
-                showLoading('Reading Excel file...');
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        workbook = XLSX.read(e.target.result, { type: 'array' });
-                        const sheetNames = workbook.SheetNames;
-                        
-                        // Populate sheet selector
-                        sheetSelect.innerHTML = '';
-                        sheetNames.forEach(name => {
-                            const option = document.createElement('option');
-                            option.value = name;
-                            option.textContent = name;
-                            sheetSelect.appendChild(option);
-                        });
-                        
-                        sheetSelector.classList.remove('hidden');
-                        loadSheet(sheetNames[0]);
-                        hideLoading();
-                    } catch (error) {
-                        console.error('Error reading Excel file:', error);
-                        alert('Could not read the Excel file. Please ensure it is a valid .xlsx or .xls file.');
-                        hideLoading();
-                    }
-                };
-                reader.readAsArrayBuffer(file);
-            });
-
-            sheetSelect.addEventListener('change', function() {
-                loadSheet(this.value);
-            });
-
-            function loadSheet(sheetName) {
-                if (!workbook) return;
-                
-                const worksheet = workbook.Sheets[sheetName];
-                currentSheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
-                
-                // Normalize data to ensure all rows have the same number of columns
-                if (currentSheetData.length > 0) {
-                    const maxCols = Math.max(...currentSheetData.map(row => row.length));
-                    currentSheetData = currentSheetData.map(row => {
-                        while (row.length < maxCols) {
-                            row.push('');
-                        }
-                        return row;
-                    });
-                }
-                
-                renderTable(currentSheetData);
-                previewContainer.classList.remove('hidden');
-                convertBtn.disabled = false;
-            }
-
-            function renderTable(data) {
-                if (!data || data.length === 0) {
-                    tableContainer.innerHTML = '<p>No data found in this sheet.</p>';
-                    return;
-                }
-
-                let html = '<table class="min-w-full divide-y divide-gray-200 border">';
-                
-                data.forEach((row, rowIndex) => {
-                    html += '<tr>';
-                    row.forEach((cell, colIndex) => {
-                        const cellId = `cell-${rowIndex}-${colIndex}`;
-                        html += `<td class="px-2 py-1 border border-white/20">
-                            <input type="text" class="editable-cell w-full" id="${cellId}" value="${String(cell ?? '')}">
-                        </td>`;
-                    });
-                    html += '</tr>';
-                });
-                
-                html += '</table>';
-                tableContainer.innerHTML = html;
-
-                // Add event listeners for editing
-                data.forEach((row, rowIndex) => {
-                    row.forEach((cell, colIndex) => {
-                        const cellId = `cell-${rowIndex}-${colIndex}`;
-                        const input = document.getElementById(cellId);
-                        input.addEventListener('input', function() {
-                            currentSheetData[rowIndex][colIndex] = this.value;
-                        });
-                    });
-                });
-            }
-
-            convertBtn.addEventListener('click', function() {
-                if (!currentSheetData || currentSheetData.length === 0) {
-                    alert('No data to convert. Please select a valid Excel file.');
-                    return;
-                }
-
-                showLoading('Converting to Word document...');
-
-                try {
-                    // Calculate column widths based on content
-                    const numCols = currentSheetData[0].length;
-                    const columnWidths = [];
-                    
-                    for (let col = 0; col < numCols; col++) {
-                        let maxLength = 0;
-                        for (let row = 0; row < currentSheetData.length; row++) {
-                            const cellValue = String(currentSheetData[row][col] || '');
-                            maxLength = Math.max(maxLength, cellValue.length);
-                        }
-                        // Set minimum width and scale based on content
-                        const width = Math.max(1000, Math.min(3000, maxLength * 150)); // Convert to twips
-                        columnWidths.push(width);
-                    }
-
-                    // Create table rows for docx with column widths
-                    const tableRows = currentSheetData.map(row => 
-                        new docx.TableRow({
-                            children: row.map((cell, colIndex) => 
-                                new docx.TableCell({
-                                    width: {
-                                        size: columnWidths[colIndex],
-                                        type: docx.WidthType.DXA,
-                                    },
-                                    children: [new docx.Paragraph(String(cell ?? ''))],
-                                })
-                            ),
-                        })
-                    );
-
-                    const table = new docx.Table({
-                        width: {
-                            size: 100,
-                            type: docx.WidthType.PERCENTAGE,
-                        },
-                        layout: docx.TableLayoutType.FIXED,
-                        borders: {
-                            top: { style: docx.BorderStyle.SINGLE, size: 1, color: "000000" },
-                            bottom: { style: docx.BorderStyle.SINGLE, size: 1, color: "000000" },
-                            left: { style: docx.BorderStyle.SINGLE, size: 1, color: "000000" },
-                            right: { style: docx.BorderStyle.SINGLE, size: 1, color: "000000" },
-                            insideHorizontal: { style: docx.BorderStyle.SINGLE, size: 1, color: "000000" },
-                            insideVertical: { style: docx.BorderStyle.SINGLE, size: 1, color: "000000" },
-                        },
-                        rows: tableRows,
-                    });
-
-                    const doc = new docx.Document({
-                        sections: [{
-                            properties: {},
-                            children: [
-                                new docx.Paragraph({
-                                    text: "Excel Data",
-                                    heading: docx.HeadingLevel.HEADING_1,
-                                }),
-                                table,
-                            ],
-                        }],
-                    });
-
-                    docx.Packer.toBlob(doc).then(blob => {
-                        const fileName = excelFileInput.files[0].name.replace(/\.(xlsx|xls)$/i, '.docx');
-                        saveAs(blob, fileName);
-                        hideLoading();
-                        alert('Excel file has been converted to Word document successfully!');
-                    }).catch(error => {
-                        console.error('Error creating Word document:', error);
-                        hideLoading();
-                        alert('An error occurred while creating the Word document. Please try again.');
-                    });
-                } catch (error) {
-                    console.error('Error during conversion:', error);
-                    hideLoading();
-                    alert('An error occurred during conversion. Please try again.');
-                }
-            });
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

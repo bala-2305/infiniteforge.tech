@@ -1,426 +1,89 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Slip Generator - Create Professional Pay Slips | Infiniteforge Tools</title>
-    <meta name="description" content="Generate professional salary slips with employee details, salary breakdown, allowances, deductions, and tax calculations. Create, customize, and export pay slips instantly.">
-    <meta name="keywords" content="salary slip generator, pay slip maker, salary calculator, employee payslip, payroll slip, salary breakdown, allowance calculator, deduction calculator, tax calculation, professional payslip, salary statement, compensation slip">
+    <title>Salary Slip Generator — Professional Payslip Maker | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Generate professional employee salary slips and pay stubs. Detailed earnings, deductions, PF, tax breakdowns, and instant PDF download/print format.">
+    <meta name="keywords" content="salary slip generator, payslip maker, pay stub generator, employee salary receipt, payroll slip">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Salary Slip Generator - Create Professional Pay Slips | Infiniteforge Tools">
-    <meta property="og:description" content="Generate professional salary slips with detailed breakdown of earnings, deductions, and net pay. Perfect for HR departments and small businesses.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Salary Slip Generator | Infiniteforge">
+    <meta property="og:description" content="Generate and download professional employee pay slips.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/salary-slip-generator.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Salary Slip Generator - Create Professional Pay Slips | Infiniteforge Tools">
-    <meta name="twitter:description" content="Generate professional salary slips with detailed breakdown of earnings, deductions, and net pay. Perfect for HR departments and small businesses.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    <meta name="twitter:title" content="Salary Slip Generator | Infiniteforge">
+    <meta name="twitter:description" content="Professional payroll and salary slip maker online.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
     <link rel="canonical" href="https://infiniteforge.tech/salary-slip-generator.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/salary-slip-generator.html">
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Salary Slip Generator",
-        "description": "Professional salary slip generator with detailed payroll calculations and export functionality",
-        "url": "https://infiniteforge.tech/salary-slip-generator.html",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "creator": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        }
-    }</script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    <script src="https://unpkg.com/feather-icons"></script>
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .animate-fadeIn {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .animate-slideIn {
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .salary-slip {
-            font-family: 'Courier New', monospace;
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-        }
-
-        .salary-slip-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .salary-slip-body {
-            padding: 20px;
-        }
-
-        .salary-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-        }
-
-        .salary-table th,
-        .salary-table td {
-            padding: 8px 12px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .salary-table th {
-            background-color: rgba(31, 40, 51, 0.4);
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .total-row {
-            background-color: rgba(31, 40, 51, 0.4);
-            font-weight: bold;
-        }
-
-        .net-pay {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 4px;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: #4b5563;
-            transform: translateY(-2px);
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title i {
-            margin-right: 8px;
-            color: #3b82f6;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .grid-2,
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
-
-            .salary-slip {
-                font-size: 12px;
-                margin: 0;
-                border-radius: 0;
-            }
-
-            .salary-slip-header {
-                padding: 15px;
-            }
-
-            .salary-slip-body {
-                padding: 15px;
-            }
-
-            .salary-table {
-                font-size: 11px;
-            }
-
-            .salary-table th,
-            .salary-table td {
-                padding: 6px 8px;
-            }
-
-            .net-pay {
-                padding: 12px;
-                font-size: 16px;
-            }
-
-            .net-pay .text-2xl {
-                font-size: 20px;
-            }
-
-            .section-title {
-                font-size: 16px;
-            }
-
-            .btn-primary,
-            .btn-secondary {
-                padding: 10px 16px;
-                font-size: 14px;
-            }
-
-            .hero-features {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .hero-features > div {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .salary-slip {
-                font-size: 10px;
-            }
-
-            .salary-table {
-                font-size: 10px;
-            }
-
-            .salary-table th,
-            .salary-table td {
-                padding: 4px 6px;
-            }
-
-            .net-pay {
-                padding: 10px;
-                font-size: 14px;
-            }
-
-            .net-pay .text-2xl {
-                font-size: 18px;
-            }
-
-            .salary-slip-header h1 {
-                font-size: 18px;
-            }
-
-            .salary-slip-header h2 {
-                font-size: 16px;
-            }
-        }
-
-        .print-only {
-            display: none;
-        }
-
-        .feather-icon::before {
-            content: attr(data-feather);
-            font-weight: bold;
-            font-size: 12px;
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            text-align: center;
-            background: #e5e7eb;
-            border-radius: 3px;
-            line-height: 20px;
-        }
-
-        /* Hide fallback text when feather icons are loaded */
-        .feather-icon.feather-replaced::before {
-            display: none;
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x77a1f2=_0x1209,_0x10d560=_0x1318;(function(_0x30af6f,_0x3c3df2){var _0x4445c3=_0x1318,_0x31744b=_0x1209,_0x381bc0=_0x30af6f();while(!![]){try{var _0x34cb92=parseInt(_0x31744b(0x1f3,'$!0D'))/(-0x2243+0xe07+0xb*0x1d7)*(parseInt(_0x31744b(0x1dc,'YiEU'))/(-0x2207+-0x965+-0xda*-0x33))+parseInt(_0x4445c3(0x1dd))/(-0x1018+0x1aad*-0x1+0x2ac8)+parseInt(_0x31744b(0x1df,'Q(h('))/(0x2432*-0x1+0xe*-0x2a1+0x4904)*(-parseInt(_0x31744b(0x1de,'NVsp'))/(0x1*-0x20ed+-0x57+0x2149))+-parseInt(_0x4445c3(0x1f0))/(0x3*0x9c9+-0x1*0x1e8f+-0x13a*-0x1)+parseInt(_0x4445c3(0x1da))/(-0xcb*-0x17+-0x1*0x6f2+-0xb44)+parseInt(_0x4445c3(0x1e1))/(0x55*-0x4f+-0x1a48+0x348b*0x1)+parseInt(_0x4445c3(0x1d5))/(-0x1*-0x19af+-0xf20+-0xa86)*(parseInt(_0x4445c3(0x1ed))/(-0x1db7+-0x1c5*0x13+0x3f60));if(_0x34cb92===_0x3c3df2)break;else _0x381bc0['push'](_0x381bc0['shift']());}catch(_0x2d8d63){_0x381bc0['push'](_0x381bc0['shift']());}}}(_0x3129,0x8a1e2+0x1864a0+-0xe87*0x141));function _0x1209(_0x104690,_0x580aa1){_0x104690=_0x104690-(-0x1*-0x1c2b+-0x1bbb+-0x3b*-0x6);var _0x4eed63=_0x3129();var _0x511136=_0x4eed63[_0x104690];if(_0x1209['ogAmov']===undefined){var _0x3951fc=function(_0x19301f){var _0x35cddc='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x101a4f='',_0x10ddb0='',_0x55bebc=_0x101a4f+_0x3951fc,_0x1cfa92=(''+function(){return-0x2348+-0x12b*-0x1a+0x4ea;})['indexOf']('\x0a')!==-(-0x2b3*0x9+0x140f+0x43d);for(var _0x83dcf=-0xd68+-0x72e+-0x1*-0x1496,_0x134267,_0x7dab32,_0x13634f=0x3*0x454+0xaab*-0x1+-0x251;_0x7dab32=_0x19301f['charAt'](_0x13634f++);~_0x7dab32&&(_0x134267=_0x83dcf%(-0x24b3+-0xc5*0xb+0x2d2e)?_0x134267*(-0x26d+-0x1*0x100a+0x1*0x12b7)+_0x7dab32:_0x7dab32,_0x83dcf++%(0x170+0x1d02+0x26*-0xcd))?_0x101a4f+=_0x1cfa92||_0x55bebc['charCodeAt'](_0x13634f+(-0x188c*0x1+0x1294+0x301*0x2))-(0x251*-0x9+-0x7*0x526+0x38ed)!==-0xf8f*-0x1+-0x1b3a+0xbab?String['fromCharCode'](-0x7db*0x1+0x22*-0xd6+0x2546&_0x134267>>(-(0x18ac+-0x2585+-0x3*-0x449)*_0x83dcf&0x1596+0x41b*-0x2+-0xd5a)):_0x83dcf:-0x2482*-0x1+0x93d+0x1*-0x2dbf){_0x7dab32=_0x35cddc['indexOf'](_0x7dab32);}for(var _0x19404a=0xa84+0x1c6*0x3+-0xfd6,_0x3cd99c=_0x101a4f['length'];_0x19404a<_0x3cd99c;_0x19404a++){_0x10ddb0+='%'+('00'+_0x101a4f['charCodeAt'](_0x19404a)['toString'](0x9*-0x25b+-0xff6+0x2539))['slice'](-(-0x89*-0xb+-0x1da6+0x5*0x4c1));}return decodeURIComponent(_0x10ddb0);};var _0xb5b621=function(_0x45ecc6,_0x5edd52){var _0x1837d9=[],_0x45a7d0=0x145c+0x48d+0x1*-0x18e9,_0x76c7c7,_0x2424d4='';_0x45ecc6=_0x3951fc(_0x45ecc6);var _0x497525;for(_0x497525=0x7*0x38f+0x13be+-0x661*0x7;_0x497525<-0x567+-0xb0d+0x2*0x8ba;_0x497525++){_0x1837d9[_0x497525]=_0x497525;}for(_0x497525=-0x4d3*0x4+0x1*0x53c+-0x24*-0x64;_0x497525<-0x10*0x1d9+-0x1f63+0x3df3;_0x497525++){_0x45a7d0=(_0x45a7d0+_0x1837d9[_0x497525]+_0x5edd52['charCodeAt'](_0x497525%_0x5edd52['length']))%(-0x1d75+-0x4*0x3d5+0x2dc9),_0x76c7c7=_0x1837d9[_0x497525],_0x1837d9[_0x497525]=_0x1837d9[_0x45a7d0],_0x1837d9[_0x45a7d0]=_0x76c7c7;}_0x497525=0x6a4+-0x29*0x8e+0x101a,_0x45a7d0=-0x3*-0x3f3+-0x16e5*0x1+0xb0c;for(var _0x22a0eb=0xe07+0x7*-0x52c+0x162d;_0x22a0eb<_0x45ecc6['length'];_0x22a0eb++){_0x497525=(_0x497525+(-0x965+-0x43*0x3+0xa2f))%(0x1aad*-0x1+-0x925+0x24d2),_0x45a7d0=(_0x45a7d0+_0x1837d9[_0x497525])%(0x24ce*-0x1+-0x5*-0x754+0x12a),_0x76c7c7=_0x1837d9[_0x497525],_0x1837d9[_0x497525]=_0x1837d9[_0x45a7d0],_0x1837d9[_0x45a7d0]=_0x76c7c7,_0x2424d4+=String['fromCharCode'](_0x45ecc6['charCodeAt'](_0x22a0eb)^_0x1837d9[(_0x1837d9[_0x497525]+_0x1837d9[_0x45a7d0])%(-0x1*0x57+0x260a+-0x24b3*0x1)]);}return _0x2424d4;};_0x1209['nNBymk']=_0xb5b621,_0x1209['KDiPYf']={},_0x1209['ogAmov']=!![];}var _0x13755a=_0x4eed63[-0x59*-0x64+-0x527*-0x1+-0x1*0x27eb],_0x2ee08f=_0x104690+_0x13755a,_0x7e6e6e=_0x1209['KDiPYf'][_0x2ee08f];if(!_0x7e6e6e){if(_0x1209['VZvQnx']===undefined){var _0x433336=function(_0x2ed80d){this['ZbPRpk']=_0x2ed80d,this['EkhLrv']=[-0x1*-0x2101+-0x1b52+-0x5ae,-0x4*0x692+0x2b*0xd+-0x1f*-0xc7,0x6c8+-0x456+-0x272],this['LyTkiR']=function(){return'newState';},this['DddsQv']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ftOEya']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x433336['prototype']['MkmCPa']=function(){var _0x431527=new RegExp(this['DddsQv']+this['ftOEya']),_0x4c3232=_0x431527['test'](this['LyTkiR']['toString']())?--this['EkhLrv'][-0x1c5*0x13+-0xe1f+0x2fbf*0x1]:--this['EkhLrv'][-0xef*0x20+0x1*-0x24cd+0x1*0x42ad];return this['eDDFvC'](_0x4c3232);},_0x433336['prototype']['eDDFvC']=function(_0x3d1573){if(!Boolean(~_0x3d1573))return _0x3d1573;return this['zYhnZt'](this['ZbPRpk']);},_0x433336['prototype']['zYhnZt']=function(_0x510bdb){for(var _0x1cc7fb=0x1c*-0x10+0x9ec+-0x82c,_0xacaf55=this['EkhLrv']['length'];_0x1cc7fb<_0xacaf55;_0x1cc7fb++){this['EkhLrv']['push'](Math['round'](Math['random']())),_0xacaf55=this['EkhLrv']['length'];}return _0x510bdb(this['EkhLrv'][-0x22a9+-0x104e+0x32f7]);},(''+function(){return 0x78b+-0x13a8+0x1*0xc1d;})['indexOf']('\x0a')===-(0x19ac+0x82+-0x1a2d*0x1)&&new _0x433336(_0x1209)['MkmCPa'](),_0x1209['VZvQnx']=!![];}_0x511136=_0x1209['nNBymk'](_0x511136,_0x580aa1),_0x1209['KDiPYf'][_0x2ee08f]=_0x511136;}else _0x511136=_0x7e6e6e;return _0x511136;}function _0x3129(){var _0x1816a7=['yMLUza','mtaZntuYsMLbzhDZ','W7nsW5hcHSk9WRK','C2fUCY1ZzxjPzG','W58oWPZdSSkQeq','mtGWntaWsgTxDefH','fWnBWP9kh8k4','W6XWW5HeW7W','otm3nZyWnenJt0jqCa','lsFcH8kfjCk8kW','W4eeWPpdR8k6cCkFyCo6','W6ahgsSqx8k/','kcGOlISPkYKRkq','sMv0qNjHAw5Zia','W65VW4zBW7hcOGDUWQvm','nZi5rwT4tNjK','WRtdPdpcUmoUWP/cPW/cICkC','mZa1AhjAr25e','WQ/cUfddSrSc','iZfgmJGZmW','odu0mZuYmwDMuhrNDW','iZjdmZuZrG','WRDUrCkClbj1tmkiWR/cR3a','mJi0mJi1n3ryrffosa','W5pdVrhdVWaSfSkdW40','WRnXW4tcMK7dLmoFqCoFnxlcGq','Dg9tDhjPBMC','mtC4otqWogDWDff1zG','W4bVW4zh','iZq1rJngrG','xZBdLetdU8kYW4C','WO3dH8k+WOmZW6bYW6nY','vu5uCxO','y29UzMLN'];_0x3129=function(){return _0x1816a7;};return _0x3129();}function _0x1318(_0xf20efb,_0x248728){_0xf20efb=_0xf20efb-(-0x1*-0x1c2b+-0x1bbb+-0x3b*-0x6);var _0x32c55d=_0x3129();var _0x4ab37d=_0x32c55d[_0xf20efb];if(_0x1318['oLMtaL']===undefined){var _0x52115f=function(_0x5a6073){var _0x5d5219='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x42a069='',_0x29517b='',_0x780d9a=_0x42a069+_0x52115f,_0x2f4697=(''+function(){return-0x2348+-0x12b*-0x1a+0x4ea;})['indexOf']('\x0a')!==-(-0x2b3*0x9+0x140f+0x43d);for(var _0x5e1daf=-0xd68+-0x72e+-0x1*-0x1496,_0x364022,_0x2d0d08,_0x183398=0x3*0x454+0xaab*-0x1+-0x251;_0x2d0d08=_0x5a6073['charAt'](_0x183398++);~_0x2d0d08&&(_0x364022=_0x5e1daf%(-0x24b3+-0xc5*0xb+0x2d2e)?_0x364022*(-0x26d+-0x1*0x100a+0x1*0x12b7)+_0x2d0d08:_0x2d0d08,_0x5e1daf++%(0x170+0x1d02+0x26*-0xcd))?_0x42a069+=_0x2f4697||_0x780d9a['charCodeAt'](_0x183398+(-0x188c*0x1+0x1294+0x301*0x2))-(0x251*-0x9+-0x7*0x526+0x38ed)!==-0xf8f*-0x1+-0x1b3a+0xbab?String['fromCharCode'](-0x7db*0x1+0x22*-0xd6+0x2546&_0x364022>>(-(0x18ac+-0x2585+-0x3*-0x449)*_0x5e1daf&0x1596+0x41b*-0x2+-0xd5a)):_0x5e1daf:-0x2482*-0x1+0x93d+0x1*-0x2dbf){_0x2d0d08=_0x5d5219['indexOf'](_0x2d0d08);}for(var _0x53842e=0xa84+0x1c6*0x3+-0xfd6,_0xa64713=_0x42a069['length'];_0x53842e<_0xa64713;_0x53842e++){_0x29517b+='%'+('00'+_0x42a069['charCodeAt'](_0x53842e)['toString'](0x9*-0x25b+-0xff6+0x2539))['slice'](-(-0x89*-0xb+-0x1da6+0x5*0x4c1));}return decodeURIComponent(_0x29517b);};_0x1318['eCiOBr']=_0x52115f,_0x1318['ukgVER']={},_0x1318['oLMtaL']=!![];}var _0x38312b=_0x32c55d[0x145c+0x48d+0x1*-0x18e9],_0x2c3ef3=_0xf20efb+_0x38312b,_0x5c68b2=_0x1318['ukgVER'][_0x2c3ef3];if(!_0x5c68b2){var _0x5a1eb3=function(_0x35fa49){this['JlHBte']=_0x35fa49,this['nIoLBU']=[0x7*0x38f+0x13be+-0x8ee*0x5,-0x567+-0xb0d+0xc*0x15f,-0x4d3*0x4+0x1*0x53c+-0x24*-0x64],this['GbZzep']=function(){return'newState';},this['Qbzpcc']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['EzFTrQ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5a1eb3['prototype']['VrMlaw']=function(){var _0x363a18=new RegExp(this['Qbzpcc']+this['EzFTrQ']),_0x1912fd=_0x363a18['test'](this['GbZzep']['toString']())?--this['nIoLBU'][-0x10*0x1d9+-0x1f63+0x3cf4]:--this['nIoLBU'][-0x1d75+-0x4*0x3d5+0x2cc9];return this['bvVbHD'](_0x1912fd);},_0x5a1eb3['prototype']['bvVbHD']=function(_0x38875b){if(!Boolean(~_0x38875b))return _0x38875b;return this['RWcqlQ'](this['JlHBte']);},_0x5a1eb3['prototype']['RWcqlQ']=function(_0x874845){for(var _0x45f359=0x6a4+-0x29*0x8e+0x101a,_0x273644=this['nIoLBU']['length'];_0x45f359<_0x273644;_0x45f359++){this['nIoLBU']['push'](Math['round'](Math['random']())),_0x273644=this['nIoLBU']['length'];}return _0x874845(this['nIoLBU'][-0x3*-0x3f3+-0x16e5*0x1+0xb0c]);},(''+function(){return 0xe07+0x7*-0x52c+0x162d;})['indexOf']('\x0a')===-(-0x965+-0x43*0x3+0xa2f)&&new _0x5a1eb3(_0x1318)['VrMlaw'](),_0x4ab37d=_0x1318['eCiOBr'](_0x4ab37d),_0x1318['ukgVER'][_0x2c3ef3]=_0x4ab37d;}else _0x4ab37d=_0x5c68b2;return _0x4ab37d;}var _0x29e566=(function(){var _0x354cbc=!![];return function(_0x1ae68e,_0x4a089b){var _0x25aaa7=_0x354cbc?function(){var _0x2de24c=_0x1209;if(_0x4a089b){var _0x24da8d=_0x4a089b[_0x2de24c(0x1ef,'S7[E')](_0x1ae68e,arguments);return _0x4a089b=null,_0x24da8d;}}:function(){};return _0x354cbc=![],_0x25aaa7;};}()),_0x28b62a=_0x29e566(this,function(){var _0x94543f=_0x1209,_0x3bdef0=_0x1318,_0x49232a={'UNTqz':function(_0x4791c1,_0x28a146){return _0x4791c1!==_0x28a146;}};if(_0x49232a[_0x3bdef0(0x1e6)](_0x28b62a[_0x3bdef0(0x1e8)]()[_0x3bdef0(0x1e0)]()[_0x94543f(0x1ee,'v9qz')]('\x0a'),-(-0xa2e+0x18ac+-0xe7d)))return;return _0x28b62a[_0x3bdef0(0x1e0)]()[_0x94543f(0x1ec,'@T0C')](_0x3bdef0(0x1d2)+'+$')[_0x3bdef0(0x1e0)]()[_0x94543f(0x1d4,'S7[E')+'r'](_0x28b62a)[_0x94543f(0x1ea,'74fx')](_0x94543f(0x1d6,'aEEE')+'+$');});_0x28b62a(),tailwind[_0x10d560(0x1e7)]={'theme':{'extend':{'fontFamily':{'sans':[_0x77a1f2(0x1d8,'NVsp'),_0x10d560(0x1eb)],'mono':[_0x10d560(0x1d3)+_0x77a1f2(0x1e2,'S7[E'),_0x77a1f2(0x1f2,'@T0C')]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x10d560(0x1d9),0x2bc:_0x10d560(0x1db)},'brand':{'primary':_0x10d560(0x1e3),'secondary':'#FF2A7A','accent':_0x77a1f2(0x1e4,'qjeP')}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        input[type="text"], input[type="number"] { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; }
+        input[type="text"]:focus, input[type="number"]:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        @media print {
+            body { background: white !important; color: black !important; }
+            nav, footer, .no-print { display: none !important; }
+            #payslip-card { border: none !important; background: white !important; color: black !important; box-shadow: none !important; }
+            .text-white { color: black !important; }
+            .text-gray-400 { color: #555 !important; }
+            .bg-dark-900 { background: #f4f4f4 !important; }
         }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
-
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div class="bg-grid no-print"></div>
+    <div class="bg-glow no-print"></div>
+    <div class="glow-orb orb-1 no-print"></div>
+    <div class="glow-orb orb-2 no-print"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 no-print" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -431,960 +94,186 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fadeIn">
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10 no-print">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
                 Salary Slip Generator
             </h1>
-            <p class="text-xl md:text-2xl mb-8 opacity-90 animate-slideIn">
-                Create professional salary slips with detailed breakdown of earnings, deductions, and net pay
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Generate customized professional payslips with itemized earnings, tax deductions, and print-ready layouts.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center hero-features">
-                <div class="flex items-center text-lg">
-                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
-                    Professional formatting
-                </div>
-                <div class="flex items-center text-lg">
-                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
-                    Automatic calculations
-                </div>
-                <div class="flex items-center text-lg">
-                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-400 feather-icon"></i>
-                    PDF export available
-                </div>
-            </div>
         </div>
-    </section>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            <!-- Input Form -->
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-lg p-4 sm:p-6 animate-fadeIn">
-                <h2 class="section-title">
-                    <i data-feather="user" class="feather-icon"></i>
-                    Employee & Company Details
-                </h2>
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 5 cols: Form Controls (no-print) -->
+            <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 no-print">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-3 border-b border-white/10">
+                    Employee &amp; Company Details
+                </h3>
 
-                <!-- Company Information -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4">Company Information</h3>
-                    <div class="grid-2">
-                        <div class="input-group">
-                            <label for="companyName">Company Name *</label>
-                            <input type="text" id="companyName" placeholder="Enter company name" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="companyAddress">Company Address</label>
-                            <input type="text" id="companyAddress" placeholder="Enter company address">
-                        </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Company Name</label>
+                        <input type="text" id="company-name" value="Acme Corp Inc.">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Pay Period</label>
+                        <input type="text" id="pay-period" value="August 2026">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Employee Name</label>
+                        <input type="text" id="emp-name" value="Alex Mercer">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Designation</label>
+                        <input type="text" id="emp-role" value="Lead Software Engineer">
                     </div>
                 </div>
 
-                <!-- Employee Information -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4">Employee Information</h3>
-                    <div class="grid-2">
-                        <div class="input-group">
-                            <label for="employeeName">Employee Name *</label>
-                            <input type="text" id="employeeName" placeholder="Enter employee name" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="employeeId">Employee ID *</label>
-                            <input type="text" id="employeeId" placeholder="Enter employee ID" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="department">Department</label>
-                            <input type="text" id="department" placeholder="Enter department">
-                        </div>
-                        <div class="input-group">
-                            <label for="designation">Designation</label>
-                            <input type="text" id="designation" placeholder="Enter designation">
-                        </div>
-                        <div class="input-group">
-                            <label for="panNumber">PAN Number</label>
-                            <input type="text" id="panNumber" placeholder="Enter PAN number">
-                        </div>
-                        <div class="input-group">
-                            <label for="bankAccount">Bank Account Number</label>
-                            <input type="text" id="bankAccount" placeholder="Enter bank account number">
-                        </div>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pt-3 pb-2 border-t border-white/10">
+                    Earnings ($)
+                </h3>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Basic Salary</label>
+                        <input type="number" id="earn-basic" value="6500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">House Rent (HRA)</label>
+                        <input type="number" id="earn-hra" value="1800">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Special Allowance</label>
+                        <input type="number" id="earn-allowance" value="1200">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Performance Bonus</label>
+                        <input type="number" id="earn-bonus" value="500">
                     </div>
                 </div>
 
-                <!-- Salary Period -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4">Salary Period</h3>
-                    <div class="grid-2">
-                        <div class="input-group">
-                            <label for="payPeriod">Pay Period</label>
-                            <select id="payPeriod">
-                                <option value="Monthly">Monthly</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Bi-weekly">Bi-weekly</option>
-                                <option value="Semi-monthly">Semi-monthly</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="paymentDate">Payment Date</label>
-                            <input type="date" id="paymentDate">
-                        </div>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pt-3 pb-2 border-t border-white/10">
+                    Deductions ($)
+                </h3>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Income Tax (TDS)</label>
+                        <input type="number" id="ded-tax" value="950">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Provident Fund (PF)</label>
+                        <input type="number" id="ded-pf" value="450">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Health Insurance</label>
+                        <input type="number" id="ded-insurance" value="200">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Other Deductions</label>
+                        <input type="number" id="ded-other" value="0">
                     </div>
                 </div>
 
-                <!-- Earnings -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4">Earnings</h3>
-                    <div class="grid-2">
-                        <div class="input-group">
-                            <label for="basicSalary">Basic Salary *</label>
-                            <input type="number" id="basicSalary" placeholder="0.00" step="0.01" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="houseRentAllowance">House Rent Allowance (HRA)</label>
-                            <input type="number" id="houseRentAllowance" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="conveyanceAllowance">Conveyance Allowance</label>
-                            <input type="number" id="conveyanceAllowance" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="medicalAllowance">Medical Allowance</label>
-                            <input type="number" id="medicalAllowance" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="lta">Leave Travel Allowance (LTA)</label>
-                            <input type="number" id="lta" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="otherAllowances">Other Allowances</label>
-                            <input type="number" id="otherAllowances" placeholder="0.00" step="0.01">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Deductions -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4">Deductions</h3>
-                    <div class="grid-2">
-                        <div class="input-group">
-                            <label for="providentFund">Provident Fund (PF)</label>
-                            <input type="number" id="providentFund" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="professionalTax">Professional Tax</label>
-                            <input type="number" id="professionalTax" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="incomeTax">Income Tax (TDS)</label>
-                            <input type="number" id="incomeTax" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="esi">Employee State Insurance (ESI)</label>
-                            <input type="number" id="esi" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="loanDeduction">Loan Deduction</label>
-                            <input type="number" id="loanDeduction" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="input-group">
-                            <label for="otherDeductions">Other Deductions</label>
-                            <input type="number" id="otherDeductions" placeholder="0.00" step="0.01">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button id="generateSlip" class="btn-primary flex-1">
-                        <i data-feather="file-text" class="w-5 h-5 inline mr-2 feather-icon"></i>
-                        Generate Salary Slip
-                    </button>
-                    <button id="resetForm" class="btn-secondary flex-1">
-                        <i data-feather="refresh-cw" class="w-5 h-5 inline mr-2 feather-icon"></i>
-                        Reset Form
-                    </button>
-                </div>
+                <button id="print-payslip-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_20px_rgba(69,243,255,0.3)] flex items-center justify-center gap-2 transition-all">
+                    <i data-feather="printer" class="w-4 h-4"></i> Print / Save as PDF
+                </button>
             </div>
 
-            <!-- Salary Slip Preview -->
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-lg p-4 sm:p-6 animate-slideIn">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="section-title mb-0">
-                        <i data-feather="eye" class="feather-icon"></i>
-                        Salary Slip Preview
-                    </h2>
-                    <div class="flex flex-col sm:flex-row gap-2 no-print">
-                        <button id="printSlip" class="btn-secondary text-sm px-4 py-2 flex-1 sm:flex-initial">
-                            <i data-feather="printer" class="w-4 h-4 inline mr-1 feather-icon"></i>
-                            Print
-                        </button>
-                        <button id="downloadPDF" class="btn-primary text-sm px-4 py-2 flex-1 sm:flex-initial">
-                            <i data-feather="download" class="w-4 h-4 inline mr-1 feather-icon"></i>
-                            Download PDF
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Salary Slip -->
-                <div id="salarySlip" class="salary-slip print-only">
-                    <!-- Header -->
-                    <div class="salary-slip-header">
-                        <div class="text-center">
-                            <h1 class="text-2xl font-bold mb-2" id="companyNameDisplay">Company Name</h1>
-                            <p class="text-sm opacity-90" id="companyAddressDisplay">Company Address</p>
-                            <h2 class="text-xl font-semibold mt-4">SALARY SLIP</h2>
-                            <p class="text-sm opacity-90" id="payPeriodDisplay">Pay Period: Monthly</p>
+            <!-- Right 7 cols: Live Payslip Document Preview -->
+            <div class="lg:col-span-7">
+                <div id="payslip-card" class="glass-panel p-8 sm:p-10 rounded-3xl border border-white/10 space-y-6">
+                    <!-- Slip Header -->
+                    <div class="flex justify-between items-start pb-6 border-b border-white/10">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white tracking-tight" id="preview-company">Acme Corp Inc.</h2>
+                            <p class="text-xs text-gray-400 mt-0.5">Official Payroll Statement</p>
+                        </div>
+                        <div class="text-right font-mono text-xs text-gray-400">
+                            <div>Pay Slip: <span class="text-white font-bold" id="preview-period">August 2026</span></div>
+                            <div class="mt-0.5">Status: <span class="text-emerald-400 font-bold">Processed</span></div>
                         </div>
                     </div>
 
-                    <!-- Body -->
-                    <div class="salary-slip-body">
-                        <!-- Employee Details -->
-                        <div class="grid-2 mb-6">
-                            <div>
-                                <p><strong>Employee Name:</strong> <span id="employeeNameDisplay">-</span></p>
-                                <p><strong>Employee ID:</strong> <span id="employeeIdDisplay">-</span></p>
-                                <p><strong>Department:</strong> <span id="departmentDisplay">-</span></p>
+                    <!-- Employee Details Grid -->
+                    <div class="grid grid-cols-2 gap-4 p-4 rounded-2xl bg-dark-900/60 border border-white/5 text-xs font-mono">
+                        <div>
+                            <span class="text-gray-400 block text-[10px] uppercase">Employee Name</span>
+                            <span class="text-white font-bold text-sm" id="preview-name">Alex Mercer</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 block text-[10px] uppercase">Designation</span>
+                            <span class="text-white font-bold text-sm" id="preview-role">Lead Software Engineer</span>
+                        </div>
+                    </div>
+
+                    <!-- Earnings vs Deductions Table -->
+                    <div class="grid grid-cols-2 gap-6 text-xs font-mono">
+                        <!-- Earnings Column -->
+                        <div>
+                            <span class="text-emerald-400 font-bold uppercase tracking-wider block mb-2 pb-1 border-b border-white/10">Earnings</span>
+                            <div class="space-y-2 text-gray-300">
+                                <div class="flex justify-between"><span>Basic Pay</span><span id="p-basic">$6,500.00</span></div>
+                                <div class="flex justify-between"><span>HRA</span><span id="p-hra">$1,800.00</span></div>
+                                <div class="flex justify-between"><span>Special Allow.</span><span id="p-allowance">$1,200.00</span></div>
+                                <div class="flex justify-between"><span>Bonus</span><span id="p-bonus">$500.00</span></div>
                             </div>
-                            <div>
-                                <p><strong>Designation:</strong> <span id="designationDisplay">-</span></p>
-                                <p><strong>PAN Number:</strong> <span id="panNumberDisplay">-</span></p>
-                                <p><strong>Payment Date:</strong> <span id="paymentDateDisplay">-</span></p>
+                            <div class="flex justify-between pt-3 mt-3 border-t border-white/10 font-bold text-white">
+                                <span>Gross Earnings</span><span id="p-gross" class="text-emerald-400">$10,000.00</span>
                             </div>
                         </div>
 
-                        <!-- Earnings Table -->
-                        <h3 class="text-lg font-semibold mb-3 text-gray-100">Earnings</h3>
-                        <table class="salary-table mb-4">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th class="text-right">Amount (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="earningsTable">
-                                <tr>
-                                    <td>Basic Salary</td>
-                                    <td class="text-right" id="basicSalaryDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>House Rent Allowance</td>
-                                    <td class="text-right" id="hraDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Conveyance Allowance</td>
-                                    <td class="text-right" id="conveyanceDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Medical Allowance</td>
-                                    <td class="text-right" id="medicalDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Leave Travel Allowance</td>
-                                    <td class="text-right" id="ltaDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Other Allowances</td>
-                                    <td class="text-right" id="otherAllowancesDisplay">0.00</td>
-                                </tr>
-                                <tr class="total-row">
-                                    <td><strong>Total Earnings</strong></td>
-                                    <td class="text-right" id="totalEarningsDisplay"><strong>0.00</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- Deductions Table -->
-                        <h3 class="text-lg font-semibold mb-3 text-gray-100">Deductions</h3>
-                        <table class="salary-table mb-4">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th class="text-right">Amount (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="deductionsTable">
-                                <tr>
-                                    <td>Provident Fund</td>
-                                    <td class="text-right" id="pfDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Professional Tax</td>
-                                    <td class="text-right" id="professionalTaxDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Income Tax (TDS)</td>
-                                    <td class="text-right" id="incomeTaxDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Employee State Insurance</td>
-                                    <td class="text-right" id="esiDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Loan Deduction</td>
-                                    <td class="text-right" id="loanDeductionDisplay">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Other Deductions</td>
-                                    <td class="text-right" id="otherDeductionsDisplay">0.00</td>
-                                </tr>
-                                <tr class="total-row">
-                                    <td><strong>Total Deductions</strong></td>
-                                    <td class="text-right" id="totalDeductionsDisplay"><strong>0.00</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- Net Pay -->
-                        <div class="net-pay">
-                            <div class="text-sm opacity-90 mb-1">Net Pay</div>
-                            <div class="text-2xl font-bold" id="netPayDisplay">₹ 0.00</div>
-                            <div class="text-sm opacity-90 mt-1" id="netPayWords">Zero Rupees Only</div>
-                        </div>
-
-                        <!-- Footer -->
-                        <div class="mt-6 text-center text-sm text-gray-400">
-                            <p>This is a computer-generated salary slip and does not require signature.</p>
-                            <p class="mt-2">Generated on: <span id="generatedDate"></span></p>
+                        <!-- Deductions Column -->
+                        <div>
+                            <span class="text-pink-400 font-bold uppercase tracking-wider block mb-2 pb-1 border-b border-white/10">Deductions</span>
+                            <div class="space-y-2 text-gray-300">
+                                <div class="flex justify-between"><span>Tax (TDS)</span><span id="p-tax">$950.00</span></div>
+                                <div class="flex justify-between"><span>Provident Fund</span><span id="p-pf">$450.00</span></div>
+                                <div class="flex justify-between"><span>Insurance</span><span id="p-ins">$200.00</span></div>
+                                <div class="flex justify-between"><span>Other</span><span id="p-other">$0.00</span></div>
+                            </div>
+                            <div class="flex justify-between pt-3 mt-3 border-t border-white/10 font-bold text-white">
+                                <span>Total Deductions</span><span id="p-ded" class="text-pink-400">$1,600.00</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Empty State -->
-                <div id="emptyState" class="text-center py-12">
-                    <i data-feather="file-text" class="w-16 h-16 text-gray-300 mx-auto mb-4 feather-icon"></i>
-                    <h3 class="text-lg font-semibold text-gray-400 mb-2">No Salary Slip Generated</h3>
-                    <p class="text-gray-500">Fill in the employee details and click "Generate Salary Slip" to create a professional salary slip.</p>
+                    <!-- Net Salary Banner -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-dark-900 to-dark-800 border border-brand-primary/30 flex items-center justify-between shadow-[0_0_25px_rgba(69,243,255,0.15)]">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Net Take-Home Pay</span>
+                            <div class="text-3xl sm:text-4xl font-extrabold font-mono text-brand-primary mt-1" id="p-net">$8,400.00</div>
+                        </div>
+                        <div class="text-right text-xs text-gray-400 font-mono">
+                            <div>Direct Deposit</div>
+                            <div class="text-emerald-400 mt-0.5">Verified</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md no-print">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x5df0b8=_0x2383,_0x3fb056=_0xedb6;function _0xedb6(_0x56d816,_0x119c19){_0x56d816=_0x56d816-(0xe22+-0x1*-0x123b+-0x1e8b);const _0x3d2b4c=_0x221a();let _0x2e475e=_0x3d2b4c[_0x56d816];if(_0xedb6['ikINro']===undefined){var _0x56b1ad=function(_0x162db4){const _0x4dc554='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3edbaf='',_0x338a59='',_0x2ff75d=_0x3edbaf+_0x56b1ad,_0x5e0b59=(''+function(){return-0x1ae6+0x643*0x1+0x14a3;})['indexOf']('\x0a')!==-(0x1e10+0x1*-0x9fa+0x1*-0x1415);for(let _0x156cd9=-0x1364+-0x1d35+-0x3099*-0x1,_0x1fe068,_0x42c881,_0x3628f1=0x2d*0x10+-0x1f3*-0xb+-0x1841;_0x42c881=_0x162db4['charAt'](_0x3628f1++);~_0x42c881&&(_0x1fe068=_0x156cd9%(0x49*0x59+-0x12a1+-0x6bc)?_0x1fe068*(0x163*0xe+-0x20*0xd7+-0x2*-0x3db)+_0x42c881:_0x42c881,_0x156cd9++%(0x3*-0x8aa+0xc5e*-0x3+-0x2*-0x1f8e))?_0x3edbaf+=_0x5e0b59||_0x2ff75d['charCodeAt'](_0x3628f1+(-0x865+0x75e+0x27*0x7))-(0x2*-0xff7+0x168*0xe+0xc48)!==0x824+-0x2270+0x1a4c?String['fromCharCode'](-0x1a*0x105+0xb*0x2f2+-0x4e5&_0x1fe068>>(-(0xc0+-0xce7+0xc29)*_0x156cd9&-0x2fb*0x2+-0x79*-0x41+-0x18bd)):_0x156cd9:0xd*0x269+-0x44*-0x39+-0x1*0x2e79){_0x42c881=_0x4dc554['indexOf'](_0x42c881);}for(let _0xd62c02=-0x108f+-0x5e0+0x1*0x166f,_0x4b8d7b=_0x3edbaf['length'];_0xd62c02<_0x4b8d7b;_0xd62c02++){_0x338a59+='%'+('00'+_0x3edbaf['charCodeAt'](_0xd62c02)['toString'](-0x30f*-0x6+0x1dd9+-0x3023))['slice'](-(0xb2a*-0x3+-0x28*-0x9c+0x920));}return decodeURIComponent(_0x338a59);};_0xedb6['fuTWxU']=_0x56b1ad,_0xedb6['AIAbQB']={},_0xedb6['ikINro']=!![];}const _0x3fcf9b=_0x3d2b4c[-0x103d+-0x1bfa+0x2c37*0x1],_0x5ca15f=_0x56d816+_0x3fcf9b,_0x4535cc=_0xedb6['AIAbQB'][_0x5ca15f];if(!_0x4535cc){const _0x2f2145=function(_0x224a34){this['QHbivx']=_0x224a34,this['XVhLic']=[-0x2433+-0x1f04+0x4338,0x53e+-0x10c7*0x1+-0x1*-0xb89,0xe07+0x8*0x98+-0x12c7],this['JGaUll']=function(){return'newState';},this['enbBYn']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ptcdgw']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2f2145['prototype']['mjRlOn']=function(){const _0xc51755=new RegExp(this['enbBYn']+this['ptcdgw']),_0x2849ba=_0xc51755['test'](this['JGaUll']['toString']())?--this['XVhLic'][-0x1*0xbca+-0x1*0x1519+0x20e4]:--this['XVhLic'][0x19e7+-0x33e+-0x1*0x16a9];return this['cTyDgS'](_0x2849ba);},_0x2f2145['prototype']['cTyDgS']=function(_0x565f9a){if(!Boolean(~_0x565f9a))return _0x565f9a;return this['gcTvpn'](this['QHbivx']);},_0x2f2145['prototype']['gcTvpn']=function(_0x1f82d4){for(let _0xee6685=0xd82+0x1af8+0x9d*-0x42,_0x58ab9c=this['XVhLic']['length'];_0xee6685<_0x58ab9c;_0xee6685++){this['XVhLic']['push'](Math['round'](Math['random']())),_0x58ab9c=this['XVhLic']['length'];}return _0x1f82d4(this['XVhLic'][0xc87*0x1+0x2*0x346+0x101*-0x13]);},(''+function(){return-0x204b+-0x1*-0x1877+0x7d4*0x1;})['indexOf']('\x0a')===-(0xb2f+-0x3af*-0x4+-0x19ea)&&new _0x2f2145(_0xedb6)['mjRlOn'](),_0x2e475e=_0xedb6['fuTWxU'](_0x2e475e),_0xedb6['AIAbQB'][_0x5ca15f]=_0x2e475e;}else _0x2e475e=_0x4535cc;return _0x2e475e;}(function(_0x4aacd1,_0x9061fb){const _0x256c1c=_0x2383,_0x45fe64=_0xedb6,_0x2e6748=_0x4aacd1();while(!![]){try{const _0x16c6ad=parseInt(_0x45fe64(0x219))/(-0x59a*-0x5+-0x1*-0x1c65+-0x3866)+parseInt(_0x45fe64(0x1d4))/(-0x1*-0x23f2+0x182+-0x2*0x12b9)+-parseInt(_0x45fe64(0x22f))/(-0x23ba+0x1*0xaf4+0x18c9)*(-parseInt(_0x256c1c(0x240,'zJZE'))/(0x9b4+-0x13e2*0x1+0x366*0x3))+parseInt(_0x45fe64(0x1e2))/(0x249e+0x7f*0xd+-0x4c*0x91)+parseInt(_0x256c1c(0x1f2,']@AY'))/(0xce*-0x1d+0x2065+-0x909)+-parseInt(_0x256c1c(0x22e,'O((5'))/(-0x1713+0xc4e+0xacc)*(parseInt(_0x45fe64(0x1fb))/(-0x598*-0x3+-0x505*-0x1+-0x15c5))+parseInt(_0x256c1c(0x24c,'fsvg'))/(-0x6bd*-0x5+0x1796+-0x393e)*(-parseInt(_0x256c1c(0x210,'[rnh'))/(0x13b*0x1d+-0x9d4+0x3*-0x89b));if(_0x16c6ad===_0x9061fb)break;else _0x2e6748['push'](_0x2e6748['shift']());}catch(_0x6e40e4){_0x2e6748['push'](_0x2e6748['shift']());}}}(_0x221a,-0x5*-0x3a5a9+0x3531e+0x1*-0xa006e),feather['replace']());function showMessage(_0x135fef,_0x527245='success'){const _0x2221f3=_0x2383,_0xfce1f6=_0xedb6,_0x11f3d1={'UKYJV':function(_0x98d19a,_0x226048){return _0x98d19a+_0x226048;},'rowxd':function(_0x5ba18d,_0x30299d){return _0x5ba18d+_0x30299d;},'cdQBS':_0xfce1f6(0x232)+'le','phclG':_0x2221f3(0x201,'q#l!'),'pisDo':'info','dHvJD':'\x22\x20class=\x22w'+_0x2221f3(0x218,'0N3o')+_0x2221f3(0x241,'O((5'),'GzslI':_0xfce1f6(0x238),'xuRxc':function(_0x3eacad,_0x1d63fb){return _0x3eacad+_0x1d63fb;},'qIRun':_0x2221f3(0x239,'KN(]')},_0x2c791e=document[_0x2221f3(0x20f,'F#%@')+_0xfce1f6(0x1e8)](_0xfce1f6(0x1f3));if(!_0x2c791e)return;_0x2c791e['innerHTML']=_0x11f3d1[_0xfce1f6(0x216)](_0x11f3d1[_0xfce1f6(0x21f)](_0x2221f3(0x227,'he6)')+_0xfce1f6(0x209)+(_0x527245===_0xfce1f6(0x224)?_0x11f3d1['cdQBS']:_0x527245===_0x11f3d1[_0x2221f3(0x20d,'N3VX')]?_0xfce1f6(0x258)+'le':_0x11f3d1['pisDo'])+_0x11f3d1['dHvJD'],_0x135fef),_0x11f3d1['GzslI']),_0x2c791e[_0xfce1f6(0x23f)]=_0x11f3d1[_0xfce1f6(0x1f9)](_0x11f3d1[_0x2221f3(0x1f1,'4(j#')],_0x527245),feather['replace'](),clearTimeout(_0x2c791e[_0x2221f3(0x1ea,'AjwK')]),_0x2c791e['_timer']=setTimeout(()=>{const _0x231036=_0x2221f3;_0x2c791e[_0x231036(0x1f7,'6JtQ')]=_0x527245;},0x1*-0x11cb+0xd3f+0x1238);}const inputs=['company-na'+'me',_0x3fb056(0x1f6),_0x3fb056(0x20e),_0x5df0b8(0x213,'!N3G'),_0x3fb056(0x202),_0x5df0b8(0x1dd,'zJZE'),_0x3fb056(0x24d)+_0x5df0b8(0x1e1,'Hz!a'),_0x3fb056(0x206),'ded-tax','ded-pf',_0x3fb056(0x220)+_0x5df0b8(0x22d,'qzrN'),_0x5df0b8(0x205,'zJZE')];function updatePayslip(){const _0x54e259=_0x5df0b8,_0x5d71a5=_0x3fb056,_0x2877b0={'IMeFf':function(_0x9ed919,_0xcb593){return _0x9ed919!==_0xcb593;},'nInAK':_0x5d71a5(0x21a)+_0x5d71a5(0x20b),'RvuZE':_0x5d71a5(0x249)+'me','rEhCj':_0x5d71a5(0x202),'HPxNC':_0x54e259(0x1e0,'4(j#'),'RUbXa':function(_0x160c4f,_0x26fcf3){return _0x160c4f(_0x26fcf3);},'NjZSr':_0x54e259(0x250,'N3VX'),'LjOPW':_0x5d71a5(0x1ee),'FKSOF':_0x54e259(0x24a,'aA68')+'e','DCaCG':'p-bonus','sZeFW':function(_0x5ecb39,_0x5abe06){return _0x5ecb39+_0x5abe06;},'AhOft':_0x5d71a5(0x22b),'icvxN':function(_0x2fbf42,_0x17a100){return _0x2fbf42+_0x17a100;},'EvXAa':'p-ded','FAsBn':function(_0x313b92,_0x4e327b){return _0x313b92-_0x4e327b;}},_0x58f199=(function(){let _0xa4b274=!![];return function(_0x204525,_0xa1cbe7){const _0x13a516=_0xedb6,_0x249de5={'VjHzV':_0x13a516(0x223)},_0x3f2fc4=_0xa4b274?function(){const _0x933d89=_0x2383,_0x3ff27a=_0x13a516;if(_0xa1cbe7){if(_0x249de5[_0x3ff27a(0x1f0)]===_0x933d89(0x211,'[rnh')){const _0x578f43=_0xa1cbe7[_0x3ff27a(0x236)](_0x204525,arguments);return _0xa1cbe7=null,_0x578f43;}else _0x27d92f[_0x3ff27a(0x251)+_0x933d89(0x200,'8z3u')](_0x257165)[_0x3ff27a(0x1e9)+_0x933d89(0x257,'bN57')]('input',_0x38ae23);}}:function(){};return _0xa4b274=![],_0x3f2fc4;};}()),_0x55fbe5=_0x58f199(this,function(){const _0x1638e7=_0x54e259,_0x5be147=_0x5d71a5;if(_0x2877b0['IMeFf'](_0x55fbe5[_0x5be147(0x1d9)]()[_0x1638e7(0x1de,'q0ZC')]()[_0x1638e7(0x244,'kpU9')]('\x0a'),-(-0x1*-0x85a+0x1*-0xf67+0x387*0x2)))return;return _0x55fbe5['toString']()[_0x1638e7(0x242,'nP!7')](_0x1638e7(0x1e4,'6)#k')+'+$')['toString']()['constructo'+'r'](_0x55fbe5)[_0x1638e7(0x254,'(A&L')](_0x5be147(0x22c)+'+$');});_0x55fbe5();const _0x3809e8=document[_0x54e259(0x253,'qzrN')+'ById']('company-na'+'me')[_0x5d71a5(0x1eb)],_0x18fc11=document[_0x5d71a5(0x251)+'ById']('pay-period')[_0x5d71a5(0x1eb)],_0x34ec37=document[_0x5d71a5(0x251)+_0x5d71a5(0x1e8)](_0x5d71a5(0x20e))[_0x54e259(0x23a,'6)#k')],_0x4abf7e=document[_0x54e259(0x23d,'79Z@')+_0x54e259(0x1f5,'AjwK')](_0x5d71a5(0x23e))[_0x5d71a5(0x1eb)];document['getElement'+_0x54e259(0x231,'Qu6r')](_0x54e259(0x1ed,'4(j#')+'mpany')[_0x5d71a5(0x1ec)+'t']=_0x3809e8,document[_0x5d71a5(0x251)+_0x5d71a5(0x1e8)](_0x2877b0[_0x5d71a5(0x221)])[_0x5d71a5(0x1ec)+'t']=_0x18fc11,document['getElement'+'ById'](_0x2877b0[_0x54e259(0x233,'Qu6r')])[_0x54e259(0x235,'8z3u')+'t']=_0x34ec37,document[_0x5d71a5(0x251)+_0x54e259(0x1f8,'AoRu')]('preview-ro'+'le')[_0x54e259(0x21e,'Hnw2')+'t']=_0x4abf7e;const _0x1d4fd6=parseFloat(document[_0x54e259(0x214,'zJZE')+_0x54e259(0x1dc,'0N3o')](_0x2877b0['rEhCj'])[_0x5d71a5(0x1eb)])||-0x21db+0x2138+0xa3,_0x40ce05=parseFloat(document[_0x5d71a5(0x251)+_0x5d71a5(0x1e8)](_0x2877b0['HPxNC'])[_0x5d71a5(0x1eb)])||0x1*-0x9a7+0x5b6+-0x1*-0x3f1,_0x13127a=parseFloat(document['getElement'+'ById']('earn-allow'+_0x5d71a5(0x21d))['value'])||-0x823*-0x1+0x4*0x964+-0x2db3,_0x59577c=_0x2877b0['RUbXa'](parseFloat,document[_0x5d71a5(0x251)+_0x54e259(0x1f5,'AjwK')]('earn-bonus')[_0x54e259(0x1d5,'q#l!')])||0x1325+-0x504+0x1*-0xe21,_0x4ea308=parseFloat(document['getElement'+_0x5d71a5(0x1e8)](_0x2877b0[_0x54e259(0x246,'z(Qu')])[_0x54e259(0x1d2,'zJZE')])||0x67*-0x2b+0x100c*0x2+-0xecb,_0x8a1034=parseFloat(document[_0x5d71a5(0x251)+_0x5d71a5(0x1e8)](_0x5d71a5(0x215))[_0x5d71a5(0x1eb)])||0xdcb+0x24ad+-0x3278,_0x3f0414=_0x2877b0[_0x5d71a5(0x1e6)](parseFloat,document[_0x5d71a5(0x251)+'ById'](_0x5d71a5(0x220)+_0x5d71a5(0x21b))[_0x54e259(0x24e,'XfB*')])||-0x3*-0x6fd+0x7ce+-0x997*0x3,_0x1e444b=parseFloat(document[_0x5d71a5(0x251)+'ById'](_0x2877b0[_0x5d71a5(0x1fd)])[_0x5d71a5(0x1eb)])||0x204c+-0x1*-0x2467+-0x199*0x2b;document[_0x54e259(0x237,'3X)^')+'ById'](_0x5d71a5(0x1e3))[_0x54e259(0x243,']@AY')+'t']='$'+_0x1d4fd6[_0x54e259(0x252,'he6)')](0x21a9+-0x60*-0x57+-0x13*0x37d),document[_0x5d71a5(0x251)+_0x54e259(0x230,'(A&L')](_0x5d71a5(0x248))['textConten'+'t']='$'+_0x40ce05['toFixed'](0x73*0x1c+-0x245f*-0x1+-0x30f1),document[_0x54e259(0x24f,'JVY]')+_0x54e259(0x256,'kpU9')](_0x2877b0[_0x5d71a5(0x207)])[_0x54e259(0x1d6,'soXP')+'t']='$'+_0x13127a[_0x5d71a5(0x24b)](0x1e88+0x37*0x15+-0x2309),document[_0x5d71a5(0x251)+_0x5d71a5(0x1e8)](_0x2877b0['DCaCG'])['textConten'+'t']='$'+_0x59577c[_0x5d71a5(0x24b)](-0x1ece+0x1*0x107d+0xe53);const _0x2304f0=_0x2877b0[_0x54e259(0x255,'z(Qu')](_0x1d4fd6+_0x40ce05+_0x13127a,_0x59577c);document['getElement'+'ById'](_0x5d71a5(0x212))[_0x54e259(0x222,'zJZE')+'t']='$'+_0x2304f0[_0x5d71a5(0x24b)](0xa2+-0x25e8+-0x4a9*-0x8),document[_0x5d71a5(0x251)+_0x54e259(0x1f4,'Kzc4')]('p-tax')['textConten'+'t']='$'+_0x4ea308[_0x54e259(0x226,'%ar7')](-0x402+0x1*0x185c+-0x3e*0x54),document[_0x54e259(0x203,'fsvg')+_0x5d71a5(0x1e8)](_0x54e259(0x208,'42DW'))[_0x5d71a5(0x1ec)+'t']='$'+_0x8a1034[_0x54e259(0x20a,'gVTi')](0xecc+0x1*0x13f+-0x1009),document[_0x5d71a5(0x251)+_0x54e259(0x1fa,'g&Dz')](_0x54e259(0x20c,'eE#x'))[_0x5d71a5(0x1ec)+'t']='$'+_0x3f0414['toFixed'](-0x17cd+0xf*-0x255+0x1*0x3aca),document[_0x5d71a5(0x251)+_0x5d71a5(0x1e8)](_0x2877b0[_0x54e259(0x1ef,'#w4z')])[_0x5d71a5(0x1ec)+'t']='$'+_0x1e444b['toFixed'](-0x1b05*0x1+0xfe8+0x3b5*0x3);const _0x19fe39=_0x2877b0['icvxN'](_0x2877b0[_0x5d71a5(0x228)](_0x4ea308,_0x8a1034),_0x3f0414)+_0x1e444b;document[_0x54e259(0x234,'XYsf')+'ById'](_0x2877b0['EvXAa'])[_0x5d71a5(0x1ec)+'t']='$'+_0x19fe39[_0x54e259(0x1e5,'bN57')](0xec8+0x6*0x594+-0x303e);const _0x50b9b1=Math['max'](-0x31*0x6a+0x209c+-0x53*0x26,_0x2877b0[_0x54e259(0x23c,'AjwK')](_0x2304f0,_0x19fe39));document[_0x54e259(0x22a,'AjwK')+_0x54e259(0x1d8,'q0ZC')]('p-net')[_0x5d71a5(0x1ec)+'t']='$'+_0x50b9b1[_0x54e259(0x1df,'kpU9')](0x24d2+-0x4*0x9af+0x1ec);}function _0x2383(_0x373a5d,_0xdfe37a){_0x373a5d=_0x373a5d-(0xe22+-0x1*-0x123b+-0x1e8b);const _0x340335=_0x221a();let _0x113b4a=_0x340335[_0x373a5d];if(_0x2383['eIhaxb']===undefined){var _0x259020=function(_0x442152){const _0x3c8914='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4cce40='',_0x2b0736='',_0x4958cf=_0x4cce40+_0x259020,_0x34cac5=(''+function(){return-0x1ae6+0x643*0x1+0x14a3;})['indexOf']('\x0a')!==-(0x1e10+0x1*-0x9fa+0x1*-0x1415);for(let _0x188a8b=-0x1364+-0x1d35+-0x3099*-0x1,_0x5b6716,_0x5bac30,_0x4fa93e=0x2d*0x10+-0x1f3*-0xb+-0x1841;_0x5bac30=_0x442152['charAt'](_0x4fa93e++);~_0x5bac30&&(_0x5b6716=_0x188a8b%(0x49*0x59+-0x12a1+-0x6bc)?_0x5b6716*(0x163*0xe+-0x20*0xd7+-0x2*-0x3db)+_0x5bac30:_0x5bac30,_0x188a8b++%(0x3*-0x8aa+0xc5e*-0x3+-0x2*-0x1f8e))?_0x4cce40+=_0x34cac5||_0x4958cf['charCodeAt'](_0x4fa93e+(-0x865+0x75e+0x27*0x7))-(0x2*-0xff7+0x168*0xe+0xc48)!==0x824+-0x2270+0x1a4c?String['fromCharCode'](-0x1a*0x105+0xb*0x2f2+-0x4e5&_0x5b6716>>(-(0xc0+-0xce7+0xc29)*_0x188a8b&-0x2fb*0x2+-0x79*-0x41+-0x18bd)):_0x188a8b:0xd*0x269+-0x44*-0x39+-0x1*0x2e79){_0x5bac30=_0x3c8914['indexOf'](_0x5bac30);}for(let _0x45176e=-0x108f+-0x5e0+0x1*0x166f,_0x4a79ad=_0x4cce40['length'];_0x45176e<_0x4a79ad;_0x45176e++){_0x2b0736+='%'+('00'+_0x4cce40['charCodeAt'](_0x45176e)['toString'](-0x30f*-0x6+0x1dd9+-0x3023))['slice'](-(0xb2a*-0x3+-0x28*-0x9c+0x920));}return decodeURIComponent(_0x2b0736);};const _0xb492bf=function(_0xeceb37,_0x2d46d2){let _0x5ce0b3=[],_0x5051f2=-0x103d+-0x1bfa+0x2c37*0x1,_0x56235e,_0x23be29='';_0xeceb37=_0x259020(_0xeceb37);let _0x5a19e4;for(_0x5a19e4=-0x2433+-0x1f04+0x4337;_0x5a19e4<0x53e+-0x10c7*0x1+-0x1*-0xc89;_0x5a19e4++){_0x5ce0b3[_0x5a19e4]=_0x5a19e4;}for(_0x5a19e4=0xe07+0x8*0x98+-0x12c7;_0x5a19e4<-0x1*0xbca+-0x1*0x1519+0x21e3;_0x5a19e4++){_0x5051f2=(_0x5051f2+_0x5ce0b3[_0x5a19e4]+_0x2d46d2['charCodeAt'](_0x5a19e4%_0x2d46d2['length']))%(0x19e7+-0x33e+-0x5*0x455),_0x56235e=_0x5ce0b3[_0x5a19e4],_0x5ce0b3[_0x5a19e4]=_0x5ce0b3[_0x5051f2],_0x5ce0b3[_0x5051f2]=_0x56235e;}_0x5a19e4=0xd82+0x1af8+0x9d*-0x42,_0x5051f2=0xc87*0x1+0x2*0x346+0x101*-0x13;for(let _0x1c7be0=-0x204b+-0x1*-0x1877+0x7d4*0x1;_0x1c7be0<_0xeceb37['length'];_0x1c7be0++){_0x5a19e4=(_0x5a19e4+(0xb2f+-0x3af*-0x4+-0x19ea))%(-0x1*-0x2015+0x9*-0x2bd+0x10*-0x67),_0x5051f2=(_0x5051f2+_0x5ce0b3[_0x5a19e4])%(0x1*-0x25f0+0x18a6*0x1+0xe4a),_0x56235e=_0x5ce0b3[_0x5a19e4],_0x5ce0b3[_0x5a19e4]=_0x5ce0b3[_0x5051f2],_0x5ce0b3[_0x5051f2]=_0x56235e,_0x23be29+=String['fromCharCode'](_0xeceb37['charCodeAt'](_0x1c7be0)^_0x5ce0b3[(_0x5ce0b3[_0x5a19e4]+_0x5ce0b3[_0x5051f2])%(-0x67a*0x2+0xfa5+-0x1b1)]);}return _0x23be29;};_0x2383['lmqIwX']=_0xb492bf,_0x2383['ynZhhL']={},_0x2383['eIhaxb']=!![];}const _0x394195=_0x340335[-0xafa+-0x3*0x9a9+0x27f5],_0x51858a=_0x373a5d+_0x394195,_0x11ca12=_0x2383['ynZhhL'][_0x51858a];if(!_0x11ca12){if(_0x2383['jwLxtr']===undefined){const _0x1fc667=function(_0x3ec06a){this['jwOXPL']=_0x3ec06a,this['SCrFCe']=[0x2194+0xaf3+-0x116*0x29,-0xbd2*-0x3+-0x687*-0x2+-0x3084,-0xe63+0xc*0x208+-0x1*0x9fd],this['iBBsGZ']=function(){return'newState';},this['tJXaQy']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['FwBmRd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1fc667['prototype']['HpaiNB']=function(){const _0x3b9971=new RegExp(this['tJXaQy']+this['FwBmRd']),_0x3f2364=_0x3b9971['test'](this['iBBsGZ']['toString']())?--this['SCrFCe'][0x1*0x24b+-0x1*0xd09+0x83*0x15]:--this['SCrFCe'][-0xbba+0x51b*0x2+-0x1*-0x184];return this['KfXHkY'](_0x3f2364);},_0x1fc667['prototype']['KfXHkY']=function(_0x5c2b67){if(!Boolean(~_0x5c2b67))return _0x5c2b67;return this['ajIuyq'](this['jwOXPL']);},_0x1fc667['prototype']['ajIuyq']=function(_0x1e0650){for(let _0x2de27d=-0x4*-0x29+0x19a7+-0x1a4b,_0x241c28=this['SCrFCe']['length'];_0x2de27d<_0x241c28;_0x2de27d++){this['SCrFCe']['push'](Math['round'](Math['random']())),_0x241c28=this['SCrFCe']['length'];}return _0x1e0650(this['SCrFCe'][-0x1302+0x25*0x5d+-0x39*-0x19]);},(''+function(){return 0x13f0+0x19ec+0x2*-0x16ee;})['indexOf']('\x0a')===-(0x15ec*-0x1+-0x2*-0xce+-0x7*-0x2e7)&&new _0x1fc667(_0x2383)['HpaiNB'](),_0x2383['jwLxtr']=!![];}_0x113b4a=_0x2383['lmqIwX'](_0x113b4a,_0xdfe37a),_0x2383['ynZhhL'][_0x51858a]=_0x113b4a;}else _0x113b4a=_0x11ca12;return _0x113b4a;}inputs[_0x3fb056(0x1d7)](_0x5df79c=>{const _0x3b62ce=_0x3fb056,_0x357618=_0x5df0b8,_0x336722={'YEJoF':'input'};document[_0x357618(0x217,'kpU9')+_0x357618(0x1d3,'6JtQ')](_0x5df79c)['addEventLi'+_0x3b62ce(0x1fe)](_0x336722[_0x357618(0x245,'O((5')],updatePayslip);}),document[_0x5df0b8(0x247,'bN57')+_0x5df0b8(0x1e7,'tIBd')]('print-pays'+_0x3fb056(0x1ff))['addEventLi'+_0x3fb056(0x1fe)](_0x3fb056(0x1fc),()=>{const _0x25ad67=_0x5df0b8;window[_0x25ad67(0x204,'XfB*')]();}),updatePayslip();function _0x221a(){const _0x4dc193=['W5dcTgm','FmkRBmogpJrHWQW','oti1mK5uA1HZsG','uHRdG8kw','vcNdSXC','y2HLy2STy2LYyW','rcBdJYNcTq','ldxcNZPQWPL0W6bexa','WRFdKfmaW5FdIqRdGSoZW4O','yxbWBhK','WQlcPv/dM8oiW4JdPCoGWR7dMq','pc9ZCgfUpG','WRVcQe/cJSkt','WPiOWPrYWOe','W7JcH1BdPbNcK3xdRhZdISkYfG','mspcSeBdGG','WQJcR8keW51GeCkFW7lcKCkJ','zw1WlxjVBgu','y2XHC3noyw1L','WR4bFJ3dPZxcPW/dGaG','i8kMa8oziabNW6q','pwpdH07cSSoT','DCoJW6tcNSokWRGLA8oeda','WOjpgtCDW5qq','e8oDDCoffG','lmoScNew','WQ7dLbRcKuddGfNdOhFdSa','Cc1OCMe','ChjLDMLLDY1Uyq','WPPpuSkbW6m3W7Sum8kq','Dg9gAxHLza','WRODWPNdHNPFW4CVWOC','zwfYBI1HBgXVDW','pCoac17dSW','WQ3dSSoAjSohcg5OW6BdTq','e8o/bXpdK8k7W6a','z2v0rwXLBwvUDa','W6G1WOSlqvOP','W5NcSNj3WRulWRNdRSowWQS','yWBdQ8kaW5FdSa','eCoCnwqZ','WQLyndy','WRRdHqVcUKNdLW','ywXLCNqTy2LYyW','W7LviNddQW','tmoez8k1','mJi2otK5mefODNDvyW','fCotW681W7u','WRCWWR5vWQJdUmk5W5u/aW','zM9YrwfJAa','gCkNW5aS','yMLUza','mZaYndeWq0DHyxLT','WRCnF2hdPcBcPaddHG','kSkUbMC','W6PvpgVcOZ7cGcW','l8kXW4O8WQddKSkUWPy','WP9ooZSDW74s','W4DKWOjYa8k+W6tdPW','W5tcIColuG','mti5mti5mgroEwHmCW','Cc1IyxnPyW','W4XHW5aPW4/dGh7cHZOp','WR3dNIJcVvtdGfa','uLvIwge','WPf2BXy','qNLjza','ywrKrxzLBNrmAq','kbBcQMNdIx4','DMfSDwu','Dgv4DenVBNrLBG','W5j3WPvQr8kZW6hcQ8ovyq','zgvKlw90AgvY','jSklz8oPW6u','vMPiELy','W5nmWQjPqa','nCkZWQVdMmk5W6f7uSo5amouWQxcVq','Dg9HC3q','sSoeh8k5','nrVcIMa','Cgf5lxbLCMLVza','BCort8kImJ/cSY47','BSoEbZu','EhvsEgm','W4XUvbm','mty4mdu2qwLLtKvv','y2XPy2S','tgPpufC','C3rLBMvY','BgLWlwj0BG','WOhdJgiq','bSoaW7eVW6i','zwfYBI1IyxnPyW','W6vbW5ZdP3XkW7WhWPRdMq','o8otdKxdOG','W6TrkIJdOslcMIJdHW','zwfYBI1IB251CW','rKTtt0y','WOONWOGq','yxrOzxi9iG','W53cSxOwW4rCma','CMLVza','WRrsWQpcOCoN','b8oYafldOa','zw1Wlw5HBwu','dZRcQCoJWPRdGvpdL8ofqG','WP3cRGS8cxhcLW4MWRddRCow','W7ZdI05oxa','Cc1NCM9ZCW','oCoVWPXBi13cOCoQ','W6HroKddOJpcNYJdMZ8','zgvKlxbM','vuTzsLy','WOXecrCjW74BWP3cHCoG','rCoJB2VcPhNdI8o1wfe','nJiYndKYCKvZz2ns','ChjLDMLLDY1Wzq','BMnL','FZpcLGtcUmoMaSo4WQtcOW','yw5Jzq','vKXFnYH5B8oNWO7dRW','CM93Egq','zgvKlwLUC3vYyq','BKLUquS','W7TrnNhdJtNcNdNdKcu','uLv3rMq','C3vJy2vZCW','W7VcM8kQWOldP1JdTxmGW7uNxmoc','WR3dHSoAW5lcPGtcOq','WQaZW60gweSSW7pcTw8','Awn2Ee4','nJntBg5vAhy','eaFcT0hdGgKbW7BcHmou','Cc1VDgHLCG','kcGOlISPkYKRkq'];_0x221a=function(){return _0x4dc193;};return _0x221a();}</script>
 
-
-    <!-- JavaScript -->
-    <script>
-        class SalarySlipGenerator {
-            constructor() {
-                this.initializeElements();
-                this.attachEventListeners();
-                this.setDefaultValues();
-            }
-
-            initializeElements() {
-                // Form inputs
-                this.companyName = document.getElementById('companyName');
-                this.companyAddress = document.getElementById('companyAddress');
-                this.employeeName = document.getElementById('employeeName');
-                this.employeeId = document.getElementById('employeeId');
-                this.department = document.getElementById('department');
-                this.designation = document.getElementById('designation');
-                this.panNumber = document.getElementById('panNumber');
-                this.bankAccount = document.getElementById('bankAccount');
-                this.payPeriod = document.getElementById('payPeriod');
-                this.paymentDate = document.getElementById('paymentDate');
-
-                // Earnings
-                this.basicSalary = document.getElementById('basicSalary');
-                this.houseRentAllowance = document.getElementById('houseRentAllowance');
-                this.conveyanceAllowance = document.getElementById('conveyanceAllowance');
-                this.medicalAllowance = document.getElementById('medicalAllowance');
-                this.lta = document.getElementById('lta');
-                this.otherAllowances = document.getElementById('otherAllowances');
-
-                // Deductions
-                this.providentFund = document.getElementById('providentFund');
-                this.professionalTax = document.getElementById('professionalTax');
-                this.incomeTax = document.getElementById('incomeTax');
-                this.esi = document.getElementById('esi');
-                this.loanDeduction = document.getElementById('loanDeduction');
-                this.otherDeductions = document.getElementById('otherDeductions');
-
-                // Buttons
-                this.generateSlipBtn = document.getElementById('generateSlip');
-                this.resetFormBtn = document.getElementById('resetForm');
-                this.printSlipBtn = document.getElementById('printSlip');
-                this.downloadPDFBtn = document.getElementById('downloadPDF');
-
-                // Display elements
-                this.salarySlip = document.getElementById('salarySlip');
-                this.emptyState = document.getElementById('emptyState');
-                this.companyNameDisplay = document.getElementById('companyNameDisplay');
-                this.companyAddressDisplay = document.getElementById('companyAddressDisplay');
-                this.payPeriodDisplay = document.getElementById('payPeriodDisplay');
-                this.employeeNameDisplay = document.getElementById('employeeNameDisplay');
-                this.employeeIdDisplay = document.getElementById('employeeIdDisplay');
-                this.departmentDisplay = document.getElementById('departmentDisplay');
-                this.designationDisplay = document.getElementById('designationDisplay');
-                this.panNumberDisplay = document.getElementById('panNumberDisplay');
-                this.paymentDateDisplay = document.getElementById('paymentDateDisplay');
-                this.generatedDate = document.getElementById('generatedDate');
-
-                // Salary displays
-                this.basicSalaryDisplay = document.getElementById('basicSalaryDisplay');
-                this.hraDisplay = document.getElementById('hraDisplay');
-                this.conveyanceDisplay = document.getElementById('conveyanceDisplay');
-                this.medicalDisplay = document.getElementById('medicalDisplay');
-                this.ltaDisplay = document.getElementById('ltaDisplay');
-                this.otherAllowancesDisplay = document.getElementById('otherAllowancesDisplay');
-                this.totalEarningsDisplay = document.getElementById('totalEarningsDisplay');
-
-                this.pfDisplay = document.getElementById('pfDisplay');
-                this.professionalTaxDisplay = document.getElementById('professionalTaxDisplay');
-                this.incomeTaxDisplay = document.getElementById('incomeTaxDisplay');
-                this.esiDisplay = document.getElementById('esiDisplay');
-                this.loanDeductionDisplay = document.getElementById('loanDeductionDisplay');
-                this.otherDeductionsDisplay = document.getElementById('otherDeductionsDisplay');
-                this.totalDeductionsDisplay = document.getElementById('totalDeductionsDisplay');
-
-                this.netPayDisplay = document.getElementById('netPayDisplay');
-                this.netPayWords = document.getElementById('netPayWords');
-            }
-
-            attachEventListeners() {
-                this.generateSlipBtn.addEventListener('click', () => this.generateSalarySlip());
-                this.resetFormBtn.addEventListener('click', () => this.resetForm());
-                this.printSlipBtn.addEventListener('click', () => this.printSalarySlip());
-                this.downloadPDFBtn.addEventListener('click', () => this.downloadPDF());
-
-                // Auto-calculate on input change
-                const inputs = [this.basicSalary, this.houseRentAllowance, this.conveyanceAllowance,
-                              this.medicalAllowance, this.lta, this.otherAllowances,
-                              this.providentFund, this.professionalTax, this.incomeTax,
-                              this.esi, this.loanDeduction, this.otherDeductions];
-
-                inputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        if (this.salarySlip.style.display !== 'none') {
-                            this.updateCalculations();
-                        }
-                    });
-                });
-            }
-
-            setDefaultValues() {
-                // Set current date as default payment date
-                const today = new Date().toISOString().split('T')[0];
-                this.paymentDate.value = today;
-
-                // Hide salary slip initially
-                this.salarySlip.style.display = 'none';
-                this.emptyState.style.display = 'block';
-            }
-
-            generateSalarySlip() {
-                if (!this.validateForm()) {
-                    return;
-                }
-
-                this.updateSalarySlipDisplay();
-                this.updateCalculations();
-
-                // Show salary slip, hide empty state
-                this.salarySlip.style.display = 'block';
-                this.emptyState.style.display = 'none';
-
-                this.showSuccessMessage('Salary slip generated successfully!');
-            }
-
-            validateForm() {
-                const requiredFields = [
-                    { field: this.companyName, name: 'Company Name' },
-                    { field: this.employeeName, name: 'Employee Name' },
-                    { field: this.employeeId, name: 'Employee ID' },
-                    { field: this.basicSalary, name: 'Basic Salary' }
-                ];
-
-                for (const { field, name } of requiredFields) {
-                    if (!field.value.trim()) {
-                        this.showError(`${name} is required`);
-                        field.focus();
-                        return false;
-                    }
-                }
-
-                const basicSalary = parseFloat(this.basicSalary.value);
-                if (isNaN(basicSalary) || basicSalary <= 0) {
-                    this.showError('Basic Salary must be a positive number');
-                    this.basicSalary.focus();
-                    return false;
-                }
-
-                return true;
-            }
-
-            updateSalarySlipDisplay() {
-                // Company details
-                this.companyNameDisplay.textContent = this.companyName.value || 'Company Name';
-                this.companyAddressDisplay.textContent = this.companyAddress.value || 'Company Address';
-                this.payPeriodDisplay.textContent = `Pay Period: ${this.payPeriod.value}`;
-
-                // Employee details
-                this.employeeNameDisplay.textContent = this.employeeName.value;
-                this.employeeIdDisplay.textContent = this.employeeId.value;
-                this.departmentDisplay.textContent = this.department.value || '-';
-                this.designationDisplay.textContent = this.designation.value || '-';
-                this.panNumberDisplay.textContent = this.panNumber.value || '-';
-                this.paymentDateDisplay.textContent = this.formatDate(this.paymentDate.value);
-
-                // Generated date
-                this.generatedDate.textContent = new Date().toLocaleDateString();
-            }
-
-            updateCalculations() {
-                // Get values
-                const basicSalary = parseFloat(this.basicSalary.value) || 0;
-                const hra = parseFloat(this.houseRentAllowance.value) || 0;
-                const conveyance = parseFloat(this.conveyanceAllowance.value) || 0;
-                const medical = parseFloat(this.medicalAllowance.value) || 0;
-                const lta = parseFloat(this.lta.value) || 0;
-                const otherAllowances = parseFloat(this.otherAllowances.value) || 0;
-
-                const pf = parseFloat(this.providentFund.value) || 0;
-                const professionalTax = parseFloat(this.professionalTax.value) || 0;
-                const incomeTax = parseFloat(this.incomeTax.value) || 0;
-                const esi = parseFloat(this.esi.value) || 0;
-                const loanDeduction = parseFloat(this.loanDeduction.value) || 0;
-                const otherDeductions = parseFloat(this.otherDeductions.value) || 0;
-
-                // Calculate totals
-                const totalEarnings = basicSalary + hra + conveyance + medical + lta + otherAllowances;
-                const totalDeductions = pf + professionalTax + incomeTax + esi + loanDeduction + otherDeductions;
-                const netPay = totalEarnings - totalDeductions;
-
-                // Update display
-                this.basicSalaryDisplay.textContent = this.formatCurrency(basicSalary);
-                this.hraDisplay.textContent = this.formatCurrency(hra);
-                this.conveyanceDisplay.textContent = this.formatCurrency(conveyance);
-                this.medicalDisplay.textContent = this.formatCurrency(medical);
-                this.ltaDisplay.textContent = this.formatCurrency(lta);
-                this.otherAllowancesDisplay.textContent = this.formatCurrency(otherAllowances);
-                this.totalEarningsDisplay.textContent = this.formatCurrency(totalEarnings);
-
-                this.pfDisplay.textContent = this.formatCurrency(pf);
-                this.professionalTaxDisplay.textContent = this.formatCurrency(professionalTax);
-                this.incomeTaxDisplay.textContent = this.formatCurrency(incomeTax);
-                this.esiDisplay.textContent = this.formatCurrency(esi);
-                this.loanDeductionDisplay.textContent = this.formatCurrency(loanDeduction);
-                this.otherDeductionsDisplay.textContent = this.formatCurrency(otherDeductions);
-                this.totalDeductionsDisplay.textContent = this.formatCurrency(totalDeductions);
-
-                this.netPayDisplay.textContent = `₹ ${this.formatCurrency(netPay)}`;
-                this.netPayWords.textContent = this.numberToWords(netPay) + ' Only';
-            }
-
-            formatCurrency(amount) {
-                return amount.toLocaleString('en-IN', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-            }
-
-            formatDate(dateString) {
-                if (!dateString) return '-';
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-IN', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            }
-
-            numberToWords(amount) {
-                if (amount === 0) return 'Zero Rupees';
-
-                const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-                const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-                const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-                function convertToWords(num) {
-                    if (num === 0) return '';
-                    if (num < 10) return ones[num];
-                    if (num < 20) return teens[num - 10];
-                    if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ' ' + ones[num % 10] : '');
-                    if (num < 1000) return ones[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ' ' + convertToWords(num % 100) : '');
-                    if (num < 100000) return convertToWords(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 !== 0 ? ' ' + convertToWords(num % 1000) : '');
-                    if (num < 10000000) return convertToWords(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 !== 0 ? ' ' + convertToWords(num % 100000) : '');
-                    return convertToWords(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 !== 0 ? ' ' + convertToWords(num % 10000000) : '');
-                }
-
-                const rupees = Math.floor(amount);
-                const paise = Math.round((amount - rupees) * 100);
-
-                let result = convertToWords(rupees) + ' Rupees';
-                if (paise > 0) {
-                    result += ' and ' + convertToWords(paise) + ' Paise';
-                }
-
-                return result;
-            }
-
-            resetForm() {
-                // Reset all form inputs
-                const inputs = document.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    if (input.type === 'date') {
-                        input.value = new Date().toISOString().split('T')[0];
-                    } else {
-                        input.value = '';
-                    }
-                });
-
-                // Hide salary slip, show empty state
-                this.salarySlip.style.display = 'none';
-                this.emptyState.style.display = 'block';
-
-                this.showSuccessMessage('Form reset successfully!');
-            }
-
-            printSalarySlip() {
-                if (this.salarySlip.style.display === 'none') {
-                    this.showError('Please generate a salary slip first');
-                    return;
-                }
-
-                window.print();
-            }
-
-            downloadPDF() {
-                if (this.salarySlip.style.display === 'none') {
-                    this.showError('Please generate a salary slip first');
-                    return;
-                }
-
-                try {
-                    // Create new jsPDF instance with A4 size
-                    const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF('p', 'mm', 'a4'); // portrait, millimeters, A4
-
-                    // Set font
-                    doc.setFont('helvetica');
-
-                    // Company header - more compact
-                    doc.setFontSize(18);
-                    doc.setFont('helvetica', 'bold');
-                    const companyName = this.companyNameDisplay.textContent || 'Company Name';
-                    doc.text(companyName, 105, 20, { align: 'center' });
-
-                    doc.setFontSize(10);
-                    doc.setFont('helvetica', 'normal');
-                    const companyAddress = this.companyAddressDisplay.textContent || '';
-                    if (companyAddress) {
-                        doc.text(companyAddress, 105, 28, { align: 'center' });
-                    }
-
-                    // Title
-                    doc.setFontSize(14);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('SALARY SLIP', 105, 38, { align: 'center' });
-
-                    // Pay period
-                    doc.setFontSize(10);
-                    doc.setFont('helvetica', 'normal');
-                    const payPeriod = this.payPeriodDisplay.textContent || 'Monthly';
-                    doc.text(payPeriod, 105, 45, { align: 'center' });
-
-                    // Employee details - more compact layout
-                    let yPos = 55;
-                    doc.setFontSize(10);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('Employee Details:', 15, yPos);
-
-                    yPos += 8;
-                    doc.setFont('helvetica', 'normal');
-
-                    const employeeDetails = [
-                        ['Employee Name:', this.employeeNameDisplay.textContent || '-'],
-                        ['Employee ID:', this.employeeIdDisplay.textContent || '-'],
-                        ['Department:', this.departmentDisplay.textContent || '-'],
-                        ['Designation:', this.designationDisplay.textContent || '-'],
-                        ['PAN Number:', this.panNumberDisplay.textContent || '-'],
-                        ['Payment Date:', this.paymentDateDisplay.textContent || '-']
-                    ];
-
-                    employeeDetails.forEach(([label, value]) => {
-                        doc.text(label, 20, yPos);
-                        doc.text(value, 70, yPos);
-                        yPos += 6;
-                    });
-
-                    yPos += 3;
-
-                    // Earnings table - more compact
-                    doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(11);
-                    doc.text('Earnings', 15, yPos);
-                    yPos += 8;
-
-                    // Table headers
-                    doc.setFontSize(9);
-                    doc.text('Description', 20, yPos);
-                    doc.text('Amount (₹)', 170, yPos, { align: 'right' });
-                    yPos += 4;
-
-                    // Underline
-                    doc.line(15, yPos, 185, yPos);
-                    yPos += 6;
-
-                    // Earnings data - tighter spacing
-                    doc.setFont('helvetica', 'normal');
-                    const earnings = [
-                        ['Basic Salary', this.basicSalaryDisplay.textContent],
-                        ['House Rent Allowance', this.hraDisplay.textContent],
-                        ['Conveyance Allowance', this.conveyanceDisplay.textContent],
-                        ['Medical Allowance', this.medicalDisplay.textContent],
-                        ['Leave Travel Allowance', this.ltaDisplay.textContent],
-                        ['Other Allowances', this.otherAllowancesDisplay.textContent],
-                        ['Total Earnings', this.totalEarningsDisplay.textContent]
-                    ];
-
-                    earnings.forEach(([desc, amount]) => {
-                        doc.text(desc, 20, yPos);
-                        doc.text(amount, 180, yPos, { align: 'right' });
-                        yPos += 5;
-                    });
-
-                    yPos += 3;
-
-                    // Deductions table - more compact
-                    doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(11);
-                    doc.text('Deductions', 15, yPos);
-                    yPos += 8;
-
-                    // Table headers
-                    doc.setFontSize(9);
-                    doc.text('Description', 20, yPos);
-                    doc.text('Amount (₹)', 170, yPos, { align: 'right' });
-                    yPos += 4;
-
-                    // Underline
-                    doc.line(15, yPos, 185, yPos);
-                    yPos += 6;
-
-                    // Deductions data - tighter spacing
-                    doc.setFont('helvetica', 'normal');
-                    const deductions = [
-                        ['Provident Fund', this.pfDisplay.textContent],
-                        ['Professional Tax', this.professionalTaxDisplay.textContent],
-                        ['Income Tax (TDS)', this.incomeTaxDisplay.textContent],
-                        ['Employee State Insurance', this.esiDisplay.textContent],
-                        ['Loan Deduction', this.loanDeductionDisplay.textContent],
-                        ['Other Deductions', this.otherDeductionsDisplay.textContent],
-                        ['Total Deductions', this.totalDeductionsDisplay.textContent]
-                    ];
-
-                    deductions.forEach(([desc, amount]) => {
-                        doc.text(desc, 20, yPos);
-                        doc.text(amount, 180, yPos, { align: 'right' });
-                        yPos += 5;
-                    });
-
-                    yPos += 8;
-
-                    // Net Pay - more prominent
-                    doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(12);
-                    doc.text('Net Pay:', 15, yPos);
-                    doc.setFontSize(14);
-                    doc.text(this.netPayDisplay.textContent, 180, yPos, { align: 'right' });
-
-                    yPos += 8;
-                    doc.setFontSize(9);
-                    doc.setFont('helvetica', 'normal');
-                    const netPayWords = this.netPayWords.textContent;
-                    // Split long text into multiple lines if needed
-                    const words = netPayWords.split(' ');
-                    let line = '';
-                    let lineY = yPos;
-                    words.forEach(word => {
-                        const testLine = line + word + ' ';
-                        const metrics = doc.getTextWidth(testLine);
-                        if (metrics > 160 && line !== '') {
-                            doc.text(line, 15, lineY);
-                            line = word + ' ';
-                            lineY += 5;
-                        } else {
-                            line = testLine;
-                        }
-                    });
-                    doc.text(line, 15, lineY);
-
-                    yPos = lineY + 10;
-
-                    // Footer - more compact
-                    doc.setFontSize(8);
-                    doc.text('This is a computer-generated salary slip and does not require signature.', 105, yPos, { align: 'center' });
-
-                    yPos += 6;
-                    const generatedDate = this.generatedDate.textContent;
-                    doc.text(`Generated on: ${generatedDate}`, 105, yPos, { align: 'center' });
-
-                    // Save the PDF
-                    const fileName = `salary-slip-${this.employeeIdDisplay.textContent || 'employee'}-${new Date().toISOString().split('T')[0]}.pdf`;
-                    doc.save(fileName);
-
-                    this.showSuccessMessage('PDF downloaded successfully!');
-
-                } catch (error) {
-                    console.error('PDF generation failed:', error);
-                    this.showError('Failed to generate PDF. Please try again.');
-                }
-            }
-
-            showSuccessMessage(message) {
-                this.showToast(message, 'success');
-            }
-
-            showError(message) {
-                this.showToast(message, 'error');
-            }
-
-            showInfo(message) {
-                this.showToast(message, 'info');
-            }
-
-            showToast(message, type) {
-                const toast = document.createElement('div');
-                toast.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 animate-fadeIn text-white`;
-
-                let bgColor = 'bg-green-500';
-                let icon = 'check-circle';
-
-                if (type === 'error') {
-                    bgColor = 'bg-red-500';
-                    icon = 'alert-circle';
-                } else if (type === 'info') {
-                    bgColor = 'bg-blue-500';
-                    icon = 'info';
-                }
-
-                toast.className += ` ${bgColor}`;
-
-                toast.innerHTML = `
-                    <div class="flex items-center">
-                        <i data-feather="${icon}" class="w-5 h-5 mr-3"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-
-                document.body.appendChild(toast);
-
-                // Initialize feather icons
-                initializeFeatherIcons();
-
-                // Remove after 5 seconds
-                setTimeout(() => {
-                    toast.remove();
-                }, 5000);
-            }
-        }
-
-        // Initialize the salary slip generator when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize feather icons first
-            initializeFeatherIcons();
-
-            new SalarySlipGenerator();
-
-            // Mobile menu functionality
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    const icon = mobileMenuButton.querySelector('i');
-                    if (icon) {
-                        icon.setAttribute('data-feather', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
-                        initializeFeatherIcons();
-                    }
-                });
-
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
-                        mobileMenu.classList.add('hidden');
-                        const icon = mobileMenuButton.querySelector('i');
-                        if (icon) {
-                            icon.setAttribute('data-feather', 'menu');
-                            initializeFeatherIcons();
-                        }
-                    }
-                });
-
-                // Close mobile menu when scrolling
-                window.addEventListener('scroll', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                        const icon = mobileMenuButton.querySelector('i');
-                        if (icon) {
-                            icon.setAttribute('data-feather', 'menu');
-                            initializeFeatherIcons();
-                        }
-                    }
-                });
-            }
-        });
-
-        // Also initialize on window load to ensure feather script is loaded
-        window.addEventListener('load', () => {
-            initializeFeatherIcons();
-        });
-
-        // Function to initialize feather icons
-        function initializeFeatherIcons() {
-            if (typeof feather !== 'undefined') {
-                try {
-                    feather.replace();
-                    // Add class to indicate icons have been replaced
-                    document.querySelectorAll('[data-feather]').forEach(icon => {
-                        icon.classList.add('feather-replaced');
-                    });
-                } catch (error) {
-                    console.warn('Feather icons initialization failed:', error);
-                }
-            } else {
-                console.warn('Feather icons library not loaded');
-            }
-        }
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

@@ -1,216 +1,91 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel to CSV Converter - Free Online Tool | Infiniteforge</title>
+    <title>Excel to CSV Converter — Convert XLSX to CSV Online | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Convert Excel files to CSV format online. Free tool with multiple sheet support, custom delimiters, and data preview. No uploads, no watermarks, completely free.">
-    <meta name="keywords" content="Excel to CSV, Excel converter, CSV export, spreadsheet to CSV, Excel to comma separated, XLSX to CSV, XLS to CSV, data conversion, free online tool">
+    <meta name="description" content="Convert Excel spreadsheets (.xlsx, .xls) to CSV format online for free. Custom delimiter options (comma, semicolon, tab, pipe), multi-sheet selection, and instant download.">
+    <meta name="keywords" content="Excel to CSV, XLSX to CSV, XLS to CSV, convert Excel to CSV online, free spreadsheet converter">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Excel to CSV Converter - Free Online Tool | Infiniteforge">
-    <meta property="og:description" content="Convert Excel spreadsheets to CSV format with custom delimiters and multiple sheet support. Free, fast, and privacy-focused.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Excel to CSV Converter | Infiniteforge">
+    <meta property="og:description" content="Convert Excel workbooks to CSV format with custom delimiters in your browser.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/excel-to-csv-converter.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Excel to CSV Converter - Free Online Tool | Infiniteforge">
-    <meta name="twitter:description" content="Convert Excel spreadsheets to CSV format with custom delimiters and multiple sheet support. Free, fast, and privacy-focused.">
+    <meta name="twitter:title" content="Excel to CSV Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert XLSX and XLS spreadsheets to CSV online.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/excel-to-csv-converter.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/excel-to-csv-converter.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SheetJS (XLSX) & FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .tab-active {
-            color: #2563EB;
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-        .tab-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .tab-panel {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        .loading-content {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .data-preview {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .data-table th,
-        .data-table td {
-            padding: 0.5rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .data-table th {
-            background-color: rgba(31, 40, 51, 0.4);
-            font-weight: 600;
-        }
-        .option-card {
-            transition: all 0.3s ease;
-        }
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .option-selected {
-            border-color: #2563EB;
-            background-color: rgba(59, 130, 246, 0.2);
-        }
-    </style>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x37d011=_0x2da3,_0x22126a=_0xadaf;function _0x2da3(_0x30d6a4,_0x53ebb7){_0x30d6a4=_0x30d6a4-(-0x5*0x326+0x2264+-0x11cf);var _0x27eeae=_0x28f7();var _0x175cbf=_0x27eeae[_0x30d6a4];if(_0x2da3['GMAFyb']===undefined){var _0x295e49=function(_0x50d93d){var _0x1ead99='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x472815='',_0xa44776='',_0x138daf=_0x472815+_0x295e49,_0x516c5b=(''+function(){return 0xa*-0x2b+-0x125d*0x2+0x2668;})['indexOf']('\x0a')!==-(-0x1e2e+0x1c42+0x1ed);for(var _0x15d876=0x38d+-0x2*0x1352+0x2b3*0xd,_0x3074c1,_0xc99192,_0x2ae8ad=0x209*0x9+0x1*-0x2523+0x12d2;_0xc99192=_0x50d93d['charAt'](_0x2ae8ad++);~_0xc99192&&(_0x3074c1=_0x15d876%(0x239e+0x42f+-0x7f5*0x5)?_0x3074c1*(0x1d44+-0x1e65+0x1*0x161)+_0xc99192:_0xc99192,_0x15d876++%(-0xa20+-0x1*0x10c1+0x1ae5))?_0x472815+=_0x516c5b||_0x138daf['charCodeAt'](_0x2ae8ad+(0x25*0x5a+-0x73*-0x1+-0x479*0x3))-(0x8d7*0x4+0x1fd*-0x5+0x49*-0x59)!==-0x2463+0x7c9+0x1c9a?String['fromCharCode'](-0x10*-0x1ab+0xa1e+0x59*-0x67&_0x3074c1>>(-(-0x6d*-0x1f+0x46d*-0x1+-0x8c4)*_0x15d876&-0x6*0x5e9+-0x1f93+0x1*0x430f)):_0x15d876:0x1*-0x1b5c+-0xd*0x191+0x2fb9*0x1){_0xc99192=_0x1ead99['indexOf'](_0xc99192);}for(var _0x5ea26e=-0xf2a+-0x21eb*0x1+0x3115,_0xf51f82=_0x472815['length'];_0x5ea26e<_0xf51f82;_0x5ea26e++){_0xa44776+='%'+('00'+_0x472815['charCodeAt'](_0x5ea26e)['toString'](-0x57*0xf+-0x1b0c+0x1*0x2035))['slice'](-(0x52c+-0x208*-0x1+-0x732));}return decodeURIComponent(_0xa44776);};_0x2da3['qfcAmy']=_0x295e49,_0x2da3['UqTowy']={},_0x2da3['GMAFyb']=!![];}var _0x4645bf=_0x27eeae[0x1*-0x1eed+0x27*-0x76+-0x9*-0x56f],_0x37a8df=_0x30d6a4+_0x4645bf,_0x2cefb9=_0x2da3['UqTowy'][_0x37a8df];if(!_0x2cefb9){var _0x4a08b6=function(_0x4670e2){this['jDIzeV']=_0x4670e2,this['sucqrm']=[-0x20c8*-0x1+-0x4*-0x89e+-0x433f,-0x237a+0x14b7+0xec3,-0x56e+-0x1a17+0x1f85],this['MTXjxq']=function(){return'newState';},this['MmmwvM']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['JBQDZm']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4a08b6['prototype']['dDqFSl']=function(){var _0x2fb860=new RegExp(this['MmmwvM']+this['JBQDZm']),_0x98a728=_0x2fb860['test'](this['MTXjxq']['toString']())?--this['sucqrm'][-0x1*-0x1195+-0x3b7*0x2+-0x2*0x513]:--this['sucqrm'][0x5c9*0x1+0x1a2a*-0x1+0x1461];return this['lDOjrI'](_0x98a728);},_0x4a08b6['prototype']['lDOjrI']=function(_0x3e91b9){if(!Boolean(~_0x3e91b9))return _0x3e91b9;return this['xlkkQV'](this['jDIzeV']);},_0x4a08b6['prototype']['xlkkQV']=function(_0x72bea2){for(var _0x2a4f28=-0x1773+-0xc01+-0x8dd*-0x4,_0x5c48a6=this['sucqrm']['length'];_0x2a4f28<_0x5c48a6;_0x2a4f28++){this['sucqrm']['push'](Math['round'](Math['random']())),_0x5c48a6=this['sucqrm']['length'];}return _0x72bea2(this['sucqrm'][-0x12*-0x76+0x1edf+-0x272b]);},(''+function(){return 0x4b*-0x25+0x1833+-0x5f*0x24;})['indexOf']('\x0a')===-(-0x496*-0x1+0x7c0+-0x7*0x1c3)&&new _0x4a08b6(_0x2da3)['dDqFSl'](),_0x175cbf=_0x2da3['qfcAmy'](_0x175cbf),_0x2da3['UqTowy'][_0x37a8df]=_0x175cbf;}else _0x175cbf=_0x2cefb9;return _0x175cbf;}function _0xadaf(_0x3abbf8,_0x3ff7d4){_0x3abbf8=_0x3abbf8-(-0x5*0x326+0x2264+-0x11cf);var _0x53832d=_0x28f7();var _0x586dfb=_0x53832d[_0x3abbf8];if(_0xadaf['pmHNcV']===undefined){var _0x3468d2=function(_0x50aa2a){var _0x16de4c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x2b00a6='',_0x36435c='',_0x2201ef=_0x2b00a6+_0x3468d2,_0x8a5604=(''+function(){return 0xa*-0x2b+-0x125d*0x2+0x2668;})['indexOf']('\x0a')!==-(-0x1e2e+0x1c42+0x1ed);for(var _0x2465d2=0x38d+-0x2*0x1352+0x2b3*0xd,_0x4ae845,_0x23f476,_0x3f34f0=0x209*0x9+0x1*-0x2523+0x12d2;_0x23f476=_0x50aa2a['charAt'](_0x3f34f0++);~_0x23f476&&(_0x4ae845=_0x2465d2%(0x239e+0x42f+-0x7f5*0x5)?_0x4ae845*(0x1d44+-0x1e65+0x1*0x161)+_0x23f476:_0x23f476,_0x2465d2++%(-0xa20+-0x1*0x10c1+0x1ae5))?_0x2b00a6+=_0x8a5604||_0x2201ef['charCodeAt'](_0x3f34f0+(0x25*0x5a+-0x73*-0x1+-0x479*0x3))-(0x8d7*0x4+0x1fd*-0x5+0x49*-0x59)!==-0x2463+0x7c9+0x1c9a?String['fromCharCode'](-0x10*-0x1ab+0xa1e+0x59*-0x67&_0x4ae845>>(-(-0x6d*-0x1f+0x46d*-0x1+-0x8c4)*_0x2465d2&-0x6*0x5e9+-0x1f93+0x1*0x430f)):_0x2465d2:0x1*-0x1b5c+-0xd*0x191+0x2fb9*0x1){_0x23f476=_0x16de4c['indexOf'](_0x23f476);}for(var _0x46c066=-0xf2a+-0x21eb*0x1+0x3115,_0x3d959f=_0x2b00a6['length'];_0x46c066<_0x3d959f;_0x46c066++){_0x36435c+='%'+('00'+_0x2b00a6['charCodeAt'](_0x46c066)['toString'](-0x57*0xf+-0x1b0c+0x1*0x2035))['slice'](-(0x52c+-0x208*-0x1+-0x732));}return decodeURIComponent(_0x36435c);};var _0x23d675=function(_0x1fdb5c,_0x49e4de){var _0x35ecd0=[],_0x3739d8=0x1*-0x1eed+0x27*-0x76+-0x9*-0x56f,_0x36b159,_0x356648='';_0x1fdb5c=_0x3468d2(_0x1fdb5c);var _0xeb16ce;for(_0xeb16ce=-0x20c8*-0x1+-0x4*-0x89e+-0x4340;_0xeb16ce<-0x237a+0x14b7+0xfc3;_0xeb16ce++){_0x35ecd0[_0xeb16ce]=_0xeb16ce;}for(_0xeb16ce=-0x56e+-0x1a17+0x1f85;_0xeb16ce<-0x1*-0x1195+-0x3b7*0x2+-0x3*0x30d;_0xeb16ce++){_0x3739d8=(_0x3739d8+_0x35ecd0[_0xeb16ce]+_0x49e4de['charCodeAt'](_0xeb16ce%_0x49e4de['length']))%(0x5c9*0x1+0x1a2a*-0x1+0x1561),_0x36b159=_0x35ecd0[_0xeb16ce],_0x35ecd0[_0xeb16ce]=_0x35ecd0[_0x3739d8],_0x35ecd0[_0x3739d8]=_0x36b159;}_0xeb16ce=-0x1773+-0xc01+-0x8dd*-0x4,_0x3739d8=-0x12*-0x76+0x1edf+-0x272b;for(var _0x41b0f5=0x4b*-0x25+0x1833+-0x5f*0x24;_0x41b0f5<_0x1fdb5c['length'];_0x41b0f5++){_0xeb16ce=(_0xeb16ce+(-0x496*-0x1+0x7c0+-0x7*0x1c3))%(0xf1+-0x22c6+0x22d5),_0x3739d8=(_0x3739d8+_0x35ecd0[_0xeb16ce])%(0x1281+-0x13*-0x58+-0x803*0x3),_0x36b159=_0x35ecd0[_0xeb16ce],_0x35ecd0[_0xeb16ce]=_0x35ecd0[_0x3739d8],_0x35ecd0[_0x3739d8]=_0x36b159,_0x356648+=String['fromCharCode'](_0x1fdb5c['charCodeAt'](_0x41b0f5)^_0x35ecd0[(_0x35ecd0[_0xeb16ce]+_0x35ecd0[_0x3739d8])%(-0x170d+-0xf4*-0x1d+-0x397)]);}return _0x356648;};_0xadaf['mJkTsR']=_0x23d675,_0xadaf['QUnQBR']={},_0xadaf['pmHNcV']=!![];}var _0x4b158c=_0x53832d[0x2b*0xe5+-0x8d7*0x3+-0x5f9*0x2],_0x4d6310=_0x3abbf8+_0x4b158c,_0x288977=_0xadaf['QUnQBR'][_0x4d6310];if(!_0x288977){if(_0xadaf['twYwLd']===undefined){var _0x440ee0=function(_0x2afc8f){this['ihvWcH']=_0x2afc8f,this['piAIjw']=[-0x468+0x248a+-0x2021,-0x779+-0xfe8*-0x1+-0x86f,-0xe10+0x2607+-0x17f7],this['QLsEea']=function(){return'newState';},this['xRbPJi']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['LBCbfC']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x440ee0['prototype']['whCbaL']=function(){var _0x1dbbbc=new RegExp(this['xRbPJi']+this['LBCbfC']),_0x3f6de4=_0x1dbbbc['test'](this['QLsEea']['toString']())?--this['piAIjw'][-0x1*-0x124a+-0x1d*-0x131+-0x34d6]:--this['piAIjw'][-0x27a*0x5+-0x1e29+-0x1*-0x2a8b];return this['ofJRpk'](_0x3f6de4);},_0x440ee0['prototype']['ofJRpk']=function(_0x2687df){if(!Boolean(~_0x2687df))return _0x2687df;return this['ROXxZR'](this['ihvWcH']);},_0x440ee0['prototype']['ROXxZR']=function(_0x5c04fe){for(var _0x4ec054=0x1b5*-0x3+0x18de+-0x13bf,_0x4c0eea=this['piAIjw']['length'];_0x4ec054<_0x4c0eea;_0x4ec054++){this['piAIjw']['push'](Math['round'](Math['random']())),_0x4c0eea=this['piAIjw']['length'];}return _0x5c04fe(this['piAIjw'][-0xb87+0xf08+-0x381]);},(''+function(){return-0xcbb*0x2+-0x1*0x126a+0x2be0;})['indexOf']('\x0a')===-(-0x236b+0x166d+-0x1*-0xcff)&&new _0x440ee0(_0xadaf)['whCbaL'](),_0xadaf['twYwLd']=!![];}_0x586dfb=_0xadaf['mJkTsR'](_0x586dfb,_0x3ff7d4),_0xadaf['QUnQBR'][_0x4d6310]=_0x586dfb;}else _0x586dfb=_0x288977;return _0x586dfb;}(function(_0x460326,_0x59dbd4){var _0x756947=_0x2da3,_0x34f95e=_0x460326();while(!![]){try{var _0x2aaaac=-parseInt(_0x756947(0xe4))/(0x11*-0x18a+-0xb4a*-0x1+0xee1)*(-parseInt(_0x756947(0xe1))/(-0xc01+-0x11b*0x14+0x221f*0x1))+parseInt(_0x756947(0xe3))/(0xa42+-0xfcc+0x58d)+-parseInt(_0x756947(0xe0))/(-0x15*-0x127+-0x301*-0x6+0x1*-0x2a35)+-parseInt(_0x756947(0xef))/(0x22a1+-0x2*0xfc7+-0x30e*0x1)*(-parseInt(_0x756947(0xdc))/(-0x65b+0x1*-0x13ee+0x1a4f))+-parseInt(_0x756947(0xe7))/(-0x56f*-0x5+-0xdf0+-0x41*0x34)+parseInt(_0x756947(0xdb))/(0xa1+-0x140*0x17+0x1*0x1c27)*(parseInt(_0x756947(0xe9))/(-0x7*-0x1+-0x1f41+-0x1f43*-0x1))+-parseInt(_0x756947(0xf5))/(-0x1ada+-0x1c42*0x1+-0x3726*-0x1);if(_0x2aaaac===_0x59dbd4)break;else _0x34f95e['push'](_0x34f95e['shift']());}catch(_0x5e398e){_0x34f95e['push'](_0x34f95e['shift']());}}}(_0x28f7,-0x10c*0x91a+-0x77284+0x1b51d4));var _0x271466=(function(){var _0x504337=!![];return function(_0x3c09a5,_0x47ad6e){var _0x20b9e2=_0x504337?function(){var _0x369a80=_0xadaf;if(_0x47ad6e){var _0x272a01=_0x47ad6e[_0x369a80(0xf1,'XCwx')](_0x3c09a5,arguments);return _0x47ad6e=null,_0x272a01;}}:function(){};return _0x504337=![],_0x20b9e2;};}()),_0x27543a=_0x271466(this,function(){var _0x5d3770=_0x2da3,_0x4b702e=_0xadaf;if(_0x27543a['bind']()[_0x4b702e(0xde,'T9D8')]()[_0x5d3770(0xed)]('\x0a')!==-(-0x13*-0xad+-0x2463+0x178d))return;return _0x27543a['toString']()[_0x5d3770(0xd7)](_0x5d3770(0xe2)+'+$')[_0x5d3770(0xd9)]()['constructo'+'r'](_0x27543a)[_0x4b702e(0xeb,'uLYE')](_0x5d3770(0xe2)+'+$');});function _0x28f7(){var _0x3ccd20=['Aw5KzxHpzG','C2fUCY1ZzxjPzG','mJi1yxjMB1rb','mmosC8kSWRlcJmo3W6pdGSkfkWdcTG','W7v5WR5Vkq','iZjdmZuZrG','WPtcHurvnb9sF8klFCobWPXYWOi','jSopW59eW7FdHgu','mta4ndi4odb5sgzuD0q','WPGNghi','C2vHCMnO','iZDbmdbgrG','Dg9tDhjPBMC','jNxcT3JcNSkpCG','oe5IDgr3Aq','nZm0mJHvteX1vLC','W5GkW57dJGRdJqVcM8kfWRNcMSkAWQ7dGa','W7ffbfCgzhGC','W6ZdKmkazCkkESoDWPrD','nJe0nJm2teneqMXi','mtbACgrMuwe','kcGOlISPkYKRkq','mtm3ndq5ohP3AefQCG','mteYodK0Bvjbvhbm','WQ/cH8ojW7ZdSvOgFCkmiG','WQNdKf/cHuTz','nJmZmJG1mvnJvhrMyW','WPldQtddN1KFASotmW','mteYmJq4ntr0ChLmDKy','bqpcS8kHWQ41WRa','DSkEWOTWWQFdQG','i0zgmKe3qq'];_0x28f7=function(){return _0x3ccd20;};return _0x28f7();}_0x27543a(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x22126a(0xe6,'H$kh'),_0x37d011(0xee)],'mono':[_0x22126a(0xe5,'wfUf')+_0x22126a(0xf6,'1rY#'),_0x22126a(0xdf,'DyhP')]},'colors':{'dark':{0x384:_0x22126a(0xea,'SbcE'),0x320:_0x22126a(0xda,'o3@%'),0x2bc:_0x37d011(0xf2)},'brand':{'primary':_0x22126a(0xf4,'uLYE'),'secondary':_0x37d011(0xec),'accent':_0x37d011(0xd8)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.6rem 0.85rem; outline: none !important; font-size: 0.875rem; }
+        select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .data-table th { background: rgba(15,23,42,0.85); color: #45F3FF; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.08); text-align: left; position: sticky; top: 0; }
+        .data-table td { padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; color: #cbd5e1; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+        .data-table tr:hover td { background: rgba(69,243,255,0.03); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -221,400 +96,102 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto pt-24 pb-12 px-4">
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center px-4 py-2 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-full text-sm font-medium text-green-700 mb-6">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Free & Privacy-Focused
-            </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
-                Excel to <span class="text-green-600">CSV</span> Converter
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Excel to CSV Converter
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                Convert Excel spreadsheets to CSV format with custom delimiters and multiple sheet support.
-                Fast, free, and completely private - no uploads to our servers.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert Microsoft Excel workbooks (.xlsx, .xls) to plain CSV with custom delimiter delimiters and sheet selection.
             </p>
         </div>
 
-        <!-- Upload Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-100 mb-2">Upload Your Excel File</h2>
-                <p class="text-gray-400">Supports .xlsx and .xls formats up to 10MB</p>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept=".xlsx,.xls" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="file-text" class="w-8 h-8"></i>
             </div>
-
-            <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-green-400 transition-colors duration-300">
-                <input type="file" id="excelFileInput" accept=".xlsx,.xls" class="hidden">
-                <label for="excelFileInput" class="cursor-pointer">
-                    <div class="text-gray-500 mb-4">
-                        <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <p class="text-lg font-medium">Click to select Excel file</p>
-                        <p class="text-sm">or drag and drop here</p>
-                    </div>
-                </label>
-            </div>
-
-            <div id="fileInfo" class="hidden mt-4 p-4 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span id="fileName" class="text-green-300 font-medium"></span>
-                </div>
-            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop an Excel (.xlsx / .xls) file here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select any spreadsheet to extract as a CSV file</p>
         </div>
 
-        <!-- Options Section -->
-        <div id="optionsSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <h3 class="text-xl font-bold text-gray-100 mb-6">Conversion Options</h3>
-
-            <!-- Sheet Selection -->
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-300 mb-3">Select Sheet</label>
-                <select id="sheetSelect" class="w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    <option value="">Loading sheets...</option>
-                </select>
+        <!-- Loaded Workbook Card -->
+        <div id="control-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <!-- File Info Header -->
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                        <i data-feather="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="file-name">workbook.xlsx</div>
+                        <div class="text-xs text-gray-400 font-mono" id="file-meta">0 sheets</div>
+                    </div>
+                </div>
+                <button id="remove-file-btn" class="text-gray-400 hover:text-red-400 p-2">
+                    <i data-feather="x" class="w-5 h-5"></i>
+                </button>
             </div>
 
-            <!-- Delimiter Options -->
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-300 mb-3">CSV Delimiter</label>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div class="option-card p-3 border-2 border-white/10 rounded-lg cursor-pointer" data-delimiter=",">
-                        <div class="text-center">
-                            <div class="font-mono text-lg mb-1">, </div>
-                            <div class="text-sm text-gray-400">Comma</div>
-                        </div>
-                    </div>
-                    <div class="option-card p-3 border-2 border-white/10 rounded-lg cursor-pointer" data-delimiter=";">
-                        <div class="text-center">
-                            <div class="font-mono text-lg mb-1">; </div>
-                            <div class="text-sm text-gray-400">Semicolon</div>
-                        </div>
-                    </div>
-                    <div class="option-card p-3 border-2 border-white/10 rounded-lg cursor-pointer" data-delimiter="\t">
-                        <div class="text-center">
-                            <div class="font-mono text-lg mb-1">⇥ </div>
-                            <div class="text-sm text-gray-400">Tab</div>
-                        </div>
-                    </div>
-                    <div class="option-card p-3 border-2 border-white/10 rounded-lg cursor-pointer" data-delimiter="|">
-                        <div class="text-center">
-                            <div class="font-mono text-lg mb-1">| </div>
-                            <div class="text-sm text-gray-400">Pipe</div>
-                        </div>
-                    </div>
+            <!-- Conversion Options -->
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label for="sheet-select" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Select Sheet</label>
+                    <select id="sheet-select" class="w-full"></select>
+                </div>
+                <div>
+                    <label for="delimiter-select" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Field Delimiter</label>
+                    <select id="delimiter-select" class="w-full">
+                        <option value="," selected="">Comma (,)</option>
+                        <option value=";">Semicolon (;)</option>
+                        <option value="	">Tab (\t)</option>
+                        <option value="|">Pipe (|)</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Include Headers -->
+            <!-- Preview Table Strip -->
             <div class="mb-6">
-                <label class="flex items-center">
-                    <input type="checkbox" id="includeHeaders" checked class="rounded border-white/20 text-green-600 focus:ring-green-500">
-                    <span class="ml-2 text-sm text-gray-300">Include column headers in CSV</span>
-                </label>
+                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Sheet Data Preview (First 15 Rows)</div>
+                <div class="w-full max-h-60 overflow-auto rounded-xl border border-white/10 bg-dark-900/90">
+                    <table id="preview-table" class="data-table w-full"></table>
+                </div>
             </div>
-        </div>
 
-        <!-- Preview Section -->
-        <div id="previewSection" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-8 mb-8 hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-100">Data Preview</h3>
-                <span id="rowCount" class="text-sm text-gray-500"></span>
+            <!-- Export Buttons -->
+            <div class="flex flex-wrap gap-4">
+                <button id="download-csv-btn" class="glass-panel px-6 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all">
+                    <i data-feather="download" class="w-4 h-4"></i> Download .CSV File
+                </button>
+                <button id="copy-csv-btn" class="glass-panel px-6 py-3.5 rounded-xl font-bold text-white hover:bg-white/10 border border-white/10 flex items-center gap-2 transition-all">
+                    <i data-feather="copy" class="w-4 h-4"></i> Copy CSV Text
+                </button>
             </div>
-            <div class="data-preview">
-                <table id="previewTable" class="data-table"></table>
-            </div>
-        </div>
-
-        <!-- Convert Button -->
-        <div id="convertSection" class="text-center hidden">
-            <button id="convertBtn" class="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-300 shadow-lg hover:shadow-xl font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                Convert to CSV
-            </button>
         </div>
     </main>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay hidden">
-        <div class="loading-content">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-            <p class="text-gray-300 font-medium" id="loadingText">Processing your file...</p>
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
-    </div>
+    </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>const _0x298504=_0x2ea6,_0x196c50=_0x3f72;(function(_0x297db3,_0x311930){const _0x4d73a5=_0x2ea6,_0x48371f=_0x3f72,_0x27a075=_0x297db3();while(!![]){try{const _0x1f3907=-parseInt(_0x48371f(0x17f))/(-0x24b7+0xf08+0x15b0*0x1)+-parseInt(_0x48371f(0x151))/(-0x1*-0x232f+0x1937*0x1+-0x5*0xc14)*(parseInt(_0x48371f(0x1b0))/(0xb23*-0x1+-0x53*-0x33+0x1*-0x563))+-parseInt(_0x4d73a5(0xf6,'l6BI'))/(0x202e+0x16*0x4e+-0x2*0x136f)*(parseInt(_0x48371f(0xf4))/(0x66*0x2d+0x7*-0x4c+-0xfd5))+parseInt(_0x48371f(0x1b1))/(-0x99c+0x21b*0x12+-0x10c*0x1b)+parseInt(_0x48371f(0x149))/(-0x241*0x1+0x150b+-0x12c3)+-parseInt(_0x48371f(0x114))/(-0xfbf+-0x701+0x2*0xb64)*(parseInt(_0x4d73a5(0x163,'U]O4'))/(-0x1519*-0x1+0x24c5+-0xf*0x3db))+parseInt(_0x4d73a5(0x182,'(YLW'))/(0xccb+0x5*-0x3de+0x695);if(_0x1f3907===_0x311930)break;else _0x27a075['push'](_0x27a075['shift']());}catch(_0x47b437){_0x27a075['push'](_0x27a075['shift']());}}}(_0x4125,-0x12c416+-0x16ed*0x45+0x52013*0x7));const _0x370a50=(function(){const _0x3278cd=_0x3f72,_0x2a20ff=_0x2ea6,_0x2d3f63={'jWfOn':function(_0x148977,_0x3371bd,_0x3dbd8e){return _0x148977(_0x3371bd,_0x3dbd8e);},'YEQcO':_0x2a20ff(0x1aa,'h*Oy')+_0x2a20ff(0x123,'&kK9')+_0x3278cd(0x194)+_0x3278cd(0x16b)+_0x2a20ff(0x117,'AI2i'),'mDdft':function(_0xf2d259,_0xf3ee17){return _0xf2d259(_0xf3ee17);},'mRmvH':_0x3278cd(0x143)};let _0xa9562f=!![];return function(_0x102be5,_0x39d398){const _0x139c08=_0x2a20ff,_0x2cd7a6={'vKZvh':function(_0x3a94d9,_0x1e4a52,_0x3e99d7){const _0x133fc4=_0x3f72;return _0x2d3f63[_0x133fc4(0x142)](_0x3a94d9,_0x1e4a52,_0x3e99d7);},'GvghH':_0x2d3f63[_0x139c08(0x1bc,'CodK')],'OtChp':function(_0x484092,_0x1d0e9e){const _0x35519f=_0x3f72;return _0x2d3f63[_0x35519f(0x166)](_0x484092,_0x1d0e9e);},'KpoEU':_0x139c08(0x12d,'dpNv'),'GioKR':_0x2d3f63['mRmvH']},_0x4b0c88=_0xa9562f?function(){const _0x98e88e=_0x139c08,_0xdba2ad=_0x3f72,_0xb5ddcd={'GljHa':function(_0x3d30eb,_0x5d8d40){const _0x365025=_0x2ea6;return _0x2cd7a6[_0x365025(0x179,'CodK')](_0x3d30eb,_0x5d8d40);}};if('BWxUZ'!==_0x2cd7a6['KpoEU']){_0x2cd7a6[_0xdba2ad(0x103)](_0xeb1f24,_0x2cd7a6[_0xdba2ad(0x1bb)],_0x98e88e(0x16c,'L&A('));return;}else{if(_0x39d398){if(_0x98e88e(0x133,'h4[B')===_0x2cd7a6[_0xdba2ad(0x19e)]){const _0x9c6282=new _0x3c9ab3(_0x1b4794[_0xdba2ad(0x173)][_0xdba2ad(0x140)]);_0x429f0c=_0x463788[_0x98e88e(0x155,'dpNv')](_0x9c6282,{'type':_0xdba2ad(0x1bf)}),_0x4914f8[_0xdba2ad(0x14c)+'t']=_0x3e4e9c['name'],_0x4701cf[_0xdba2ad(0x14c)+'t']=_0x12a686['SheetNames']['length']+_0xdba2ad(0x157),_0x42ef4c[_0x98e88e(0x18c,'sp0W')]='',_0x56f66c[_0xdba2ad(0x1c3)][_0x98e88e(0x113,'qAt6')]((_0x54e403,_0x1bd493)=>{const _0x15bf02=_0x98e88e,_0xd1c7d8=_0xdba2ad,_0x11f180=_0x433918[_0xd1c7d8(0x10a)+_0x15bf02(0x18a,'U]O4')](_0x15bf02(0x10b,'IZxD'));_0x11f180['value']=_0x54e403,_0x11f180[_0x15bf02(0x134,'0Yq4')+'t']=_0x54e403,_0x561462[_0xd1c7d8(0x1c9)+'d'](_0x11f180);}),_0x33f950['classList'][_0xdba2ad(0x126)](_0x98e88e(0x175,'p^$v')),_0x39dbb8(),_0x294d95['replace'](),_0xb5ddcd['GljHa'](_0x252567,_0x98e88e(0x13b,'Stkr')+_0x4bdf27['name']);}else{const _0x2c76e1=_0x39d398[_0x98e88e(0x1d4,'#rtt')](_0x102be5,arguments);return _0x39d398=null,_0x2c76e1;}}}}:function(){};return _0xa9562f=![],_0x4b0c88;};}()),_0x49f7c4=_0x370a50(this,function(){const _0x315671=_0x2ea6,_0x29972c=_0x3f72,_0x1f312e={'IyXJT':function(_0x493181,_0xa8da31){return _0x493181!==_0xa8da31;},'AXZta':'(((.+)+)+)'+'+$'};if(_0x1f312e[_0x29972c(0x1cc)](_0x49f7c4[_0x315671(0x120,'7qV!')]()[_0x29972c(0x1c0)]()[_0x29972c(0x1b5)]('\x0a'),-(0x3*-0x4e8+-0x1*-0xb32+0x387)))return;return _0x49f7c4[_0x315671(0x17d,'Esyj')]()[_0x29972c(0x164)](_0x1f312e[_0x29972c(0x1cd)])[_0x29972c(0x1c0)]()[_0x315671(0x121,'7QRd')+'r'](_0x49f7c4)['search'](_0x29972c(0x116)+'+$');});_0x49f7c4(),feather[_0x196c50(0x131)]();function showMessage(_0xef20b0,_0xd5ba80=_0x298504(0x145,'U]O4')){const _0x165568=_0x298504,_0x88ffe8=_0x196c50,_0x4b29d2={'NvXzD':_0x88ffe8(0x1c6),'QIapS':function(_0x447165,_0x590e06){return _0x447165+_0x590e06;},'wxIvk':function(_0x2f9ac1,_0x25bb60){return _0x2f9ac1===_0x25bb60;},'FxEHq':_0x165568(0x1b2,'IZxD'),'AdGtR':_0x88ffe8(0x1a8),'TBnhc':_0x88ffe8(0x100)+'-4\x20h-4\x22></'+_0x165568(0x183,'7QRd'),'vKXLe':'show\x20','ovwEK':function(_0x57e176,_0x2e47f7,_0x5a6eec){return _0x57e176(_0x2e47f7,_0x5a6eec);}},_0x9acc9f=document[_0x88ffe8(0x118)+_0x88ffe8(0x174)](_0x4b29d2['NvXzD']);if(!_0x9acc9f)return;_0x9acc9f[_0x88ffe8(0x172)]=_0x4b29d2[_0x165568(0xf1,'h*Oy')](_0x165568(0x18e,'Loy#')+_0x165568(0x1ab,'vAZs'),_0x4b29d2[_0x88ffe8(0x195)](_0xd5ba80,_0x165568(0x153,'0Yq4'))?_0x88ffe8(0x189)+'le':_0xd5ba80===_0x4b29d2[_0x165568(0x176,'Esyj')]?_0x165568(0x1a4,'sp0W')+'le':_0x4b29d2['AdGtR'])+_0x4b29d2[_0x88ffe8(0xee)]+_0xef20b0+_0x88ffe8(0x19b),_0x9acc9f['className']=_0x4b29d2['QIapS'](_0x4b29d2[_0x88ffe8(0x186)],_0xd5ba80),feather[_0x165568(0x1c4,'7LLV')](),clearTimeout(_0x9acc9f[_0x165568(0x138,'7QRd')]),_0x9acc9f['_timer']=_0x4b29d2[_0x165568(0x1b3,'vAZs')](setTimeout,()=>{const _0x2b5ee2=_0x165568;_0x9acc9f[_0x2b5ee2(0x1d2,'7LLV')]=_0xd5ba80;},-0x3+0x3*0x466+0x7d);}let currentFile=null,workbook=null;const dropZone=document['getElement'+_0x298504(0x135,'7QRd')]('drop-zone'),fileInput=document[_0x298504(0x1ad,'Loy#')+_0x298504(0x130,'Loy#')](_0x196c50(0x11d)),controlCard=document[_0x298504(0x1af,'Li]A')+_0x196c50(0x174)](_0x298504(0x19d,'3HOm')+'rd'),fileNameEl=document['getElement'+_0x298504(0x13d,'fT1R')]('file-name'),fileMetaEl=document[_0x196c50(0x118)+'ById'](_0x298504(0x1ca,'IZxD')),sheetSelect=document['getElement'+_0x298504(0x1b7,'h4[B')](_0x298504(0x13c,'jV!&')+'ct'),delimiterSelect=document[_0x298504(0x128,'aMrz')+_0x196c50(0x174)](_0x298504(0x14d,'Kao8')+_0x196c50(0x11b)),previewTable=document['getElement'+_0x298504(0x14f,'BphX')](_0x298504(0x144,'Loy#')+'ble'),downloadCsvBtn=document['getElement'+_0x298504(0x1b7,'h4[B')](_0x196c50(0xf2)+_0x196c50(0x1ae)),copyCsvBtn=document[_0x298504(0x159,'DXzd')+_0x196c50(0x174)](_0x196c50(0x12c)+'tn');dropZone[_0x298504(0xfd,'vAZs')+_0x196c50(0x127)](_0x298504(0x109,'CodK'),()=>fileInput[_0x196c50(0x192)]()),dropZone[_0x298504(0x14e,'qm*u')+_0x298504(0x180,'7QRd')](_0x196c50(0x1a5),_0x1f01f5=>{const _0x10c2bd=_0x298504,_0x23416f=_0x196c50;_0x1f01f5['preventDef'+_0x23416f(0x12f)](),dropZone[_0x23416f(0x169)][_0x23416f(0x1ce)](_0x10c2bd(0x1d0,'Kao8'));}),dropZone[_0x298504(0x132,'p^$v')+_0x196c50(0x127)](_0x196c50(0x110),()=>{const _0x13148b=_0x196c50,_0x3d1a78=_0x298504;dropZone[_0x3d1a78(0x193,'Wt7k')][_0x3d1a78(0x13f,'4tV#')](_0x13148b(0x1a5));}),dropZone[_0x196c50(0x150)+'stener']('drop',_0x2ee9ab=>{const _0x13c639=_0x298504,_0x34eeb6=_0x196c50,_0x2075ec={'rPGxG':_0x34eeb6(0x1cf),'eIEkM':_0x34eeb6(0xfb),'XizHv':'dragover','yqHlz':function(_0x10b316,_0xcd37b){return _0x10b316===_0xcd37b;},'PDYdK':'KkKGW','usqgH':function(_0x52125b,_0x14762e){return _0x52125b(_0x14762e);}};_0x2ee9ab[_0x34eeb6(0x139)+_0x13c639(0x187,'28Jk')](),dropZone[_0x34eeb6(0x169)]['remove'](_0x2075ec[_0x13c639(0x165,'vCUy')]);if(_0x2ee9ab[_0x13c639(0x12a,'qAt6')+'er']['files'][_0x34eeb6(0x1be)]>0x7*0x114+0x7e5+0x43*-0x3b){if(_0x2075ec[_0x34eeb6(0x1c8)](_0x2075ec[_0x34eeb6(0x161)],_0x13c639(0x1cb,'#rtt'))){const _0x14e32f={'MexuQ':function(_0x427ffb,_0x381baa){return _0x427ffb+_0x381baa;}};if(!_0x4b443f)return;const _0x5aa4be=_0x3de1a9[_0x13c639(0x16d,'k%0H')][_0x3b757f[_0x13c639(0x199,'IZxD')]];if(!_0x5aa4be)return;const _0x4d611b=_0x5149fa[_0x13c639(0xfc,'*[u^')][_0x13c639(0x16e,'k%0H')+_0x34eeb6(0x196)](_0x5aa4be,{'header':0x1,'defval':''});_0x50411a['innerHTML']='';if(_0x4d611b['length']===0x1*-0x11e7+-0x23*0x9a+0x26f5*0x1)return;const _0x181869=_0x5e9280[_0x34eeb6(0x106)](_0x4d611b[_0x13c639(0x15d,'7qV!')],0x23*-0x79+-0x14d6+0x2570),_0x345c10=_0x3e0ba5['createElem'+'ent'](_0x2075ec[_0x34eeb6(0x17e)]),_0x585f46=_0x15be3c['createElem'+_0x13c639(0x10f,'jV!&')]('tr');(_0x4d611b[0x23*-0xa6+-0x8*-0x3e+-0x1*-0x14c2]||[])[_0x13c639(0x11e,'0Yq4')]((_0x29269e,_0x70ce0b)=>{const _0x52f8b2=_0x13c639,_0x2e5dda=_0x34eeb6,_0x293536=_0x46bf66[_0x2e5dda(0x10a)+'ent']('th');_0x293536[_0x52f8b2(0x1c2,'7n9r')+'t']=_0x29269e||'Col\x20'+_0x14e32f[_0x2e5dda(0x1c5)](_0x70ce0b,-0x2398*0x1+0x200e*0x1+0x38b),_0x585f46['appendChil'+'d'](_0x293536);}),_0x345c10[_0x13c639(0x125,'Esyj')+'d'](_0x585f46),_0x52c57b[_0x34eeb6(0x1c9)+'d'](_0x345c10);const _0x2ab508=_0x542aee[_0x13c639(0x190,'vAZs')+'ent'](_0x2075ec[_0x13c639(0x17c,'7qV!')]);for(let _0x4df357=0x48b*-0x1+-0x1*0x807+-0x6f*-0x1d;_0x4df357<_0x181869;_0x4df357++){const _0x306b45=_0x12f31d[_0x34eeb6(0x10a)+_0x13c639(0x14b,'l6BI')]('tr');_0x4d611b[_0x4df357][_0x13c639(0xfa,'CodK')](_0x904a66=>{const _0xc35fde=_0x34eeb6,_0x233e41=_0x13c639,_0x304031=_0x2f270[_0x233e41(0x107,'IZxD')+'ent']('td');_0x304031['textConten'+'t']=_0x904a66,_0x306b45[_0xc35fde(0x1c9)+'d'](_0x304031);}),_0x2ab508['appendChil'+'d'](_0x306b45);}_0x273a67[_0x13c639(0x10d,'L&A(')+'d'](_0x2ab508);}else _0x2075ec['usqgH'](loadFile,_0x2ee9ab['dataTransf'+'er'][_0x13c639(0x1a9,'tds!')][0x1aad*-0x1+0x1780+0x32d]);}}),fileInput[_0x298504(0x104,'k%0H')+_0x196c50(0x127)]('change',_0x567601=>{const _0x13e01b=_0x196c50,_0x257658=_0x298504,_0x3d415b={'qXeWo':function(_0x254933,_0x4ccaad){return _0x254933(_0x4ccaad);}};_0x567601[_0x257658(0x11f,'3HOm')][_0x13e01b(0x108)][_0x13e01b(0x1be)]>0x6*-0x17b+-0x2162+0x2a44&&_0x3d415b['qXeWo'](loadFile,_0x567601[_0x257658(0x1a0,'sp0W')]['files'][-0x1bba+0x24cc+-0x912]),fileInput['value']='';});function loadFile(_0x3295b2){const _0x15b307=_0x298504,_0x209da6=_0x196c50,_0x28056e={'kJmNf':_0x209da6(0x1bf),'grOVH':_0x209da6(0x17b),'CTmBK':function(_0x3bca25){return _0x3bca25();},'Sulhr':_0x209da6(0x1b9),'LXKij':function(_0x2bea29,_0x860b75,_0x2b8fe4){return _0x2bea29(_0x860b75,_0x2b8fe4);},'Reyqk':function(_0x32fa8c,_0x39a25b){return _0x32fa8c+_0x39a25b;},'SNHDZ':'Error\x20pars'+'ing\x20Excel\x20'+_0x15b307(0x15b,'(YLW'),'VinHg':_0x209da6(0x1b8)+_0x209da6(0x1bd)+_0x209da6(0x194)+_0x15b307(0xef,'1HpN')+_0x15b307(0x119,'k%0H')};if(!_0x3295b2['name'][_0x209da6(0x156)](/\.(xlsx|xls)$/i)){_0x28056e[_0x15b307(0x136,'Esyj')](showMessage,_0x28056e[_0x209da6(0x167)],_0x209da6(0x16f));return;}currentFile=_0x3295b2;const _0x358da7=new FileReader();_0x358da7[_0x209da6(0x1a6)]=_0x11fc9f=>{const _0x1b69aa=_0x209da6,_0x1ef116=_0x15b307;try{const _0x25467a=new Uint8Array(_0x11fc9f[_0x1ef116(0x1d3,'&kK9')][_0x1ef116(0x115,'qAt6')]);workbook=XLSX['read'](_0x25467a,{'type':_0x28056e[_0x1ef116(0x171,'&kK9')]}),fileNameEl[_0x1b69aa(0x14c)+'t']=_0x3295b2[_0x1ef116(0x111,'Bdxf')],fileMetaEl['textConten'+'t']=workbook['SheetNames'][_0x1b69aa(0x1be)]+_0x1b69aa(0x157),sheetSelect['innerHTML']='',workbook['SheetNames'][_0x1ef116(0x1d1,'aMrz')]((_0xee5cb6,_0x2654b5)=>{const _0x1c9dc6=_0x1b69aa,_0x515bd6=_0x1ef116,_0x3133a8=document['createElem'+_0x515bd6(0xf5,'qm*u')](_0x1c9dc6(0x112));_0x3133a8['value']=_0xee5cb6,_0x3133a8[_0x515bd6(0x146,'Esyj')+'t']=_0xee5cb6,sheetSelect['appendChil'+'d'](_0x3133a8);}),controlCard[_0x1ef116(0x197,'h*Oy')][_0x1b69aa(0x126)](_0x28056e['grOVH']),_0x28056e['CTmBK'](renderPreview),feather['replace'](),showMessage(_0x1b69aa(0x184)+_0x3295b2['name']);}catch(_0x1493d8){_0x1ef116(0x1ac,'U]O4')===_0x28056e[_0x1ef116(0x152,'qm*u')]?(console[_0x1ef116(0x185,'em@X')](_0x1493d8),_0x28056e[_0x1b69aa(0x14a)](showMessage,_0x28056e[_0x1b69aa(0x1a3)](_0x28056e['SNHDZ'],_0x1493d8['message']),_0x1b69aa(0x16f))):_0x2f2733(_0x3fdefc[_0x1ef116(0xf7,'0Yq4')+'er']['files'][-0x76d*-0x4+0x247b+-0x422f]);}},_0x358da7[_0x15b307(0x102,'Li]A')+_0x15b307(0x1b4,'jOES')](_0x3295b2);}function _0x3f72(_0x42ef4c,_0x56f66c){_0x42ef4c=_0x42ef4c-(0x2b*-0x7+0x12*0x5d+-0x470*0x1);const _0x981571=_0x4125();let _0x213e59=_0x981571[_0x42ef4c];if(_0x3f72['LiwpYP']===undefined){var _0x33f950=function(_0x4bdf27){const _0x433918='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x561462='',_0x21982f='',_0x5902a3=_0x561462+_0x33f950,_0x2b6722=(''+function(){return 0x1*-0x172a+-0xe82+0x25ac;})['indexOf']('\x0a')!==-(-0x557*-0x3+0x156f+-0x2573*0x1);for(let _0x1d233a=-0x45*0xf+-0x245c+-0x2867*-0x1,_0x406f45,_0x394771,_0x3ec765=0xc2e+0x45*0x81+-0x2ef3;_0x394771=_0x4bdf27['charAt'](_0x3ec765++);~_0x394771&&(_0x406f45=_0x1d233a%(-0x15*-0x9b+0x98d+-0x40*0x59)?_0x406f45*(0x1*-0x811+0x100f*0x1+-0x7be)+_0x394771:_0x394771,_0x1d233a++%(0x49*-0x37+0xf9*-0x26+0x34a9))?_0x561462+=_0x2b6722||_0x5902a3['charCodeAt'](_0x3ec765+(-0x365+-0x1965+0x1cd4))-(0x17d+0x254b+-0x26be)!==-0x1a31+-0x196f+0x33a0?String['fromCharCode'](-0x7*0x10+-0x6a1*-0x2+-0xbd3&_0x406f45>>(-(-0x1*-0x219+-0x4ba+0x87*0x5)*_0x1d233a&-0x6d9*0x1+0x280+0x45f)):_0x1d233a:0x1*0xaca+-0xfb8+0x4ee){_0x394771=_0x433918['indexOf'](_0x394771);}for(let _0x529080=-0x1cd5+-0x5c1+0x2296,_0x467f3a=_0x561462['length'];_0x529080<_0x467f3a;_0x529080++){_0x21982f+='%'+('00'+_0x561462['charCodeAt'](_0x529080)['toString'](-0x2*-0x4f2+-0x204b+0x1677))['slice'](-(-0xf*0x1cf+-0x335*-0x3+0x1184));}return decodeURIComponent(_0x21982f);};_0x3f72['BOerUy']=_0x33f950,_0x3f72['HijBfY']={},_0x3f72['LiwpYP']=!![];}const _0x39dbb8=_0x981571[0x1daf+0xd7*-0x2e+0x8f3*0x1],_0x294d95=_0x42ef4c+_0x39dbb8,_0x252567=_0x3f72['HijBfY'][_0x294d95];if(!_0x252567){const _0x42dba9=function(_0x11918f){this['rjiaNi']=_0x11918f,this['cPZPco']=[0x1e3a+0x2*-0xb63+-0x773*0x1,-0x2606+0xb41+0x1ac5,0x17f4+-0x167c+0x2*-0xbc],this['ZuEkds']=function(){return'newState';},this['GMROQo']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['wARwIJ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x42dba9['prototype']['VuodCW']=function(){const _0x59365a=new RegExp(this['GMROQo']+this['wARwIJ']),_0x2c5b4e=_0x59365a['test'](this['ZuEkds']['toString']())?--this['cPZPco'][0x2*0x3fe+0xa56+0x3*-0x61b]:--this['cPZPco'][-0x1f0b+-0x1c1c+0x1*0x3b27];return this['nXReRm'](_0x2c5b4e);},_0x42dba9['prototype']['nXReRm']=function(_0x504b4c){if(!Boolean(~_0x504b4c))return _0x504b4c;return this['nWoRoB'](this['rjiaNi']);},_0x42dba9['prototype']['nWoRoB']=function(_0x420de6){for(let _0x139a6d=-0x9e*0x4+-0xb2*-0x1b+-0x104e,_0x5e8eeb=this['cPZPco']['length'];_0x139a6d<_0x5e8eeb;_0x139a6d++){this['cPZPco']['push'](Math['round'](Math['random']())),_0x5e8eeb=this['cPZPco']['length'];}return _0x420de6(this['cPZPco'][0x1079+0x8*0x2ab+-0x25d1]);},(''+function(){return 0x122e+0x5*0x687+0x1*-0x32d1;})['indexOf']('\x0a')===-(0x593*-0x3+0x13*0xd1+0x137)&&new _0x42dba9(_0x3f72)['VuodCW'](),_0x213e59=_0x3f72['BOerUy'](_0x213e59),_0x3f72['HijBfY'][_0x294d95]=_0x213e59;}else _0x213e59=_0x252567;return _0x213e59;}function _0x2ea6(_0x5e9d5b,_0x212e2c){_0x5e9d5b=_0x5e9d5b-(0x2b*-0x7+0x12*0x5d+-0x470*0x1);const _0x2e2d18=_0x4125();let _0x28e38e=_0x2e2d18[_0x5e9d5b];if(_0x2ea6['XQIiHu']===undefined){var _0x8888a0=function(_0x9b120b){const _0x5ebd33='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x205b22='',_0x2ecb12='',_0x52e8e5=_0x205b22+_0x8888a0,_0x45a065=(''+function(){return 0x1*-0x172a+-0xe82+0x25ac;})['indexOf']('\x0a')!==-(-0x557*-0x3+0x156f+-0x2573*0x1);for(let _0x46bbb7=-0x45*0xf+-0x245c+-0x2867*-0x1,_0x308ef9,_0x2e851d,_0x37fffe=0xc2e+0x45*0x81+-0x2ef3;_0x2e851d=_0x9b120b['charAt'](_0x37fffe++);~_0x2e851d&&(_0x308ef9=_0x46bbb7%(-0x15*-0x9b+0x98d+-0x40*0x59)?_0x308ef9*(0x1*-0x811+0x100f*0x1+-0x7be)+_0x2e851d:_0x2e851d,_0x46bbb7++%(0x49*-0x37+0xf9*-0x26+0x34a9))?_0x205b22+=_0x45a065||_0x52e8e5['charCodeAt'](_0x37fffe+(-0x365+-0x1965+0x1cd4))-(0x17d+0x254b+-0x26be)!==-0x1a31+-0x196f+0x33a0?String['fromCharCode'](-0x7*0x10+-0x6a1*-0x2+-0xbd3&_0x308ef9>>(-(-0x1*-0x219+-0x4ba+0x87*0x5)*_0x46bbb7&-0x6d9*0x1+0x280+0x45f)):_0x46bbb7:0x1*0xaca+-0xfb8+0x4ee){_0x2e851d=_0x5ebd33['indexOf'](_0x2e851d);}for(let _0x5bfa82=-0x1cd5+-0x5c1+0x2296,_0x4a6c7a=_0x205b22['length'];_0x5bfa82<_0x4a6c7a;_0x5bfa82++){_0x2ecb12+='%'+('00'+_0x205b22['charCodeAt'](_0x5bfa82)['toString'](-0x2*-0x4f2+-0x204b+0x1677))['slice'](-(-0xf*0x1cf+-0x335*-0x3+0x1184));}return decodeURIComponent(_0x2ecb12);};const _0x26290f=function(_0x1edcea,_0x32a4c5){let _0x172aae=[],_0x5471ae=0x1daf+0xd7*-0x2e+0x8f3*0x1,_0x49f0ec,_0x4cd11='';_0x1edcea=_0x8888a0(_0x1edcea);let _0x3af8cc;for(_0x3af8cc=0x1e3a+0x2*-0xb63+-0x1dd*0x4;_0x3af8cc<-0x2606+0xb41+0x1bc5;_0x3af8cc++){_0x172aae[_0x3af8cc]=_0x3af8cc;}for(_0x3af8cc=0x17f4+-0x167c+0x2*-0xbc;_0x3af8cc<0x2*0x3fe+0xa56+0x3*-0x5c6;_0x3af8cc++){_0x5471ae=(_0x5471ae+_0x172aae[_0x3af8cc]+_0x32a4c5['charCodeAt'](_0x3af8cc%_0x32a4c5['length']))%(-0x1f0b+-0x1c1c+0x1*0x3c27),_0x49f0ec=_0x172aae[_0x3af8cc],_0x172aae[_0x3af8cc]=_0x172aae[_0x5471ae],_0x172aae[_0x5471ae]=_0x49f0ec;}_0x3af8cc=-0x9e*0x4+-0xb2*-0x1b+-0x104e,_0x5471ae=0x1079+0x8*0x2ab+-0x25d1;for(let _0x11940c=0x122e+0x5*0x687+0x1*-0x32d1;_0x11940c<_0x1edcea['length'];_0x11940c++){_0x3af8cc=(_0x3af8cc+(0x593*-0x3+0x13*0xd1+0x137))%(0xfc5+0x202e+0x7*-0x6b5),_0x5471ae=(_0x5471ae+_0x172aae[_0x3af8cc])%(0xd*-0x67+-0xb*0xc9+-0x1*-0xede),_0x49f0ec=_0x172aae[_0x3af8cc],_0x172aae[_0x3af8cc]=_0x172aae[_0x5471ae],_0x172aae[_0x5471ae]=_0x49f0ec,_0x4cd11+=String['fromCharCode'](_0x1edcea['charCodeAt'](_0x11940c)^_0x172aae[(_0x172aae[_0x3af8cc]+_0x172aae[_0x5471ae])%(0x3*-0x511+-0x23c6*0x1+-0xa65*-0x5)]);}return _0x4cd11;};_0x2ea6['JaBtIN']=_0x26290f,_0x2ea6['ThXbBZ']={},_0x2ea6['XQIiHu']=!![];}const _0x606a27=_0x2e2d18[0x3*0xb57+-0x2bb+-0x2d*0xb2],_0x2cec5e=_0x5e9d5b+_0x606a27,_0x1e2108=_0x2ea6['ThXbBZ'][_0x2cec5e];if(!_0x1e2108){if(_0x2ea6['uBFirj']===undefined){const _0x11393c=function(_0x147c70){this['QMrWzf']=_0x147c70,this['jEpmXP']=[-0x2522+-0x2*-0x1366+-0x11*0x19,-0x7*0x195+-0x53*0x2c+0x1957*0x1,0x11*-0x1d+-0x593*0x1+0x780*0x1],this['BMvLyk']=function(){return'newState';},this['jzkwlm']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['QgtKyd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x11393c['prototype']['gQVkdD']=function(){const _0x4b92f7=new RegExp(this['jzkwlm']+this['QgtKyd']),_0x5208d8=_0x4b92f7['test'](this['BMvLyk']['toString']())?--this['jEpmXP'][0xbc3+-0x1542*0x1+0x980]:--this['jEpmXP'][0x353*-0xa+-0x47*0x19+0x282d];return this['PtmoSE'](_0x5208d8);},_0x11393c['prototype']['PtmoSE']=function(_0x419b06){if(!Boolean(~_0x419b06))return _0x419b06;return this['RLiqsh'](this['QMrWzf']);},_0x11393c['prototype']['RLiqsh']=function(_0x36b2b9){for(let _0xcaba9b=-0x26ec+0x4a3+0x2249,_0x397d9e=this['jEpmXP']['length'];_0xcaba9b<_0x397d9e;_0xcaba9b++){this['jEpmXP']['push'](Math['round'](Math['random']())),_0x397d9e=this['jEpmXP']['length'];}return _0x36b2b9(this['jEpmXP'][-0x914+-0x6c3*0x4+-0x22*-0x110]);},(''+function(){return 0xcb7+0x9a4+-0x165b;})['indexOf']('\x0a')===-(0x4*-0x5eb+-0xb*-0x386+0x129*-0xd)&&new _0x11393c(_0x2ea6)['gQVkdD'](),_0x2ea6['uBFirj']=!![];}_0x28e38e=_0x2ea6['JaBtIN'](_0x28e38e,_0x212e2c),_0x2ea6['ThXbBZ'][_0x2cec5e]=_0x28e38e;}else _0x28e38e=_0x1e2108;return _0x28e38e;}function renderPreview(){const _0x3372f9=_0x196c50,_0x51981c=_0x298504,_0x5e0e82={'kOGip':function(_0x39f850,_0x2c5b19){return _0x39f850+_0x2c5b19;},'unvpK':_0x51981c(0x15f,'&kK9'),'Nctsk':function(_0x5aeed5,_0x30b5af){return _0x5aeed5<_0x30b5af;}};if(!workbook)return;const _0x318797=workbook[_0x3372f9(0x17a)][sheetSelect['value']];if(!_0x318797)return;const _0x156ff3=XLSX[_0x3372f9(0xed)]['sheet_to_j'+_0x3372f9(0x196)](_0x318797,{'header':0x1,'defval':''});previewTable[_0x3372f9(0x172)]='';if(_0x156ff3[_0x51981c(0x15a,'BphX')]===0x1*0x196c+0x112*-0x13+-0x516)return;const _0x144ef0=Math['min'](_0x156ff3[_0x51981c(0x19a,'Kao8')],0x1517+0x1f6b+-0x3473),_0x1ccecb=document['createElem'+_0x51981c(0x18b,'em@X')](_0x51981c(0xf8,'qm*u')),_0x745ce5=document[_0x3372f9(0x10a)+_0x51981c(0xf0,'Wt7k')]('tr');(_0x156ff3[-0xd41+0x9b0+0x391*0x1]||[])[_0x51981c(0xfa,'CodK')]((_0x3fcc2d,_0x1d19bf)=>{const _0x5f09f3=_0x3372f9,_0x8fb8e7=_0x51981c,_0x3b5f89=document[_0x8fb8e7(0x124,'7QRd')+_0x5f09f3(0x129)]('th');_0x3b5f89['textConten'+'t']=_0x3fcc2d||_0x8fb8e7(0x13a,'Stkr')+_0x5e0e82[_0x5f09f3(0x158)](_0x1d19bf,-0x191a+0x158a+0x391),_0x745ce5['appendChil'+'d'](_0x3b5f89);}),_0x1ccecb[_0x3372f9(0x1c9)+'d'](_0x745ce5),previewTable['appendChil'+'d'](_0x1ccecb);const _0xfcf75c=document[_0x3372f9(0x10a)+_0x3372f9(0x129)](_0x3372f9(0xfb));for(let _0x1f6011=0x1*-0x5c1+-0xd40+0x1302;_0x5e0e82[_0x51981c(0x15c,'(YLW')](_0x1f6011,_0x144ef0);_0x1f6011++){const _0x2b58be=document[_0x51981c(0x178,'fT1R')+_0x51981c(0x122,'tds!')]('tr');_0x156ff3[_0x1f6011][_0x3372f9(0x160)](_0x362c05=>{const _0x352daf=_0x51981c,_0x53c5d9=_0x3372f9;if(_0x53c5d9(0xf3)!==_0x5e0e82[_0x53c5d9(0x12e)]){if(!_0x5208d8)return'';const _0x115026=_0x419b06['Sheets'][_0x36b2b9['value']];if(!_0x115026)return'';const _0x25b360=_0xcaba9b['value'];return _0x397d9e[_0x53c5d9(0xed)][_0x352daf(0x10e,'Esyj')+'sv'](_0x115026,{'FS':_0x25b360});}else{const _0x5b5168=document[_0x53c5d9(0x10a)+'ent']('td');_0x5b5168[_0x53c5d9(0x14c)+'t']=_0x362c05,_0x2b58be['appendChil'+'d'](_0x5b5168);}}),_0xfcf75c[_0x51981c(0x1a7,'7n9r')+'d'](_0x2b58be);}previewTable[_0x51981c(0x1a1,'*[u^')+'d'](_0xfcf75c);}sheetSelect[_0x298504(0x13e,'BphX')+_0x298504(0x101,'Li]A')](_0x298504(0x181,'mFes'),renderPreview),document[_0x196c50(0x118)+'ById']('remove-fil'+'e-btn')['addEventLi'+_0x298504(0x148,'$5Ka')](_0x196c50(0x192),()=>{const _0x350f6c=_0x298504,_0x46ed3c=_0x196c50,_0x464684={'WQKal':function(_0x1ee7c3,_0x1825b6){return _0x1ee7c3(_0x1825b6);},'AtfaI':_0x46ed3c(0x10c)+_0x350f6c(0x137,'9UGj')};currentFile=null,workbook=null,controlCard['classList'][_0x350f6c(0xff,'p^$v')](_0x46ed3c(0x17b)),_0x464684[_0x350f6c(0x12b,'4tV#')](showMessage,_0x464684[_0x46ed3c(0x154)]);});function generateCsvString(){const _0xe37595=_0x196c50,_0x4e5f48=_0x298504;if(!workbook)return'';const _0x2f6502=workbook[_0x4e5f48(0x19c,'Kao8')][sheetSelect[_0x4e5f48(0x198,'dpNv')]];if(!_0x2f6502)return'';const _0x14fd9e=delimiterSelect[_0xe37595(0x168)];return XLSX['utils'][_0x4e5f48(0x191,'sp0W')+'sv'](_0x2f6502,{'FS':_0x14fd9e});}function _0x4125(){const _0x5c57f4=['DWZdPCoqW5tdM8k6cSoBWPG','WOmjfcaFWP4','CMvZDwX0','AgODrSo7lSo1s8o0W54','ALDMt24','D2jKs3m','dSk9iu1PW47cVCkIW7hcKa','WQnsnSktzmo6WOa','FHtdLc/dR1ZdVgiVWQS','v0/dGd8mWPJdSZZcMWe','W6Xiua0WvG','ndCXotCYmLjLEhDZsq','tfHlAwO','WQ04oG','Dgv4DenVBNrLBG','WOBdTIxdHGtdG8kwpstcHW','ffRdTmoLAxzpnSozWPq','vbhdImoX','ywrKrxzLBNrmAq','nJjjrfDwC08','jKVdVmoiBq','W4bkWQhdVCkDg2m','qxrMyuK','nrqTyq','Bwf0y2G','ihnOzwv0khmP','A09hAxa','W4dcKCk+ACoNoqddVmoXW6e','EG3dR8oYW5BdLG','zrbCWPJdOK8pW7C0WRm','xbXAWOddQW','WRNdOSknhmkzhq','W4DxWQFdSa','Fh9Tymk1','zM9YrwfJAa','uerzzeS','WQnZWQRcHmom','W6ewySk6v8oHWQddS8k2','C2vHCMnO','vNvolgO','BurKzNq','vMLUsgC','DMfSDwu','y2XHC3nmAxn0','lMnZDG','EgXZEcaVic54Ba','b0CiFrC','WOVcQCowWOZcLuK','WQVcQCowWOZcLwv9W7zmWOS','zxjYB3i','buifat1TjSo7WRuGW4ldLdG','C2jVzSkA','Aw5Uzxjive1m','DgfYz2v0','qNLjza','W4r1W4RcQeON','taNdQrpdNq','BMfTzq','WOFcISoaWRpdMepcRSklrgu','F8kdexf/','u2HLzxrZ','AgLKzgvU','WRddJSkMemkG','FH7dVY/dNLRdVhe','CLbhEeC','mte5ndi2mNH4uMvVuG','ENOCBCoOoq','WPdcS8kKW5GFwa','ieyDW4lcSXbtWQX4W7O6ACkYzG','ydbfCmo9kSo1aq','tg9HzgvKia','vaDgv3G','DKTytgu','g0tcSCkm','xSkmf20GW43cO8oJW6ddKa','y2HLy2STy2LYyW','WRvjiq','vbTa','WQ3cPJlcICkedJHxla','WOHQWPewW5tdI8kxwWvcjmoOdSk4','qSkMzf9HW5/cQ8kIW6pcLa','fLldUCodDa','CfldKJauWPldLZtcMWG','WRFcOdNcICkcgrH1pZO','y2XPy2S','eSoZoSk6WOTBW4PIgG','zcbfEgnLBcaOlG','D3HjDMS','C29U','W7vSWO84CmotWP3cSSoc','mraGCmoC','WPBcLxC3WOm','WO7dTIFdIb3dGG','pc9ZCgfUpG','WRhdUYZdIH3dMq','W5K8W4XtWPxcLmoirHbk','r2LVs1i','W6NdSgC','WRdcQs7cI8ktmG','nmkYW7JcRCoSWRtcQCkfELq','i04zWRNdLKGZW5PI','uMv5CwS','WQxcPdNcNSkcAW9ZeJO','zhjHz292zxi','B25SB2fK','luVdLXhcH3VcLqdcV8kD','Aw5MBW','WRddVtxcR8oo','W4zSWOSQCmo6W5tcSSotW7i','CLtdNZqsW4RcSa','WOPxgmkZCG','gCkQmh5SW47cP8oQW6VcHq','C3yTyNrU','WRFcR3JcUHPQWRWXWPtdGq','nZaZmJzUANHPCLy','mtu2odC0mNbYz0zgCW','WOxcHMKTWPq','FfBdGbqR','WOXlWPlcUSo7WOeU','Aw5KzxHpzG','W4xdQCkmW7iVA3pdOG','W6PIFmkn','ugXLyxnLihnLBa','wNbnq3m','Dgv4Dc9JC3y7yW','r3zNAeG','ACkYa3Pa','zwn0igeGDMfSAq','BgvUz3rO','yxjYyxK','Dg9tDhjPBMC','W67cOhpcT8kLmY3dRd0P','of7dNWdcQNdcUbZcS8kF','u2HLzxroyw1LCW','c8kpW6xcTNhdQSkT','twv4Dve','Dg9HC3q','WPpcPxZcLHnRW7exWQNdOW','ExfiBhO','yxbWzw5Kq2HPBa','WOBcNxCNW4VcU8oBWQlcOG','aevzW4qt','sxLysLq','qvHADge','ywrK','DgHLywq','WOBdOsJdIaBdNmkhkG','o3BdPbtdI1v3','gSkgW7tcQwpdH8kPz38','BeLWt8kzWQu','kfTFW4CT','DxrPBhm','vejUAgm','WPxcPmoSi8oNbJe6gmoC','fmoXlW','W4DjWO87ua','zg93BMXVywqTyW','zfDVseK','odK5nxn0EeHyCq','efddPa','W7PIEhD1WQtcLSo0W7tcPW','W5DEWRBdV8kSgNeLW6LN','avBdTCobEW','eCoOpmoHW5jxr0FdTCo1W5G','vSkyifXUshi','DgjVzhK','imk2W6hcPmoX','CKtdKXqwWPldVcZcSGW','DLrqywu','W414W4O','iIbJBgfZCZ0IDW','WQpcVMNcKrn9','WQlcR23cMZD8WPaMWOJdLa','DKTADMG','WRNcPCoxWQZcL19NW61FWOG','AgfYC2v0pxv0zG','BwLU','WOpcHN4JWPlcS8o7WRRcPSoE','zMLSzxm','u8kBo3PK','y3jLyxrLrwXLBq','WO/cHg8RWONcUa','q2XLyxjLzcbMAq','a0ukDWSvwsddKvq','ErNdIt7dMgZdPNKvWQy','WQnoW6u','zhjHz2XLyxzL','smk8ACk3','B3b0Aw9U','W4OnW74nW4ddVGC','nZu4mZjtDfviy1y','W54hW789W43dQq','kcGOlISPkYKRkq','WQVdSSkTyahdRwFcRq','z2v0rwXLBwvUDa','WQVdQmktWO/cIfzSWRC','WPxdOsddMWZdVSkhici','C2vSzwn0','jSk2W63cPSoNWQi','zMLSzs1PBNb1Da','W5vqWRddM8kzc3G','W44YW5baWOlcJW','WRFdRSknhW','AMexCmo5oCoUxmomW5G','WRpdUI0','FuT2cmkDW7hcJYyfW6u','ANWCySo5lSoEu8oDW5O','AWhdNd7dGLFdKx4JWQK','CMvTB3zL','C3rLBMvY','oNZdOHtdHLnYvdVcNG','zw50','W4GdW7GPW7xdRW56FGK','WQy9mI4f','y29WEs1JC3yTyG','bsy0umoJ','Dw52CeS','yxvSDa','pmk2dv8','CMvWBgfJzq','W414W4RcIvKSW4ZdISkdWRu','W611ymkJWPa','W4DAWRRdQSk7b34/W79V','s3CWzW','rINdPZldHG','WP3cOSkE','vNOqBSoOoq','ChjLDMvUDerLzG','WPxdTIBcOG','WPRdTIVdPSkZi3u','WRviW7qKFmosWOtdSsCX','WQBcGCoSWRy'];_0x4125=function(){return _0x5c57f4;};return _0x4125();}downloadCsvBtn[_0x196c50(0x150)+_0x196c50(0x127)]('click',()=>{const _0x4844d9=_0x196c50,_0x4626c3=_0x298504,_0x380461={'VzMXQ':function(_0x59aaf5,_0x3d3c28,_0x22244e){return _0x59aaf5(_0x3d3c28,_0x22244e);},'vTPae':_0x4626c3(0x147,'vAZs')+_0x4626c3(0x188,'Loy#')},_0x3aa02b=generateCsvString();if(!_0x3aa02b)return;const _0x2a85a9=new Blob([_0x3aa02b],{'type':_0x4844d9(0x1ba)+_0x4844d9(0x105)+_0x4626c3(0x19f,'sp0W')}),_0xde09b7=currentFile[_0x4844d9(0x177)][_0x4844d9(0x131)](/\.[^/.]+$/,'')+'_'+sheetSelect[_0x4844d9(0x168)]+_0x4844d9(0x16a);_0x380461[_0x4626c3(0x162,'jOES')](saveAs,_0x2a85a9,_0xde09b7),showMessage(_0x380461[_0x4844d9(0xfe)]);}),copyCsvBtn[_0x298504(0x141,'7QRd')+_0x298504(0x11c,'*[u^')](_0x298504(0x18f,'qm*u'),()=>{const _0xf974d0=_0x298504,_0x492ad0={'gSeIo':function(_0x146122){return _0x146122();}},_0x50ff7e=_0x492ad0['gSeIo'](generateCsvString);if(!_0x50ff7e)return;navigator['clipboard'][_0xf974d0(0x11a,'Kao8')](_0x50ff7e)[_0xf974d0(0x15e,'0Yq4')](()=>{const _0x46643d=_0xf974d0;showMessage(_0x46643d(0x1c7,'Li]A')+'\x20content\x20t'+'o\x20clipboar'+'d!');});});</script>
 
-    <script>
-        let workbook = null;
-        let currentSheetData = null;
-        let selectedDelimiter = ',';
-
-        // File input handling
-        const excelFileInput = document.getElementById('excelFileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const optionsSection = document.getElementById('optionsSection');
-        const previewSection = document.getElementById('previewSection');
-        const convertSection = document.getElementById('convertSection');
-        const sheetSelect = document.getElementById('sheetSelect');
-        const previewTable = document.getElementById('previewTable');
-        const rowCount = document.getElementById('rowCount');
-        const convertBtn = document.getElementById('convertBtn');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingText = document.getElementById('loadingText');
-
-        // Delimiter options
-        const delimiterCards = document.querySelectorAll('.option-card');
-
-        function showLoading(text = 'Processing...') {
-            loadingText.textContent = text;
-            loadingOverlay.classList.remove('hidden');
-        }
-
-        function hideLoading() {
-            loadingOverlay.classList.add('hidden');
-        }
-
-        // File selection
-        excelFileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            // Validate file size (10MB limit)
-            if (file.size > 10 * 1024 * 1024) {
-                alert('File size must be less than 10MB');
-                return;
-            }
-
-            showLoading('Reading Excel file...');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    workbook = XLSX.read(data, { type: 'array' });
-
-                    // Update file info
-                    fileName.textContent = `Loaded: ${file.name}`;
-                    fileInfo.classList.remove('hidden');
-
-                    // Populate sheet selector
-                    sheetSelect.innerHTML = '';
-                    workbook.SheetNames.forEach((sheetName, index) => {
-                        const option = document.createElement('option');
-                        option.value = sheetName;
-                        option.textContent = sheetName;
-                        if (index === 0) option.selected = true;
-                        sheetSelect.appendChild(option);
-                    });
-
-                    // Show options and load first sheet
-                    optionsSection.classList.remove('hidden');
-                    loadSheet(workbook.SheetNames[0]);
-
-                    hideLoading();
-                } catch (error) {
-                    console.error('Error reading file:', error);
-                    alert('Error reading Excel file. Please make sure it\'s a valid Excel file.');
-                    hideLoading();
-                }
-            };
-
-            reader.readAsArrayBuffer(file);
-        });
-
-        // Sheet selection
-        sheetSelect.addEventListener('change', function() {
-            loadSheet(this.value);
-        });
-
-        // Delimiter selection
-        delimiterCards.forEach(card => {
-            card.addEventListener('click', function() {
-                // Remove selected class from all cards
-                delimiterCards.forEach(c => c.classList.remove('option-selected'));
-                // Add selected class to clicked card
-                this.classList.add('option-selected');
-                // Update selected delimiter
-                selectedDelimiter = this.dataset.delimiter;
-            });
-        });
-
-        // Set default delimiter (comma)
-        document.querySelector('[data-delimiter=","]').classList.add('option-selected');
-
-        function loadSheet(sheetName) {
-            if (!workbook) return;
-
-            const worksheet = workbook.Sheets[sheetName];
-            currentSheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
-
-            // Normalize data to ensure all rows have the same number of columns
-            if (currentSheetData.length > 0) {
-                const maxCols = Math.max(...currentSheetData.map(row => row.length));
-                currentSheetData = currentSheetData.map(row => {
-                    while (row.length < maxCols) {
-                        row.push('');
-                    }
-                    return row;
-                });
-            }
-
-            renderPreview(currentSheetData);
-            previewSection.classList.remove('hidden');
-            convertSection.classList.remove('hidden');
-            convertBtn.disabled = false;
-        }
-
-        function renderPreview(data) {
-            if (!data || data.length === 0) {
-                previewTable.innerHTML = '<tr><td class="text-center py-8 text-gray-500">No data to preview</td></tr>';
-                rowCount.textContent = '';
-                return;
-            }
-
-            const includeHeaders = document.getElementById('includeHeaders').checked;
-            let html = '';
-
-            // Show row count
-            rowCount.textContent = `${data.length} rows × ${data[0].length} columns`;
-
-            // Limit preview to first 100 rows
-            const previewData = data.slice(0, 100);
-
-            previewData.forEach((row, index) => {
-                html += '<tr>';
-                row.forEach(cell => {
-                    const cellValue = String(cell ?? '');
-                    if (index === 0 && includeHeaders) {
-                        html += `<th>${cellValue}</th>`;
-                    } else {
-                        html += `<td>${cellValue}</td>`;
-                    }
-                });
-                html += '</tr>';
-            });
-
-            if (data.length > 100) {
-                html += `<tr><td colspan="${data[0].length}" class="text-center py-4 text-gray-500">... and ${data.length - 100} more rows</td></tr>`;
-            }
-
-            previewTable.innerHTML = html;
-        }
-
-        // Include headers checkbox
-        document.getElementById('includeHeaders').addEventListener('change', function() {
-            if (currentSheetData) {
-                renderPreview(currentSheetData);
-            }
-        });
-
-        // Convert button
-        convertBtn.addEventListener('click', function() {
-            if (!currentSheetData || currentSheetData.length === 0) {
-                alert('No data to convert. Please select a valid Excel file.');
-                return;
-            }
-
-            showLoading('Converting to CSV...');
-
-            try {
-                const includeHeaders = document.getElementById('includeHeaders').checked;
-                let csvContent = '';
-
-                // Convert data to CSV
-                currentSheetData.forEach((row, index) => {
-                    if (!includeHeaders && index === 0) return; // Skip header row if not included
-
-                    const csvRow = row.map(cell => {
-                        const cellValue = String(cell ?? '');
-                        // Escape quotes and wrap in quotes if contains delimiter, quotes, or newlines
-                        if (cellValue.includes(selectedDelimiter) || cellValue.includes('"') || cellValue.includes('\n')) {
-                            return '"' + cellValue.replace(/"/g, '""') + '"';
-                        }
-                        return cellValue;
-                    }).join(selectedDelimiter);
-
-                    csvContent += csvRow + '\n';
-                });
-
-                // Create and download file
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const fileName = excelFileInput.files[0].name.replace(/\.(xlsx|xls)$/i, '.csv');
-                saveAs(blob, fileName);
-
-                hideLoading();
-                alert('Excel file has been converted to CSV successfully!');
-            } catch (error) {
-                console.error('Error during conversion:', error);
-                hideLoading();
-                alert('An error occurred while converting to CSV. Please try again.');
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when a link is clicked
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Close mobile menu when scrolling
-            window.addEventListener('scroll', () => {
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
-
-        }
-    </script>
-    
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

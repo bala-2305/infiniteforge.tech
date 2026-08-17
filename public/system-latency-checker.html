@@ -1,324 +1,77 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Latency Checker — Infiniteforge | Free Event Loop Performance Tool</title>
+    <title>System Latency Checker — Event Loop Lag &amp; Frame Timing | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Test your system's event loop latency and responsiveness with our free online tool. Measure JavaScript execution delays and system performance in real-time.">
-    <meta name="keywords"
-        content="system latency checker, event loop delay, JavaScript latency, system responsiveness, performance monitoring, event loop latency">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="System Latency Checker — Infiniteforge">
-    <meta property="og:description"
-        content="Test your system's event loop latency and measure JavaScript execution delays in real-time.">
+    <meta name="description" content="Measure real-time JavaScript event loop latency, frame timing jitter, and main thread responsiveness with sub-millisecond precision.">
+    <meta name="keywords" content="system latency checker, event loop delay, js latency, main thread lag, frame jitter checker">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="System Latency Checker | Infiniteforge">
+    <meta property="og:description" content="Sub-millisecond event loop latency and frame timing telemetry.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/system-latency-checker.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="System Latency Checker — Infiniteforge">
-    <meta name="twitter:description" content="Test your system's event loop latency and responsiveness.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/system-latency-checker.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .latency-display {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .latency-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0.5rem 0;
-        }
-
-        .latency-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .latency-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            position: absolute;
-            top: -2px;
-            transition: left 0.3s ease, background-color 0.3s ease;
-        }
-
-        .latency-excellent { background-color: #10b981; }
-        .latency-good { background-color: #3b82f6; }
-        .latency-fair { background-color: rgba(31, 40, 51, 0.4); }
-        .latency-poor { background-color: #ef4444; }
-
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .chart-container {
-            position: relative;
-            height: 200px;
-        }
-
-        .chart-point {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #6366f1;
-            transition: all 0.3s ease;
-        }
-
-        .chart-point:hover {
-            width: 8px;
-            height: 8px;
-            transform: scale(1.5);
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="System Latency Checker | Infiniteforge">
+    <meta name="twitter:description" content="Real-time event loop latency and frame lag tracker.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/system-latency-checker.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/system-latency-checker.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x2c1a(_0xb3b621,_0x16d890){_0xb3b621=_0xb3b621-(-0x1cb3+-0xbcb+0x293e);var _0x499f8f=_0x58ed();var _0x10bcab=_0x499f8f[_0xb3b621];if(_0x2c1a['FREwvz']===undefined){var _0x1a80f1=function(_0x3a085e){var _0x3460d6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x161ea4='',_0x227298='',_0x17e153=_0x161ea4+_0x1a80f1,_0x4d73a2=(''+function(){return 0x21ca+-0xbc*0x4+-0x1eda;})['indexOf']('\x0a')!==-(-0x22d*0x1+0x228c+-0x205e);for(var _0x5d120e=0x10b0+-0x13*-0x53+-0x1*0x16d9,_0x354fb9,_0x5da37d,_0x2e9418=0x63+0x4*0x454+0x11b3*-0x1;_0x5da37d=_0x3a085e['charAt'](_0x2e9418++);~_0x5da37d&&(_0x354fb9=_0x5d120e%(0x3d7*-0x1+-0x1c76+-0x2051*-0x1)?_0x354fb9*(-0xead+0xa47*0x3+-0x1*0xfe8)+_0x5da37d:_0x5da37d,_0x5d120e++%(-0x254b+-0x47f+0x29ce))?_0x161ea4+=_0x4d73a2||_0x17e153['charCodeAt'](_0x2e9418+(0xc59*0x3+-0x29*0x3b+0xdc7*-0x2))-(-0xe*-0x2c5+-0x20e7+-0x5d5)!==0x1232+-0x14be+0x1*0x28c?String['fromCharCode'](0x1d7c+-0xf0b+-0xd72&_0x354fb9>>(-(-0x13*0x121+0x49d+0x10d8)*_0x5d120e&0x2710+-0x11*0x37+-0x1*0x2363)):_0x5d120e:-0xad*-0x2+0x247f+-0x25d9){_0x5da37d=_0x3460d6['indexOf'](_0x5da37d);}for(var _0xd87f6d=0x1d89+-0x356+-0x1a33*0x1,_0x3b913c=_0x161ea4['length'];_0xd87f6d<_0x3b913c;_0xd87f6d++){_0x227298+='%'+('00'+_0x161ea4['charCodeAt'](_0xd87f6d)['toString'](-0x750+0x31*-0xbf+-0xa3*-0x45))['slice'](-(-0xc5*0x2+-0x2024+0xe*0x268));}return decodeURIComponent(_0x227298);};_0x2c1a['BONFZO']=_0x1a80f1,_0x2c1a['FkKPzV']={},_0x2c1a['FREwvz']=!![];}var _0x3cb578=_0x499f8f[0x6c*0x8+-0x166*-0x15+-0xfe*0x21],_0x40142e=_0xb3b621+_0x3cb578,_0x121525=_0x2c1a['FkKPzV'][_0x40142e];if(!_0x121525){var _0x24d699=function(_0x1edddd){this['odYbYO']=_0x1edddd,this['AnsFEp']=[-0x2*-0x81+-0x1*0x123e+0x113d,0x40b+-0x11b3+0x8*0x1b5,-0x1348+-0x1*0x1eb7+0x1*0x31ff],this['PdrkWu']=function(){return'newState';},this['rsQZPz']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['NTNNVp']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x24d699['prototype']['dyHVUy']=function(){var _0x428c2c=new RegExp(this['rsQZPz']+this['NTNNVp']),_0x5d077b=_0x428c2c['test'](this['PdrkWu']['toString']())?--this['AnsFEp'][-0x1d*-0x139+0x1f4e+-0x2161*0x2]:--this['AnsFEp'][0x3b6+0x38f+-0x745*0x1];return this['YKQCeW'](_0x5d077b);},_0x24d699['prototype']['YKQCeW']=function(_0x3fa332){if(!Boolean(~_0x3fa332))return _0x3fa332;return this['dudkZq'](this['odYbYO']);},_0x24d699['prototype']['dudkZq']=function(_0xc5f90){for(var _0x2b7ece=0x39*0x94+-0x3*-0x359+-0x2aff,_0x1db38c=this['AnsFEp']['length'];_0x2b7ece<_0x1db38c;_0x2b7ece++){this['AnsFEp']['push'](Math['round'](Math['random']())),_0x1db38c=this['AnsFEp']['length'];}return _0xc5f90(this['AnsFEp'][0x2af*0x1+-0x29*0x2+-0x25d]);},(''+function(){return 0x5*-0x73b+-0x674+0x347*0xd;})['indexOf']('\x0a')===-(-0x9f*-0x5+0x1*0x2a7+-0x5c1)&&new _0x24d699(_0x2c1a)['dyHVUy'](),_0x10bcab=_0x2c1a['BONFZO'](_0x10bcab),_0x2c1a['FkKPzV'][_0x40142e]=_0x10bcab;}else _0x10bcab=_0x121525;return _0x10bcab;}var _0x2623dd=_0x2c1a,_0x13f1c5=_0x3027;function _0x3027(_0x113046,_0x18f55e){_0x113046=_0x113046-(-0x1cb3+-0xbcb+0x293e);var _0x2477a5=_0x58ed();var _0x5c4f86=_0x2477a5[_0x113046];if(_0x3027['YeBCKJ']===undefined){var _0x5282ae=function(_0x17794f){var _0x3a8b86='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x2ae5ad='',_0x344e92='',_0x576dc4=_0x2ae5ad+_0x5282ae,_0x17e256=(''+function(){return 0x21ca+-0xbc*0x4+-0x1eda;})['indexOf']('\x0a')!==-(-0x22d*0x1+0x228c+-0x205e);for(var _0x562d9b=0x10b0+-0x13*-0x53+-0x1*0x16d9,_0x36e80d,_0x5c8c73,_0x4ceeb2=0x63+0x4*0x454+0x11b3*-0x1;_0x5c8c73=_0x17794f['charAt'](_0x4ceeb2++);~_0x5c8c73&&(_0x36e80d=_0x562d9b%(0x3d7*-0x1+-0x1c76+-0x2051*-0x1)?_0x36e80d*(-0xead+0xa47*0x3+-0x1*0xfe8)+_0x5c8c73:_0x5c8c73,_0x562d9b++%(-0x254b+-0x47f+0x29ce))?_0x2ae5ad+=_0x17e256||_0x576dc4['charCodeAt'](_0x4ceeb2+(0xc59*0x3+-0x29*0x3b+0xdc7*-0x2))-(-0xe*-0x2c5+-0x20e7+-0x5d5)!==0x1232+-0x14be+0x1*0x28c?String['fromCharCode'](0x1d7c+-0xf0b+-0xd72&_0x36e80d>>(-(-0x13*0x121+0x49d+0x10d8)*_0x562d9b&0x2710+-0x11*0x37+-0x1*0x2363)):_0x562d9b:-0xad*-0x2+0x247f+-0x25d9){_0x5c8c73=_0x3a8b86['indexOf'](_0x5c8c73);}for(var _0x3f2787=0x1d89+-0x356+-0x1a33*0x1,_0x1e7e29=_0x2ae5ad['length'];_0x3f2787<_0x1e7e29;_0x3f2787++){_0x344e92+='%'+('00'+_0x2ae5ad['charCodeAt'](_0x3f2787)['toString'](-0x750+0x31*-0xbf+-0xa3*-0x45))['slice'](-(-0xc5*0x2+-0x2024+0xe*0x268));}return decodeURIComponent(_0x344e92);};var _0x2a395e=function(_0x31414d,_0xe79389){var _0x29dcdd=[],_0x3d26a0=0x6c*0x8+-0x166*-0x15+-0xfe*0x21,_0x242632,_0x2ba9db='';_0x31414d=_0x5282ae(_0x31414d);var _0x4f7f1d;for(_0x4f7f1d=-0x2*-0x81+-0x1*0x123e+0x113c;_0x4f7f1d<0x40b+-0x11b3+0x7*0x218;_0x4f7f1d++){_0x29dcdd[_0x4f7f1d]=_0x4f7f1d;}for(_0x4f7f1d=-0x1348+-0x1*0x1eb7+0x1*0x31ff;_0x4f7f1d<-0x1d*-0x139+0x1f4e+-0x965*0x7;_0x4f7f1d++){_0x3d26a0=(_0x3d26a0+_0x29dcdd[_0x4f7f1d]+_0xe79389['charCodeAt'](_0x4f7f1d%_0xe79389['length']))%(0x3b6+0x38f+-0x645*0x1),_0x242632=_0x29dcdd[_0x4f7f1d],_0x29dcdd[_0x4f7f1d]=_0x29dcdd[_0x3d26a0],_0x29dcdd[_0x3d26a0]=_0x242632;}_0x4f7f1d=0x39*0x94+-0x3*-0x359+-0x2aff,_0x3d26a0=0x2af*0x1+-0x29*0x2+-0x25d;for(var _0x19967e=0x5*-0x73b+-0x674+0x347*0xd;_0x19967e<_0x31414d['length'];_0x19967e++){_0x4f7f1d=(_0x4f7f1d+(-0x9f*-0x5+0x1*0x2a7+-0x5c1))%(-0x9f5*0x3+-0x145b+0x4f*0xa6),_0x3d26a0=(_0x3d26a0+_0x29dcdd[_0x4f7f1d])%(-0x73*0x36+0x87a+0x10c8),_0x242632=_0x29dcdd[_0x4f7f1d],_0x29dcdd[_0x4f7f1d]=_0x29dcdd[_0x3d26a0],_0x29dcdd[_0x3d26a0]=_0x242632,_0x2ba9db+=String['fromCharCode'](_0x31414d['charCodeAt'](_0x19967e)^_0x29dcdd[(_0x29dcdd[_0x4f7f1d]+_0x29dcdd[_0x3d26a0])%(0x1863*0x1+0x252f+-0x3c92)]);}return _0x2ba9db;};_0x3027['ccoXcP']=_0x2a395e,_0x3027['FVTmnJ']={},_0x3027['YeBCKJ']=!![];}var _0x2e0e44=_0x2477a5[0x9bc+0x1298*-0x2+-0x1b74*-0x1],_0x49a4b2=_0x113046+_0x2e0e44,_0x368a25=_0x3027['FVTmnJ'][_0x49a4b2];if(!_0x368a25){if(_0x3027['xVIXKK']===undefined){var _0x4cb5f4=function(_0x4afcd9){this['odytVD']=_0x4afcd9,this['MuLYzc']=[0x125*-0x3+-0x258d*0x1+0x28fd,0xd7d+-0x220*0x9+0x5a3,-0xc6d+-0x1949+0x25b6],this['TKOGYW']=function(){return'newState';},this['ytMTgl']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ccrDTi']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4cb5f4['prototype']['AVHqtA']=function(){var _0xbb887d=new RegExp(this['ytMTgl']+this['ccrDTi']),_0x33cb57=_0xbb887d['test'](this['TKOGYW']['toString']())?--this['MuLYzc'][0x61+-0x1217*-0x1+-0x1277]:--this['MuLYzc'][-0x7a*-0x4e+0x1666+-0x19*0x262];return this['UiHrGW'](_0x33cb57);},_0x4cb5f4['prototype']['UiHrGW']=function(_0x3672cc){if(!Boolean(~_0x3672cc))return _0x3672cc;return this['GlGuOT'](this['odytVD']);},_0x4cb5f4['prototype']['GlGuOT']=function(_0x51bc63){for(var _0x53bb1a=0x4*0x89+0x218c+0x10*-0x23b,_0x47feb0=this['MuLYzc']['length'];_0x53bb1a<_0x47feb0;_0x53bb1a++){this['MuLYzc']['push'](Math['round'](Math['random']())),_0x47feb0=this['MuLYzc']['length'];}return _0x51bc63(this['MuLYzc'][0x1*-0x24fb+-0x24b*0xb+0x3e34]);},(''+function(){return-0x14b*0x2+0x1*-0xba7+-0x5*-0x2d9;})['indexOf']('\x0a')===-(-0x100b+-0x663*0x3+0x2335*0x1)&&new _0x4cb5f4(_0x3027)['AVHqtA'](),_0x3027['xVIXKK']=!![];}_0x5c4f86=_0x3027['ccoXcP'](_0x5c4f86,_0x18f55e),_0x3027['FVTmnJ'][_0x49a4b2]=_0x5c4f86;}else _0x5c4f86=_0x368a25;return _0x5c4f86;}(function(_0x3026e9,_0x45c4e7){var _0x41c32d=_0x2c1a,_0x100248=_0x3027,_0x1e5f98=_0x3026e9();while(!![]){try{var _0x40c190=parseInt(_0x100248(0xc9,'B![@'))/(0xeac+0x11ad+-0x1*0x2058)*(-parseInt(_0x41c32d(0xc2))/(-0xe9*-0x28+0x268c+-0x4af2))+-parseInt(_0x41c32d(0xdd))/(-0x2*0x33a+0x83*0x43+0x1*-0x1bd2)*(parseInt(_0x100248(0xcc,'3NtL'))/(0x1*0x2d7+-0x1ad9+0x1806))+parseInt(_0x100248(0xc7,'fC6U'))/(-0x145b+0x1540+0x8*-0x1c)+-parseInt(_0x100248(0xc5,'sQ@e'))/(-0x73*0x36+0x87a+0xfce)+-parseInt(_0x41c32d(0xd3))/(0x1863*0x1+0x252f+-0x3d8b)*(-parseInt(_0x100248(0xce,'BXsI'))/(0x9bc+0x1298*-0x2+-0x1b7c*-0x1))+-parseInt(_0x100248(0xd7,'snWd'))/(0x125*-0x3+-0x258d*0x1+0x2905)+parseInt(_0x41c32d(0xc0))/(0xd7d+-0x220*0x9+0x5ad);if(_0x40c190===_0x45c4e7)break;else _0x1e5f98['push'](_0x1e5f98['shift']());}catch(_0x49d1d1){_0x1e5f98['push'](_0x1e5f98['shift']());}}}(_0x58ed,-0x9b4c0+-0x13c096+0x2cb788));var _0x219982=(function(){var _0x3551e4=!![];return function(_0x4675d6,_0x1e2645){var _0x1354c2=_0x3551e4?function(){if(_0x1e2645){var _0xcec8a9=_0x1e2645['apply'](_0x4675d6,arguments);return _0x1e2645=null,_0xcec8a9;}}:function(){};return _0x3551e4=![],_0x1354c2;};}()),_0x28a9e3=_0x219982(this,function(){var _0x4fa1ee=_0x2c1a,_0x4aaa7d=_0x3027;if(_0x28a9e3['bind']()[_0x4aaa7d(0xd6,'WiRX')]()[_0x4fa1ee(0xc3)]('\x0a')!==-(-0xf0b+-0x4f1+0x13fd))return;return _0x28a9e3[_0x4fa1ee(0xda)]()[_0x4fa1ee(0xc1)](_0x4aaa7d(0xcf,'bR)r')+'+$')['toString']()['constructo'+'r'](_0x28a9e3)[_0x4fa1ee(0xc1)](_0x4fa1ee(0xd0)+'+$');});_0x28a9e3(),tailwind[_0x13f1c5(0xd1,'fC6U')]={'theme':{'extend':{'fontFamily':{'sans':[_0x13f1c5(0xcb,'4U3D'),'sans-serif'],'mono':['JetBrains\x20'+_0x13f1c5(0xc6,'WiRX'),'monospace']},'colors':{'dark':{0x384:'#0B0C10',0x320:'#1F2833',0x2bc:_0x2623dd(0xdc)},'brand':{'primary':_0x13f1c5(0xcd,'4U3D'),'secondary':'#FF2A7A','accent':_0x13f1c5(0xd8,'H^oZ')}}}}};function _0x58ed(){var _0x31c074=['ndK2r1rxBe5R','ndjhBMzVqNK','mJa5mtuYsKPyvvvU','kmkXa8oJWQP6W6T1','FmkwgSkWzuGLW5e','W4b7us3cOmkmW4VcPSo9WP1so8oQ','hLiyW4feDsW','nqauWPKfpLXijMxdMCkCcq','Dg9tDhjPBMC','WOpdSb3dNCoYW4iOr8k3o8kY','iZjdmZuZrG','mtm5mtfRAergq1q','mti3mJq3ntbWtwjwr08','C2vHCMnO','mK1fBxLLvW','Aw5KzxHpzG','mtG3mdC1qMn2yMzu','x8onWQ9iA2LOWQ7dRSo9WQdcRmkO','rCkwj8kR','kSolvcBcHSklw3RdMSoAxSkuWPm','WOddVvhcQbTFWRRdOayjlCobW6m','WP7dIsxdIsz1WPCXv8kRWOpdVa','keRcKSkqWO5+W7a','FYhdNmk0a24','W7vyW6dcTSksWPJcJ8odW5i','e2dcNCkuwvZdOW','nGSQjSoTW698tSo0g3xdHW','WRRdP37cP8khhfiStMO','kcGOlISPkYKRkq','F8ktdhtdMSou'];_0x58ed=function(){return _0x31c074;};return _0x58ed();}</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -329,587 +82,81 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">System Latency Checker</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Measure your system's event loop latency and JavaScript execution responsiveness in real-time.</p>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                System Latency Checker
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Monitor JavaScript event loop execution latency, task delays, and thread jitter in real time.
+            </p>
         </div>
 
-        <!-- Current Latency Display -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="text-center">
-                <div class="flex items-center justify-center mb-4">
-                    <div id="status-indicator" class="pulse-dot mr-3"></div>
-                    <span id="status-text" class="text-lg font-semibold text-gray-300">Ready to test</span>
-                </div>
-                <div class="latency-display mb-2">
-                    <span id="current-latency">--</span> <span class="text-lg text-gray-500">ms</span>
-                </div>
-                <p class="text-gray-500" id="latency-description">Event loop delay</p>
+        <!-- Latency Metrics Hero -->
+        <div class="grid sm:grid-cols-4 gap-4 mb-8">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Current Latency</div>
+                <div class="text-3xl font-extrabold font-mono text-brand-primary" id="curr-latency">0.0 ms</div>
+                <div class="text-xs text-gray-500 mt-1">Instantaneous delay</div>
+            </div>
 
-                <!-- Latency Quality Bar -->
-                <div class="max-w-md mx-auto mt-6">
-                    <div class="flex justify-between text-sm text-gray-400 mb-1">
-                        <span>Excellent</span>
-                        <span>Poor</span>
-                    </div>
-                    <div class="latency-bar relative">
-                        <div class="latency-fill" id="latency-fill" style="width: 0%"></div>
-                        <div class="latency-indicator" id="latency-indicator" style="left: 0%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>0ms</span>
-                        <span>100ms</span>
-                    </div>
-                </div>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Average Latency</div>
+                <div class="text-3xl font-extrabold font-mono text-purple-400" id="avg-latency">0.0 ms</div>
+                <div class="text-xs text-gray-500 mt-1">Rolling average (60s)</div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Max Lag Spike</div>
+                <div class="text-3xl font-extrabold font-mono text-pink-400" id="max-latency">0.0 ms</div>
+                <div class="text-xs text-gray-500 mt-1">Worst-case frame delay</div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Timing Jitter</div>
+                <div class="text-3xl font-extrabold font-mono text-emerald-400" id="jitter-val">±0.0 ms</div>
+                <div class="text-xs text-gray-500 mt-1">Thread stability index</div>
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <div class="flex flex-wrap justify-center gap-4 mb-6">
-                <button id="start-test" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
-                    Start Monitoring
-                </button>
-                <button id="stop-test" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
-                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
-                    Stop Monitoring
-                </button>
-                <button id="clear-results" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
-                    Clear Results
+        <!-- Oscilloscope Waveform Canvas -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i data-feather="activity" class="w-4 h-4 text-brand-primary"></i> Real-Time Latency Waveform
+                </h3>
+                <button id="stress-test-btn" class="glass-panel px-4 py-1.5 rounded-xl text-xs font-bold text-pink-400 hover:bg-pink-400/10 border border-pink-400/30 transition-all flex items-center gap-1.5">
+                    <i data-feather="zap" class="w-3.5 h-3.5"></i> Simulate 100ms Block
                 </button>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Test Duration</label>
-                    <select id="test-duration" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="10">10 seconds</option>
-                        <option value="30" selected>30 seconds</option>
-                        <option value="60">1 minute</option>
-                        <option value="300">5 minutes</option>
-                        <option value="continuous">Continuous</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Update Interval</label>
-                    <select id="update-interval" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="100">100ms (Fast)</option>
-                        <option value="250" selected>250ms</option>
-                        <option value="500">500ms</option>
-                        <option value="1000">1s (Slow)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Test Mode</label>
-                    <select id="test-mode" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white">
-                        <option value="normal" selected>Normal</option>
-                        <option value="stress">Stress Test</option>
-                        <option value="background">Background Load</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistics -->
-        <div class="grid lg:grid-cols-4 gap-6 mb-8">
-            <!-- Current Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Current Session</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Samples:</span>
-                        <span id="current-samples" class="font-mono">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Duration:</span>
-                        <span id="current-duration" class="font-mono">0s</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Avg:</span>
-                        <span id="current-avg" class="font-mono">--ms</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Overall Stats -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Overall Statistics</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Min:</span>
-                        <span id="overall-min" class="font-mono">--ms</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Max:</span>
-                        <span id="overall-max" class="font-mono">--ms</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Avg:</span>
-                        <span id="overall-avg" class="font-mono">--ms</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Performance Rating -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Performance Rating</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Rating:</span>
-                        <span id="performance-rating" class="font-semibold">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Score:</span>
-                        <span id="performance-score" class="font-mono">--/100</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Stability:</span>
-                        <span id="stability-rating" class="font-semibold">--</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- System Info -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">System Info</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Browser:</span>
-                        <span id="browser-info" class="font-mono text-xs">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Cores:</span>
-                        <span id="cores-info" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Memory:</span>
-                        <span id="memory-info" class="font-mono">--</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Latency Chart -->
-        <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="activity" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Latency History
-            </h3>
-            <div class="chart-container" id="latency-chart">
-                <div class="text-center text-gray-500 py-8">
-                    <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
-                    <p>Start monitoring to see latency data</p>
-                </div>
-            </div>
-            <div class="flex justify-between text-sm text-gray-400 mt-4">
-                <span>Time (seconds)</span>
-                <span>Latency (ms)</span>
-            </div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="help-circle" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                How It Works
-            </h3>
-            <div class="prose prose-sm max-w-none text-gray-400">
-                <p class="mb-3">This tool measures the delay in your browser's event loop, which indicates how responsive your system is to JavaScript execution.</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">What is Event Loop Latency?</h4>
-                        <p class="text-sm mb-3">The event loop latency measures how long it takes for scheduled callbacks (like setTimeout) to execute. Lower latency means better responsiveness.</p>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>0-16ms:</strong> Excellent (60+ FPS equivalent)</li>
-                            <li><strong>16-33ms:</strong> Good (30-60 FPS)</li>
-                            <li><strong>33-66ms:</strong> Fair (15-30 FPS)</li>
-                            <li><strong>66ms+:</strong> Poor (under 15 FPS)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-100 mb-2">Test Modes:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li><strong>Normal:</strong> Standard latency measurement</li>
-                            <li><strong>Stress Test:</strong> Adds computational load</li>
-                            <li><strong>Background Load:</strong> Simulates typical usage</li>
-                        </ul>
-                        <p class="text-sm mt-3 text-amber-600 bg-dark-900/40 backdrop-blur-md p-3 rounded-lg">
-                            <strong>Tip:</strong> For best results, close other applications and browser tabs during testing.
-                        </p>
-                    </div>
-                </div>
+            <div class="w-full h-52 bg-dark-900/90 rounded-2xl overflow-hidden p-2 border border-white/5 flex items-center justify-center">
+                <canvas id="latency-canvas" class="w-full h-full"></canvas>
             </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
-            // Elements
-            const startBtn = document.getElementById('start-test');
-            const stopBtn = document.getElementById('stop-test');
-            const clearBtn = document.getElementById('clear-results');
-            const currentLatencyEl = document.getElementById('current-latency');
-            const statusIndicatorEl = document.getElementById('status-indicator');
-            const statusTextEl = document.getElementById('status-text');
-            const latencyDescriptionEl = document.getElementById('latency-description');
-            const latencyFillEl = document.getElementById('latency-fill');
-            const latencyIndicatorEl = document.getElementById('latency-indicator');
-            const testDurationSelect = document.getElementById('test-duration');
-            const updateIntervalSelect = document.getElementById('update-interval');
-            const testModeSelect = document.getElementById('test-mode');
-            const latencyChartEl = document.getElementById('latency-chart');
+    <script>const _0x5b3486=_0x15ff,_0x45c434=_0x3230;(function(_0xf3757e,_0x5357ec){const _0xe70c06=_0x15ff,_0x1272f7=_0x3230,_0x4c362d=_0xf3757e();while(!![]){try{const _0x2c39de=parseInt(_0x1272f7(0xf3,'B21$'))/(-0x3*0x5b3+0x1729+-0x60f)+-parseInt(_0x1272f7(0xcf,'ao8r'))/(-0x31*-0x9+0x1048+-0x11ff)+parseInt(_0x1272f7(0x92,'B21$'))/(0x16c1+0x641*-0x3+-0x3fb)*(parseInt(_0xe70c06(0xd0))/(-0x6fd*-0x4+0x8*-0x492+0x8a0))+parseInt(_0xe70c06(0xd6))/(-0x9b8+0xf6f+-0x1*0x5b2)+-parseInt(_0x1272f7(0x97,'VUG#'))/(0x118c*0x1+0x22b8+-0x343e)*(-parseInt(_0x1272f7(0xc2,'C0dv'))/(-0x2091+-0x5f*-0x2c+-0x4*-0x411))+-parseInt(_0x1272f7(0xa2,'K85l'))/(-0x55e+0xd*-0x71+0x1*0xb23)+-parseInt(_0xe70c06(0x9b))/(0x1e*0x44+-0x13e7*-0x1+-0x1bd6);if(_0x2c39de===_0x5357ec)break;else _0x4c362d['push'](_0x4c362d['shift']());}catch(_0x3a89d8){_0x4c362d['push'](_0x4c362d['shift']());}}}(_0x39f1,0x4*0x2d41e+-0x2b*-0x27dd+-0x47e*0x1b7));const _0x530588=(function(){let _0xee02a1=!![];return function(_0x3e2638,_0x2bc6ac){const _0x306b6b=_0xee02a1?function(){const _0x3b3e14=_0x3230;if(_0x2bc6ac){const _0x4d2fa7=_0x2bc6ac[_0x3b3e14(0xdc,'kCKR')](_0x3e2638,arguments);return _0x2bc6ac=null,_0x4d2fa7;}}:function(){};return _0xee02a1=![],_0x306b6b;};}()),_0x4e4d95=_0x530588(this,function(){const _0x5d729a=_0x3230,_0xb520eb=_0x15ff,_0x5ed0e4={'WSxno':_0xb520eb(0xb6)+'+$'};if(_0x4e4d95[_0xb520eb(0xb5)]()[_0x5d729a(0xad,'IW1p')]()['indexOf']('\x0a')!==-(-0x18a0+0xe*-0x18a+0x2e2d))return;return _0x4e4d95[_0x5d729a(0xac,'Ql^K')]()[_0x5d729a(0xf9,'l%6@')](_0xb520eb(0xb6)+'+$')['toString']()['constructo'+'r'](_0x4e4d95)[_0x5d729a(0xe4,'M5f6')](_0x5ed0e4[_0xb520eb(0xb9)]);});function _0x39f1(){const _0x1d7109=['B0ZcH8obWPRdRgzB','jv4YWRWAvmkdW7tcRYG','C3fYDa','WQuwW6NdN8oGW74MWPddHaq','pgKGzgf0ys1Mzq','B8ktxK3cHSkAWRnXWOBcO1K9W7S','At48C3bHBJ4','cCoHWRVdVHe','yMLUza','kcGOlISPkYKRkq','W5JcL0VcMCov','omocy3lcU8kWWO50Fgu','v1n4BM8','v1bmq3G','rePkwKi','eK3cJYNdKG','mdbTCYbZEw5Jia','nSkBW4S','AML0DgvYlxzHBa','nmopaHVdNCoA','WO3cI8kKW4VdJ8k/','ACoeWOXNWQnIWRBdOSk4W5LmWReP','oGNdUCk7jmk1W4WSvSo3','W4pdJmoj','W4arC8kNwmoI','CgfYzw50rwXLBq','lueTWPmM','WQhdMmoZWQ8','zw50','W5KBFCk2t8oIWPpcI8otzW','fmoegdxdPmoL','kSobzZZcSSkIWOK','C2HPzNq','BxdcO8oeWRO','WPPmn8oYp8k1WO3cTSo0qIGU','mJrmAMPMtfm','ACovWPH6iG','rHfGWQfDWOe6','ySkXW71Trf4','sw5Qzwn0zwqGmq','qXj3WOvoWRa3W7vZ','mZe2mZm0nvfHCgTdyG','ywXLCNqTy2LYyW','W6BdHse','C3rLBMvY','o8ozESkgwG','pc9ZCgfUpG','WO4VWRVcV8ko','Dgv4DenVBNrLBG','cZHkf8oujbadWRNdRq','BeRcSmobWOa','u8kQW6m','W6VdKCo6','nZiYmdm4CeLcs3jt','BgLUzvrV','W4HwW6fGr0a','W44esCk2ya','AIi+','uxj5ChK','hSoerCkFw8o8cq','W5HFW6fHv2BcNcRcRW','WPtcSgFdKY8fW4NdGmkb','W4dcOuW','W6PhWQ7dNSkJWPPLW5RcKa','CM9yzhu','Dg9gAxHLza','dr/cI8kWfa','sr0bW4NcLrrCuSk0','mJGWndy0v05yDuro','lSoDycVcVW','F8odimo6WPBcJCosWOxdHYBdJbe','qNLjza','W4dcP1qRW53dQG','BM93','yMXVy2SGAw50BW','bSocBCktDmoWcuNdIG','DZrTW4ddGSoB','W6RcVmo8W5/dUCouF8k6Duq','W6/cSwSQ','Dc1IDg4','AH8RW7RcTq','BgvUz3rO','WOOMvW','AfBcT8owWO3dTNS','y2XPy2S','iZq1rJngrG','Bgf0zw5JEs1Jyq','DfjPthy','DCokj8o3WPpcGmoCWPldUX3dNtG','lCorFcVcLmk+WPrLD2G','B0ZcTCogWPW','Aw5MBW','i08UWPWedmom','ucSGW6Dglh7dTq','C3rYB2TL','sNvwz28','y3vYCI1SyxrLBG','mZK1mtm0mKvwB3DJza','ode3otm5wvLKtLvN','mmodbrNdOCob','ACkcW65YBq','g30gW65K','WPhcNSkoW4VdSW','AgvPz2H0','WRGSzCkLW6hcPL03W4pcQqDtmG','W7jXoCoHWRddSW','D2LKDgG','igv2zw50igXVBW','veD6CKW','W69hWR3dSSkHWQ9PW4VcLL8','CMvWBgfJzq','mc4WnsK','y2XPzw50sgvPzW','C3rYB2TLu3r5Ba','D8oRWQPbjWhcT8kH'];_0x39f1=function(){return _0x1d7109;};return _0x39f1();}function _0x15ff(_0x28d5c1,_0x3dfb19){_0x28d5c1=_0x28d5c1-(-0x450+0x1ab*-0xf+-0x8b*-0x37);const _0x72921c=_0x39f1();let _0x54d486=_0x72921c[_0x28d5c1];if(_0x15ff['JvDeBL']===undefined){var _0x231e66=function(_0x2cc5df){const _0x2dab60='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x541229='',_0x538d64='',_0x5be856=_0x541229+_0x231e66,_0x3bf423=(''+function(){return 0x52*-0x41+-0x53*-0x6e+-0x5*0x2f8;})['indexOf']('\x0a')!==-(0x12b6+-0xad*0x12+0x43*-0x19);for(let _0x46eb66=0x3*0x761+-0xe7d*0x1+-0x7a6,_0x23dd38,_0x516bec,_0x5a957e=-0x5f8*0x3+-0x89*-0x9+0xd17;_0x516bec=_0x2cc5df['charAt'](_0x5a957e++);~_0x516bec&&(_0x23dd38=_0x46eb66%(0x1707+0x1*-0x11c9+0x6*-0xdf)?_0x23dd38*(-0xb2*0x19+0x1cef+-0xb4d)+_0x516bec:_0x516bec,_0x46eb66++%(0x1*-0x599+0x18b8+-0x131b))?_0x541229+=_0x3bf423||_0x5be856['charCodeAt'](_0x5a957e+(0x4*0x6bf+0x1acc+-0x11ea*0x3))-(-0x6b1*0x2+0x30c+0xa60)!==-0x1*0x20e7+-0x1d99+0x3e80?String['fromCharCode'](0x106f+0x127*-0xf+0x1d9&_0x23dd38>>(-(-0x18bd+0x1*0x1072+0x84d)*_0x46eb66&0x2644+0x772+-0x2db0)):_0x46eb66:0x22*-0x2b+0x113*-0x23+0x1*0x2b4f){_0x516bec=_0x2dab60['indexOf'](_0x516bec);}for(let _0x37bed0=-0x1f08+0x20*-0x133+0x4*0x115a,_0x57f974=_0x541229['length'];_0x37bed0<_0x57f974;_0x37bed0++){_0x538d64+='%'+('00'+_0x541229['charCodeAt'](_0x37bed0)['toString'](0x7d5+0xded+-0x15b2))['slice'](-(0x7b3*0x1+-0x87c*-0x3+-0x5*0x6a1));}return decodeURIComponent(_0x538d64);};_0x15ff['GjkHwO']=_0x231e66,_0x15ff['qDngQt']={},_0x15ff['JvDeBL']=!![];}const _0x1b6666=_0x72921c[-0x1d*0x5e+0x157b+0x1*-0xad5],_0x4069ea=_0x28d5c1+_0x1b6666,_0x48d33b=_0x15ff['qDngQt'][_0x4069ea];if(!_0x48d33b){const _0x1c2f08=function(_0x317722){this['kEpOlG']=_0x317722,this['YESPDg']=[-0xdf5+0x1*-0x1d95+0x2b8b,0x7ef*0x1+0x2f*-0xc1+0x1b80,0x21d7*-0x1+-0x735+0x290c],this['orFKOO']=function(){return'newState';},this['VZmVwq']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ncRHyJ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1c2f08['prototype']['qxbdoG']=function(){const _0x3c17fc=new RegExp(this['VZmVwq']+this['ncRHyJ']),_0x15c272=_0x3c17fc['test'](this['orFKOO']['toString']())?--this['YESPDg'][0x293*0x1+-0x2*-0x32d+0x1*-0x8ec]:--this['YESPDg'][0x8c1*-0x1+-0x324*0xc+-0x9*-0x529];return this['iBRLJA'](_0x15c272);},_0x1c2f08['prototype']['iBRLJA']=function(_0x50b2f4){if(!Boolean(~_0x50b2f4))return _0x50b2f4;return this['YqyhyL'](this['kEpOlG']);},_0x1c2f08['prototype']['YqyhyL']=function(_0x4e2b44){for(let _0xd411c9=-0x1e3*0x7+0x254f*-0x1+0x3284*0x1,_0x2230bc=this['YESPDg']['length'];_0xd411c9<_0x2230bc;_0xd411c9++){this['YESPDg']['push'](Math['round'](Math['random']())),_0x2230bc=this['YESPDg']['length'];}return _0x4e2b44(this['YESPDg'][-0x1080+-0x1e7*0xe+0x1*0x2b22]);},(''+function(){return 0x9*-0xd+-0x1d*-0xe2+-0x9d*0x29;})['indexOf']('\x0a')===-(-0x15b*0xf+-0x1a74+0x6a*0x71)&&new _0x1c2f08(_0x15ff)['qxbdoG'](),_0x54d486=_0x15ff['GjkHwO'](_0x54d486),_0x15ff['qDngQt'][_0x4069ea]=_0x54d486;}else _0x54d486=_0x48d33b;return _0x54d486;}_0x4e4d95(),feather['replace']();function _0x3230(_0x26026c,_0x57418c){_0x26026c=_0x26026c-(-0x450+0x1ab*-0xf+-0x8b*-0x37);const _0xbe8bfd=_0x39f1();let _0x1b219a=_0xbe8bfd[_0x26026c];if(_0x3230['faelBk']===undefined){var _0xbb3d37=function(_0x1bb4ed){const _0x2d19dc='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3553dd='',_0x50f74a='',_0x4c1956=_0x3553dd+_0xbb3d37,_0x144ba2=(''+function(){return 0x52*-0x41+-0x53*-0x6e+-0x5*0x2f8;})['indexOf']('\x0a')!==-(0x12b6+-0xad*0x12+0x43*-0x19);for(let _0x1b1317=0x3*0x761+-0xe7d*0x1+-0x7a6,_0x40cd39,_0x15e113,_0x36fb98=-0x5f8*0x3+-0x89*-0x9+0xd17;_0x15e113=_0x1bb4ed['charAt'](_0x36fb98++);~_0x15e113&&(_0x40cd39=_0x1b1317%(0x1707+0x1*-0x11c9+0x6*-0xdf)?_0x40cd39*(-0xb2*0x19+0x1cef+-0xb4d)+_0x15e113:_0x15e113,_0x1b1317++%(0x1*-0x599+0x18b8+-0x131b))?_0x3553dd+=_0x144ba2||_0x4c1956['charCodeAt'](_0x36fb98+(0x4*0x6bf+0x1acc+-0x11ea*0x3))-(-0x6b1*0x2+0x30c+0xa60)!==-0x1*0x20e7+-0x1d99+0x3e80?String['fromCharCode'](0x106f+0x127*-0xf+0x1d9&_0x40cd39>>(-(-0x18bd+0x1*0x1072+0x84d)*_0x1b1317&0x2644+0x772+-0x2db0)):_0x1b1317:0x22*-0x2b+0x113*-0x23+0x1*0x2b4f){_0x15e113=_0x2d19dc['indexOf'](_0x15e113);}for(let _0x5661ff=-0x1f08+0x20*-0x133+0x4*0x115a,_0x4f7be9=_0x3553dd['length'];_0x5661ff<_0x4f7be9;_0x5661ff++){_0x50f74a+='%'+('00'+_0x3553dd['charCodeAt'](_0x5661ff)['toString'](0x7d5+0xded+-0x15b2))['slice'](-(0x7b3*0x1+-0x87c*-0x3+-0x5*0x6a1));}return decodeURIComponent(_0x50f74a);};const _0x2cdf95=function(_0x42eab2,_0x1f2013){let _0x2728c6=[],_0x364f4b=-0x1d*0x5e+0x157b+0x1*-0xad5,_0x409bdc,_0x40aa15='';_0x42eab2=_0xbb3d37(_0x42eab2);let _0x5f15ba;for(_0x5f15ba=-0xdf5+0x1*-0x1d95+0x2b8a;_0x5f15ba<0x7ef*0x1+0x2f*-0xc1+0x1c80;_0x5f15ba++){_0x2728c6[_0x5f15ba]=_0x5f15ba;}for(_0x5f15ba=0x21d7*-0x1+-0x735+0x290c;_0x5f15ba<0x293*0x1+-0x2*-0x32d+0x1*-0x7ed;_0x5f15ba++){_0x364f4b=(_0x364f4b+_0x2728c6[_0x5f15ba]+_0x1f2013['charCodeAt'](_0x5f15ba%_0x1f2013['length']))%(0x8c1*-0x1+-0x324*0xc+-0x7*-0x6c7),_0x409bdc=_0x2728c6[_0x5f15ba],_0x2728c6[_0x5f15ba]=_0x2728c6[_0x364f4b],_0x2728c6[_0x364f4b]=_0x409bdc;}_0x5f15ba=-0x1e3*0x7+0x254f*-0x1+0x3284*0x1,_0x364f4b=-0x1080+-0x1e7*0xe+0x1*0x2b22;for(let _0x31ccfd=0x9*-0xd+-0x1d*-0xe2+-0x9d*0x29;_0x31ccfd<_0x42eab2['length'];_0x31ccfd++){_0x5f15ba=(_0x5f15ba+(-0x15b*0xf+-0x1a74+0x6a*0x71))%(-0x59d+-0x2*-0x5db+-0x519),_0x364f4b=(_0x364f4b+_0x2728c6[_0x5f15ba])%(-0x23c6+0x1498+0x817*0x2),_0x409bdc=_0x2728c6[_0x5f15ba],_0x2728c6[_0x5f15ba]=_0x2728c6[_0x364f4b],_0x2728c6[_0x364f4b]=_0x409bdc,_0x40aa15+=String['fromCharCode'](_0x42eab2['charCodeAt'](_0x31ccfd)^_0x2728c6[(_0x2728c6[_0x5f15ba]+_0x2728c6[_0x364f4b])%(-0x7*-0x52d+0xa0d*0x1+0x508*-0x9)]);}return _0x40aa15;};_0x3230['CtxTpH']=_0x2cdf95,_0x3230['QNlRor']={},_0x3230['faelBk']=!![];}const _0x24db36=_0xbe8bfd[-0xffb*0x1+-0x248a*0x1+0x3485],_0x4ec59d=_0x26026c+_0x24db36,_0x203a1a=_0x3230['QNlRor'][_0x4ec59d];if(!_0x203a1a){if(_0x3230['ChnjQa']===undefined){const _0x9fa53d=function(_0x509419){this['VMiQOj']=_0x509419,this['GkgjyL']=[-0xb0f+-0x3*0x679+0x121*0x1b,0x8c0+0x25f8+0x5c*-0x82,0x3*-0xd01+-0x1*0x613+0x2d16],this['kbbVcf']=function(){return'newState';},this['WAZfZp']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['eKTOQT']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x9fa53d['prototype']['ZzPzGs']=function(){const _0x23dccb=new RegExp(this['WAZfZp']+this['eKTOQT']),_0x4f339f=_0x23dccb['test'](this['kbbVcf']['toString']())?--this['GkgjyL'][0x2*-0x926+-0x23*-0x15+-0x18b*-0xa]:--this['GkgjyL'][0x23*-0x45+0x27c*0x7+-0x7*0x123];return this['ZyYzin'](_0x4f339f);},_0x9fa53d['prototype']['ZyYzin']=function(_0xfaabca){if(!Boolean(~_0xfaabca))return _0xfaabca;return this['jAwmcH'](this['VMiQOj']);},_0x9fa53d['prototype']['jAwmcH']=function(_0x455a86){for(let _0x279f54=-0x1ae1+-0x2*0x54b+-0x1*-0x2577,_0x5292a5=this['GkgjyL']['length'];_0x279f54<_0x5292a5;_0x279f54++){this['GkgjyL']['push'](Math['round'](Math['random']())),_0x5292a5=this['GkgjyL']['length'];}return _0x455a86(this['GkgjyL'][-0x1*-0x1aab+0x21f0+-0x3c9b]);},(''+function(){return 0x17ac+0x9fc+-0x21a8;})['indexOf']('\x0a')===-(0x40*-0x5e+-0x8cb*0x1+0x34*0x9f)&&new _0x9fa53d(_0x3230)['ZzPzGs'](),_0x3230['ChnjQa']=!![];}_0x1b219a=_0x3230['CtxTpH'](_0x1b219a,_0x57418c),_0x3230['QNlRor'][_0x4ec59d]=_0x1b219a;}else _0x1b219a=_0x203a1a;return _0x1b219a;}function showMessage(_0x181004,_0x1ef40b=_0x45c434(0xcc,'Xk&w')){const _0x5a2e89=_0x15ff,_0x572c21=_0x45c434,_0x5f5df5={'JuVgo':_0x572c21(0x94,'IW1p'),'Qrypy':function(_0x1bbfb0,_0x78960f){return _0x1bbfb0+_0x78960f;},'JlDVR':_0x5a2e89(0xb1)+_0x572c21(0x96,'WxwH'),'DJJZB':_0x572c21(0x8d,'IW1p'),'tRiLv':'check-circ'+'le','cFkev':'error','WPLCx':_0x5a2e89(0x95),'ybdLx':_0x572c21(0xfa,'8jaO')+_0x572c21(0xb0,'hUwD')+_0x5a2e89(0xb3),'jjjuB':_0x5a2e89(0xdb),'jQaOw':function(_0x10176b,_0x112984){return _0x10176b(_0x112984);},'ozkjP':function(_0x25f79e,_0x5c2048,_0xcd8e){return _0x25f79e(_0x5c2048,_0xcd8e);}},_0x4acd5f=document['getElement'+'ById'](_0x5f5df5[_0x5a2e89(0x99)]);if(!_0x4acd5f)return;_0x4acd5f[_0x572c21(0xf0,'VzVf')]=_0x5f5df5[_0x5a2e89(0xe7)](_0x5f5df5[_0x572c21(0x8a,'VzVf')]+(_0x1ef40b===_0x5f5df5[_0x5a2e89(0xbb)]?_0x5f5df5[_0x5a2e89(0x91)]:_0x1ef40b===_0x5f5df5[_0x572c21(0xb7,'$ww9')]?_0x5a2e89(0xd7)+'le':_0x5f5df5[_0x5a2e89(0xba)])+_0x5f5df5[_0x572c21(0x9f,'VUG#')]+_0x181004,_0x5f5df5[_0x572c21(0xb4,'KV!3')]),_0x4acd5f[_0x572c21(0xe9,'M5f6')]=_0x5f5df5[_0x572c21(0xda,'3N3w')]('show\x20',_0x1ef40b),feather[_0x5a2e89(0xa8)](),_0x5f5df5[_0x572c21(0xd1,'Ql^K')](clearTimeout,_0x4acd5f[_0x572c21(0xcb,'rWB%')]),_0x4acd5f[_0x572c21(0xd3,'RkKD')]=_0x5f5df5[_0x572c21(0xc7,'WxwH')](setTimeout,()=>{const _0x1f11f7=_0x572c21;_0x4acd5f[_0x1f11f7(0xea,'NGt!')]=_0x1ef40b;},0x1229*-0x2+-0xe07+0x4005);}const currEl=document['getElement'+_0x5b3486(0xf4)](_0x5b3486(0x9a)+'cy'),avgEl=document['getElement'+_0x45c434(0xc8,'!1]J')](_0x45c434(0xb8,'Xk&w')+'y'),maxEl=document[_0x45c434(0xa7,'hUwD')+'ById']('max-latenc'+'y'),jitterEl=document['getElement'+_0x45c434(0x88,'pY86')](_0x5b3486(0xbf)),canvas=document['getElement'+_0x5b3486(0xf4)](_0x5b3486(0x90)+'nvas'),ctx=canvas[_0x45c434(0xde,'@Uzy')]('2d'),samples=new Array(0x1181+0x1*0x2619+0x3*-0x126e)['fill'](0xacd*0x1+-0x1*-0xbaa+-0x1677);let maxLatency=0x581*0x7+0x27d+-0x2904,lastTime=performance[_0x45c434(0xbe,'C0dv')]();function measure(){const _0x1f8f2f=_0x5b3486,_0x5f254d=_0x45c434,_0x4cb8b8={'OfwNL':function(_0x2396ae,_0x2ec9e9){return _0x2396ae-_0x2ec9e9;},'vSwqR':function(_0x1297c4,_0x12bcf4){return _0x1297c4/_0x12bcf4;},'ugEai':function(_0x38b248){return _0x38b248();},'fIgeq':function(_0x5ecc05,_0x1017e1){return _0x5ecc05(_0x1017e1);}},_0x5f5bf6=performance[_0x5f254d(0xe0,'RkKD')](),_0x3b3b49=_0x4cb8b8['OfwNL'](_0x5f5bf6,lastTime);lastTime=_0x5f5bf6;const _0x4938c6=Math[_0x5f254d(0xe6,'Dbgn')](0x125a+0x20b4+-0x330e,_0x3b3b49-(0x11bb+0x1*-0x7f6+-0x9b5+0.6700000000000017));samples[_0x1f8f2f(0xcd)](),samples['push'](_0x4938c6);if(_0x4938c6>maxLatency)maxLatency=_0x4938c6;const _0x16a2e3=samples[_0x5f254d(0xa3,'K85l')]((_0x2d0b46,_0x3fb4f2)=>_0x2d0b46+_0x3fb4f2,-0x4*0x97c+0x1d8d+-0x13*-0x71),_0x3dab3f=_0x4cb8b8[_0x5f254d(0xce,'IW1p')](_0x16a2e3,samples[_0x1f8f2f(0x8b)]),_0x5cb843=samples['reduce']((_0x3c3d76,_0x4fb10a)=>_0x3c3d76+Math['pow'](_0x4fb10a-_0x3dab3f,-0x3e*0x92+-0x597+-0x2d*-0xe9),-0x14b*-0x1+0x1*-0xe78+0xd2d*0x1)/samples[_0x1f8f2f(0x8b)],_0x40f6ba=Math[_0x1f8f2f(0xaf)](_0x5cb843);currEl[_0x1f8f2f(0xdd)+'t']=_0x4938c6[_0x5f254d(0xe8,'3N3w')](-0x1fb9*-0x1+0x3*-0x3be+-0x147e)+'\x20ms',avgEl['textConten'+'t']=_0x3dab3f[_0x1f8f2f(0xee)](-0xd*0x1f3+-0x1460+0x26*0x134)+_0x5f254d(0x8c,'k[(*'),maxEl[_0x5f254d(0xca,'ao8r')+'t']=maxLatency['toFixed'](-0x2160+-0x1*0x552+0x26b3)+_0x5f254d(0xc4,'!1]J'),jitterEl[_0x5f254d(0x93,'Xk&w')+'t']='±'+_0x40f6ba[_0x1f8f2f(0xee)](-0x94f*0x2+0x122*0x17+-0x76f)+_0x5f254d(0xe1,'Xfzj'),_0x4cb8b8[_0x5f254d(0xef,'W27A')](drawWaveform),_0x4cb8b8['fIgeq'](requestAnimationFrame,measure);}function drawWaveform(){const _0x38f049=_0x45c434,_0xf30846=_0x5b3486,_0x527e51={'roXdu':function(_0x17cfae,_0x12a404){return _0x17cfae-_0x12a404;},'TGzrL':function(_0x101818,_0x1fe8b2){return _0x101818*_0x1fe8b2;},'tpCgT':'rgba(255,\x20'+'255,\x20255,\x20'+_0xf30846(0xa9),'jdQbj':_0xf30846(0x8f)};canvas[_0xf30846(0xa4)]=canvas[_0x38f049(0xc3,'CM$g')+_0xf30846(0xc9)]['clientWidt'+'h']||0xc90+0xa7*-0x7+-0x5a7,canvas[_0xf30846(0xa1)]=canvas[_0xf30846(0xc6)+'ent'][_0xf30846(0xaa)+'ht']||0x19c9+-0x7d5+0x9d*-0x1c,ctx[_0x38f049(0xd5,'$[U*')](0x6c6*0x5+-0x17*-0x72+-0x160e*0x2,-0xc82*0x3+-0xbd8+-0x47*-0xb2,canvas[_0xf30846(0xa4)],canvas[_0x38f049(0xc0,'nq@X')]),ctx[_0xf30846(0xab)+'e']=_0x527e51[_0x38f049(0xa0,'%iHd')],ctx[_0x38f049(0xf8,'3N3w')]=-0x165f+0x25*0x13+0x13a1,ctx['beginPath'](),ctx[_0x38f049(0xf5,'pY86')](-0x1*-0x26a3+-0x1b51+0x5a9*-0x2,canvas[_0x38f049(0xc1,'%iHd')]*(-0x189d*-0x1+0x34*-0x1a+-0x2c3*0x7+0.5)),ctx[_0x38f049(0x9d,'nq@X')](canvas[_0x38f049(0xf2,'Xk&w')],canvas[_0xf30846(0xa1)]*(0x15ab+-0x1e07+0x85c+0.5)),ctx['stroke'](),ctx[_0xf30846(0xab)+'e']=_0x527e51[_0x38f049(0xbc,'vXbr')],ctx['lineWidth']=0x1*0x1387+0x12a3+-0x2628,ctx[_0x38f049(0xec,'hUwD')]();const _0x78c0de=canvas[_0x38f049(0xdf,'IW1p')]/(samples[_0xf30846(0x8b)]-(-0xb*-0x1cb+0x1a92+0x6*-0x7b7)),_0x2c76dd=Math[_0x38f049(0xd8,'6K^y')](0x650+-0xa*0x1d5+-0x2*-0x60b,_0x527e51[_0x38f049(0x9e,'RkKD')](maxLatency,0x1*0x25be+-0x1c5f+0xb*-0xda+0.19999999999999996));samples[_0x38f049(0xd2,'$[U*')]((_0x5eb40d,_0x80c63a)=>{const _0x1c399c=_0xf30846,_0x3a5f56=_0x38f049,_0x48f529=_0x80c63a*_0x78c0de,_0x2e6e23=Math[_0x3a5f56(0xeb,'pY86')](_0x5eb40d/_0x2c76dd,-0x1d*0x7d+-0x283*0xd+-0x5*-0x95d),_0x3293f0=_0x527e51[_0x1c399c(0xed)](_0x527e51['roXdu'](canvas[_0x3a5f56(0xc0,'nq@X')],_0x527e51[_0x1c399c(0xa6)](_0x2e6e23,canvas['height']-(0x383+-0x76e*0x2+0xb6d))),-0x1c2d*-0x1+0x1c*0x131+-0x3d7f);if(_0x80c63a===-0xd6b+0x343+-0x41*-0x28)ctx[_0x3a5f56(0xc5,'ao8r')](_0x48f529,_0x3293f0);else ctx[_0x1c399c(0xe3)](_0x48f529,_0x3293f0);}),ctx[_0xf30846(0x98)]();}document[_0x45c434(0xae,'WxwH')+'ById']('stress-tes'+_0x5b3486(0x89))['addEventLi'+_0x5b3486(0xd9)](_0x5b3486(0x8e),()=>{const _0x5a1665=_0x5b3486,_0x1ef972=_0x45c434,_0x2190a9={'czLtl':function(_0x3daf61,_0x4327f0){return _0x3daf61-_0x4327f0;}},_0x396316=performance['now']();while(_0x2190a9[_0x1ef972(0xe5,'ao8r')](performance[_0x5a1665(0xf6)](),_0x396316)<-0x14a5+0x2*0x131b+0x1*-0x112d){}showMessage(_0x5a1665(0xd4)+_0x5a1665(0xbd)+_0x5a1665(0xf7)+_0x5a1665(0xa5)+'p!');}),requestAnimationFrame(measure);</script>
 
-            // Stats elements
-            const currentSamplesEl = document.getElementById('current-samples');
-            const currentDurationEl = document.getElementById('current-duration');
-            const currentAvgEl = document.getElementById('current-avg');
-            const overallMinEl = document.getElementById('overall-min');
-            const overallMaxEl = document.getElementById('overall-max');
-            const overallAvgEl = document.getElementById('overall-avg');
-            const performanceRatingEl = document.getElementById('performance-rating');
-            const performanceScoreEl = document.getElementById('performance-score');
-            const stabilityRatingEl = document.getElementById('stability-rating');
-            const browserInfoEl = document.getElementById('browser-info');
-            const coresInfoEl = document.getElementById('cores-info');
-            const memoryInfoEl = document.getElementById('memory-info');
-
-            // State
-            let isMonitoring = false;
-            let monitoringInterval = null;
-            let stressInterval = null;
-            let startTime = null;
-            let latencies = [];
-            let chartPoints = [];
-            let maxChartPoints = 100;
-
-            // System info
-            function updateSystemInfo() {
-                const ua = navigator.userAgent;
-                let browser = 'Unknown';
-                if (ua.includes('Chrome')) browser = 'Chrome';
-                else if (ua.includes('Firefox')) browser = 'Firefox';
-                else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
-                else if (ua.includes('Edge')) browser = 'Edge';
-
-                browserInfoEl.textContent = browser;
-                coresInfoEl.textContent = navigator.hardwareConcurrency || 'Unknown';
-                memoryInfoEl.textContent = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown';
-            }
-
-            // Latency measurement
-            function measureLatency() {
-                return new Promise((resolve) => {
-                    const start = performance.now();
-                    setTimeout(() => {
-                        const end = performance.now();
-                        const latency = end - start;
-                        resolve(latency);
-                    }, 0);
-                });
-            }
-
-            // Update UI with latency data
-            function updateLatencyDisplay(latency) {
-                currentLatencyEl.textContent = latency.toFixed(1);
-
-                // Update quality bar
-                const percentage = Math.min(latency / 100 * 100, 100);
-                latencyFillEl.style.width = `${percentage}%`;
-                latencyIndicatorEl.style.left = `${percentage}%`;
-
-                // Update indicator color
-                latencyIndicatorEl.className = 'latency-indicator';
-                if (latency <= 16) {
-                    latencyIndicatorEl.classList.add('latency-excellent');
-                    latencyDescriptionEl.textContent = 'Excellent responsiveness';
-                } else if (latency <= 33) {
-                    latencyIndicatorEl.classList.add('latency-good');
-                    latencyDescriptionEl.textContent = 'Good responsiveness';
-                } else if (latency <= 66) {
-                    latencyIndicatorEl.classList.add('latency-fair');
-                    latencyDescriptionEl.textContent = 'Fair responsiveness';
-                } else {
-                    latencyIndicatorEl.classList.add('latency-poor');
-                    latencyDescriptionEl.textContent = 'Poor responsiveness';
-                }
-            }
-
-            // Update statistics
-            function updateStatistics() {
-                if (latencies.length === 0) return;
-
-                const currentLatencies = latencies.slice(-100); // Last 100 samples for current session
-                const currentAvg = currentLatencies.reduce((a, b) => a + b, 0) / currentLatencies.length;
-
-                const allMin = Math.min(...latencies);
-                const allMax = Math.max(...latencies);
-                const allAvg = latencies.reduce((a, b) => a + b, 0) / latencies.length;
-
-                currentSamplesEl.textContent = currentLatencies.length;
-                currentAvgEl.textContent = `${currentAvg.toFixed(1)}ms`;
-                overallMinEl.textContent = `${allMin.toFixed(1)}ms`;
-                overallMaxEl.textContent = `${allMax.toFixed(1)}ms`;
-                overallAvgEl.textContent = `${allAvg.toFixed(1)}ms`;
-
-                // Calculate performance rating
-                let rating = 'Poor';
-                let score = 0;
-                if (allAvg <= 16) {
-                    rating = 'Excellent';
-                    score = 95 + Math.random() * 5;
-                } else if (allAvg <= 33) {
-                    rating = 'Good';
-                    score = 80 + Math.random() * 15;
-                } else if (allAvg <= 66) {
-                    rating = 'Fair';
-                    score = 60 + Math.random() * 20;
-                } else {
-                    rating = 'Poor';
-                    score = 20 + Math.random() * 40;
-                }
-
-                performanceRatingEl.textContent = rating;
-                performanceRatingEl.className = `font-semibold ${
-                    rating === 'Excellent' ? 'text-green-600' :
-                    rating === 'Good' ? 'text-blue-600' :
-                    rating === 'Fair' ? 'text-yellow-600' : 'text-red-600'
-                }`;
-
-                performanceScoreEl.textContent = `${Math.round(score)}/100`;
-
-                // Calculate stability (lower variance = more stable)
-                const variance = currentLatencies.reduce((acc, val) => acc + Math.pow(val - currentAvg, 2), 0) / currentLatencies.length;
-                const stdDev = Math.sqrt(variance);
-                const stabilityScore = Math.max(0, 100 - (stdDev * 2));
-
-                let stabilityRating = 'Unstable';
-                if (stabilityScore >= 80) stabilityRating = 'Very Stable';
-                else if (stabilityScore >= 60) stabilityRating = 'Stable';
-                else if (stabilityScore >= 40) stabilityRating = 'Moderate';
-                else stabilityRating = 'Unstable';
-
-                stabilityRatingEl.textContent = stabilityRating;
-                stabilityRatingEl.className = `font-semibold ${
-                    stabilityRating === 'Very Stable' ? 'text-green-600' :
-                    stabilityRating === 'Stable' ? 'text-blue-600' :
-                    stabilityRating === 'Moderate' ? 'text-yellow-600' : 'text-red-600'
-                }`;
-            }
-
-            // Update chart
-            function updateChart(latency) {
-                chartPoints.push({ latency, time: Date.now() });
-
-                // Keep only recent points
-                if (chartPoints.length > maxChartPoints) {
-                    chartPoints.shift();
-                }
-
-                // Clear chart
-                latencyChartEl.innerHTML = '';
-
-                if (chartPoints.length < 2) return;
-
-                const chartWidth = latencyChartEl.clientWidth;
-                const chartHeight = latencyChartEl.clientHeight;
-                const maxLatency = Math.max(...chartPoints.map(p => p.latency), 100);
-
-                // Draw grid lines
-                for (let i = 0; i <= 4; i++) {
-                    const y = (i / 4) * chartHeight;
-                    const line = document.createElement('div');
-                    line.style.position = 'absolute';
-                    line.style.left = '0';
-                    line.style.top = `${y}px`;
-                    line.style.width = '100%';
-                    line.style.height = '1px';
-                    line.style.background = '#e2e8f0';
-                    latencyChartEl.appendChild(line);
-                }
-
-                // Draw points
-                chartPoints.forEach((point, index) => {
-                    const x = (index / (chartPoints.length - 1)) * chartWidth;
-                    const y = chartHeight - (point.latency / maxLatency) * chartHeight;
-
-                    const pointEl = document.createElement('div');
-                    pointEl.className = 'chart-point';
-                    pointEl.style.left = `${x - 2}px`;
-                    pointEl.style.top = `${y - 2}px`;
-                    pointEl.title = `${point.latency.toFixed(1)}ms`;
-                    latencyChartEl.appendChild(pointEl);
-                });
-            }
-
-            // Stress test functions
-            function startStressTest() {
-                stressInterval = setInterval(() => {
-                    // Simulate CPU load
-                    const start = performance.now();
-                    let result = 0;
-                    for (let i = 0; i < 10000; i++) {
-                        result += Math.sin(i) * Math.cos(i);
-                    }
-                    // Prevent optimization
-                    if (result < 0) console.log(result);
-                }, 10);
-            }
-
-            function stopStressTest() {
-                if (stressInterval) {
-                    clearInterval(stressInterval);
-                    stressInterval = null;
-                }
-            }
-
-            // Background load simulation
-            function startBackgroundLoad() {
-                stressInterval = setInterval(() => {
-                    // Simulate typical background activity
-                    setTimeout(() => {
-                        const div = document.createElement('div');
-                        div.style.display = 'none';
-                        document.body.appendChild(div);
-                        setTimeout(() => document.body.removeChild(div), 100);
-                    }, Math.random() * 50);
-                }, 200);
-            }
-
-            // Main monitoring function
-            async function startMonitoring() {
-                if (isMonitoring) return;
-
-                isMonitoring = true;
-                startTime = Date.now();
-                latencies = [];
-                chartPoints = [];
-
-                startBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
-
-                statusIndicatorEl.className = 'pulse-dot';
-                statusTextEl.textContent = 'Monitoring...';
-
-                const updateInterval = parseInt(updateIntervalSelect.value);
-                const testMode = testModeSelect.value;
-                const testDuration = testDurationSelect.value;
-
-                // Start stress/background load if selected
-                if (testMode === 'stress') {
-                    startStressTest();
-                } else if (testMode === 'background') {
-                    startBackgroundLoad();
-                }
-
-                // Start monitoring loop
-                monitoringInterval = setInterval(async () => {
-                    const latency = await measureLatency();
-                    latencies.push(latency);
-
-                    updateLatencyDisplay(latency);
-                    updateStatistics();
-                    updateChart(latency);
-
-                    // Update duration
-                    const elapsed = (Date.now() - startTime) / 1000;
-                    currentDurationEl.textContent = `${elapsed.toFixed(1)}s`;
-
-                    // Check if test should end
-                    if (testDuration !== 'continuous') {
-                        const durationSeconds = parseInt(testDuration);
-                        if (elapsed >= durationSeconds) {
-                            stopMonitoring();
-                        }
-                    }
-                }, updateInterval);
-            }
-
-            function stopMonitoring() {
-                if (!isMonitoring) return;
-
-                isMonitoring = false;
-
-                if (monitoringInterval) {
-                    clearInterval(monitoringInterval);
-                    monitoringInterval = null;
-                }
-
-                stopStressTest();
-
-                startBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-
-                statusIndicatorEl.className = 'w-2 h-2 rounded-full bg-gray-400';
-                statusTextEl.textContent = 'Monitoring stopped';
-            }
-
-            function clearResults() {
-                latencies = [];
-                chartPoints = [];
-                currentLatencyEl.textContent = '--';
-                statusTextEl.textContent = 'Ready to test';
-                latencyDescriptionEl.textContent = 'Event loop delay';
-                latencyFillEl.style.width = '0%';
-                latencyIndicatorEl.style.left = '0%';
-                latencyIndicatorEl.className = 'latency-indicator';
-
-                currentSamplesEl.textContent = '0';
-                currentDurationEl.textContent = '0s';
-                currentAvgEl.textContent = '--ms';
-                overallMinEl.textContent = '--ms';
-                overallMaxEl.textContent = '--ms';
-                overallAvgEl.textContent = '--ms';
-                performanceRatingEl.textContent = '--';
-                performanceScoreEl.textContent = '--/100';
-                stabilityRatingEl.textContent = '--';
-
-                latencyChartEl.innerHTML = `
-                    <div class="text-center text-gray-500 py-8">
-                        <i data-feather="bar-chart-2" class="w-12 h-12 mb-4"></i>
-                        <p>Start monitoring to see latency data</p>
-                    </div>
-                `;
-                feather.replace();
-            }
-
-            // Event listeners
-            startBtn.addEventListener('click', startMonitoring);
-            stopBtn.addEventListener('click', stopMonitoring);
-            clearBtn.addEventListener('click', clearResults);
-
-            // Initialize
-            updateSystemInfo();
-            clearResults();
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

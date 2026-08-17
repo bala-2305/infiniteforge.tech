@@ -1,246 +1,81 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Repo Visualizer | Infiniteforge - Free Online Tools</title>
-    <meta name="description" content="Visualize GitHub repository data with interactive charts and statistics. Analyze contributors, commits, languages, and repository metrics. Free online tool.">
-    <meta name="keywords" content="github visualizer, repository analyzer, git statistics, contributor analysis, code metrics, github api, repository insights, Infiniteforge">
+    <title>GitHub Repo Visualizer — Interactive Code &amp; Star Metrics | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Visualize GitHub repository statistics, language breakdowns, star counts, forks, and top contributors with interactive dark charts.">
+    <meta name="keywords" content="github visualizer, repo analyzer, github stats, language breakdown, git insights">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-
-    <meta property="og:title" content="GitHub Repo Visualizer | Infiniteforge - Free Online Tools">
-    <meta property="og:description" content="Analyze and visualize GitHub repository data with interactive charts. Get insights on contributors, commits, languages, and more.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="GitHub Repo Visualizer | Infiniteforge">
+    <meta property="og:description" content="Analyze and visualize GitHub repository metrics with interactive charts.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/github-visualizer.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <link rel="canonical" href="https://infiniteforge.tech/github-visualizer.html">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-        // Initialize Feather Icons with multiple attempts
-        function initFeatherIcons() {
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-                return true;
-            }
-            return false;
-        }
-
-        // Try to initialize immediately
-        if (!initFeatherIcons()) {
-            // If feather isn't loaded yet, wait for it
-            let attempts = 0;
-            const maxAttempts = 50; // 5 seconds max
-            const checkInterval = setInterval(() => {
-                attempts++;
-                if (initFeatherIcons() || attempts >= maxAttempts) {
-                    clearInterval(checkInterval);
-                }
-            }, 100);
-        }
-
-        // Also initialize on DOMContentLoaded
-        document.addEventListener('DOMContentLoaded', initFeatherIcons);
-
-        // Initialize again after any dynamic content changes
-        const originalFeatherReplace = feather ? feather.replace : null;
-        if (originalFeatherReplace) {
-            feather.replace = function() {
-                const result = originalFeatherReplace.apply(this, arguments);
-                // Re-run after a short delay to catch any newly added icons
-                setTimeout(() => originalFeatherReplace.apply(this, arguments), 50);
-                return result;
-            };
-        }
-    </script>
-    <!-- Chart.js for visualizations -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-        }
-
-        .stat-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .loading-spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3b82f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
-
-        .contributor-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
-        }
-
-        .contributor-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .language-bar {
-            height: 8px;
-            border-radius: 4px;
-            background: #e2e8f0;
-            overflow: hidden;
-        }
-
-        .repo-input {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .repo-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GitHub Repo Visualizer | Infiniteforge">
+    <meta name="twitter:description" content="Interactive GitHub repository metrics visualizer.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/github-visualizer.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/github-visualizer.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x380d84=_0x59d6,_0x278ab8=_0x5533;function _0x5533(_0xa81644,_0x25d18c){_0xa81644=_0xa81644-(-0xc9e+-0x9a7+0x1718);var _0x4fd02e=_0x2c7c();var _0x53adb4=_0x4fd02e[_0xa81644];if(_0x5533['tfPaOA']===undefined){var _0x5147ce=function(_0x58a800){var _0x455d8a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0xefb289='',_0x1ab02f='',_0x2117f0=_0xefb289+_0x5147ce,_0x379b1a=(''+function(){return-0x29f*0x1+0x2289+-0x2b*0xbe;})['indexOf']('\x0a')!==-(-0x211*-0x1+0x1ebc+-0x20cc);for(var _0xa67600=-0x2*-0x113f+-0x2*0xb62+-0xbba,_0x8b7198,_0x1bc3d3,_0x450820=0x4*0x33b+-0x1*-0x1795+-0x2481;_0x1bc3d3=_0x58a800['charAt'](_0x450820++);~_0x1bc3d3&&(_0x8b7198=_0xa67600%(0x134*-0x14+0x1937+0x3*-0x61)?_0x8b7198*(-0x1ad4*-0x1+-0x1*-0x1ad9+0x123*-0x2f)+_0x1bc3d3:_0x1bc3d3,_0xa67600++%(-0x5*0x1e7+0x25a4+-0x1c1d))?_0xefb289+=_0x379b1a||_0x2117f0['charCodeAt'](_0x450820+(0x24af*0x1+-0x1cdb+-0x7ca))-(0x1ad2+0x124f+0x7*-0x671)!==-0x21a5+-0x104c+0x31f1*0x1?String['fromCharCode'](0x1*-0x7a0+-0x7*0xd6+0xe79&_0x8b7198>>(-(-0x1195+-0xc5+-0x2*-0x92e)*_0xa67600&0x174f+0x1*-0x21ea+0xaa1)):_0xa67600:-0x3*-0xa9f+0x2eb*0xb+-0x3ff6){_0x1bc3d3=_0x455d8a['indexOf'](_0x1bc3d3);}for(var _0x289078=0x1d9f+-0x1bb1+-0x1ee,_0xa2ec00=_0xefb289['length'];_0x289078<_0xa2ec00;_0x289078++){_0x1ab02f+='%'+('00'+_0xefb289['charCodeAt'](_0x289078)['toString'](0x212+-0x92*0x29+0x9*0x260))['slice'](-(0x95*0x13+0x39f*0x9+-0x2ba4));}return decodeURIComponent(_0x1ab02f);};var _0x3d235f=function(_0x5be848,_0x37fca2){var _0x227274=[],_0x29eb80=0x1*-0x1bbe+0xbbd+0x1*0x1001,_0x3b2c68,_0x2f04a5='';_0x5be848=_0x5147ce(_0x5be848);var _0x4d909c;for(_0x4d909c=0x901+0xfce+-0x18cf;_0x4d909c<0x13c*-0x1+0x1377+-0x113b;_0x4d909c++){_0x227274[_0x4d909c]=_0x4d909c;}for(_0x4d909c=0x3*-0x251+-0x1b06+0x27*0xdf;_0x4d909c<0x1888+0xb8e*-0x2+-0x6c;_0x4d909c++){_0x29eb80=(_0x29eb80+_0x227274[_0x4d909c]+_0x37fca2['charCodeAt'](_0x4d909c%_0x37fca2['length']))%(0x315*0x1+0x4fa+-0x8b*0xd),_0x3b2c68=_0x227274[_0x4d909c],_0x227274[_0x4d909c]=_0x227274[_0x29eb80],_0x227274[_0x29eb80]=_0x3b2c68;}_0x4d909c=0x240b*0x1+-0x15a3+-0x1*0xe68,_0x29eb80=-0x22f+0xb10+-0x8e1;for(var _0x1b564a=0x5*-0x6b9+0xd*-0x2c3+-0x4*-0x1161;_0x1b564a<_0x5be848['length'];_0x1b564a++){_0x4d909c=(_0x4d909c+(-0xe6c+0x1a53+-0xbe6))%(-0xb04+-0x2*0x2e1+0x41*0x46),_0x29eb80=(_0x29eb80+_0x227274[_0x4d909c])%(-0x5*-0x2b+0x252e+-0x2505),_0x3b2c68=_0x227274[_0x4d909c],_0x227274[_0x4d909c]=_0x227274[_0x29eb80],_0x227274[_0x29eb80]=_0x3b2c68,_0x2f04a5+=String['fromCharCode'](_0x5be848['charCodeAt'](_0x1b564a)^_0x227274[(_0x227274[_0x4d909c]+_0x227274[_0x29eb80])%(-0x1aa1*-0x1+-0x986+-0x85*0x1f)]);}return _0x2f04a5;};_0x5533['PCUUKv']=_0x3d235f,_0x5533['USOdrL']={},_0x5533['tfPaOA']=!![];}var _0x57fa29=_0x4fd02e[-0x1a8+0x18d*-0x13+0x101*0x1f],_0x351951=_0xa81644+_0x57fa29,_0x11384d=_0x5533['USOdrL'][_0x351951];if(!_0x11384d){if(_0x5533['IJCrIS']===undefined){var _0x1f79c2=function(_0xfca6b8){this['yMlhTT']=_0xfca6b8,this['NsFilE']=[-0x2509+0x2035+-0x1*-0x4d5,-0x827+0x19c1+-0x119a,0x2*0x392+0x1*0x1226+-0xd*0x1f2],this['QkwaoW']=function(){return'newState';},this['MpDCGp']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['wkbCNL']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1f79c2['prototype']['mALmcj']=function(){var _0x295d41=new RegExp(this['MpDCGp']+this['wkbCNL']),_0x59d230=_0x295d41['test'](this['QkwaoW']['toString']())?--this['NsFilE'][-0xa3*0x15+-0x122a+0x1f8a]:--this['NsFilE'][0xad5+0x113*-0x3+-0x79c];return this['iKSJMC'](_0x59d230);},_0x1f79c2['prototype']['iKSJMC']=function(_0x33be31){if(!Boolean(~_0x33be31))return _0x33be31;return this['gwLmkP'](this['yMlhTT']);},_0x1f79c2['prototype']['gwLmkP']=function(_0x599adc){for(var _0x4d41a9=0x3e5+0x320+-0x705,_0x3d115e=this['NsFilE']['length'];_0x4d41a9<_0x3d115e;_0x4d41a9++){this['NsFilE']['push'](Math['round'](Math['random']())),_0x3d115e=this['NsFilE']['length'];}return _0x599adc(this['NsFilE'][-0x1*0x5bc+-0x303*-0x9+0x155f*-0x1]);},(''+function(){return-0x1a8*-0xa+-0x6d*-0x6+-0x131e;})['indexOf']('\x0a')===-(-0xd*-0xc+-0xf*-0x1bb+-0x1a90)&&new _0x1f79c2(_0x5533)['mALmcj'](),_0x5533['IJCrIS']=!![];}_0x53adb4=_0x5533['PCUUKv'](_0x53adb4,_0x25d18c),_0x5533['USOdrL'][_0x351951]=_0x53adb4;}else _0x53adb4=_0x11384d;return _0x53adb4;}function _0x59d6(_0x223ed8,_0x28a972){_0x223ed8=_0x223ed8-(-0xc9e+-0x9a7+0x1718);var _0x2868c6=_0x2c7c();var _0x5435ae=_0x2868c6[_0x223ed8];if(_0x59d6['EtNyCc']===undefined){var _0x2467b5=function(_0x5d11a1){var _0x38e9e1='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x1a5cc7='',_0x1c061c='',_0x35abf9=_0x1a5cc7+_0x2467b5,_0x5030a4=(''+function(){return-0x29f*0x1+0x2289+-0x2b*0xbe;})['indexOf']('\x0a')!==-(-0x211*-0x1+0x1ebc+-0x20cc);for(var _0x241111=-0x2*-0x113f+-0x2*0xb62+-0xbba,_0x4c6704,_0x26840e,_0x2e8c69=0x4*0x33b+-0x1*-0x1795+-0x2481;_0x26840e=_0x5d11a1['charAt'](_0x2e8c69++);~_0x26840e&&(_0x4c6704=_0x241111%(0x134*-0x14+0x1937+0x3*-0x61)?_0x4c6704*(-0x1ad4*-0x1+-0x1*-0x1ad9+0x123*-0x2f)+_0x26840e:_0x26840e,_0x241111++%(-0x5*0x1e7+0x25a4+-0x1c1d))?_0x1a5cc7+=_0x5030a4||_0x35abf9['charCodeAt'](_0x2e8c69+(0x24af*0x1+-0x1cdb+-0x7ca))-(0x1ad2+0x124f+0x7*-0x671)!==-0x21a5+-0x104c+0x31f1*0x1?String['fromCharCode'](0x1*-0x7a0+-0x7*0xd6+0xe79&_0x4c6704>>(-(-0x1195+-0xc5+-0x2*-0x92e)*_0x241111&0x174f+0x1*-0x21ea+0xaa1)):_0x241111:-0x3*-0xa9f+0x2eb*0xb+-0x3ff6){_0x26840e=_0x38e9e1['indexOf'](_0x26840e);}for(var _0x39b0e8=0x1d9f+-0x1bb1+-0x1ee,_0x152480=_0x1a5cc7['length'];_0x39b0e8<_0x152480;_0x39b0e8++){_0x1c061c+='%'+('00'+_0x1a5cc7['charCodeAt'](_0x39b0e8)['toString'](0x212+-0x92*0x29+0x9*0x260))['slice'](-(0x95*0x13+0x39f*0x9+-0x2ba4));}return decodeURIComponent(_0x1c061c);};_0x59d6['svliZB']=_0x2467b5,_0x59d6['pKIRau']={},_0x59d6['EtNyCc']=!![];}var _0x324a69=_0x2868c6[0x1*-0x1bbe+0xbbd+0x1*0x1001],_0x465af5=_0x223ed8+_0x324a69,_0x30b6ed=_0x59d6['pKIRau'][_0x465af5];if(!_0x30b6ed){var _0x2dab2d=function(_0xbb9672){this['HTkhzk']=_0xbb9672,this['YGrXei']=[0x901+0xfce+-0x18ce,0x13c*-0x1+0x1377+-0x123b,0x3*-0x251+-0x1b06+0x27*0xdf],this['nQPRbD']=function(){return'newState';},this['gNoaHB']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['KmVYRV']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2dab2d['prototype']['yUkJsA']=function(){var _0x167d7f=new RegExp(this['gNoaHB']+this['KmVYRV']),_0x339608=_0x167d7f['test'](this['nQPRbD']['toString']())?--this['YGrXei'][0x1888+0xb8e*-0x2+-0x16b]:--this['YGrXei'][0x315*0x1+0x4fa+-0x80f*0x1];return this['rauoVB'](_0x339608);},_0x2dab2d['prototype']['rauoVB']=function(_0x481699){if(!Boolean(~_0x481699))return _0x481699;return this['SGoBAB'](this['HTkhzk']);},_0x2dab2d['prototype']['SGoBAB']=function(_0x53f69c){for(var _0x47bab5=0x240b*0x1+-0x15a3+-0x1*0xe68,_0x27cf2c=this['YGrXei']['length'];_0x47bab5<_0x27cf2c;_0x47bab5++){this['YGrXei']['push'](Math['round'](Math['random']())),_0x27cf2c=this['YGrXei']['length'];}return _0x53f69c(this['YGrXei'][-0x22f+0xb10+-0x8e1]);},(''+function(){return 0x5*-0x6b9+0xd*-0x2c3+-0x4*-0x1161;})['indexOf']('\x0a')===-(-0xe6c+0x1a53+-0xbe6)&&new _0x2dab2d(_0x59d6)['yUkJsA'](),_0x5435ae=_0x59d6['svliZB'](_0x5435ae),_0x59d6['pKIRau'][_0x465af5]=_0x5435ae;}else _0x5435ae=_0x30b6ed;return _0x5435ae;}(function(_0x3867d9,_0x45d65f){var _0x3c3d94=_0x59d6,_0x2b9602=_0x5533,_0x453303=_0x3867d9();while(!![]){try{var _0x397b4e=parseInt(_0x2b9602(0xe4,'mDhG'))/(0x5db+-0x1*-0x23af+-0x2989)+parseInt(_0x3c3d94(0xdf))/(0xb10+-0xe18+0x30a)*(parseInt(_0x2b9602(0xda,'dE9*'))/(0x7*-0x521+0x5*0x109+0x1ebd))+-parseInt(_0x3c3d94(0xe2))/(-0xe6c+0x1a53+-0xbe3)+-parseInt(_0x3c3d94(0xee))/(-0xb04+-0x2*0x2e1+0x3*0x599)*(-parseInt(_0x3c3d94(0xd9))/(-0x5*-0x2b+0x252e+-0x25ff))+parseInt(_0x3c3d94(0xf1))/(-0x1aa1*-0x1+-0x986+-0x445*0x4)+parseInt(_0x2b9602(0xe7,'y7ub'))/(-0x1a8+0x18d*-0x13+0x91*0x37)+-parseInt(_0x2b9602(0xf0,'TyEC'))/(-0x2509+0x2035+-0xf*-0x53);if(_0x397b4e===_0x45d65f)break;else _0x453303['push'](_0x453303['shift']());}catch(_0x4d8a8b){_0x453303['push'](_0x453303['shift']());}}}(_0x2c7c,-0x21160+0x687d6+0x7d93));var _0x17120f=(function(){var _0x1a3a48=!![];return function(_0x2ebf82,_0xe652ab){var _0x27bdf=_0x1a3a48?function(){var _0x1772dd=_0x5533;if(_0xe652ab){var _0x345958=_0xe652ab[_0x1772dd(0xf2,'Uh6i')](_0x2ebf82,arguments);return _0xe652ab=null,_0x345958;}}:function(){};return _0x1a3a48=![],_0x27bdf;};}()),_0x2dd7bc=_0x17120f(this,function(){var _0x5d1f2a=_0x5533,_0x566d98=_0x59d6,_0x2b0267={'gNZbi':function(_0x4c236d,_0x64b7ce){return _0x4c236d!==_0x64b7ce;}};if(_0x2b0267[_0x566d98(0xec)](_0x2dd7bc[_0x5d1f2a(0xe5,'5ma6')]()['toString']()[_0x5d1f2a(0xd5,'!s%Z')]('\x0a'),-(0x1*-0x7a0+-0x7*0xd6+0xd7b)))return;return _0x2dd7bc[_0x566d98(0xd4)]()[_0x5d1f2a(0xe9,'b05U')]('(((.+)+)+)'+'+$')['toString']()[_0x566d98(0xeb)+'r'](_0x2dd7bc)[_0x5d1f2a(0xe3,'OIZj')](_0x566d98(0xed)+'+$');});_0x2dd7bc(),tailwind[_0x278ab8(0xd6,'YzIs')]={'theme':{'extend':{'fontFamily':{'sans':[_0x380d84(0xd7),_0x380d84(0xdc)],'mono':[_0x278ab8(0xde,'tM2U')+_0x380d84(0xe0),_0x380d84(0xe1)]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x380d84(0xdb),0x2bc:_0x380d84(0xd3)},'brand':{'primary':'#45F3FF','secondary':_0x278ab8(0xea,'IvF&'),'accent':_0x278ab8(0xd8,'dE9*')}}}}};function _0x2c7c(){var _0x5e7b27=['kCkdgwZdNfGS','mtHYC3zPvKK','oCoGpttcPf0R','iZfgmJGZmW','C2fUCY1ZzxjPzG','W4fIW6ldLJddPSoGW65eW6u7hG','iSkcWPjLqW3dJ2FcImoE','mZe3ntrfsfzzuKm','tw9UBW','Bw9UB3nWywnL','mJq0ndiYohjsrezlCG','xu3cVmoksmky','WQ7cQmoiBmkJomonqafrbHe','W4OcWPdcSW','nZy3mtuWmvvYuwPyBa','W4TUW6tdMZddOmkLW5TNW5O5aGe','m1rLAeHdqq','oxFcS8kAnCo0','W7dcICo3dZyNfG','y29UC3rYDwn0BW','z05AyMK','kcGOlISPkYKRkq','odGYntKWDwv6tufy','W6xdJG3dKZVdPXBdNvSknSkRBa','W4RdSCkjW5PXW4RcMZpcSbVcICkyW7C','mZCZndmXogDntffRDW','gmkCAmkYAq','iZjdmZuZrG','Dg9tDhjPBMC','WRRcMSkBW688wwS','W7abhKRcNv8','t3v0zML0'];_0x2c7c=function(){return _0x5e7b27;};return _0x2c7c();}</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input[type="text"] { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.55rem 0.85rem; font-size: 0.875rem; font-family: 'JetBrains Mono', monospace; outline: none !important; }
+        input[type="text"]:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <!-- Navbar -->
-    
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -251,671 +86,102 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="w-full max-w-6xl mx-auto pt-20 px-4" itemscope itemtype="https://schema.org/WebApplication">
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
         <div class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-3">
-                <span class="text-blue-600">GitHub</span> Repo Visualizer
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                GitHub Repository Visualizer
             </h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-                Analyze and visualize GitHub repository data with interactive charts and comprehensive statistics.
-                Get deep insights into your project's health and activity.
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Analyze GitHub repository statistics, star trajectories, language breakdown, and top contributors.
             </p>
         </div>
 
-        <!-- Repository Input -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8">
-            <div class="max-w-2xl mx-auto">
-                <label for="repoInput" class="block text-lg font-semibold text-gray-100 mb-4">
-                    Enter GitHub Repository URL or owner/repo
-                </label>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <input type="text" id="repoInput" placeholder="e.g., facebook/react or https://github.com/facebook/react"
-                           class="repo-input flex-1 text-gray-300 placeholder-gray-400">
-                    <button id="analyzeButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300 shadow-md flex items-center justify-center sm:justify-start w-full sm:w-auto">
-                        <i data-feather="search" class="w-5 h-5 mr-2"></i>
-                        Analyze
-                    </button>
-                </div>
-                <p class="text-sm text-gray-500 mt-2">
-                    Examples: facebook/react, microsoft/vscode, torvalds/linux
-                </p>
+        <!-- Input Bar -->
+        <div class="glass-panel p-4 rounded-2xl border border-white/10 max-w-2xl mx-auto mb-8 flex gap-3">
+            <div class="relative flex-1">
+                <i data-feather="github" class="w-4 h-4 absolute left-3 top-3.5 text-gray-400"></i>
+                <input type="text" id="repo-url" value="tailwindlabs/tailwindcss" placeholder="owner/repo or GitHub URL" class="w-full pl-9">
             </div>
-        </div>
-
-        <!-- Loading State -->
-        <div id="loadingState" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8 text-center">
-            <div class="loading-spinner mb-4"></div>
-            <h3 class="text-xl font-semibold text-gray-100 mb-2">Analyzing Repository</h3>
-            <p class="text-gray-400">Fetching data from GitHub API...</p>
-        </div>
-
-        <!-- Error State -->
-        <div id="errorState" class="hidden bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 mb-8">
-            <div class="flex items-center mb-4">
-                <i data-feather="alert-circle" class="w-6 h-6 text-red-500 mr-3"></i>
-                <h3 class="text-xl font-semibold text-red-300">Error Loading Repository</h3>
-            </div>
-            <p id="errorMessage" class="text-red-700 mb-4"></p>
-            <button id="retryButton" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
-                Try Again
+            <button id="analyze-btn" class="glass-panel px-6 py-2.5 rounded-xl font-bold text-dark-900 bg-brand-primary hover:bg-brand-primary/90 shadow-[0_0_15px_rgba(69,243,255,0.3)] flex items-center gap-2 text-xs transition-all">
+                <i data-feather="bar-chart-2" class="w-3.5 h-3.5"></i> Analyze
             </button>
         </div>
 
-        <!-- Repository Overview -->
-        <div id="repoOverview" class="hidden mb-8">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
-                <div class="flex items-center mb-6">
-                    <img id="repoAvatar" class="w-16 h-16 rounded-lg mr-4" alt="Repository avatar">
-                    <div>
-                        <h2 id="repoName" class="text-2xl font-bold text-gray-100"></h2>
-                        <p id="repoDescription" class="text-gray-400 mt-1"></p>
-                        <div class="flex items-center mt-2 text-sm text-gray-500">
-                            <i data-feather="user" class="w-4 h-4 mr-1"></i>
-                            <span id="repoOwner"></span>
-                            <span class="mx-2">•</span>
-                            <i data-feather="calendar" class="w-4 h-4 mr-1"></i>
-                            <span id="repoCreated"></span>
-                        </div>
-                    </div>
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1 flex items-center gap-1">
+                    <i data-feather="star" class="w-3.5 h-3.5 text-amber-400"></i> Stars
                 </div>
+                <div class="text-2xl font-bold font-mono text-white" id="stat-stars">-</div>
+            </div>
 
-                <!-- Repository Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="stat-card text-center">
-                        <div class="text-2xl font-bold text-blue-600" id="starsCount">-</div>
-                        <div class="text-gray-400">Stars</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-2xl font-bold text-green-600" id="forksCount">-</div>
-                        <div class="text-gray-400">Forks</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-2xl font-bold text-purple-600" id="issuesCount">-</div>
-                        <div class="text-gray-400">Issues</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-2xl font-bold text-orange-600" id="prsCount">-</div>
-                        <div class="text-gray-400">Pull Requests</div>
-                    </div>
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1 flex items-center gap-1">
+                    <i data-feather="git-branch" class="w-3.5 h-3.5 text-brand-primary"></i> Forks
                 </div>
+                <div class="text-2xl font-bold font-mono text-brand-primary" id="stat-forks">-</div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1 flex items-center gap-1">
+                    <i data-feather="alert-circle" class="w-3.5 h-3.5 text-pink-400"></i> Open Issues
+                </div>
+                <div class="text-2xl font-bold font-mono text-pink-400" id="stat-issues">-</div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1 flex items-center gap-1">
+                    <i data-feather="eye" class="w-3.5 h-3.5 text-emerald-400"></i> Watchers
+                </div>
+                <div class="text-2xl font-bold font-mono text-emerald-400" id="stat-watchers">-</div>
             </div>
         </div>
 
-        <!-- Charts Section -->
-        <div id="chartsSection" class="hidden grid md:grid-cols-2 gap-8 mb-8">
-            <!-- Languages Chart -->
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
-                    <i data-feather="code" class="w-6 h-6 mr-2 text-blue-500"></i>
-                    Languages
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 6 cols: Language Breakdown Chart -->
+            <div class="lg:col-span-6 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-2 border-b border-white/10 flex items-center gap-2">
+                    <i data-feather="pie-chart" class="w-4 h-4 text-brand-primary"></i> Language Breakdown
                 </h3>
-                <div class="chart-container">
-                    <canvas id="languagesChart"></canvas>
+                <div class="h-64 flex items-center justify-center">
+                    <canvas id="lang-chart"></canvas>
                 </div>
             </div>
 
-            <!-- Commit Activity Chart -->
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
-                    <i data-feather="activity" class="w-6 h-6 mr-2 text-green-500"></i>
-                    Commit Activity (Last 12 Months)
+            <!-- Right 6 cols: Top Contributors -->
+            <div class="lg:col-span-6 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-2 border-b border-white/10 flex items-center gap-2">
+                    <i data-feather="users" class="w-4 h-4 text-purple-400"></i> Top Contributors
                 </h3>
-                <div class="chart-container">
-                    <canvas id="commitsChart"></canvas>
+                <div id="contributors-list" class="space-y-2 max-h-64 overflow-y-auto pr-2 text-xs">
+                    <!-- Dynamic contributors -->
                 </div>
-            </div>
-        </div>
-
-        <!-- Contributors Section -->
-        <div id="contributorsSection" class="hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8 mb-8">
-            <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
-                <i data-feather="users" class="w-6 h-6 mr-2 text-purple-500"></i>
-                Top Contributors
-            </h3>
-            <div id="contributorsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-        </div>
-
-        <!-- Repository Details -->
-        <div id="repoDetails" class="hidden grid md:grid-cols-2 gap-8 mb-8">
-            <!-- Repository Info -->
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
-                    <i data-feather="info" class="w-6 h-6 mr-2 text-blue-500"></i>
-                    Repository Details
-                </h3>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-400">License</span>
-                        <span id="repoLicense" class="font-medium">-</span>
-                    </div>
-                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-400">Size</span>
-                        <span id="repoSize" class="font-medium">-</span>
-                    </div>
-                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-400">Last Updated</span>
-                        <span id="repoUpdated" class="font-medium">-</span>
-                    </div>
-                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span class="text-gray-400">Default Branch</span>
-                        <span id="repoBranch" class="font-medium">-</span>
-                    </div>
-                    <div class="flex justify-between items-center py-2">
-                        <span class="text-gray-400">Topics</span>
-                        <div id="repoTopics" class="flex flex-wrap gap-1"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-100 mb-6 flex items-center">
-                    <i data-feather="clock" class="w-6 h-6 mr-2 text-green-500"></i>
-                    Recent Activity
-                </h3>
-                <div id="recentActivity" class="space-y-4">
-                    <!-- Activity items will be populated here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Features Section -->
-        <div class="grid sm:grid-cols-3 gap-6 mt-10">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <div class="w-12 h-12 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
-                    <i data-feather="bar-chart" class="text-blue-500 w-6 h-6"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">Interactive Charts</h3>
-                <p class="text-gray-400">Visualize repository data with beautiful, interactive charts and graphs.</p>
-            </div>
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <div class="w-12 h-12 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
-                    <i data-feather="users" class="text-purple-500 w-6 h-6"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">Contributor Analysis</h3>
-                <p class="text-gray-400">See who contributes most to the project and their contribution patterns.</p>
-            </div>
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-xl shadow-md">
-                <div class="w-12 h-12 bg-dark-900/40 backdrop-blur-md rounded-full flex items-center justify-center mb-4">
-                    <i data-feather="trending-up" class="text-green-500 w-6 h-6"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-100 mb-2">Activity Tracking</h3>
-                <p class="text-gray-400">Monitor repository activity, commits, and growth over time.</p>
-            </div>
-        </div>
-
-        <!-- Social Sharing Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mt-10">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share GitHub Visualizer</h2>
-            <p class="text-gray-400 text-center mb-6">Help others discover this powerful GitHub analysis tool</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
-                <a href="https://twitter.com/intent/tweet?text=Analyze%20GitHub%20repositories%20with%20interactive%20charts%20and%20statistics!&url=https://infiniteforge.tech/github-visualizer.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="twitter" class="w-5 h-5"></i>
-                    <span>Share on Twitter</span>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/github-visualizer.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="facebook" class="w-5 h-5"></i>
-                    <span>Share on Facebook</span>
-                </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/github-visualizer.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
-                    <i data-feather="linkedin" class="w-5 h-5"></i>
-                    <span>Share on LinkedIn</span>
-                </a>
             </div>
         </div>
     </main>
 
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x58e04a=_0x4960,_0x96719b=_0x3fe9;function _0x4960(_0x34dfee,_0x3811d1){_0x34dfee=_0x34dfee-(-0x17a+0x1397+-0x1194);const _0x14418c=_0x2a60();let _0x126245=_0x14418c[_0x34dfee];if(_0x4960['HCsBWU']===undefined){var _0x5a3777=function(_0x377ea1){const _0xf36ca8='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4fe04c='',_0x152fd9='',_0x197375=_0x4fe04c+_0x5a3777,_0x588d3b=(''+function(){return-0x45a+0x150c+-0x10b2;})['indexOf']('\x0a')!==-(-0x1771+0x1*-0x14b+0x18bd*0x1);for(let _0x873834=-0x25ed+0x17*-0x5c+-0x5*-0x93d,_0x5bd31f,_0x3345b0,_0x6b7b16=0x23c7+0x20b2+-0x4479*0x1;_0x3345b0=_0x377ea1['charAt'](_0x6b7b16++);~_0x3345b0&&(_0x5bd31f=_0x873834%(0x1*-0x927+0xaf9*0x2+0xcc7*-0x1)?_0x5bd31f*(0xe06+-0x259*0x6+0x5*0x10)+_0x3345b0:_0x3345b0,_0x873834++%(0xf*0x1ee+-0x3f8*-0x1+-0x20e6))?_0x4fe04c+=_0x588d3b||_0x197375['charCodeAt'](_0x6b7b16+(0x3e1*0x5+0x178a+-0x2ae5))-(0x1*-0x1db7+-0x10db+0x2e9c)!==-0x6d*-0xb+-0x3d*-0x4f+-0x1782?String['fromCharCode'](-0x424+-0x1ac3*0x1+0x1fe6*0x1&_0x5bd31f>>(-(0x135*-0x15+-0x1036+0x2991*0x1)*_0x873834&-0x1a90+-0x2c5+0x1d5b*0x1)):_0x873834:0x566*0x3+0xf20+-0x1f52){_0x3345b0=_0xf36ca8['indexOf'](_0x3345b0);}for(let _0x26b893=0xda0+-0x64e*-0x5+-0x2d26,_0x17924d=_0x4fe04c['length'];_0x26b893<_0x17924d;_0x26b893++){_0x152fd9+='%'+('00'+_0x4fe04c['charCodeAt'](_0x26b893)['toString'](0x17*-0x10b+0x1*0x2627+-0xe1a))['slice'](-(-0x1*-0x1508+0x1c32+0x8*-0x627));}return decodeURIComponent(_0x152fd9);};_0x4960['pEAHgG']=_0x5a3777,_0x4960['wDnSDi']={},_0x4960['HCsBWU']=!![];}const _0x2270e7=_0x14418c[0x4d0+0x1d20+-0xb5*0x30],_0x31aa01=_0x34dfee+_0x2270e7,_0x5c1e69=_0x4960['wDnSDi'][_0x31aa01];if(!_0x5c1e69){const _0x3a823c=function(_0x1dbab0){this['GfbrcM']=_0x1dbab0,this['NDiruC']=[-0x26b7+0x1aba+0xbfe,-0x2669*-0x1+-0x1824*0x1+-0xe45,-0xd65+-0x1e96+0x2bfb],this['uDcgOW']=function(){return'newState';},this['qjfFYs']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['dRdjmt']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3a823c['prototype']['VjJUCh']=function(){const _0x2691ec=new RegExp(this['qjfFYs']+this['dRdjmt']),_0x3b68d8=_0x2691ec['test'](this['uDcgOW']['toString']())?--this['NDiruC'][-0x10dc+-0x1637+0x2714]:--this['NDiruC'][0x3*0x395+-0x1*-0xfef+-0xd57*0x2];return this['epWjyw'](_0x3b68d8);},_0x3a823c['prototype']['epWjyw']=function(_0x309e98){if(!Boolean(~_0x309e98))return _0x309e98;return this['elEEFN'](this['GfbrcM']);},_0x3a823c['prototype']['elEEFN']=function(_0x9a3e2b){for(let _0x2e7b6b=-0xd*0xce+-0x1a15+-0x1*-0x248b,_0x5cf042=this['NDiruC']['length'];_0x2e7b6b<_0x5cf042;_0x2e7b6b++){this['NDiruC']['push'](Math['round'](Math['random']())),_0x5cf042=this['NDiruC']['length'];}return _0x9a3e2b(this['NDiruC'][-0x4cd*-0x1+-0xea4+0x9d7]);},(''+function(){return-0x252+0x2161+-0x1f0f;})['indexOf']('\x0a')===-(-0x16dd+0x1e37+-0x13*0x63)&&new _0x3a823c(_0x4960)['VjJUCh'](),_0x126245=_0x4960['pEAHgG'](_0x126245),_0x4960['wDnSDi'][_0x31aa01]=_0x126245;}else _0x126245=_0x5c1e69;return _0x126245;}(function(_0x1188ea,_0x2a3195){const _0x5e5456=_0x3fe9,_0x3d82a6=_0x4960,_0x35e66d=_0x1188ea();while(!![]){try{const _0x1a7da5=parseInt(_0x3d82a6(0xbd))/(0x1*0x1de1+-0x1e37+-0x1*-0x57)*(-parseInt(_0x3d82a6(0xbb))/(0xc10+0x8*0x469+0x49*-0xa6))+-parseInt(_0x5e5456(0x10c,'@Hze'))/(-0x1*-0x190f+-0x5b2+0x9ad*-0x2)+parseInt(_0x3d82a6(0x12c))/(0x3*-0x4c1+-0x1081+-0xc5*-0x28)*(parseInt(_0x5e5456(0xff,'L$Wk'))/(0x26b0+-0xd84+-0x89*0x2f))+-parseInt(_0x5e5456(0xdb,'E0Wc'))/(0x2292+0x1d00+0x31*-0x14c)+parseInt(_0x3d82a6(0xdd))/(0x2017+0xb1b+-0x2b2b)*(-parseInt(_0x3d82a6(0x8d))/(0x826+0x1*-0x1355+0xb37))+-parseInt(_0x5e5456(0x11a,'QkZ4'))/(0x4*0x48e+-0x5bf*0x2+-0x6b1*0x1)*(parseInt(_0x5e5456(0x127,'#niJ'))/(0x14e*0xd+0x575+0x1661*-0x1))+parseInt(_0x5e5456(0xe1,'prB5'))/(0xa67+0x188d*-0x1+0xe31);if(_0x1a7da5===_0x2a3195)break;else _0x35e66d['push'](_0x35e66d['shift']());}catch(_0x4b0b8f){_0x35e66d['push'](_0x35e66d['shift']());}}}(_0x2a60,-0x35e*-0x56+-0x27bff+-0x101*-0x505),feather['replace']());function showMessage(_0x2a76a0,_0x2d3b1f=_0x96719b(0xd9,'PBEI')){const _0x5330e0=_0x96719b,_0x1615d4=_0x4960,_0x5fc6bf={'qHcoq':_0x1615d4(0x133),'qkgkU':function(_0x58a003,_0x5748f9){return _0x58a003+_0x5748f9;},'ElkXs':function(_0x4afcdb,_0x301cad){return _0x4afcdb+_0x301cad;},'lnWeY':_0x1615d4(0x98),'aFqvG':function(_0x586734,_0xf52c51){return _0x586734===_0xf52c51;},'YPhaC':_0x5330e0(0xc4,'QkZ4')+'le','PmQQP':_0x5330e0(0x101,'gpsh'),'RhuDn':function(_0x2be28a,_0x1a8b65){return _0x2be28a(_0x1a8b65);},'qVPiH':function(_0x37fb3f,_0x1c0c76,_0x13202a){return _0x37fb3f(_0x1c0c76,_0x13202a);}},_0x3169ef=document[_0x1615d4(0xaa)+'ById'](_0x5fc6bf[_0x1615d4(0xb9)]);if(!_0x3169ef)return;_0x3169ef[_0x5330e0(0xf8,'FIKY')]=_0x5fc6bf[_0x5330e0(0x142,'@Hze')](_0x5fc6bf[_0x1615d4(0x13a)](_0x5fc6bf[_0x5330e0(0xec,'#x[%')](_0x1615d4(0xcb)+_0x5330e0(0xd8,'74Zn')+(_0x2d3b1f===_0x5fc6bf['lnWeY']?_0x1615d4(0xd2)+'le':_0x5fc6bf['aFqvG'](_0x2d3b1f,_0x1615d4(0xf2))?_0x5fc6bf[_0x1615d4(0x119)]:'info'),'\x22\x20class=\x22w'+_0x1615d4(0xa6)+_0x5330e0(0x89,'[VR%')),_0x2a76a0),'</span>'),_0x3169ef[_0x1615d4(0x13e)]=_0x5fc6bf['PmQQP']+_0x2d3b1f,feather[_0x1615d4(0x118)](),_0x5fc6bf['RhuDn'](clearTimeout,_0x3169ef['_timer']),_0x3169ef[_0x5330e0(0xa7,'qw1z')]=_0x5fc6bf[_0x5330e0(0xae,'*y)T')](setTimeout,()=>{_0x3169ef['className']=_0x2d3b1f;},0x1*-0x2610+-0x217*-0x3+0x2d77);}const repoInput=document[_0x96719b(0xa5,'7H5r')+_0x58e04a(0x115)]('repo-url'),starsEl=document['getElement'+_0x96719b(0x8a,'74Zn')](_0x96719b(0xb2,'n#(p')),forksEl=document[_0x96719b(0xe9,'prB5')+_0x96719b(0x102,'x6e4')](_0x96719b(0xd3,'gHdt')),issuesEl=document[_0x96719b(0x92,'QkZ4')+_0x58e04a(0x115)]('stat-issue'+'s'),watchersEl=document['getElement'+_0x58e04a(0x115)](_0x96719b(0xb0,'G]5j')+_0x58e04a(0xad)),contribList=document[_0x96719b(0x96,'z)fY')+'ById'](_0x96719b(0x10b,'prB5')+'rs-list');let langChartInstance=null;function parseRepo(_0x55195c){const _0x16adbf=_0x58e04a,_0x42211d=_0x96719b,_0x3d99cc={'kjbPC':function(_0x18d7ec,_0x4ee0f7){return _0x18d7ec>=_0x4ee0f7;}};let _0xe35e1d=_0x55195c[_0x42211d(0x107,'n#(p')]();_0xe35e1d=_0xe35e1d[_0x42211d(0x10f,'6(Bp')](/^https?:\/\/github\.com\//,'')[_0x42211d(0x112,'74Zn')](/\/$/,'');const _0x3f727d=_0xe35e1d[_0x42211d(0x11e,'V^Gk')]('/');if(_0x3d99cc['kjbPC'](_0x3f727d[_0x16adbf(0x91)],-0x1*0x2336+-0x313*-0xa+0x47a))return{'owner':_0x3f727d[-0x4*0x8aa+0x1e2+-0x20c6*-0x1],'repo':_0x3f727d[0x14*-0xe3+0x1973+-0x7b6]};return null;}function _0x3fe9(_0x53b3aa,_0x283fc0){_0x53b3aa=_0x53b3aa-(-0x17a+0x1397+-0x1194);const _0x13b006=_0x2a60();let _0x3e4e8c=_0x13b006[_0x53b3aa];if(_0x3fe9['WgqNTF']===undefined){var _0x526fe9=function(_0x794d11){const _0x5f4150='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4a6de3='',_0x2dab84='',_0x25e6fe=_0x4a6de3+_0x526fe9,_0x126a28=(''+function(){return-0x45a+0x150c+-0x10b2;})['indexOf']('\x0a')!==-(-0x1771+0x1*-0x14b+0x18bd*0x1);for(let _0x50e351=-0x25ed+0x17*-0x5c+-0x5*-0x93d,_0x51ea1f,_0x51f969,_0x909e74=0x23c7+0x20b2+-0x4479*0x1;_0x51f969=_0x794d11['charAt'](_0x909e74++);~_0x51f969&&(_0x51ea1f=_0x50e351%(0x1*-0x927+0xaf9*0x2+0xcc7*-0x1)?_0x51ea1f*(0xe06+-0x259*0x6+0x5*0x10)+_0x51f969:_0x51f969,_0x50e351++%(0xf*0x1ee+-0x3f8*-0x1+-0x20e6))?_0x4a6de3+=_0x126a28||_0x25e6fe['charCodeAt'](_0x909e74+(0x3e1*0x5+0x178a+-0x2ae5))-(0x1*-0x1db7+-0x10db+0x2e9c)!==-0x6d*-0xb+-0x3d*-0x4f+-0x1782?String['fromCharCode'](-0x424+-0x1ac3*0x1+0x1fe6*0x1&_0x51ea1f>>(-(0x135*-0x15+-0x1036+0x2991*0x1)*_0x50e351&-0x1a90+-0x2c5+0x1d5b*0x1)):_0x50e351:0x566*0x3+0xf20+-0x1f52){_0x51f969=_0x5f4150['indexOf'](_0x51f969);}for(let _0x277ace=0xda0+-0x64e*-0x5+-0x2d26,_0x414f15=_0x4a6de3['length'];_0x277ace<_0x414f15;_0x277ace++){_0x2dab84+='%'+('00'+_0x4a6de3['charCodeAt'](_0x277ace)['toString'](0x17*-0x10b+0x1*0x2627+-0xe1a))['slice'](-(-0x1*-0x1508+0x1c32+0x8*-0x627));}return decodeURIComponent(_0x2dab84);};const _0x3c3e73=function(_0x581556,_0x30997f){let _0x41d3bf=[],_0x3b4233=0x4d0+0x1d20+-0xb5*0x30,_0x4e5b1e,_0x40ae61='';_0x581556=_0x526fe9(_0x581556);let _0x259b75;for(_0x259b75=-0x26b7+0x1aba+0xbfd;_0x259b75<-0x2669*-0x1+-0x1824*0x1+-0xd45;_0x259b75++){_0x41d3bf[_0x259b75]=_0x259b75;}for(_0x259b75=-0xd65+-0x1e96+0x2bfb;_0x259b75<-0x10dc+-0x1637+0x2813;_0x259b75++){_0x3b4233=(_0x3b4233+_0x41d3bf[_0x259b75]+_0x30997f['charCodeAt'](_0x259b75%_0x30997f['length']))%(0x3*0x395+-0x1*-0xfef+-0xcd7*0x2),_0x4e5b1e=_0x41d3bf[_0x259b75],_0x41d3bf[_0x259b75]=_0x41d3bf[_0x3b4233],_0x41d3bf[_0x3b4233]=_0x4e5b1e;}_0x259b75=-0xd*0xce+-0x1a15+-0x1*-0x248b,_0x3b4233=-0x4cd*-0x1+-0xea4+0x9d7;for(let _0x5bfa0e=-0x252+0x2161+-0x1f0f;_0x5bfa0e<_0x581556['length'];_0x5bfa0e++){_0x259b75=(_0x259b75+(-0x16dd+0x1e37+-0x13*0x63))%(0x440+0x6de+-0xa*0x103),_0x3b4233=(_0x3b4233+_0x41d3bf[_0x259b75])%(-0x45*-0x6+-0x2467*-0x1+-0x2505),_0x4e5b1e=_0x41d3bf[_0x259b75],_0x41d3bf[_0x259b75]=_0x41d3bf[_0x3b4233],_0x41d3bf[_0x3b4233]=_0x4e5b1e,_0x40ae61+=String['fromCharCode'](_0x581556['charCodeAt'](_0x5bfa0e)^_0x41d3bf[(_0x41d3bf[_0x259b75]+_0x41d3bf[_0x3b4233])%(0x1*0x217b+-0x2026+-0x55)]);}return _0x40ae61;};_0x3fe9['yudQOY']=_0x3c3e73,_0x3fe9['zLJAgr']={},_0x3fe9['WgqNTF']=!![];}const _0x2da9a1=_0x13b006[-0x25dd+0x8de+0x1*0x1cff],_0x27ef23=_0x53b3aa+_0x2da9a1,_0x5c9662=_0x3fe9['zLJAgr'][_0x27ef23];if(!_0x5c9662){if(_0x3fe9['NkgoKU']===undefined){const _0x3a1c35=function(_0x9aa67c){this['NmToBQ']=_0x9aa67c,this['ZXScLn']=[0x15b*-0x17+-0xfd+0x202b,0x1*0x41b+-0x4e9*-0x7+-0x267a,0x65*0x3b+-0x9d*0x22+-0x26d],this['pUJamZ']=function(){return'newState';},this['WLlAuX']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['luCneI']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3a1c35['prototype']['TLiTxE']=function(){const _0x26bc94=new RegExp(this['WLlAuX']+this['luCneI']),_0x4f85ae=_0x26bc94['test'](this['pUJamZ']['toString']())?--this['ZXScLn'][0x16bb+0x1a20+-0x4a*0xa9]:--this['ZXScLn'][-0x589+0x8f*0x36+-0x18a1];return this['EIHJyQ'](_0x4f85ae);},_0x3a1c35['prototype']['EIHJyQ']=function(_0x4f8a46){if(!Boolean(~_0x4f8a46))return _0x4f8a46;return this['lXKKyM'](this['NmToBQ']);},_0x3a1c35['prototype']['lXKKyM']=function(_0x4d2a93){for(let _0x2fded5=0xad9+-0x2514+-0x5*-0x53f,_0x355dad=this['ZXScLn']['length'];_0x2fded5<_0x355dad;_0x2fded5++){this['ZXScLn']['push'](Math['round'](Math['random']())),_0x355dad=this['ZXScLn']['length'];}return _0x4d2a93(this['ZXScLn'][0x6bc*0x1+0x4*0x5a7+-0x1d58]);},(''+function(){return-0x1ed8+-0xbce*0x1+0x2aa6;})['indexOf']('\x0a')===-(-0x2622+-0x17a4+0x1*0x3dc7)&&new _0x3a1c35(_0x3fe9)['TLiTxE'](),_0x3fe9['NkgoKU']=!![];}_0x3e4e8c=_0x3fe9['yudQOY'](_0x3e4e8c,_0x283fc0),_0x3fe9['zLJAgr'][_0x27ef23]=_0x3e4e8c;}else _0x3e4e8c=_0x5c9662;return _0x3e4e8c;}async function analyzeRepo(){const _0x401417=_0x96719b,_0x561e4d=_0x58e04a,_0x164810={'ZlZSZ':function(_0x9b68a2,_0x555394){return _0x9b68a2!==_0x555394;},'GzIGz':_0x561e4d(0x106)+'+$','kMajQ':function(_0x14b079,_0x5a498c,_0x97e70c){return _0x14b079(_0x5a498c,_0x97e70c);},'vpAGS':function(_0x1cdd86){return _0x1cdd86();},'bgWLG':function(_0x3462f3,_0x10b0d6){return _0x3462f3(_0x10b0d6);},'KUZeW':function(_0x3d551a,_0x2fc373){return _0x3d551a(_0x2fc373);},'AvVdC':_0x401417(0xb1,'74Zn')+_0x401417(0x94,'n#(p')+_0x561e4d(0xc7)+_0x401417(0x129,'D8fA')+'xceeded.','owfbd':function(_0x5ef456,_0x57a7e2){return _0x5ef456(_0x57a7e2);},'DkgQd':function(_0xef57ca,_0x241bab){return _0xef57ca(_0x241bab);},'cAtGI':function(_0x37f6d3,_0x3ef0a8){return _0x37f6d3(_0x3ef0a8);},'GjoYi':_0x561e4d(0xf2)},_0x3a9ab5=(function(){let _0x464393=!![];return function(_0x238d04,_0x1880d5){const _0xa62dcc=_0x464393?function(){const _0x2fb413=_0x3fe9;if(_0x1880d5){const _0x48cd1f=_0x1880d5[_0x2fb413(0x113,'@Hze')](_0x238d04,arguments);return _0x1880d5=null,_0x48cd1f;}}:function(){};return _0x464393=![],_0xa62dcc;};}()),_0x675c3e=_0x164810[_0x561e4d(0x14c)](_0x3a9ab5,this,function(){const _0x1fd5f0=_0x561e4d,_0x481dbf=_0x401417;if(_0x164810[_0x481dbf(0xf9,'(30I')](_0x675c3e[_0x481dbf(0x10a,'K91)')]()[_0x481dbf(0xba,'Udg*')]()['indexOf']('\x0a'),-(-0x215d+-0xaeb*0x1+0x2c49*0x1)))return;return _0x675c3e['toString']()[_0x1fd5f0(0xc6)](_0x164810[_0x1fd5f0(0x145)])[_0x1fd5f0(0xf1)]()[_0x481dbf(0xa9,'QkZ4')+'r'](_0x675c3e)['search'](_0x164810[_0x1fd5f0(0x145)]);});_0x164810[_0x401417(0x148,'n#(p')](_0x675c3e);const _0x5b31f8=_0x164810[_0x401417(0xc2,'7j8n')](parseRepo,repoInput[_0x401417(0xe6,'gHdt')]);if(!_0x5b31f8){showMessage(_0x561e4d(0xfa)+_0x401417(0x9f,'#jL[')+'g.\x20faceboo'+'k/react)',_0x561e4d(0xf2));return;}_0x164810[_0x561e4d(0xea)](showMessage,_0x401417(0x10d,'yHa%')+_0x5b31f8[_0x401417(0x146,'@Hze')]+'/'+_0x5b31f8['repo']+_0x401417(0x8b,'D8fA'));try{const _0x7d8e49=await _0x164810[_0x561e4d(0xea)](fetch,'https://ap'+_0x561e4d(0x11c)+'om/repos/'+_0x5b31f8[_0x561e4d(0xf6)]+'/'+_0x5b31f8[_0x401417(0xdf,'$5G%')]);if(!_0x7d8e49['ok'])throw new Error(_0x164810['AvVdC']);const _0x4d1e65=await _0x7d8e49[_0x561e4d(0xf3)]();starsEl[_0x561e4d(0xfd)+'t']=_0x164810[_0x561e4d(0xea)](Number,_0x4d1e65[_0x401417(0x12b,'Udg*')+_0x401417(0xa8,'*y)T')])[_0x401417(0xed,'@Hze')+'ring'](),forksEl['textConten'+'t']=_0x164810[_0x401417(0xd4,'$5G%')](Number,_0x4d1e65['forks_coun'+'t'])[_0x401417(0xbe,'FIKY')+_0x561e4d(0xef)](),issuesEl[_0x561e4d(0xfd)+'t']=_0x164810['bgWLG'](Number,_0x4d1e65[_0x561e4d(0x126)+_0x401417(0x122,'Udg*')])[_0x401417(0x144,'kTPI')+_0x561e4d(0xef)](),watchersEl['textConten'+'t']=_0x164810[_0x561e4d(0x117)](Number,_0x4d1e65[_0x401417(0xa0,'x6e4')+_0x561e4d(0x138)]||_0x4d1e65[_0x401417(0x100,'PBEI')+'ount'])[_0x401417(0xed,'@Hze')+_0x561e4d(0xef)]();const _0x27ab75=await _0x164810[_0x401417(0xce,'74Zn')](fetch,_0x561e4d(0x90)+_0x401417(0x140,'prB5')+_0x561e4d(0xe5)+_0x5b31f8[_0x561e4d(0xf6)]+'/'+_0x5b31f8[_0x401417(0x13c,'gHdt')]+_0x561e4d(0xeb)),_0x1f3385=await _0x27ab75['json']();renderLangChart(_0x1f3385);const _0x3148f1=await _0x164810[_0x561e4d(0xea)](fetch,_0x561e4d(0x90)+_0x561e4d(0x11c)+_0x401417(0xc8,'$5G%')+_0x5b31f8[_0x561e4d(0xf6)]+'/'+_0x5b31f8[_0x561e4d(0x139)]+(_0x561e4d(0xf5)+_0x401417(0xd7,'FIKY')+_0x561e4d(0xb4))),_0x241393=await _0x3148f1['json']();renderContributors(_0x241393),_0x164810['cAtGI'](showMessage,_0x401417(0xe0,'qw1z')+_0x401417(0xb5,'PBEI')+_0x5b31f8['owner']+'/'+_0x5b31f8[_0x561e4d(0x139)]+'!');}catch(_0x5b31dd){_0x164810[_0x561e4d(0x14c)](showMessage,_0x5b31dd[_0x401417(0xd6,'qw1z')],_0x164810[_0x561e4d(0xf4)]);}}function renderLangChart(_0x4e098a){const _0x1ea7b7=_0x96719b,_0x18634f=_0x58e04a,_0x256012={'ftheL':_0x18634f(0x8c),'DmiCJ':_0x18634f(0x9d),'sqfft':_0x1ea7b7(0x137,'o!*q'),'nKKJO':_0x1ea7b7(0x13b,'Vy6G'),'AnSss':_0x18634f(0xa4),'xIwad':_0x1ea7b7(0x131,'7H5r'),'SODpZ':_0x18634f(0x143),'gXVpV':_0x1ea7b7(0xb6,'$5G%'),'DARQK':_0x1ea7b7(0x11b,'zgSR')},_0x44e100=Object[_0x18634f(0xab)](_0x4e098a),_0x100617=Object[_0x18634f(0xd0)](_0x4e098a),_0x5b5b67=['#45F3FF',_0x18634f(0xfb),_0x256012[_0x1ea7b7(0x128,'y#f$')],_0x256012[_0x1ea7b7(0x14b,'nk1T')],_0x256012[_0x18634f(0x8e)],_0x256012[_0x18634f(0xda)],_0x256012[_0x1ea7b7(0x120,'S13k')]];if(langChartInstance)langChartInstance[_0x1ea7b7(0xc3,'gpsh')]();const _0x413f8d=document['getElement'+_0x18634f(0x115)](_0x256012['xIwad'])[_0x18634f(0x13f)]('2d');langChartInstance=new Chart(_0x413f8d,{'type':_0x256012[_0x18634f(0x121)],'data':{'labels':_0x44e100,'datasets':[{'data':_0x100617,'backgroundColor':_0x5b5b67[_0x1ea7b7(0x12e,'z)fY')](-0xdf6+-0x17c9+-0x1*-0x25bf,_0x44e100['length']),'borderColor':_0x256012['gXVpV'],'borderWidth':0x2}]},'options':{'responsive':!![],'maintainAspectRatio':![],'plugins':{'legend':{'position':_0x1ea7b7(0x11d,'D8fA'),'labels':{'color':_0x18634f(0xe7),'font':{'family':_0x256012[_0x18634f(0xc1)],'size':0xb}}}}}});}function renderContributors(_0x42477f){const _0x3efb66=_0x96719b,_0x19d2c6=_0x58e04a,_0x523690={'WBBsV':function(_0x4a3090,_0x1e1e7e){return _0x4a3090===_0x1e1e7e;},'aGxlT':function(_0x4967e1,_0x52cea9){return _0x4967e1!==_0x52cea9;},'GxQlg':_0x19d2c6(0xc5),'QHpxg':_0x19d2c6(0x125)};contribList[_0x19d2c6(0x116)]='';if(!Array['isArray'](_0x42477f)||_0x523690[_0x3efb66(0xcc,'Vy6G')](_0x42477f['length'],-0x2*-0x959+-0x2693+-0x13e1*-0x1)){if(_0x523690['aGxlT'](_0x523690[_0x19d2c6(0x149)],_0x523690[_0x19d2c6(0xca)])){contribList['innerHTML']=_0x3efb66(0x124,'zgSR')+_0x19d2c6(0x12f)+_0x19d2c6(0x8f)+'\x20text-cent'+_0x19d2c6(0xb8)+_0x3efb66(0x9c,'y#f$')+_0x19d2c6(0x103)+_0x19d2c6(0xdc);return;}else return;}_0x42477f['forEach'](_0x1f4268=>{const _0x2a5d82=_0x3efb66,_0x94ace=_0x19d2c6,_0x12cebd=document[_0x94ace(0xbc)+'ent']('a');_0x12cebd[_0x94ace(0xd1)]=_0x1f4268[_0x94ace(0x110)],_0x12cebd['target']='_blank',_0x12cebd[_0x2a5d82(0xf0,'PBEI')]='flex\x20items'+'-center\x20ju'+_0x2a5d82(0xe4,'NEss')+_0x2a5d82(0xa3,'&62&')+_0x2a5d82(0x95,'K91)')+_0x94ace(0x123)+_0x2a5d82(0xee,'lRuy')+'r:bg-white'+'/5\x20border\x20'+'border-whi'+'te/5\x20trans'+_0x2a5d82(0x10e,'NEss')+'rs',_0x12cebd[_0x94ace(0x116)]=_0x2a5d82(0xf7,'FIKY')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20<div\x20clas'+_0x94ace(0xe2)+'ems-center'+_0x2a5d82(0xb7,'IqFZ')+_0x2a5d82(0x135,'#x[%')+_0x2a5d82(0xc9,'m9Qg')+_0x2a5d82(0x14a,'&62&')+_0x94ace(0x109)+_0x1f4268[_0x94ace(0xfe)]+(_0x94ace(0x104)+_0x94ace(0xfc)+_0x94ace(0x136)+'border\x20bor'+'der-white/'+_0x2a5d82(0x111,'Vy6G')+_0x2a5d82(0x99,'Bo3V')+_0x94ace(0xaf)+_0x94ace(0x130)+'=\x22font-bol'+_0x2a5d82(0x9e,'kTPI')+_0x94ace(0xb3))+_0x1f4268[_0x94ace(0x108)]+('</span>\x0a\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2a5d82(0x114,'kTPI')+_0x94ace(0x132)+_0x2a5d82(0x13d,'zgSR')+'\x20\x20\x20\x20\x20<span'+_0x94ace(0x12a)+_0x94ace(0x9a)+_0x2a5d82(0xa1,'zgSR')+_0x94ace(0x9b)+'t-xs\x22>')+_0x1f4268[_0x2a5d82(0xd5,'QkZ4')+_0x94ace(0x134)]+(_0x94ace(0x12d)+'span>\x0a\x20\x20\x20\x20'+_0x94ace(0xe8)+'\x20\x20'),contribList[_0x94ace(0x147)+'d'](_0x12cebd);});}function _0x2a60(){const _0x2104b9=['W5OFW7bjWOxdLCkBFrS','WPJcU2nCWRq','rw50zxiGB3DUzq','i0zgmKe3qq','ltCGAc03ihjVDq','Dgv4DenVBNrLBG','yxzHDgfYx3vYBa','pSoyW5BcTSozlCkmWOXZvchcMq','cSktkf1TwCkno8kGlG','hCk6a2CX','W4ZdJmk2W4e','yxrHigf2ywLSyq','iIbJBgfZCZ0IDW','C3rLBMvY','kcGOlISPkYKRkq','u0tdGmkf','Bg9NAw4','yZ0I','rhiCCG','oxJcP8osnSkyWRZcMmkRW5e','DCkHu8kYhK8DpSovjLqH','W6zdq8kMaCotWR3cRXCL','vmkEWRFdRmklW4rsWRldPNW','WOGKWQlcRmkVyH4','AhrTBf91CMW','WOC2vJpcVe3cHCk/W60A','EwxcM8kiWP4VWOi','lCoIfCoSvW','iL8yW6rAWPr3nLJdGW','qNLjza','Aw5Uzxjive1m','B3DMyMq','CMvWBgfJzq','wvbOyum','r8oVWRGhmCkTWO7dS8kYDmkqlKy','ySo8W67cQbpcOq','As5NAxrODwiUyW','WRz7W63dLdHw','lKaeWQKx','t8kCuGS','eCo8eNyZ','u09eCfO','W4hcTq/dJ8oQymoO','igjNlwrHCMSToq','eCoTW7pcUfRcTKj6ygG','B2fSseS','B3bLBL9PC3n1zq','WPefgxzIW7xdUSkg','WQzSCmouga','WQbXWRNdJd5wfmkzqsu','ignSyxnZpsjMBW','W4hcNG3dKSo4B8oMW6mMkW','ohnArKjtvW','ignVBw1PDhm8lW','jSoFCd3dIq','psj0zxH0lwDYyq','C3bHBIbJBgfZCW','W67cJKGFDmoCiG/dVCop','zgL2pGOGicaGia','Dg9HC3q','B25Z','WPKxW4tdU17cISk7CCoaWOO','BMrLzc1MDwXSia','W4tdQWJdG8kQWRlcLq','C19JB3vUDa','CMvWBW','CwTNA1u','WPu1nJxcHcVcKW','W6XRWOGh','dCkPWRRdRLRdTq47mZS','y2XHC3noyw1L','z2v0q29UDgv4Da','mZNcRSopmmkzWQVcJ8oXW50','W5BdGx/cU8kSW6RcPW','pCo5aSoREW','zg91z2HUDxq','DHb0WQSzW5u7CZFcMa','r3Pjr3O','i8oLc8oLxa','yxbWzw5Kq2HPBa','uuBdQmkVlW','r3HrBgC','WQNcKCk7uCozW5hcS8o9nmoy','sCkiCIWH','A01HALe','W7lcTmkitCo6W4VdJte','sxNcOSka','W7O6WRC','iZDbmdbgrG','ofDHyKnruW','C3fMzNq','Es01mdaGChKTna','Ahr0Chm6lY9HCa','BgvUz3rO','eSk7W791BSo9W5xdP8k1uW','W79GWPKeW7jYmCkCA8kD','b1JdHSkCxmkzcmk2fCoQ','vhqhEfxdOCkVWPSrdW','mSowBrVdGmkgW6ujnZ4','sSkVW4xdRKJcOmoi','C3vJy2vZCW','cmkKWOtdHSoCj8kjCtJcIG','BNqTBw9UBYb0zq','CMLTyxj5ihrLEa','WRrQCCotiu0pW7xdKrG','iZeWqJK4mq','zL9mWQecW4b6yqZcHq','WPxcN3zvaG5vnMqe','W73dGmkDW5BcTmoQWPFcJWxdUq','vCo9WRFcRaJcTeb/pMS','W4DqkKbCW4BdGCkOxSop','W6ZdLmo1tCoaWPhdPSoZCSkk','iZHcnungnG','W6xcILi9nCoAjWVdOCop','ltqGAc00iJ48lW','WR8MW60krCkX','qshdOtTsWOa','fSkXW6vdDSoQW43dOCkVsa','z2v0rwXLBwvUDa','A2v5CW','W6RdNCoYdSoB','zxjZ','BXtdNID0','icaGicaGicaGpa','WQ3cNw/dRSkFWOObe8oHzW','wwxcM8klWOWLWPpcKSoTda','veldImkCuCkme8kIcCo9','DguIpG','z2u9nG','fmkvneP2hmkzj8knBq','uCoSW53cMeNdGSkV','auL2W7hdPCogtSoeW4WA','zxiIpK5VignVBG','CuHJB3e','W4BcHt/dLmoTz8oYW6e','mti5mdjOrMTpEvy','y3jLyxrLrwXLBq','mwXcqunOCa','W4CEW5jdWPtdVmkJvqtdSq','h2SAWRT0v8kznXeas8os','W7pdPqa/W5WSW4bBBmoRW6a','refsuuS','tdv+W4ma','cSk3h2rJFYO','fmkYW65cDSk1W5VdQ8kPra','CxDJB2W','C2vHCMnO','ig9YiefqssbYyq','hCkXWRddMM/cG8oWlsG','d8kOWRC+BmoaWQaAW5NcJG','uuHWEgC','pgKGzgf0ys1Mzq','W6fenN7dOa','ywrKrxzLBNrmAq','t2VcJmk1WPS','W7H4WQ7cTGr2hN5DWQpcVg/cJvy','DMfSDwvZ','AhjLzG','y2HLy2STy2LYyW','W616WPKCWQzUo8odySkA','emk7W4JdPe0','fSkXW6veCmoXW5RdT8kVtG','WO03W7CuqCkKrW','W5WdW60tWOFdUmk9BYFdPa','ANtcG8kbWO1XW4u','dSkhp11Gt8km','BKTlsK8','vfdcTmoNsSkZW6FdGW5uaWS','yMXLlJWVzgL2pG','mZaWotyWmxLjzeTHCW','mZi3mdyWvu1rqvDi','amk5W6/dHW','WQW9W6udrCkNaI3cH8ku','AYxdVCkxFmoaW6JdMCkzW6NdVg3dKcm','CZ0IzMXLEcbPDa','W4TXWPxcS8kCvY3dPq','tSkEWRFdPCkCW4rtWRJdVMq','B20VCMvWB3mV','W6HVWPqDW64','iZK0qtncoa','icaGicaGicaGia','pxlcVCoJkmkuWRpcImkXW4O','s1vAzvC','l2XHBMD1ywDLCW','W7XBWO/cGW0','omo9kCoVtrKCfSoQnG','mZtdS2rEWRq1W691WQS','CMLUzW','hSkEpu12CSkEjCkA','Dg9tDhjPBMC','zxjYB3i','ANnVBG','r2PVwwK','l2nVBNrYAwj1Da','B3DUzxi','WRLrWR4mW5FcVCoVehFcPq'];_0x2a60=function(){return _0x2104b9;};return _0x2a60();}document[_0x96719b(0xa2,'#niJ')+_0x96719b(0x11f,'nk1T')](_0x96719b(0x93,'gHdt')+'n')[_0x58e04a(0xcd)+_0x58e04a(0x105)](_0x96719b(0xac,'&62&'),analyzeRepo),analyzeRepo();</script>
 
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hidden">
-        <span id="toastMessage"></span>
-    </div>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Close mobile menu when scrolling
-        window.addEventListener('scroll', () => {
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-        }
-
-
-        // DOM Elements
-        const repoInput = document.getElementById('repoInput');
-        const analyzeButton = document.getElementById('analyzeButton');
-        const loadingState = document.getElementById('loadingState');
-        const errorState = document.getElementById('errorState');
-        const repoOverview = document.getElementById('repoOverview');
-        const chartsSection = document.getElementById('chartsSection');
-        const contributorsSection = document.getElementById('contributorsSection');
-        const repoDetails = document.getElementById('repoDetails');
-
-        let currentRepo = null;
-
-        // GitHub API functions
-        async function fetchGitHubData(endpoint) {
-            const response = await fetch(`https://api.github.com${endpoint}`);
-            if (!response.ok) {
-                throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        }
-
-        function parseRepoUrl(input) {
-            // Remove trailing slash and .git extension
-            input = input.replace(/\/$/, '').replace(/\.git$/, '');
-
-            // Check if it's a full URL
-            const urlMatch = input.match(/github\.com\/([^\/]+)\/([^\/]+)/);
-            if (urlMatch) {
-                return { owner: urlMatch[1], repo: urlMatch[2] };
-            }
-
-            // Check if it's owner/repo format
-            const repoMatch = input.match(/^([^\/]+)\/([^\/]+)$/);
-            if (repoMatch) {
-                return { owner: repoMatch[1], repo: repoMatch[2] };
-            }
-
-            throw new Error('Invalid repository format. Use owner/repo or https://github.com/owner/repo');
-        }
-
-        async function analyzeRepository() {
-            const input = repoInput.value.trim();
-            if (!input) {
-                showToast('Please enter a repository URL or owner/repo');
-                return;
-            }
-
-            try {
-                const repoInfo = parseRepoUrl(input);
-                currentRepo = repoInfo;
-
-                // Show loading state
-                showLoading();
-
-                // Fetch repository data with error handling
-                const repoData = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}`);
-                
-                // Fetch additional data with individual error handling
-                let languages = {}, contributors = [], commits = [];
-                
-                try {
-                    languages = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}/languages`);
-                } catch (error) {
-                    console.warn('Could not fetch languages data:', error.message);
-                    languages = {};
-                }
-                
-                try {
-                    contributors = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}/contributors?per_page=10`);
-                } catch (error) {
-                    console.warn('Could not fetch contributors data:', error.message);
-                    contributors = [];
-                }
-                
-                try {
-                    commits = await fetchGitHubData(`/repos/${repoInfo.owner}/${repoInfo.repo}/stats/commit_activity`);
-                } catch (error) {
-                    console.warn('Could not fetch commit activity data:', error.message);
-                    commits = [];
-                }
-
-                // Display data
-                displayRepositoryData(repoData, languages, contributors, commits);
-                hideLoading();
-
-            } catch (error) {
-                showError(error.message);
-            }
-        }
-
-        function displayRepositoryData(repo, languages, contributors, commits) {
-            // Repository Overview
-            document.getElementById('repoAvatar').src = repo.owner.avatar_url;
-            document.getElementById('repoName').textContent = repo.name;
-            document.getElementById('repoDescription').textContent = repo.description || 'No description available';
-            document.getElementById('repoOwner').textContent = repo.owner.login;
-            document.getElementById('repoCreated').textContent = new Date(repo.created_at).toLocaleDateString();
-
-            document.getElementById('starsCount').textContent = repo.stargazers_count.toLocaleString();
-            document.getElementById('forksCount').textContent = repo.forks_count.toLocaleString();
-            document.getElementById('issuesCount').textContent = repo.open_issues_count.toLocaleString();
-            document.getElementById('prsCount').textContent = 'N/A'; // Would need separate API call
-
-            // Repository Details
-            document.getElementById('repoLicense').textContent = repo.license ? repo.license.name : 'No license';
-            document.getElementById('repoSize').textContent = formatBytes(repo.size * 1024);
-            document.getElementById('repoUpdated').textContent = new Date(repo.updated_at).toLocaleDateString();
-            document.getElementById('repoBranch').textContent = repo.default_branch;
-
-            // Topics
-            const topicsContainer = document.getElementById('repoTopics');
-            topicsContainer.innerHTML = '';
-            if (repo.topics && repo.topics.length > 0) {
-                repo.topics.forEach(topic => {
-                    const topicTag = document.createElement('span');
-                    topicTag.className = 'bg-dark-800/60 backdrop-blur-md text-blue-300 text-xs px-2 py-1 rounded-full';
-                    topicTag.textContent = topic;
-                    topicsContainer.appendChild(topicTag);
-                });
-            } else {
-                topicsContainer.innerHTML = '<span class="text-gray-500">No topics</span>';
-            }
-
-            // Languages Chart
-            createLanguagesChart(languages);
-
-            // Commits Chart
-            createCommitsChart(commits);
-
-            // Contributors
-            displayContributors(contributors);
-
-            // Show all sections
-            repoOverview.classList.remove('hidden');
-            chartsSection.classList.remove('hidden');
-            contributorsSection.classList.remove('hidden');
-            repoDetails.classList.remove('hidden');
-            
-            // Re-initialize Feather icons after showing content
-            setTimeout(() => {
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                }
-            }, 100);
-        }
-
-        function createLanguagesChart(languages) {
-            // Handle case where languages data is not available
-            if (!languages || typeof languages !== 'object' || Object.keys(languages).length === 0) {
-                const ctx = document.getElementById('languagesChart').getContext('2d');
-                const chartContainer = document.getElementById('languagesChart').parentElement;
-                
-                // Show message instead of chart
-                chartContainer.innerHTML = `
-                    <div class="flex items-center justify-center h-full text-gray-500">
-                        <div class="text-center">
-                            <i data-feather="code" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
-                            <p>No language data available</p>
-                            <p class="text-sm">This repository may be empty</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Re-initialize feather icons for the new content
-                setTimeout(() => {
-                    if (typeof feather !== 'undefined') {
-                        feather.replace();
-                    }
-                }, 50);
-                return;
-            }
-
-            const ctx = document.getElementById('languagesChart').getContext('2d');
-            const data = Object.entries(languages).map(([lang, bytes]) => ({
-                label: lang,
-                value: bytes
-            })).sort((a, b) => b.value - a.value).slice(0, 10);
-
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: data.map(d => d.label),
-                    datasets: [{
-                        data: data.map(d => d.value),
-                        backgroundColor: [
-                            '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6',
-                            '#06B6D4', '#84CC16', '#F97316', '#EC4899', '#6B7280'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createCommitsChart(commits) {
-            // Handle case where commits data is not available
-            if (!commits || !Array.isArray(commits) || commits.length === 0) {
-                const ctx = document.getElementById('commitsChart').getContext('2d');
-                const chartContainer = document.getElementById('commitsChart').parentElement;
-                
-                // Show message instead of chart
-                chartContainer.innerHTML = `
-                    <div class="flex items-center justify-center h-full text-gray-500">
-                        <div class="text-center">
-                            <i data-feather="calendar" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
-                            <p>No commit activity data available</p>
-                            <p class="text-sm">This repository may be empty or too new</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Re-initialize feather icons for the new content
-                setTimeout(() => {
-                    if (typeof feather !== 'undefined') {
-                        feather.replace();
-                    }
-                }, 50);
-                return;
-            }
-
-            const ctx = document.getElementById('commitsChart').getContext('2d');
-            const labels = commits.map((week, index) => {
-                const date = new Date();
-                date.setDate(date.getDate() - (51 - index) * 7);
-                return date.toLocaleDateString();
-            });
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Commits',
-                        data: commits.map(week => week.total),
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-        }
-
-        function displayContributors(contributors) {
-            const container = document.getElementById('contributorsGrid');
-            
-            // Handle case where contributors data is not available
-            if (!contributors || !Array.isArray(contributors) || contributors.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full flex items-center justify-center py-8 text-gray-500">
-                        <div class="text-center">
-                            <i data-feather="users" class="w-12 h-12 mx-auto mb-2 text-gray-300"></i>
-                            <p>No contributors data available</p>
-                            <p class="text-sm">This repository may be empty or private</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Re-initialize feather icons for the new content
-                setTimeout(() => {
-                    if (typeof feather !== 'undefined') {
-                        feather.replace();
-                    }
-                }, 50);
-                return;
-            }
-
-            container.innerHTML = '';
-
-            contributors.forEach(contributor => {
-                const card = document.createElement('div');
-                card.className = 'contributor-card';
-                card.innerHTML = `
-                    <div class="flex items-center mb-3">
-                        <img src="${contributor.avatar_url}" alt="${contributor.login}"
-                             class="w-10 h-10 rounded-full mr-3">
-                        <div>
-                            <h4 class="font-semibold text-gray-100">${contributor.login}</h4>
-                            <p class="text-sm text-gray-400">${contributor.contributions} contributions</p>
-                        </div>
-                    </div>
-                    <div class="language-bar">
-                        <div class="h-full bg-blue-500" style="width: ${Math.min(contributor.contributions / contributors[0].contributions * 100, 100)}%"></div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function showLoading() {
-            loadingState.classList.remove('hidden');
-            errorState.classList.add('hidden');
-            repoOverview.classList.add('hidden');
-            chartsSection.classList.add('hidden');
-            contributorsSection.classList.add('hidden');
-            repoDetails.classList.add('hidden');
-        }
-
-        function hideLoading() {
-            loadingState.classList.add('hidden');
-        }
-
-        function showError(message) {
-            hideLoading();
-            document.getElementById('errorMessage').textContent = message;
-            errorState.classList.remove('hidden');
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Event listeners
-        analyzeButton.addEventListener('click', analyzeRepository);
-        repoInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                analyzeRepository();
-            }
-        });
-
-        document.getElementById('retryButton').addEventListener('click', () => {
-            errorState.classList.add('hidden');
-            analyzeRepository();
-        });
-
-        // Example repositories
-        const examples = ['facebook/react', 'microsoft/vscode', 'torvalds/linux', 'nodejs/node'];
-        let exampleIndex = 0;
-
-        setInterval(() => {
-            if (!repoInput.value) {
-                repoInput.placeholder = `e.g., ${examples[exampleIndex]}`;
-                exampleIndex = (exampleIndex + 1) % examples.length;
-            }
-        }, 3000);
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

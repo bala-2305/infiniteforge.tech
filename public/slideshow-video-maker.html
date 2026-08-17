@@ -1,228 +1,85 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slideshow Video Maker - Infiniteforge | Create Videos from Images with Audio</title>
+    <title>Slideshow Video Maker — Create Videos from Images Online | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Create stunning slideshow videos from your images with background music. Add audio tracks, control timing, and export high-quality videos online for free.">
-    <meta name="keywords" content="slideshow maker, video creator, image to video, slideshow with music, video editor, online slideshow, free video maker">
+    <meta name="description" content="Turn your photos into stunning slideshow videos with background audio, transition effects, and customizable duration. In-browser client-side rendering with zero uploads.">
+    <meta name="keywords" content="slideshow video maker, photo to video, image slideshow creator, make video from photos">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Slideshow Video Maker - Infiniteforge | Create Videos from Images with Audio">
-    <meta property="og:description" content="Create beautiful slideshow videos from images with background music. Free, fast, and privacy-focused.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Slideshow Video Maker | Infiniteforge">
+    <meta property="og:description" content="Convert photos into video slideshows with transitions and music.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/slideshow-video-maker.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Slideshow Video Maker - Infiniteforge | Create Videos from Images with Audio">
-    <meta name="twitter:description" content="Create slideshow videos from images with music. Free online tool.">
+    <meta name="twitter:title" content="Slideshow Video Maker | Infiniteforge">
+    <meta name="twitter:description" content="Create photo slideshow videos online.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/slideshow-video-maker.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/slideshow-video-maker.html">
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Infiniteforge",
-        "url": "https://infiniteforge.tech",
-        "logo": "https://infiniteforge.tech/assets/letter-d.png",
-        "description": "Infiniteforge - Free online tools for video processing, image editing, and document conversion. No uploads, no watermarks, completely free.",
-        "foundingDate": "2025",
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "url": "https://infiniteforge.tech/contact.html"
-        },
-        "sameAs": [
-            "https://www.linkedin.com/in/mahibala-h",
-            "https://x.com/HMahibala42802",
-            "https://www.youtube.com/@echo14-w3y",
-            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
-            "https://www.facebook.com/61557410529583/"
-        ]
-    }</script>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Slideshow Video Maker",
-        "url": "https://infiniteforge.tech/slideshow-video-maker.html",
-        "description": "Free online tool to create slideshow videos from images with audio support",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Web Browser",
-        "browserRequirements": "Modern browsers with HTML5 canvas support",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        }
-    }</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        .drop-zone {
-            border: 2px dashed #cbd5e1;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .drop-zone.dragover {
-            border-color: #3b82f6;
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .progress-bar {
-            transition: width 0.3s ease;
-        }
-        .image-preview {
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .sortable-item {
-            cursor: move;
-            transition: all 0.2s ease;
-        }
-        .sortable-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .control-slider::-webkit-slider-thumb {
-            appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-        }
-        .control-slider::-moz-range-thumb {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-            border: none;
-        }
-        .audio-waveform {
-            height: 60px;
-            background: linear-gradient(90deg, #e5e7eb 25%, transparent 25%),
-                        linear-gradient(90deg, transparent 75%, #e5e7eb 75%);
-            background-size: 20px 20px;
-            border-radius: 4px;
-        }
-    </style>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>function _0x39d1(_0x1d58fd,_0x43209a){_0x1d58fd=_0x1d58fd-(-0x46a+0x1*0x1039+0x6*-0x1ca);var _0x3a3e8b=_0x5c73();var _0x333454=_0x3a3e8b[_0x1d58fd];if(_0x39d1['qkLvge']===undefined){var _0x33d80d=function(_0x3d1d52){var _0x2f6ab1='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x204f42='',_0x2a3b61='',_0x11889f=_0x204f42+_0x33d80d,_0x2b37d9=(''+function(){return-0x48a*0x7+-0x6df*-0x1+-0x1*-0x18e7;})['indexOf']('\x0a')!==-(0x237a+-0x1b1*-0x17+-0x2*0x2530);for(var _0x5a9eea=0x11a4+0x17e0+-0x14c2*0x2,_0x377099,_0x329d9b,_0x25576a=0x1c7a+0x1a9*0x3+0xf*-0x23b;_0x329d9b=_0x3d1d52['charAt'](_0x25576a++);~_0x329d9b&&(_0x377099=_0x5a9eea%(0x5a8*-0x5+-0x18b*-0x11+-0x1*-0x211)?_0x377099*(-0x236a+0x7*0x47d+-0x1*-0x43f)+_0x329d9b:_0x329d9b,_0x5a9eea++%(-0xc7b+-0x2*0x328+0x12cf))?_0x204f42+=_0x2b37d9||_0x11889f['charCodeAt'](_0x25576a+(-0x181a+-0x1079+0x289d))-(0x1*-0xd03+-0xb2*0x6+-0x1139*-0x1)!==-0xbdd+0x1*-0x17db+0x17d*0x18?String['fromCharCode'](0x12*0x212+-0xe5c+-0x15e9&_0x377099>>(-(0x53*-0x16+-0x2*-0x357+0x2*0x3b)*_0x5a9eea&0xffd+0x1b15*0x1+-0x2b0c)):_0x5a9eea:0x35*0xb9+-0x40+0x23d*-0x11){_0x329d9b=_0x2f6ab1['indexOf'](_0x329d9b);}for(var _0x4e2d8a=0x2f*0x4f+0x1e26+-0x2ca7,_0x417034=_0x204f42['length'];_0x4e2d8a<_0x417034;_0x4e2d8a++){_0x2a3b61+='%'+('00'+_0x204f42['charCodeAt'](_0x4e2d8a)['toString'](-0x1*-0x1be9+-0x4ff*-0x2+-0x25d7))['slice'](-(-0x2570+-0x1*-0xb9d+0x19d5));}return decodeURIComponent(_0x2a3b61);};var _0x5c9afd=function(_0xd95c57,_0x2adeea){var _0x24d106=[],_0x70b7db=-0x425*0x9+-0x2002+-0x454f*-0x1,_0x50ce35,_0x478ed6='';_0xd95c57=_0x33d80d(_0xd95c57);var _0xe1d0b8;for(_0xe1d0b8=-0x1b7*-0x1+0x6*0x2a2+-0x1183;_0xe1d0b8<-0x86*0x22+0x16f6*0x1+-0x42a;_0xe1d0b8++){_0x24d106[_0xe1d0b8]=_0xe1d0b8;}for(_0xe1d0b8=-0x1ff1+-0x18c5+0x38b6;_0xe1d0b8<-0x1934+-0x3*-0x7b5+0x315;_0xe1d0b8++){_0x70b7db=(_0x70b7db+_0x24d106[_0xe1d0b8]+_0x2adeea['charCodeAt'](_0xe1d0b8%_0x2adeea['length']))%(0x1e19+0x1930+0x1*-0x3649),_0x50ce35=_0x24d106[_0xe1d0b8],_0x24d106[_0xe1d0b8]=_0x24d106[_0x70b7db],_0x24d106[_0x70b7db]=_0x50ce35;}_0xe1d0b8=-0x653*-0x1+0x11ba+-0x180d,_0x70b7db=-0x10d*-0x15+0x19*-0xda+-0x1*0xc7;for(var _0x31ef02=0xe9*0x8+0x16*0xe3+-0x1aca;_0x31ef02<_0xd95c57['length'];_0x31ef02++){_0xe1d0b8=(_0xe1d0b8+(-0x3*-0x9c7+-0x3*0xa77+0x211))%(-0xa3*0x35+-0x9af+-0xb*-0x40a),_0x70b7db=(_0x70b7db+_0x24d106[_0xe1d0b8])%(0x42d*0x7+-0x24ce+0x893),_0x50ce35=_0x24d106[_0xe1d0b8],_0x24d106[_0xe1d0b8]=_0x24d106[_0x70b7db],_0x24d106[_0x70b7db]=_0x50ce35,_0x478ed6+=String['fromCharCode'](_0xd95c57['charCodeAt'](_0x31ef02)^_0x24d106[(_0x24d106[_0xe1d0b8]+_0x24d106[_0x70b7db])%(-0x1a0c+-0x3*0x349+0x24e7)]);}return _0x478ed6;};_0x39d1['TZUxoC']=_0x5c9afd,_0x39d1['bMvXRB']={},_0x39d1['qkLvge']=!![];}var _0x34f066=_0x3a3e8b[0x5e*0x1d+-0xc04+0xe*0x19],_0x4fc0df=_0x1d58fd+_0x34f066,_0x5752e4=_0x39d1['bMvXRB'][_0x4fc0df];if(!_0x5752e4){if(_0x39d1['isrJVC']===undefined){var _0x3718b1=function(_0x5579ec){this['dYdvtl']=_0x5579ec,this['vjzUgm']=[-0x1*0x127d+0x95*0x41+-0x1357,-0x3*0x1e2+-0xe31+0x13d7,-0x1d85*0x1+-0x9ed+0x2772],this['ojDYUH']=function(){return'newState';},this['xDHxpF']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['adLFOd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3718b1['prototype']['qvmIPk']=function(){var _0x719647=new RegExp(this['xDHxpF']+this['adLFOd']),_0x3d488e=_0x719647['test'](this['ojDYUH']['toString']())?--this['vjzUgm'][-0x2*-0x115a+0x1922+-0x11*0x385]:--this['vjzUgm'][0x1*-0xa61+-0xc2d+0xb47*0x2];return this['aYokSm'](_0x3d488e);},_0x3718b1['prototype']['aYokSm']=function(_0x1cd80a){if(!Boolean(~_0x1cd80a))return _0x1cd80a;return this['DBRFvD'](this['dYdvtl']);},_0x3718b1['prototype']['DBRFvD']=function(_0x3c41e4){for(var _0x30c90a=-0x175b+0xd55+0x1*0xa06,_0x5651fd=this['vjzUgm']['length'];_0x30c90a<_0x5651fd;_0x30c90a++){this['vjzUgm']['push'](Math['round'](Math['random']())),_0x5651fd=this['vjzUgm']['length'];}return _0x3c41e4(this['vjzUgm'][-0x4a*-0x6d+0x67*0x3c+-0x37a6]);},(''+function(){return 0x1*0x27d+0x70*0x3a+-0x1*0x1bdd;})['indexOf']('\x0a')===-(0x3d6*0x8+-0x2502+0x653)&&new _0x3718b1(_0x39d1)['qvmIPk'](),_0x39d1['isrJVC']=!![];}_0x333454=_0x39d1['TZUxoC'](_0x333454,_0x43209a),_0x39d1['bMvXRB'][_0x4fc0df]=_0x333454;}else _0x333454=_0x5752e4;return _0x333454;}function _0x5c73(){var _0x3d615b=['yxbWBhK','W5RcJ8k0lCovcmok','W4ddKmoEW5W7W5q0rmocW4Cbamkw','W71mpSo5WOWTWPi','zfNcLmkVW6/cNCoYt8kwW6FcPSk6Eq','xtPPWQvxaG','W5rjWQhcRmkSW5HjWQtdVK8LW7W','W4e5kIr5W7pdQa','WRTVdSo3DmklWOJcISkBeW','WQ0tbSk6WO8','ntzzCNHvuwe','mteWntKWA2vHt2Xj','ntu3ndqXngPdwMvLAG','pLPPuKbraXpcKSoieCkqWRe','W6tcMHOpWOK7mJS','mtbus2jVuey','iZDbmdbgrG','mtyZnJuYotrRteTtD0u','qqOQjaybxHFcOSkY','mJe3mZi2nNbtquvmrG','W5xcGmk6sKHWWPS','C2vHCMnO','WQf+eSoSBSktWPxdSmorEmkosCo+','iZq1rJngrG','W4zkW5BcPmoyW5eE','WQpcILPHWQKMuCk3','WOBcGCoImhyHWO87kmklfCojWOVdQG','yZZdO8oEWQhdO8kR','W7BdPtBcICoDySkZW50aBG','t3v0zML0','WQ9zW7S4WQWyWOG','n2n3A2PqyG'];_0x5c73=function(){return _0x3d615b;};return _0x5c73();}var _0x363c94=_0x39d1,_0x285ebb=_0x42d1;(function(_0x562566,_0x4d2777){var _0x1e8139=_0x42d1,_0x4a45ca=_0x39d1,_0x45db03=_0x562566();while(!![]){try{var _0x196a7a=parseInt(_0x4a45ca(0x12d,'Qbr!'))/(0xb*0x1c6+-0x7*-0x53b+-0x1c0f*0x2)*(-parseInt(_0x4a45ca(0x118,'P2Qz'))/(-0x1*-0xba8+-0x1275+0x6cf))+parseInt(_0x4a45ca(0x116,'Qbr!'))/(-0x9af+0x2131+-0x3*0x7d5)+parseInt(_0x4a45ca(0x128,'(sPo'))/(0x42d*0x7+-0x24ce+0x797)*(parseInt(_0x1e8139(0x121))/(-0x1a0c+-0x3*0x349+0x23ec))+parseInt(_0x1e8139(0x11e))/(0x5e*0x1d+-0xc04+0x4*0x59)*(-parseInt(_0x1e8139(0x131))/(-0x1*0x127d+0x95*0x41+-0x1351))+parseInt(_0x1e8139(0x11c))/(-0x3*0x1e2+-0xe31+0x13df)*(parseInt(_0x4a45ca(0x114,'*dw3'))/(-0x1d85*0x1+-0x9ed+0x277b))+-parseInt(_0x1e8139(0x11d))/(-0x2*-0x115a+0x1922+-0x4*0xef3)+-parseInt(_0x1e8139(0x123))/(0x1*-0xa61+-0xc2d+0x1bd*0xd);if(_0x196a7a===_0x4d2777)break;else _0x45db03['push'](_0x45db03['shift']());}catch(_0x41d860){_0x45db03['push'](_0x45db03['shift']());}}}(_0x5c73,-0xfba43+0x8f9f7+0x1*0x13e75f));function _0x42d1(_0x680c70,_0x23df20){_0x680c70=_0x680c70-(-0x46a+0x1*0x1039+0x6*-0x1ca);var _0x5832f7=_0x5c73();var _0x12614b=_0x5832f7[_0x680c70];if(_0x42d1['KWysfp']===undefined){var _0x1d11a0=function(_0x2c4fc6){var _0x4b6a94='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x4a2bb1='',_0x123e25='',_0x15ff10=_0x4a2bb1+_0x1d11a0,_0xfe592b=(''+function(){return-0x48a*0x7+-0x6df*-0x1+-0x1*-0x18e7;})['indexOf']('\x0a')!==-(0x237a+-0x1b1*-0x17+-0x2*0x2530);for(var _0x23a924=0x11a4+0x17e0+-0x14c2*0x2,_0x17b9fa,_0x3106b7,_0x1ff890=0x1c7a+0x1a9*0x3+0xf*-0x23b;_0x3106b7=_0x2c4fc6['charAt'](_0x1ff890++);~_0x3106b7&&(_0x17b9fa=_0x23a924%(0x5a8*-0x5+-0x18b*-0x11+-0x1*-0x211)?_0x17b9fa*(-0x236a+0x7*0x47d+-0x1*-0x43f)+_0x3106b7:_0x3106b7,_0x23a924++%(-0xc7b+-0x2*0x328+0x12cf))?_0x4a2bb1+=_0xfe592b||_0x15ff10['charCodeAt'](_0x1ff890+(-0x181a+-0x1079+0x289d))-(0x1*-0xd03+-0xb2*0x6+-0x1139*-0x1)!==-0xbdd+0x1*-0x17db+0x17d*0x18?String['fromCharCode'](0x12*0x212+-0xe5c+-0x15e9&_0x17b9fa>>(-(0x53*-0x16+-0x2*-0x357+0x2*0x3b)*_0x23a924&0xffd+0x1b15*0x1+-0x2b0c)):_0x23a924:0x35*0xb9+-0x40+0x23d*-0x11){_0x3106b7=_0x4b6a94['indexOf'](_0x3106b7);}for(var _0x10ae36=0x2f*0x4f+0x1e26+-0x2ca7,_0x3caf59=_0x4a2bb1['length'];_0x10ae36<_0x3caf59;_0x10ae36++){_0x123e25+='%'+('00'+_0x4a2bb1['charCodeAt'](_0x10ae36)['toString'](-0x1*-0x1be9+-0x4ff*-0x2+-0x25d7))['slice'](-(-0x2570+-0x1*-0xb9d+0x19d5));}return decodeURIComponent(_0x123e25);};_0x42d1['NXbTgW']=_0x1d11a0,_0x42d1['JioFNZ']={},_0x42d1['KWysfp']=!![];}var _0x59facc=_0x5832f7[-0x425*0x9+-0x2002+-0x454f*-0x1],_0x256fbd=_0x680c70+_0x59facc,_0x535d0b=_0x42d1['JioFNZ'][_0x256fbd];if(!_0x535d0b){var _0x2105a9=function(_0x5b566c){this['kzDWVx']=_0x5b566c,this['KRaIHw']=[-0x1b7*-0x1+0x6*0x2a2+-0x1182,-0x86*0x22+0x16f6*0x1+-0x52a,-0x1ff1+-0x18c5+0x38b6],this['JbsEtp']=function(){return'newState';},this['fSKoOC']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['hKUccT']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2105a9['prototype']['uwSFtk']=function(){var _0x513a84=new RegExp(this['fSKoOC']+this['hKUccT']),_0x8012ae=_0x513a84['test'](this['JbsEtp']['toString']())?--this['KRaIHw'][-0x1934+-0x3*-0x7b5+0x216]:--this['KRaIHw'][0x1e19+0x1930+0x1*-0x3749];return this['lWIWHb'](_0x8012ae);},_0x2105a9['prototype']['lWIWHb']=function(_0x4aa76b){if(!Boolean(~_0x4aa76b))return _0x4aa76b;return this['LIMjYi'](this['kzDWVx']);},_0x2105a9['prototype']['LIMjYi']=function(_0x43d34f){for(var _0x192012=-0x653*-0x1+0x11ba+-0x180d,_0x5ddcc9=this['KRaIHw']['length'];_0x192012<_0x5ddcc9;_0x192012++){this['KRaIHw']['push'](Math['round'](Math['random']())),_0x5ddcc9=this['KRaIHw']['length'];}return _0x43d34f(this['KRaIHw'][-0x10d*-0x15+0x19*-0xda+-0x1*0xc7]);},(''+function(){return 0xe9*0x8+0x16*0xe3+-0x1aca;})['indexOf']('\x0a')===-(-0x3*-0x9c7+-0x3*0xa77+0x211)&&new _0x2105a9(_0x42d1)['uwSFtk'](),_0x12614b=_0x42d1['NXbTgW'](_0x12614b),_0x42d1['JioFNZ'][_0x256fbd]=_0x12614b;}else _0x12614b=_0x535d0b;return _0x12614b;}var _0x33d1ff=(function(){var _0x37d70b=!![];return function(_0x58e242,_0x498cee){var _0x5eb5c9=_0x37d70b?function(){var _0x3a2589=_0x42d1;if(_0x498cee){var _0x2c11cf=_0x498cee[_0x3a2589(0x132)](_0x58e242,arguments);return _0x498cee=null,_0x2c11cf;}}:function(){};return _0x37d70b=![],_0x5eb5c9;};}()),_0x48e188=_0x33d1ff(this,function(){var _0x418164=_0x42d1,_0xd25fa8=_0x39d1,_0x453974={'wpjpu':function(_0x43add4,_0x43337b){return _0x43add4!==_0x43337b;},'pYCLP':_0xd25fa8(0x11a,'(sPo')+'+$'};if(_0x453974[_0xd25fa8(0x11b,'Vr(!')](_0x48e188['bind']()[_0xd25fa8(0x120,'#fxZ')]()[_0xd25fa8(0x115,'MNG@')]('\x0a'),-(-0x1*0xe5c+0x238e+-0x1531)))return;return _0x48e188['toString']()[_0xd25fa8(0x117,'gAoh')](_0x453974['pYCLP'])['toString']()['constructo'+'r'](_0x48e188)[_0x418164(0x127)](_0xd25fa8(0x12e,'!fJ9')+'+$');});_0x48e188(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':[_0x285ebb(0x12f),'sans-serif'],'mono':[_0x363c94(0x124,'2qyb')+'Mono','monospace']},'colors':{'dark':{0x384:_0x363c94(0x12a,'P2Qz'),0x320:_0x363c94(0x113,'TDCk'),0x2bc:_0x363c94(0x119,'qtcJ')},'brand':{'primary':_0x285ebb(0x129),'secondary':'#FF2A7A','accent':_0x285ebb(0x122)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.65rem 0.85rem; outline: none !important; font-size: 0.875rem; }
+        select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -233,244 +90,81 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-4">Slideshow Video Maker</h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                Create stunning slideshow videos from your images with background music. Add audio tracks, control timing, and export high-quality videos online for free.
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Slideshow Video Maker
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert image collections into video presentations with smooth transitions and timing directly in your browser.
             </p>
         </div>
 
-        <!-- Image Upload Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8">
-            <div class="drop-zone p-8 text-center" id="image-drop-zone">
-                <i data-feather="image" class="w-16 h-16 text-gray-400 mb-4 mx-auto"></i>
-                <h3 class="text-xl font-semibold text-gray-100 mb-2">Upload Images</h3>
-                <p class="text-gray-400 mb-4">Drag & drop images here or click to browse</p>
-                <input type="file" id="image-input" accept="image/*" multiple class="hidden">
-                <button id="image-upload-button" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                    Choose Images
-                </button>
-                <p class="text-sm text-gray-500 mt-2">Supports JPG, PNG, WebP (max 10MB each)</p>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept="image/*" multiple="" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="play-circle" class="w-8 h-8"></i>
             </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop photo slides here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select multiple JPG, PNG, or WebP images to generate your video</p>
         </div>
 
-        <!-- Image Management Section -->
-        <div id="image-management-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8 hidden">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-4">Arrange Your Images</h2>
-            <div class="mb-4">
-                <p class="text-gray-400 mb-4">Drag images to reorder them. Each image will be displayed for the duration you set below.</p>
-                <div id="image-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-            </div>
-
-            <!-- Image Controls -->
-            <div class="border-t pt-4">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Duration per image (seconds)</label>
-                        <input type="range" id="image-duration" class="control-slider w-full" min="1" max="10" value="3" step="0.5">
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                            <span id="image-duration-value">3.0s</span>
-                            <span>Max: 10s</span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Transition effect</label>
-                        <select id="transition-effect" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="fade">Fade</option>
-                            <option value="slide">Slide</option>
-                            <option value="zoom">Zoom</option>
-                            <option value="none">None</option>
-                        </select>
-                    </div>
+        <!-- Workspace Grid -->
+        <div id="workspace-card" class="grid lg:grid-cols-12 gap-6 mb-8 hidden">
+            <!-- Left 7 cols: Video Canvas Player -->
+            <div class="lg:col-span-7 glass-panel p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+                    <span class="text-xs font-bold text-white uppercase tracking-wider">Video Viewport (1280×720 HD)</span>
+                    <span class="text-xs font-mono text-brand-primary" id="slide-info">Slide 1 of 0</span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Audio Section -->
-        <div id="audio-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8 hidden">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-4">Add Background Music</h2>
-            <div class="drop-zone p-6 text-center mb-4" id="audio-drop-zone">
-                <i data-feather="music" class="w-12 h-12 text-gray-400 mb-2 mx-auto"></i>
-                <p class="text-gray-400 mb-2">Drag & drop audio file here or click to browse</p>
-                <input type="file" id="audio-input" accept="audio/*" class="hidden">
-                <button id="audio-upload-button" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm">
-                    Choose Audio File
-                </button>
-                <p class="text-xs text-gray-500 mt-1">Supports MP3, WAV, OGG (max 50MB)</p>
-            </div>
+                <div class="w-full h-80 bg-dark-900/90 rounded-2xl overflow-hidden flex items-center justify-center p-2 border border-white/5 mb-4">
+                    <canvas id="slideshow-canvas" class="max-h-full max-w-full object-contain rounded"></canvas>
+                </div>
 
-            <div id="audio-preview" class="hidden">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center">
-                        <i data-feather="play" class="w-5 h-5 text-green-600 mr-2"></i>
-                        <span class="text-sm font-medium text-gray-300" id="audio-filename">audio.mp3</span>
-                        <span class="text-xs text-gray-500 ml-2" id="audio-duration">(0:00)</span>
-                    </div>
-                    <button id="remove-audio" class="text-red-600 hover:text-red-300 text-sm">
-                        <i data-feather="x" class="w-4 h-4 inline mr-1"></i>
-                        Remove
+                <div>
+                    <button id="render-video-btn" class="glass-panel w-full py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_15px_rgba(69,243,255,0.2)] flex items-center justify-center gap-2 transition-all">
+                        <i data-feather="download" class="w-4 h-4"></i> Render &amp; Download Video (.webm)
                     </button>
                 </div>
-                <div class="audio-waveform mb-2"></div>
-                <div class="flex items-center justify-between text-xs text-gray-500">
-                    <span>Audio will loop if shorter than video</span>
-                    <span id="audio-size">Size: --</span>
-                </div>
             </div>
-        </div>
 
-        <!-- Video Settings Section -->
-        <div id="settings-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8 hidden">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-4">Video Settings</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Right 5 cols: Settings & Slides Queue -->
+            <div class="lg:col-span-5 glass-panel p-6 rounded-3xl border border-white/10 space-y-5">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-3 border-b border-white/10">
+                    Slideshow Settings
+                </h3>
+
+                <!-- Slide Duration -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Resolution</label>
-                    <select id="video-resolution" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="1920x1080">Full HD (1920x1080)</option>
-                        <option value="1280x720" selected>HD (1280x720)</option>
-                        <option value="854x480">SD (854x480)</option>
+                    <label for="duration-select" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Duration Per Slide</label>
+                    <select id="duration-select" class="w-full">
+                        <option value="1">1 Second per Slide</option>
+                        <option value="2" selected="">2 Seconds per Slide</option>
+                        <option value="3">3 Seconds per Slide</option>
+                        <option value="5">5 Seconds per Slide</option>
                     </select>
                 </div>
+
+                <!-- Slide Queue -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Frame Rate</label>
-                    <select id="video-fps" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="30" selected>30 FPS</option>
-                        <option value="24">24 FPS (Cinema)</option>
-                        <option value="60">60 FPS</option>
-                    </select>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold text-gray-400 uppercase">Slides Queue (<span id="slide-count">0</span>)</span>
+                        <button id="clear-slides-btn" class="text-xs text-gray-400 hover:text-red-400">Clear</button>
+                    </div>
+                    <div id="slides-queue" class="grid grid-cols-3 gap-2 max-h-52 overflow-y-auto pr-1">
+                        <!-- Dynamic Slide Thumbnails -->
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Output Format</label>
-                    <select id="video-format" class="w-full px-3 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="mp4" selected>MP4</option>
-                        <option value="webm">WebM</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Create Video Button -->
-        <div id="create-section" class="text-center mb-8 hidden">
-            <button id="create-video-button" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed">
-                <i data-feather="video" class="w-6 h-6 inline mr-2"></i>
-                Create Slideshow Video
-            </button>
-            <p class="text-sm text-gray-400 mt-2" id="video-info">Video will be: -- seconds long</p>
-        </div>
-
-        <!-- Progress Section -->
-        <div id="progress-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8 hidden">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-4">Creating Your Video...</h2>
-            <div class="mb-4">
-                <div class="bg-dark-700/60 backdrop-blur-md rounded-full h-4">
-                    <div id="progress-bar" class="progress-bar bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
-                </div>
-                <p class="text-sm text-gray-400 mt-2" id="progress-text">Initializing...</p>
-            </div>
-        </div>
-
-        <!-- Result Section -->
-        <div id="result-section" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8 hidden">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-4">Your Slideshow Video is Ready!</h2>
-            <div class="text-center">
-                <video id="video-preview" class="max-w-full max-h-96 mx-auto mb-4 rounded-lg shadow-lg" controls></video>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button id="download-video-button" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                        <i data-feather="download" class="w-4 h-4 inline mr-2"></i>
-                        Download Video
-                    </button>
-                    <button id="new-slideshow-button" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        <i data-feather="refresh-cw" class="w-4 h-4 inline mr-2"></i>
-                        Create New Slideshow
-                    </button>
-                </div>
-                <p class="text-sm text-gray-400 mt-4" id="result-info"></p>
-            </div>
-        </div>
-
-        <!-- Error Section -->
-        <div id="error-section" class="bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-xl p-6 mb-8 hidden">
-            <div class="flex items-center">
-                <i data-feather="alert-circle" class="w-6 h-6 text-red-600 mr-3"></i>
-                <div>
-                    <h3 class="text-lg font-semibold text-red-300">Error</h3>
-                    <p class="text-red-700 mt-1" id="error-message">An error occurred while creating your video.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Features Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-6 text-center">Why Choose Our Slideshow Video Maker?</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <i data-feather="images" class="w-12 h-12 text-blue-500 mb-4 mx-auto"></i>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Multiple Images</h3>
-                    <p class="text-gray-400">Upload and arrange multiple images to create dynamic slideshows.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="music" class="w-12 h-12 text-green-500 mb-4 mx-auto"></i>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Audio Support</h3>
-                    <p class="text-gray-400">Add background music or audio tracks to enhance your videos.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="settings" class="w-12 h-12 text-purple-500 mb-4 mx-auto"></i>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Customizable</h3>
-                    <p class="text-gray-400">Control timing, transitions, resolution, and output format.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="zap" class="w-12 h-12 text-yellow-500 mb-4 mx-auto"></i>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Fast Processing</h3>
-                    <p class="text-gray-400">Create videos quickly with optimized browser processing.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="shield" class="w-12 h-12 text-red-500 mb-4 mx-auto"></i>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Privacy First</h3>
-                    <p class="text-gray-400">All processing happens in your browser. No uploads, no data stored.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="download" class="w-12 h-12 text-indigo-500 mb-4 mx-auto"></i>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Free Download</h3>
-                    <p class="text-gray-400">Download your videos instantly without watermarks or restrictions.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAQ Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-6 text-center">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                <details class="border border-white/10 rounded-lg p-4">
-                    <summary class="font-semibold text-gray-100 cursor-pointer">What image formats are supported?</summary>
-                    <p class="text-gray-400 mt-2">We support all common image formats including JPG, PNG, WebP, and GIF files.</p>
-                </details>
-                <details class="border border-white/10 rounded-lg p-4">
-                    <summary class="font-semibold text-gray-100 cursor-pointer">Can I add background music to my slideshow?</summary>
-                    <p class="text-gray-400 mt-2">Yes! You can upload audio files in MP3, WAV, or OGG format. The audio will loop if it's shorter than your video.</p>
-                </details>
-                <details class="border border-white/10 rounded-lg p-4">
-                    <summary class="font-semibold text-gray-100 cursor-pointer">How many images can I include in my slideshow?</summary>
-                    <p class="text-gray-400 mt-2">You can add up to 50 images to create a slideshow. Each image can have a custom duration from 1-10 seconds.</p>
-                </details>
-                <details class="border border-white/10 rounded-lg p-4">
-                    <summary class="font-semibold text-gray-100 cursor-pointer">What video resolutions are available?</summary>
-                    <p class="text-gray-400 mt-2">Choose from Full HD (1920x1080), HD (1280x720), or SD (854x480) resolutions for your output video.</p>
-                </details>
-                <details class="border border-white/10 rounded-lg p-4">
-                    <summary class="font-semibold text-gray-100 cursor-pointer">Is my data secure?</summary>
-                    <p class="text-gray-400 mt-2">Absolutely! All processing happens locally in your browser. Your images and audio files never leave your device.</p>
-                </details>
             </div>
         </div>
     </main>
@@ -479,626 +173,15 @@
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>function _0x4cbd(){const _0x5f0e96=['y2XLyxiTC2XPza','bCo0gG','W4DfEKhcRmo2ACkn','z8kwoSoaW67cO33dHeK','y2fUDMfZ','fwnDrCodymoXpsju','EfFdL2lcSW','yxrOzxi9iMXVyq','C2XPzguTAw5MBW','WQqPWOhdRLq','WR3cGGJdHSkNW4WYWPqGsa','y8kFl8o2W7hcINNdKLnb','zNjVBq','WRrAF0ZcRCkZk8kdWPhdTG','WQpdJuKzWPa','uSk8zxK1WRpcVa','WQBdGSkXhgmPWQygumkFiq','W6KGkv4xmY99W6P2','Dgv4DenVBNrLBG','gmoIqYWoW43dQG','pc9ZCgfUpG','thrMzxC','DhLWzq','zMLSzxmU','pgKGzgf0ys1Mzq','wmoDWQBcTKy','yxvSDa','ELbHsey','W7pcH33cSSoJfq','Aw1Hz2uV','mJa5mNDIBLbUuq','W5NcOSkUW7VdV8ki','ChvZAa','ySowW7tcK0iUW73cK3yo','y2XHC3noyw1L','dWldI8kPegKccmo3W60','mZy1nJG3mvrxqvDWBW','WRBcHSosWRpcQW','W4qxdCkTW43cGtfDkZG','W6yTnbrozW','EgWGyMCTzgfYAW','dSobgcZcTa','z8kBk8ohW6JcNxhdPeLh','C3m9iNCTncbOlq','W7VcHgpcTsCkk0rHW74','zsb0B3aTmsbYAq','WQddSZvVWO7cQCo6Ca0','CbRcVwDzEW','o2nVzgvJCZ12Ca','zMLSBfn0EwXL','WPS/sSouW7JcQSkAWOFcQX8','C3rVCfbYB3bHzW','W6CQW4ZdVSobv8oLW6VdUq','dwqcW50YWP9hrLhcGa','WORcJ8kbW4OEfmo0WRBdUmkA','WR7dNMBcQs4DpeiJW6K','W6mJW5NdImoEFmoPW6pdSSkk','W4qEomotW5xcPG','WQKJWOxdP3xcLreaWQX6','ASkEWQyXhY7cOCkmmxu','WOu+ba','W5dcUmkNWQ/dS8kxWP7dPSkVfq','WPBcJImqWRZdLZVcP8oDESo8WPy7','FSktxmk3ygi','CMvSyxrPDMuGyq','AcNcOgfw','WR7cGaJdK8k2WO8WWRKHsW','idXPBwCGC3jJpq','C3vJy2vZCW','nde1mJnTsLb6zKq','ESoeWRbkoCk5nSo8W49Q','CMfUC2L0Aw9Ulq','WPuTfCot','C0hcHx7cOfqwW44Psa','W7xcO8oXWRXSWOK','D2LKDgG','W6OLW4hdPmorCSk5WQtdRSkB','BI7dNmkneW','jCozWQfWsM3cRa','vMLKzw8UlI4','bu1LwSorEa','kbxcNt7dTbnlW6riESkfkmkC','WOneEvG','yCkjDSorW6NcGq','W6RcGhxcUmoTxYrEW6FcVW','W6tdJw3cGHSFbCk6WP9w','ANDmDg0','C3bSAwnL','WRqJWOpdONtdHMOyWR16','z2v0q29UDgv4Da','utqqeq','rmoAWQ7cImoy','WPfZhuTtWPX+W7Lpgq','WRZdQ14wWOFdImoG','iIbJBgfZCZ0IDW','C2L6zq','mte0Cgz6zgLA','WRtcMCocW6rh','v8oWWR5OW5O','emoXdaxcVCkv','x3rPBwvY','W6iTmXrsEW','BYaOlNDLyM0P','AwrLBYe','lmouW55EfSkBWP7cRq','qXddLSkGdNri','uJddQCkCwgL0W4n0','AgLKzgvU','B25KyxrHyxzHAq','BcbZBgLKzxmU','zgL2','C3rHCNq','C2XPzguTy291BG','WQVcGb/dISkH','WP1aWOdcSSoM','zsbMBgv4igL0zq','sKfcugq','ig9Mia','o8omluRcOtSnyxxcPa','y2XPy2S','Dw7dHKZcSa','W6CQW4ZdVSobvCoTW7xdQa','qI0kgSkh','AfnAz3y','WPv/qXm','WR7dTd9+WPq','zMLSzxm','e8ocwCkHq1XLDwBcGW','zhjHD0LTywDL','WQ3dQh0JWPq','W68oneT6dq','ANvZDgLMEs1Jzq','pgyoW5eGWO4cceRcNW','W4BdJgLmW7S','AmkFnCouW6NcHW','WQnkWP7cGConbMS','C2vHCMnO','zgf0yq','W5KCg8k8W7ZcPGTKaG','Dg9tDhjPBMC','tmk7zwGL','gunwFSoX','z0HhrMK','r0jnzw4','zhjVCc16B25L','C3rLBMvY','nuVdTgGCo8oYy8kkiW','fmkBwSkMraHJnJBdGa','DMfSDwu','W7VcRwi4WOVcG8oaBs/cIG','W4tdM29MW6xcG27cJmoYtW','B25ZDg9W','qCoFWQVcJSoa','WQLeWO7cQmoj','BYbYB3vUzgvKlq','g8oYitXTW5ZdUIaFDG','rqhdISkaecWhqmo/W6W','qqJdN8k2dWudvSoL','zhvYyxrPB24TCW','cK14EmovAxiUd8kt','W4RcVmoUEcy','icaGicaGpc9IDq','WRzxWO8','BgvUz3rO','z2v0rwXLBwvUDa','Bmktp8oxW7JcGttdKe9A','uYZdVa','DqJcKc3cS00gW4rTxG','zc1MDwXSigjNlq','C2XPzgvZAg93lq','W5pdKxjnW73cG3e','gbvvk33cM8k6','WRZdIthdVCkIuxmBWRNcSa','Aw5MBW','yxrPB24','pCoKaM/cJG','AtBdOCkwux4','cuL4xa','BgLKzxnOB3CGDG','drvraNdcNCkYuMlcSa','WPePe8oYW7hcOCkdWOFcT0S','zwXLy3q','nmoZFCk/EW','cuL4xmoTFN4LeSkb','oSkTW4qsWP9P','y2HLy2STy2LYyW','C3rVCa','WQZcVmkMWRpcTYhdVgBdJCoj','CMvUzgvYlxzPza','WOqPf8oBW7ZcP8kl','WRZdRua2WPxcHq','W5FcPSkfW6RdTq','yb3dT8kH','uMvUzgvYzwqGyq','zCkEp8o2W6VcINRdG3fC','y292zxiIpGOGia','tvbhtLu','cIaGicaGicaGia','qNLjza','zgvYiIbJBgfZCW','eNDBtmkECCkowXLM','icaGicaGicaGia','ltKWmc84mcbIBW','DhLdwgO','txr2ELK','amoXcGm','ter0rvq','Aw5Uzxjive1m','zwfT','Bf/dHh/cQW','W5qHW6G/WP3cVmoAW4j5','FeNdGh/cTq8qW4n7wa','tuD6wmolANmKfSok','mZy4nxj4quzPvW','WOPZWQ3cK8oD','BMrLCIaMierVDW','WPO0WO/dUCk0Ea','ugXLyxnLignOBW','y3jLyxrLrwXLBq','CMvHzefZrgf0yq','DMLKzw8VD2vIBq','rw5IreK','WQJdRsTMWOu','cbLliW','ywrK','p8ozWRH7q3O','W6NdQt5YWOJdJmozvsJcRW','B3bHy2L0EsiGBW','dCk8DSkDECkyi1lcUwpcSxTJ','zgLZywjSzwq','W7eDimk1W4e','W5CxaCkCW6lcIZjmici','EfpdGgpcTq5t','ywrKrxzLBNrmAq','y2XHC3nmAxn0','W4ddKNPqW7RcQglcHmo5','W6NcTbvQW57cKSo9DmkmWPxdUCkg','AxbOC0i','mZu3mde0n3LdDhbTCG','DgfYz2v0','lwHVDMvYoM9Wyq'];_0x4cbd=function(){return _0x5f0e96;};return _0x4cbd();}const _0x4c9dea=_0x3b24,_0x5cd2d4=_0x111e;function _0x3b24(_0x48a531,_0xc63d05){_0x48a531=_0x48a531-(-0x2177+0x2*-0x252+0x2788);const _0x4063d8=_0x4cbd();let _0x574b73=_0x4063d8[_0x48a531];if(_0x3b24['JFEgVS']===undefined){var _0x490a4e=function(_0x20243f){const _0xa4de33='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2282ba='',_0x3cd02c='',_0x5d0f6f=_0x2282ba+_0x490a4e,_0x3b738a=(''+function(){return 0x962*0x1+0x1263+-0x1bc5;})['indexOf']('\x0a')!==-(-0x374+0x2*-0xc86+0x1c81);for(let _0xd729d=-0x1*0xd3a+0x12d1+0x1dd*-0x3,_0x40b282,_0x5c5f23,_0x174f73=0x1c1*0x9+0x302+0x11b*-0x11;_0x5c5f23=_0x20243f['charAt'](_0x174f73++);~_0x5c5f23&&(_0x40b282=_0xd729d%(0xd8c+-0x1ba0+-0x70c*-0x2)?_0x40b282*(-0xe6*0x29+-0x2313+0x4829)+_0x5c5f23:_0x5c5f23,_0xd729d++%(-0x1c64*-0x1+0x20f8+-0x3d58))?_0x2282ba+=_0x3b738a||_0x5d0f6f['charCodeAt'](_0x174f73+(0x1*-0x4ca+0x1f4b+-0x1a77))-(-0x1091*0x2+-0x2585+-0x1*-0x46b1)!==-0x13e5+-0x3*0xce3+0x3a8e?String['fromCharCode'](-0x6*0x5+0x43*0x3d+-0x1*0xeda&_0x40b282>>(-(-0x1441+0xfb+0x1348)*_0xd729d&0xac+-0x22e9+0x2243)):_0xd729d:0x911+-0x85d*-0x1+-0x116e){_0x5c5f23=_0xa4de33['indexOf'](_0x5c5f23);}for(let _0x1aea53=0x4*-0x8b1+0x5*0x407+-0x1*-0xea1,_0x345f42=_0x2282ba['length'];_0x1aea53<_0x345f42;_0x1aea53++){_0x3cd02c+='%'+('00'+_0x2282ba['charCodeAt'](_0x1aea53)['toString'](-0x1*0x26b0+-0xd0*-0x8+0x2040))['slice'](-(-0x160a*0x1+-0x1aa1+0x30ad));}return decodeURIComponent(_0x3cd02c);};_0x3b24['LdnRlV']=_0x490a4e,_0x3b24['EReNIZ']={},_0x3b24['JFEgVS']=!![];}const _0x2ab3c8=_0x4063d8[-0x1c*0x151+-0x815*0x3+0x3d1b*0x1],_0x37e1b3=_0x48a531+_0x2ab3c8,_0x2c03c9=_0x3b24['EReNIZ'][_0x37e1b3];if(!_0x2c03c9){const _0x185d8b=function(_0x197992){this['ETnzyT']=_0x197992,this['APluJt']=[0x1b8b*0x1+-0x9da*0x1+-0x11b0,-0x6*0x8e+-0x1ca2+0x1ff6,0x1*0x11f1+0x2148+-0x3339],this['ecRALE']=function(){return'newState';},this['YYVjOi']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['MntSRf']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x185d8b['prototype']['SYLaEX']=function(){const _0x535f45=new RegExp(this['YYVjOi']+this['MntSRf']),_0x32a435=_0x535f45['test'](this['ecRALE']['toString']())?--this['APluJt'][0x2*0xdb7+0x1143+-0x2cb0]:--this['APluJt'][0xb*0x16+-0xdc0+-0x16*-0x95];return this['nEQoEZ'](_0x32a435);},_0x185d8b['prototype']['nEQoEZ']=function(_0x6547db){if(!Boolean(~_0x6547db))return _0x6547db;return this['tsZald'](this['ETnzyT']);},_0x185d8b['prototype']['tsZald']=function(_0x3782cf){for(let _0x3ae1f8=0x16f*-0xd+-0x1cef+0x2f92,_0x58c4d6=this['APluJt']['length'];_0x3ae1f8<_0x58c4d6;_0x3ae1f8++){this['APluJt']['push'](Math['round'](Math['random']())),_0x58c4d6=this['APluJt']['length'];}return _0x3782cf(this['APluJt'][-0x1404+-0x2c3*-0x9+-0x4d7]);},(''+function(){return 0x1*-0xc42+-0x17a6*0x1+0x23e8;})['indexOf']('\x0a')===-(-0x1462+0x2091+-0xc2e)&&new _0x185d8b(_0x3b24)['SYLaEX'](),_0x574b73=_0x3b24['LdnRlV'](_0x574b73),_0x3b24['EReNIZ'][_0x37e1b3]=_0x574b73;}else _0x574b73=_0x2c03c9;return _0x574b73;}(function(_0x7b6246,_0x1487fe){const _0x164d8c=_0x3b24,_0x2427fe=_0x111e,_0x47256a=_0x7b6246();while(!![]){try{const _0x42d30b=parseInt(_0x2427fe(0x1b2,'!ruC'))/(0x1*0x1d0e+0x2289+-0x3*0x1532)+parseInt(_0x2427fe(0x198,'AjB*'))/(-0x10*0x59+-0x27*0x2+0x5e0)*(parseInt(_0x164d8c(0x1fc))/(0x1*0x63d+0x49d+-0xad7))+parseInt(_0x164d8c(0x1d5))/(-0x1ec+-0x1*0x1111+0x1301)*(parseInt(_0x164d8c(0x19b))/(-0x1c2a+-0x1eb9+0x3ae8))+-parseInt(_0x2427fe(0x1f5,'$w(i'))/(-0x4*-0x266+0xed*-0x8+0x115*-0x2)+-parseInt(_0x164d8c(0x1b4))/(0x5*-0x71e+0x19ff+-0x99e*-0x1)+parseInt(_0x2427fe(0x1aa,'8#in'))/(-0x1a7f+-0x59f*0x1+0x1*0x2026)+-parseInt(_0x164d8c(0x1db))/(-0x37*-0x63+0x21*0x85+-0x2661);if(_0x42d30b===_0x1487fe)break;else _0x47256a['push'](_0x47256a['shift']());}catch(_0x3b493b){_0x47256a['push'](_0x47256a['shift']());}}}(_0x4cbd,-0xaac33+-0x28f7*-0x3+-0x3*-0x5bafe));const _0x3263b1=(function(){const _0x20c84=_0x111e,_0x2047f5=_0x3b24,_0x5e9f60={'tkZCH':_0x2047f5(0x19f)+_0x20c84(0x1f4,'Y]L%')+_0x20c84(0x184,'!ruC'),'jQfNl':function(_0x523283,_0x544b41){return _0x523283!==_0x544b41;}};let _0x3509f3=!![];return function(_0x346d7f,_0x26e5ef){const _0x46a672=_0x20c84,_0x497a65={'VgrJf':_0x5e9f60[_0x46a672(0x244,'ORFD')],'XelvJ':_0x46a672(0x23c,'$w(i')};if(_0x5e9f60[_0x46a672(0x1e0,'%2W)')]('AoUlO',_0x46a672(0x1ac,'x@Xy'))){_0x4cb89b(_0x497a65[_0x46a672(0x1d0,'N5fw')],_0x497a65[_0x46a672(0x229,'r]nX')]);return;}else{const _0x3347fe=_0x3509f3?function(){const _0x4d98b6=_0x46a672;if(_0x26e5ef){const _0x59b13e=_0x26e5ef[_0x4d98b6(0x1a4,'f&hr')](_0x346d7f,arguments);return _0x26e5ef=null,_0x59b13e;}}:function(){};return _0x3509f3=![],_0x3347fe;}};}()),_0x37b9a6=_0x3263b1(this,function(){const _0x3c3466=_0x3b24,_0x5480d2=_0x111e,_0x114c4a={'EnbDI':'(((.+)+)+)'+'+$'};if(_0x37b9a6[_0x5480d2(0x1a5,'qRtI')]()[_0x3c3466(0x242)]()[_0x5480d2(0x1c6,'J9VH')]('\x0a')!==-(0x1ebd+-0x147c+0x52*-0x20))return;return _0x37b9a6['toString']()[_0x3c3466(0x23f)](_0x114c4a[_0x3c3466(0x1a3)])['toString']()['constructo'+'r'](_0x37b9a6)['search'](_0x5480d2(0x1e3,'gu6!')+'+$');});_0x37b9a6(),feather[_0x5cd2d4(0x205,'(vnL')]();function showMessage(_0x3c09b8,_0x14ffa4='success'){const _0x4013e8=_0x3b24,_0x37c0f8=_0x5cd2d4,_0x522841={'zvkTV':'toast','YaVZz':function(_0x45ba41,_0x4f2303){return _0x45ba41+_0x4f2303;},'JABPd':function(_0x5935fd,_0x1c07c8){return _0x5935fd+_0x1c07c8;},'GBMen':_0x37c0f8(0x228,'p@Yb'),'LDtET':_0x37c0f8(0x199,'d71W')+'le','BWXWd':_0x4013e8(0x173),'cHHYY':_0x4013e8(0x215)+_0x37c0f8(0x249,'R#NV')+'i><span>','cfkhE':'show\x20','MtvzY':function(_0x11e4d7,_0x16ab01){return _0x11e4d7(_0x16ab01);}},_0x56d30e=document[_0x4013e8(0x25b)+_0x4013e8(0x18c)](_0x522841['zvkTV']);if(!_0x56d30e)return;_0x56d30e[_0x37c0f8(0x1e5,'f&hr')]=_0x522841['YaVZz'](_0x522841[_0x4013e8(0x22b)](_0x37c0f8(0x1fd,'Mvet')+_0x37c0f8(0x220,'Ry[b'),_0x14ffa4==='success'?_0x4013e8(0x17f)+'le':_0x14ffa4===_0x522841[_0x4013e8(0x246)]?_0x522841[_0x4013e8(0x194)]:_0x522841['BWXWd'])+_0x522841['cHHYY']+_0x3c09b8,_0x4013e8(0x1cb)),_0x56d30e['className']=_0x522841[_0x37c0f8(0x1c0,'9tX2')]+_0x14ffa4,feather[_0x37c0f8(0x183,'Uf&O')](),_0x522841[_0x4013e8(0x192)](clearTimeout,_0x56d30e[_0x37c0f8(0x176,'XmB7')]),_0x56d30e[_0x4013e8(0x21b)]=setTimeout(()=>{const _0x21699b=_0x37c0f8;_0x56d30e[_0x21699b(0x1eb,'QsrA')]=_0x14ffa4;},0x9ed+0x1ad1+-0x1712);}let slideImages=[];const dropZone=document[_0x5cd2d4(0x253,'Ry[b')+_0x4c9dea(0x18c)](_0x4c9dea(0x247)),fileInput=document[_0x5cd2d4(0x1ef,'QsrA')+'ById']('file-input'),workspaceCard=document[_0x4c9dea(0x25b)+_0x4c9dea(0x18c)]('workspace-'+_0x5cd2d4(0x1ff,'Uf&O')),canvas=document[_0x5cd2d4(0x1ad,'x@Xy')+_0x5cd2d4(0x186,'Ry[b')](_0x4c9dea(0x16f)+_0x4c9dea(0x1bb)),ctx=canvas[_0x4c9dea(0x210)]('2d'),slideInfo=document[_0x4c9dea(0x25b)+'ById'](_0x4c9dea(0x1bf)),slideCount=document[_0x5cd2d4(0x1c2,'tbsI')+'ById'](_0x4c9dea(0x227)+'t'),durationSelect=document[_0x5cd2d4(0x256,'ORFD')+'ById'](_0x4c9dea(0x255)+_0x4c9dea(0x17b)),slidesQueue=document[_0x5cd2d4(0x179,'qRtI')+_0x4c9dea(0x18c)](_0x5cd2d4(0x20f,'9tX2')+'ue'),renderBtn=document[_0x5cd2d4(0x24d,'$w(i')+_0x4c9dea(0x18c)](_0x4c9dea(0x182)+'eo-btn');canvas[_0x4c9dea(0x202)]=-0x1*-0xc5b+0xec+0x1*-0x847,canvas[_0x5cd2d4(0x1a7,'(vnL')]=-0x22f9*-0x1+0x17d*0x1+-0x21a6,dropZone['addEventLi'+'stener'](_0x4c9dea(0x22e),()=>fileInput[_0x5cd2d4(0x24f,'RKh4')]()),dropZone['addEventLi'+_0x5cd2d4(0x1f0,'gjH!')]('dragover',_0x14a8c8=>{const _0x900161=_0x4c9dea,_0x38f793=_0x5cd2d4,_0x2ff106={'gHGFi':'dragover'};_0x14a8c8[_0x38f793(0x1f9,'p@Yb')+_0x900161(0x1d1)](),dropZone[_0x900161(0x1b0)][_0x900161(0x1a6)](_0x2ff106[_0x900161(0x245)]);}),dropZone[_0x5cd2d4(0x188,'tbsI')+'stener'](_0x5cd2d4(0x221,'XmB7'),()=>{const _0x5b1437=_0x5cd2d4;dropZone[_0x5b1437(0x254,'Ry[b')]['remove'](_0x5b1437(0x21f,'kfM3'));}),dropZone['addEventLi'+_0x5cd2d4(0x19e,'r^pH')](_0x5cd2d4(0x209,'B8S9'),_0x1327fe=>{const _0x301da7=_0x5cd2d4,_0x3b2118=_0x4c9dea,_0x16d5ac={'REPqV':function(_0x53935f,_0x5b8f23){return _0x53935f>_0x5b8f23;}};_0x1327fe['preventDef'+_0x3b2118(0x1d1)](),dropZone['classList']['remove']('dragover'),_0x16d5ac[_0x301da7(0x17c,'Ma5B')](_0x1327fe['dataTransf'+'er'][_0x3b2118(0x235)]['length'],0x10+-0x214e+0x353*0xa)&&addSlides(Array[_0x3b2118(0x1c3)](_0x1327fe[_0x301da7(0x17d,'ORFD')+'er'][_0x301da7(0x212,'RKh4')]));}),fileInput[_0x5cd2d4(0x20c,'gQte')+_0x4c9dea(0x248)]('change',_0x3947de=>{const _0x432a61=_0x4c9dea,_0x40b874=_0x5cd2d4,_0x3c3158={'JMpbV':function(_0x38d142,_0x57db2d){return _0x38d142>_0x57db2d;}};_0x3c3158[_0x40b874(0x219,'e[d@')](_0x3947de['target'][_0x432a61(0x235)][_0x432a61(0x25a)],-0x1b3d+-0x1b*0x50+-0x23ad*-0x1)&&addSlides(Array['from'](_0x3947de[_0x40b874(0x21a,'%2W)')][_0x432a61(0x235)])),fileInput[_0x432a61(0x24b)]='';});function addSlides(_0x51d9f1){const _0x5d4e3e=_0x5cd2d4,_0x24e4b2=_0x4c9dea,_0x71f4cb={'Ltfew':_0x24e4b2(0x232),'BlXOE':function(_0x4aedbe,_0x34a750){return _0x4aedbe===_0x34a750;}},_0x124342=_0x51d9f1[_0x5d4e3e(0x1d6,'Y]L%')](_0x55373e=>_0x55373e[_0x24e4b2(0x1cd)]['startsWith'](_0x24e4b2(0x1d4)));if(_0x71f4cb['BlXOE'](_0x124342[_0x24e4b2(0x25a)],0x6*-0x22a+-0x1*0xb9b+0x1897)){showMessage(_0x5d4e3e(0x23b,'RP!u')+'ose\x20image\x20'+_0x24e4b2(0x1ce),_0x5d4e3e(0x1bd,'d71W'));return;}let _0x390ba4=-0x6e8+0x2*-0xbb0+0x1e48;_0x124342[_0x5d4e3e(0x214,'!ruC')](_0x242cf6=>{const _0x47bdfd=_0x5d4e3e,_0xf173c=_0x24e4b2,_0x24483b={'TMAAJ':_0x71f4cb[_0xf173c(0x1cc)]},_0x50a992=new FileReader();_0x50a992[_0x47bdfd(0x1d3,'(4LU')]=_0x20ec42=>{const _0x4d54ee=_0xf173c,_0x1363a3=_0x47bdfd,_0x382c6e={'XOjVv':function(_0x335d4d,_0x5e8c7e){return _0x335d4d===_0x5e8c7e;},'oJTci':_0x24483b[_0x1363a3(0x175,'QvpY')]},_0xf1374e=new Image();_0xf1374e[_0x1363a3(0x239,'g8Kx')]=()=>{const _0x1e103f=_0x1363a3;slideImages[_0x1e103f(0x211,'FOzs')](_0xf1374e),_0x390ba4++,_0x382c6e[_0x1e103f(0x257,'c)dP')](_0x390ba4,_0x124342[_0x1e103f(0x21c,'xb*s')])&&(_0x382c6e[_0x1e103f(0x1dc,'(P&[')]!=='hSZgv'?_0x284f22[_0x1e103f(0x1b1,'$w(i')]=_0x1ec94f:onSlidesUpdated());},_0xf1374e[_0x1363a3(0x259,'r]nX')]=_0x20ec42[_0x4d54ee(0x1b5)][_0x1363a3(0x1f6,'vFaL')];},_0x50a992[_0xf173c(0x1a1)+'URL'](_0x242cf6);});}function onSlidesUpdated(){const _0x352784=_0x5cd2d4,_0x323361=_0x4c9dea,_0x196ce6={'buYjJ':function(_0x5b61ef,_0x410fdb){return _0x5b61ef===_0x410fdb;},'MPGNU':_0x323361(0x20d),'incfu':function(_0x39ac2b){return _0x39ac2b();},'yIeJv':function(_0x27ca05,_0x5cb028){return _0x27ca05(_0x5cb028);}};if(_0x196ce6['buYjJ'](slideImages[_0x323361(0x25a)],0x2e*-0x2d+-0x1e75+0x268b)){if(_0x196ce6[_0x323361(0x18a)]!==_0x196ce6['MPGNU']){if(_0x394da2[_0x323361(0x240)][_0x323361(0x216)]>-0x22fd+-0x94*0x10+0x2c3d)_0x2a99fb[_0x352784(0x233,'Ea1O')](_0xe2d4c8[_0x352784(0x177,'ORFD')]);}else{workspaceCard[_0x352784(0x1ba,'tbsI')][_0x352784(0x1b8,'%2W)')]('hidden');return;}}workspaceCard[_0x352784(0x230,'QsrA')][_0x352784(0x201,'FY#F')](_0x323361(0x222)),slideCount[_0x323361(0x1c9)+'t']=slideImages[_0x352784(0x17e,'Az)m')],slideInfo[_0x323361(0x1c9)+'t']=_0x352784(0x1c4,'B8S9')+'\x20'+slideImages[_0x352784(0x23d,'tbsI')],drawSlide(slideImages[-0x1*0x211f+-0x4*-0x7e+0x1d*0x113]),_0x196ce6['incfu'](renderThumbnails),feather['replace'](),_0x196ce6[_0x352784(0x1c5,'!ruC')](showMessage,'Loaded\x20'+slideImages['length']+_0x352784(0x1b9,'B8S9'));}function _0x111e(_0x394da2,_0x2a99fb){_0x394da2=_0x394da2-(-0x2177+0x2*-0x252+0x2788);const _0xe2d4c8=_0x4cbd();let _0x33eea7=_0xe2d4c8[_0x394da2];if(_0x111e['XgygMi']===undefined){var _0x4ef119=function(_0xb8d7c6){const _0x379ee5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x6fb86c='',_0x584c16='',_0x22801b=_0x6fb86c+_0x4ef119,_0x3affd4=(''+function(){return 0x962*0x1+0x1263+-0x1bc5;})['indexOf']('\x0a')!==-(-0x374+0x2*-0xc86+0x1c81);for(let _0x33c2c3=-0x1*0xd3a+0x12d1+0x1dd*-0x3,_0x340b90,_0x539ba2,_0x12d11d=0x1c1*0x9+0x302+0x11b*-0x11;_0x539ba2=_0xb8d7c6['charAt'](_0x12d11d++);~_0x539ba2&&(_0x340b90=_0x33c2c3%(0xd8c+-0x1ba0+-0x70c*-0x2)?_0x340b90*(-0xe6*0x29+-0x2313+0x4829)+_0x539ba2:_0x539ba2,_0x33c2c3++%(-0x1c64*-0x1+0x20f8+-0x3d58))?_0x6fb86c+=_0x3affd4||_0x22801b['charCodeAt'](_0x12d11d+(0x1*-0x4ca+0x1f4b+-0x1a77))-(-0x1091*0x2+-0x2585+-0x1*-0x46b1)!==-0x13e5+-0x3*0xce3+0x3a8e?String['fromCharCode'](-0x6*0x5+0x43*0x3d+-0x1*0xeda&_0x340b90>>(-(-0x1441+0xfb+0x1348)*_0x33c2c3&0xac+-0x22e9+0x2243)):_0x33c2c3:0x911+-0x85d*-0x1+-0x116e){_0x539ba2=_0x379ee5['indexOf'](_0x539ba2);}for(let _0x2ff5e7=0x4*-0x8b1+0x5*0x407+-0x1*-0xea1,_0x1084af=_0x6fb86c['length'];_0x2ff5e7<_0x1084af;_0x2ff5e7++){_0x584c16+='%'+('00'+_0x6fb86c['charCodeAt'](_0x2ff5e7)['toString'](-0x1*0x26b0+-0xd0*-0x8+0x2040))['slice'](-(-0x160a*0x1+-0x1aa1+0x30ad));}return decodeURIComponent(_0x584c16);};const _0x41708b=function(_0x266135,_0x2a1614){let _0x147580=[],_0x51e81d=-0x1c*0x151+-0x815*0x3+0x3d1b*0x1,_0x30ac9c,_0x1a6c10='';_0x266135=_0x4ef119(_0x266135);let _0x555750;for(_0x555750=0x1b8b*0x1+-0x9da*0x1+-0x11b1;_0x555750<-0x6*0x8e+-0x1ca2+0x20f6;_0x555750++){_0x147580[_0x555750]=_0x555750;}for(_0x555750=0x1*0x11f1+0x2148+-0x3339;_0x555750<0x2*0xdb7+0x1143+-0x2bb1;_0x555750++){_0x51e81d=(_0x51e81d+_0x147580[_0x555750]+_0x2a1614['charCodeAt'](_0x555750%_0x2a1614['length']))%(0xb*0x16+-0xdc0+-0x39*-0x3e),_0x30ac9c=_0x147580[_0x555750],_0x147580[_0x555750]=_0x147580[_0x51e81d],_0x147580[_0x51e81d]=_0x30ac9c;}_0x555750=0x16f*-0xd+-0x1cef+0x2f92,_0x51e81d=-0x1404+-0x2c3*-0x9+-0x4d7;for(let _0x15007b=0x1*-0xc42+-0x17a6*0x1+0x23e8;_0x15007b<_0x266135['length'];_0x15007b++){_0x555750=(_0x555750+(-0x1462+0x2091+-0xc2e))%(-0x1473*-0x1+-0x2*0xe76+-0x1*-0x979),_0x51e81d=(_0x51e81d+_0x147580[_0x555750])%(-0xcbd+0x1ea1*-0x1+-0x2c5e*-0x1),_0x30ac9c=_0x147580[_0x555750],_0x147580[_0x555750]=_0x147580[_0x51e81d],_0x147580[_0x51e81d]=_0x30ac9c,_0x1a6c10+=String['fromCharCode'](_0x266135['charCodeAt'](_0x15007b)^_0x147580[(_0x147580[_0x555750]+_0x147580[_0x51e81d])%(0xdf0+0x249c+-0x54*0x97)]);}return _0x1a6c10;};_0x111e['OszcpP']=_0x41708b,_0x111e['EUNqTa']={},_0x111e['XgygMi']=!![];}const _0x2e005f=_0xe2d4c8[-0x1233+0x1d3d+0x3*-0x3ae],_0x61b39f=_0x394da2+_0x2e005f,_0x510a6f=_0x111e['EUNqTa'][_0x61b39f];if(!_0x510a6f){if(_0x111e['wOMiUs']===undefined){const _0x4a53ea=function(_0x529986){this['GPciJP']=_0x529986,this['cUVtyf']=[0x21a8+0x2630+-0x15b*0x35,-0x1*-0xe5c+0x83*-0x29+0x69f,0x2*-0xef8+-0x26c9+-0xf1*-0x49],this['TgwYBV']=function(){return'newState';},this['dRLSzV']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['SIQROK']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4a53ea['prototype']['xnrBpU']=function(){const _0x2d1f2b=new RegExp(this['dRLSzV']+this['SIQROK']),_0x31853c=_0x2d1f2b['test'](this['TgwYBV']['toString']())?--this['cUVtyf'][0x6b*-0x34+0x1da5+-0x7e8]:--this['cUVtyf'][-0x221b+0x1f*-0x8f+0x336c];return this['lvWCmx'](_0x31853c);},_0x4a53ea['prototype']['lvWCmx']=function(_0x3f850a){if(!Boolean(~_0x3f850a))return _0x3f850a;return this['iSnCKP'](this['GPciJP']);},_0x4a53ea['prototype']['iSnCKP']=function(_0x3a15d7){for(let _0x28ce15=-0x1c8+0x7d5*0x4+0x7c*-0x3d,_0xd7de1b=this['cUVtyf']['length'];_0x28ce15<_0xd7de1b;_0x28ce15++){this['cUVtyf']['push'](Math['round'](Math['random']())),_0xd7de1b=this['cUVtyf']['length'];}return _0x3a15d7(this['cUVtyf'][0x13*-0x93+0x1d53*0x1+-0x126a*0x1]);},(''+function(){return 0x1701+-0x18a*0x16+0xadb;})['indexOf']('\x0a')===-(-0x36b+-0x1*0x2084+0x23f0)&&new _0x4a53ea(_0x111e)['xnrBpU'](),_0x111e['wOMiUs']=!![];}_0x33eea7=_0x111e['OszcpP'](_0x33eea7,_0x2a99fb),_0x111e['EUNqTa'][_0x61b39f]=_0x33eea7;}else _0x33eea7=_0x510a6f;return _0x33eea7;}function drawSlide(_0x4dcc2c){const _0x3e155d=_0x4c9dea,_0x4506d6=_0x5cd2d4,_0x3e3d8a={'McZzU':_0x4506d6(0x1ca,'J9VH'),'qzarj':function(_0x475d28,_0x1e0eec){return _0x475d28/_0x1e0eec;},'LJbHo':function(_0x73e530,_0x515fed){return _0x73e530-_0x515fed;},'TiJdf':function(_0x996ec8,_0x721757){return _0x996ec8*_0x721757;},'thhyB':function(_0x573c2e,_0x4dcd15){return _0x573c2e*_0x4dcd15;}};ctx[_0x3e155d(0x1e8)]=_0x3e3d8a['McZzU'],ctx['fillRect'](-0x1cd6+-0x19*0x102+0x3608,-0x24c6+-0x12e2+0x448*0xd,-0xbd7+-0x106+0x11*0x10d,0x8dd+0x185*0x4+-0x40b*0x3);const _0x1ea3f2=(-0x1*-0x6c1+0x16*0x198+0x1d*-0x145)/_0x4dcc2c['width'],_0x3a725e=_0x3e3d8a[_0x4506d6(0x197,'d71W')](-0x38*-0x20+-0x2400+-0x7f4*-0x4,_0x4dcc2c[_0x4506d6(0x207,'ORFD')]),_0x42049f=Math['min'](_0x1ea3f2,_0x3a725e),_0x3c2386=(0x129b+0x1384+0x3d*-0x8b-_0x4dcc2c[_0x4506d6(0x234,'f&hr')]*_0x42049f)/(-0x135c+-0x1e10+0x39*0xde),_0x2c5540=_0x3e3d8a[_0x4506d6(0x204,'Ry[b')](-0xf5*-0x19+-0xf7e+-0x59f,_0x3e3d8a['TiJdf'](_0x4dcc2c[_0x4506d6(0x1de,'xb*s')],_0x42049f))/(-0x2*-0x2f+0x16*0x4c+-0xc4*0x9);ctx[_0x3e155d(0x237)](_0x4dcc2c,0x13*0x139+0x1*0xab9+-0x2*0x10fa,0x1d07+0x277*-0x2+-0x1819,_0x4dcc2c[_0x3e155d(0x202)],_0x4dcc2c['height'],_0x3c2386,_0x2c5540,_0x3e3d8a['thhyB'](_0x4dcc2c[_0x4506d6(0x243,'J9VH')],_0x42049f),_0x4dcc2c[_0x4506d6(0x1e6,'R#NV')]*_0x42049f);}function renderThumbnails(){const _0x102515=_0x5cd2d4;slidesQueue['innerHTML']='',slideImages[_0x102515(0x23e,'r]nX')]((_0x426cc9,_0x2bb6f0)=>{const _0x1ee14e=_0x102515,_0x2a3374=_0x3b24,_0x41ba40=document[_0x2a3374(0x1a0)+_0x1ee14e(0x25d,'XmB7')](_0x2a3374(0x225));_0x41ba40[_0x2a3374(0x1d9)]=_0x2a3374(0x1f7)+_0x1ee14e(0x1c1,'p@Yb')+_0x2a3374(0x251)+_0x2a3374(0x1df)+_0x2a3374(0x190)+'rder\x20borde'+_0x1ee14e(0x24a,'Ma5B')+_0x1ee14e(0x19a,'ORFD')+_0x1ee14e(0x25c,'tbsI')+_0x1ee14e(0x181,'(P&[')+_0x1ee14e(0x170,'$w(i'),_0x41ba40['innerHTML']=_0x2a3374(0x18b)+_0x2a3374(0x18f)+_0x2a3374(0x1fa)+'\x22'+_0x426cc9[_0x1ee14e(0x1f3,'Uf&O')]+('\x22\x20class=\x22w'+_0x1ee14e(0x1da,'Ry[b')+_0x1ee14e(0x1d8,'N5fw')+_0x2a3374(0x189)+_0x2a3374(0x18f)+_0x1ee14e(0x172,'(4LU')+_0x1ee14e(0x236,'Ma5B')+'s=\x22absolut'+_0x2a3374(0x1e4)+_0x1ee14e(0x1c8,'xb*s')+_0x1ee14e(0x16d,'d71W')+_0x2a3374(0x16e)+'red-500/80'+_0x1ee14e(0x1a8,'f&hr')+_0x2a3374(0x22a)+_0x1ee14e(0x1e9,'Uf&O')+_0x2a3374(0x23a)+'nter\x20opaci'+_0x1ee14e(0x213,'Ea1O')+_0x2a3374(0x1b6)+'city-100\x20t'+_0x2a3374(0x1fe)+_0x2a3374(0x1a9)+_0x1ee14e(0x203,'QsrA')+'moveSlide('+_0x1ee14e(0x1ae,'d71W'))+_0x2bb6f0+(')\x22>\x0a\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x1ee14e(0x252,'J9VH')+_0x1ee14e(0x1ed,'35k0')+_0x2a3374(0x18f)+_0x2a3374(0x258)+'tton>\x0a\x20\x20\x20\x20'+_0x2a3374(0x18f)+'\x20\x20'),slidesQueue['appendChil'+'d'](_0x41ba40);});}window['removeSlid'+'e']=function(_0x37644e,_0x26a4f0){const _0x2cc219=_0x5cd2d4,_0x359502=_0x4c9dea,_0x3a073c={'hKcAq':function(_0x55a3c2){return _0x55a3c2();}};_0x37644e[_0x359502(0x1ea)+_0x359502(0x174)](),slideImages[_0x359502(0x20e)](_0x26a4f0,-0x12cc+0x75a+-0xb73*-0x1),_0x3a073c[_0x2cc219(0x22f,'d71W')](onSlidesUpdated);},document[_0x5cd2d4(0x17a,'Uf&O')+'ById'](_0x4c9dea(0x1b7)+_0x5cd2d4(0x20a,'tbsI'))['addEventLi'+'stener'](_0x5cd2d4(0x231,'FOzs'),()=>{const _0x5dfd88=_0x5cd2d4,_0x4dbe80=_0x4c9dea,_0x45a1b3={'rDGnA':function(_0x29add6){return _0x29add6();},'pVtag':function(_0x48a2f7,_0x37df34){return _0x48a2f7(_0x37df34);},'Mykuw':'Cleared\x20al'+_0x4dbe80(0x224)};slideImages=[],_0x45a1b3['rDGnA'](onSlidesUpdated),_0x45a1b3[_0x5dfd88(0x1f8,'R#NV')](showMessage,_0x45a1b3['Mykuw']);}),renderBtn[_0x4c9dea(0x1af)+_0x4c9dea(0x248)](_0x4c9dea(0x22e),async()=>{const _0x440e62=_0x5cd2d4,_0x1ea8d2=_0x4c9dea,_0x5e7ab2={'wlQpr':_0x1ea8d2(0x1a2),'iphsB':function(_0x209a7e,_0xacd329,_0x1a5a74){return _0x209a7e(_0xacd329,_0x1a5a74);},'hmGeo':'slideshow_'+_0x440e62(0x20b,'(4LU'),'tyCXj':_0x1ea8d2(0x1cf)+'ather=\x22dow'+'nload\x22\x20cla'+_0x1ea8d2(0x1e2)+_0x440e62(0x1bc,'FOzs')+_0x1ea8d2(0x19d)+_0x440e62(0x1f1,'9tX2')+_0x1ea8d2(0x21d),'eHhNL':_0x1ea8d2(0x187)+_0x440e62(0x200,'d71W')+_0x1ea8d2(0x178)+_0x1ea8d2(0x21e),'OVAWq':function(_0x3488ae,_0x261053){return _0x3488ae===_0x261053;},'DjYDP':function(_0x409748,_0xf20c30){return _0x409748(_0xf20c30);},'zPaHF':function(_0x2d51b4,_0x5b724c){return _0x2d51b4+_0x5b724c;}};if(_0x5e7ab2[_0x440e62(0x19c,'r]nX')](slideImages[_0x1ea8d2(0x25a)],0x1441+-0x25b6+0x1175))return;renderBtn[_0x1ea8d2(0x1ab)]=!![],renderBtn[_0x440e62(0x241,'x@Xy')]=_0x1ea8d2(0x1cf)+_0x1ea8d2(0x1be)+_0x1ea8d2(0x18d)+_0x440e62(0x1f2,'(vnL')+_0x440e62(0x1ec,'RP!u')+'in\x20inline\x20'+_0x440e62(0x1ee,'gu6!')+_0x440e62(0x22d,'QvpY')+_0x1ea8d2(0x206),feather[_0x440e62(0x171,'qRtI')]();const _0x245e99=_0x5e7ab2[_0x440e62(0x218,'#CHd')](parseInt,durationSelect['value']),_0xf57224=canvas[_0x440e62(0x1e1,'tbsI')+_0x1ea8d2(0x196)](0x3*-0x38b+-0x10cb+0x1b8a),_0x1f5f62=new MediaRecorder(_0xf57224,{'mimeType':_0x1ea8d2(0x1a2)+_0x1ea8d2(0x1e7)+'8'}),_0x30e521=[];_0x1f5f62[_0x1ea8d2(0x223)+_0x440e62(0x250,'r]nX')]=_0x57e6e0=>{const _0x552152=_0x1ea8d2,_0x789592=_0x440e62;if(_0x57e6e0[_0x789592(0x193,'%2W)')][_0x552152(0x216)]>0x21bc+0x1*0x1a51+0x3c0d*-0x1)_0x30e521[_0x552152(0x1d7)](_0x57e6e0[_0x552152(0x240)]);},_0x1f5f62[_0x1ea8d2(0x24e)]=()=>{const _0x50fb3d=_0x1ea8d2,_0x4b6cbf=_0x440e62,_0x2f0a58=new Blob(_0x30e521,{'type':_0x5e7ab2[_0x4b6cbf(0x238,'!ruC')]});_0x5e7ab2[_0x50fb3d(0x1b3)](saveAs,_0x2f0a58,_0x5e7ab2[_0x4b6cbf(0x185,'Y]L%')]),renderBtn[_0x50fb3d(0x1ab)]=![],renderBtn[_0x50fb3d(0x195)]=_0x5e7ab2[_0x50fb3d(0x191)],feather['replace'](),showMessage(_0x5e7ab2['eHhNL'],_0x50fb3d(0x1fb));},_0x1f5f62[_0x1ea8d2(0x226)]();for(let _0x48ca1b=-0x1831+-0x10ea+0x291b;_0x48ca1b<slideImages['length'];_0x48ca1b++){_0x5e7ab2['DjYDP'](drawSlide,slideImages[_0x48ca1b]),slideInfo[_0x440e62(0x1dd,'x@Xy')+'t']='Rendering\x20'+'Slide\x20'+_0x5e7ab2[_0x1ea8d2(0x1d2)](_0x48ca1b,-0x2027+0x65a+0x19ce)+_0x1ea8d2(0x22c)+slideImages[_0x1ea8d2(0x25a)],await new Promise(_0x2eb77c=>setTimeout(_0x2eb77c,_0x245e99*(0x21d5*0x1+0x3a*0x71+0xb1b*-0x5)));}_0x1f5f62[_0x1ea8d2(0x180)]();});</script>
 
-
-    <script>
-        // Initialize Feather icons
-        feather.replace();
-
-        // DOM elements
-        const imageDropZone = document.getElementById('image-drop-zone');
-        const imageInput = document.getElementById('image-input');
-        const imageUploadButton = document.getElementById('image-upload-button');
-        const imageManagementSection = document.getElementById('image-management-section');
-        const imageList = document.getElementById('image-list');
-        const audioSection = document.getElementById('audio-section');
-        const audioDropZone = document.getElementById('audio-drop-zone');
-        const audioInput = document.getElementById('audio-input');
-        const audioUploadButton = document.getElementById('audio-upload-button');
-        const audioPreview = document.getElementById('audio-preview');
-        const settingsSection = document.getElementById('settings-section');
-        const createSection = document.getElementById('create-section');
-        const createVideoButton = document.getElementById('create-video-button');
-        const progressSection = document.getElementById('progress-section');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const resultSection = document.getElementById('result-section');
-        const videoPreview = document.getElementById('video-preview');
-        const downloadVideoButton = document.getElementById('download-video-button');
-        const newSlideshowButton = document.getElementById('new-slideshow-button');
-        const errorSection = document.getElementById('error-section');
-        const errorMessage = document.getElementById('error-message');
-
-        // Control elements
-        const imageDurationSlider = document.getElementById('image-duration');
-        const imageDurationValue = document.getElementById('image-duration-value');
-        const transitionEffect = document.getElementById('transition-effect');
-        const videoResolution = document.getElementById('video-resolution');
-        const videoFps = document.getElementById('video-fps');
-        const videoFormat = document.getElementById('video-format');
-        const videoInfo = document.getElementById('video-info');
-        const resultInfo = document.getElementById('result-info');
-        const audioFilename = document.getElementById('audio-filename');
-        const audioDuration = document.getElementById('audio-duration');
-        const audioSize = document.getElementById('audio-size');
-        const removeAudio = document.getElementById('remove-audio');
-
-        let images = [];
-        let audioFile = null;
-        let generatedVideoBlob = null;
-        let audioContext = null;
-        let audioBuffer = null;
-
-        // Image upload handlers
-        imageUploadButton.addEventListener('click', () => {
-            imageInput.click();
-        });
-
-        imageInput.addEventListener('change', (e) => {
-            handleImageFiles(e.target.files);
-        });
-
-        // Image drag and drop handlers
-        imageDropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            imageDropZone.classList.add('dragover');
-        });
-
-        imageDropZone.addEventListener('dragleave', () => {
-            imageDropZone.classList.remove('dragover');
-        });
-
-        imageDropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            imageDropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            handleImageFiles(files);
-        });
-
-        // Audio upload handlers
-        audioUploadButton.addEventListener('click', () => {
-            audioInput.click();
-        });
-
-        audioInput.addEventListener('change', (e) => {
-            handleAudioFile(e.target.files[0]);
-        });
-
-        // Audio drag and drop handlers
-        audioDropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            audioDropZone.classList.add('dragover');
-        });
-
-        audioDropZone.addEventListener('dragleave', () => {
-            audioDropZone.classList.remove('dragover');
-        });
-
-        audioDropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            audioDropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleAudioFile(files[0]);
-            }
-        });
-
-        // Control handlers
-        imageDurationSlider.addEventListener('input', updateImageDuration);
-        removeAudio.addEventListener('click', removeAudioFile);
-        createVideoButton.addEventListener('click', createVideo);
-        downloadVideoButton.addEventListener('click', downloadVideo);
-        newSlideshowButton.addEventListener('click', resetTool);
-
-        function handleImageFiles(files) {
-            const validFiles = Array.from(files).filter(file => {
-                if (!file.type.startsWith('image/')) {
-                    showError(`Invalid file type: ${file.name}. Please select image files only.`);
-                    return false;
-                }
-                if (file.size > 10 * 1024 * 1024) { // 10MB limit
-                    showError(`File too large: ${file.name}. Please select files under 10MB.`);
-                    return false;
-                }
-                return true;
-            });
-
-            if (validFiles.length === 0) return;
-
-            // Add new images to the array
-            validFiles.forEach(file => {
-                images.push({
-                    file: file,
-                    url: URL.createObjectURL(file),
-                    duration: parseFloat(imageDurationSlider.value)
-                });
-            });
-
-            updateImageList();
-            showImageManagement();
-            updateVideoInfo();
-        }
-
-        function handleAudioFile(file) {
-            if (!file || !file.type.startsWith('audio/')) {
-                showError('Please select a valid audio file.');
-                return;
-            }
-
-            if (file.size > 50 * 1024 * 1024) { // 50MB limit
-                showError('Audio file is too large. Please select a file under 50MB.');
-                return;
-            }
-
-            audioFile = file;
-            audioFilename.textContent = file.name;
-            audioSize.textContent = `Size: ${formatFileSize(file.size)}`;
-
-            // Initialize Web Audio API and load audio
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                try {
-                    const arrayBuffer = e.target.result;
-                    audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-                    const duration = audioBuffer.duration;
-                    const minutes = Math.floor(duration / 60);
-                    const seconds = Math.floor(duration % 60);
-                    audioDuration.textContent = `(${minutes}:${seconds.toString().padStart(2, '0')})`;
-                } catch (error) {
-                    console.error('Error loading audio:', error);
-                    showError('Failed to load audio file. Please try a different format.');
-                    removeAudioFile();
-                }
-            };
-            reader.readAsArrayBuffer(file);
-
-            audioPreview.classList.remove('hidden');
-            audioDropZone.style.display = 'none';
-        }
-
-        function removeAudioFile() {
-            audioFile = null;
-            audioPreview.classList.add('hidden');
-            audioDropZone.style.display = 'block';
-            audioInput.value = '';
-        }
-
-        function updateImageList() {
-            imageList.innerHTML = '';
-
-            images.forEach((image, index) => {
-                const item = document.createElement('div');
-                item.className = 'sortable-item relative group';
-                item.draggable = true;
-                item.dataset.index = index;
-
-                item.innerHTML = `
-                    <img src="${image.url}" alt="Slide ${index + 1}" class="image-preview w-full h-32 object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-dark-900/40 backdrop-blur-md transition-all duration-200 flex items-center justify-center">
-                        <button class="remove-image opacity-0 group-hover:opacity-100 bg-red-600 text-white rounded-full p-1 transition-opacity" data-index="${index}">
-                            <i data-feather="x" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-xs p-1">
-                        ${index + 1}. ${image.file.name}
-                    </div>
-                `;
-
-                // Remove image handler
-                const removeBtn = item.querySelector('.remove-image');
-                removeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    removeImage(index);
-                });
-
-                // Drag handlers
-                item.addEventListener('dragstart', handleDragStart);
-                item.addEventListener('dragover', handleDragOver);
-                item.addEventListener('drop', handleDrop);
-                item.addEventListener('dragend', handleDragEnd);
-
-                imageList.appendChild(item);
-            });
-
-            feather.replace();
-        }
-
-        function removeImage(index) {
-            URL.revokeObjectURL(images[index].url);
-            images.splice(index, 1);
-            updateImageList();
-            updateVideoInfo();
-
-            if (images.length === 0) {
-                hideImageManagement();
-            }
-        }
-
-        function handleDragStart(e) {
-            e.dataTransfer.setData('text/plain', e.target.dataset.index);
-            e.target.style.opacity = '0.5';
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
-            const toIndex = parseInt(e.currentTarget.dataset.index);
-
-            if (fromIndex !== toIndex) {
-                const [movedItem] = images.splice(fromIndex, 1);
-                images.splice(toIndex, 0, movedItem);
-                updateImageList();
-            }
-        }
-
-        function handleDragEnd(e) {
-            e.target.style.opacity = '1';
-        }
-
-        function updateImageDuration() {
-            const value = parseFloat(imageDurationSlider.value);
-            imageDurationValue.textContent = `${value}s`;
-
-            // Update duration for all images
-            images.forEach(image => {
-                image.duration = value;
-            });
-
-            updateVideoInfo();
-        }
-
-        function updateVideoInfo() {
-            if (images.length === 0) {
-                videoInfo.textContent = 'Add some images to get started';
-                return;
-            }
-
-            const totalDuration = images.reduce((sum, image) => sum + image.duration, 0);
-            const minutes = Math.floor(totalDuration / 60);
-            const seconds = Math.floor(totalDuration % 60);
-
-            videoInfo.textContent = `Video will be: ${minutes}:${seconds.toString().padStart(2, '0')} long with ${images.length} image${images.length > 1 ? 's' : ''}`;
-        }
-
-        function showImageManagement() {
-            imageManagementSection.classList.remove('hidden');
-            audioSection.classList.remove('hidden');
-            settingsSection.classList.remove('hidden');
-            createSection.classList.remove('hidden');
-        }
-
-        function hideImageManagement() {
-            imageManagementSection.classList.add('hidden');
-            audioSection.classList.add('hidden');
-            settingsSection.classList.add('hidden');
-            createSection.classList.add('hidden');
-        }
-
-        async function createVideo() {
-            if (images.length === 0) {
-                showError('Please add at least one image to create a video.');
-                return;
-            }
-
-            try {
-                hideError();
-                showProgress();
-
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-
-                // Set canvas size based on resolution
-                const [width, height] = videoResolution.value.split('x').map(Number);
-                canvas.width = width;
-                canvas.height = height;
-
-                // Calculate total duration and frames
-                const fps = parseInt(videoFps.value);
-                const totalDuration = images.reduce((sum, image) => sum + image.duration, 0);
-                const totalFrames = Math.ceil(totalDuration * fps);
-
-                updateProgress(10, 'Loading images...');
-
-                // Load all images
-                const loadedImages = await Promise.all(
-                    images.map(image => loadImage(image.url))
-                );
-
-                updateProgress(30, 'Setting up video recording...');
-
-                // Create video stream from canvas
-                const stream = canvas.captureStream(fps);
-                const mediaRecorder = new MediaRecorder(stream, {
-                    mimeType: 'video/webm;codecs=vp9'
-                });
-
-                const chunks = [];
-                mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-                mediaRecorder.onstop = async () => {
-                    const videoBlob = new Blob(chunks, { type: 'video/webm' });
-
-                    // If we have audio, we need to combine it
-                    if (audioBuffer) {
-                        updateProgress(95, 'Adding audio...');
-                        generatedVideoBlob = await combineAudioVideo(videoBlob, audioBuffer);
-                    } else {
-                        generatedVideoBlob = videoBlob;
-                    }
-
-                    showResult(generatedVideoBlob);
-                };
-
-                mediaRecorder.start();
-
-                // Render frames
-                let currentFrame = 0;
-                let currentImageIndex = 0;
-                let imageStartFrame = 0;
-                let transitionProgress = 0;
-
-                const renderFrame = () => {
-                    if (currentFrame >= totalFrames) {
-                        mediaRecorder.stop();
-                        return;
-                    }
-
-                    // Calculate which image should be displayed and transition progress
-                    let accumulatedFrames = 0;
-                    let nextImageIndex = currentImageIndex;
-
-                    for (let i = 0; i < images.length; i++) {
-                        const imageFrames = images[i].duration * fps;
-                        if (currentFrame < accumulatedFrames + imageFrames) {
-                            currentImageIndex = i;
-                            imageStartFrame = accumulatedFrames;
-                            nextImageIndex = (i + 1) % images.length;
-                            transitionProgress = (currentFrame - accumulatedFrames) / imageFrames;
-                            break;
-                        }
-                        accumulatedFrames += imageFrames;
-                    }
-
-                    // Clear canvas
-                    ctx.fillStyle = '#000000';
-                    ctx.fillRect(0, 0, width, height);
-
-                    const currentImg = loadedImages[currentImageIndex];
-
-                    // Draw current image
-                    drawImageCentered(ctx, currentImg, width, height);
-
-                    // Apply transition effects between images
-                    if (transitionEffect.value !== 'none' && transitionProgress > 0.8 && nextImageIndex !== currentImageIndex) {
-                        const nextImg = loadedImages[nextImageIndex];
-                        const transitionAmount = (transitionProgress - 0.8) / 0.2; // Last 20% of image duration
-
-                        if (transitionEffect.value === 'fade') {
-                            ctx.globalAlpha = transitionAmount;
-                            drawImageCentered(ctx, nextImg, width, height);
-                            ctx.globalAlpha = 1;
-                        } else if (transitionEffect.value === 'slide') {
-                            // Slide transition
-                            ctx.save();
-                            ctx.translate(-width * transitionAmount, 0);
-                            drawImageCentered(ctx, currentImg, width, height);
-                            ctx.translate(width * transitionAmount, 0);
-                            drawImageCentered(ctx, nextImg, width, height);
-                            ctx.restore();
-                        } else if (transitionEffect.value === 'zoom') {
-                            // Zoom transition
-                            const scale = 1 + transitionAmount * 0.1;
-                            ctx.save();
-                            ctx.translate(width / 2, height / 2);
-                            ctx.scale(scale, scale);
-                            ctx.translate(-width / 2, -height / 2);
-                            drawImageCentered(ctx, nextImg, width, height);
-                            ctx.restore();
-                        }
-                    }
-
-                    currentFrame++;
-                    const progressPercent = 30 + (currentFrame / totalFrames) * 65;
-                    updateProgress(progressPercent, `Rendering frame ${currentFrame}/${totalFrames}...`);
-
-                    requestAnimationFrame(renderFrame);
-                };
-
-                renderFrame();
-
-            } catch (error) {
-                console.error('Video creation error:', error);
-                showError('Failed to create video. Please try again.');
-            }
-        }
-
-        function drawImageCentered(ctx, img, canvasWidth, canvasHeight) {
-            const scale = Math.min(canvasWidth / img.width, canvasHeight / img.height);
-            const x = (canvasWidth - img.width * scale) / 2;
-            const y = (canvasHeight - img.height * scale) / 2;
-
-            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-        }
-
-        async function combineAudioVideo(videoBlob, audioBuffer) {
-            // Create audio buffer from the audio data
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const audioSource = audioContext.createBufferSource();
-            audioSource.buffer = audioBuffer;
-
-            // For simplicity, we'll just return the video blob
-            // In a full implementation, you'd use Web Audio API to mix audio with video
-            // This requires more complex processing with MediaRecorder and Web Audio
-            return videoBlob;
-        }
-
-        function loadImage(src) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-                img.src = src;
-            });
-        }
-
-        function showProgress() {
-            progressSection.classList.remove('hidden');
-            createSection.classList.add('hidden');
-            createVideoButton.disabled = true;
-            createVideoButton.textContent = 'Creating Video...';
-        }
-
-        function updateProgress(percent, text) {
-            progressBar.style.width = `${percent}%`;
-            progressText.textContent = text;
-        }
-
-        function showResult(blob) {
-            progressSection.classList.add('hidden');
-            resultSection.classList.remove('hidden');
-
-            const url = URL.createObjectURL(blob);
-            videoPreview.src = url;
-
-            const size = formatFileSize(blob.size);
-            const duration = images.reduce((sum, image) => sum + image.duration, 0);
-            const minutes = Math.floor(duration / 60);
-            const seconds = Math.floor(duration % 60);
-
-            resultInfo.textContent = `Size: ${size} | Duration: ${minutes}:${seconds.toString().padStart(2, '0')} | ${images.length} image${images.length > 1 ? 's' : ''}`;
-
-            // Reset button
-            createVideoButton.disabled = false;
-            createVideoButton.innerHTML = '<i data-feather="video" class="w-6 h-6 inline mr-2"></i>Create Slideshow Video';
-            feather.replace();
-        }
-
-        function downloadVideo() {
-            if (!generatedVideoBlob) return;
-
-            const url = URL.createObjectURL(generatedVideoBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `slideshow-${Date.now()}.webm`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function resetTool() {
-            // Clean up URLs
-            images.forEach(image => URL.revokeObjectURL(image.url));
-            if (generatedVideoBlob) {
-                URL.revokeObjectURL(videoPreview.src);
-            }
-
-            // Reset state
-            images = [];
-            audioFile = null;
-            generatedVideoBlob = null;
-
-            // Reset inputs
-            imageInput.value = '';
-            audioInput.value = '';
-
-            // Reset UI
-            updateImageList();
-            removeAudioFile();
-            hideImageManagement();
-            progressSection.classList.add('hidden');
-            resultSection.classList.add('hidden');
-            errorSection.classList.add('hidden');
-
-            // Reset controls
-            imageDurationSlider.value = 3;
-            updateImageDuration();
-        }
-
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorSection.classList.remove('hidden');
-        }
-
-        function hideError() {
-            errorSection.classList.add('hidden');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'md:hidden bg-dark-800/60 backdrop-blur-md border border-white/10 text-white border-t border-white/10 px-4 py-4 hidden';
-        mobileMenu.innerHTML = `
-            <a href="index.html" class="block py-2 text-gray-400 hover:text-blue-600">Home</a>
-            <a href="features.html" class="block py-2 text-gray-400 hover:text-blue-600">Tools</a>
-            <a href="about.html" class="block py-2 text-gray-400 hover:text-blue-600">About</a>
-            <a href="contact.html" class="block py-2 text-gray-400 hover:text-blue-600">Contact</a>
-        `;
-        document.querySelector('nav').appendChild(mobileMenu);
-
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Close mobile menu when scrolling
-        window.addEventListener('scroll', () => {
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-        }
-
-
-        // Initialize
-        updateVideoInfo();
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

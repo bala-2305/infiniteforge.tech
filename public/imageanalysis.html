@@ -1,321 +1,78 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online image analysis tools. Analyze image dimensions, file size, quality, and metadata. Get detailed information about your images instantly.">
-    <meta name="keywords" content="image analysis, dimension viewer, file size analyzer, image quality assessment, metadata viewer, EXIF data, image information">
-    <meta name="author" content="Infiniteforge">
+    <title>Image Analysis Tools — EXIF, RGB Histogram &amp; Palette Extraction | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Inspect image dimensions, EXIF camera metadata, dominant color palettes, and real-time RGB color distribution histograms. 100% private in-browser analysis.">
+    <meta name="keywords" content="image analysis, exif viewer, rgb histogram, dominant color palette, image metadata reader">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Free Online Image Analysis Tools - Analyze Dimensions, Size, Quality & Metadata Instantly">
-    <meta property="og:description" content="Analyze your images with our free tools. View dimensions, file size, quality metrics, and metadata information instantly.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Image Analysis Tools | Infiniteforge">
+    <meta property="og:description" content="Detailed image metadata, RGB histogram, and color analysis.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/imageanalysis.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta property="og:site_name" content="Infiniteforge Tools">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Image Analysis Tools | Infiniteforge">
+    <meta name="twitter:description" content="Analyze image metadata and color distribution online.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
     <link rel="canonical" href="https://infiniteforge.tech/imageanalysis.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/imageanalysis.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Image Analysis Tools - Analyze Dimensions, Size, Quality & Metadata Instantly">
-    <meta name="twitter:description" content="Analyze your images with our free tools. View dimensions, file size, quality metrics, and metadata information instantly.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:site" content="@InfiniteforgeTools">
-    <title>Free Online Image Analysis Tools - Analyze Dimensions, Size, Quality & Metadata Instantly</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style><style>/* Fluid scaling styles */:root {--fluid-font-size: clamp(14px, 2vw, 18px);--fluid-h1: clamp(1.5rem, 5vw, 3rem);--fluid-h2: clamp(1.25rem, 4vw, 2.5rem);--fluid-h3: clamp(1.125rem, 3vw, 2rem);--fluid-p: clamp(0.875rem, 2vw, 1rem);}body {font-size: var(--fluid-font-size);}h1 { font-size: var(--fluid-h1) !important; }h2 { font-size: var(--fluid-h2) !important; }h3 { font-size: var(--fluid-h3) !important; }p { font-size: var(--fluid-p) !important; }@media (max-width: 640px) {.container, .max-w-4xl, .max-w-6xl, .max-w-7xl {max-width: 95vw !important;margin-left: auto;margin-right: auto;}}</style>
-    <script src="https://cdn.jsdelivr.net/npm/exifreader/dist/exifreader.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-    <style>
-        .analysis-card {
-            transition: transform 0.2s;
-        }
-        .analysis-card:hover {
-            transform: translateY(-2px);
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #3b82f6;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-
-    <!-- Comprehensive Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Image Analysis Tools",
-        "description": "Free online tools for analyzing image dimensions, file size, quality metrics, metadata, and EXIF data",
-        "url": "https://infiniteforge.tech/imageanalysis.html",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Any",
-        "browserRequirements": "Modern web browser with HTML5 Canvas support",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock"
-        },
-        "featureList": [
-            "Image dimension analysis",
-            "File size measurement",
-            "Quality assessment",
-            "Metadata extraction",
-            "EXIF data viewing",
-            "Color palette analysis",
-            "Histogram generation"
-        ],
-        "screenshot": "https://infiniteforge.tech/assets/letter-d.png"
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Infiniteforge Tools",
-        "url": "https://infiniteforge.tech",
-        "logo": "https://infiniteforge.tech/assets/letter-d.png",
-        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
-        "foundingDate": "2024",
-        "sameAs": [
-            "https://www.youtube.com/@echo14-w3y",
-            "https://x.com/HMahibala42802",
-            "https://www.linkedin.com/in/mahibala-h",
-            "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy",
-            "https://www.facebook.com/61557410529583/"
-        ]
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Infiniteforge Tools",
-        "url": "https://infiniteforge.tech",
-        "description": "Free online tools for image processing, PDF manipulation, and document conversion",
-        "publisher": {
-            "@type": "Organization",
-            "name": "Infiniteforge Tools"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://infiniteforge.tech/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Free Online Image Analysis Tools - Analyze Dimensions, Size, Quality & Metadata Instantly",
-        "description": "Analyze your images with our free tools. View dimensions, file size, quality metrics, and metadata information instantly.",
-        "url": "https://infiniteforge.tech/imageanalysis.html",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Infiniteforge Tools",
-            "url": "https://infiniteforge.tech"
-        },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Home",
-                    "item": "https://infiniteforge.tech"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Image Analysis Tools",
-                    "item": "https://infiniteforge.tech/imageanalysis.html"
-                }
-            ]
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "What information can I get from image analysis?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Our tool provides comprehensive image analysis including dimensions, file size, format, color depth, EXIF metadata, color palette, and quality metrics."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is my image data secure when using this tool?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, all image analysis happens locally in your browser. Your images never leave your device, ensuring complete privacy and security."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What image formats are supported for analysis?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The tool supports all common image formats including JPEG, PNG, WebP, BMP, GIF, and TIFF. EXIF data is available for JPEG and some TIFF files."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How accurate are the analysis results?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The analysis results are highly accurate as they use native browser APIs and specialized libraries for metadata extraction and image processing."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x59489e=_0x40b7,_0x57fadb=_0x5aac;function _0x40b7(_0x30a2ae,_0x436e98){_0x30a2ae=_0x30a2ae-(0x7ca*0x1+0x2*-0xf1f+-0x1*-0x1715);var _0xd21ba5=_0x3765();var _0x4a31c9=_0xd21ba5[_0x30a2ae];if(_0x40b7['hCSddK']===undefined){var _0xb7cd19=function(_0x22ebf0){var _0x30e823='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x347c52='',_0x44cbfd='',_0x53f003=_0x347c52+_0xb7cd19,_0x2846f8=(''+function(){return-0x3*0x7d3+-0x14b+0xc62*0x2;})['indexOf']('\x0a')!==-(-0x1018+0x32a+0x1*0xcef);for(var _0xca5ea5=0x1*-0x1ab9+0x4*-0x1af+0x2175,_0x2dee70,_0xc32974,_0x480ecf=0x1a*0xc5+0x75e*-0x3+0x218;_0xc32974=_0x22ebf0['charAt'](_0x480ecf++);~_0xc32974&&(_0x2dee70=_0xca5ea5%(-0x26b6+-0x71*-0x2e+0x126c)?_0x2dee70*(0xe73+0x163d*0x1+0x2*-0x1238)+_0xc32974:_0xc32974,_0xca5ea5++%(-0x18*0x193+0x20d3+-0x4f9*-0x1))?_0x347c52+=_0x2846f8||_0x53f003['charCodeAt'](_0x480ecf+(0x75a+0x1d19+-0x2469))-(-0x17f9+-0x644+0x1e47)!==-0x11c3*0x1+-0x208b+-0x5e*-0x89?String['fromCharCode'](0x11d7*-0x1+0x2b*0xd1+-0x7*0x253&_0x2dee70>>(-(0xd2c*0x1+-0x65*0x3d+0xae7*0x1)*_0xca5ea5&0x1fdc+0x108*-0x1a+0x1*-0x506)):_0xca5ea5:0x1*0xcb5+0x3*-0x616+0x58d){_0xc32974=_0x30e823['indexOf'](_0xc32974);}for(var _0xd89fb5=0x1*0x249a+0x113d+0xb3*-0x4d,_0x481ce6=_0x347c52['length'];_0xd89fb5<_0x481ce6;_0xd89fb5++){_0x44cbfd+='%'+('00'+_0x347c52['charCodeAt'](_0xd89fb5)['toString'](-0x57*0x7+0xd*0x1eb+-0x167e))['slice'](-(0x2219+0xbc2+-0x2dd9*0x1));}return decodeURIComponent(_0x44cbfd);};var _0x666c24=function(_0xe2e60c,_0x594380){var _0x4b4f11=[],_0x5aa399=0x22a1+0x293*0xa+-0x5*0xc13,_0x5d12d4,_0x5213cf='';_0xe2e60c=_0xb7cd19(_0xe2e60c);var _0x118f1b;for(_0x118f1b=-0x24b+0x3*-0xc2d+0x26d2;_0x118f1b<0x187*0x12+0x1313+-0x2d91;_0x118f1b++){_0x4b4f11[_0x118f1b]=_0x118f1b;}for(_0x118f1b=0x17b+0x20*-0x124+-0x2305*-0x1;_0x118f1b<-0xb9b+0x249*0x3+0x8*0xb8;_0x118f1b++){_0x5aa399=(_0x5aa399+_0x4b4f11[_0x118f1b]+_0x594380['charCodeAt'](_0x118f1b%_0x594380['length']))%(-0x1ea4+0x246d+-0x19*0x31),_0x5d12d4=_0x4b4f11[_0x118f1b],_0x4b4f11[_0x118f1b]=_0x4b4f11[_0x5aa399],_0x4b4f11[_0x5aa399]=_0x5d12d4;}_0x118f1b=-0x2*0xdc7+0xc1b+0xf73,_0x5aa399=0x1*-0xe28+0x2c5+0xb63;for(var _0x34eef7=0x11bc+-0x621+-0xb9b*0x1;_0x34eef7<_0xe2e60c['length'];_0x34eef7++){_0x118f1b=(_0x118f1b+(0x1f13+0x11*-0x82+0x4*-0x59c))%(0x1*-0x133+0x1b19+0x18e6*-0x1),_0x5aa399=(_0x5aa399+_0x4b4f11[_0x118f1b])%(0x777*-0x1+-0x19*0xcb+0x1c4a),_0x5d12d4=_0x4b4f11[_0x118f1b],_0x4b4f11[_0x118f1b]=_0x4b4f11[_0x5aa399],_0x4b4f11[_0x5aa399]=_0x5d12d4,_0x5213cf+=String['fromCharCode'](_0xe2e60c['charCodeAt'](_0x34eef7)^_0x4b4f11[(_0x4b4f11[_0x118f1b]+_0x4b4f11[_0x5aa399])%(-0x4e2+-0x1f7a+0x255c)]);}return _0x5213cf;};_0x40b7['cKIzTJ']=_0x666c24,_0x40b7['lzGbWt']={},_0x40b7['hCSddK']=!![];}var _0x590afe=_0xd21ba5[-0x1*-0x1e2e+0x25ab+-0x43d9],_0x742a28=_0x30a2ae+_0x590afe,_0x43068d=_0x40b7['lzGbWt'][_0x742a28];if(!_0x43068d){if(_0x40b7['XCleIx']===undefined){var _0x118ed0=function(_0x13384d){this['Lnpctt']=_0x13384d,this['KBGCmr']=[-0x1e07*-0x1+-0xa*0x2a1+-0x3bc,0x2134*0x1+-0x22e0+0x1ac,0x9a*-0x1+0x2*0x3+0x94],this['KzLXWp']=function(){return'newState';},this['QBwjPR']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['XBqwiN']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x118ed0['prototype']['UvcENi']=function(){var _0x3f76c5=new RegExp(this['QBwjPR']+this['XBqwiN']),_0x3bbd83=_0x3f76c5['test'](this['KzLXWp']['toString']())?--this['KBGCmr'][0xc07+-0xad2*-0x1+-0x4*0x5b6]:--this['KBGCmr'][-0x2310+0x1b06+0x80a];return this['QcIcij'](_0x3bbd83);},_0x118ed0['prototype']['QcIcij']=function(_0x44557b){if(!Boolean(~_0x44557b))return _0x44557b;return this['XlBYhu'](this['Lnpctt']);},_0x118ed0['prototype']['XlBYhu']=function(_0x1e1dc3){for(var _0x21def1=-0x12db+0x17d8+-0x4fd*0x1,_0x4c70b4=this['KBGCmr']['length'];_0x21def1<_0x4c70b4;_0x21def1++){this['KBGCmr']['push'](Math['round'](Math['random']())),_0x4c70b4=this['KBGCmr']['length'];}return _0x1e1dc3(this['KBGCmr'][-0x1076*0x1+0x18e9*0x1+-0x1*0x873]);},(''+function(){return 0xdb0+-0xad*0x9+-0x79b;})['indexOf']('\x0a')===-(0x1302+-0x122c+-0xd5)&&new _0x118ed0(_0x40b7)['UvcENi'](),_0x40b7['XCleIx']=!![];}_0x4a31c9=_0x40b7['cKIzTJ'](_0x4a31c9,_0x436e98),_0x40b7['lzGbWt'][_0x742a28]=_0x4a31c9;}else _0x4a31c9=_0x43068d;return _0x4a31c9;}(function(_0x4e175b,_0x302b6a){var _0x37cc22=_0x5aac,_0x568be5=_0x40b7,_0x1d0143=_0x4e175b();while(!![]){try{var _0x5335c2=parseInt(_0x568be5(0xb3,'S%L8'))/(-0x201a+-0x2*-0xdb2+0x4b7)*(parseInt(_0x568be5(0xbf,'0vM['))/(0x2*0x11db+0xc72+0x2*-0x1813))+parseInt(_0x37cc22(0xad))/(0x437*0x1+-0x39a+-0x9a)+parseInt(_0x568be5(0xba,'cp4m'))/(-0x2*-0x1229+0x268f+-0x4add)*(parseInt(_0x568be5(0xb9,'R9)q'))/(-0x1f7a+-0xa21+0x14d0*0x2))+parseInt(_0x37cc22(0xb8))/(0xf07+-0x436+-0x399*0x3)*(-parseInt(_0x37cc22(0xbd))/(-0x1*-0x64d+-0x221c+-0x1bd6*-0x1))+parseInt(_0x568be5(0xa8,'BvPt'))/(0x139b+0x25f5+-0x3988)+parseInt(_0x37cc22(0xb7))/(0x3*0x2+-0xca*-0x4+0x7*-0x73)*(parseInt(_0x568be5(0xaf,'%Dtm'))/(-0x13b7+-0x3*-0x386+0x92f))+-parseInt(_0x37cc22(0xa4))/(0x1b06+-0x4f4+-0x1607);if(_0x5335c2===_0x302b6a)break;else _0x1d0143['push'](_0x1d0143['shift']());}catch(_0x552ff6){_0x1d0143['push'](_0x1d0143['shift']());}}}(_0x3765,0x100f44+-0x3c24f*0x4+0xc21c8));var _0x59eece=(function(){var _0x4ac380=!![];return function(_0x176dfd,_0x3cf719){var _0x5eaeff=_0x4ac380?function(){if(_0x3cf719){var _0x56935d=_0x3cf719['apply'](_0x176dfd,arguments);return _0x3cf719=null,_0x56935d;}}:function(){};return _0x4ac380=![],_0x5eaeff;};}()),_0x5ba98d=_0x59eece(this,function(){var _0x1b735c=_0x40b7,_0x523c90=_0x5aac,_0xef667a={'cETct':function(_0x12eca0,_0x439f74){return _0x12eca0!==_0x439f74;},'poXQS':'(((.+)+)+)'+'+$'};if(_0xef667a[_0x523c90(0xaa)](_0x5ba98d[_0x523c90(0xb1)]()[_0x1b735c(0xb6,'%Dtm')]()[_0x523c90(0xbc)]('\x0a'),-(0x12fe+-0x20b*-0xf+0x31a2*-0x1)))return;return _0x5ba98d['toString']()[_0x523c90(0xa3)](_0xef667a[_0x1b735c(0xab,'%Dtm')])[_0x523c90(0xa9)]()[_0x523c90(0xa6)+'r'](_0x5ba98d)[_0x1b735c(0xbb,'BvPt')]('(((.+)+)+)'+'+$');});function _0x5aac(_0x2e393c,_0x50c35d){_0x2e393c=_0x2e393c-(0x7ca*0x1+0x2*-0xf1f+-0x1*-0x1715);var _0x418ee6=_0x3765();var _0x34d4fb=_0x418ee6[_0x2e393c];if(_0x5aac['VPaaZY']===undefined){var _0x2b4ad2=function(_0x177e87){var _0x5c04c7='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5ec09b='',_0x5308c6='',_0x2174c8=_0x5ec09b+_0x2b4ad2,_0xfbe86b=(''+function(){return-0x3*0x7d3+-0x14b+0xc62*0x2;})['indexOf']('\x0a')!==-(-0x1018+0x32a+0x1*0xcef);for(var _0x29ba77=0x1*-0x1ab9+0x4*-0x1af+0x2175,_0x945e12,_0x235338,_0x153226=0x1a*0xc5+0x75e*-0x3+0x218;_0x235338=_0x177e87['charAt'](_0x153226++);~_0x235338&&(_0x945e12=_0x29ba77%(-0x26b6+-0x71*-0x2e+0x126c)?_0x945e12*(0xe73+0x163d*0x1+0x2*-0x1238)+_0x235338:_0x235338,_0x29ba77++%(-0x18*0x193+0x20d3+-0x4f9*-0x1))?_0x5ec09b+=_0xfbe86b||_0x2174c8['charCodeAt'](_0x153226+(0x75a+0x1d19+-0x2469))-(-0x17f9+-0x644+0x1e47)!==-0x11c3*0x1+-0x208b+-0x5e*-0x89?String['fromCharCode'](0x11d7*-0x1+0x2b*0xd1+-0x7*0x253&_0x945e12>>(-(0xd2c*0x1+-0x65*0x3d+0xae7*0x1)*_0x29ba77&0x1fdc+0x108*-0x1a+0x1*-0x506)):_0x29ba77:0x1*0xcb5+0x3*-0x616+0x58d){_0x235338=_0x5c04c7['indexOf'](_0x235338);}for(var _0xb50cb4=0x1*0x249a+0x113d+0xb3*-0x4d,_0x548618=_0x5ec09b['length'];_0xb50cb4<_0x548618;_0xb50cb4++){_0x5308c6+='%'+('00'+_0x5ec09b['charCodeAt'](_0xb50cb4)['toString'](-0x57*0x7+0xd*0x1eb+-0x167e))['slice'](-(0x2219+0xbc2+-0x2dd9*0x1));}return decodeURIComponent(_0x5308c6);};_0x5aac['taHNvX']=_0x2b4ad2,_0x5aac['VmmQeP']={},_0x5aac['VPaaZY']=!![];}var _0x4be2b9=_0x418ee6[0x22a1+0x293*0xa+-0x5*0xc13],_0x58fbf1=_0x2e393c+_0x4be2b9,_0x26941f=_0x5aac['VmmQeP'][_0x58fbf1];if(!_0x26941f){var _0x5da954=function(_0x4207c3){this['SRyjkj']=_0x4207c3,this['LXcOud']=[-0x24b+0x3*-0xc2d+0x26d3,0x187*0x12+0x1313+-0x2e91,0x17b+0x20*-0x124+-0x2305*-0x1],this['PrkEcv']=function(){return'newState';},this['DiPftJ']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['fqeAIv']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5da954['prototype']['vrtwEC']=function(){var _0x2a8c8e=new RegExp(this['DiPftJ']+this['fqeAIv']),_0x10f2d2=_0x2a8c8e['test'](this['PrkEcv']['toString']())?--this['LXcOud'][-0xb9b+0x249*0x3+0x1*0x4c1]:--this['LXcOud'][-0x1ea4+0x246d+-0x1*0x5c9];return this['XNJXAP'](_0x10f2d2);},_0x5da954['prototype']['XNJXAP']=function(_0x1c3315){if(!Boolean(~_0x1c3315))return _0x1c3315;return this['EnUKMm'](this['SRyjkj']);},_0x5da954['prototype']['EnUKMm']=function(_0x5455f7){for(var _0xf9a976=-0x2*0xdc7+0xc1b+0xf73,_0x37614f=this['LXcOud']['length'];_0xf9a976<_0x37614f;_0xf9a976++){this['LXcOud']['push'](Math['round'](Math['random']())),_0x37614f=this['LXcOud']['length'];}return _0x5455f7(this['LXcOud'][0x1*-0xe28+0x2c5+0xb63]);},(''+function(){return 0x11bc+-0x621+-0xb9b*0x1;})['indexOf']('\x0a')===-(0x1f13+0x11*-0x82+0x4*-0x59c)&&new _0x5da954(_0x5aac)['vrtwEC'](),_0x34d4fb=_0x5aac['taHNvX'](_0x34d4fb),_0x5aac['VmmQeP'][_0x58fbf1]=_0x34d4fb;}else _0x34d4fb=_0x26941f;return _0x34d4fb;}_0x5ba98d(),tailwind[_0x57fadb(0xb4)]={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x57fadb(0xb2)],'mono':[_0x57fadb(0xa7)+'Mono',_0x59489e(0xb5,'0X*f')]},'colors':{'dark':{0x384:_0x59489e(0xac,'j9Ec'),0x320:'#1F2833',0x2bc:_0x59489e(0xc0,'ts6t')},'brand':{'primary':'#45F3FF','secondary':_0x59489e(0xae,'orb['),'accent':_0x57fadb(0xb0)}}}}};function _0x3765(){var _0x3e6d73=['WOOzzmkMECkLqCoch8ozW7Lb','hmkYhJRcMCofaNi','eH0bW6ddOLa','Aw5KzxHpzG','nty0mtm5mu9JC0v1rG','mtaXmJK2mdbyquDMwwu','WQfcW7ddJxXxkGbawxKt','WPetxfGWW5Cr','ndy3ndm1zfnnwLn2','WQpcReaczmoPdSo/','WQyIWOSQW5LHW6u','C2vHCMnO','nZCXmZu5nKjHzKX2AW','WOWCymkMCSkMCSozmmoKW6ft','y29UC3rYDwn0BW','sMv0qNjHAw5Zia','ueHrWQdcUa7cOmobzWr5W7xcKSkm','Dg9tDhjPBMC','y0vuy3q','A3G/W5NdQG','W6WdwmoqiHNcRW','mJy4mJm2wfjKrK9o','CvqqustdVGC','kIfxW7VdJmoemqa8','iZDbmdbgrG','yMLUza','C2fUCY1ZzxjPzG','W4HAgCk5hKiz','y29UzMLN','W6JcHfdcRWJcHMNdGqa','B3G0W7ZdI8oulIu','mtG5mde4DK9XAeLm','nM5byMPisq'];_0x3765=function(){return _0x3e6d73;};return _0x3765();}</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
 
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="text-center">
-            <div class="spinner mx-auto mb-2"></div>
-            <p class="text-gray-400">Analyzing image...</p>
-        </div>
-    </div>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -326,870 +83,100 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="container mx-auto px-4 py-8 mt-16">
-        <h1 class="text-4xl font-bold text-center mb-8">Image Analysis Tools</h1>
-        
-        
-        <div class="mx-auto text-center mb-8">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="your-client-id"
-                data-ad-slot="your-ad-slot"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Image Analysis Tools
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Inspect image resolution, color distribution histograms, and dominant color palettes.
+            </p>
         </div>
 
-        <!-- Tool Description -->
-        <section class="mb-8 text-center max-w-2xl mx-auto">
-            <p class="text-gray-400 mb-4">
-                Analyze your images instantly with our comprehensive suite of analysis tools. 
-                Get detailed information about dimensions, file size, quality metrics, and metadata.
-            </p>
-        </section>
+        <div class="grid lg:grid-cols-12 gap-6 mb-8">
+            <!-- Left 5 cols: Dropzone & Image Info -->
+            <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
+                <!-- Dropzone -->
+                <div id="dropzone" class="border-2 border-dashed border-white/20 hover:border-brand-primary/60 rounded-2xl p-6 text-center cursor-pointer transition-all bg-dark-900/40">
+                    <input type="file" id="file-input" accept="image/*" class="hidden">
+                    <i data-feather="image" class="w-10 h-10 text-brand-primary mx-auto mb-2"></i>
+                    <p class="text-xs font-semibold text-white">Drop image here or click to browse</p>
+                    <p class="text-[10px] text-gray-400 mt-1">Supports JPG, PNG, WebP, GIF</p>
+                </div>
 
-        <!-- About Image Analysis Tools -->
-        <section class="mb-8 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold mb-4">About Image Analysis Tools</h2>
-            <p class="text-gray-300 mb-4">
-                Our free online image analysis tools provide comprehensive insights into your digital images. Whether you're a photographer, designer, developer, or just someone who works with images, these tools help you understand every aspect of your files.
-            </p>
-            <h3 class="text-xl font-semibold mb-2">What You Can Analyze</h3>
-            <ul class="list-disc list-inside text-gray-300 mb-4">
-                <li><strong>Dimensions & Resolution:</strong> Get exact pixel dimensions, aspect ratio, and resolution information</li>
-                <li><strong>File Size & Format:</strong> Check file size, compression ratio, and supported formats</li>
-                <li><strong>Quality Metrics:</strong> Assess image quality, potential savings, and optimization suggestions</li>
-                <li><strong>Color Analysis:</strong> View dominant colors, color histograms, and palette information</li>
-                <li><strong>Metadata & EXIF:</strong> Extract camera settings, location data, and creation timestamps</li>
-                <li><strong>Compatibility:</strong> Check web and mobile compatibility across different devices</li>
-            </ul>
-            <h3 class="text-xl font-semibold mb-2">Benefits of Image Analysis</h3>
-            <p class="text-gray-300 mb-4">
-                Understanding your images is crucial for optimization, troubleshooting, and professional work. Our tools help you:
-            </p>
-            <ul class="list-disc list-inside text-gray-300 mb-4">
-                <li>Optimize images for web performance and faster loading times</li>
-                <li>Ensure images meet specific dimension requirements for various platforms</li>
-                <li>Identify and fix image quality issues before publishing</li>
-                <li>Extract valuable metadata for organization and copyright purposes</li>
-                <li>Analyze color schemes for design and branding consistency</li>
-                <li>Check compatibility across different devices and browsers</li>
-            </ul>
-            <h3 class="text-xl font-semibold mb-2">How It Works</h3>
-            <p class="text-gray-300 mb-4">
-                Simply upload your image using drag-and-drop or click to browse. Our tools process the image locally in your browser, ensuring complete privacy and security. No files are uploaded to our servers - everything happens on your device.
-            </p>
-            <p class="text-gray-300 mb-4">
-                The analysis is instant and provides detailed reports with actionable insights. Use this information to optimize your images, improve website performance, or make informed decisions about your visual content.
-            </p>
-            <h3 class="text-xl font-semibold mb-2">Privacy & Security</h3>
-            <p class="text-gray-300">
-                Your privacy is our top priority. All image processing occurs locally in your browser using JavaScript. Your images never leave your device, and no data is stored or transmitted. This approach ensures maximum security while providing powerful analysis capabilities.
-            </p>
-        </section>
+                <!-- Image Preview Mockup -->
+                <div class="h-44 rounded-2xl bg-dark-900/60 border border-white/5 flex items-center justify-center overflow-hidden">
+                    <img id="preview-img" src="images/letter-d.png" class="max-h-full max-w-full object-contain">
+                </div>
 
-        <!-- Image Upload Section -->
-        <section class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6 mb-8">
-            <div class="border-dashed border-2 border-white/20 rounded-lg p-8 text-center" id="dropZone">
-                <input type="file" id="imageInput" accept="image/*" class="hidden">
-                <label for="imageInput" class="cursor-pointer">
-                    <div class="mb-4">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                <!-- Metrics Grid -->
+                <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                    <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                        <span class="text-[10px] text-gray-400 block uppercase">Dimensions</span>
+                        <span class="font-bold text-white" id="stat-dim">-</span>
                     </div>
-                    <p class="text-gray-400">Drag and drop an image here or click to upload</p>
-                </label>
+                    <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                        <span class="text-[10px] text-gray-400 block uppercase">Aspect Ratio</span>
+                        <span class="font-bold text-brand-primary" id="stat-ratio">-</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                        <span class="text-[10px] text-gray-400 block uppercase">File Size</span>
+                        <span class="font-bold text-purple-400" id="stat-size">-</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5">
+                        <span class="text-[10px] text-gray-400 block uppercase">Megapixels</span>
+                        <span class="font-bold text-emerald-400" id="stat-mp">-</span>
+                    </div>
+                </div>
             </div>
-        </section>
 
-        <!-- Analysis Results Section -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Image Preview -->
-            <section class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-4">Image Preview</h2>
-                <div class="aspect-w-16 aspect-h-9 bg-dark-800/80 text-gray-200 rounded-lg overflow-hidden">
-                    <img id="previewImage" class="object-contain w-full h-full" alt="Preview">
-                </div>
-            </section>
-
-            <!-- Analysis Cards -->
-            <section class="space-y-6">
-                <!-- Dimensions Card -->
-                <div class="analysis-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold mb-4">Image Dimensions</h3>
-                    <div class="grid grid-cols-2 gap-4 text-center">
-                        <div>
-                            <p class="text-sm text-gray-500">Width</p>
-                            <p class="text-xl font-semibold" id="imageWidth">-</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Height</p>
-                            <p class="text-xl font-semibold" id="imageHeight">-</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Aspect Ratio</p>
-                            <p class="text-xl font-semibold" id="aspectRatio">-</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Resolution</p>
-                            <p class="text-xl font-semibold" id="imageResolution">-</p>
-                        </div>
+            <!-- Right 7 cols: RGB Histogram & Dominant Colors -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- RGB Histogram Card -->
+                <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 pb-2 border-b border-white/10">
+                        <i data-feather="bar-chart" class="w-4 h-4 text-brand-primary"></i> RGB Color Channel Histogram
+                    </h3>
+                    <div class="h-56">
+                        <canvas id="hist-chart"></canvas>
                     </div>
                 </div>
 
-                <!-- File Information Card -->
-                <div class="analysis-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold mb-4">File Information</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-sm text-gray-500">File Size</p>
-                            <p class="text-xl font-semibold" id="fileSize">-</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">File Type</p>
-                            <p class="text-xl font-semibold" id="fileType">-</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Last Modified</p>
-                            <p class="text-xl font-semibold" id="lastModified">-</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Quality Score</p>
-                            <p class="text-xl font-semibold" id="qualityScore">-</p>
-                        </div>
+                <!-- Dominant Palette Card -->
+                <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+                    <h3 class="text-xs font-bold text-pink-400 uppercase tracking-wider flex items-center gap-1.5 pb-2 border-b border-white/10">
+                        <i data-feather="droplet" class="w-4 h-4"></i> Dominant Palette
+                    </h3>
+                    <div id="palette-grid" class="grid grid-cols-5 gap-3">
+                        <!-- Dynamic Palette Swatches -->
                     </div>
                 </div>
-
-                <!-- Metadata Card -->
-                <div class="analysis-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold mb-4">Image Metadata</h3>
-                    <div class="space-y-2" id="metadataContainer">
-                        <p class="text-gray-500 text-center">Upload an image to view metadata</p>
-                    </div>
-                </div>
-
-                <!-- Color Analysis Card -->
-                <div class="analysis-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold mb-4">Color Analysis</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-2">Dominant Colors</p>
-                            <div class="flex space-x-2" id="dominantColors">
-                                <p class="text-gray-500 text-center">Upload an image to view colors</p>
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 mb-2">Color Distribution</p>
-                            <canvas id="colorHistogram" class="w-full h-40"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Format Compatibility Card -->
-                <div class="analysis-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold mb-4">Format Compatibility</h3>
-                    <div class="grid grid-cols-2 gap-4" id="compatibilityContainer">
-                        <div>
-                            <p class="text-sm text-gray-500">Web Compatibility</p>
-                            <div id="webCompatibility">-</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Mobile Support</p>
-                            <div id="mobileCompatibility">-</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Compression Analysis Card -->
-                <div class="analysis-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold mb-4">Compression Analysis</h3>
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-500">Compression Ratio</p>
-                                <p class="text-xl font-semibold" id="compressionRatio">-</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Potential Savings</p>
-                                <p class="text-xl font-semibold" id="potentialSavings">-</p>
-                            </div>
-                        </div>
-                        <div id="optimizationSuggestions" class="text-sm text-gray-400">
-                            Upload an image to view optimization suggestions
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Batch Analysis Section -->
-        <section class="mt-8 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-4">Batch Analysis</h2>
-            <div class="space-y-4">
-                <input type="file" id="batchInput" accept="image/*" multiple class="hidden">
-                <label for="batchInput" class="block">
-                    <div class="border-dashed border-2 border-white/20 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500">
-                        <p class="text-gray-400">Select multiple images for batch analysis</p>
-                    </div>
-                </label>
-                <div id="batchResults" class="space-y-2"></div>
-            </div>
-        </section>
-
-        <!-- Social Media Section -->
-        <section class="mt-8 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold mb-4 text-center">Follow Us on Social Media</h2>
-            <p class="text-gray-300 text-center mb-6">
-                Stay updated with the latest tools, tips, and updates from Infiniteforge. Follow us on social media for news and insights.
-            </p>
-            <div class="flex justify-center space-x-6">
-                <a href="https://www.facebook.com/61557410529583/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-300">
-                    <i data-feather="facebook" class="w-8 h-8" aria-label="Facebook"></i>
-                </a>
-                <a href="https://x.com/HMahibala42802" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600">
-                    <i data-feather="twitter" class="w-8 h-8" aria-label="Twitter"></i>
-                </a>
-                <a href="https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy" target="_blank" rel="noopener noreferrer" class="text-pink-600 hover:text-pink-300">
-                    <i data-feather="instagram" class="w-8 h-8" aria-label="Instagram"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/mahibala-h" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-200">
-                    <i data-feather="linkedin" class="w-8 h-8" aria-label="LinkedIn"></i>
-                </a>
-                <a href="https://www.youtube.com/@echo14-w3y" target="_blank" rel="noopener noreferrer" class="text-red-600 hover:text-red-300">
-                    <i data-feather="youtube" class="w-8 h-8" aria-label="YouTube"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Ad Placeholder 111 -->
-        <div class="mt-10 flex justify-center">
-            
-        </div>
-
-        <!-- Social Sharing Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mt-10">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share Our Image Analysis Tools</h2>
-            <p class="text-gray-400 text-center mb-6">Help others discover our free image analysis tools</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="https://twitter.com/intent/tweet?text=Analyze%20images%20for%20free%20with%20Infiniteforge%20-%20dimensions%2C%20file%20size%2C%20metadata%2C%20EXIF%20data&url=https://infiniteforge.tech/imageanalysis.html&via=InfiniteforgeTools"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="twitter" class="w-5 h-5"></i>
-                    <span>Share on Twitter</span>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/imageanalysis.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="facebook" class="w-5 h-5"></i>
-                    <span>Share on Facebook</span>
-                </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/imageanalysis.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="linkedin" class="w-5 h-5"></i>
-                    <span>Share on LinkedIn</span>
-                </a>
-                <a href="https://wa.me/?text=Check%20out%20these%20free%20image%20analysis%20tools:%20https://infiniteforge.tech/imageanalysis.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="message-circle" class="w-5 h-5"></i>
-                    <span>Share on WhatsApp</span>
-                </a>
             </div>
         </div>
-
-        <!-- Newsletter Signup Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-8 mt-10">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Stay Updated</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
-                </p>
-                <form class="max-w-md mx-auto flex gap-3">
-                    <input type="email" placeholder="Enter your email"
-                           class="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-                    <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
-            </div>
-        </div>
-        
     </main>
 
-    <script>
-        // Utility Functions
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function calculateAspectRatio(width, height) {
-            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-            const divisor = gcd(width, height);
-            return `${width/divisor}:${height/divisor}`;
-        }
-
-        function calculateQualityScore(img, fileSize) {
-            const pixelCount = img.width * img.height;
-            const bitsPerPixel = (fileSize * 8) / pixelCount;
-            const maxScore = 100;
-            
-            // Score based on resolution
-            let resolutionScore = Math.min(100, (Math.max(img.width, img.height) / 1920) * 100);
-            
-            // Score based on bits per pixel (optimal range: 1-4 bpp)
-            let bppScore = 100 - Math.abs(2.5 - bitsPerPixel) * 20;
-            bppScore = Math.max(0, Math.min(100, bppScore));
-            
-            // Combined score
-            const finalScore = Math.round((resolutionScore * 0.6 + bppScore * 0.4));
-            return Math.min(maxScore, Math.max(0, finalScore));
-        }
-
-        function showLoading() {
-            document.getElementById('loadingOverlay').style.display = 'flex';
-        }
-
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.display = 'none';
-        }
-
-        // Initialize drag and drop
-        const dropZone = document.getElementById('dropZone');
-        const imageInput = document.getElementById('imageInput');
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('border-blue-500');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('border-blue-500');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('border-blue-500');
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                analyzeImage(file);
-            }
-        });
-
-        imageInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                analyzeImage(file);
-            }
-        });
-
-        function analyzeImage(file) {
-            showLoading();
-
-            // Clear previous results
-            document.getElementById('previewImage').src = '';
-            document.getElementById('imageWidth').textContent = '-';
-            document.getElementById('imageHeight').textContent = '-';
-            document.getElementById('aspectRatio').textContent = '-';
-            document.getElementById('imageResolution').textContent = '-';
-            document.getElementById('fileSize').textContent = '-';
-            document.getElementById('fileType').textContent = '-';
-            document.getElementById('lastModified').textContent = '-';
-            document.getElementById('qualityScore').textContent = '-';
-            document.getElementById('metadataContainer').innerHTML = '<p class="text-gray-500 text-center">Analyzing metadata...</p>';
-            document.getElementById('dominantColors').innerHTML = '<p class="text-gray-500 text-center">Analyzing colors...</p>';
-            document.getElementById('webCompatibility').textContent = '-';
-            document.getElementById('mobileCompatibility').textContent = '-';
-            document.getElementById('compressionRatio').textContent = '-';
-            document.getElementById('potentialSavings').textContent = '-';
-            document.getElementById('optimizationSuggestions').innerHTML = 'Analyzing optimization possibilities...';
-
-            // Create image object for dimension analysis
-            const img = new Image();
-            const objectUrl = URL.createObjectURL(file);
-
-            img.onload = () => {
-                // Update dimensions
-                document.getElementById('imageWidth').textContent = img.width + 'px';
-                document.getElementById('imageHeight').textContent = img.height + 'px';
-                document.getElementById('aspectRatio').textContent = calculateAspectRatio(img.width, img.height);
-                document.getElementById('imageResolution').textContent = `${img.width} Ã— ${img.height}`;
-
-                // Update file information
-                document.getElementById('fileSize').textContent = formatFileSize(file.size);
-                document.getElementById('fileType').textContent = file.type.split('/')[1].toUpperCase();
-                document.getElementById('lastModified').textContent = new Date(file.lastModified).toLocaleDateString();
-                
-                // Calculate and display quality score
-                const qualityScore = calculateQualityScore(img, file.size);
-                document.getElementById('qualityScore').textContent = qualityScore + '/100';
-
-                // Extract metadata
-                extractMetadata(file);
-
-                // Update preview
-                document.getElementById('previewImage').src = objectUrl;
-
-                // Analyze colors
-                analyzeColors(img);
-
-                // Analyze format compatibility
-                analyzeFormatCompatibility(file);
-
-                // Analyze compression
-                analyzeCompression(file, img);
-
-                hideLoading();
-            };
-
-            img.onerror = () => {
-                hideLoading();
-                alert('Error loading image. Please try another file.');
-            };
-
-            img.src = objectUrl;
-        }
-
-        // Color analysis functions
-        const colorThief = new ColorThief();
-        let colorHistogramChart = null;
-
-        function analyzeColors(img) {
-            try {
-                // Get dominant colors
-                const dominantColors = colorThief.getPalette(img, 5);
-                const dominantColorsContainer = document.getElementById('dominantColors');
-                dominantColorsContainer.innerHTML = '';
-
-                dominantColors.forEach(color => {
-                    const colorBox = document.createElement('div');
-                    colorBox.className = 'w-12 h-12 rounded shadow';
-                    colorBox.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-                    colorBox.title = `RGB(${color[0]}, ${color[1]}, ${color[2]})`;
-                    dominantColorsContainer.appendChild(colorBox);
-                });
-
-                // Create color histogram
-                const imageData = getImageData(img);
-                const histogramData = calculateColorHistogram(imageData);
-                updateColorHistogram(histogramData);
-            } catch (error) {
-                console.error('Error analyzing colors:', error);
-                document.getElementById('dominantColors').innerHTML = 
-                    '<p class="text-gray-500">Could not analyze colors</p>';
-            }
-        }
-
-        function getImageData(img) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            return ctx.getImageData(0, 0, canvas.width, canvas.height);
-        }
-
-        function calculateColorHistogram(imageData) {
-            const data = imageData.data;
-            const histogramData = {
-                r: new Array(256).fill(0),
-                g: new Array(256).fill(0),
-                b: new Array(256).fill(0)
-            };
-
-            for (let i = 0; i < data.length; i += 4) {
-                histogramData.r[data[i]]++;
-                histogramData.g[data[i + 1]]++;
-                histogramData.b[data[i + 2]]++;
-            }
-
-            // Normalize values
-            const maxVal = Math.max(
-                ...histogramData.r,
-                ...histogramData.g,
-                ...histogramData.b
-            );
-            
-            return {
-                r: histogramData.r.map(v => v / maxVal),
-                g: histogramData.g.map(v => v / maxVal),
-                b: histogramData.b.map(v => v / maxVal)
-            };
-        }
-
-        function updateColorHistogram(histogramData) {
-            const ctx = document.getElementById('colorHistogram').getContext('2d');
-            
-            if (colorHistogramChart) {
-                colorHistogramChart.destroy();
-            }
-
-            colorHistogramChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array.from({length: 256}, (_, i) => i),
-                    datasets: [
-                        {
-                            label: 'Red',
-                            data: histogramData.r,
-                            borderColor: 'rgba(255, 99, 132, 0.8)',
-                            borderWidth: 1,
-                            fill: false
-                        },
-                        {
-                            label: 'Green',
-                            data: histogramData.g,
-                            borderColor: 'rgba(75, 192, 192, 0.8)',
-                            borderWidth: 1,
-                            fill: false
-                        },
-                        {
-                            label: 'Blue',
-                            data: histogramData.b,
-                            borderColor: 'rgba(54, 162, 235, 0.8)',
-                            borderWidth: 1,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            display: false
-                        },
-                        y: {
-                            display: false
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top'
-                        }
-                    }
-                }
-            });
-        }
-
-        function analyzeFormatCompatibility(file) {
-            const format = file.type.split('/')[1].toLowerCase();
-            const webCompatibility = document.getElementById('webCompatibility');
-            const mobileCompatibility = document.getElementById('mobileCompatibility');
-
-            const compatibilityData = {
-                jpeg: { web: 'Excellent', mobile: 'Excellent' },
-                jpg: { web: 'Excellent', mobile: 'Excellent' },
-                png: { web: 'Excellent', mobile: 'Good' },
-                gif: { web: 'Good', mobile: 'Good' },
-                webp: { web: 'Good', mobile: 'Limited' },
-                bmp: { web: 'Limited', mobile: 'Poor' },
-                tiff: { web: 'Limited', mobile: 'Poor' }
-            };
-
-            const compatibility = compatibilityData[format] || { web: 'Unknown', mobile: 'Unknown' };
-            
-            webCompatibility.innerHTML = `<p class="text-lg font-medium ${getCompatibilityClass(compatibility.web)}">${compatibility.web}</p>`;
-            mobileCompatibility.innerHTML = `<p class="text-lg font-medium ${getCompatibilityClass(compatibility.mobile)}">${compatibility.mobile}</p>`;
-        }
-
-        function getCompatibilityClass(level) {
-            const classes = {
-                'Excellent': 'text-green-600',
-                'Good': 'text-blue-600',
-                'Limited': 'text-yellow-600',
-                'Poor': 'text-red-600',
-                'Unknown': 'text-gray-400'
-            };
-            return classes[level] || 'text-gray-400';
-        }
-
-        function analyzeCompression(file, img) {
-            const actualSize = file.size;
-            const pixelCount = img.width * img.height;
-            const theoreticalSize = pixelCount * 3; // 3 bytes per pixel (RGB)
-            const compressionRatio = (theoreticalSize / actualSize).toFixed(2);
-            
-            document.getElementById('compressionRatio').textContent = `${compressionRatio}:1`;
-
-            // Calculate potential savings
-            let potentialSavings = '';
-            let suggestions = [];
-
-            const format = file.type.split('/')[1].toLowerCase();
-            if (format === 'png') {
-                potentialSavings = 'Up to 70%';
-                suggestions.push('Convert to JPEG for photos');
-                suggestions.push('Use WebP for better compression');
-            } else if (format === 'jpeg' || format === 'jpg') {
-                if (actualSize > 1024 * 1024) { // If larger than 1MB
-                    potentialSavings = '20-40%';
-                    suggestions.push('Optimize JPEG compression');
-                    suggestions.push('Consider WebP format');
-                } else {
-                    potentialSavings = '10-20%';
-                    suggestions.push('Current format is well optimized');
-                }
-            }
-
-            document.getElementById('potentialSavings').textContent = potentialSavings;
-            document.getElementById('optimizationSuggestions').innerHTML = suggestions.length > 0 ?
-                `<ul class="list-disc pl-4">${suggestions.map(s => `<li>${s}</li>`).join('')}</ul>` :
-                'No optimization suggestions available';
-        }
-
-        // Batch analysis
-        document.getElementById('batchInput').addEventListener('change', handleBatchUpload);
-
-        async function handleBatchUpload(e) {
-            const files = Array.from(e.target.files);
-            const batchResults = document.getElementById('batchResults');
-            batchResults.innerHTML = '';
-
-            for (const file of files) {
-                const resultCard = document.createElement('div');
-                resultCard.className = 'bg-dark-900/40 text-gray-200 rounded p-4';
-                resultCard.innerHTML = `
-                    <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-medium">${file.name}</h4>
-                        <span class="text-sm text-gray-500">${formatFileSize(file.size)}</span>
-                    </div>
-                    <div class="text-sm text-gray-400">Analyzing...</div>
-                `;
-                batchResults.appendChild(resultCard);
-
-                try {
-                    const analysis = await analyzeSingleFile(file);
-                    resultCard.innerHTML = `
-                        <div class="flex justify-between items-center mb-2">
-                            <h4 class="font-medium">${file.name}</h4>
-                            <span class="text-sm text-gray-500">${formatFileSize(file.size)}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
-                            <div>Dimensions: ${analysis.dimensions}</div>
-                            <div>Format: ${analysis.format}</div>
-                            <div>Quality Score: ${analysis.qualityScore}/100</div>
-                            <div>Compression: ${analysis.compressionRatio}:1</div>
-                        </div>
-                    `;
-                } catch (error) {
-                    resultCard.innerHTML = `
-                        <div class="flex justify-between items-center mb-2">
-                            <h4 class="font-medium">${file.name}</h4>
-                            <span class="text-sm text-gray-500">${formatFileSize(file.size)}</span>
-                        </div>
-                        <div class="text-sm text-red-500">Error analyzing file</div>
-                    `;
-                }
-            }
-        }
-
-        async function analyzeSingleFile(file) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                const objectUrl = URL.createObjectURL(file);
-
-                img.onload = () => {
-                    const analysis = {
-                        dimensions: `${img.width} Ã— ${img.height}`,
-                        format: file.type.split('/')[1].toUpperCase(),
-                        qualityScore: calculateQualityScore(img, file.size),
-                        compressionRatio: (img.width * img.height * 3 / file.size).toFixed(2)
-                    };
-                    URL.revokeObjectURL(objectUrl);
-                    resolve(analysis);
-                };
-
-                img.onerror = () => {
-                    URL.revokeObjectURL(objectUrl);
-                    reject(new Error('Failed to load image'));
-                };
-
-                img.src = objectUrl;
-            });
-        }
-
-        async function extractMetadata(file) {
-            try {
-                const tags = await ExifReader.load(file);
-                const metadataContainer = document.getElementById('metadataContainer');
-                metadataContainer.innerHTML = '';
-
-                const relevantTags = {
-                    'Make': 'Camera Make',
-                    'Model': 'Camera Model',
-                    'DateTime': 'Date Taken',
-                    'ExposureTime': 'Exposure Time',
-                    'FNumber': 'F-Number',
-                    'ISO': 'ISO',
-                    'FocalLength': 'Focal Length',
-                    'Software': 'Software'
-                };
-
-                const metadataContent = document.createElement('div');
-                metadataContent.className = 'grid grid-cols-2 gap-4';
-
-                for (const [tagName, displayName] of Object.entries(relevantTags)) {
-                    if (tags[tagName]) {
-                        const value = tags[tagName].description || tags[tagName].value;
-                        const tagElement = document.createElement('div');
-                        tagElement.innerHTML = `
-                            <p class="text-sm text-gray-500">${displayName}</p>
-                            <p class="text-lg font-medium">${value}</p>
-                        `;
-                        metadataContent.appendChild(tagElement);
-                    }
-                }
-
-                if (metadataContent.children.length === 0) {
-                    metadataContainer.innerHTML = '<p class="text-gray-500 text-center">No metadata available</p>';
-                } else {
-                    metadataContainer.appendChild(metadataContent);
-                }
-            } catch (error) {
-                console.error('Error reading metadata:', error);
-                document.getElementById('metadataContainer').innerHTML = 
-                    '<p class="text-gray-500 text-center">Unable to read metadata</p>';
-            }
-        }
-    </script>
-    <script>
-        // Initialize Feather Icons
-        feather.replace();
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Auto-close mobile menu on scroll or link click
-        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-    </script>
-
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-lg p-4 border">
-            <div class="flex flex-col space-y-3">
-                <button id="shareToggle" class="text-gray-400 hover:text-blue-600 transition-colors">
-                    <i data-feather="share-2" class="w-6 h-6"></i>
-                </button>
-                <div id="shareButtons" class="hidden flex flex-col space-y-2">
-                    <a href="https://twitter.com/intent/tweet?text=Analyze%20images%20for%20free%20with%20Infiniteforge%20-%20dimensions%2C%20file%20size%2C%20metadata%2C%20EXIF%20data&url=https://infiniteforge.tech/imageanalysis.html&via=InfiniteforgeTools"
-                       target="_blank" rel="noopener noreferrer"
-                       class="text-blue-400 hover:text-blue-500 transition-colors p-2 rounded hover:bg-dark-900/40 backdrop-blur-md"
-                       title="Share on Twitter">
-                        <i data-feather="twitter" class="w-5 h-5"></i>
-                    </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/imageanalysis.html"
-                       target="_blank" rel="noopener noreferrer"
-                       class="text-blue-600 hover:text-blue-700 transition-colors p-2 rounded hover:bg-dark-900/40 backdrop-blur-md"
-                       title="Share on Facebook">
-                        <i data-feather="facebook" class="w-5 h-5"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/imageanalysis.html"
-                       target="_blank" rel="noopener noreferrer"
-                       class="text-blue-700 hover:text-blue-300 transition-colors p-2 rounded hover:bg-dark-900/40 backdrop-blur-md"
-                       title="Share on LinkedIn">
-                        <i data-feather="linkedin" class="w-5 h-5"></i>
-                    </a>
-                    <a href="https://wa.me/?text=Check%20out%20these%20free%20image%20analysis%20tools:%20https://infiniteforge.tech/imageanalysis.html"
-                       target="_blank" rel="noopener noreferrer"
-                       class="text-green-500 hover:text-green-600 transition-colors p-2 rounded hover:bg-dark-900/40 backdrop-blur-md"
-                       title="Share on WhatsApp">
-                        <i data-feather="message-circle" class="w-5 h-5"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Floating Share Widget Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const shareToggle = document.getElementById('shareToggle');
-            const shareButtons = document.getElementById('shareButtons');
-            const floatingWidget = document.getElementById('floatingShareWidget');
-
-            // Show widget after scrolling
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 300) {
-                    floatingWidget.classList.remove('hidden');
-                } else {
-                    floatingWidget.classList.add('hidden');
-                    shareButtons.classList.add('hidden');
-                }
-            });
-
-            // Toggle share buttons
-            shareToggle.addEventListener('click', function() {
-                shareButtons.classList.toggle('hidden');
-            });
-
-            // Re-initialize Feather icons for the widget
-            setTimeout(() => {
-                feather.replace();
-            }, 100);
-        });
-    </script>
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x13cb34=_0x4576,_0x569a80=_0x2be2;function _0x4f25(){const _0x42eced=['eSkKW78PW6tcRa','z2v0q29UDgv4Da','bJ7cJhddG8okWOShvb0','WPy6qcldK1NdOCoIWOBcPx7cSW','C2XPy2u','W65HeNtcH0JdGSoUWO3cPa','W4K0FmoeaG','y2vUDgvYigDHCa','mteYmJe1nM55DwrRBG','ihvWCgvYy2fZzq','W4e5pCora8k3i8oLimoE','kJrl','omo3cComaN8jWQ7cRG','a8kfEsZdUvybW4etWOq','ChHDigzVBNqTBq','W7GoWPRcOSofba','mJa3mJG3nuPHy01sCa','t11QySoUW5C+','C2L6zq','ltqGAc00iJ48lW','C2HVDYa','W6W2W6JcQSkek8o3p8k1','W7xcIYn8WOC','W4ZdNIyjWPRdUhC','WPTOsmojDa1Dk8kenq','Aw5Uzxjive1m','lJnbuSkTWO7cQa','hZa5tSkp','D2LKDgG','ystdJCoa','imkPW4tdHmoEWRy','thjQChG','WQ4pkKJdIaShW7viWOi','W47cUCoRbSkQASoBACkAW7u','W7Xwaa','WQZdPCoWnf8fW6G','WRuPW6RcUmkBaSkZFCoXW4y','CMDIysGXnIWXoa','y3jLyxrLrwXLBq','W4bPb1BcJG3dJSoLWOlcVa','tKv1sfG','uMvK','WPZcJ3ZdRXvBWQLVWQe','r3jLzw4','zgvZDhjVEq','B3vWlwHVDMvYoG','y2XHC3noyw1L','zwqTEgWGyM9Yza','WRJdTmoLbr4nW7xdQsHg','pc9ZCgfUpG','zgf0yvrYyw5ZzG','W70/W6JcVCk2fmoAlCk1WPi','W7fgAdxcIf5eWQGp','yM9YzgvYlwjYyq','At48C3bHBJ4','w1f2yG','WOFcL1O','WQWekN/dJqSz','WRRcHCoE','qNLjza','CrtdL2FcUW','vfvbrhK','WPtcICodgCkn','WQBdRSoeWR3dPrpcV8oYWRnI','p8oMemomBgmoWQdcRJK','zNjVBq','BwLU','yxvSDa','W5bUl8oz','W7b+cmoz','o8k4W4JdJCotWRa','BYZdS8oeWPK','W5FdNW9aWPBdUgVcVNvw','WRjEoSoztq','yMfJA2DYB3vUza','rG1sW75fW5W','W7xcRdzuWPy','v29AEfi','psj0zxH0lvSXma','icaGicaGicaGpa','W78kWONcT8odga','WOFcTNfKWPBdSq','W6FdLSkYlmkmW6K','uujisg8','nhnbAuXHza','wK1qAKW','Ae5st2G','yW7dM8o8WOS','W71wCcHB','cZ/cHLldGCoh','W7RcUcTjWOy','W6hdTIddQSoVW7hdV8ojDYj/W4Ow','FsldISolWOFcSCoeEmosWOC','WR0fdxNdLGCeW7C','AM9xqmotrmkI','Dg9tDhjPBMC','W45wxHPmt8oqWRVdUG','CMvWBgfJzq','pJ8hDCki','W7mesSkkzsm','WRBdSSomWRdcRG','WP5Kc8oK','zxjYB3i','W68dWONcTSotpmo7gvS','W7S1W7K','idOGmq','W4/cGCorW6Oa','W6C7W63cTSkasSoYk8oHWPq','C3rHDc1YyxrPBW','y2XPy2S','cCk1W7mGW6NcQG','WR3dU8omWRtcRqq','W5ZdGWehWO7dUhlcVd0','d8k0W6ZdQ8o6','otK1ndvyBffXueq','WOi+F8onhSkSDmkK','W5FdJCkNk8kmW797','z2v0rwXLBwvUDa','D2HPDguVmtaGCW','zw50','W7FcKZzZWPxcJ8k1aCk3W4y','Aw5MBW','z2v0sw1Hz2veyq','WQ54mCo1wCo/','aCoFW4XSEb7cTmoJW5hdGG','W68fvmkr','C3jJ','pmkmW6ddSCk+fL7dNNNdRG','CMXYDfC','ESkWxSkafJWjWPZcNHGkDa','zxiGyM9YzgvYlq','ChjLDMvUDerLzG','W4RdNHuqW4/dTxZcVd1d','dSkzCsZcRq','D3PTDuy','zfq9WOpdRtObW71kW5i','y29TCgXLDgu','W7TCBsvb','Dg9gAxHLza','beRcHmoBgCkLWQHGWO4n','zMLSBa','W7JdH8k5jCkDW7m','BMqTChjPBwfYEq','mtyZmteXqMjQBxHV','y2HHBMDL','tGu4ECkIW5iUWO/cKMu','W6RcPSkLiXegW73dJrq','bmkjW4VdJSog','dmkuW5dcUa','BcNdH8oGWOxcSCoylmo5WPW','pmoQdmomrW','zhjVChPVBMu','k8kzW5WZW44','mZm2mtK0neDfEu1zwa','bmo2hmoErNG','kcGOlISPkYKRkq','wWrCW7amWORdVfzKWP4','WO4ZqgWIWOHCfmo+kG','ywXLCNqTy2LYyW','W5/dLbqLWO7dUh7cRZzf','zhjVCa','WOT0cxG+WOu','y29SigL0zw1Zlq','Dgv4DenVBNrLBG','W4KKemki','ywrKrxzLBNrmAq','C3rHDc1KAw0','W5hcNSk/WO/dQdBdKqNdQeK','W5VdTSkGWRbvlZ/cISkQqq','W5FdGsqJWPG','WQdcSCkgAmkmWRiFuSoxWPi','ad/cNhddMCokWOGwDGa','WQddKCkwk8kLW7O/','fmk5xWBcVq','pgKGzgf0ys1Mzq','zgL2','WR7cS8kHuHZcTIZdSK1LW5/dH8ki','W7BdL8onpCoL','EgvvoCoznSoZbCktoZhcPa','zMLSzxm','WR0pjNNcIrKcW7LsWPm','sGjqW6DfW4S','DgfYz2v0','AXP3W7u','wfLPu24','W4hcO8klWQ7dPa','W7CLfCkrycu','Ac0XmIbYB3vUza','W5rjm8ofqW','fCkUxXVcLa','WRhdSmoLnqajW7tdMY9w','WQf9fxO'];_0x4f25=function(){return _0x42eced;};return _0x4f25();}function _0x2be2(_0x54619a,_0x27a2ff){_0x54619a=_0x54619a-(-0x135*-0x1f+0xbfa+-0x3093*0x1);const _0x37db86=_0x4f25();let _0x499d70=_0x37db86[_0x54619a];if(_0x2be2['GESFIN']===undefined){var _0x3ce4b7=function(_0x268080){const _0x4188c8='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x9a7bc7='',_0x1ffd93='',_0x1c68a1=_0x9a7bc7+_0x3ce4b7,_0x1b1da9=(''+function(){return 0x19*-0x4+0x1e48+-0x1de4;})['indexOf']('\x0a')!==-(0x11d8+0x1413*-0x1+0x23c);for(let _0x3f1e54=-0xb*0x18a+-0x1824+0x7*0x5de,_0x27f685,_0x402cd2,_0x5ebb19=0xa89*0x2+0x166*0xb+-0x2474;_0x402cd2=_0x268080['charAt'](_0x5ebb19++);~_0x402cd2&&(_0x27f685=_0x3f1e54%(0x73a+0x662*-0x5+0x18b4)?_0x27f685*(-0x12f4*-0x1+-0x6ed*-0x1+-0x3*0x88b)+_0x402cd2:_0x402cd2,_0x3f1e54++%(0x3*0xbdf+-0x1*0x1a03+-0x4cb*0x2))?_0x9a7bc7+=_0x1b1da9||_0x1c68a1['charCodeAt'](_0x5ebb19+(-0xfa3*-0x1+-0x56*0x4f+-0xaf1*-0x1))-(0x4a8+0x3e*0x42+-0x149a)!==0x18a8+-0xc3e+-0xc6a?String['fromCharCode'](-0x1a11*0x1+-0x836*0x2+0x2b7c&_0x27f685>>(-(-0x140b+0x235c+0x1*-0xf4f)*_0x3f1e54&-0xd99+0xd09*0x1+0x1*0x96)):_0x3f1e54:-0xbdb+0x217a+-0x159f){_0x402cd2=_0x4188c8['indexOf'](_0x402cd2);}for(let _0x48b506=-0x1b*0x81+0x47d*0x2+0x4a1,_0x4e48ed=_0x9a7bc7['length'];_0x48b506<_0x4e48ed;_0x48b506++){_0x1ffd93+='%'+('00'+_0x9a7bc7['charCodeAt'](_0x48b506)['toString'](0x29*0xad+0xf*-0x1a1+-0x89*0x6))['slice'](-(0xac8+0x149+-0x3f*0x31));}return decodeURIComponent(_0x1ffd93);};_0x2be2['lnUGQU']=_0x3ce4b7,_0x2be2['meCoco']={},_0x2be2['GESFIN']=!![];}const _0x550449=_0x37db86[0x102*-0x1f+-0x1*0x9e5+0x1*0x2923],_0x255bcc=_0x54619a+_0x550449,_0x47a56e=_0x2be2['meCoco'][_0x255bcc];if(!_0x47a56e){const _0x54508b=function(_0x7df9aa){this['HMQZKk']=_0x7df9aa,this['RVrmAL']=[-0xaae*0x2+-0x52e+-0x2f3*-0x9,0x2044+0x2334+-0x4378,0xc5*-0x2d+-0x13a*0x15+0x3c63],this['YrwoQx']=function(){return'newState';},this['pDxxWI']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['iTXIqb']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x54508b['prototype']['kGrwVv']=function(){const _0x4dfd71=new RegExp(this['pDxxWI']+this['iTXIqb']),_0x4bf2fd=_0x4dfd71['test'](this['YrwoQx']['toString']())?--this['RVrmAL'][-0x8da+-0x2f*0xd1+-0x27*-0x136]:--this['RVrmAL'][0x2f*-0xa3+0x1*0x1e4f+0xe*-0x7];return this['ClSdXD'](_0x4bf2fd);},_0x54508b['prototype']['ClSdXD']=function(_0x5358bc){if(!Boolean(~_0x5358bc))return _0x5358bc;return this['tMgLQa'](this['HMQZKk']);},_0x54508b['prototype']['tMgLQa']=function(_0x2dac6c){for(let _0x109fe8=0x53*0x3+-0x1e9a+-0x29*-0xb9,_0x363fe3=this['RVrmAL']['length'];_0x109fe8<_0x363fe3;_0x109fe8++){this['RVrmAL']['push'](Math['round'](Math['random']())),_0x363fe3=this['RVrmAL']['length'];}return _0x2dac6c(this['RVrmAL'][-0x49*0x21+-0x8e1+0x124a]);},(''+function(){return 0x15*0x1a+0x3e1+-0x603;})['indexOf']('\x0a')===-(-0x33c+0x2cb*0xd+-0x2112)&&new _0x54508b(_0x2be2)['kGrwVv'](),_0x499d70=_0x2be2['lnUGQU'](_0x499d70),_0x2be2['meCoco'][_0x255bcc]=_0x499d70;}else _0x499d70=_0x47a56e;return _0x499d70;}(function(_0x302b22,_0x5e7d26){const _0x50cdec=_0x2be2,_0x25a84e=_0x4576,_0x2d3759=_0x302b22();while(!![]){try{const _0x4a139c=-parseInt(_0x25a84e(0x10b,'*fNk'))/(0x1aa9+-0x1*0x1159+-0x94f*0x1)+parseInt(_0x25a84e(0xda,'rUgP'))/(0x1a75+0x1*0xf7d+-0x29f0)*(parseInt(_0x25a84e(0x120,'(x#%'))/(-0x25e4+-0x1*0xc84+-0x326b*-0x1))+-parseInt(_0x50cdec(0x15c))/(0xc*0x21a+-0xf*0x6b+-0x12ef*0x1)*(parseInt(_0x50cdec(0x17a))/(0xda4+0x1fdd+-0x2d7c))+parseInt(_0x25a84e(0x189,'YJIL'))/(-0x619*0x2+0x44+0xbf4)+parseInt(_0x50cdec(0x118))/(-0x25c7+0x1*0x258+0x11*0x216)+-parseInt(_0x25a84e(0x163,'#OFR'))/(0x1793*-0x1+-0x83e*0x1+-0x1fd9*-0x1)+parseInt(_0x50cdec(0x110))/(-0x2e2+0x1*-0x20db+-0x1*-0x23c6);if(_0x4a139c===_0x5e7d26)break;else _0x2d3759['push'](_0x2d3759['shift']());}catch(_0x3fb975){_0x2d3759['push'](_0x2d3759['shift']());}}}(_0x4f25,-0x326db+-0x1631f+0xa7b8*0xc),feather[_0x569a80(0x169)]());function showMessage(_0x3a3c7f,_0x1ad73e='success'){const _0x4a0a95=_0x4576,_0x59c306=_0x569a80,_0x38d5ce={'wzmuF':function(_0x1a2e18,_0xc0bbbf){return _0x1a2e18+_0xc0bbbf;},'OSlUP':function(_0x32e091,_0x51f43e){return _0x32e091+_0x51f43e;},'AymMn':function(_0x4f697b,_0xf11bc7){return _0x4f697b+_0xf11bc7;},'vFkuI':_0x59c306(0xf6)+'ather=\x22','hNROh':_0x59c306(0x16e),'LEfmp':_0x59c306(0x139),'wkSPp':function(_0x29882f,_0x14717c){return _0x29882f+_0x14717c;},'oXODM':function(_0x4766a1,_0x5735aa){return _0x4766a1(_0x5735aa);},'XYiSn':function(_0x2ac20c,_0x456484,_0x4e46a2){return _0x2ac20c(_0x456484,_0x4e46a2);}},_0x1324fd=document[_0x4a0a95(0x128,'Ik1X')+'ById'](_0x4a0a95(0x18d,'&OvK'));if(!_0x1324fd)return;_0x1324fd[_0x59c306(0x121)]=_0x38d5ce[_0x59c306(0x18e)](_0x38d5ce['OSlUP'](_0x38d5ce[_0x4a0a95(0x146,'$gun')](_0x38d5ce[_0x4a0a95(0xf9,'[PLn')],_0x1ad73e==='success'?_0x4a0a95(0x180,'RcxC')+'le':_0x1ad73e===_0x38d5ce[_0x59c306(0x15e)]?_0x59c306(0xe6)+'le':_0x59c306(0x181)),'\x22\x20class=\x22w'+_0x59c306(0x11b)+_0x59c306(0x13e)),_0x3a3c7f)+_0x38d5ce[_0x4a0a95(0xdb,'Lu10')],_0x1324fd['className']=_0x38d5ce['wkSPp'](_0x59c306(0x11c),_0x1ad73e),feather[_0x4a0a95(0x119,'HT@H')](),_0x38d5ce[_0x4a0a95(0x105,'&OvK')](clearTimeout,_0x1324fd[_0x4a0a95(0x102,'(x#%')]),_0x1324fd['_timer']=_0x38d5ce[_0x59c306(0x100)](setTimeout,()=>{const _0x446a0f=_0x59c306;_0x1324fd[_0x446a0f(0x136)]=_0x1ad73e;},-0x1*-0x1b11+-0x1*0x1e62+0x10fd);}const dropzone=document[_0x13cb34(0x138,'rUgP')+'ById'](_0x569a80(0xdf)),fileInput=document[_0x13cb34(0xf3,'71iv')+_0x13cb34(0xff,'j6YG')](_0x13cb34(0xef,'dsHP')),previewImg=document[_0x569a80(0x17d)+_0x13cb34(0xdc,'#C#T')]('preview-im'+'g'),statDim=document[_0x569a80(0x17d)+_0x569a80(0x143)](_0x569a80(0xee)),statRatio=document[_0x569a80(0x17d)+'ById'](_0x569a80(0x174)),statSize=document['getElement'+'ById'](_0x13cb34(0x114,'YJIL')),statMp=document[_0x13cb34(0xe7,'ukKK')+_0x13cb34(0x16d,'X*)$')](_0x13cb34(0x12b,'rUgP')),paletteGrid=document[_0x13cb34(0x12f,'*fNk')+_0x569a80(0x143)]('palette-gr'+'id');let histChartInstance=null;function _0x4576(_0x2ad3c8,_0x2599a5){_0x2ad3c8=_0x2ad3c8-(-0x135*-0x1f+0xbfa+-0x3093*0x1);const _0x32e176=_0x4f25();let _0x520a11=_0x32e176[_0x2ad3c8];if(_0x4576['HzvLUg']===undefined){var _0x30deeb=function(_0x2f66b6){const _0x37ae26='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x286241='',_0x2e15da='',_0x16650d=_0x286241+_0x30deeb,_0x24e705=(''+function(){return 0x19*-0x4+0x1e48+-0x1de4;})['indexOf']('\x0a')!==-(0x11d8+0x1413*-0x1+0x23c);for(let _0x39f0af=-0xb*0x18a+-0x1824+0x7*0x5de,_0x18265e,_0x3f218d,_0x4a5eb2=0xa89*0x2+0x166*0xb+-0x2474;_0x3f218d=_0x2f66b6['charAt'](_0x4a5eb2++);~_0x3f218d&&(_0x18265e=_0x39f0af%(0x73a+0x662*-0x5+0x18b4)?_0x18265e*(-0x12f4*-0x1+-0x6ed*-0x1+-0x3*0x88b)+_0x3f218d:_0x3f218d,_0x39f0af++%(0x3*0xbdf+-0x1*0x1a03+-0x4cb*0x2))?_0x286241+=_0x24e705||_0x16650d['charCodeAt'](_0x4a5eb2+(-0xfa3*-0x1+-0x56*0x4f+-0xaf1*-0x1))-(0x4a8+0x3e*0x42+-0x149a)!==0x18a8+-0xc3e+-0xc6a?String['fromCharCode'](-0x1a11*0x1+-0x836*0x2+0x2b7c&_0x18265e>>(-(-0x140b+0x235c+0x1*-0xf4f)*_0x39f0af&-0xd99+0xd09*0x1+0x1*0x96)):_0x39f0af:-0xbdb+0x217a+-0x159f){_0x3f218d=_0x37ae26['indexOf'](_0x3f218d);}for(let _0x5101b8=-0x1b*0x81+0x47d*0x2+0x4a1,_0x14e9ca=_0x286241['length'];_0x5101b8<_0x14e9ca;_0x5101b8++){_0x2e15da+='%'+('00'+_0x286241['charCodeAt'](_0x5101b8)['toString'](0x29*0xad+0xf*-0x1a1+-0x89*0x6))['slice'](-(0xac8+0x149+-0x3f*0x31));}return decodeURIComponent(_0x2e15da);};const _0x5c4fde=function(_0x5581f8,_0x4cd386){let _0x24ddc9=[],_0x4243f4=0x102*-0x1f+-0x1*0x9e5+0x1*0x2923,_0x30aa28,_0x2d60d1='';_0x5581f8=_0x30deeb(_0x5581f8);let _0x175bfa;for(_0x175bfa=-0xaae*0x2+-0x52e+-0x9e*-0x2b;_0x175bfa<0x2044+0x2334+-0x4278;_0x175bfa++){_0x24ddc9[_0x175bfa]=_0x175bfa;}for(_0x175bfa=0xc5*-0x2d+-0x13a*0x15+0x3c63;_0x175bfa<-0x8da+-0x2f*0xd1+-0x5*-0x9a5;_0x175bfa++){_0x4243f4=(_0x4243f4+_0x24ddc9[_0x175bfa]+_0x4cd386['charCodeAt'](_0x175bfa%_0x4cd386['length']))%(0x2f*-0xa3+0x1*0x1e4f+0x4f*0x2),_0x30aa28=_0x24ddc9[_0x175bfa],_0x24ddc9[_0x175bfa]=_0x24ddc9[_0x4243f4],_0x24ddc9[_0x4243f4]=_0x30aa28;}_0x175bfa=0x53*0x3+-0x1e9a+-0x29*-0xb9,_0x4243f4=-0x49*0x21+-0x8e1+0x124a;for(let _0x45bc88=0x15*0x1a+0x3e1+-0x603;_0x45bc88<_0x5581f8['length'];_0x45bc88++){_0x175bfa=(_0x175bfa+(-0x33c+0x2cb*0xd+-0x2112))%(0x68*0x4a+0x699*-0x1+-0x1677),_0x4243f4=(_0x4243f4+_0x24ddc9[_0x175bfa])%(-0x3ed*-0x5+-0x787+-0xb1a),_0x30aa28=_0x24ddc9[_0x175bfa],_0x24ddc9[_0x175bfa]=_0x24ddc9[_0x4243f4],_0x24ddc9[_0x4243f4]=_0x30aa28,_0x2d60d1+=String['fromCharCode'](_0x5581f8['charCodeAt'](_0x45bc88)^_0x24ddc9[(_0x24ddc9[_0x175bfa]+_0x24ddc9[_0x4243f4])%(-0x10db+0xca4*0x1+0x10b*0x5)]);}return _0x2d60d1;};_0x4576['BAZguH']=_0x5c4fde,_0x4576['XSSDlo']={},_0x4576['HzvLUg']=!![];}const _0x317627=_0x32e176[0xa7*0x2e+-0x1*0x209f+0x29d],_0x3372cc=_0x2ad3c8+_0x317627,_0x562302=_0x4576['XSSDlo'][_0x3372cc];if(!_0x562302){if(_0x4576['hFZfUM']===undefined){const _0x186239=function(_0xfb1631){this['twcTfz']=_0xfb1631,this['UhdPmI']=[0x560+0x22f4+0x25*-0x117,0x172e*0x1+0xea2+-0x25d0,0x1*0x677+-0x3d*0x72+0x14b3*0x1],this['lCvhuJ']=function(){return'newState';},this['XKreso']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['yvikLL']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x186239['prototype']['SafaBG']=function(){const _0x5c158f=new RegExp(this['XKreso']+this['yvikLL']),_0x26dffd=_0x5c158f['test'](this['lCvhuJ']['toString']())?--this['UhdPmI'][-0x1970+-0x1ae9+0x1*0x345a]:--this['UhdPmI'][0x72f*-0x1+-0x1411+-0xda0*-0x2];return this['PlvVQl'](_0x26dffd);},_0x186239['prototype']['PlvVQl']=function(_0x3a6368){if(!Boolean(~_0x3a6368))return _0x3a6368;return this['tFoLtj'](this['twcTfz']);},_0x186239['prototype']['tFoLtj']=function(_0x13ad1d){for(let _0x25f634=0x1*-0x1425+-0x2*-0xe9d+-0x915,_0x3e884c=this['UhdPmI']['length'];_0x25f634<_0x3e884c;_0x25f634++){this['UhdPmI']['push'](Math['round'](Math['random']())),_0x3e884c=this['UhdPmI']['length'];}return _0x13ad1d(this['UhdPmI'][-0x1*0xff2+0x601+0x9f1]);},(''+function(){return-0x169f+0x1a58+0x1*-0x3b9;})['indexOf']('\x0a')===-(0xcda+0x7*-0x1ee+0xa9)&&new _0x186239(_0x4576)['SafaBG'](),_0x4576['hFZfUM']=!![];}_0x520a11=_0x4576['BAZguH'](_0x520a11,_0x2599a5),_0x4576['XSSDlo'][_0x3372cc]=_0x520a11;}else _0x520a11=_0x562302;return _0x520a11;}dropzone[_0x13cb34(0xdd,'n1ZT')+_0x13cb34(0x14e,'Lu10')](_0x13cb34(0x16c,'LjQr'),()=>fileInput['click']()),dropzone['addEventLi'+_0x13cb34(0x15a,'mAtC')]('dragover',_0x1b757d=>{const _0xa74bd2=_0x13cb34,_0xd76565=_0x569a80;_0x1b757d['preventDef'+_0xd76565(0x14b)](),dropzone[_0xa74bd2(0x11d,'F@sy')]['add'](_0xd76565(0x13d)+'nd-primary');}),dropzone[_0x569a80(0xed)+'stener'](_0x13cb34(0x178,'ukKK'),()=>dropzone[_0x13cb34(0x16f,'p2GA')][_0x13cb34(0x159,'^iM1')](_0x569a80(0x13d)+_0x569a80(0xd6))),dropzone[_0x569a80(0xed)+'stener'](_0x569a80(0xe8),_0x16d471=>{const _0x5b8188=_0x569a80,_0x30cd10=_0x13cb34,_0x5e6ec8={'fNrxk':'border-bra'+_0x30cd10(0x112,'a&j6')};_0x16d471[_0x5b8188(0x18b)+_0x30cd10(0xec,'(x#%')](),dropzone['classList']['remove'](_0x5e6ec8[_0x30cd10(0x104,'%JW(')]);if(_0x16d471[_0x5b8188(0x13a)+'er'][_0x30cd10(0x10e,'a&j6')][_0x30cd10(0x161,'71iv')])handleImage(_0x16d471['dataTransf'+'er'][_0x30cd10(0x101,'MNkE')][0x2*0x821+0x2216+-0xc96*0x4]);}),fileInput[_0x13cb34(0x10a,'71iv')+'stener'](_0x569a80(0xd8),_0x2c35ed=>{const _0x3159f6=_0x569a80,_0x3c06fc=_0x13cb34;if(_0x2c35ed[_0x3c06fc(0x117,'p2GA')][_0x3159f6(0xfb)][_0x3c06fc(0xd5,'mAtC')])handleImage(_0x2c35ed[_0x3159f6(0xfe)]['files'][-0x1a32+-0x2244+0x6d*0x8e]);});function handleImage(_0x15839d){const _0x5ceea0=_0x13cb34,_0x577eeb=_0x569a80,_0x2f6217={'NEuHX':function(_0x257fca,_0x304a54){return _0x257fca+_0x304a54;}};statSize['textConten'+'t']=_0x2f6217[_0x577eeb(0x130)]((_0x15839d[_0x577eeb(0x11a)]/(0x25ed+0xc8e*-0x1+-0x155f))[_0x577eeb(0xd2)](-0x6fe+-0x345*0x3+-0x3*-0x59a),_0x5ceea0(0x12a,'X*)$'));const _0x4c8c74=new FileReader();_0x4c8c74[_0x5ceea0(0x16b,'cZE7')]=_0x339545=>{const _0x390efa=_0x5ceea0,_0x219d9e=_0x577eeb;previewImg[_0x219d9e(0x186)]=_0x339545[_0x219d9e(0xfe)][_0x390efa(0x183,'X*)$')],previewImg['onload']=()=>analyzeImageData(previewImg);},_0x4c8c74[_0x5ceea0(0x13b,'F@sy')+_0x5ceea0(0x140,'#OFR')](_0x15839d);}function analyzeImageData(_0x68622f){const _0x163e34=_0x569a80,_0x5b03b0=_0x13cb34,_0x3863a3={'bVNsZ':_0x5b03b0(0xf1,'ukKK'),'baPaj':'(((.+)+)+)'+'+$','nCxYx':function(_0x1d41bf,_0x5381c7){return _0x1d41bf+_0x5381c7;},'nlAhm':function(_0x3338e0,_0x35e620){return _0x3338e0/_0x35e620;},'PlGBu':'\x20MP','WoZxR':function(_0x940a8d,_0x1bdefb){return _0x940a8d+_0x1bdefb;},'rlrtW':function(_0x27d3c9,_0x3d7272){return _0x27d3c9*_0x3d7272;},'QBHHo':function(_0x48fe0a,_0x3cb94c){return _0x48fe0a/_0x3cb94c;},'Lrjpx':function(_0x1c2e8e,_0x4f6098){return _0x1c2e8e/_0x4f6098;},'puZks':function(_0x14341c,_0x30e624){return _0x14341c+_0x30e624;},'VfZOo':function(_0x320e5d,_0x12da2e){return _0x320e5d<<_0x12da2e;},'tQoOd':function(_0x5a7903,_0x3e717e){return _0x5a7903(_0x3e717e);}},_0x163d72=(function(){let _0x1acbc7=!![];return function(_0x1aeb2d,_0xd05efc){const _0x294789=_0x2be2;if(_0x294789(0x145)!==_0x3863a3['bVNsZ']){const _0x52dcbd=_0x1acbc7?function(){const _0x3e5e4b=_0x4576;if(_0xd05efc){const _0x4c9b7e=_0xd05efc[_0x3e5e4b(0x11e,'RcxC')](_0x1aeb2d,arguments);return _0xd05efc=null,_0x4c9b7e;}}:function(){};return _0x1acbc7=![],_0x52dcbd;}else _0x3b8ba3['onload']=()=>_0x5c31f6(_0x5d8884);};}()),_0x27d607=_0x163d72(this,function(){const _0xd0e444=_0x2be2,_0x7fd99a=_0x5b03b0;if(_0x27d607[_0x7fd99a(0x14c,'%JW(')]()[_0xd0e444(0x167)]()[_0x7fd99a(0x122,'J]0P')]('\x0a')!==-(-0x2652+0x1ca1+0x9b2))return;return _0x27d607[_0x7fd99a(0x165,'Ik1X')]()[_0x7fd99a(0x158,'p2GA')](_0x3863a3[_0x7fd99a(0x14f,'n1ZT')])[_0xd0e444(0x167)]()[_0x7fd99a(0x184,'Qxyz')+'r'](_0x27d607)['search'](_0xd0e444(0xe3)+'+$');});_0x27d607();const _0x13948b=_0x68622f[_0x5b03b0(0x106,'rUgP')+'th']||_0x68622f[_0x5b03b0(0xde,'YJIL')],_0x54377b=_0x68622f['naturalHei'+'ght']||_0x68622f[_0x5b03b0(0x177,'LjQr')];statDim[_0x5b03b0(0x148,'YJIL')+'t']=_0x13948b+'\x20×\x20'+_0x54377b,statRatio[_0x163e34(0xeb)+'t']=_0x3863a3[_0x5b03b0(0x162,'RcxC')]((_0x13948b/_0x54377b)[_0x5b03b0(0x11f,'ukKK')](-0x1*-0x15e1+-0x8b+-0x1554),_0x163e34(0x171)),statMp[_0x163e34(0xeb)+'t']=_0x3863a3[_0x5b03b0(0x15f,'n1ZT')](_0x3863a3['nlAhm'](_0x13948b*_0x54377b,0xa508e+0x186a51+-0x9cb*0x1fd)['toFixed'](0x1169+0x3*-0x74b+0x2*0x23d),_0x3863a3[_0x5b03b0(0x160,'V]Q)')]);const _0x2c3824=document[_0x163e34(0x12e)+_0x163e34(0x17f)](_0x5b03b0(0xfd,'j6YG')),_0x1b9aa4=_0x2c3824[_0x163e34(0x109)]('2d');_0x2c3824[_0x5b03b0(0x16a,'%dlr')]=Math[_0x163e34(0x14a)](0x2007+0x237d+-0x4258,_0x13948b),_0x2c3824[_0x5b03b0(0x176,'x(Cl')]=Math[_0x5b03b0(0x113,'J]0P')](0xa14+0x3*0x701+-0x1deb*0x1,_0x54377b),_0x1b9aa4[_0x5b03b0(0x132,'WmC)')](_0x68622f,-0x1d8d+-0x3*-0x84a+0x4af,-0xa22+0x76*-0x2a+-0x12e*-0x19,_0x2c3824[_0x5b03b0(0x16a,'%dlr')],_0x2c3824[_0x5b03b0(0xe9,'4Ltd')]);const _0xe5b71b=_0x1b9aa4[_0x163e34(0x182)+'ta'](0xa55*0x2+0x9*-0xae+0x2*-0x746,0x49*-0x84+0x17ee+0xa*0x15f,_0x2c3824[_0x163e34(0x124)],_0x2c3824[_0x5b03b0(0x126,'Lu10')])['data'],_0x3e39f8=new Array(0x1b5*0x5+0x1e84+-0x260d)[_0x163e34(0xd4)](-0x12a*-0x17+0x167f+-0x3145),_0x1d9e33=new Array(-0x23*0x55+0x6dd+0x5c2)[_0x163e34(0xd4)](-0x2*0x31a+0x22*-0xc+-0x3e6*-0x2),_0x22148d=new Array(-0x68*-0x20+-0x219d+-0x159d*-0x1)[_0x5b03b0(0x13f,'HT@H')](0x1bbf+-0x6e*0x1f+-0xe6d),_0x19871c={};for(let _0x3ac39a=-0x14d5+0x4*0x764+-0xf*0x95;_0x3ac39a<_0xe5b71b['length'];_0x3ac39a+=0x667*-0x2+-0xfd7+0x1d*0xfd){const _0x352581=_0xe5b71b[_0x3ac39a],_0x582f51=_0xe5b71b[_0x3863a3[_0x5b03b0(0x151,'X*)$')](_0x3ac39a,-0x1*-0xf47+0x2053+-0x985*0x5)],_0x1831f0=_0xe5b71b[_0x3863a3['WoZxR'](_0x3ac39a,0x6ab+0xa65+-0x110e)];_0x3e39f8[_0x352581]++,_0x1d9e33[_0x582f51]++,_0x22148d[_0x1831f0]++;const _0x4a1ab7=_0x3863a3[_0x163e34(0x188)](Math[_0x5b03b0(0x172,'DlC*')](_0x3863a3[_0x163e34(0x15b)](_0x352581,-0x1abb+0x20b3+-0x5d8)),-0x1a15*0x1+0x2315*-0x1+0x621*0xa),_0x1f58cc=Math['round'](_0x582f51/(0x1*0x1e5f+-0x1c02*-0x1+-0x3a41))*(-0x47f*0x7+-0xb*0x327+0x2123*0x2),_0x33ca64=Math[_0x5b03b0(0x144,'sdgm')](_0x3863a3[_0x163e34(0x127)](_0x1831f0,-0x83*-0x3a+-0x8ad*-0x1+-0x263b))*(-0x1*-0x13aa+-0x6de+0x656*-0x2),_0x5752d8='#'+(_0x3863a3['puZks'](_0x3863a3['WoZxR'](_0x3863a3[_0x5b03b0(0x123,'%dlr')](-0x14fc+0x2*0xa16+0x1*0xd1,-0x1*0x1f0f+0x2532+-0x60b),_0x3863a3[_0x5b03b0(0x191,'V]Q)')](_0x4a1ab7,-0xa*-0x13+0x3c9*-0x1+-0x109*-0x3)),_0x3863a3['VfZOo'](_0x1f58cc,-0x1*0x24ad+0x29*0x9f+-0x59f*-0x2))+_0x33ca64)[_0x163e34(0x167)](0x1389+0xfdf+-0x2358)[_0x163e34(0x10c)](-0x22dc+-0x210d+0x43ea);_0x19871c[_0x5752d8]=_0x3863a3[_0x163e34(0x155)](_0x19871c[_0x5752d8]||-0x1654*-0x1+0x8*-0x2c0+-0x54,-0x8ce+-0x1*0xc43+0x706*0x3);}renderHistogram(_0x3e39f8,_0x1d9e33,_0x22148d),renderPalette(_0x19871c),_0x3863a3['tQoOd'](showMessage,_0x5b03b0(0x10d,'*fNk')+_0x5b03b0(0x115,'&OvK')+'ete!');}function renderHistogram(_0x5cbed7,_0x7e7c6e,_0x45ebf0){const _0x5cb690=_0x569a80,_0x2c6a8e=_0x13cb34,_0x33512b={'JIFtO':_0x2c6a8e(0x125,'n1ZT'),'AzYXv':_0x5cb690(0x131),'aWeDh':_0x2c6a8e(0xe4,'j6YG')+_0x2c6a8e(0x13c,'Ik1X'),'ZMPjL':'rgba(69,24'+'3,255,0.8)','GxAHL':_0x2c6a8e(0x166,'%dlr'),'nOOYd':_0x2c6a8e(0xe2,'YJIL')};if(histChartInstance)histChartInstance[_0x5cb690(0x134)]();const _0x12fccb=Array[_0x5cb690(0x149)]({'length':0x100},(_0x5367de,_0x572fdc)=>_0x572fdc),_0x16030a=document[_0x5cb690(0x17d)+_0x2c6a8e(0x14d,'%JW(')]('hist-chart')[_0x5cb690(0x109)]('2d');histChartInstance=new Chart(_0x16030a,{'type':_0x33512b[_0x2c6a8e(0xe0,'x(Cl')],'data':{'labels':_0x12fccb,'datasets':[{'label':_0x33512b['AzYXv'],'data':_0x5cbed7,'borderColor':_0x33512b[_0x2c6a8e(0x154,'RcxC')],'borderWidth':1.5,'pointRadius':0x0,'fill':![]},{'label':_0x5cb690(0x133),'data':_0x7e7c6e,'borderColor':_0x5cb690(0x12d)+'5,129,0.8)','borderWidth':1.5,'pointRadius':0x0,'fill':![]},{'label':_0x2c6a8e(0x107,'4Ltd'),'data':_0x45ebf0,'borderColor':_0x33512b[_0x5cb690(0x15d)],'borderWidth':1.5,'pointRadius':0x0,'fill':![]}]},'options':{'responsive':!![],'maintainAspectRatio':![],'scales':{'x':{'display':![]},'y':{'display':![]}},'plugins':{'legend':{'position':_0x2c6a8e(0x170,'F@sy'),'labels':{'color':_0x33512b[_0x2c6a8e(0x179,'Lu10')],'font':{'family':_0x33512b[_0x2c6a8e(0xf5,'&OvK')],'size':0xb}}}}}});}function renderPalette(_0x21af3d){const _0x1ab63e=_0x13cb34,_0x5a4f18=_0x569a80,_0x460556={'UtRTo':'flex\x20flex-'+_0x5a4f18(0xea)+_0x5a4f18(0x10f)+'-1\x20cursor-'+_0x1ab63e(0x164,'n1ZT')+_0x1ab63e(0x142,'$gun')},_0x1acca1=Object[_0x1ab63e(0x141,'Ik1X')](_0x21af3d)[_0x1ab63e(0x185,'cZE7')]((_0x1039af,_0x374880)=>_0x374880[-0x1*-0x1ae6+0xa9a+-0x257f]-_0x1039af[-0x60e+0x1*-0x1483+0x26*0xb3])[_0x5a4f18(0x10c)](-0x2288+-0x56e+0x27f6,0x21de+-0xf7a+0x125f*-0x1);paletteGrid['innerHTML']='',_0x1acca1['forEach'](([_0x2bd523])=>{const _0x2642a1=_0x5a4f18,_0xf0fae8=_0x1ab63e,_0x39abfb=document[_0xf0fae8(0xd3,'4oVD')+'ent'](_0x2642a1(0xf7));_0x39abfb[_0x2642a1(0x136)]=_0x460556['UtRTo'],_0x39abfb[_0x2642a1(0x121)]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0xf0fae8(0xf2,'[PLn')+_0xf0fae8(0x18f,'Nx*9')+_0xf0fae8(0xd9,'HT@H')+_0x2642a1(0x103)+_0x2642a1(0x137)+_0x2642a1(0x18a)+_0x2642a1(0x17e)+_0xf0fae8(0x173,'F@sy')+_0xf0fae8(0x18c,'ukKK')+_0xf0fae8(0x12c,'F@sy')+_0xf0fae8(0xf0,'v1X&')+'n-transfor'+_0xf0fae8(0xe5,'4Ltd')+_0x2642a1(0x152)+_0xf0fae8(0x17b,'a&j6')+_0x2bd523+('\x22></div>\x0a\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2642a1(0x157)+_0xf0fae8(0x147,'LjQr')+_0x2642a1(0x156)+_0x2642a1(0x116)+_0xf0fae8(0x150,'ukKK')+_0xf0fae8(0x187,'#C#T')+_0x2642a1(0x135)+_0xf0fae8(0xfc,'Ik1X')+_0x2642a1(0x111)+'\x22>')+_0x2bd523+('</span>\x0a\x20\x20'+_0xf0fae8(0x129,'MfRB')+'\x20\x20\x20\x20'),_0x39abfb[_0x2642a1(0xed)+_0xf0fae8(0x108,'x(Cl')](_0x2642a1(0x175),()=>{const _0x4dc729=_0xf0fae8;navigator[_0x4dc729(0x168,'V]Q)')]['writeText'](_0x2bd523)['then'](()=>showMessage(_0x4dc729(0x17c,'mAtC')+_0x2bd523+'!'));}),paletteGrid['appendChil'+'d'](_0x39abfb);});}previewImg[_0x569a80(0x190)]?analyzeImageData(previewImg):previewImg[_0x13cb34(0x153,'j6YG')]=()=>analyzeImageData(previewImg);</script>
 
 
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
-
-
-
+</body></html>

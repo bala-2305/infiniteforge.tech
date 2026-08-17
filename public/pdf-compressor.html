@@ -1,229 +1,93 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="images/letter-d.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Compressor - Free Online Tool to Reduce PDF File Size</title>
-    <meta name="description" content="Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.">
-    <meta name="keywords" content="pdf compressor, reduce pdf size, compress pdf, free pdf compressor, online tool, Infiniteforge">
+    <title>PDF Compressor — Reduce PDF File Size Online | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Compress PDF documents online for free. Shrink PDF file sizes while maintaining visual clarity. Fast, secure, and processed entirely inside your browser.">
+    <meta name="keywords" content="PDF compressor, reduce PDF size, compress PDF online, shrink PDF, free PDF optimizer">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-    <meta property="og:title" content="Infiniteforge - PDF Compressor">
-    <meta property="og:description" content="Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.">
+    <meta property="og:title" content="PDF Compressor | Infiniteforge">
+    <meta property="og:description" content="Compress PDF files in your browser with visual quality controls and size reduction metrics.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/pdf-compressor.html">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
-    <link rel="canonical" href="https://infiniteforge.tech/pdf-compressor.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Infiniteforge - PDF Compressor">
-    <meta name="twitter:description" content="Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Fluid scaling styles */
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --fluid-h1: clamp(1.5rem, 5vw, 3rem);
-            --fluid-h2: clamp(1.25rem, 4vw, 2.5rem);
-            --fluid-h3: clamp(1.125rem, 3vw, 2rem);
-            --fluid-p: clamp(0.875rem, 2vw, 1rem);
-        }
-        body {
-            font-size: var(--fluid-font-size);
-        }
-        h1 {
-            font-size: var(--fluid-h1) !important;
-        }
-        h2 {
-            font-size: var(--fluid-h2) !important;
-        }
-        h3 {
-            font-size: var(--fluid-h3) !important;
-        }
-        p {
-            font-size: var(--fluid-p) !important;
-        }
-        @media (max-width: 640px) {
-            .container, .max-w-4xl, .max-w-6xl, .max-w-7xl {
-                max-width: 95vw !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Compressor | Infiniteforge">
+    <meta name="twitter:description" content="Reduce PDF file size in your browser.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/pdf-compressor.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/pdf-compressor.html">
 
-        /* Loading spinner */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #2563EB;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Custom styles for range slider */
-        input[type=range] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]:focus {
-            outline: none;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 8px;
-            cursor: pointer;
-            background: rgba(59, 130, 246, 0.2);
-            border-radius: 5px;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #2563EB;
-            cursor: pointer;
-            -webkit-appearance: none;
-            margin-top: -8px;
-        }
-        input[type=range]::-moz-range-track {
-            width: 100%;
-            height: 8px;
-            cursor: pointer;
-            background: rgba(59, 130, 246, 0.2);
-            border-radius: 5px;
-        }
-        input[type=range]::-moz-range-thumb {
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #2563EB;
-            cursor: pointer;
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- PDF.js, PDFLib, FileSaver -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Infiniteforge", "url": "https://infiniteforge.tech", "logo": "https://infiniteforge.tech/assets/letter-d.png", "sameAs": ["https://www.linkedin.com/in/mahibala-h", "https://x.com/HMahibala42802", "https://www.youtube.com/@echo14-w3y", "https://www.instagram.com/ig_balah?igsh=dXo4ank3OWxiaXVy", "https://www.facebook.com/61557410529583/"]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Infiniteforge - Free Online Tools", "url": "https://infiniteforge.tech", "description": "Free online tools for PDF editing, image processing, and document conversion. Organize PDFs, resize images, convert formats, and more.", "publisher": {"@type": "Organization", "name": "Infiniteforge"}, "potentialAction": {"@type": "SearchAction", "target": "https://infiniteforge.tech/search?q={search_term_string}", "query-input": "required name=search_term_string"}}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PDF Compressor - Free Online Tool to Reduce PDF File Size", "description": "Compress PDF files online for free. Reduce the size of your PDF documents quickly and easily without losing quality.", "url": "https://infiniteforge.tech/pdf-compressor.html", "isPartOf": {"@type": "WebSite", "name": "Infiniteforge - Free Online Tools", "url": "https://infiniteforge.tech"}, "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Compressor", "item": "https://infiniteforge.tech/pdf-compressor.html"}]}}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://infiniteforge.tech"}, {"@type": "ListItem", "position": 2, "name": "PDF Compressor", "item": "https://infiniteforge.tech/pdf-compressor.html"}]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much can I compress a PDF file?", "acceptedAnswer": {"@type": "Answer", "text": "Compression depends on the original PDF content. Text-heavy PDFs may reduce by 20-50%, while image-heavy PDFs can compress by 50-80% or more."}}, {"@type": "Question", "name": "Will PDF compression affect quality?", "acceptedAnswer": {"@type": "Answer", "text": "Our tool maintains good quality while reducing file size. You can adjust compression levels to balance size reduction with quality preservation."}}, {"@type": "Question", "name": "Is PDF compression secure?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, all processing happens in your browser. Your PDF files are never uploaded to our servers, ensuring complete privacy and security."}}, {"@type": "Question", "name": "What file size limits apply?", "acceptedAnswer": {"@type": "Answer", "text": "You can compress PDFs up to 50MB in size. For larger files, consider splitting them first using our PDF tools."}}]}</script>
 
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x1de72d=_0x3fa8,_0x1248b1=_0x366a;function _0x366a(_0x57e93d,_0x52fbc1){_0x57e93d=_0x57e93d-(-0x2*0x8dd+-0x226d+0x1f*0x1ba);var _0xf85fbf=_0x5634();var _0x5c176f=_0xf85fbf[_0x57e93d];if(_0x366a['VtZpOk']===undefined){var _0x491d06=function(_0xc64abc){var _0x2d871a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x23a910='',_0x39bb33='',_0x524c38=_0x23a910+_0x491d06,_0x48ed67=(''+function(){return-0x4*-0x604+0x73+-0x1883;})['indexOf']('\x0a')!==-(0x583+0xdfd*-0x1+0x87b);for(var _0x23d287=-0x3*0xb59+-0x11d5+-0xa60*-0x5,_0x40b6df,_0x39041d,_0x1e23b1=0x3bb+-0x7*0x45d+-0x84*-0x34;_0x39041d=_0xc64abc['charAt'](_0x1e23b1++);~_0x39041d&&(_0x40b6df=_0x23d287%(-0x15*-0xe9+0x28c*0x2+0x1831*-0x1)?_0x40b6df*(-0x6b1+-0x2*0x5ac+0x1249)+_0x39041d:_0x39041d,_0x23d287++%(-0x2*-0x34f+-0x11b5+0xb1b*0x1))?_0x23a910+=_0x48ed67||_0x524c38['charCodeAt'](_0x1e23b1+(0x1d4b+0x41f*0x8+-0x3e39))-(-0x15a9+0xe11+0x7a2)!==-0x1649*-0x1+-0x3*-0x8ef+0x67*-0x7a?String['fromCharCode'](0x1*-0x536+0x6a7*-0x1+0xcdc&_0x40b6df>>(-(-0x782*0x1+-0x1a9b+-0x5*-0x6d3)*_0x23d287&0x29*-0xc7+0x1093+-0x6a*-0x25)):_0x23d287:0xa5+0x37e+0x1*-0x423){_0x39041d=_0x2d871a['indexOf'](_0x39041d);}for(var _0x1fb542=-0x1684+-0xc0+0x1744*0x1,_0x4f39b1=_0x23a910['length'];_0x1fb542<_0x4f39b1;_0x1fb542++){_0x39bb33+='%'+('00'+_0x23a910['charCodeAt'](_0x1fb542)['toString'](-0x177c*0x1+0x1*-0x14e5+-0x1f*-0x16f))['slice'](-(0x2018+-0x67*0x2+-0x16c*0x16));}return decodeURIComponent(_0x39bb33);};var _0x44299c=function(_0x4c9674,_0x404222){var _0x16d9c3=[],_0x3053d8=-0x1*0xcba+0x6*-0x12a+0x13b6,_0x5ce7da,_0x598b6f='';_0x4c9674=_0x491d06(_0x4c9674);var _0x228c5a;for(_0x228c5a=0x957*-0x2+0x24ec+-0x123e;_0x228c5a<-0x4*0x466+0x1bee+0x5*-0x1de;_0x228c5a++){_0x16d9c3[_0x228c5a]=_0x228c5a;}for(_0x228c5a=-0x1bb3+-0x2101+0x3cb4;_0x228c5a<-0x24a1*0x1+0x1ff9+-0x16a*-0x4;_0x228c5a++){_0x3053d8=(_0x3053d8+_0x16d9c3[_0x228c5a]+_0x404222['charCodeAt'](_0x228c5a%_0x404222['length']))%(-0x12ee+-0x4b*0x52+0x2bf4),_0x5ce7da=_0x16d9c3[_0x228c5a],_0x16d9c3[_0x228c5a]=_0x16d9c3[_0x3053d8],_0x16d9c3[_0x3053d8]=_0x5ce7da;}_0x228c5a=-0xb38+-0x1a9e+0x25d6,_0x3053d8=0x156a+-0x12dc+-0xda*0x3;for(var _0x4fd919=0x47b+0x43*0x1+0x2*-0x25f;_0x4fd919<_0x4c9674['length'];_0x4fd919++){_0x228c5a=(_0x228c5a+(0x20c9*0x1+-0x4a8*-0x5+-0x450*0xd))%(-0x1*0x2273+-0x60e*-0x1+0x1d65*0x1),_0x3053d8=(_0x3053d8+_0x16d9c3[_0x228c5a])%(-0xdab*0x2+0x2311+-0x6bb),_0x5ce7da=_0x16d9c3[_0x228c5a],_0x16d9c3[_0x228c5a]=_0x16d9c3[_0x3053d8],_0x16d9c3[_0x3053d8]=_0x5ce7da,_0x598b6f+=String['fromCharCode'](_0x4c9674['charCodeAt'](_0x4fd919)^_0x16d9c3[(_0x16d9c3[_0x228c5a]+_0x16d9c3[_0x3053d8])%(0x17*0xcd+0x1a79+-0x4*0xaf9)]);}return _0x598b6f;};_0x366a['UdNjBv']=_0x44299c,_0x366a['KMsMaS']={},_0x366a['VtZpOk']=!![];}var _0x15f8b3=_0xf85fbf[0x2f*-0x85+0x429+0x1442],_0x5d373d=_0x57e93d+_0x15f8b3,_0x4b20db=_0x366a['KMsMaS'][_0x5d373d];if(!_0x4b20db){if(_0x366a['BJWhRS']===undefined){var _0x385688=function(_0x4fa314){this['DATzgn']=_0x4fa314,this['BCjsHn']=[0x8aa+0x2c*-0x67+0x90b,0x12f1*-0x1+0xc11*0x2+-0x531,0x1f12+0xa68+-0x297a*0x1],this['CsCKDY']=function(){return'newState';},this['LewNMX']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['GgodoS']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x385688['prototype']['munpPO']=function(){var _0x286eeb=new RegExp(this['LewNMX']+this['GgodoS']),_0x119d8e=_0x286eeb['test'](this['CsCKDY']['toString']())?--this['BCjsHn'][0x344+0x18d4+-0x1c17]:--this['BCjsHn'][-0x1441+0x17*-0x10c+0x61*0x75];return this['VXkIJV'](_0x119d8e);},_0x385688['prototype']['VXkIJV']=function(_0x4ca255){if(!Boolean(~_0x4ca255))return _0x4ca255;return this['vWUGdV'](this['DATzgn']);},_0x385688['prototype']['vWUGdV']=function(_0x1bb5f0){for(var _0x453175=-0x1511+-0x126+0x1637,_0x2e4cc9=this['BCjsHn']['length'];_0x453175<_0x2e4cc9;_0x453175++){this['BCjsHn']['push'](Math['round'](Math['random']())),_0x2e4cc9=this['BCjsHn']['length'];}return _0x1bb5f0(this['BCjsHn'][0x250c+0x3*0x28d+0x2cb3*-0x1]);},(''+function(){return 0x727+0x10f1*0x1+0x101*-0x18;})['indexOf']('\x0a')===-(-0x1d*-0x5+-0x5*0x456+0x151e)&&new _0x385688(_0x366a)['munpPO'](),_0x366a['BJWhRS']=!![];}_0x5c176f=_0x366a['UdNjBv'](_0x5c176f,_0x52fbc1),_0x366a['KMsMaS'][_0x5d373d]=_0x5c176f;}else _0x5c176f=_0x4b20db;return _0x5c176f;}function _0x3fa8(_0x5a4acc,_0x3713d5){_0x5a4acc=_0x5a4acc-(-0x2*0x8dd+-0x226d+0x1f*0x1ba);var _0x4d1162=_0x5634();var _0x272ed9=_0x4d1162[_0x5a4acc];if(_0x3fa8['tMELtE']===undefined){var _0x303c7a=function(_0xe52c54){var _0x5a7d54='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x487b3b='',_0x169ce3='',_0x2d9aac=_0x487b3b+_0x303c7a,_0x2ba46a=(''+function(){return-0x4*-0x604+0x73+-0x1883;})['indexOf']('\x0a')!==-(0x583+0xdfd*-0x1+0x87b);for(var _0x462abb=-0x3*0xb59+-0x11d5+-0xa60*-0x5,_0x4fff69,_0x5af539,_0x3ddd94=0x3bb+-0x7*0x45d+-0x84*-0x34;_0x5af539=_0xe52c54['charAt'](_0x3ddd94++);~_0x5af539&&(_0x4fff69=_0x462abb%(-0x15*-0xe9+0x28c*0x2+0x1831*-0x1)?_0x4fff69*(-0x6b1+-0x2*0x5ac+0x1249)+_0x5af539:_0x5af539,_0x462abb++%(-0x2*-0x34f+-0x11b5+0xb1b*0x1))?_0x487b3b+=_0x2ba46a||_0x2d9aac['charCodeAt'](_0x3ddd94+(0x1d4b+0x41f*0x8+-0x3e39))-(-0x15a9+0xe11+0x7a2)!==-0x1649*-0x1+-0x3*-0x8ef+0x67*-0x7a?String['fromCharCode'](0x1*-0x536+0x6a7*-0x1+0xcdc&_0x4fff69>>(-(-0x782*0x1+-0x1a9b+-0x5*-0x6d3)*_0x462abb&0x29*-0xc7+0x1093+-0x6a*-0x25)):_0x462abb:0xa5+0x37e+0x1*-0x423){_0x5af539=_0x5a7d54['indexOf'](_0x5af539);}for(var _0x25365b=-0x1684+-0xc0+0x1744*0x1,_0x5f2daf=_0x487b3b['length'];_0x25365b<_0x5f2daf;_0x25365b++){_0x169ce3+='%'+('00'+_0x487b3b['charCodeAt'](_0x25365b)['toString'](-0x177c*0x1+0x1*-0x14e5+-0x1f*-0x16f))['slice'](-(0x2018+-0x67*0x2+-0x16c*0x16));}return decodeURIComponent(_0x169ce3);};_0x3fa8['yTKEzq']=_0x303c7a,_0x3fa8['ftkhMJ']={},_0x3fa8['tMELtE']=!![];}var _0x31597c=_0x4d1162[-0x1*0xcba+0x6*-0x12a+0x13b6],_0x3d214c=_0x5a4acc+_0x31597c,_0x5cb099=_0x3fa8['ftkhMJ'][_0x3d214c];if(!_0x5cb099){var _0x2187ca=function(_0x11e240){this['lTgSZO']=_0x11e240,this['gsiwfK']=[0x957*-0x2+0x24ec+-0x123d,-0x4*0x466+0x1bee+0x15*-0x7e,-0x1bb3+-0x2101+0x3cb4],this['mfqxQO']=function(){return'newState';},this['bnRNuX']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['LEivvK']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2187ca['prototype']['avmdfQ']=function(){var _0x34c47e=new RegExp(this['bnRNuX']+this['LEivvK']),_0x42db55=_0x34c47e['test'](this['mfqxQO']['toString']())?--this['gsiwfK'][-0x24a1*0x1+0x1ff9+-0x4a9*-0x1]:--this['gsiwfK'][-0x12ee+-0x4b*0x52+0x2af4];return this['IxyfgU'](_0x42db55);},_0x2187ca['prototype']['IxyfgU']=function(_0x46eb19){if(!Boolean(~_0x46eb19))return _0x46eb19;return this['GicXji'](this['lTgSZO']);},_0x2187ca['prototype']['GicXji']=function(_0x1d948e){for(var _0x15895e=-0xb38+-0x1a9e+0x25d6,_0x3a432e=this['gsiwfK']['length'];_0x15895e<_0x3a432e;_0x15895e++){this['gsiwfK']['push'](Math['round'](Math['random']())),_0x3a432e=this['gsiwfK']['length'];}return _0x1d948e(this['gsiwfK'][0x156a+-0x12dc+-0xda*0x3]);},(''+function(){return 0x47b+0x43*0x1+0x2*-0x25f;})['indexOf']('\x0a')===-(0x20c9*0x1+-0x4a8*-0x5+-0x450*0xd)&&new _0x2187ca(_0x3fa8)['avmdfQ'](),_0x272ed9=_0x3fa8['yTKEzq'](_0x272ed9),_0x3fa8['ftkhMJ'][_0x3d214c]=_0x272ed9;}else _0x272ed9=_0x5cb099;return _0x272ed9;}(function(_0x578bcb,_0x521f2a){var _0x224838=_0x3fa8,_0x2588c4=_0x366a,_0x486c80=_0x578bcb();while(!![]){try{var _0x1ff9f5=-parseInt(_0x2588c4(0x173,'LTvK'))/(-0x1e8f+-0xb38+0x29c8)*(-parseInt(_0x224838(0x172))/(-0x2288+0x156a+0xd20))+parseInt(_0x224838(0x162))/(0x1*0x256f+-0x1ac7+0x221*-0x5)+parseInt(_0x224838(0x178))/(0xd1*0x1f+0xb93*0x1+-0x2d6*0xd)*(-parseInt(_0x224838(0x164))/(0xbf2+0x121*-0x1c+0x13af))+parseInt(_0x224838(0x17d))/(0x73*0x1+-0x248c+0x529*0x7)+-parseInt(_0x224838(0x160))/(-0x148c+0x17*-0x13+0x17*0xf8)+parseInt(_0x224838(0x17a))/(-0x252b+0x26e9+0x6*-0x49)+parseInt(_0x2588c4(0x170,'(gr8'))/(0x1308+-0x12*0xd3+-0x429);if(_0x1ff9f5===_0x521f2a)break;else _0x486c80['push'](_0x486c80['shift']());}catch(_0x559cb8){_0x486c80['push'](_0x486c80['shift']());}}}(_0x5634,0x12ff9c+0xa4d39+0x449*-0x433));var _0x14103b=(function(){var _0x346b8f=!![];return function(_0x2a5c62,_0x2c9740){var _0x3e1bc5=_0x346b8f?function(){var _0x1e1af6=_0x366a;if(_0x2c9740){var _0x1a9a39=_0x2c9740[_0x1e1af6(0x165,'@eKx')](_0x2a5c62,arguments);return _0x2c9740=null,_0x1a9a39;}}:function(){};return _0x346b8f=![],_0x3e1bc5;};}()),_0x1c20eb=_0x14103b(this,function(){var _0x25fe6d=_0x3fa8,_0x39999c=_0x366a,_0x8ca3a1={'KwvYD':_0x39999c(0x16d,'tS!j')+'+$'};if(_0x1c20eb['bind']()[_0x25fe6d(0x167)]()['indexOf']('\x0a')!==-(0x1c+0x1da4+-0x1dbf))return;return _0x1c20eb[_0x39999c(0x180,'BGSZ')]()[_0x39999c(0x16f,'Q$T$')](_0x39999c(0x175,'PeeE')+'+$')[_0x39999c(0x161,'lU$U')]()[_0x25fe6d(0x171)+'r'](_0x1c20eb)[_0x25fe6d(0x179)](_0x8ca3a1[_0x39999c(0x176,'PeeE')]);});_0x1c20eb(),tailwind[_0x1248b1(0x16c,'tb*s')]={'theme':{'extend':{'fontFamily':{'sans':[_0x1de72d(0x169),_0x1248b1(0x17c,'Wx)e')],'mono':[_0x1248b1(0x166,'*#gD')+'Mono',_0x1248b1(0x16a,'ZCOE')]},'colors':{'dark':{0x384:_0x1de72d(0x174),0x320:_0x1248b1(0x168,'x^)x'),0x2bc:_0x1de72d(0x15f)},'brand':{'primary':_0x1de72d(0x17f),'secondary':_0x1de72d(0x16b),'accent':_0x1248b1(0x16e,'*#gD')}}}}};function _0x5634(){var _0x598290=['iZq1rJngrG','FHJdNhWqkCo7W68','iZjdmZuZrG','nJyWmduWm0LOzwzMDW','EW0qs8kraMW6','mtm3nJG0ng9sAK5NCG','WQJcMqOxWRfXW7y4WQZcQSkGWRhcPG','mtu0nZi5mg5zuLrIyq','WQJcG2tdUmkV','WQODWO7cP1DMWPDpW6lcRq','Dg9tDhjPBMC','WOpdKCkhmmolW6pdHG','t3v0zML0','a3dcG8kws8kLtxjA','i0zgmKe3qq','WQvMlWJcMSoX','cX7dUmoMW5P5W5RdRJFdVa','W4npWRVdLrvbWRG','WQlcM2hcPsjS','W5RcRue1WQWNW6RdH3FcRSkVd8kL','y29UC3rYDwn0BW','mKnbsM9wEG','WR0gWP3dUaJdTmkXWPldUYby','iZbcmemXma','WQvUW7tdKqPOsmo4x8o3','W4yXWQRcPMu','nZi2ndy5mMHUA2nmBG','ohzmEvjjza','C2vHCMnO','mtK1mdGWyLzizNHe','fmkZWOFdMmkoWQ9IdmoSb2q','WP/dHa7cULNdQCkFW7ThW7S','ntG4ndu4ng9tt3nRvW','WRDGkdVdU8oQW5K'];_0x5634=function(){return _0x598290;};return _0x5634();}</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        .drop-zone { border: 2px dashed rgba(69,243,255,0.3); transition: all 0.3s ease; }
+        .drop-zone.dragover { border-color: #45F3FF; background: rgba(69,243,255,0.08); }
+
+        .preset-pill { padding: 0.5rem 1rem; border-radius: 0.75rem; font-size: 0.825rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.08); background: rgba(15,23,42,0.4); color: #94a3b8; transition: all 0.2s ease; cursor: pointer; }
+        .preset-pill:hover { color: #fff; border-color: rgba(69,243,255,0.3); }
+        .preset-pill.active { background: rgba(69,243,255,0.15); border-color: #45F3FF; color: #45F3FF; box-shadow: 0 0 15px rgba(69,243,255,0.2); }
+
+        input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 9999px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #45F3FF; cursor: pointer; margin-top: -6px; box-shadow: 0 0 10px rgba(69,243,255,0.5); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -234,382 +98,134 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="w-full max-w-4xl mx-auto pt-24 px-4">
-        <div class="text-center mb-12">
-            <h1 class="text-3xl sm:text-5xl font-bold text-gray-100 mb-4">PDF Compressor</h1>
-            <p class="text-md sm:text-lg text-gray-400 max-w-3xl mx-auto">Reduce the file size of your PDFs while optimizing for maximal quality.</p>
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                PDF Compressor &amp; Optimizer
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Reduce PDF file size for easy emailing and uploading without sending sensitive data to external servers.
+            </p>
         </div>
 
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/60 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden p-4 sm:p-8">
-            <div id="compressor-tool">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-100 mb-2">Upload your PDF</h3>
-                <p class="text-gray-400 mb-6">Select a PDF file to get started. The compression process runs securely in your browser.</p>
-                
-                <input type="file" id="pdf-file" accept=".pdf" class="block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-dark-800/60 backdrop-blur-md file:text-blue-700 hover:file:bg-dark-700/60 backdrop-blur-md cursor-pointer"/>
-                
-                <div id="file-info" class="mt-4 text-center hidden">
-                    <p class="font-semibold text-gray-300">File: <span id="file-name"></span></p>
-                    <p class="text-gray-400">Size: <span id="file-size"></span></p>
-                </div>
+        <!-- Drag & Drop Zone -->
+        <div id="drop-zone" class="glass-panel drop-zone p-10 rounded-3xl text-center cursor-pointer mb-8">
+            <input type="file" id="file-input" accept=".pdf" class="hidden">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                <i data-feather="minimize-2" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Drop a PDF file here, or <span class="text-brand-primary underline">browse</span></h3>
+            <p class="text-sm text-gray-400">Select any PDF document to optimize its payload size</p>
+        </div>
 
-                <div id="preview-section" class="mt-6 hidden">
-                    <h4 class="text-lg font-semibold text-gray-100 mb-2 text-center">PDF Preview (First Page)</h4>
-                    <canvas id="pdf-preview" class="border rounded-lg mx-auto w-full max-w-md"></canvas>
-                </div>
-
-                <div id="quality-section" class="mt-8 hidden">
-                    <label for="quality-slider" class="block text-lg font-semibold text-gray-100 mb-2">Compression Level</label>
-                    <p class="text-gray-400 mb-4">Lower quality results in a smaller file size.</p>
-                    <input type="range" id="quality-slider" min="0.1" max="1.0" step="0.1" value="0.7" class="w-full">
-                    <div class="flex justify-between text-sm text-gray-400 mt-2">
-                        <span>Low</span>
-                        <span>Medium</span>
-                        <span>High</span>
+        <!-- Loaded PDF & Compression Controls Card -->
+        <div id="control-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <!-- File Info Header -->
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 shrink-0">
+                        <i data-feather="file-text" class="w-5 h-5"></i>
                     </div>
-                    <div class="text-center mt-4">
-                        <p class="text-gray-100 font-semibold">Estimated Size: <span id="estimated-size" class="text-blue-600"></span></p>
+                    <div class="truncate">
+                        <div class="text-base font-bold text-white truncate" id="file-name">document.pdf</div>
+                        <div class="text-xs text-gray-400 font-mono" id="file-meta">0 MB • 0 pages</div>
                     </div>
                 </div>
-
-                <button id="compress-btn" class="mt-8 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-transform transform hover:scale-105" disabled>
-                    <i data-feather="minimize-2" class="inline-block mr-2"></i>Compress PDF
+                <button id="remove-file-btn" class="text-gray-400 hover:text-red-400 p-2">
+                    <i data-feather="x" class="w-5 h-5"></i>
                 </button>
+            </div>
 
-                <div id="results-section" class="mt-8 text-center hidden p-4 bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg">
-                    <h4 class="text-xl font-bold text-green-300 mb-2">Compression Complete!</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-gray-300">
-                        <div>
-                            <p class="font-semibold">Original Size</p>
-                            <p id="original-size"></p>
-                        </div>
-                        <div>
-                            <p class="font-semibold">Compressed Size</p>
-                            <p id="compressed-size"></p>
-                        </div>
-                        <div>
-                            <p class="font-semibold">Reduction</p>
-                            <p id="reduction-percentage" class="text-green-600 font-bold"></p>
-                        </div>
-                    </div>
+            <!-- Compression Level Slider & Presets -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Compression Level</label>
+                    <span id="quality-label" class="font-mono text-sm font-bold text-brand-primary">Balanced (60%)</span>
+                </div>
+
+                <input type="range" id="quality-slider" min="0.2" max="0.9" step="0.05" value="0.6" class="mb-4">
+
+                <div class="flex flex-wrap gap-2.5 justify-center">
+                    <button class="preset-pill" data-quality="0.35">Max Compression (Low Quality)</button>
+                    <button class="preset-pill active" data-quality="0.6">Balanced (Recommended)</button>
+                    <button class="preset-pill" data-quality="0.85">High Quality (Low Compression)</button>
                 </div>
             </div>
-        </div>
-        
-        <div id="loading-overlay" class="fixed inset-0 bg-gray-900 bg-dark-900/40 backdrop-blur-md flex items-center justify-center z-50 hidden">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-lg shadow-xl text-center">
-                <div class="loader mx-auto"></div>
-                <p id="loading-message" class="mt-4 text-lg font-semibold text-gray-300">Processing...</p>
+
+            <!-- Page 1 Preview Canvas (Thumbnail) -->
+            <div class="mb-8 text-center">
+                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">First Page Preview</div>
+                <div class="inline-block p-2 rounded-xl bg-dark-900/80 border border-white/10 shadow-lg max-h-72 overflow-hidden">
+                    <canvas id="pdf-preview-canvas" class="max-h-64 object-contain rounded"></canvas>
+                </div>
             </div>
+
+            <!-- Progress Bar -->
+            <div id="progress-container" class="mb-6 hidden">
+                <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                    <span id="progress-status">Optimizing pages...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-dark-900 overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-primary transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <!-- Compress Action Button -->
+            <button id="compress-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all w-full justify-center">
+                <i data-feather="minimize-2" class="w-4 h-4"></i> Compress PDF Now
+            </button>
         </div>
 
-        <!-- Ad Placeholder 111 -->
-        <div class="mt-10 flex justify-center">
-            
-        </div>
+        <!-- Results Card -->
+        <div id="results-card" class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 hidden">
+            <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <i data-feather="check-circle" class="w-5 h-5 text-emerald-400"></i> Compression Completed
+            </h3>
 
-        <!-- Social Sharing Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-8 mt-10">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Share Our PDF Compressor</h2>
-            <p class="text-gray-400 text-center mb-6">Help others discover our free PDF compression tool</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="https://twitter.com/intent/tweet?text=Compress%20PDF%20files%20online%20for%20free%20with%20Infiniteforge%20-%20Reduce%20file%20size%20without%20losing%20quality&url=https://infiniteforge.tech/pdf-compressor.html&via=InfiniteforgeTools"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="twitter" class="w-5 h-5"></i>
-                    <span>Share on Twitter</span>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://infiniteforge.tech/pdf-compressor.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="facebook" class="w-5 h-5"></i>
-                    <span>Share on Facebook</span>
-                </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://infiniteforge.tech/pdf-compressor.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="linkedin" class="w-5 h-5"></i>
-                    <span>Share on LinkedIn</span>
-                </a>
-                <a href="https://wa.me/?text=Check%20out%20this%20free%20PDF%20compressor:%20https://infiniteforge.tech/pdf-compressor.html"
-                   target="_blank" rel="noopener noreferrer"
-                   class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 flex items-center space-x-2">
-                    <i data-feather="message-circle" class="w-5 h-5"></i>
-                    <span>Share on WhatsApp</span>
-                </a>
+            <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                <div class="glass-panel p-4 rounded-xl border border-white/5">
+                    <div class="text-xs text-gray-400 uppercase mb-1">Original Size</div>
+                    <div class="font-mono text-base font-bold text-white" id="orig-size-val">0 MB</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border border-white/5">
+                    <div class="text-xs text-gray-400 uppercase mb-1">Compressed Size</div>
+                    <div class="font-mono text-base font-bold text-emerald-400" id="comp-size-val">0 MB</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border border-white/5">
+                    <div class="text-xs text-gray-400 uppercase mb-1">Size Reduction</div>
+                    <div class="font-mono text-base font-bold text-brand-primary" id="reduction-val">0%</div>
+                </div>
             </div>
-        </div>
 
-        <!-- Newsletter Signup Section -->
-        <div class="bg-gradient-to-r from-dark-800/30 to-dark-900/30 rounded-xl p-8 mt-10">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Stay Updated</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Subscribe to our newsletter for the latest tool updates, tips, and exclusive offers.
-                </p>
-                <form class="max-w-md mx-auto flex gap-3">
-                    <input type="email" placeholder="Enter your email"
-                           class="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-                    <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium">
-                        Subscribe
-                    </button>
-                </form>
-                <p class="text-sm text-gray-500 mt-3">No spam, unsubscribe at any time.</p>
-            </div>
+            <button id="download-compressed-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-white hover:bg-white/10 border border-white/10 flex items-center gap-2 transition-all w-full justify-center">
+                <i data-feather="download" class="w-4 h-4"></i> Download Compressed PDF
+            </button>
         </div>
-        
-    </main>    
+    </main>
+
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>function _0x50c2(_0x712e6f,_0x3fd957){_0x712e6f=_0x712e6f-(0x1694+-0x1880+0x328);const _0x492e8d=_0x2dc2();let _0x2e2682=_0x492e8d[_0x712e6f];if(_0x50c2['eLBgAV']===undefined){var _0x5d187c=function(_0x2dfb4d){const _0x1898fb='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x118d9a='',_0x4731c7='',_0x140821=_0x118d9a+_0x5d187c,_0x20a27f=(''+function(){return-0x1*0x194+0x17d*-0x2+0x48e;})['indexOf']('\x0a')!==-(0x1cb+0xd0*-0x2b+0x2126);for(let _0x1fe6f8=-0x1*0x2253+-0x25a0*0x1+0x47f3,_0x377c08,_0x47d588,_0x813dde=0x1*-0x845+0x143f*0x1+-0xbfa;_0x47d588=_0x2dfb4d['charAt'](_0x813dde++);~_0x47d588&&(_0x377c08=_0x1fe6f8%(-0x527*-0x1+0xd4b*-0x1+0x828)?_0x377c08*(0xa9*0x26+-0x1*0x1a65+0x18f)+_0x47d588:_0x47d588,_0x1fe6f8++%(0x1*0xe11+0xc49+-0xd2b*0x2))?_0x118d9a+=_0x20a27f||_0x140821['charCodeAt'](_0x813dde+(-0x7a*-0x10+0xb13*-0x3+0x1*0x19a3))-(-0x4b6+0x12*-0x1e6+-0x4*-0x9bb)!==-0x17b4+0x18f1+-0x1*0x13d?String['fromCharCode'](-0x121b+-0x1fcb+0x81*0x65&_0x377c08>>(-(-0x24b4+-0x5f1+-0x1*-0x2aa7)*_0x1fe6f8&-0xc3f+-0x2441+0x3086)):_0x1fe6f8:-0x1763+-0x182c+0x2f8f){_0x47d588=_0x1898fb['indexOf'](_0x47d588);}for(let _0x136a2a=-0x1050+-0x2458+0x34a8,_0x2d57b9=_0x118d9a['length'];_0x136a2a<_0x2d57b9;_0x136a2a++){_0x4731c7+='%'+('00'+_0x118d9a['charCodeAt'](_0x136a2a)['toString'](0x77+0x8d+-0xf4))['slice'](-(0xd6d+0x11da+-0x1f45));}return decodeURIComponent(_0x4731c7);};const _0x4eda65=function(_0x8c6214,_0x1b9b56){let _0x565850=[],_0x2a9476=-0x15+0x835+-0x820,_0x6dffbf,_0x16d2a8='';_0x8c6214=_0x5d187c(_0x8c6214);let _0x2160bb;for(_0x2160bb=0x93*-0xa+0x189d*0x1+-0x12df*0x1;_0x2160bb<0xb2c+0x20*-0x10c+-0xbaa*-0x2;_0x2160bb++){_0x565850[_0x2160bb]=_0x2160bb;}for(_0x2160bb=-0xcb*0x2f+0xf*-0x248+-0x1*-0x477d;_0x2160bb<0x2253+0x223*-0xa+-0xbf5;_0x2160bb++){_0x2a9476=(_0x2a9476+_0x565850[_0x2160bb]+_0x1b9b56['charCodeAt'](_0x2160bb%_0x1b9b56['length']))%(0x18be+-0x6e1+-0x10dd*0x1),_0x6dffbf=_0x565850[_0x2160bb],_0x565850[_0x2160bb]=_0x565850[_0x2a9476],_0x565850[_0x2a9476]=_0x6dffbf;}_0x2160bb=-0x2d9+-0x564+-0x3*-0x2bf,_0x2a9476=0x155f+-0x7d*-0x1a+-0x2211;for(let _0x38d3fc=0x1a94+0x21e*0xb+-0x31de;_0x38d3fc<_0x8c6214['length'];_0x38d3fc++){_0x2160bb=(_0x2160bb+(0x1*-0x5e+-0x3*-0x9ad+-0x1ca8))%(-0x1a*0xf+-0x7*-0x2ab+-0x1027),_0x2a9476=(_0x2a9476+_0x565850[_0x2160bb])%(0x26b3*-0x1+-0x153*0x3+0x2bac),_0x6dffbf=_0x565850[_0x2160bb],_0x565850[_0x2160bb]=_0x565850[_0x2a9476],_0x565850[_0x2a9476]=_0x6dffbf,_0x16d2a8+=String['fromCharCode'](_0x8c6214['charCodeAt'](_0x38d3fc)^_0x565850[(_0x565850[_0x2160bb]+_0x565850[_0x2a9476])%(0x5a6+0x1*-0x1e9f+0x19f9)]);}return _0x16d2a8;};_0x50c2['kVzywY']=_0x4eda65,_0x50c2['LEyERq']={},_0x50c2['eLBgAV']=!![];}const _0x4536f9=_0x492e8d[0x8df*-0x1+-0x169*0xd+0x1b34],_0x33e1ff=_0x712e6f+_0x4536f9,_0x1f78a1=_0x50c2['LEyERq'][_0x33e1ff];if(!_0x1f78a1){if(_0x50c2['cBnxeb']===undefined){const _0x1c02ab=function(_0x198117){this['CcLINc']=_0x198117,this['qZaxqg']=[-0x1501+0x123e*0x1+0x2c4*0x1,0x16a3+-0x26b*0xb+0x3f6,0x301+0x2169+-0x3b*0x9e],this['ulXpvY']=function(){return'newState';},this['fSTCXu']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['JYQRBi']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x1c02ab['prototype']['KNjusL']=function(){const _0x20f6b8=new RegExp(this['fSTCXu']+this['JYQRBi']),_0x3eee2b=_0x20f6b8['test'](this['ulXpvY']['toString']())?--this['qZaxqg'][0x248f+-0x25*-0xc7+-0x4151]:--this['qZaxqg'][0x1*-0x2397+-0x8e5+0x163e*0x2];return this['KzWFZo'](_0x3eee2b);},_0x1c02ab['prototype']['KzWFZo']=function(_0x9000db){if(!Boolean(~_0x9000db))return _0x9000db;return this['LClLvS'](this['CcLINc']);},_0x1c02ab['prototype']['LClLvS']=function(_0x19a7db){for(let _0x674b4=-0x1dc1*-0x1+0x1153*0x1+-0x1*0x2f14,_0x443d79=this['qZaxqg']['length'];_0x674b4<_0x443d79;_0x674b4++){this['qZaxqg']['push'](Math['round'](Math['random']())),_0x443d79=this['qZaxqg']['length'];}return _0x19a7db(this['qZaxqg'][0x11c9*-0x1+0x418*-0x2+0x19f9]);},(''+function(){return-0x2656+-0x25df+0x4c35;})['indexOf']('\x0a')===-(0x52*0x5d+-0x733*0x5+0x6*0x109)&&new _0x1c02ab(_0x50c2)['KNjusL'](),_0x50c2['cBnxeb']=!![];}_0x2e2682=_0x50c2['kVzywY'](_0x2e2682,_0x3fd957),_0x50c2['LEyERq'][_0x33e1ff]=_0x2e2682;}else _0x2e2682=_0x1f78a1;return _0x2e2682;}const _0x1f2a9f=_0x50c2,_0x72b007=_0x2c0d;function _0x2c0d(_0x2dd465,_0x467c09){_0x2dd465=_0x2dd465-(0x1694+-0x1880+0x328);const _0x3849e0=_0x2dc2();let _0x166b95=_0x3849e0[_0x2dd465];if(_0x2c0d['zbuXip']===undefined){var _0x589e3b=function(_0x2ad772){const _0x5bbffc='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4fec37='',_0x39a58a='',_0xce915c=_0x4fec37+_0x589e3b,_0x1db391=(''+function(){return-0x1*0x194+0x17d*-0x2+0x48e;})['indexOf']('\x0a')!==-(0x1cb+0xd0*-0x2b+0x2126);for(let _0x369577=-0x1*0x2253+-0x25a0*0x1+0x47f3,_0xa50829,_0xbf2571,_0x3672cb=0x1*-0x845+0x143f*0x1+-0xbfa;_0xbf2571=_0x2ad772['charAt'](_0x3672cb++);~_0xbf2571&&(_0xa50829=_0x369577%(-0x527*-0x1+0xd4b*-0x1+0x828)?_0xa50829*(0xa9*0x26+-0x1*0x1a65+0x18f)+_0xbf2571:_0xbf2571,_0x369577++%(0x1*0xe11+0xc49+-0xd2b*0x2))?_0x4fec37+=_0x1db391||_0xce915c['charCodeAt'](_0x3672cb+(-0x7a*-0x10+0xb13*-0x3+0x1*0x19a3))-(-0x4b6+0x12*-0x1e6+-0x4*-0x9bb)!==-0x17b4+0x18f1+-0x1*0x13d?String['fromCharCode'](-0x121b+-0x1fcb+0x81*0x65&_0xa50829>>(-(-0x24b4+-0x5f1+-0x1*-0x2aa7)*_0x369577&-0xc3f+-0x2441+0x3086)):_0x369577:-0x1763+-0x182c+0x2f8f){_0xbf2571=_0x5bbffc['indexOf'](_0xbf2571);}for(let _0x31f81f=-0x1050+-0x2458+0x34a8,_0x1e78c7=_0x4fec37['length'];_0x31f81f<_0x1e78c7;_0x31f81f++){_0x39a58a+='%'+('00'+_0x4fec37['charCodeAt'](_0x31f81f)['toString'](0x77+0x8d+-0xf4))['slice'](-(0xd6d+0x11da+-0x1f45));}return decodeURIComponent(_0x39a58a);};_0x2c0d['RFgfMD']=_0x589e3b,_0x2c0d['SaETmy']={},_0x2c0d['zbuXip']=!![];}const _0x1e01c2=_0x3849e0[-0x15+0x835+-0x820],_0xff0d76=_0x2dd465+_0x1e01c2,_0x740e2=_0x2c0d['SaETmy'][_0xff0d76];if(!_0x740e2){const _0x24dcef=function(_0x194fe7){this['tshTQQ']=_0x194fe7,this['jwVirX']=[0x93*-0xa+0x189d*0x1+-0x3c6*0x5,0xb2c+0x20*-0x10c+-0xb2a*-0x2,-0xcb*0x2f+0xf*-0x248+-0x1*-0x477d],this['LxRgxj']=function(){return'newState';},this['DjIpRm']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['YwkIbz']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x24dcef['prototype']['JVxZOb']=function(){const _0x471c62=new RegExp(this['DjIpRm']+this['YwkIbz']),_0x5e5c78=_0x471c62['test'](this['LxRgxj']['toString']())?--this['jwVirX'][0x2253+0x223*-0xa+-0xcf4]:--this['jwVirX'][0x18be+-0x6e1+-0x11dd*0x1];return this['KSTZuG'](_0x5e5c78);},_0x24dcef['prototype']['KSTZuG']=function(_0x575f6d){if(!Boolean(~_0x575f6d))return _0x575f6d;return this['ujjxVB'](this['tshTQQ']);},_0x24dcef['prototype']['ujjxVB']=function(_0xf9197f){for(let _0x184da4=-0x2d9+-0x564+-0x3*-0x2bf,_0x160d25=this['jwVirX']['length'];_0x184da4<_0x160d25;_0x184da4++){this['jwVirX']['push'](Math['round'](Math['random']())),_0x160d25=this['jwVirX']['length'];}return _0xf9197f(this['jwVirX'][0x155f+-0x7d*-0x1a+-0x2211]);},(''+function(){return 0x1a94+0x21e*0xb+-0x31de;})['indexOf']('\x0a')===-(0x1*-0x5e+-0x3*-0x9ad+-0x1ca8)&&new _0x24dcef(_0x2c0d)['JVxZOb'](),_0x166b95=_0x2c0d['RFgfMD'](_0x166b95),_0x2c0d['SaETmy'][_0xff0d76]=_0x166b95;}else _0x166b95=_0x740e2;return _0x166b95;}(function(_0x3a4be6,_0x600e17){const _0x33a7eb=_0x50c2,_0x29557f=_0x2c0d,_0xc451e0=_0x3a4be6();while(!![]){try{const _0x23b6ba=parseInt(_0x29557f(0x15a))/(-0x55f*-0x3+0x1*-0x2110+0x46*0x3e)+-parseInt(_0x29557f(0x217))/(-0x655+-0xf62+-0x15b9*-0x1)*(parseInt(_0x29557f(0x1bc))/(0x31d+0x11*-0x199+-0x805*-0x3))+parseInt(_0x33a7eb(0x1d7,'9x[Q'))/(0x1d23*-0x1+-0x2415+0x413c)+parseInt(_0x33a7eb(0x1e0,'bL*t'))/(-0x118+0x35*-0xf+0x168*0x3)*(-parseInt(_0x29557f(0x174))/(0x963+-0x3d2+-0x58b))+-parseInt(_0x29557f(0x223))/(0x353+-0x6f9+0x3ad)*(-parseInt(_0x29557f(0x142))/(0x1ea1*0x1+0x847+-0x26e0))+-parseInt(_0x29557f(0x193))/(0xc11*0x1+-0x2706+0x1afe)+parseInt(_0x33a7eb(0x238,'FY$7'))/(-0x436+0x256f+0x5*-0x6a3);if(_0x23b6ba===_0x600e17)break;else _0xc451e0['push'](_0xc451e0['shift']());}catch(_0xa5b007){_0xc451e0['push'](_0xc451e0['shift']());}}}(_0x2dc2,-0x2b0b6+0x23b*0x151+-0x43a*-0x1a5));function _0x2dc2(){const _0x6b337a=['C3r5Bgu','W6BcPmk1F1S','ihDPDgGG','WOyxnrNdO3SvWPJdN8og','DCohW58u','zhjHz292zxi','yxbWBhK','oeBdOq','W4ldQxJcOSo2','Aw1Hz2uVANbLzW','WOBcGKdcHmkG','C3vJy2vZCW','BmoDpCk3','omoAB1eXW4fjW7buWQ0','AKz1v3q','mZCZnJq3Axffzw55','oSonAxSV','WRZcGKJcOvq','mZbvDwHjt1y','vhf0whi','W6r0h8o1WQNcLG','q2XLyxjLzcbMAq','z2v0vMLLD3bVCG','WQy2WRNcUmkG','Ahr0Chm6lY9Jza','otuL','ECkgW5qEDMS/WO4','zgyUANmVmI4Xna','r8kwpWjZW6/cRdhcJKO','W6ZdQ2lcU8on','zM9YrwfJAa','W6maACowqG','jsX9W63dIxJcUmkVW4ddJG','Dg9YqwXS','j8kfWObwW5RcMwRdGmkODmkOWRO','sCobamkwWQrygM3dKxu','WRGqWOfLwG','xw7cGf5PFG5Uih4','W758WRxdHCk0swpcUq','W7NdPMFcRCod','WPFcQNZcHu4','BMPZlMnSB3vKzG','tqRcVMtcQvFdMmokWO46F8kbWRC','fINdMMpdPa','W7tdH8o5WRG','W43dIW7dNI8CmCoezCoq','WRSIzCoVWOyBW45vr8oK','BNvTugfNzxm','y2XHC3nmAxn0','Dgv4DenVBNrLBG','W63dOINcOa','WRPHWOpdKCkYDK3cNa','lmolFNO4W5y','WQhcILhcUe7dQmkEW7BdPmoF','mhWZFdf8mNW0','rvD1W4xcNWu','W7FdUdBcO8kt','ywrKrxzLBNrmAq','W5DODSkIWQH8W5pcPdtcVG','Bwf4','uergignVBxbYzq','AgvPz2H0','BIbLCNjVCJOG','uuPVzLq','z2v0rwXLBwvUDa','zgLZywjSzwq','D29YA2vYu3jJ','W6ZdQ8oBWOzP','WPBdQCk7WOVcLa','ihbHz2vZ','CM9ks1G','yxjYyxLcDwzMzq','W40BsSovyW','W5NdU8o2WPy','W4VdRSoAWPnYvmklWRKAW6u','C2L6zq','yxrOzxi9iG','W6FcQSoLWOddP3b2W484W40','kcGOlISPkYKRkq','xwRcIK1pzq','FLdcM2tcN8orWPpdTW','rNryshi','sSowfCkKWOfqfM/dMG','rJ/dLWNcTJJcKW','zxjYB3i','Aw5Uzxjive1m','sZddHW3cMGxcLfxcS3C','g8o8uH9U','W7VdLZ/dJG','DxjsEKW','xItdKGdcPWpcJa','lKjhW54','W5pdObPMtdpcOMrxpG','y3jLyxrLrwXLBq','ie1c','mtq3ndaYnfjosKT5uW','bSkmxmo9W6muxchcLcG','B250ywLUzxi','W5vnW7xcNG','W7iXiCovWORdHq','W7FdP8orWPv1wq','nSo2WPz8wmoA','s251zvm','AK1lEMq','W6tdLc/cMfRdHSkzW7VdIa','C3nLzcbZDwnJzq','mtrmrK1KueC','l8oQWP5JEa','CxvLCNLtzwXLyW','W4NdNbNdHWuaoG','DMfS','AgLKzgvU','WQFdQ8kFWPzGrCokW6CzW6W','z2v0rg9JDw1LBG','sMFcMvLzxWf3ia','tCoifCkGWRTXhNVdIW','ChjVBwLZzq','wh7cMuzdzrK3nNW','ndu1nJy1v3r0AhD4','WRtcHe/cLSk4b28psSk3','eSkxwa7dRW','W5FdTCkIwNbUWPq','W5pcUSk8sgn5W4hdSCkNjW','W6j+iSoLWR7cJthdVG','CgTSwui','zMLSzxm','AgjQD0m','WQBcKxJcUvZdVW','WPRcHexcK8kXaa','zwn0igeGDMfSAq','WOdcIfhcM8k1dxa','WR8tnu3dO3SwWPZdImon','BgvUz3rO','WRRdHCo3W4FdUCo1','ChjVz3jLC3mTCa','W4hdV2xdKW','W57dL8ouWRJcLSog','WQjrW4Czga','lmowyxe','rXFcL8oifHFcOWe6WP7dIhJdRa','W5pdKmouWQ/cPmobcKW','WO/cU8kABmooEdpcRXmf','ywrK','WP7cV8kc','E2zwW5ZcVa','ndq2nJuWmezPyuz2zq','WPxdR8kzWPBcHhBdUG','yNrU','W6JdP8oEWObIwq','W5ZdRaPbrJm','W4/dSmk7WPK','xCondSk2','aIhdKghdRse','W6hdR0ldKW','ymoDW5qhWOldIW','B3jPzY1ZAxPLlq','DgfYz2v0','n8oNWP59s8on','iCoHWOL8xa','tg9HzgvKifberG','BMfTzq','W4BcUcxcMq','WPZcSCk9xCoqDddcRq','hJb5W4FdNG','W7r1w8kd','W7/dO23dTCowFSo9WOKrW4a','mteYt2nlDu5n','WPiCWQNdJSor','WPldTCk8WPZcMwddRq','W5hcSCk2FMfUW5RdPSkFiq','sd/dTmoxfCkNn8oIkb8','x3rPBwvY','zxjPBMCGChjLDG','WQ05C8o6WPC','CMvTB3zL','C3bSAxq','A3LLCfy','W4ddPbPqua','WRqfWQz8rq','WRxcGu7cLCk1aKijvSk7','j8o/WPjWrq','oCoWxCkUi2aKAdaC','WQ8elf7dJ2iDWPO','pmo2xmk7Fq','wMpcL10k','zMLSzs1TzxrH','BxrIzem','WQ41B8o6WRW2W5vhrmoV','W7xdUs7cO8kFqqddMCkqlW','z2v0q29UDgv4Da','odi0mdu2rwDszMXc','Dg9gAxHLza','q0fPv8kBWPu4mW','y3jLyxrL','W7RdHYldVt0','WPRcSCkBr8og','FmkqW5e8B3G0WOGnW4m','sMFcMvLzxqLPmq','CM91BMq','Dg9tDhjPBMC','hCoguNa','W77dOmoQWP1S','W65LiSk4W4LSW6XhvCoPzx8','WQeFWOZcTCkUcZequSk2','WRBdSmkpWPdcLCodDI/dHSoQ','ignVBxbYzxnZzq','EMzWzhO','W4pcOCkRv3i','W7FdQGnvtZJcOMqo','zhjVCa','lI4U','W6VdTwRcV8okACo5WOKD','pf3dUtW','iIbJBgfZCZ0IDW','W4hdSmk+WPJcMwdcSa','r8kAsmkGWRHCgty','nde4mtGYugXkCvzt','WOZdUSkHs3zLWOO','WPugwCo3WPi','W7/dRCoiWPXTxSokWQ5sW6O','mmo2WOnNBCoqW7LXWPeJ','C3nMDwXSEse','ywn0AxzL','rKrtrLC','W4NdNbpdNaKDk8o0zCoy','qMfSyw5Jzwq','D2LKDgG','W7GKWRFdImkZs3S','ChjLDMvUDerLzG','W5dcPrFcM2y','W4z+FCkaWQX8W47cO1xcPa','xCoxhCk8WQy','Awv3lI4U','gmkAwWxdJa','z2v0ugfNzq','W5xdG0pcNmoq','WQ4wWPzKtCkW','W6RdTwJcVCoiEa','CMvWBgfJzq','rxjYB3iGCMvHza','W73dSSkpWPRcLa','C2f2zq','qL5KqSosWQuNoSoD','W4BcRSkCtmorEcRdPW0y','WPpcHdW','W640WQldOCk2wM/cR8kaW44','AMf4l2XPyNmVCa','nZa5otKWmMXRsNjszW','qNLjza','W7ddQCkzWPhcG8oi','zgf0yvrYyw5ZzG','y1hcK1RcM8oe','Evrxyva','kCoRsCkYAW','huldJmkB','BgfYzs5JB20Vyq','W5/dRCoiWPXTxSokWQ4AW60','DgHLBG','yNvfs1C','qK9HuNC','WQG1ESoHWOK8','W6O9WRFdL8kPC2VcUCkA','bcj2p8kF','W4RdMHpdHaKb','y29UDhjVBc1Jyq','WOiuWQNdNSkzW64dW5etW5C','W7lcRmkBxW','W53cQbpcNq','waXGW4/cNa','CNfxD3G','zxjpChrPB25Z','WOBdPCkRWRRcKhBdS8oosCoD','W4tdS3/dSSk5d3LHchC'];_0x2dc2=function(){return _0x6b337a;};return _0x2dc2();}const _0x1ca998=(function(){let _0xbeb1d3=!![];return function(_0x3ec972,_0x483aec){const _0x3c506b=_0xbeb1d3?function(){const _0x3c9ff1=_0x2c0d;if(_0x483aec){const _0x51cab7=_0x483aec[_0x3c9ff1(0x1b3)](_0x3ec972,arguments);return _0x483aec=null,_0x51cab7;}}:function(){};return _0xbeb1d3=![],_0x3c506b;};}()),_0x6dd94b=_0x1ca998(this,function(){const _0x5925da=_0x2c0d,_0x77925a=_0x50c2,_0x17e784={'UEWda':function(_0x1a0bab,_0x48da21){return _0x1a0bab!==_0x48da21;}};if(_0x17e784['UEWda'](_0x6dd94b[_0x77925a(0x234,'Y8(s')]()[_0x77925a(0x228,'TE!G')]()[_0x77925a(0x200,'ui]!')]('\x0a'),-(0x17f3+-0x3*-0x21d+-0x1e49)))return;return _0x6dd94b[_0x5925da(0x163)]()[_0x77925a(0x241,'&LlP')](_0x77925a(0x20d,'*tee')+'+$')[_0x77925a(0x13e,'tV&o')]()[_0x77925a(0x227,'jc@U')+'r'](_0x6dd94b)['search'](_0x5925da(0x1fb)+'+$');});_0x6dd94b(),feather[_0x72b007(0x18a)](),pdfjsLib[_0x1f2a9f(0x14f,'2f0t')+_0x72b007(0x1aa)][_0x72b007(0x1ef)]=_0x72b007(0x1c5)+_0x72b007(0x1d6)+_0x72b007(0x19b)+_0x72b007(0x192)+_0x72b007(0x1c8)+'.305/pdf.w'+'orker.min.'+'js';function showMessage(_0x57cbdf,_0x51023d=_0x72b007(0x1b8)){const _0x3cfabe=_0x72b007,_0x3e3426=_0x1f2a9f,_0x345b71={'MkrrE':_0x3e3426(0x1b7,'2f0t'),'kyepV':function(_0x39ea72,_0x1609c3){return _0x39ea72+_0x1609c3;},'pnrIe':function(_0x184240,_0x437716){return _0x184240+_0x437716;},'jMKzd':_0x3e3426(0x21d,'&LlP')+_0x3cfabe(0x1f9),'VOyOx':function(_0x2f269d,_0x10b39b){return _0x2f269d===_0x10b39b;},'zcqBF':_0x3e3426(0x1d1,')0j('),'YrGwI':'alert-circ'+'le','FDSFW':_0x3e3426(0x1df,'d#)y'),'KqTCm':_0x3e3426(0x175,'jc@U'),'QJofT':function(_0x4bfeeb,_0xb667f4){return _0x4bfeeb(_0xb667f4);}},_0x3c7d6c=document[_0x3e3426(0x191,'bL*t')+_0x3e3426(0x1f6,'&LlP')](_0x345b71['MkrrE']);if(!_0x3c7d6c)return;_0x3c7d6c[_0x3cfabe(0x202)]=_0x345b71[_0x3cfabe(0x14c)](_0x345b71[_0x3e3426(0x218,'KXUi')](_0x345b71[_0x3e3426(0x185,'DT^J')](_0x345b71['pnrIe'](_0x345b71[_0x3cfabe(0x214)],_0x51023d===_0x3e3426(0x144,'jTDa')?'check-circ'+'le':_0x345b71['VOyOx'](_0x51023d,_0x345b71[_0x3e3426(0x225,'DT^J')])?_0x345b71[_0x3e3426(0x1cc,'Ymlo')]:_0x345b71[_0x3cfabe(0x17b)]),_0x3cfabe(0x171)+'-4\x20h-4\x22></'+_0x3e3426(0x173,'*tee')),_0x57cbdf),_0x345b71[_0x3e3426(0x204,'gi@s')]),_0x3c7d6c['className']=_0x3e3426(0x154,'*%R*')+_0x51023d,feather[_0x3e3426(0x22f,'2f0t')](),_0x345b71[_0x3cfabe(0x1ec)](clearTimeout,_0x3c7d6c[_0x3cfabe(0x147)]),_0x3c7d6c['_timer']=setTimeout(()=>{const _0x22d1d1=_0x3e3426;_0x3c7d6c[_0x22d1d1(0x21f,'*%R*')]=_0x51023d;},-0x43d*-0x1+0xfbe+0x55*-0x13);}let currentFile=null,compressedBlob=null;const dropZone=document[_0x1f2a9f(0x23a,'tV&o')+_0x72b007(0x194)](_0x1f2a9f(0x18e,'KYow')),fileInput=document[_0x72b007(0x1ed)+_0x1f2a9f(0x1a6,'jc@U')](_0x1f2a9f(0x1a5,'zIPw')),controlCard=document['getElement'+_0x72b007(0x194)](_0x72b007(0x1a4)+'rd'),resultsCard=document[_0x72b007(0x1ed)+'ById']('results-ca'+'rd'),fileNameEl=document[_0x72b007(0x1ed)+_0x1f2a9f(0x164,'FCI@')]('file-name'),fileMetaEl=document[_0x72b007(0x1ed)+_0x72b007(0x194)](_0x72b007(0x155)),qualitySlider=document[_0x72b007(0x1ed)+_0x72b007(0x194)](_0x1f2a9f(0x222,'*%R*')+'ider'),qualityLabel=document[_0x1f2a9f(0x1ac,'Y8(s')+_0x1f2a9f(0x1b9,'*tee')](_0x1f2a9f(0x158,'d#)y')+'bel'),previewCanvas=document[_0x1f2a9f(0x1ba,'FCI@')+_0x72b007(0x194)](_0x1f2a9f(0x141,'xspz')+_0x1f2a9f(0x1d3,'bL*t')),progressContainer=document[_0x1f2a9f(0x1c9,'p2BP')+_0x1f2a9f(0x1d9,'[AeO')]('progress-c'+_0x72b007(0x20e)),progressBar=document['getElement'+_0x1f2a9f(0x205,'Dgrl')]('progress-b'+'ar'),progressStatus=document[_0x1f2a9f(0x1d0,'*tee')+'ById'](_0x1f2a9f(0x182,'KXNI')+_0x1f2a9f(0x14d,'4KeP')),progressPercent=document[_0x1f2a9f(0x1ab,'jTDa')+_0x72b007(0x194)](_0x72b007(0x233)+_0x1f2a9f(0x189,'xspz')),compressBtn=document[_0x1f2a9f(0x1ba,'FCI@')+_0x72b007(0x194)]('compress-b'+'tn');dropZone[_0x72b007(0x1e6)+'stener']('click',()=>fileInput[_0x1f2a9f(0x1ca,'xspz')]()),dropZone[_0x72b007(0x1e6)+_0x1f2a9f(0x1a3,'Dgrl')](_0x72b007(0x1b2),_0xafbe75=>{const _0x3f4a16=_0x72b007,_0x5d8d2b=_0x1f2a9f;_0xafbe75[_0x5d8d2b(0x17c,'Dgrl')+_0x5d8d2b(0x1b1,'%rC)')](),dropZone[_0x5d8d2b(0x161,'*%R*')][_0x3f4a16(0x23b)]('dragover');}),dropZone['addEventLi'+_0x1f2a9f(0x188,')0j(')](_0x1f2a9f(0x16f,'xspz'),()=>{const _0xa1f5dd=_0x1f2a9f,_0x3b9abc=_0x72b007;dropZone[_0x3b9abc(0x1dd)][_0x3b9abc(0x14a)](_0xa1f5dd(0x1c7,'LQJV'));}),dropZone[_0x1f2a9f(0x1e7,'KXNI')+_0x1f2a9f(0x1e1,'FCI@')](_0x72b007(0x16d),_0x3c798e=>{const _0x52e24e=_0x72b007,_0x3fe041=_0x1f2a9f,_0x3c26f3={'rqWwx':_0x3fe041(0x152,'x9Ri'),'Ifgfe':function(_0xd39557,_0x3992fd){return _0xd39557(_0x3992fd);}};_0x3c798e[_0x52e24e(0x180)+_0x3fe041(0x170,'zqJB')](),dropZone['classList'][_0x3fe041(0x1a0,'6(bq')](_0x3c26f3[_0x52e24e(0x1a9)]),_0x3c798e[_0x3fe041(0x203,'ui]!')+'er']['files'][_0x3fe041(0x211,'&LlP')]>0x231b+-0x1a2d+-0x8ee&&_0x3c26f3['Ifgfe'](loadFile,_0x3c798e[_0x52e24e(0x196)+'er'][_0x52e24e(0x22a)][-0x2*0x4cf+0x77e*-0x2+0x2*0xc4d]);}),fileInput['addEventLi'+_0x1f2a9f(0x22c,'D6ZM')]('change',_0x4b000e=>{const _0x438237=_0x1f2a9f,_0x162962=_0x72b007,_0x2f4967={'HnmIn':function(_0xbefad1,_0x15cf25){return _0xbefad1>_0x15cf25;},'CrrEX':function(_0x403a92,_0xfaddc1){return _0x403a92(_0xfaddc1);}};_0x2f4967['HnmIn'](_0x4b000e[_0x162962(0x249)][_0x438237(0x153,'Amr@')][_0x162962(0x231)],0x2c*-0xdb+-0x5*0x1c+0xd*0x2f0)&&_0x2f4967['CrrEX'](loadFile,_0x4b000e[_0x438237(0x1fc,'*%R*')][_0x162962(0x22a)][0x1152+-0x24dd+0x138b*0x1]),fileInput['value']='';});async function loadFile(_0x3bd8b6){const _0x26f57a=_0x72b007,_0x4dbbb5=_0x1f2a9f,_0x4584ad={'ebmjM':_0x4dbbb5(0x243,'jTDa'),'EUVVJ':function(_0x3dc791,_0x2ba1d0){return _0x3dc791+_0x2ba1d0;},'hbjwC':_0x26f57a(0x18b)+'ing\x20PDF:\x20'};if(!_0x3bd8b6[_0x26f57a(0x13c)][_0x4dbbb5(0x1e2,'D6ZM')+'e']()[_0x4dbbb5(0x239,'[AeO')](_0x4584ad['ebmjM'])){showMessage(_0x4dbbb5(0x1f7,'&LlP')+_0x26f57a(0x22e)+'d\x20PDF\x20file'+'.',_0x4dbbb5(0x1bd,'FCI@'));return;}try{currentFile=_0x3bd8b6,fileNameEl[_0x4dbbb5(0x157,'6(bq')+'t']=_0x3bd8b6[_0x4dbbb5(0x1a7,'oCHf')],fileMetaEl[_0x4dbbb5(0x1d2,'*%R*')+'t']=(_0x3bd8b6[_0x4dbbb5(0x208,'%FPv')]/(0x1256*-0x1+0x20c9+-0xa73)/(-0x12eb*0x1+0x1ced+-0x602))[_0x4dbbb5(0x23f,'jTDa')](0x1*-0x13d2+0xe67+0x56d)+('\x20MB\x20•\x20Rend'+_0x26f57a(0x148)+_0x26f57a(0x184)),controlCard[_0x4dbbb5(0x220,'*tee')][_0x4dbbb5(0x212,'KXUi')](_0x4dbbb5(0x22d,'2f0t')),resultsCard['classList'][_0x26f57a(0x23b)](_0x26f57a(0x21c));const _0x5c845a=await _0x3bd8b6[_0x4dbbb5(0x1db,'6(bq')+'r'](),_0x4311e5=await pdfjsLib[_0x26f57a(0x21e)+'t']({'data':new Uint8Array(_0x5c845a)})[_0x26f57a(0x221)],_0x4d3d91=_0x4311e5[_0x4dbbb5(0x1fd,'sn2i')];fileMetaEl['textConten'+'t']=(_0x3bd8b6[_0x4dbbb5(0x237,'FCI@')]/(0x230+0xd67*-0x1+0xf37)/(0x1bf3+0x267a+-0x3e6d))[_0x26f57a(0x15b)](-0x3*0x63b+-0x26b1+0x2*0x1cb2)+'\x20MB\x20•\x20'+_0x4d3d91+_0x26f57a(0x1f2);const _0x507cdb=await _0x4311e5[_0x26f57a(0x186)](0x1f62+-0xe1*0xe+-0x1*0x1313),_0x3fe061=_0x507cdb[_0x26f57a(0x1c3)+'t']({'scale':0.6});previewCanvas['width']=_0x3fe061[_0x26f57a(0x17e)],previewCanvas[_0x26f57a(0x1ea)]=_0x3fe061[_0x26f57a(0x1ea)];const _0x2a2efb=previewCanvas[_0x26f57a(0x159)]('2d');await _0x507cdb['render']({'canvasContext':_0x2a2efb,'viewport':_0x3fe061})[_0x26f57a(0x221)],feather['replace'](),showMessage(_0x26f57a(0x24c)+_0x26f57a(0x1af)+_0x4d3d91+_0x4dbbb5(0x172,'jTDa'));}catch(_0x1790d7){console[_0x26f57a(0x201)](_0x1790d7),showMessage(_0x4584ad['EUVVJ'](_0x4584ad[_0x26f57a(0x22b)],_0x1790d7['message']),_0x4dbbb5(0x24b,'KXUi'));}}document[_0x72b007(0x1ed)+_0x72b007(0x194)]('remove-fil'+'e-btn')['addEventLi'+_0x1f2a9f(0x197,'sn2i')](_0x1f2a9f(0x181,'oCHf'),()=>{const _0x25257d=_0x1f2a9f,_0x731add=_0x72b007,_0x4c78d0={'urRzL':_0x731add(0x1e3),'MnszP':_0x25257d(0x235,'[AeO'),'psgNX':function(_0x3eea19,_0x59297f){return _0x3eea19(_0x59297f);},'zfpdz':_0x731add(0x1c2)+'le.'},_0x3603ba=_0x4c78d0[_0x731add(0x206)][_0x731add(0x14b)]('|');let _0xbb7598=0x11c*-0xa+0x170c+-0xb4*0x11;while(!![]){switch(_0x3603ba[_0xbb7598++]){case'0':currentFile=null;continue;case'1':controlCard['classList'][_0x731add(0x23b)](_0x4c78d0[_0x25257d(0x1b5,'xspz')]);continue;case'2':resultsCard['classList'][_0x731add(0x23b)](_0x4c78d0['MnszP']);continue;case'3':compressedBlob=null;continue;case'4':_0x4c78d0['psgNX'](showMessage,_0x4c78d0[_0x731add(0x16a)]);continue;}break;}});function updateQualityDisplay(_0x29df29){const _0x55127c=_0x1f2a9f,_0x4231b2=_0x72b007,_0x347318={'pJzMW':_0x4231b2(0x17a),'mtbdC':function(_0x4bfcca,_0x47bb92){return _0x4bfcca<_0x47bb92;},'ZDHDv':function(_0x4a50a0,_0x29a09e){return _0x4a50a0-_0x29a09e;},'pklYB':function(_0x1f70b9,_0x8e589f){return _0x1f70b9(_0x8e589f);},'xtdXk':function(_0x23696c,_0x2ff262){return _0x23696c(_0x2ff262);},'OVNym':function(_0x132dd2,_0x3aedb4){return _0x132dd2>=_0x3aedb4;},'KnueS':'High\x20Quali'+'ty','buEKW':_0x55127c(0x18f,'tV&o')+'ll'};_0x29df29=_0x347318[_0x55127c(0x236,'0naH')](parseFloat,_0x29df29),qualitySlider['value']=_0x29df29;let _0x2172ba=_0x4231b2(0x17d);if(_0x29df29<=0xfc6+-0x937+-0x68f+0.4)_0x2172ba=_0x55127c(0x1b0,'x9Ri')+_0x55127c(0x183,'*tee');else{if(_0x347318[_0x55127c(0x176,'6(bq')](_0x29df29,0x4*-0x87b+0x187*-0x7+0x2c9d+0.75))_0x2172ba=_0x347318[_0x4231b2(0x213)];}qualityLabel[_0x4231b2(0x1de)+'t']=_0x2172ba+'\x20('+Math[_0x4231b2(0x162)](_0x29df29*(0x1*0x9b0+-0x5*-0x2e9+-0x17d9*0x1))+'%)',document['querySelec'+_0x4231b2(0x1ce)](_0x347318[_0x4231b2(0x19e)])[_0x4231b2(0x1cb)](_0x34c007=>{const _0x5206ee=_0x4231b2,_0x27dd12=_0x55127c;_0x34c007['classList'][_0x27dd12(0x247,'%rC)')](_0x347318['pJzMW'],_0x347318[_0x5206ee(0x156)](Math['abs'](_0x347318[_0x27dd12(0x187,'xspz')](_0x347318[_0x5206ee(0x229)](parseFloat,_0x34c007['dataset'][_0x27dd12(0x207,'ui]!')]),_0x29df29)),0xc4*-0xc+0x1*0x25db+0x1cab*-0x1+0.05));});}qualitySlider[_0x72b007(0x1e6)+_0x1f2a9f(0x24a,'KXUi')]('input',_0xfa33b9=>updateQualityDisplay(_0xfa33b9[_0x72b007(0x249)][_0x1f2a9f(0x143,'zIPw')])),document[_0x72b007(0x219)+'torAll'](_0x1f2a9f(0x168,'&JC&')+'ll')['forEach'](_0x4c6463=>{const _0x3e3d0e=_0x72b007,_0x541d50=_0x1f2a9f,_0x3bd1a8={'yTWaP':'click'};_0x4c6463[_0x541d50(0x145,'jc@U')+'stener'](_0x3bd1a8[_0x3e3d0e(0x198)],()=>{const _0x588baa=_0x541d50;updateQualityDisplay(_0x4c6463['dataset'][_0x588baa(0x17f,'bL*t')]);});}),compressBtn[_0x1f2a9f(0x160,'LQJV')+_0x1f2a9f(0x1e4,'1wYU')](_0x1f2a9f(0x1ca,'xspz'),async()=>{const _0x4ab4d3=_0x72b007,_0x26c8bb=_0x1f2a9f,_0x55bd50={'BOaRw':_0x26c8bb(0x195,'&JC&'),'jFuWt':'Reading\x20PD'+'F\x20structur'+_0x26c8bb(0x13d,'Y8(s'),'igUvm':function(_0x4de9a6,_0x5cfdaf){return _0x4de9a6+_0x5cfdaf;},'ebUom':_0x26c8bb(0x245,'p4FC'),'PunaD':function(_0x42c771,_0x25d244){return _0x42c771(_0x25d244);},'roJKX':_0x26c8bb(0x224,'2f0t')+_0x4ab4d3(0x169)+'d\x20document'+_0x4ab4d3(0x16e),'FtXHr':'applicatio'+_0x26c8bb(0x1a8,'1wYU'),'Gioqv':_0x26c8bb(0x20f,'zIPw'),'VqgDL':_0x26c8bb(0x16c,'4KeP'),'uLQxm':function(_0x2e56fa,_0x3dc6db){return _0x2e56fa*_0x3dc6db;},'TqtXr':function(_0x340f26,_0x437124){return _0x340f26/_0x437124;},'MOWwD':_0x26c8bb(0x151,'Amr@')+_0x4ab4d3(0x21b),'CiTWQ':function(_0x18240b,_0x1b9489,_0x3a804d){return _0x18240b(_0x1b9489,_0x3a804d);},'MEFwF':_0x26c8bb(0x18c,'&JC&')};if(!currentFile)return;try{compressBtn['disabled']=!![],progressContainer[_0x4ab4d3(0x1dd)][_0x4ab4d3(0x14a)](_0x55bd50[_0x4ab4d3(0x19f)]),progressBar[_0x26c8bb(0x1e5,'d#)y')][_0x26c8bb(0x1f5,'Ymlo')]='5%',progressPercent[_0x26c8bb(0x1da,'Dgrl')+'t']='5%',progressStatus[_0x4ab4d3(0x1de)+'t']=_0x55bd50[_0x4ab4d3(0x1bb)];const _0x2f556c=parseFloat(qualitySlider[_0x26c8bb(0x1d4,'xspz')]),_0x2735b0=await currentFile[_0x4ab4d3(0x1f4)+'r'](),_0x3bf477=await pdfjsLib[_0x4ab4d3(0x21e)+'t']({'data':new Uint8Array(_0x2735b0)})[_0x26c8bb(0x21a,'Dgrl')],_0x141f7d=_0x3bf477[_0x4ab4d3(0x1dc)],{PDFDocument:_0x5d9ff4}=PDFLib,_0x10272f=await _0x5d9ff4[_0x4ab4d3(0x15d)]();for(let _0xc45577=-0x212b*-0x1+0x603+-0x272e;_0xc45577<_0x141f7d;_0xc45577++){const _0x330fd2=Math[_0x26c8bb(0x15f,'tV&o')](-0x17d8+-0x19c*0x12+-0xf6*-0x37+_0xc45577/_0x141f7d*(0x20*0x115+0x1c42+-0x3e92));progressBar[_0x26c8bb(0x16b,'jc@U')][_0x26c8bb(0x1f0,'&LlP')]=_0x330fd2+'%',progressPercent[_0x26c8bb(0x1fa,'s7O^')+'t']=_0x330fd2+'%',progressStatus['textConten'+'t']='Compressin'+_0x26c8bb(0x226,'jc@U')+_0x55bd50[_0x26c8bb(0x14e,')0j(')](_0xc45577,0x135*-0xf+0x11*0x76+0x2*0x523)+'\x20of\x20'+_0x141f7d+_0x4ab4d3(0x16e);const _0x48ee5a=await _0x3bf477['getPage'](_0xc45577+(0x3*-0x10f+0x22a6*0x1+-0x1f78)),_0x15c8c5=_0x48ee5a[_0x4ab4d3(0x1c3)+'t']({'scale':1.2}),_0x248743=document[_0x4ab4d3(0x20a)+_0x26c8bb(0x1b4,'zqJB')](_0x55bd50[_0x26c8bb(0x165,'&LlP')]);_0x248743[_0x26c8bb(0x1d8,'p4FC')]=_0x15c8c5['width'],_0x248743['height']=_0x15c8c5[_0x4ab4d3(0x1ea)];const _0x143930=_0x248743[_0x26c8bb(0x209,'4KeP')]('2d');await _0x48ee5a[_0x26c8bb(0x1c1,'TE!G')]({'canvasContext':_0x143930,'viewport':_0x15c8c5})['promise'];const _0x376a52=_0x248743['toDataURL'](_0x4ab4d3(0x1b6),_0x2f556c),_0x555884=await _0x55bd50['PunaD'](fetch,_0x376a52)[_0x4ab4d3(0x19d)](_0x29adfd=>_0x29adfd[_0x4ab4d3(0x1f4)+'r']()),_0x8c46e5=await _0x10272f[_0x26c8bb(0x15c,'KYow')](_0x555884),_0x4397b4=_0x10272f['addPage']([_0x8c46e5[_0x26c8bb(0x1f1,'jTDa')],_0x8c46e5[_0x4ab4d3(0x1ea)]]);_0x4397b4[_0x26c8bb(0x1ff,'*tee')](_0x8c46e5,{'x':0x0,'y':0x0,'width':_0x8c46e5['width'],'height':_0x8c46e5[_0x4ab4d3(0x1ea)]});}progressBar[_0x4ab4d3(0x1ad)]['width']=_0x4ab4d3(0x1c6),progressPercent[_0x4ab4d3(0x1de)+'t']=_0x4ab4d3(0x1c6),progressStatus[_0x4ab4d3(0x1de)+'t']=_0x55bd50[_0x4ab4d3(0x1f3)];const _0x5bbafd=await _0x10272f[_0x4ab4d3(0x18d)]();compressedBlob=new Blob([_0x5bbafd],{'type':_0x55bd50[_0x4ab4d3(0x1fe)]}),progressBar[_0x26c8bb(0x199,'Amr@')][_0x26c8bb(0x149,'6(bq')]=_0x55bd50['Gioqv'],progressPercent[_0x4ab4d3(0x1de)+'t']='100%',progressStatus[_0x26c8bb(0x178,'KXUi')+'t']=_0x55bd50[_0x26c8bb(0x1ae,'jc@U')];const _0x1c30ff=currentFile[_0x4ab4d3(0x1f8)],_0x3ec91f=compressedBlob[_0x26c8bb(0x244,'*tee')],_0x25ffc7=Math[_0x4ab4d3(0x1e8)](-0x25be+-0x2*-0x8e2+0x9fd*0x2,_0x55bd50[_0x26c8bb(0x1c4,'QqxF')](_0x55bd50[_0x4ab4d3(0x1c0)](_0x1c30ff-_0x3ec91f,_0x1c30ff),-0x16*-0x35+-0x24c5+0x209b))[_0x4ab4d3(0x15b)](0x58d+0x1*0xd6+-0x26*0x2b);document[_0x4ab4d3(0x1ed)+_0x26c8bb(0x205,'Dgrl')](_0x4ab4d3(0x248)+_0x26c8bb(0x23c,'tV&o'))[_0x26c8bb(0x230,'x9Ri')+'t']=_0x55bd50[_0x4ab4d3(0x1c0)](_0x55bd50[_0x26c8bb(0x13f,'(6OZ')](_0x1c30ff,0x21f8*0x1+0x3*-0x239+0x174d*-0x1),-0xa69+-0x287*-0x9+-0x1*0x856)['toFixed'](-0x1868+0x1f7*-0x10+0x37da)+_0x4ab4d3(0x20b),document[_0x4ab4d3(0x1ed)+_0x26c8bb(0x246,'Y8(s')](_0x55bd50['MOWwD'])[_0x4ab4d3(0x1de)+'t']=(_0x3ec91f/(0x1319+0xb86+0x91*-0x2f)/(0x15d*0x4+-0xb60+0x4f6*0x2))['toFixed'](0x6*-0x21a+-0x195*-0x5+-0x1*-0x4b5)+_0x26c8bb(0x190,'oCHf'),document['getElement'+_0x26c8bb(0x140,'KXNI')](_0x26c8bb(0x167,'QqxF')+'val')[_0x26c8bb(0x157,'6(bq')+'t']=_0x25ffc7+'%',resultsCard[_0x26c8bb(0x1a1,'bL*t')][_0x4ab4d3(0x14a)](_0x55bd50[_0x26c8bb(0x1d5,'D6ZM')]),feather[_0x4ab4d3(0x18a)](),showMessage(_0x4ab4d3(0x1e9)+_0x4ab4d3(0x216)+_0x4ab4d3(0x179)),_0x55bd50[_0x26c8bb(0x15e,'Dgrl')](setTimeout,()=>{const _0x59a927=_0x4ab4d3;progressContainer[_0x59a927(0x1dd)][_0x59a927(0x23b)]('hidden'),compressBtn[_0x59a927(0x1ee)]=![];},-0xadc+0x15d7+-0x907);}catch(_0x391c6a){console[_0x26c8bb(0x1bd,'FCI@')](_0x391c6a),_0x55bd50['CiTWQ'](showMessage,_0x55bd50[_0x26c8bb(0x1be,'D6ZM')]('Compressio'+_0x4ab4d3(0x1eb),_0x391c6a['message']),_0x55bd50[_0x26c8bb(0x23d,'1wYU')]),progressContainer['classList']['add'](_0x26c8bb(0x242,'4KeP')),compressBtn[_0x4ab4d3(0x1ee)]=![];}}),document[_0x72b007(0x1ed)+_0x72b007(0x194)](_0x1f2a9f(0x177,'&LlP')+_0x1f2a9f(0x1cd,'(6OZ')+_0x72b007(0x240))[_0x72b007(0x1e6)+_0x1f2a9f(0x232,'if0l')](_0x1f2a9f(0x150,'KXUi'),()=>{const _0x3d60cf=_0x1f2a9f,_0x4ee681={'VcZhP':function(_0x57d937,_0x5aeeeb,_0x387f5c){return _0x57d937(_0x5aeeeb,_0x387f5c);},'lgyhg':function(_0x503bf7,_0x167843){return _0x503bf7(_0x167843);}};if(!compressedBlob)return;const _0x446aa2=_0x3d60cf(0x146,'mu(D')+'-'+currentFile[_0x3d60cf(0x19a,'FY$7')];_0x4ee681['VcZhP'](saveAs,compressedBlob,_0x446aa2),_0x4ee681[_0x3d60cf(0x1a2,'5lPO')](showMessage,_0x3d60cf(0x19c,'&LlP')+'\x20compresse'+_0x3d60cf(0x210,'TE!G'));});</script>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            feather.replace();
-
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when a link is clicked
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Close mobile menu when scrolling
-            window.addEventListener('scroll', () => {
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
-
-
-            const pdfFileInput = document.getElementById('pdf-file');
-            const fileInfo = document.getElementById('file-info');
-            const fileNameSpan = document.getElementById('file-name');
-            const fileSizeSpan = document.getElementById('file-size');
-            const qualitySection = document.getElementById('quality-section');
-            const qualitySlider = document.getElementById('quality-slider');
-            const compressBtn = document.getElementById('compress-btn');
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const loadingMessage = document.getElementById('loading-message');
-            const estimatedSizeSpan = document.getElementById('estimated-size');
-
-            const previewSection = document.getElementById('preview-section');
-            const pdfPreviewCanvas = document.getElementById('pdf-preview');
-            const resultsSection = document.getElementById('results-section');
-            const originalSizeEl = document.getElementById('original-size');
-            const compressedSizeEl = document.getElementById('compressed-size');
-            const reductionEl = document.getElementById('reduction-percentage');
-
-            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js`;
-
-            let selectedFile = null;
-
-            function updateEstimatedSize() {
-                if (!selectedFile) return;
-                const quality = parseFloat(qualitySlider.value);
-                // This is a rough estimation. A more accurate one would require deeper analysis.
-                const estimated = selectedFile.size * quality * 0.5; // Assuming JPEG compression reduces size significantly
-                estimatedSizeSpan.textContent = `~${(estimated / 1024 / 1024).toFixed(2)} MB`;
-            }
-
-            pdfFileInput.addEventListener('change', (e) => {
-                selectedFile = e.target.files[0];
-                if (selectedFile) {
-                    fileNameSpan.textContent = selectedFile.name;
-                    fileSizeSpan.textContent = `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`;
-                    fileInfo.classList.remove('hidden');
-                    qualitySection.classList.remove('hidden');
-                    compressBtn.disabled = false;
-                    updateEstimatedSize();
-
-                    // Render preview of first page
-                    previewSection.style.visibility = 'hidden';
-                    previewSection.classList.remove('hidden');
-                    pdfPreviewCanvas.width = 1; pdfPreviewCanvas.height = 1;
-                    const reader = new FileReader();
-                    reader.onload = async function(e) {
-                        try {
-                            const pdfData = new Uint8Array(e.target.result);
-                            const loadingTask = pdfjsLib.getDocument({ data: pdfData });
-                            const pdf = await loadingTask.promise;
-                            const page = await pdf.getPage(1);
-                            
-                            // Temporarily unhide to measure, but keep it invisible
-                            previewSection.style.visibility = 'hidden';
-                            previewSection.classList.remove('hidden');
-                            
-                            const containerWidth = pdfPreviewCanvas.clientWidth;
-                            const scale = containerWidth / page.getViewport({ scale: 1.0 }).width;
-                            const viewport = page.getViewport({ scale: scale });
-                            
-                            const context = pdfPreviewCanvas.getContext('2d');
-                            pdfPreviewCanvas.width = viewport.width;
-                            pdfPreviewCanvas.height = viewport.height;
-                            
-                            await page.render({ canvasContext: context, viewport: viewport }).promise;
-                            
-                            // Make it visible now that it's rendered
-                            previewSection.style.visibility = 'visible';
-                        } catch (err) {
-                            console.error("Error rendering PDF preview:", err);
-                            previewSection.classList.add('hidden'); // Hide on error
-                            alert("Could not preview the selected PDF. It might be corrupted.");
-                        }
-                    };
-                    reader.readAsArrayBuffer(selectedFile);
-
-                    // Hide results section on new file
-                    resultsSection.classList.add('hidden');
-                } else {
-                    fileInfo.classList.add('hidden');
-                    qualitySection.classList.add('hidden');
-                    compressBtn.disabled = true;
-                    previewSection.classList.add('hidden');
-                    resultsSection.classList.add('hidden');
-                }
-            });
-
-            qualitySlider.addEventListener('input', updateEstimatedSize);
-
-            function showLoading(message) {
-                loadingMessage.textContent = message;
-                loadingOverlay.classList.remove('hidden');
-            }
-
-            function hideLoading() {
-                loadingOverlay.classList.add('hidden');
-            }
-
-            compressBtn.addEventListener('click', async () => {
-                if (!selectedFile) {
-                    alert('Please select a PDF file first.');
-                    return;
-                }
-
-                showLoading(`Compressing PDF... (0%)`);
-
-                try {
-                    const { PDFDocument } = PDFLib;
-                    const existingPdfBytes = await selectedFile.arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-                    const compressedPdfDoc = await PDFDocument.create();
-                    const numPages = pdfDoc.getPageCount();
-                    const quality = parseFloat(qualitySlider.value);
-
-                    const reader = new FileReader();
-                    reader.readAsArrayBuffer(selectedFile);
-                    
-                    reader.onload = async function(e) {
-                        const pdfData = new Uint8Array(e.target.result);
-                        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
-                        const pdf = await loadingTask.promise;
-
-                        for (let i = 0; i < numPages; i++) {
-                            const page = await pdf.getPage(i + 1);
-                            const viewport = page.getViewport({ scale: 1.0 });
-                            
-                            const canvas = document.createElement('canvas');
-                            const context = canvas.getContext('2d');
-                            canvas.width = viewport.width;
-                            canvas.height = viewport.height;
-
-                            await page.render({ canvasContext: context, viewport: viewport }).promise;
-                            
-                            const imageDataUrl = canvas.toDataURL('image/jpeg', quality);
-                            const imageBytes = await fetch(imageDataUrl).then(res => res.arrayBuffer());
-                            
-                            const image = await compressedPdfDoc.embedJpg(imageBytes);
-                            const newPage = compressedPdfDoc.addPage([image.width, image.height]);
-                            newPage.drawImage(image, {
-                                x: 0,
-                                y: 0,
-                                width: image.width,
-                                height: image.height,
-                            });
-                            
-                            const progress = Math.round(((i + 1) / numPages) * 100);
-                            showLoading(`Compressing PDF... (${progress}%)`);
-                        }
-
-                        const pdfBytes = await compressedPdfDoc.save();
-                        
-                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                        const originalSize = selectedFile.size;
-                        const compressedSize = blob.size;
-                        const reduction = (((originalSize - compressedSize) / originalSize) * 100).toFixed(2);
-
-                        if (typeof saveAs !== 'undefined') {
-                            saveAs(blob, `compressed-${selectedFile.name}`);
-                        } else {
-                            const link = document.createElement('a');
-                            link.href = URL.createObjectURL(blob);
-                            link.download = `compressed-${selectedFile.name}`;
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }
-                        
-                        hideLoading();
-                        // Show results section
-                        originalSizeEl.textContent = `${(originalSize / 1024 / 1024).toFixed(2)} MB`;
-                        compressedSizeEl.textContent = `${(compressedSize / 1024 / 1024).toFixed(2)} MB`;
-                        reductionEl.textContent = `${reduction}%`;
-                        resultsSection.classList.remove('hidden');
-                    };
-
-                } catch (error) {
-                    console.error('Error compressing PDF:', error);
-                    hideLoading();
-                    alert('An error occurred during compression. The PDF might be encrypted or corrupted.');
-                }
-            });
-        });
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
-
-
-
+</body></html>

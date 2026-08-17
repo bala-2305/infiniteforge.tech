@@ -1,275 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Latency Checker — Infiniteforge | Free Network Testing Tool</title>
+    <title>WebSocket Latency Checker — Real-Time Ping &amp; Jitter Monitor | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description"
-        content="Test WebSocket connection latency with our free online tool. Measure real-time ping times, connection speed, and network performance for WebSocket servers.">
-    <meta name="keywords"
-        content="WebSocket latency checker, WebSocket ping test, network latency, WebSocket performance, connection speed test, real-time latency">
-    <meta name="author" content="InfinityForge">
-    <meta property="og:title" content="WebSocket Latency Checker — Infiniteforge">
-    <meta property="og:description"
-        content="Test WebSocket connection latency and measure real-time ping times for network performance analysis.">
+    <meta name="description" content="Test real-time WebSocket connection latency (RTT), jitter, and packet loss. Benchmark public echo servers or test your custom WS/WSS endpoints.">
+    <meta name="keywords" content="WebSocket latency, WebSocket ping test, WSS test, WebSocket jitter, network benchmark">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="WebSocket Latency Checker | Infiniteforge">
+    <meta property="og:description" content="Real-time WebSocket ping, RTT latency, and jitter diagnostic.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/websocket-latency-checker.html">
-    <meta property="og:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="WebSocket Latency Checker — Infiniteforge">
-    <meta name="twitter:description" content="Test WebSocket latency and connection performance in real-time.">
-    <meta name="twitter:image" content="https://infiniteforge.tech/images/letter-d.png">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://infiniteforge.tech/websocket-latency-checker.html">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <link rel="stylesheet" href="/css/ui-enhancements.css">
-    <style>
-        :root {
-            --fluid-font-size: clamp(14px, 2vw, 18px);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --primary-color: #6366f1;
-            --secondary-color: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            font-size: var(--fluid-font-size);
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .gen-input {
-            transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .gen-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-            opacity: 0.9;
-        }
-
-        .result-box {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .latency-display {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1e293b;
-        }
-
-        .stats-card {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #6366f1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #6366f1;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WebSocket Latency Checker | Infiniteforge">
+    <meta name="twitter:description" content="Measure real-time WebSocket connection latency.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/websocket-latency-checker.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/websocket-latency-checker.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0xd0875=_0x545f,_0x160f37=_0x2a7d;function _0x29c4(){var _0x10be1f=['su3cKmowW6KRW4ddO8kPxW','W6tcUsiMfIFdRq','WPtdT8onEGBdUqVdQCkWW7pdRCkssa','WO8tnNtdPaNcOSkw','mtbcvNDszMm','wSkRWQZcMHKvW74','t3v0zML0','W6qLiCoLW4S7','C2vHCMnO','W5erqhS','mteZnZe5ourOruHbzW','i0zgmKe3qq','kcGOlISPkYKRkq','WPVcTSksjLRdJq','WR9pAcz/WQFcMW','iZq1rJngrG','mZm5ody0ofHNyuDyBa','nJKXode1EKDovxjV','ndGZntCYn3j0ANvLqG','W6FcQfxdKmoUW5VdRa','m2jAufnhra','WPBcOZBdSvTAoCoJW7NdSCk7','cbRdImkxW7eQW67dP8kkwXm','EsJcUb7dMK0ulfiPWODb','sMv0qNjHAw5Zia','Dg9tDhjPBMC','yxbWBhK','W4dcUSkvW4feDmocW48nW6y','mJu4nta0mePtzePywG','oteYsK5SqMHR'];_0x29c4=function(){return _0x10be1f;};return _0x29c4();}function _0x545f(_0x48da9a,_0x5e586a){_0x48da9a=_0x48da9a-(0x173*-0x17+-0x1*0x2589+-0x1*-0x486d);var _0x489815=_0x29c4();var _0x5e1d03=_0x489815[_0x48da9a];if(_0x545f['hGOmjS']===undefined){var _0x5a7180=function(_0x49e56f){var _0x361cc2='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x4b68a9='',_0x542c58='',_0x1b18ab=_0x4b68a9+_0x5a7180,_0x2e72ff=(''+function(){return-0x2561+-0x1bf5+0x4156;})['indexOf']('\x0a')!==-(-0x6d*0xa+-0xe3*-0xd+-0x174*0x5);for(var _0xb22a77=0x164*0x8+0x2*-0xd03+0xee6,_0xdcf8f3,_0x3a795a,_0x22edc0=0x1*-0x1b6b+-0x7e*-0xd+0x1505;_0x3a795a=_0x49e56f['charAt'](_0x22edc0++);~_0x3a795a&&(_0xdcf8f3=_0xb22a77%(0x18a5+-0x2a2*-0xd+-0xd*0x487)?_0xdcf8f3*(-0x1e17*-0x1+0x2*0x11f2+-0x41bb)+_0x3a795a:_0x3a795a,_0xb22a77++%(-0x136*0xe+-0x20b*0xb+-0x17*-0x1b7))?_0x4b68a9+=_0x2e72ff||_0x1b18ab['charCodeAt'](_0x22edc0+(-0x7dc+0x627+0x1bf))-(-0x13a+-0x248a+-0x2*-0x12e7)!==0xa3*0x1c+0xd11+0xb*-0x2cf?String['fromCharCode'](0x93a+-0xa5c+0x1*0x221&_0xdcf8f3>>(-(0x1*0x7f+-0x6*0x463+-0x1*-0x19d5)*_0xb22a77&-0xd3*-0xe+-0x1203+0x67f*0x1)):_0xb22a77:-0x1967*0x1+-0x1959+0x74*0x70){_0x3a795a=_0x361cc2['indexOf'](_0x3a795a);}for(var _0x45b512=0x1f78+-0xd35+0xbb*-0x19,_0x18046d=_0x4b68a9['length'];_0x45b512<_0x18046d;_0x45b512++){_0x542c58+='%'+('00'+_0x4b68a9['charCodeAt'](_0x45b512)['toString'](0xcf8+-0x2649+0x59*0x49))['slice'](-(0xd*0x21d+-0x20a*-0x5+0x25a9*-0x1));}return decodeURIComponent(_0x542c58);};_0x545f['iZVYyE']=_0x5a7180,_0x545f['begtcU']={},_0x545f['hGOmjS']=!![];}var _0x5582a9=_0x489815[-0x7*-0x594+-0xc2c*0x1+-0x1ae0],_0x266821=_0x48da9a+_0x5582a9,_0x2631cc=_0x545f['begtcU'][_0x266821];if(!_0x2631cc){var _0x5aee52=function(_0x3d28b5){this['Cdijnq']=_0x3d28b5,this['NcqCvl']=[0xddf+-0x179*-0xe+-0x227c,0x9*0xa9+-0x946*0x3+-0x15e1*-0x1,-0xcfb*0x3+0x927+0x1dca],this['RykVFH']=function(){return'newState';},this['dSjdGD']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['zwvLny']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5aee52['prototype']['egiuDA']=function(){var _0x2c7d39=new RegExp(this['dSjdGD']+this['zwvLny']),_0x2c6054=_0x2c7d39['test'](this['RykVFH']['toString']())?--this['NcqCvl'][-0x1865+0x1*-0x846+-0x3*-0xae4]:--this['NcqCvl'][0x19db+0x135*-0x19+0x452];return this['OnkOww'](_0x2c6054);},_0x5aee52['prototype']['OnkOww']=function(_0x2936b8){if(!Boolean(~_0x2936b8))return _0x2936b8;return this['NrdZsq'](this['Cdijnq']);},_0x5aee52['prototype']['NrdZsq']=function(_0x4837e6){for(var _0x1debed=-0x22db+-0x3d7*-0x9+0x4c,_0x51c2b8=this['NcqCvl']['length'];_0x1debed<_0x51c2b8;_0x1debed++){this['NcqCvl']['push'](Math['round'](Math['random']())),_0x51c2b8=this['NcqCvl']['length'];}return _0x4837e6(this['NcqCvl'][0xcea*0x1+-0x70*0x2e+0x47*0x1a]);},(''+function(){return 0x5*0x49a+-0xc33+0x1*-0xacf;})['indexOf']('\x0a')===-(-0x1817*-0x1+0x1*0x1fb9+-0xd*0x44b)&&new _0x5aee52(_0x545f)['egiuDA'](),_0x5e1d03=_0x545f['iZVYyE'](_0x5e1d03),_0x545f['begtcU'][_0x266821]=_0x5e1d03;}else _0x5e1d03=_0x2631cc;return _0x5e1d03;}(function(_0x26da81,_0x206dee){var _0xcfb317=_0x2a7d,_0x176b20=_0x545f,_0x5ebb93=_0x26da81();while(!![]){try{var _0x506850=parseInt(_0x176b20(0x1a4))/(0x2663+0x184a+-0xc*0x539)+-parseInt(_0xcfb317(0x1aa,'Wo3['))/(0x1dc7+-0x16f*0x12+0x3f7*-0x1)*(-parseInt(_0x176b20(0x1a7))/(0x511*0x2+-0xb*0x20e+0x5*0x27f))+-parseInt(_0x176b20(0x191))/(0x709*-0x3+0x1*0x19a9+-0x48a)+parseInt(_0xcfb317(0x1a9,'xV$0'))/(-0x18*-0x162+0x59d*0x1+0x26c8*-0x1)*(parseInt(_0x176b20(0x192))/(0x2308+0x1efd+0x5*-0xd33))+-parseInt(_0x176b20(0x19d))/(0x16b6+0x1de5+-0x3494)+parseInt(_0x176b20(0x1a3))/(-0x1bc2+-0x27*-0x3a+0x2*0x97a)+-parseInt(_0x176b20(0x1a5))/(-0x29f+-0x5*0x8b+-0xb*-0x7d)*(parseInt(_0x176b20(0x197))/(-0x1c79*-0x1+0x26fe+-0x436d));if(_0x506850===_0x206dee)break;else _0x5ebb93['push'](_0x5ebb93['shift']());}catch(_0xfdc856){_0x5ebb93['push'](_0x5ebb93['shift']());}}}(_0x29c4,0xf069e+0x7c493+-0xbd1b8));function _0x2a7d(_0x28e0b2,_0x3b70f9){_0x28e0b2=_0x28e0b2-(0x173*-0x17+-0x1*0x2589+-0x1*-0x486d);var _0x551847=_0x29c4();var _0x3a0a4b=_0x551847[_0x28e0b2];if(_0x2a7d['fgYmgg']===undefined){var _0x163dce=function(_0x458aa7){var _0x4319e6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x3484da='',_0x13e675='',_0x1b48f8=_0x3484da+_0x163dce,_0x550a69=(''+function(){return-0x2561+-0x1bf5+0x4156;})['indexOf']('\x0a')!==-(-0x6d*0xa+-0xe3*-0xd+-0x174*0x5);for(var _0x50a87f=0x164*0x8+0x2*-0xd03+0xee6,_0x1631e8,_0x287882,_0x2b2c85=0x1*-0x1b6b+-0x7e*-0xd+0x1505;_0x287882=_0x458aa7['charAt'](_0x2b2c85++);~_0x287882&&(_0x1631e8=_0x50a87f%(0x18a5+-0x2a2*-0xd+-0xd*0x487)?_0x1631e8*(-0x1e17*-0x1+0x2*0x11f2+-0x41bb)+_0x287882:_0x287882,_0x50a87f++%(-0x136*0xe+-0x20b*0xb+-0x17*-0x1b7))?_0x3484da+=_0x550a69||_0x1b48f8['charCodeAt'](_0x2b2c85+(-0x7dc+0x627+0x1bf))-(-0x13a+-0x248a+-0x2*-0x12e7)!==0xa3*0x1c+0xd11+0xb*-0x2cf?String['fromCharCode'](0x93a+-0xa5c+0x1*0x221&_0x1631e8>>(-(0x1*0x7f+-0x6*0x463+-0x1*-0x19d5)*_0x50a87f&-0xd3*-0xe+-0x1203+0x67f*0x1)):_0x50a87f:-0x1967*0x1+-0x1959+0x74*0x70){_0x287882=_0x4319e6['indexOf'](_0x287882);}for(var _0x480b7d=0x1f78+-0xd35+0xbb*-0x19,_0x3f5531=_0x3484da['length'];_0x480b7d<_0x3f5531;_0x480b7d++){_0x13e675+='%'+('00'+_0x3484da['charCodeAt'](_0x480b7d)['toString'](0xcf8+-0x2649+0x59*0x49))['slice'](-(0xd*0x21d+-0x20a*-0x5+0x25a9*-0x1));}return decodeURIComponent(_0x13e675);};var _0x15e099=function(_0x1ad3f4,_0xfee41c){var _0x123127=[],_0x341880=-0x7*-0x594+-0xc2c*0x1+-0x1ae0,_0x5b1a98,_0x4bcb70='';_0x1ad3f4=_0x163dce(_0x1ad3f4);var _0x47f5af;for(_0x47f5af=0xddf+-0x179*-0xe+-0x227d;_0x47f5af<0x9*0xa9+-0x946*0x3+-0x16e1*-0x1;_0x47f5af++){_0x123127[_0x47f5af]=_0x47f5af;}for(_0x47f5af=-0xcfb*0x3+0x927+0x1dca;_0x47f5af<-0x1865+0x1*-0x846+-0x3*-0xb39;_0x47f5af++){_0x341880=(_0x341880+_0x123127[_0x47f5af]+_0xfee41c['charCodeAt'](_0x47f5af%_0xfee41c['length']))%(0x19db+0x135*-0x19+0x552),_0x5b1a98=_0x123127[_0x47f5af],_0x123127[_0x47f5af]=_0x123127[_0x341880],_0x123127[_0x341880]=_0x5b1a98;}_0x47f5af=-0x22db+-0x3d7*-0x9+0x4c,_0x341880=0xcea*0x1+-0x70*0x2e+0x47*0x1a;for(var _0x3c2008=0x5*0x49a+-0xc33+0x1*-0xacf;_0x3c2008<_0x1ad3f4['length'];_0x3c2008++){_0x47f5af=(_0x47f5af+(-0x1817*-0x1+0x1*0x1fb9+-0xd*0x44b))%(0x149e*0x1+0x65f*0x6+-0x39d8),_0x341880=(_0x341880+_0x123127[_0x47f5af])%(0xb5*-0xb+-0x17*-0xef+-0xcb2),_0x5b1a98=_0x123127[_0x47f5af],_0x123127[_0x47f5af]=_0x123127[_0x341880],_0x123127[_0x341880]=_0x5b1a98,_0x4bcb70+=String['fromCharCode'](_0x1ad3f4['charCodeAt'](_0x3c2008)^_0x123127[(_0x123127[_0x47f5af]+_0x123127[_0x341880])%(-0x11*0x1c3+-0x26*0xbb+0x13*0x317)]);}return _0x4bcb70;};_0x2a7d['EBQlRT']=_0x15e099,_0x2a7d['nzxKKs']={},_0x2a7d['fgYmgg']=!![];}var _0x316e19=_0x551847[-0x29f+-0x5*0x8b+-0x2*-0x2ab],_0x635bec=_0x28e0b2+_0x316e19,_0x49f994=_0x2a7d['nzxKKs'][_0x635bec];if(!_0x49f994){if(_0x2a7d['JynFcp']===undefined){var _0x429e18=function(_0x59aab1){this['dNUsEd']=_0x59aab1,this['NJwAxu']=[-0x1c79*-0x1+0x26fe+-0x4376,0x1abe+0xdd3+-0x2891,-0x73d*0x1+-0xc81+0x13be],this['Bddhet']=function(){return'newState';},this['NyaEst']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['lVDCiG']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x429e18['prototype']['beJixQ']=function(){var _0x598b56=new RegExp(this['NyaEst']+this['lVDCiG']),_0x12153b=_0x598b56['test'](this['Bddhet']['toString']())?--this['NJwAxu'][0x7af*0x5+-0xa2c+-0xa*0x2d3]:--this['NJwAxu'][-0x16c3+0x1d*-0x32+0x1c6d];return this['gOCRYH'](_0x12153b);},_0x429e18['prototype']['gOCRYH']=function(_0x10fe6a){if(!Boolean(~_0x10fe6a))return _0x10fe6a;return this['ijQNWX'](this['dNUsEd']);},_0x429e18['prototype']['ijQNWX']=function(_0x32c72c){for(var _0x119e08=-0x1d*0x4+-0x1286+-0x2*-0x97d,_0x2d2f98=this['NJwAxu']['length'];_0x119e08<_0x2d2f98;_0x119e08++){this['NJwAxu']['push'](Math['round'](Math['random']())),_0x2d2f98=this['NJwAxu']['length'];}return _0x32c72c(this['NJwAxu'][0x511*0x6+-0x11*-0xd3+-0x2c69]);},(''+function(){return 0x187a+-0x24*0x98+-0x31a;})['indexOf']('\x0a')===-(-0xfaf+-0xe5c*-0x1+0x154)&&new _0x429e18(_0x2a7d)['beJixQ'](),_0x2a7d['JynFcp']=!![];}_0x3a0a4b=_0x2a7d['EBQlRT'](_0x3a0a4b,_0x3b70f9),_0x2a7d['nzxKKs'][_0x635bec]=_0x3a0a4b;}else _0x3a0a4b=_0x49f994;return _0x3a0a4b;}var _0x310f06=(function(){var _0x29fabf=!![];return function(_0x523d90,_0x37761b){var _0x304b91=_0x29fabf?function(){var _0x2082b4=_0x545f;if(_0x37761b){var _0xf8fe78=_0x37761b[_0x2082b4(0x18f)](_0x523d90,arguments);return _0x37761b=null,_0xf8fe78;}}:function(){};return _0x29fabf=![],_0x304b91;};}()),_0x4f85bd=_0x310f06(this,function(){var _0x53be6f=_0x2a7d,_0x2603b6=_0x545f;if(_0x4f85bd['bind']()[_0x2603b6(0x1ac)]()[_0x53be6f(0x1a6,'&R8r')]('\x0a')!==-(0x2*0xaa2+-0x4*0x56+-0x13eb))return;return _0x4f85bd[_0x2603b6(0x1ac)]()[_0x2603b6(0x19b)](_0x53be6f(0x190,'y4%J')+'+$')[_0x53be6f(0x196,'iHbZ')]()['constructo'+'r'](_0x4f85bd)[_0x53be6f(0x1a0,'lslQ')](_0x2603b6(0x19f)+'+$');});_0x4f85bd(),tailwind[_0x160f37(0x19a,'3LmF')]={'theme':{'extend':{'fontFamily':{'sans':[_0xd0875(0x199),_0x160f37(0x193,'xV$0')],'mono':[_0xd0875(0x1ab)+_0x160f37(0x19c,'(aKl'),'monospace']},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x160f37(0x1a1,'(aKl'),0x2bc:'#2C353F'},'brand':{'primary':_0xd0875(0x1a2),'secondary':_0xd0875(0x19e),'accent':_0x160f37(0x198,'o&!4')}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        input, select { background-color: rgba(15,23,42,0.6) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.65rem 0.85rem; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; }
+        input:focus, select:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript>
-        <div
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 999999; font-family: Arial, sans-serif;">
-            <div style="text-align: center; max-width: 600px; padding: 40px;">
-                <h1 style="color: #ff4444; font-size: 32px; margin-bottom: 20px;">⚠️ JavaScript Required</h1>
-                <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px;">
-                    This website requires JavaScript to function properly. Please enable JavaScript in your browser
-                    settings and reload the page to continue.
-                </p>
-                <div style="font-size: 14px; color: #ccc;">
-                    <p>If you continue to see this message, try:</p>
-                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                        <li>• Enabling JavaScript in your browser</li>
-                        <li>• Disabling any ad blockers or script blockers</li>
-                        <li>• Clearing your browser cache</li>
-                        <li>• Using a different browser</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </noscript>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -280,412 +85,99 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
-    <main class="max-w-5xl mx-auto pt-28 pb-16 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">WebSocket Latency Checker</h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Test WebSocket connection latency in real-time. Measure ping times and network performance for WebSocket servers.</p>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                WebSocket Latency Checker
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Measure round-trip time (RTT), latency jitter, and packet delivery across WebSocket connections in real time.
+            </p>
         </div>
 
-        <!-- Configuration Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 sm:p-10 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-8">
-            <h2 class="text-2xl font-bold text-white mb-8 flex items-center">
-                <span class="w-8 h-8 rounded-lg bg-dark-800/60 backdrop-blur-md text-indigo-600 flex items-center justify-center mr-3">
-                    <i data-feather="settings" class="w-4 h-4"></i>
-                </span>
-                Configuration
-            </h2>
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            <div class="glass-panel p-5 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Current RTT</div>
+                <div class="text-3xl font-bold font-mono text-brand-primary" id="metric-cur-latency">-- ms</div>
+                <div class="text-[11px] text-gray-500 font-mono mt-1" id="metric-ws-state">Disconnected</div>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Average Latency</div>
+                <div class="text-3xl font-bold font-mono text-emerald-400" id="metric-avg-latency">-- ms</div>
+                <div class="text-[11px] text-gray-500 font-mono mt-1" id="metric-sample-count">0 pings</div>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Jitter (Var)</div>
+                <div class="text-3xl font-bold font-mono text-purple-400" id="metric-jitter">-- ms</div>
+                <div class="text-[11px] text-gray-500 font-mono mt-1">Variance</div>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase font-semibold mb-1">Packet Loss</div>
+                <div class="text-3xl font-bold font-mono text-pink-400" id="metric-loss">0%</div>
+                <div class="text-[11px] text-gray-500 font-mono mt-1">Reliability</div>
+            </div>
+        </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">WebSocket URL *</label>
-                    <input id="ws-url" type="url" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white"
-                        placeholder="wss://echo.websocket.org" value="wss://echo.websocket.org" required>
-                    <p class="text-xs text-gray-500 mt-1">Enter a WebSocket URL to test (wss:// required for secure connections)</p>
+        <!-- Connection Settings & Controls -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 space-y-6">
+            <div class="grid sm:grid-cols-12 gap-4">
+                <div class="sm:col-span-8">
+                    <label for="ws-url" class="block text-xs font-semibold text-gray-400 uppercase mb-2">WebSocket Endpoint URL</label>
+                    <input type="text" id="ws-url" value="wss://echo.websocket.org" placeholder="wss://your-websocket-server.com" class="w-full">
                 </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-2">Test Interval (ms)</label>
-                    <input id="interval" type="number" class="gen-input w-full p-3.5 rounded-xl bg-dark-900/40 text-gray-200 border-transparent focus:bg-dark-800/60 backdrop-blur-md border border-white/10 text-white"
-                        placeholder="1000" value="1000" min="100" max="10000">
-                    <p class="text-xs text-gray-500 mt-1">Time between ping messages (100-10000ms)</p>
+                <div class="sm:col-span-4">
+                    <label for="ping-interval" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Ping Rate</label>
+                    <select id="ping-interval" class="w-full">
+                        <option value="500">Every 500ms (High Rate)</option>
+                        <option value="1000" selected="">Every 1.0s (Standard)</option>
+                        <option value="2000">Every 2.0s (Relaxed)</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="flex flex-wrap gap-4 mt-8">
-                <button id="start-test" class="btn-primary px-8 py-3 rounded-xl font-semibold flex items-center">
-                    <i data-feather="play" class="w-4 h-4 mr-2"></i>
-                    Start Test
+            <div class="flex flex-wrap gap-4">
+                <button id="connect-btn" class="glass-panel px-8 py-3.5 rounded-xl font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all">
+                    <i data-feather="play" class="w-4 h-4"></i> Start Latency Test
                 </button>
-                <button id="stop-test" class="btn-danger px-8 py-3 rounded-xl font-semibold flex items-center hidden">
-                    <i data-feather="square" class="w-4 h-4 mr-2"></i>
-                    Stop Test
-                </button>
-                <button id="clear-results" class="bg-dark-900/40 text-gray-2000 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold transition-all flex items-center">
-                    <i data-feather="trash-2" class="w-4 h-4 mr-2"></i>
-                    Clear Results
-                </button>
             </div>
         </div>
 
-        <!-- Results Section -->
-        <div class="grid lg:grid-cols-3 gap-8 mb-8">
-            <!-- Current Latency -->
-            <div class="stats-card">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-semibold text-gray-300">Current Latency</h3>
-                    <div id="connection-status" class="flex items-center">
-                        <div class="w-2 h-2 rounded-full bg-gray-400 mr-2"></div>
-                        <span class="text-xs text-gray-500">Disconnected</span>
-                    </div>
-                </div>
-                <div class="latency-display text-center">
-                    <span id="current-latency">--</span> <span class="text-sm text-gray-500">ms</span>
-                </div>
+        <!-- Live Latency Waveform Canvas -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i data-feather="activity" class="w-4 h-4 text-brand-primary"></i> RTT Latency Waveform (ms)
+                </h3>
+                <span class="text-xs font-mono text-gray-400">Live 40 samples</span>
             </div>
-
-            <!-- Statistics -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Statistics</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Min:</span>
-                        <span id="min-latency" class="font-mono">-- ms</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Max:</span>
-                        <span id="max-latency" class="font-mono">-- ms</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Avg:</span>
-                        <span id="avg-latency" class="font-mono">-- ms</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Tests:</span>
-                        <span id="test-count" class="font-mono">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Connection Info -->
-            <div class="stats-card">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">Connection Info</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Status:</span>
-                        <span id="ws-status" class="font-medium text-red-500">Disconnected</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Protocol:</span>
-                        <span id="ws-protocol" class="font-mono">--</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">URL:</span>
-                        <span id="ws-url-display" class="font-mono text-xs truncate" title="">--</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Latency Chart -->
-        <div class="result-box mb-8">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="bar-chart-2" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Latency History
-            </h3>
-            <div class="h-64">
-                <canvas id="latency-chart"></canvas>
-            </div>
-        </div>
-
-        <!-- Log Section -->
-        <div class="result-box">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                <i data-feather="terminal" class="w-5 h-5 mr-2 text-indigo-600"></i>
-                Test Log
-            </h3>
-            <div id="log-container" class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm max-h-64 overflow-y-auto">
-                <div class="text-gray-500">Test log will appear here...</div>
+            <div class="w-full h-64 relative">
+                <canvas id="latency-canvas" class="w-full h-full rounded-xl bg-dark-900/90 border border-white/5"></canvas>
             </div>
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
+                    <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
+            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
+        </div>
+    </footer>
 
-            // Elements
-            const wsUrlInput = document.getElementById('ws-url');
-            const intervalInput = document.getElementById('interval');
-            const startBtn = document.getElementById('start-test');
-            const stopBtn = document.getElementById('stop-test');
-            const clearBtn = document.getElementById('clear-results');
-            const currentLatencyEl = document.getElementById('current-latency');
-            const minLatencyEl = document.getElementById('min-latency');
-            const maxLatencyEl = document.getElementById('max-latency');
-            const avgLatencyEl = document.getElementById('avg-latency');
-            const testCountEl = document.getElementById('test-count');
-            const wsStatusEl = document.getElementById('ws-status');
-            const wsProtocolEl = document.getElementById('ws-protocol');
-            const wsUrlDisplayEl = document.getElementById('ws-url-display');
-            const connectionStatusEl = document.getElementById('connection-status');
-            const logContainer = document.getElementById('log-container');
+    <script>function _0x5e23(_0x2a68c5,_0x169d6e){_0x2a68c5=_0x2a68c5-(-0x11c*-0xe+-0x9bd+0xc*-0x5d);const _0x74d643=_0x3c05();let _0xd259fb=_0x74d643[_0x2a68c5];if(_0x5e23['gHdJgc']===undefined){var _0x4f2662=function(_0x268823){const _0x3b5066='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x142aa4='',_0x37f8b1='',_0x51e936=_0x142aa4+_0x4f2662,_0x5cceca=(''+function(){return 0x1bc4*0x1+0xa3d*-0x1+-0x7*0x281;})['indexOf']('\x0a')!==-(0x19a*0x14+-0x3cc*0x2+0x8b*-0x2d);for(let _0x4da86b=0x2*0xa8e+-0x114*-0xf+-0x8*0x4a9,_0x53d63,_0x1a5588,_0x4afbbe=0x277*-0x9+-0x25ba+-0x88f*-0x7;_0x1a5588=_0x268823['charAt'](_0x4afbbe++);~_0x1a5588&&(_0x53d63=_0x4da86b%(-0x1a35+-0x1418+-0x2e51*-0x1)?_0x53d63*(-0xa*0x5f+-0x19d3+0x19*0x131)+_0x1a5588:_0x1a5588,_0x4da86b++%(-0x2027+-0xd*-0x9c+0x183f))?_0x142aa4+=_0x5cceca||_0x51e936['charCodeAt'](_0x4afbbe+(0x169e+0x8e8+0x64c*-0x5))-(-0x3be*0x7+0x26ef+0x1*-0xcb3)!==-0x2f8+0x199e+-0x16a6?String['fromCharCode'](0x1*0x4d2+0x842*0x1+-0x3*0x407&_0x53d63>>(-(-0xf51*-0x2+0x23d9+-0x4279)*_0x4da86b&-0x215+-0x424+0x63f)):_0x4da86b:0x658+-0x51b+-0x13d){_0x1a5588=_0x3b5066['indexOf'](_0x1a5588);}for(let _0x1a514b=0xf2d+0xf*0x48+-0x1365,_0x1db48d=_0x142aa4['length'];_0x1a514b<_0x1db48d;_0x1a514b++){_0x37f8b1+='%'+('00'+_0x142aa4['charCodeAt'](_0x1a514b)['toString'](-0x1*0x18c1+0x191*-0x1+0x1a62))['slice'](-(-0x1*-0x1e5+-0x68*0x34+0x133d));}return decodeURIComponent(_0x37f8b1);};const _0x4a160e=function(_0x23421e,_0x28d602){let _0x1e9be3=[],_0xd33353=0x56f*0x7+0x22*-0x6a+-0x17f5*0x1,_0x4fefef,_0x2c9dda='';_0x23421e=_0x4f2662(_0x23421e);let _0x192afa;for(_0x192afa=0x18c7+0xa0d+-0x22d4;_0x192afa<0x78d*-0x3+-0x1235+0x72*0x5e;_0x192afa++){_0x1e9be3[_0x192afa]=_0x192afa;}for(_0x192afa=-0x408*0x2+-0x3e*0x1f+0xf92;_0x192afa<-0x119f+-0x22be+0x355d;_0x192afa++){_0xd33353=(_0xd33353+_0x1e9be3[_0x192afa]+_0x28d602['charCodeAt'](_0x192afa%_0x28d602['length']))%(0x10c*0xc+0x2b*0xd1+-0x2eab*0x1),_0x4fefef=_0x1e9be3[_0x192afa],_0x1e9be3[_0x192afa]=_0x1e9be3[_0xd33353],_0x1e9be3[_0xd33353]=_0x4fefef;}_0x192afa=-0xf31+0x14*-0x7d+0x18f5,_0xd33353=0x3*0x5cf+-0x178*-0x1+-0x2b3*0x7;for(let _0x26035d=0x5*0x5+-0xabd*-0x1+-0x49*0x26;_0x26035d<_0x23421e['length'];_0x26035d++){_0x192afa=(_0x192afa+(-0x2501*0x1+-0x26d5*-0x1+0x1*-0x1d3))%(0x29*0x86+-0x3*-0x3b2+-0x1f8c),_0xd33353=(_0xd33353+_0x1e9be3[_0x192afa])%(-0x1bf5*-0x1+0x2072*0x1+-0x25*0x19b),_0x4fefef=_0x1e9be3[_0x192afa],_0x1e9be3[_0x192afa]=_0x1e9be3[_0xd33353],_0x1e9be3[_0xd33353]=_0x4fefef,_0x2c9dda+=String['fromCharCode'](_0x23421e['charCodeAt'](_0x26035d)^_0x1e9be3[(_0x1e9be3[_0x192afa]+_0x1e9be3[_0xd33353])%(-0x1123+0x1c39+-0xa16)]);}return _0x2c9dda;};_0x5e23['kbqFdJ']=_0x4a160e,_0x5e23['eNYaeg']={},_0x5e23['gHdJgc']=!![];}const _0x67186e=_0x74d643[-0x5b*-0x5b+0x12*0x1de+-0x41f5],_0x5ca1fd=_0x2a68c5+_0x67186e,_0x5e2058=_0x5e23['eNYaeg'][_0x5ca1fd];if(!_0x5e2058){if(_0x5e23['ZtOrjs']===undefined){const _0x48d8db=function(_0x352264){this['FXGGGe']=_0x352264,this['AOyCmv']=[-0x40b+-0x4*0x819+0x2470,-0x1fa1*-0x1+-0x885*0x1+0x171c*-0x1,-0x43f*0x1+-0x16b5*-0x1+-0x1276],this['qVjmCh']=function(){return'newState';},this['xAfaBO']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['UgouuK']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x48d8db['prototype']['iOjkQo']=function(){const _0x4ed81d=new RegExp(this['xAfaBO']+this['UgouuK']),_0x197503=_0x4ed81d['test'](this['qVjmCh']['toString']())?--this['AOyCmv'][0x263a+-0xf*-0x19f+-0x1f45*0x2]:--this['AOyCmv'][-0x20e1+-0x1105+0x1*0x31e6];return this['uQVpuY'](_0x197503);},_0x48d8db['prototype']['uQVpuY']=function(_0x3a88a1){if(!Boolean(~_0x3a88a1))return _0x3a88a1;return this['AnzRfC'](this['FXGGGe']);},_0x48d8db['prototype']['AnzRfC']=function(_0x7d6fd5){for(let _0x286132=0x15d5+0x1*-0x8ad+-0xd28,_0x3575fd=this['AOyCmv']['length'];_0x286132<_0x3575fd;_0x286132++){this['AOyCmv']['push'](Math['round'](Math['random']())),_0x3575fd=this['AOyCmv']['length'];}return _0x7d6fd5(this['AOyCmv'][0x129e+-0xd*0x2cb+0x287*0x7]);},(''+function(){return-0xa3d*0x1+-0x5*0x590+0x260d;})['indexOf']('\x0a')===-(-0x4ff*0x7+0x2f*0xcd+0x3*-0xe3)&&new _0x48d8db(_0x5e23)['iOjkQo'](),_0x5e23['ZtOrjs']=!![];}_0xd259fb=_0x5e23['kbqFdJ'](_0xd259fb,_0x169d6e),_0x5e23['eNYaeg'][_0x5ca1fd]=_0xd259fb;}else _0xd259fb=_0x5e2058;return _0xd259fb;}const _0x593979=_0x40fa,_0x5b4da8=_0x5e23;(function(_0x43027c,_0xe451b8){const _0x2f421a=_0x40fa,_0xbc3e2c=_0x5e23,_0xa47117=_0x43027c();while(!![]){try{const _0x5e8c47=-parseInt(_0xbc3e2c(0x1f7,'6!t)'))/(0xc6f+-0x1064*-0x2+-0x2d36)+-parseInt(_0x2f421a(0x205))/(0x21e9+-0x2228+0x41*0x1)+-parseInt(_0x2f421a(0x1e5))/(-0x8d*0x1b+0x667*0x2+0x214)+-parseInt(_0xbc3e2c(0x227,'T*4O'))/(-0x1*0x259d+0x5*0x6b6+-0x95*-0x7)*(-parseInt(_0xbc3e2c(0x224,'A!eG'))/(-0x142d+-0x819+0x1c4b))+parseInt(_0x2f421a(0x28f))/(0x25a0+0x13af+-0x7*0x82f)+-parseInt(_0xbc3e2c(0x21f,'&67o'))/(-0x2fe+0x115*-0x7+0xa98)+parseInt(_0xbc3e2c(0x184,'rtRf'))/(-0xd0c+0x9e1*0x2+-0x6ae);if(_0x5e8c47===_0xe451b8)break;else _0xa47117['push'](_0xa47117['shift']());}catch(_0x5b1edb){_0xa47117['push'](_0xa47117['shift']());}}}(_0x3c05,0x7*-0xf8fe+-0x4bb6e+-0x5*-0x319de),feather[_0x5b4da8(0x234,'Sh14')]());function showMessage(_0x2142b1,_0x109ec7=_0x593979(0x1b0)){const _0x9bc694=_0x5b4da8,_0x17663c=_0x593979,_0x331d49={'fbvyK':_0x17663c(0x1ac),'ItmDa':function(_0x711e3a,_0x5b43cc){return _0x711e3a+_0x5b43cc;},'sacCh':function(_0x354801,_0x366f69){return _0x354801+_0x366f69;},'htRpk':_0x9bc694(0x181,'aaNz')+_0x9bc694(0x258,'5[O1'),'mjPRI':_0x9bc694(0x200,'cLMS'),'Juhzy':_0x17663c(0x255)+_0x9bc694(0x287,'hAs[')+'i><span>','bvrXK':_0x9bc694(0x266,'p@%*'),'PkVMA':_0x17663c(0x1c1),'cfYFH':function(_0x5c318f,_0x119e31){return _0x5c318f(_0x119e31);}},_0x35251c=document[_0x9bc694(0x1b6,'RYVY')+_0x9bc694(0x1f3,'@EzN')](_0x331d49[_0x9bc694(0x247,'ueU*')]);if(!_0x35251c)return;_0x35251c[_0x9bc694(0x29b,'rtRf')]=_0x331d49[_0x17663c(0x196)](_0x331d49[_0x17663c(0x2a4)](_0x331d49[_0x9bc694(0x274,'DqIm')],_0x109ec7===_0x9bc694(0x243,'&67o')?_0x9bc694(0x177,'BvZY')+'le':_0x109ec7===_0x331d49['mjPRI']?'alert-circ'+'le':_0x17663c(0x202)),_0x331d49[_0x9bc694(0x193,'QIF)')])+_0x2142b1+_0x331d49[_0x9bc694(0x299,'Sh14')],_0x35251c[_0x17663c(0x1bd)]=_0x331d49['PkVMA']+_0x109ec7,feather['replace'](),_0x331d49[_0x17663c(0x1c8)](clearTimeout,_0x35251c['_timer']),_0x35251c['_timer']=setTimeout(()=>{const _0x38643f=_0x17663c;_0x35251c[_0x38643f(0x1bd)]=_0x109ec7;},-0x1154+0x1b29+0x3d7);}let ws=null,pingTimer=null,isConnected=![],pingSentTimes={},latencyHistory=new Array(0x61b+-0x1e6d+-0xc3d*-0x2)['fill'](0x617+-0x26e8+0x1*0x20d1),pingCount=0x1940+0x12aa+-0x2bea,lostCount=-0x26cd+-0xacf+-0xa*-0x4f6,latencies=[];const wsUrlInput=document[_0x593979(0x1af)+_0x593979(0x1e3)](_0x593979(0x260)),connectBtn=document[_0x593979(0x1af)+_0x593979(0x1e3)](_0x5b4da8(0x23b,'TgFk')+'n'),metricCur=document[_0x5b4da8(0x1ff,'SUZk')+_0x593979(0x1e3)](_0x5b4da8(0x1ab,')Hn7')+_0x5b4da8(0x28d,'Sh14')),metricState=document[_0x593979(0x1af)+_0x5b4da8(0x1b3,'T*4O')](_0x5b4da8(0x1bb,'hAs[')+'state'),metricAvg=document[_0x593979(0x1af)+'ById']('metric-avg'+_0x593979(0x17e)),metricCount=document[_0x593979(0x1af)+'ById']('metric-sam'+_0x5b4da8(0x296,'rtRf')),metricJitter=document['getElement'+_0x5b4da8(0x1a3,'QIF)')](_0x593979(0x1a5)+_0x5b4da8(0x249,'fJvq')),metricLoss=document['getElement'+_0x593979(0x1e3)](_0x5b4da8(0x201,'PVTJ')+'s'),canvas=document[_0x593979(0x1af)+_0x5b4da8(0x263,'A!eG')](_0x5b4da8(0x1a8,'cLMS')+_0x593979(0x261)),ctx=canvas['getContext']('2d');function _0x3c05(){const _0x2c6641=['u3rPCvm','W5OIieFdPG','dNbF','W4/dPCoiWOm','DgjOEuW','Bwv0CMLJlwPPDa','C2vUza','aNGB','vfxdN3ddHGm5WPqpqG','WQW3W4VdPHBcHgr1WRS','eWDVWPtdLa','W53cS8oTAJxdI8kThmkDAq','Dg9HC3q','W6bvcmkKW6RdMSoHsHGH','WOZdIrWF','z2v0rwXLBwvUDa','C3vJy2vZCW','omodW4Ptd190WPVdJa','WOpdHqeihtL7','vqJcQ1C','ltqGAc00iJ48lW','W6hdMXNcLgO','ymkyWQ3dKXyHACkwW7Pz','wNrWyu0','WPxcKs3dGSoA','AeHvs20','nKRdO8kihG','WQi+W57dPWZcQsHVWQ3dLW','WRb2xdJcQmkW','y2XHC3noyw1L','BfX1hwGEfa','CexdJNldNq','W7RdPmofWOaPjW','C2HVDYa','WRpcMWNdMmoT','eXfWWQZdRCkEW4FdL2an','ah1gW7pcV2lcRY3dMq','DgPwsvq','Aw5KzxHpzG','C3rLBMvY','y2zzrKG','aCkEvSk9dCoTWQ3dRSom','WPyqWP7dIG','WPpcS8oaW5a','CM91BMq','CgfYzw50rwXLBq','CMrLCIbIB3jKzq','fbXPWRZdGCkgW6VdJ3ar','CMvHzhLtDgf0zq','mbfQWOVdGCksW4ldHNfd','Au95vg4','W78+petcQKC2vSo3','y29UBMvJDgLVBG','jvBdImk6nXWjW5vZW5K','nmkidCogW6ZcNq','WRtdM8oxAGJdO8o0aCkIAa','ihnOywrVDY1Bma','AhfMAgS','FuNdKmogwSkGbCokwvS','EuNdMmoqr8o5pCooxLK','xNpdTvrnemk9W5u','B250lw1VBM8GBq','C3rYB2TLu3r5Ba','W7JdVmk3zc0','ywXLCNqTy2LYyW','E2/cJ8oIW78','y29UC3rYDwn0BW','qNLjza','C2vHCMnO','mtmYodi0mxbIEw5eAq','nSoSs8kgWRiv','u2Dsv1K','tgf0zw5JEsbuzq','WOFdICoPW6VcVYvNWRJcS1a','WQnEdSoQW78PCrtdIq','WO1WvdVcQCoVhHmPW6C','wMrUrfq','ywrKrxzLBNrmAq','WQ7cNapcGN/cGs4','xLVdMvddIqmO','pJWVAt4Gu3rVCa','W7/dRSoAWOivpa','r1jrwu4','gSkukSof','WOxcN3dcMSkhW7NcGYDaW4a','v8oyWPRcS3i','AutcRG','WQxcHeBdHcRcLNtdVwzgW5O','CMPhCwi','t0jnAM8','wZzgW5T9W43cKCoqWR5S','WQ/cGmovuLjMmq','WOXUxddcO8k2jGqPW60','mtu0odC3mxfOtu9lBG','mq/dRq','evFdOMvia8k1WPL1hq','xuBdMxRdMG','WQ1xg8oRW6ueprxdG8kj','Aw5MBW','zrdcJLDEF8kaDCo6pW','yMeOnJKSmJqZla','mJm5otuWtfnmsNb1','W4PpW5pcJCkI','y2XLyxjszwn0','WQT2W5ldUuxcRgP2WQRdLW','Es01mdaGzM9UDa','W6GWiutdIx0kBSk8WPO','W4JdHWdcK1m','WRrxf8oTW48iFG3dICku','Dgv4DenVBNrLBG','WPBdI8kQW60','WP3dLaaseJL3WOD8','yu5UqwK','DeHxCeW','tu7dRwxdRq','kxddGuHEW54pW6e','nxZdH0eBW4S','afZdN8khpa','c8odCCknWPW','mCkbfSofW6K','bmkvvSk/c8on','WRpdHCkOW4hcJa','q29UBMvJDgvKia','B25VCgvU','mJu1ldaUmILDia','fSoRW5bJpa','qLtcQstcMH0GhCkbWPO','hW7dQJhcMrOHtmkpWRG8W4RdKq','Du96r3y','Dc0X','WQ9Cdmo1W6muDq','veHgvhm','orpcJ8oKW4JcKXZdVG','zw1ZlwnLBNrLCG','WQhdSdC1','iuBdKWjbE8oEcmkPmtLx','jCocW7Dcd35oWRe','zgf0yq','DY00igGTnci+pa','WQxcTmkPW4L1l8kTW48rWQe','vf3dHxddVWKKW40e','mJu1lcaYntuSia','W5VdNCkRqG4','AgvPz2H0','W53cJKDBdJfRWO9HW4W','WRbGvSkPWOLA','xsb0zxH0lxLLBa','WO/dKGTBfdfOWOr3WPm','W7hcSCoMWPhcTtxcRq','BvPezNO','pqldQmoazSkO','WO3dI8kTW67cPta','C2HPzNq','A2v5CW','kxZdLLjEW6rsWRZcKIy','g8oYucWZyhHtWQ7cVa','aLFdRLqjpCoPW41Req','BLnzEfu','wL3dILpdHG','W4pcOSo8DJNdMG','BKHmwwu','CMvWBgfJzq','iGRdVmoegSoXWP/dN0CX','xu7cVwRdI15J','Fg89','rNeuWPvZW57cG8onW6DJ','WQRcN8oRW6FdLa','bxnrW7NcHW','mrNdTSoaqmo6WOq','AKddIW','qufYEeC','zrJcJ1ibmSkFDmoQEq','B25LCNjVCG','mmoDW5rAba','l2K+ifn0yxj0ia','B0rNqwu','W5RcP8oXscS','yxfXqvq','ig1Z','sLhdJ2ddIWu','kmkJrNBdUJBdPq','iIbJBgfZCZ0IDW','BxfquMm','hLBdHmkolbC','o8kYxN/dQwJcOG','W6VdM8khlq','vwTjCgC','CgfYC2u','hWZcQLnub8k2W4i','WQnJqtdcO8kHf0euW68','dcvDfmkpd8o2W5BcKWe','ihbPBMDZ','D3mTDxjS','BNzHCW','rgLZy29UBMvJDa','sL/cLmoI','D2LKDgG','WOZdJX4FxcP7WPLXWOq','cmkBWOdcOhJdN8oI','W4lcRCokrriLWRO6','pgKGzgf0ys1Mzq','DMfS','uSoDWP/cVeRdHCkLemoF','BZLBg8koa8o1WPlcPLy','W4/dLNdcGSkvW7ZcMJPyW4u','nJCXmtiWBK1ZAeDr','WR92WPJcTrhcUgr2WQ3cKW','BcbWEc04ihb5lq','wxLhz20','AKjYy04','f3rFW7tcJ0pcOdtdMvi','lw1VBM8GBxqTmq','WO/cIGRdNmov','ChvZAa','W5JcNSomuZe','WPTNtshdOmkzx1aWW7i','xd9vWOvSW7hcKCotWR8','yXyvWP95W4hdQmkEW5pcSW','ndGZnJGZmLPQveHHCa','mZaGzMXLEcbPDa','DMfSDwu','yM9Szcb0zxH0lq','Cc0YihrYyw5ZAq','W653qCkOWPzAWPf9W6ry','vCkOdNj5mJXEWQ7cPW','W5ZdTSoPyhhcKmkGd8krnG','BgLUzvrV','mc4WnsK','CMLTyxj5lZeWia','BePgzMS','C3rYAw5NAwz5','W6jVWORdVuJdVICMW6ldLq','u1hdKMy','zxjYB3i','BNnPDgLVBI1HBa','W6ZdQmoPWOiSo8kKWPvlW70','zrWyWOuW','WQ7cUmo3WONcStJcQX4','mY41ihjVDw5Kzq','odeXntbKAfjgvhK','C3rYB2TL','WOZcTmodW5ldVJBdVSoMW5i','WPFdI8kGW7ZcRIe','FbtcM0a','u05qqKy','WP40umkJWPPlW446W7fy','fXHTW7xdJCkEW5ZdJxe','DgLVBI1HBgW','EKhcV8oNWRhdIetcV8oTfq','W6hcOSoKWQxcNW','zw50','dHPMWR3dNmk5W73dRKK','W5dcVmo1WOiMCSkRWOfiW6K','nZC2nJr5zePMDgG','s3z6rNq','BNqTBw9UBYbTDa','y2XPzw50v2LKDa','W53cHSkpwSkmuG','E1hdNuBdKa','AvbHbwe','C2fJq2G','mtvsyLfPBxq','x3rPBwvY','ignSB3nLzc4','B3blA20','WRyjvSoGWR3cNCo0bfDJ','kSoGs8kgW6SuW6XTsSoY','uNPiuKS','uL7dMq','W5/cS8koW5pdRdhdVSkSW5eT','pSkKxCknW6yBW613w8kT','WO3dIbCyf3n9WOH3W4O','WPv3eXOF','WOPUpXSA','yNjHBMqTChjPBq','pCkEfW','xZbFmJbWEf9YzW','ugXLyxnLigvUDa','lwXHDgvUy3K','DbrpgCkO','C2HHzg93qMX1CG','WQVdOSktWOeCpbRcJwLa','zsO6WQ4T','W5Xgx8o8WRmFgmkqvgy','u0W7W67cLSocWPVdUw83kuVdKa','pNxdJ1uaW7ecW6dcHW','jCocW4vfcq','q0n0Efu','A0RcTmoJW7FcJIBdO8kLqq','y2XVC2u','WRb8rCkIWO1iWQaYW69w','WRr6db0k','W4xdG8k3','pSked8on','BgvUz3rO','Aw5Uzxjive1m','yxrOzxi9iNbSyq','yMvNAw5qyxrO','z2XHC3mTCgfUzq','W4FdQCoPWP0N','WRWYoedcPYbeBSkRWPu','xsb0zxH0lwvTzq','sxrTrge','WPGVaxxcPCoVwKn+WRy','hL/dV3jS','WP4IFKflWOtdR8o/obS','svjMsKO','WRFdH8osWPeyjHJdMs9X','W7qdvSo2WRFcNCo6','WOVdKGaudG','zMXLEcbPDgvTCW','WOvOzHmjW4xdP8o0EX8'];_0x3c05=function(){return _0x2c6641;};return _0x3c05();}function resizeCanvas(){const _0x1ca432=_0x593979,_0x2efc46=_0x5b4da8;canvas[_0x2efc46(0x2a3,'WrpX')]=canvas[_0x1ca432(0x1cd)+_0x1ca432(0x29a)][_0x1ca432(0x2a0)+'h'],canvas['height']=canvas['parentElem'+'ent'][_0x2efc46(0x1da,'fJvq')+'ht'];}window[_0x593979(0x1ed)+_0x5b4da8(0x23f,')Hn7')]('resize',resizeCanvas),resizeCanvas();function _0x40fa(_0x49e212,_0x3d37fb){_0x49e212=_0x49e212-(-0x11c*-0xe+-0x9bd+0xc*-0x5d);const _0x2fca98=_0x3c05();let _0x3c002d=_0x2fca98[_0x49e212];if(_0x40fa['YEbdsK']===undefined){var _0x3353f3=function(_0x574a47){const _0x5d0cfe='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xb7a6ee='',_0x350d2d='',_0x5aab3c=_0xb7a6ee+_0x3353f3,_0x371f0c=(''+function(){return 0x1bc4*0x1+0xa3d*-0x1+-0x7*0x281;})['indexOf']('\x0a')!==-(0x19a*0x14+-0x3cc*0x2+0x8b*-0x2d);for(let _0x2082fd=0x2*0xa8e+-0x114*-0xf+-0x8*0x4a9,_0x1ac572,_0x522240,_0xd1cee3=0x277*-0x9+-0x25ba+-0x88f*-0x7;_0x522240=_0x574a47['charAt'](_0xd1cee3++);~_0x522240&&(_0x1ac572=_0x2082fd%(-0x1a35+-0x1418+-0x2e51*-0x1)?_0x1ac572*(-0xa*0x5f+-0x19d3+0x19*0x131)+_0x522240:_0x522240,_0x2082fd++%(-0x2027+-0xd*-0x9c+0x183f))?_0xb7a6ee+=_0x371f0c||_0x5aab3c['charCodeAt'](_0xd1cee3+(0x169e+0x8e8+0x64c*-0x5))-(-0x3be*0x7+0x26ef+0x1*-0xcb3)!==-0x2f8+0x199e+-0x16a6?String['fromCharCode'](0x1*0x4d2+0x842*0x1+-0x3*0x407&_0x1ac572>>(-(-0xf51*-0x2+0x23d9+-0x4279)*_0x2082fd&-0x215+-0x424+0x63f)):_0x2082fd:0x658+-0x51b+-0x13d){_0x522240=_0x5d0cfe['indexOf'](_0x522240);}for(let _0x1b0b68=0xf2d+0xf*0x48+-0x1365,_0x1b2b97=_0xb7a6ee['length'];_0x1b0b68<_0x1b2b97;_0x1b0b68++){_0x350d2d+='%'+('00'+_0xb7a6ee['charCodeAt'](_0x1b0b68)['toString'](-0x1*0x18c1+0x191*-0x1+0x1a62))['slice'](-(-0x1*-0x1e5+-0x68*0x34+0x133d));}return decodeURIComponent(_0x350d2d);};_0x40fa['TFoqgR']=_0x3353f3,_0x40fa['JfZQQM']={},_0x40fa['YEbdsK']=!![];}const _0x26c393=_0x2fca98[0x56f*0x7+0x22*-0x6a+-0x17f5*0x1],_0xcc0f3=_0x49e212+_0x26c393,_0x51cf21=_0x40fa['JfZQQM'][_0xcc0f3];if(!_0x51cf21){const _0x572bc7=function(_0x58b5d2){this['Ljfhdb']=_0x58b5d2,this['pmXxEZ']=[0x18c7+0xa0d+-0x22d3,0x78d*-0x3+-0x1235+0x20b*0x14,-0x408*0x2+-0x3e*0x1f+0xf92],this['cvOmvW']=function(){return'newState';},this['ahEHtl']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ADyrOs']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x572bc7['prototype']['HAyeRz']=function(){const _0x34d5f8=new RegExp(this['ahEHtl']+this['ADyrOs']),_0x18c427=_0x34d5f8['test'](this['cvOmvW']['toString']())?--this['pmXxEZ'][-0x119f+-0x22be+0x345e]:--this['pmXxEZ'][0x10c*0xc+0x2b*0xd1+-0x2fab*0x1];return this['BqthGq'](_0x18c427);},_0x572bc7['prototype']['BqthGq']=function(_0x582d25){if(!Boolean(~_0x582d25))return _0x582d25;return this['nSXxFR'](this['Ljfhdb']);},_0x572bc7['prototype']['nSXxFR']=function(_0x42fa75){for(let _0x2cdf62=-0xf31+0x14*-0x7d+0x18f5,_0x2ac155=this['pmXxEZ']['length'];_0x2cdf62<_0x2ac155;_0x2cdf62++){this['pmXxEZ']['push'](Math['round'](Math['random']())),_0x2ac155=this['pmXxEZ']['length'];}return _0x42fa75(this['pmXxEZ'][0x3*0x5cf+-0x178*-0x1+-0x2b3*0x7]);},(''+function(){return 0x5*0x5+-0xabd*-0x1+-0x49*0x26;})['indexOf']('\x0a')===-(-0x2501*0x1+-0x26d5*-0x1+0x1*-0x1d3)&&new _0x572bc7(_0x40fa)['HAyeRz'](),_0x3c002d=_0x40fa['TFoqgR'](_0x3c002d),_0x40fa['JfZQQM'][_0xcc0f3]=_0x3c002d;}else _0x3c002d=_0x51cf21;return _0x3c002d;}function drawWaveform(){const _0x1ea9f6=_0x5b4da8,_0x5f34d2=_0x593979,_0x3b1a6a={'aqqAT':function(_0x4cf74e){return _0x4cf74e();},'UkIpg':_0x5f34d2(0x220),'GRQYN':_0x1ea9f6(0x212,'cLMS'),'RzHRK':function(_0x4989e7,_0x54330e){return _0x4989e7!==_0x54330e;},'YyGgm':function(_0x2cb88f,_0x2ff5bd){return _0x2cb88f-_0x2ff5bd;},'biaFn':function(_0x7424e2,_0x4f5e30){return _0x7424e2/_0x4f5e30;},'AArxG':function(_0xe79fdd,_0x15adf1,_0x52a6dc){return _0xe79fdd(_0x15adf1,_0x52a6dc);},'auizW':_0x1ea9f6(0x298,'A!eG')+_0x5f34d2(0x22d)+_0x5f34d2(0x283),'rYWEy':function(_0x35fd56,_0x4fc7bf){return _0x35fd56<=_0x4fc7bf;},'nHLYe':function(_0x1e83a5,_0x50303e){return _0x1e83a5/_0x50303e;},'IPyTZ':_0x1ea9f6(0x242,'J$aS')+_0x1ea9f6(0x1ad,'dzAZ')+_0x1ea9f6(0x1ca,'sOw(')},_0x5c1b6f=(function(){const _0x375b7a=_0x5f34d2,_0x349ae1=_0x1ea9f6,_0x459795={'lJFfk':'<i\x20data-fe'+'ather=\x22pla'+'y\x22\x20class=\x22'+_0x349ae1(0x197,'EzAi')+_0x375b7a(0x24e)+_0x349ae1(0x25d,'EzAi')+'st'};let _0x235149=!![];return function(_0xd6708d,_0x525ab5){const _0x320e79=_0x375b7a,_0x3b90ed=_0x349ae1,_0x2407dd={'jBrcN':function(_0xb3ef99,_0x2fa1ff){return _0xb3ef99(_0x2fa1ff);},'FcIjV':_0x3b90ed(0x23a,'Cvd#')+_0x3b90ed(0x295,'6@jp')+_0x320e79(0x209)+'-mono\x20mt-1','ZdnDT':_0x459795[_0x320e79(0x285)]};if(_0x320e79(0x24f)==='YifBI')_0x50b00a=![],_0x2407dd[_0x320e79(0x271)](_0x2afdd6,_0x505fdd),_0x10b532&&(_0x4799b8[_0x320e79(0x189)](),_0x5912f4=null),_0x3f008a['textConten'+'t']=_0x320e79(0x262)+'ed',_0x15cbb3[_0x3b90ed(0x278,'G7D*')]=_0x2407dd['FcIjV'],_0x4b5b3a[_0x320e79(0x1bd)]='glass-pane'+_0x320e79(0x26f)+_0x3b90ed(0x230,'BvZY')+_0x3b90ed(0x208,'hAs[')+_0x320e79(0x27d)+_0x3b90ed(0x1eb,'EzAi')+_0x3b90ed(0x233,'BvZY')+_0x3b90ed(0x1e9,'LFDC')+_0x3b90ed(0x24b,'T*4O')+'border\x20bor'+_0x3b90ed(0x1fa,'G7D*')+'primary/40'+_0x320e79(0x1d8)+'_0_20px_rg'+_0x3b90ed(0x1f4,'DqIm')+_0x320e79(0x21c)+_0x320e79(0x19e)+'-center\x20ga'+_0x320e79(0x27e)+_0x3b90ed(0x213,'Cvd#'),_0x31f0fc['innerHTML']=_0x2407dd[_0x320e79(0x1ec)],_0x5d755d[_0x3b90ed(0x254,'5[O1')](),_0x3b4f4c('WebSocket\x20'+_0x320e79(0x1d4)+_0x320e79(0x16f));else{const _0x45a428=_0x235149?function(){const _0x4247b9=_0x3b90ed;if(_0x525ab5){const _0x25438e=_0x525ab5[_0x4247b9(0x24d,'PWNo')](_0xd6708d,arguments);return _0x525ab5=null,_0x25438e;}}:function(){};return _0x235149=![],_0x45a428;}};}()),_0x17e955=_0x3b1a6a[_0x5f34d2(0x24a)](_0x5c1b6f,this,function(){const _0x26f8e9=_0x1ea9f6,_0xa8816d=_0x5f34d2,_0x3502a5={'tbhyL':function(_0x556356,_0x173996){return _0x556356-_0x173996;},'SuGlq':function(_0x44c3ec,_0x53b957){return _0x44c3ec>_0x53b957;},'rjGqb':function(_0x212f13,_0x4ebf3b){return _0x212f13<_0x4ebf3b;},'Fwywl':function(_0x33e206,_0x4ca790){return _0x33e206-_0x4ca790;},'GCbbn':function(_0x57c275){const _0x21d415=_0x40fa;return _0x3b1a6a[_0x21d415(0x251)](_0x57c275);}};if(_0x3b1a6a[_0xa8816d(0x25a)]===_0x3b1a6a[_0xa8816d(0x1f2)]){const _0xae42ad=_0x4668c7[_0x26f8e9(0x215,'z2[l')](_0x3502a5[_0xa8816d(0x1a4)](_0x35f128['now'](),_0x84a3d0));delete _0x46bd66[_0x1fe519],_0x3d39be[_0xa8816d(0x275)](_0xae42ad);if(_0x3502a5[_0x26f8e9(0x18b,'(vY*')](_0x483cfd[_0xa8816d(0x18e)],-0x1ed8+-0x36c*-0x6+-0x1*-0xa82))_0x2331bf[_0xa8816d(0x238)]();_0xdbdcff[_0xa8816d(0x275)](_0xae42ad),_0x507bb4[_0xa8816d(0x238)](),_0x1ed539[_0x26f8e9(0x272,'ueU*')+'t']=_0xae42ad+_0x26f8e9(0x174,'z2[l');const _0x3f19fe=_0x541008[_0xa8816d(0x1cc)](_0x26a5e6[_0x26f8e9(0x292,'LFDC')]((_0x287e75,_0x50f2c9)=>_0x287e75+_0x50f2c9,0x1218+-0x1*0x1d22+0x6*0x1d7)/_0x2563f8[_0x26f8e9(0x1d6,'@EzN')]);_0x500937[_0xa8816d(0x20d)+'t']=_0x3f19fe+'\x20ms',_0x5d9ff1[_0x26f8e9(0x20a,'iL7]')+'t']=_0x5658a5[_0x26f8e9(0x257,'z2[l')]+'\x20pings';let _0x49f630=0x2*-0x361+0x133*0x19+-0x1739;if(_0x156281['length']>-0x34e+-0x17f0+0x1b3f){let _0x7bf6e1=-0x1362+0xcef+-0x1*-0x673;for(let _0x1a499d=-0x14e7*0x1+-0x1*-0x14fe+-0x16;_0x3502a5[_0xa8816d(0x1f8)](_0x1a499d,_0x142aa4['length']);_0x1a499d++){_0x7bf6e1+=_0x4da86b[_0x26f8e9(0x1f6,'A!eG')](_0x3502a5[_0x26f8e9(0x1a1,'iL7]')](_0x53d63[_0x1a499d],_0x1a5588[_0x3502a5[_0xa8816d(0x1a4)](_0x1a499d,0x1dc1+-0x155f*0x1+-0xd*0xa5)]));}_0x49f630=_0x268823[_0x26f8e9(0x206,'sOw(')](_0x7bf6e1/_0x3502a5[_0xa8816d(0x1a4)](_0x3b5066[_0xa8816d(0x18e)],-0x14*-0x1da+-0x4e*0x58+-0xa37));}_0x74d643[_0x26f8e9(0x1c3,'rtRf')+'t']=_0x49f630+_0x26f8e9(0x18c,'LFDC'),_0x3502a5['GCbbn'](_0xd259fb),_0x4f2662();}else{if(_0x3b1a6a[_0xa8816d(0x173)](_0x17e955[_0x26f8e9(0x1ae,'BvZY')]()[_0x26f8e9(0x228,'PWNo')]()[_0xa8816d(0x1c6)]('\x0a'),-(-0xad1+-0x135+0xc07)))return;return _0x17e955['toString']()[_0xa8816d(0x1e4)](_0x26f8e9(0x26c,'DqIm')+'+$')[_0x26f8e9(0x267,'p(2[')]()[_0xa8816d(0x1e2)+'r'](_0x17e955)['search'](_0x26f8e9(0x22b,'QIF)')+'+$');}});_0x17e955(),ctx[_0x5f34d2(0x207)](0x1*0x13de+0x40e+0x17ec*-0x1,-0x1*-0x3eb+0x9*0x29f+-0x1b82,canvas[_0x5f34d2(0x264)],canvas[_0x1ea9f6(0x1f1,'aaNz')]),ctx['strokeStyl'+'e']=_0x3b1a6a['auizW'],ctx[_0x1ea9f6(0x22c,'cLMS')]=-0x1*0x1a+0x1*0x1915+-0x1*0x18fa;for(let _0x2c9bf7=-0x2044+0x1034+-0x2*-0x808;_0x3b1a6a[_0x1ea9f6(0x182,'wfIu')](_0x2c9bf7,canvas[_0x1ea9f6(0x214,'Cvd#')]);_0x2c9bf7+=canvas[_0x5f34d2(0x22f)]/(-0xf7c+-0x1432+0x3*0xbe6)){ctx[_0x5f34d2(0x191)](),ctx[_0x1ea9f6(0x236,'J$aS')](0x3*-0x5cf+-0x43*-0x1e+0x13*0x81,_0x2c9bf7),ctx[_0x1ea9f6(0x2a1,'^!n3')](canvas[_0x5f34d2(0x264)],_0x2c9bf7),ctx[_0x1ea9f6(0x231,'6@jp')]();}const _0x2d4ce6=Math[_0x1ea9f6(0x1a2,'ueU*')](...latencyHistory,-0x2276+-0x23*0x104+0xc*0x5e2);ctx[_0x5f34d2(0x191)]();const _0x3c9869=_0x3b1a6a[_0x5f34d2(0x240)](canvas['width'],latencyHistory[_0x5f34d2(0x18e)]-(0x1*0x21c4+0xb9*-0x9+-0x1b42));latencyHistory[_0x1ea9f6(0x1ef,'cLMS')]((_0x5da3fc,_0x56f51b)=>{const _0x339af5=_0x1ea9f6,_0xf55b17=_0x5f34d2,_0x411707=_0x56f51b*_0x3c9869,_0x292690=_0x3b1a6a[_0xf55b17(0x270)](canvas[_0x339af5(0x1f1,'aaNz')]-_0x3b1a6a[_0x339af5(0x23e,'cLMS')](_0x5da3fc,_0x2d4ce6)*(canvas[_0xf55b17(0x22f)]-(-0x1d00+-0x13fc+-0x50*-0x9d)),0x1*-0x1c85+-0xca*0x2e+-0x40db*-0x1);if(_0x56f51b===-0x5*-0x6c4+0x65b+-0x282f)ctx[_0x339af5(0x1c0,'aaNz')](_0x411707,_0x292690);else ctx[_0xf55b17(0x282)](_0x411707,_0x292690);}),ctx[_0x5f34d2(0x1de)+'e']='#45F3FF',ctx['lineWidth']=-0x199b+-0x19c5+0x2*0x19b1+0.5,ctx[_0x1ea9f6(0x18a,'6@jp')+'r']=_0x1ea9f6(0x1fb,'^tYV'),ctx[_0x5f34d2(0x180)]=-0x3d3*0x1+-0x100c*0x1+0x13e7,ctx[_0x5f34d2(0x290)](),ctx[_0x1ea9f6(0x1cf,'rtRf')]=-0x1dac+-0x2345*-0x1+0x1*-0x599,ctx[_0x5f34d2(0x282)](canvas[_0x5f34d2(0x264)],canvas[_0x5f34d2(0x22f)]),ctx[_0x5f34d2(0x282)](-0x2*-0xbbc+0x2683+-0x6e3*0x9,canvas[_0x1ea9f6(0x237,'LFDC')]),ctx[_0x1ea9f6(0x26a,'p@%*')]=_0x3b1a6a['IPyTZ'],ctx[_0x1ea9f6(0x18d,'@EzN')]();}drawWaveform();function sendPing(){const _0xb06305=_0x593979,_0x32fbd7=_0x5b4da8,_0x2c4dbe={'nSYxU':_0x32fbd7(0x259,'t&vI')};if(!ws||ws[_0xb06305(0x1d0)]!==WebSocket[_0x32fbd7(0x226,'BvZY')])return;const _0x62ff85=Date[_0x32fbd7(0x244,'QYdg')]();pingSentTimes[_0x62ff85]=performance['now'](),pingCount++;try{ws[_0x32fbd7(0x20e,'LFDC')](JSON[_0xb06305(0x286)]({'type':_0x2c4dbe[_0xb06305(0x23d)],'id':_0x62ff85,'timestamp':_0x62ff85}));}catch(_0x50665b){lostCount++;}setTimeout(()=>{pingSentTimes[_0x62ff85]&&(delete pingSentTimes[_0x62ff85],lostCount++,updateLoss());},-0xa1*0x1+-0x655+0x12ae);}function handlePong(_0x47e3b8){const _0x326529=_0x5b4da8,_0x52f70b=_0x593979,_0x28516b={'sKTUq':_0x52f70b(0x1d2),'mqPRc':function(_0x2b7093,_0x275dc7){return _0x2b7093-_0x275dc7;},'opKkm':function(_0x5dc8b4,_0x281b78){return _0x5dc8b4>_0x281b78;},'hXZtd':function(_0x3d6ca7,_0x519439){return _0x3d6ca7/_0x519439;}},_0x2f22b5=pingSentTimes[_0x47e3b8];if(_0x2f22b5){if('iOyTn'===_0x28516b['sKTUq']){const _0x2a897a=Math[_0x326529(0x28c,'wfIu')](_0x28516b[_0x52f70b(0x256)](performance['now'](),_0x2f22b5));delete pingSentTimes[_0x47e3b8],latencies[_0x52f70b(0x275)](_0x2a897a);if(_0x28516b[_0x52f70b(0x170)](latencies[_0x326529(0x1e6,'paym')],0x1300*0x2+-0x1*0x1311+-0x12bd))latencies[_0x52f70b(0x238)]();latencyHistory['push'](_0x2a897a),latencyHistory[_0x326529(0x1b5,'6!t)')](),metricCur['textConten'+'t']=_0x2a897a+'\x20ms';const _0x10c3ae=Math[_0x326529(0x1b8,'DqIm')](_0x28516b['hXZtd'](latencies[_0x326529(0x253,'cLMS')]((_0x47ea5f,_0x1fae2b)=>_0x47ea5f+_0x1fae2b,-0x325+0xe24+0xaff*-0x1),latencies[_0x52f70b(0x18e)]));metricAvg[_0x52f70b(0x20d)+'t']=_0x10c3ae+_0x52f70b(0x252),metricCount[_0x52f70b(0x20d)+'t']=latencies['length']+_0x52f70b(0x25f);let _0x50bb56=-0x29c+0x1cb0+-0x1a14;if(latencies[_0x52f70b(0x18e)]>0x1ab+0x20*0xc0+-0x19aa){let _0x353118=-0x1daf+-0x19*0xa+0x1ea9;for(let _0x23da60=0x25cd*-0x1+0x1a95+-0xa9*-0x11;_0x23da60<latencies[_0x52f70b(0x18e)];_0x23da60++){_0x353118+=Math[_0x326529(0x1fe,'J$aS')](_0x28516b[_0x52f70b(0x256)](latencies[_0x23da60],latencies[_0x23da60-(0x4*0x8b6+-0x198*0x13+-0x3*0x185)]));}_0x50bb56=Math['round'](_0x353118/(latencies['length']-(0x234c+0x1f49+-0x4294)));}metricJitter[_0x52f70b(0x20d)+'t']=_0x50bb56+_0x52f70b(0x252),updateLoss(),drawWaveform();}else _0x141db6[_0x52f70b(0x1a6)](_0x14b475[_0x326529(0x20f,'BvZY')]({'type':_0x326529(0x1cb,'hYLr'),'id':_0x2b4415,'timestamp':_0x4235bb}));}}function updateLoss(){const _0x213538=_0x5b4da8,_0x35abe2=_0x593979,_0x16f3e7={'SgRWY':function(_0x2625a7,_0x5920a3){return _0x2625a7*_0x5920a3;},'CCtxU':function(_0x24427a,_0x5eb7ba){return _0x24427a/_0x5eb7ba;}},_0x54bd34=pingCount>0x824+-0xf37+-0x713*-0x1?Math[_0x35abe2(0x1cc)](_0x16f3e7[_0x35abe2(0x1e7)](_0x16f3e7[_0x35abe2(0x187)](lostCount,pingCount),0x63d*-0x4+0x1*-0x1486+-0x39*-0xce)):-0x2564+-0x10f4+0x3658;metricLoss[_0x213538(0x20c,'PVTJ')+'t']=_0x54bd34+'%';}connectBtn[_0x593979(0x1ed)+_0x593979(0x1c7)](_0x5b4da8(0x1f5,'p@%*'),()=>{const _0x4bf304=_0x5b4da8,_0x28126a=_0x593979,_0x5675bd={'hHUKm':function(_0x1dc9af,_0x1598ce){return _0x1dc9af(_0x1598ce);},'SUdTe':function(_0xff1fc8,_0x53cada){return _0xff1fc8>_0x53cada;},'OBMjo':function(_0x1602ea,_0x24fe7c){return _0x1602ea!==_0x24fe7c;},'LSATk':_0x28126a(0x21a)+_0x4bf304(0x1dc,'SUZk'),'NifeC':_0x4bf304(0x277,'EzAi')+_0x28126a(0x195)+_0x4bf304(0x203,'T*4O')+_0x28126a(0x1dd)+_0x28126a(0x221),'aNnAi':_0x4bf304(0x1db,'fJvq')+'l\x20px-8\x20py-'+'3.5\x20rounde'+'d-xl\x20font-'+_0x4bf304(0x265,'BvZY')+'red-400\x20ho'+'ver:bg-red'+_0x4bf304(0x280,'TgFk')+_0x28126a(0x1ce)+'r-red-500/'+_0x28126a(0x27b)+_0x28126a(0x225)+_0x4bf304(0x194,'iL7]')+_0x28126a(0x28a)+'l','CevSx':function(_0x4172c8,_0xba5205){return _0x4172c8(_0xba5205);},'QJTlZ':function(_0x3e7840,_0x5b47f0){return _0x3e7840>_0x5b47f0;},'TeQtS':function(_0x46be17,_0x2dca33){return _0x46be17(_0x2dca33);},'tHWpL':function(_0x53b1fe,_0x5db138,_0x20cf72){return _0x53b1fe(_0x5db138,_0x20cf72);},'IRfJJ':function(_0x50f652){return _0x50f652();},'ZtpaM':function(_0x25c030,_0x3c2694){return _0x25c030+_0x3c2694;},'tjVIT':function(_0x2bd481,_0x461570){return _0x2bd481===_0x461570;},'DyIaF':'check-circ'+'le','StiqS':'\x22\x20class=\x22w'+_0x28126a(0x1b4)+_0x4bf304(0x25c,'SUZk'),'Hqegu':_0x4bf304(0x1ee,'6!t)'),'VklHA':_0x4bf304(0x23c,'SUZk')+_0x28126a(0x232)+_0x4bf304(0x21e,'&67o')+_0x28126a(0x29f)+'-1','JrQoK':function(_0x15eb3a,_0x4be751){return _0x15eb3a===_0x4be751;},'weCoS':_0x4bf304(0x246,'hYLr'),'XBzlC':_0x4bf304(0x217,'@EzN'),'gdybz':function(_0x22ac93,_0x1a62f2,_0x597d48){return _0x22ac93(_0x1a62f2,_0x597d48);},'sIRdf':'Connection'+'\x20failed:\x20','EbieE':function(_0x109b64){return _0x109b64();}};if(!isConnected){const _0x3802b7=wsUrlInput['value']['trim']();if(!_0x3802b7){showMessage(_0x28126a(0x17d)+'er\x20a\x20WebSo'+_0x4bf304(0x1d3,'iL7]'),'error');return;}try{ws=new WebSocket(_0x3802b7),metricState[_0x28126a(0x20d)+'t']=_0x4bf304(0x26b,'Wl)F')+_0x4bf304(0x1a7,'Wl)F'),metricState[_0x4bf304(0x1a9,'hAs[')]=_0x5675bd[_0x4bf304(0x219,'LFDC')],ws[_0x28126a(0x21b)]=()=>{const _0x8ad16f=_0x4bf304,_0x313732=_0x28126a;if(_0x5675bd[_0x313732(0x1f9)](_0x8ad16f(0x198,'SUZk'),_0x8ad16f(0x250,')Hn7'))){isConnected=!![],metricState[_0x313732(0x20d)+'t']=_0x5675bd['LSATk'],metricState[_0x313732(0x1bd)]=_0x5675bd['NifeC'],connectBtn[_0x8ad16f(0x185,'Cvd#')]=_0x5675bd[_0x313732(0x210)],connectBtn[_0x8ad16f(0x1c9,'q%#n')]=_0x313732(0x268)+_0x8ad16f(0x28b,'QIF)')+'are\x22\x20class'+'=\x22w-4\x20h-4\x22'+_0x313732(0x1f0)+_0x8ad16f(0x19b,'aaNz')+_0x8ad16f(0x17b,'@EzN'),feather[_0x313732(0x241)]();const _0x3166e4=_0x5675bd[_0x8ad16f(0x2a2,'cLMS')](parseInt,document['getElement'+'ById'](_0x8ad16f(0x172,'paym')+_0x313732(0x269))[_0x313732(0x27c)])||-0x21a5+0x15de+0xfaf;pingTimer=setInterval(sendPing,_0x3166e4),sendPing(),_0x5675bd[_0x313732(0x1b9)](showMessage,_0x313732(0x21a)+'to\x20'+_0x3802b7+'!');}else{const _0x4fbe5c=_0x14a21f[_0x313732(0x25b)](_0x19390d[_0x313732(0x229)]);if(_0x4fbe5c['id'])_0x5675bd[_0x313732(0x1b9)](_0xbad618,_0x4fbe5c['id']);else{const _0x16ad89=_0x57cd75[_0x8ad16f(0x293,'T*4O')](_0x375be0);if(_0x5675bd['SUdTe'](_0x16ad89['length'],0x233d+0x219e+-0x44db))_0x5675bd[_0x8ad16f(0x276,')Hn7')](_0xeeb404,_0x16ad89[0xbf*0x25+-0x2a1*0xb+-0x30*-0x7]);}}},ws[_0x4bf304(0x291,'hYLr')]=_0x366ecf=>{const _0x5910a8=_0x4bf304,_0x353ef7=_0x28126a;try{const _0x21c739=JSON[_0x353ef7(0x25b)](_0x366ecf['data']);if(_0x21c739['id'])_0x5675bd['hHUKm'](handlePong,_0x21c739['id']);else{const _0x5c0e28=Object[_0x5910a8(0x288,'cLMS')](pingSentTimes);if(_0x5c0e28[_0x353ef7(0x18e)]>-0x1604*0x1+-0x1*0xde5+-0x1d*-0x13d)handlePong(_0x5c0e28[0x41f+0xba4+-0xf*0x10d]);}}catch(_0x56507b){const _0x5aa118=Object[_0x353ef7(0x239)](pingSentTimes);if(_0x5675bd[_0x5910a8(0x216,'paym')](_0x5aa118[_0x353ef7(0x18e)],0x1f8e+0x427*0x1+-0x23b5))_0x5675bd[_0x5910a8(0x1c2,'DqIm')](handlePong,_0x5aa118[0xe82+0x9c5+-0x1847]);}},ws[_0x28126a(0x24c)]=_0x7664ea=>{const _0x423940=_0x4bf304,_0x4cb159=_0x28126a;_0x5675bd[_0x4cb159(0x211)](showMessage,_0x423940(0x1d1,'rtRf')+'connection'+_0x423940(0x19c,'dzAZ'),_0x4cb159(0x289));},ws[_0x4bf304(0x222,'PVTJ')]=()=>{const _0x5b0bd5=_0x4bf304,_0x257d18=_0x28126a;_0x257d18(0x223)===_0x257d18(0x235)?(_0x8cd414[_0x257d18(0x264)]=_0x3f149e[_0x257d18(0x1cd)+_0x257d18(0x29a)][_0x5b0bd5(0x188,'A!eG')+'h'],_0x3e12f3[_0x257d18(0x22f)]=_0x8718e2[_0x257d18(0x1cd)+_0x257d18(0x29a)][_0x5b0bd5(0x1fc,'EzAi')+'ht']):_0x5675bd[_0x257d18(0x19a)](disconnect);};}catch(_0x4a344c){if(_0x5675bd['JrQoK'](_0x5675bd['weCoS'],_0x5675bd[_0x4bf304(0x17f,'Wl)F')])){const _0x11b2e7=_0x3840cf[_0x28126a(0x1af)+'ById'](_0x4bf304(0x186,'PWNo'));if(!_0x11b2e7)return;_0x11b2e7[_0x4bf304(0x1b1,'PWNo')]=TSMGfK[_0x4bf304(0x20b,'6!t)')](TSMGfK[_0x28126a(0x1b7)](_0x4bf304(0x183,'poU0')+_0x4bf304(0x248,'J$aS'),TSMGfK[_0x28126a(0x1c5)](_0x19cdf0,_0x28126a(0x1b0))?TSMGfK[_0x4bf304(0x1ba,'z2[l')]:_0x149d1d===_0x4bf304(0x19d,'BvZY')?_0x28126a(0x1e0)+'le':_0x28126a(0x202))+TSMGfK[_0x28126a(0x1a0)],_0x1a41bb)+TSMGfK[_0x4bf304(0x1bf,'cLMS')],_0x11b2e7[_0x4bf304(0x1ea,'PVTJ')]='show\x20'+_0x4c7fb3,_0x4c7a85[_0x4bf304(0x1be,'WrpX')](),_0x1f7cd3(_0x11b2e7[_0x28126a(0x2a6)]),_0x11b2e7[_0x4bf304(0x1bc,'EzAi')]=TSMGfK[_0x4bf304(0x1df,'^tYV')](_0x4337c6,()=>{const _0x14e66c=_0x4bf304;_0x11b2e7[_0x14e66c(0x1c4,'ueU*')]=_0xfb432c;},-0xfd7+0x1b2f*0x1+0x12a*0x2);}else _0x5675bd['gdybz'](showMessage,_0x5675bd[_0x4bf304(0x1e1,'A!eG')]+_0x4a344c[_0x4bf304(0x1b2,'BvZY')],_0x28126a(0x289)),_0x5675bd['EbieE'](disconnect);}}else disconnect();});function disconnect(){const _0x469bdc=_0x593979,_0x478b7a=_0x5b4da8,_0x2a763f={'prIDX':function(_0x55a7e3,_0x148ec3){return _0x55a7e3!==_0x148ec3;},'hqfhk':_0x478b7a(0x1aa,'rtRf'),'WiKVo':_0x469bdc(0x294),'rxXkd':_0x469bdc(0x262)+'ed','KvzFt':_0x478b7a(0x279,'wfIu')+_0x478b7a(0x29c,'QIF)')+_0x478b7a(0x199,'(vY*')+_0x469bdc(0x273),'matja':_0x469bdc(0x192)+_0x478b7a(0x281,')Hn7')+_0x469bdc(0x28e)+_0x478b7a(0x176,'paym')+_0x469bdc(0x27d)+_0x469bdc(0x17a)+'ary\x20hover:'+_0x478b7a(0x19f,'(vY*')+_0x469bdc(0x284)+_0x478b7a(0x171,'dzAZ')+'der-brand-'+'primary/40'+_0x478b7a(0x25e,'Wl)F')+_0x469bdc(0x17c)+_0x469bdc(0x204)+_0x469bdc(0x21c)+_0x469bdc(0x19e)+_0x478b7a(0x27f,'6@jp')+_0x478b7a(0x26e,'hAs[')+_0x469bdc(0x297),'GFtUA':_0x478b7a(0x175,'hYLr')+_0x469bdc(0x190)+_0x478b7a(0x245,'G7D*')+_0x469bdc(0x22a)+_0x478b7a(0x1d7,'t&vI')+_0x469bdc(0x1e8)+'st','JLZkV':_0x478b7a(0x1d5,'z2[l')+'connection'+_0x469bdc(0x16f)};isConnected=![],clearInterval(pingTimer);if(ws){if(_0x2a763f['prIDX'](_0x2a763f[_0x469bdc(0x1d9)],_0x2a763f[_0x478b7a(0x22e,'^tYV')]))ws['close'](),ws=null;else{const _0x143237=_0x2c0ad3[_0x469bdc(0x239)](_0xd6ccc7);if(_0x143237[_0x478b7a(0x218,'q%#n')]>0xc0c+0x1*-0x1661+0xa55)_0x4f1ab7(_0x143237[-0x6ad*-0x2+-0x63*-0x8+0x34a*-0x5]);}}metricState['textConten'+'t']=_0x2a763f[_0x478b7a(0x178,'(vY*')],metricState['className']=_0x2a763f[_0x469bdc(0x29e)],connectBtn[_0x469bdc(0x1bd)]=_0x2a763f[_0x478b7a(0x179,'(vY*')],connectBtn[_0x469bdc(0x18f)]=_0x2a763f[_0x478b7a(0x21d,'PWNo')],feather['replace'](),showMessage(_0x2a763f['JLZkV']);}</script>
 
-            // State
-            let ws = null;
-            let isTesting = false;
-            let testInterval = null;
-            let latencies = [];
-            let chart = null;
-
-            // Initialize chart
-            const ctx = document.getElementById('latency-chart').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Latency (ms)',
-                        data: [],
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Latency (ms)'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Test #'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            // Utility functions
-            function log(message, type = 'info') {
-                const timestamp = new Date().toLocaleTimeString();
-                const colorClass = type === 'error' ? 'text-red-400' :
-                                 type === 'success' ? 'text-green-400' :
-                                 type === 'warning' ? 'text-yellow-400' : 'text-blue-400';
-                logContainer.innerHTML += `<div class="${colorClass}">[${timestamp}] ${message}</div>`;
-                logContainer.scrollTop = logContainer.scrollHeight;
-            }
-
-            function updateConnectionStatus(connected) {
-                const statusDiv = connectionStatusEl.querySelector('div');
-                const statusText = connectionStatusEl.querySelector('span');
-
-                if (connected) {
-                    statusDiv.className = 'pulse-dot';
-                    statusText.textContent = 'Connected';
-                    statusText.className = 'text-xs text-green-600';
-                } else {
-                    statusDiv.className = 'w-2 h-2 rounded-full bg-gray-400';
-                    statusText.textContent = 'Disconnected';
-                    statusText.className = 'text-xs text-gray-500';
-                }
-            }
-
-            function updateStats() {
-                if (latencies.length === 0) {
-                    minLatencyEl.textContent = '-- ms';
-                    maxLatencyEl.textContent = '-- ms';
-                    avgLatencyEl.textContent = '-- ms';
-                    testCountEl.textContent = '0';
-                    return;
-                }
-
-                const min = Math.min(...latencies);
-                const max = Math.max(...latencies);
-                const avg = latencies.reduce((a, b) => a + b, 0) / latencies.length;
-
-                minLatencyEl.textContent = `${min.toFixed(1)} ms`;
-                maxLatencyEl.textContent = `${max.toFixed(1)} ms`;
-                avgLatencyEl.textContent = `${avg.toFixed(1)} ms`;
-                testCountEl.textContent = latencies.length.toString();
-            }
-
-            function updateChart() {
-                chart.data.labels = latencies.map((_, i) => (i + 1).toString());
-                chart.data.datasets[0].data = latencies;
-                chart.update();
-            }
-
-            function connectWebSocket() {
-                if (ws) {
-                    ws.close();
-                }
-
-                const url = wsUrlInput.value;
-                if (!url) {
-                    log('Please enter a WebSocket URL', 'error');
-                    return false;
-                }
-
-                try {
-                    ws = new WebSocket(url);
-                    wsUrlDisplayEl.textContent = url;
-                    wsUrlDisplayEl.title = url;
-
-                    ws.onopen = function(event) {
-                        log('WebSocket connected successfully', 'success');
-                        wsStatusEl.textContent = 'Connected';
-                        wsStatusEl.className = 'font-medium text-green-500';
-                        wsProtocolEl.textContent = event.target.protocol || 'WebSocket';
-                        updateConnectionStatus(true);
-                    };
-
-                    ws.onmessage = function(event) {
-                        // This is a response to our ping
-                        const endTime = Date.now();
-                        const pingTime = endTime - parseInt(event.data);
-                        latencies.push(pingTime);
-                        currentLatencyEl.textContent = pingTime.toFixed(1);
-                        updateStats();
-                        updateChart();
-                        log(`Ping: ${pingTime.toFixed(1)}ms`, 'success');
-                    };
-
-                    ws.onclose = function(event) {
-                        log(`WebSocket disconnected (Code: ${event.code})`, 'warning');
-                        wsStatusEl.textContent = 'Disconnected';
-                        wsStatusEl.className = 'font-medium text-red-500';
-                        updateConnectionStatus(false);
-                        ws = null;
-                    };
-
-                    ws.onerror = function(error) {
-                        log('WebSocket error occurred', 'error');
-                        wsStatusEl.textContent = 'Error';
-                        wsStatusEl.className = 'font-medium text-red-500';
-                        updateConnectionStatus(false);
-                    };
-
-                    return true;
-                } catch (error) {
-                    log(`Failed to connect: ${error.message}`, 'error');
-                    return false;
-                }
-            }
-
-            function sendPing() {
-                if (ws && ws.readyState === WebSocket.OPEN) {
-                    const startTime = Date.now();
-                    ws.send(startTime.toString());
-                }
-            }
-
-            function startTest() {
-                if (isTesting) return;
-
-                if (!connectWebSocket()) {
-                    return;
-                }
-
-                // Wait a bit for connection to establish
-                setTimeout(() => {
-                    if (ws && ws.readyState === WebSocket.OPEN) {
-                        isTesting = true;
-                        startBtn.classList.add('hidden');
-                        stopBtn.classList.remove('hidden');
-
-                        const interval = parseInt(intervalInput.value) || 1000;
-                        testInterval = setInterval(sendPing, interval);
-                        log(`Test started with ${interval}ms interval`, 'info');
-                    }
-                }, 1000);
-            }
-
-            function stopTest() {
-                if (!isTesting) return;
-
-                isTesting = false;
-                if (testInterval) {
-                    clearInterval(testInterval);
-                    testInterval = null;
-                }
-
-                if (ws) {
-                    ws.close();
-                }
-
-                startBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-                log('Test stopped', 'warning');
-            }
-
-            function clearResults() {
-                latencies = [];
-                currentLatencyEl.textContent = '--';
-                updateStats();
-                updateChart();
-                logContainer.innerHTML = '<div class="text-gray-500">Test log cleared...</div>';
-                log('Results cleared', 'info');
-            }
-
-            // Event listeners
-            startBtn.addEventListener('click', startTest);
-            stopBtn.addEventListener('click', stopTest);
-            clearBtn.addEventListener('click', clearResults);
-
-            // Input validation
-            intervalInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                if (value < 100) this.value = 100;
-                if (value > 10000) this.value = 10000;
-            });
-
-            // Cleanup on page unload
-            window.addEventListener('beforeunload', function() {
-                if (ws) {
-                    ws.close();
-                }
-                if (testInterval) {
-                    clearInterval(testInterval);
-                }
-            });
-        });
-    </script>
-    <script defer src="/js/shared-ui.js"></script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-
-</html>
+</body></html>

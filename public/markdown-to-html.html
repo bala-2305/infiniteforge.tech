@@ -1,342 +1,93 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown to HTML Converter - Infiniteforge</title>
-    <meta name="description" content="Convert Markdown to HTML instantly. Free online Markdown to HTML converter with live preview, syntax highlighting, and download options.">
-    <meta name="keywords" content="markdown to html, markdown converter, html converter, markdown parser, online converter, markdown preview">
+    <title>Markdown to HTML Converter — Live GFM Parser &amp; Preview | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Convert Markdown to clean semantic HTML instantly with GitHub Flavored Markdown (GFM) support, live rich text preview, and HTML code export.">
+    <meta name="keywords" content="markdown to html, gfm parser, markdown previewer, markdown converter, md to html">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="author" content="Infiniteforge">
-
-    <!-- Open Graph / Facebook -->
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Markdown to HTML Converter | Infiniteforge">
+    <meta property="og:description" content="Instant Markdown to HTML converter with live GFM preview.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/markdown-to-html.html">
-    <meta property="og:title" content="Markdown to HTML Converter - Infiniteforge">
-    <meta property="og:description" content="Convert Markdown to HTML instantly with live preview and syntax highlighting.">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/images/og-image.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://infiniteforge.tech/markdown-to-html.html">
-    <meta property="twitter:title" content="Markdown to HTML Converter - Infiniteforge">
-    <meta property="twitter:description" content="Convert Markdown to HTML instantly with live preview and syntax highlighting.">
-    <meta property="twitter:image" content="https://infiniteforge.tech/assets/images/og-image.png">
-
-    <!-- Canonical URL -->
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Markdown to HTML Converter | Infiniteforge">
+    <meta name="twitter:description" content="Convert Markdown syntax to HTML code online.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
     <link rel="canonical" href="https://infiniteforge.tech/markdown-to-html.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/markdown-to-html.html">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
-
-    <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.umd.js"></script>
 
-    <!-- Prism.js for syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .markdown-input, .html-output {
-            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .markdown-input {
-            min-height: 300px;
-        }
-
-        .html-output {
-            min-height: 300px;
-            background-color: rgba(31, 40, 51, 0.4);
-        }
-
-        .preview-output {
-            min-height: 300px;
-            background-color: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            padding: 16px;
-        }
-
-        .tab-button {
-            transition: all 0.2s ease;
-        }
-
-        .tab-button.active {
-            background-color: #3b82f6;
-            color: white;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .loading-spinner {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid #3b82f6;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background-color: rgba(31, 40, 51, 0.4);
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-        }
-
-        .success-message {
-            background-color: rgba(31, 40, 51, 0.4);
-            border: 1px solid #bbf7d0;
-            color: #16a34a;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-        }
-
-        /* Custom scrollbar */
-        .code-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .code-container::-webkit-scrollbar-track {
-            background: rgba(31, 40, 51, 0.4);
-            border-radius: 4px;
-        }
-
-        .code-container::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-
-        .code-container::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
-        /* Markdown preview styles */
-        .preview-content h1,
-        .preview-content h2,
-        .preview-content h3,
-        .preview-content h4,
-        .preview-content h5,
-        .preview-content h6 {
-            color: #1f2937;
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
-        }
-
-        .preview-content h1 { font-size: 2em; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
-        .preview-content h2 { font-size: 1.5em; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
-        .preview-content h3 { font-size: 1.25em; }
-        .preview-content h4 { font-size: 1.125em; }
-        .preview-content h5 { font-size: 1em; }
-        .preview-content h6 { font-size: 0.875em; }
-
-        .preview-content p {
-            margin-bottom: 1em;
-            line-height: 1.6;
-        }
-
-        .preview-content ul,
-        .preview-content ol {
-            margin-bottom: 1em;
-            padding-left: 2em;
-        }
-
-        .preview-content li {
-            margin-bottom: 0.5em;
-        }
-
-        .preview-content code {
-            background-color: rgba(31, 40, 51, 0.4);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.875em;
-        }
-
-        .preview-content pre {
-            background-color: rgba(31, 40, 51, 0.4);
-            padding: 16px;
-            border-radius: 6px;
-            overflow-x: auto;
-            margin-bottom: 1em;
-        }
-
-        .preview-content pre code {
-            background-color: transparent;
-            padding: 0;
-        }
-
-        .preview-content blockquote {
-            border-left: 4px solid #3b82f6;
-            padding-left: 16px;
-            margin-bottom: 1em;
-            color: #6b7280;
-            font-style: italic;
-        }
-
-        .preview-content table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 1em;
-        }
-
-        .preview-content th,
-        .preview-content td {
-            border: 1px solid #e5e7eb;
-            padding: 8px 12px;
-            text-align: left;
-        }
-
-        .preview-content th {
-            background-color: rgba(31, 40, 51, 0.4);
-            font-weight: 600;
-        }
-
-        .preview-content a {
-            color: #3b82f6;
-            text-decoration: underline;
-        }
-
-        .preview-content a:hover {
-            color: #2563eb;
-        }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>function _0x9a63(_0x24d343,_0x328f10){_0x24d343=_0x24d343-(0x7c6+-0x65f+-0x5*0xd);var _0x328c5f=_0x228e();var _0x59a1bf=_0x328c5f[_0x24d343];if(_0x9a63['oqtoKx']===undefined){var _0x3b557e=function(_0x504e2d){var _0x52c2f4='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x14cdb4='',_0xf07c46='',_0x243d9e=_0x14cdb4+_0x3b557e,_0x4e8d0f=(''+function(){return 0x1*0xf7f+0x1b09+-0x4*0xaa2;})['indexOf']('\x0a')!==-(-0x4f*0x65+0xbf2+0x99d*0x2);for(var _0x35b8e6=0x1bcf+-0x409+0xbe3*-0x2,_0x509fd9,_0x63942b,_0x5f5160=0x67*0x3b+-0x2319+-0x2*-0x5ae;_0x63942b=_0x504e2d['charAt'](_0x5f5160++);~_0x63942b&&(_0x509fd9=_0x35b8e6%(-0xe15+-0xc1*-0x2+0xb*0x125)?_0x509fd9*(0x58e+0x209+-0x757*0x1)+_0x63942b:_0x63942b,_0x35b8e6++%(0x1*0x1bdb+-0x1*0x10cd+-0x13a*0x9))?_0x14cdb4+=_0x4e8d0f||_0x243d9e['charCodeAt'](_0x5f5160+(0x109*0x1f+-0x1393+-0xc7a))-(0x125*0x10+-0x12*0x161+-0x68c*-0x1)!==-0x16e0+-0x2b*0x15+0x1*0x1a67?String['fromCharCode'](-0xcd*-0x7+0x5*0x1de+-0xdf2&_0x509fd9>>(-(-0x1*-0x107b+0x9b+-0x445*0x4)*_0x35b8e6&0x1e7*-0x5+-0xa*-0x1e6+-0x973)):_0x35b8e6:0x1751+-0x26*-0x9+-0x18a7){_0x63942b=_0x52c2f4['indexOf'](_0x63942b);}for(var _0x1de09d=0x249d+-0x161a+0x1*-0xe83,_0x28da37=_0x14cdb4['length'];_0x1de09d<_0x28da37;_0x1de09d++){_0xf07c46+='%'+('00'+_0x14cdb4['charCodeAt'](_0x1de09d)['toString'](0x3*0xf9+-0x1345+0x106a))['slice'](-(-0x1*-0x1d84+0x6ca*-0x4+-0x25a));}return decodeURIComponent(_0xf07c46);};var _0x3daf46=function(_0x49a846,_0x903ac9){var _0x4a2184=[],_0x112591=0x27c*0xa+-0x17a+-0x175e,_0x165095,_0x220b62='';_0x49a846=_0x3b557e(_0x49a846);var _0x10804c;for(_0x10804c=0xcb4+0x5*-0xb5+-0x92b;_0x10804c<0x12fc+0xe03*0x1+-0x1fff;_0x10804c++){_0x4a2184[_0x10804c]=_0x10804c;}for(_0x10804c=0x43*0x58+-0x80f*0x1+-0xef9;_0x10804c<0x24ae+0x48f*0x1+0x283d*-0x1;_0x10804c++){_0x112591=(_0x112591+_0x4a2184[_0x10804c]+_0x903ac9['charCodeAt'](_0x10804c%_0x903ac9['length']))%(-0x5*0x7c1+0x2269+0x55c),_0x165095=_0x4a2184[_0x10804c],_0x4a2184[_0x10804c]=_0x4a2184[_0x112591],_0x4a2184[_0x112591]=_0x165095;}_0x10804c=-0x17*-0x161+0x1db0+0x595*-0xb,_0x112591=-0x2614+-0x225*-0x11+0x19f;for(var _0x372401=-0x1531+-0x261a*-0x1+-0x10e9;_0x372401<_0x49a846['length'];_0x372401++){_0x10804c=(_0x10804c+(0x39e+-0x684+0x2e7))%(-0x35*-0x43+-0x2622+0x1943),_0x112591=(_0x112591+_0x4a2184[_0x10804c])%(0x1e09+-0x7bb*0x1+-0x12f*0x12),_0x165095=_0x4a2184[_0x10804c],_0x4a2184[_0x10804c]=_0x4a2184[_0x112591],_0x4a2184[_0x112591]=_0x165095,_0x220b62+=String['fromCharCode'](_0x49a846['charCodeAt'](_0x372401)^_0x4a2184[(_0x4a2184[_0x10804c]+_0x4a2184[_0x112591])%(0x36*0x9d+0x1c7a+-0x1*0x3c98)]);}return _0x220b62;};_0x9a63['xRPgqp']=_0x3daf46,_0x9a63['RfZQTh']={},_0x9a63['oqtoKx']=!![];}var _0x2d98bc=_0x328c5f[-0x1b1*0x12+-0x69*-0xe+-0x1f*-0xcc],_0xd3f5a8=_0x24d343+_0x2d98bc,_0x184a0e=_0x9a63['RfZQTh'][_0xd3f5a8];if(!_0x184a0e){if(_0x9a63['nxdNjN']===undefined){var _0x3ef2b4=function(_0x31097f){this['NsreTU']=_0x31097f,this['voGYmO']=[-0x152b*-0x1+0x266*0x10+-0x3b8a,0xa9f*-0x2+-0xf90+0x24ce,-0x797+-0x3b*-0x13+-0x1*-0x336],this['zGCnTm']=function(){return'newState';},this['lnyhlG']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['szNdBl']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3ef2b4['prototype']['vdaLor']=function(){var _0x1380a5=new RegExp(this['lnyhlG']+this['szNdBl']),_0x40e924=_0x1380a5['test'](this['zGCnTm']['toString']())?--this['voGYmO'][0xe8a+-0x1*0x1f49+0x10c0]:--this['voGYmO'][-0x1310+-0x3*0x2dd+0x1ba7];return this['FXqRkp'](_0x40e924);},_0x3ef2b4['prototype']['FXqRkp']=function(_0x48944f){if(!Boolean(~_0x48944f))return _0x48944f;return this['RTPawc'](this['NsreTU']);},_0x3ef2b4['prototype']['RTPawc']=function(_0x5e674c){for(var _0x351cbc=0x1841+-0x2395*0x1+-0x3a*-0x32,_0x563b1c=this['voGYmO']['length'];_0x351cbc<_0x563b1c;_0x351cbc++){this['voGYmO']['push'](Math['round'](Math['random']())),_0x563b1c=this['voGYmO']['length'];}return _0x5e674c(this['voGYmO'][-0x97*-0x3d+-0x1*-0xa2e+-0x12f*0x27]);},(''+function(){return 0x1f4e+-0x1ae0+-0x46e;})['indexOf']('\x0a')===-(0xdd+-0xb3e+-0x376*-0x3)&&new _0x3ef2b4(_0x9a63)['vdaLor'](),_0x9a63['nxdNjN']=!![];}_0x59a1bf=_0x9a63['xRPgqp'](_0x59a1bf,_0x328f10),_0x9a63['RfZQTh'][_0xd3f5a8]=_0x59a1bf;}else _0x59a1bf=_0x184a0e;return _0x59a1bf;}function _0x4299(_0x409e40,_0x12531d){_0x409e40=_0x409e40-(0x7c6+-0x65f+-0x5*0xd);var _0x3716b7=_0x228e();var _0x21fa2d=_0x3716b7[_0x409e40];if(_0x4299['FxjCAd']===undefined){var _0x1877dd=function(_0x1b50ad){var _0x3fa23c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0xaf5a95='',_0x525e45='',_0x107e15=_0xaf5a95+_0x1877dd,_0x581b79=(''+function(){return 0x1*0xf7f+0x1b09+-0x4*0xaa2;})['indexOf']('\x0a')!==-(-0x4f*0x65+0xbf2+0x99d*0x2);for(var _0x5271e7=0x1bcf+-0x409+0xbe3*-0x2,_0x36045a,_0x4722ed,_0x21abe6=0x67*0x3b+-0x2319+-0x2*-0x5ae;_0x4722ed=_0x1b50ad['charAt'](_0x21abe6++);~_0x4722ed&&(_0x36045a=_0x5271e7%(-0xe15+-0xc1*-0x2+0xb*0x125)?_0x36045a*(0x58e+0x209+-0x757*0x1)+_0x4722ed:_0x4722ed,_0x5271e7++%(0x1*0x1bdb+-0x1*0x10cd+-0x13a*0x9))?_0xaf5a95+=_0x581b79||_0x107e15['charCodeAt'](_0x21abe6+(0x109*0x1f+-0x1393+-0xc7a))-(0x125*0x10+-0x12*0x161+-0x68c*-0x1)!==-0x16e0+-0x2b*0x15+0x1*0x1a67?String['fromCharCode'](-0xcd*-0x7+0x5*0x1de+-0xdf2&_0x36045a>>(-(-0x1*-0x107b+0x9b+-0x445*0x4)*_0x5271e7&0x1e7*-0x5+-0xa*-0x1e6+-0x973)):_0x5271e7:0x1751+-0x26*-0x9+-0x18a7){_0x4722ed=_0x3fa23c['indexOf'](_0x4722ed);}for(var _0x344615=0x249d+-0x161a+0x1*-0xe83,_0x2f56a8=_0xaf5a95['length'];_0x344615<_0x2f56a8;_0x344615++){_0x525e45+='%'+('00'+_0xaf5a95['charCodeAt'](_0x344615)['toString'](0x3*0xf9+-0x1345+0x106a))['slice'](-(-0x1*-0x1d84+0x6ca*-0x4+-0x25a));}return decodeURIComponent(_0x525e45);};_0x4299['uefccm']=_0x1877dd,_0x4299['EfBieS']={},_0x4299['FxjCAd']=!![];}var _0x2a5b22=_0x3716b7[0x27c*0xa+-0x17a+-0x175e],_0x545902=_0x409e40+_0x2a5b22,_0x26412c=_0x4299['EfBieS'][_0x545902];if(!_0x26412c){var _0xa86ef7=function(_0x36b21e){this['eIHjLk']=_0x36b21e,this['ZMXTZl']=[0xcb4+0x5*-0xb5+-0x92a,0x12fc+0xe03*0x1+-0x20ff,0x43*0x58+-0x80f*0x1+-0xef9],this['KrcZyi']=function(){return'newState';},this['XudFMA']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['HZLkaO']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xa86ef7['prototype']['nDthyj']=function(){var _0x554ad4=new RegExp(this['XudFMA']+this['HZLkaO']),_0x141884=_0x554ad4['test'](this['KrcZyi']['toString']())?--this['ZMXTZl'][0x24ae+0x48f*0x1+0x32c*-0xd]:--this['ZMXTZl'][-0x5*0x7c1+0x2269+0x45c];return this['BquqFx'](_0x141884);},_0xa86ef7['prototype']['BquqFx']=function(_0x41e248){if(!Boolean(~_0x41e248))return _0x41e248;return this['BspeBN'](this['eIHjLk']);},_0xa86ef7['prototype']['BspeBN']=function(_0xfe1360){for(var _0x549ed2=-0x17*-0x161+0x1db0+0x595*-0xb,_0x2145f2=this['ZMXTZl']['length'];_0x549ed2<_0x2145f2;_0x549ed2++){this['ZMXTZl']['push'](Math['round'](Math['random']())),_0x2145f2=this['ZMXTZl']['length'];}return _0xfe1360(this['ZMXTZl'][-0x2614+-0x225*-0x11+0x19f]);},(''+function(){return-0x1531+-0x261a*-0x1+-0x10e9;})['indexOf']('\x0a')===-(0x39e+-0x684+0x2e7)&&new _0xa86ef7(_0x4299)['nDthyj'](),_0x21fa2d=_0x4299['uefccm'](_0x21fa2d),_0x4299['EfBieS'][_0x545902]=_0x21fa2d;}else _0x21fa2d=_0x26412c;return _0x21fa2d;}var _0x169a0e=_0x4299,_0x1cf9c4=_0x9a63;(function(_0x5b9aac,_0x3c1cc6){var _0x2bbbd2=_0x9a63,_0x1c12f7=_0x4299,_0x4248e4=_0x5b9aac();while(!![]){try{var _0xc88ea6=parseInt(_0x1c12f7(0x139))/(-0x2614+-0x225*-0x11+0x1a0)*(parseInt(_0x1c12f7(0x146))/(-0x1531+-0x261a*-0x1+-0x10e7))+-parseInt(_0x1c12f7(0x147))/(0x39e+-0x684+0x2e9)*(-parseInt(_0x1c12f7(0x145))/(-0x35*-0x43+-0x2622+0x1847))+-parseInt(_0x1c12f7(0x13b))/(0x1e09+-0x7bb*0x1+-0x32f*0x7)+-parseInt(_0x1c12f7(0x12c))/(0x36*0x9d+0x1c7a+-0x1*0x3d92)*(-parseInt(_0x2bbbd2(0x131,'WOA]'))/(-0x1b1*0x12+-0x69*-0xe+-0xd*-0x1e7))+parseInt(_0x2bbbd2(0x143,'@3dA'))/(-0x152b*-0x1+0x266*0x10+-0x3b83)+parseInt(_0x1c12f7(0x14a))/(0xa9f*-0x2+-0xf90+0x24d7)*(-parseInt(_0x1c12f7(0x12d))/(-0x797+-0x3b*-0x13+-0x1*-0x340))+parseInt(_0x1c12f7(0x136))/(0xe8a+-0x1*0x1f49+0x10ca)*(parseInt(_0x2bbbd2(0x140,'!8e['))/(-0x1310+-0x3*0x2dd+0x1bb3));if(_0xc88ea6===_0x3c1cc6)break;else _0x4248e4['push'](_0x4248e4['shift']());}catch(_0x464218){_0x4248e4['push'](_0x4248e4['shift']());}}}(_0x228e,0xba4ea+-0x111535*0x1+-0x443*-0x37a));var _0x33d54f=(function(){var _0x2904bc=!![];return function(_0x36a149,_0x11f545){var _0x4e9a37=_0x2904bc?function(){var _0x121f31=_0x4299;if(_0x11f545){var _0x32a4ef=_0x11f545[_0x121f31(0x12f)](_0x36a149,arguments);return _0x11f545=null,_0x32a4ef;}}:function(){};return _0x2904bc=![],_0x4e9a37;};}()),_0xb835e4=_0x33d54f(this,function(){var _0x2d5f3b=_0x4299,_0x128164=_0x9a63;if(_0xb835e4[_0x128164(0x13c,'w%lX')]()[_0x2d5f3b(0x144)]()[_0x128164(0x127,'1tAJ')]('\x0a')!==-(-0x10f9+0x2c7+0xe33))return;return _0xb835e4[_0x128164(0x133,'C5nn')]()[_0x128164(0x12a,'v$ti')](_0x128164(0x149,'k%!O')+'+$')[_0x128164(0x128,'pHW@')]()[_0x2d5f3b(0x141)+'r'](_0xb835e4)[_0x2d5f3b(0x138)](_0x128164(0x134,'iG4q')+'+$');});function _0x228e(){var _0x24e0b3=['ndaYmdKXnvvwy1f6va','pt1ZW7i','WO7dJ8ojW6ddLmkJ','sMv0qNjHAw5Zia','iZDbmdbgrG','WRdcSH/cOgZcUKKt','y29UC3rYDwn0BW','iZfgmJGZmW','xSoDWRtdIxFdJ8omW414u3ZcS8or','Dg9tDhjPBMC','nti4nZC2CxLuAfL4','ntG3ntG0AxLzBhjT','nKDdqM5crG','WQRcH8ktouiJDX/cVCosW63dJq','W73dR8oGaHaxySkSWQ4K','nde2nZi1mKXuzhjzra','W7TtemoUcG/cIa','iZbcmemXma','WRyiW5NcPSoEqd8','W6jxzmk6WRaKjCkY','iZq1rJngrG','WRFdOJxcSmkQW5G','B8opFvhcLSkVxq','ota0mdq0vwz1sxH6','mtbRrfzdvwe','m8kHg8kRksJdUSoL','yxbWBhK','WRJcQmkMq0HokmoMW6a','W6q4CmkYWQNdI1id','mJKXmZaWmfPxz1b1vG','WQxcMgNcPSkXz8k3pq','W4NcMSkdWRbsfSoBwr3cHq','WRdcScdcOuVcMK08','mJi2nZa4ovDfDg1YvG','tw9UBW','C2vHCMnO','mxvLuef1wG','t3v0zML0'];_0x228e=function(){return _0x24e0b3;};return _0x228e();}_0xb835e4(),tailwind[_0x1cf9c4(0x13d,'N]oK')]={'theme':{'extend':{'fontFamily':{'sans':[_0x169a0e(0x13a),'sans-serif'],'mono':[_0x169a0e(0x13e)+_0x169a0e(0x137),_0x1cf9c4(0x130,'k%!O')]},'colors':{'dark':{0x384:_0x169a0e(0x126),0x320:_0x169a0e(0x142),0x2bc:_0x1cf9c4(0x12b,'zocQ')},'brand':{'primary':_0x169a0e(0x129),'secondary':'#FF2A7A','accent':_0x169a0e(0x13f)}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        textarea { background-color: rgba(15,23,42,0.6) !important; color: #45F3FF !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; padding: 0.75rem 1rem; font-family: 'JetBrains Mono', monospace !important; font-size: 0.85rem; }
+        textarea:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .markdown-preview h1 { font-size: 1.5rem; font-weight: bold; color: #fff; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .markdown-preview h2 { font-size: 1.25rem; font-weight: bold; color: #45F3FF; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .markdown-preview h3 { font-size: 1.1rem; font-weight: 600; color: #E2E8F0; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+        .markdown-preview p { color: #CBD5E1; margin-bottom: 0.75rem; line-height: 1.6; }
+        .markdown-preview ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.75rem; color: #CBD5E1; }
+        .markdown-preview code { background: rgba(15,23,42,0.8); color: #45F3FF; padding: 0.15rem 0.35rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.85em; }
+        .markdown-preview pre { background: rgba(11,12,16,0.9); padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
+        .markdown-preview pre code { background: transparent; padding: 0; }
+        .markdown-preview blockquote { border-left: 3px solid #45F3FF; padding-left: 0.75rem; color: #94A3B8; font-style: italic; margin-bottom: 0.75rem; }
+
+        .view-tab.active { background: rgba(69,243,255,0.15); border-color: rgba(69,243,255,0.4); color: #45F3FF; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>    
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -347,220 +98,74 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-4">Markdown to HTML Converter</h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                Convert Markdown to HTML instantly with live preview. Perfect for bloggers, developers, and content creators.
-                All processing happens locally in your browser for maximum privacy.
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Markdown to HTML Converter
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Convert Markdown into clean semantic HTML markup with real-time GitHub-flavored rendering.
             </p>
         </div>
 
-        <!-- Conversion Options -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-gray-100 mb-4">Conversion Options</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="flex items-center">
-                    <input type="checkbox" id="breaks" checked class="mr-2">
-                    <label for="breaks" class="text-sm font-medium text-gray-300">Convert line breaks to &lt;br&gt;</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="gfm" checked class="mr-2">
-                    <label for="gfm" class="text-sm font-medium text-gray-300">GitHub Flavored Markdown</label>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="sanitize" class="mr-2">
-                    <label for="sanitize" class="text-sm font-medium text-gray-300">Sanitize HTML output</label>
-                </div>
+        <!-- Action Toolbar -->
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+            <div class="flex gap-2">
+                <button id="tab-preview" class="view-tab active glass-panel px-4 py-1.5 rounded-xl text-xs font-bold border border-white/5">Rich Preview</button>
+                <button id="tab-html" class="view-tab glass-panel px-4 py-1.5 rounded-xl text-xs font-bold border border-white/5 text-gray-400">Raw HTML</button>
+            </div>
+
+            <div class="flex gap-2">
+                <button id="copy-html-btn" class="glass-panel px-4 py-2 rounded-xl text-xs font-semibold text-gray-300 hover:text-white border border-white/10 flex items-center gap-1.5">
+                    <i data-feather="copy" class="w-3.5 h-3.5"></i> Copy HTML
+                </button>
+                <button id="download-html-btn" class="glass-panel px-4 py-2 rounded-xl text-xs font-semibold text-gray-300 hover:text-white border border-white/10 flex items-center gap-1.5">
+                    <i data-feather="download" class="w-3.5 h-3.5"></i> Download .html
+                </button>
             </div>
         </div>
 
-        <!-- Input/Output Tabs -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-6 mb-6">
-            <div class="flex border-b border-white/10 mb-6">
-                <button id="tab-html" class="tab-button px-4 py-2 rounded-t-md active">HTML Output</button>
-                <button id="tab-preview" class="tab-button px-4 py-2 rounded-t-md">Live Preview</button>
-            </div>
+        <!-- Editor Grid -->
+        <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Left: Markdown Input -->
+            <div class="glass-panel p-5 rounded-3xl border border-white/10 space-y-3">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Markdown Input</span>
+                <textarea id="md-input" rows="18" class="w-full" placeholder="Write your markdown here..."># Modern Architecture Overview
 
-            <div class="flex flex-col lg:flex-row gap-6">
-                <!-- Input Section -->
-                <div class="flex-1">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-gray-100">Markdown Input</h3>
-                        <div class="flex gap-2">
-                            <button id="paste-btn" class="px-3 py-1 text-sm bg-dark-800/80 text-gray-200 hover:bg-dark-700/60 backdrop-blur-md rounded-md transition-colors">
-                                <i data-feather="clipboard" class="w-4 h-4 inline mr-1"></i>Paste
-                            </button>
-                            <button id="clear-input-btn" class="px-3 py-1 text-sm bg-dark-800/60 backdrop-blur-md hover:bg-dark-700/60 backdrop-blur-md text-red-700 rounded-md transition-colors">
-                                <i data-feather="trash-2" class="w-4 h-4 inline mr-1"></i>Clear
-                            </button>
-                        </div>
-                    </div>
-                    <textarea id="markdown-input" class="markdown-input w-full p-4 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none code-container" placeholder="# Hello World
+Welcome to **Infiniteforge**! This is a live demonstration of GitHub Flavored Markdown parsing.
 
-This is **bold** and this is *italic*.
+### Key Capabilities
+- Real-time client-side rendering
+- High performance syntax highlighting
+- Clean semantic HTML export
 
-## Lists
-- Item 1
-- Item 2
-- Item 3
-
-## Code
 ```javascript
-console.log('Hello, World!');
+function greet(name) {
+  console.log(`Hello, ${name}! Welcome to Infiniteforge.`);
+}
+greet('Developer');
 ```
 
-## Links
-[Google](https://google.com)"></textarea>
-                </div>
-
-                <!-- Output Section -->
-                <div class="flex-1">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-gray-100" id="output-title">HTML Output</h3>
-                        <div class="flex gap-2">
-                            <button id="copy-btn" class="px-3 py-1 text-sm bg-dark-800/60 backdrop-blur-md hover:bg-dark-700/60 backdrop-blur-md text-blue-700 rounded-md transition-colors" disabled>
-                                <i data-feather="copy" class="w-4 h-4 inline mr-1"></i>Copy
-                            </button>
-                            <button id="download-btn" class="px-3 py-1 text-sm bg-dark-800/60 backdrop-blur-md hover:bg-dark-700/60 backdrop-blur-md text-green-700 rounded-md transition-colors" disabled>
-                                <i data-feather="download" class="w-4 h-4 inline mr-1"></i>Download
-                            </button>
-                        </div>
-                    </div>
-                    <div id="output-container">
-                        <pre id="html-output" class="html-output w-full p-4 border border-white/20 rounded-md code-container"><code class="language-html">&lt;h1&gt;Hello World&lt;/h1&gt;
-
-&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; and this is &lt;em&gt;italic&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Lists&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Item 1&lt;/li&gt;
-&lt;li&gt;Item 2&lt;/li&gt;
-&lt;li&gt;Item 3&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;Code&lt;/h2&gt;
-&lt;pre&gt;&lt;code class="language-javascript"&gt;console.log('Hello, World!');
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Links&lt;/h2&gt;
-&lt;p&gt;&lt;a href="https://google.com"&gt;Google&lt;/a&gt;&lt;/p&gt;</code></pre>
-                    </div>
-                </div>
+&gt; "Simplicity is prerequisite for reliability." — Edsger W. Dijkstra</textarea>
             </div>
-        </div>
 
-        <!-- Action Buttons -->
-        <div class="text-center mb-8">
-            <button id="convert-btn" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
-                <span id="convert-text">Convert to HTML</span>
-                <div id="loading-spinner" class="hidden loading-spinner inline-block ml-2"></div>
-            </button>
-        </div>
+            <!-- Right: Preview / HTML output -->
+            <div class="glass-panel p-5 rounded-3xl border border-white/10 space-y-3">
+                <span class="text-xs font-bold text-brand-primary uppercase tracking-wider block" id="output-title">Rich Preview</span>
+                
+                <div id="preview-container" class="w-full h-[410px] overflow-y-auto p-4 rounded-2xl bg-dark-900/60 border border-white/5 markdown-preview text-xs">
+                    <!-- Dynamic preview -->
+                </div>
 
-        <!-- Status Messages -->
-        <div id="status-container" class="hidden">
-            <!-- Messages will be inserted here -->
-        </div>
-
-        <!-- Features Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Features</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <i data-feather="zap" class="w-12 h-12 text-blue-500 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Instant Conversion</h3>
-                    <p class="text-gray-400">Convert Markdown to HTML in real-time with live preview and instant results.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="shield" class="w-12 h-12 text-green-500 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Privacy First</h3>
-                    <p class="text-gray-400">All conversion happens locally in your browser. Your content never leaves your device.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="settings" class="w-12 h-12 text-purple-500 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Customizable Options</h3>
-                    <p class="text-gray-400">Configure line breaks, GitHub Flavored Markdown, and HTML sanitization options.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="eye" class="w-12 h-12 text-yellow-500 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Live Preview</h3>
-                    <p class="text-gray-400">See how your Markdown will look as rendered HTML with beautiful styling.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="code" class="w-12 h-12 text-indigo-500 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Syntax Highlighting</h3>
-                    <p class="text-gray-400">Code blocks in your Markdown are syntax-highlighted in the preview.</p>
-                </div>
-                <div class="text-center">
-                    <i data-feather="download" class="w-12 h-12 text-red-500 mb-4 mx-auto"></i>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Export Options</h3>
-                    <p class="text-gray-400">Copy HTML to clipboard or download as a file for easy integration.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Markdown Cheat Sheet -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Markdown Cheat Sheet</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">Basic Syntax</h3>
-                    <div class="space-y-2 text-sm">
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded"># Heading 1</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;h1&gt;Heading 1&lt;/h1&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">**bold**</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;strong&gt;bold&lt;/strong&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">*italic*</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;em&gt;italic&lt;/em&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">[link](url)</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;a href="url"&gt;link&lt;/a&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">![alt](image.jpg)</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;img alt="alt" src="image.jpg"&gt;</code></div>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">Lists & Code</h3>
-                    <div class="space-y-2 text-sm">
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">- Item</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">1. Item</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;ol&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ol&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">`code`</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;code&gt;code&lt;/code&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">```code```</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;pre&gt;&lt;code&gt;code&lt;/code&gt;&lt;/pre&gt;</code></div>
-                        <div><code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&gt; quote</code> → <code class="bg-dark-800/80 text-gray-200 px-2 py-1 rounded">&lt;blockquote&gt;quote&lt;/blockquote&gt;</code></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAQ Section -->
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Frequently Asked Questions</h2>
-            <div class="space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">What is Markdown?</h3>
-                    <p class="text-gray-400">Markdown is a lightweight markup language with plain-text formatting syntax. It's designed to be easy to read and write, and can be converted to HTML and other formats.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Is my content safe and private?</h3>
-                    <p class="text-gray-400">Absolutely! All Markdown processing happens locally in your browser using client-side JavaScript. Your content never leaves your device or gets sent to any server.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">What Markdown features are supported?</h3>
-                    <p class="text-gray-400">We support standard Markdown syntax including headings, paragraphs, links, images, lists, code blocks, blockquotes, tables, and more. GitHub Flavored Markdown (GFM) is also supported.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Can I use this offline?</h3>
-                    <p class="text-gray-400">Once the page is loaded, the Markdown parser is cached locally, so you can use the converter offline for subsequent conversions.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">What's the difference between HTML output and Live Preview?</h3>
-                    <p class="text-gray-400">HTML Output shows the raw HTML code that you can copy and use. Live Preview shows how the HTML will look when rendered in a browser with styling applied.</p>
-                </div>
+                <textarea id="html-output" rows="18" readonly="" class="w-full hidden" placeholder="HTML code..."></textarea>
             </div>
         </div>
     </main>
@@ -569,374 +174,15 @@ console.log('Hello, World!');
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x318ad1=_0x5f23,_0x189ea9=_0x2589;function _0x31b9(){const _0x24820b=['W6SMuCkIDmoRvmkeW61u','W5BcQmoImG','Dgv4DenVBNrLBG','mJjWA1nJBKO','obdcL0yp','W6r2AwXK','vfvbDK8','yNrU','W6VcIMnMor7dVK3dOq','ndaW','W7BdTt5lWRG','WPWXW5CxhYJcQCkfW53dUG','rhjvEgC','W4LTWOi','W6SRxsiHsmkjxmozpq','zw50','WOrtWOK','uu9yAxq','W6imkCozWPbDpHFdOSoh','W48RWQtdTW','DgfIlxbYzxzPzq','z2v0rwXLBwvUDa','mtuYmtK1nhLuuwDNBq','W5zBW5pcU8kOe8kw','FCkiW5v0W5dcVrpcTmk9W6K','W5FdISo0WPVcRW/dSmkQ','psjvveyToci+pa','kcGOlISPkYKRkq','WQJcRLzybNddUuNdQbW','pc9ZCgfUpG','WOvcWRFcR2i5bCoykq','W7FcPCo+bd4','WOK4W4OrkgRcPmkyW4RdTW','wevkA2q','n8kgn1fxWQFdO8kOW50','W53dPsrnWPO','b8kGW43cRI04WPiLBga','eCkoW5S6','y29WEs1ODg1Slq','WOhcISoTWP/cNW','s8oiW4y9erNcPSkA','DgfIlwH0BwW','W74TzSktCmoNvmkx','ba/cQCk5WR8','Dgv4Dc1NCMf5lq','W7ZcLdXosmo9','qComAmokW4G','x3rPBwvY','tmoKWOtdS3vDW5b/mW','W47dLGDXWQe','s2dcImory3qWm8oSWO8','CMvTB3zL','WOmyWOVcP8kly8osWPO5','W59jW5tcL8kY','EY7cQImmzW','C2vHCMnO','WPzIW6/dSIzlW7ZcJmoWW78','zg93BMXVywqTAa','pc9IB2r5pJWVAa','ntr6se5ZD0u','q29WAwvKieHutq','Ex9r','At48C3bHBJ4','W5GiWPlcHW','y2XPy2S','Dg9tDhjPBMC','Aw5MBW','WQxcStGttupdPSoPWPmH','mZjRA0jTy1C','DdWVDgL0Bgu+pa','WOK4W4OrrMlcUmknW5BcTa','twhcMmorExqZiSooWPi','C3bSAxq','ACkQfLtcH28','nZe0mdzACMDvAge','BvvgWRW+sSoHtCoSW7K','zg93BIbfEhbVCG','pb3cVv98','C3rLBMvY','CMvWBgfJzq','w8oivSk5za','wZpcGZax','swTvrvu','W7/cNmodmu0XzmkdWOa7','mtyZodu5nwr0CuPMuq','tcbTyxjRDxaH','nxW2Fdr8mhWXFa','p8kykvHC','y2HHCNnLDd11Da','dZ3cU8k+WQzYpG','tdpdKXW','BwqTAw5WDxq','W6W6qdHRuG','mte3C0vmzeLe','k8kkn23dPW','y2XHC3nmAxn0','uJPvW6W','y3jLyxrLrwXLBq','WPpcM8kToSkCECkkW63dGq','shfcB2y','amoGWOddOwiVWOvUkc0','qNLjza','c30cWRVdKwddImkUW7JcI8oXW6H+','hSkFW4itlH/cPCk1l1a','ASoFmxFdKrNdIv4','mtaZndm4meHiuNrMyq','ndCWEvfnzLjM','ywn0AxzL','mhWYFdn8nNW0Fa','WOhdICkTx8kMyqy','AgLKzgvU','mtr0AvnYzue','zI04','W7DOzxLMcLBdL8k6W4S','W5CwWRlcGeu','DMfSDwu','ndi2mJeZnNH6qvfetG','WQldMCoJ','hSk+W5BcUdmOWOXOmZJcQCkwca','oSkkpq','WPtcK8kiW4ldUSkxf8kSWP4','ywrKrxzLBNrmAq','twDPy3O','WPBcNCoYWP/cMWC','W5ldNrLrWQq','ndK2mJG5otvvAujLweW','WQpcUCkgW6f+lJ1vpWy','mJCYndrktwf4r2G','WONcNmogW4tdOmk+mCksWRFcJq','mM93wwnRrq','CNbotxC','W67cPxFdNG','ywrK','AYFcQIiCq0ZdI8kq','s8oNWPldRMP+W5HO','y2XPCgjVyxjK','W6KeWRJcGfRdK8k+','ASoFBNZdTmkqy3Lg'];_0x31b9=function(){return _0x24820b;};return _0x31b9();}(function(_0x23763c,_0x254e9a){const _0x1543e3=_0x2589,_0x3c290d=_0x5f23,_0x395aed=_0x23763c();while(!![]){try{const _0x5606b0=parseInt(_0x3c290d(0x170,'qFDN'))/(-0xd*0x223+0x163a+-0x58e*-0x1)*(-parseInt(_0x1543e3(0x17b))/(0x127c+-0x1bde+-0x259*-0x4))+-parseInt(_0x3c290d(0xf9,'nFOU'))/(-0x22a3+0x2c+0x227a)*(parseInt(_0x1543e3(0x179))/(0x25*0x11+0x611*0x1+0x12*-0x79))+parseInt(_0x3c290d(0x12e,'s1PJ'))/(0x1*0x1c2c+-0x2*-0x10e5+-0x3df1)*(parseInt(_0x1543e3(0x144))/(0x24c4+0xf39+-0xfb*0x35))+-parseInt(_0x3c290d(0x160,'1lAH'))/(0x1bd*-0xc+0x170e+-0x6f*0x5)*(parseInt(_0x3c290d(0x113,'qb*P'))/(0xa2+0x1*0x853+-0x8ed))+-parseInt(_0x1543e3(0x135))/(-0x1f95+0x50c*-0x3+-0x357*-0xe)*(parseInt(_0x1543e3(0x163))/(0x8bd*0x4+0x3d*0x9f+-0x48cd))+-parseInt(_0x1543e3(0xfd))/(0x2d0+-0x569*-0x7+-0x28a4)*(parseInt(_0x1543e3(0x16e))/(0x1*0xbe4+0x83*0x49+-0x3133))+-parseInt(_0x1543e3(0x177))/(-0x1827+-0x1398+0x2bcc)*(-parseInt(_0x3c290d(0x162,'yBOt'))/(-0x1*0xc3b+0x9cc+0x1*0x27d));if(_0x5606b0===_0x254e9a)break;else _0x395aed['push'](_0x395aed['shift']());}catch(_0x22916d){_0x395aed['push'](_0x395aed['shift']());}}}(_0x31b9,-0x14a44f+0xfe88+0x17*0x167e4),feather[_0x189ea9(0x149)]());function showMessage(_0x33fbab,_0x44dfc1=_0x318ad1(0xf8,'9atd')){const _0x4510bb=_0x189ea9,_0x5cd70d=_0x318ad1,_0x2b9c5d={'rpNMw':function(_0xfbc1d9,_0x4d250f){return _0xfbc1d9+_0x4d250f;},'TUAvO':_0x5cd70d(0x121,'qb*P'),'XEJkd':_0x4510bb(0x13c),'weEnS':_0x4510bb(0x117),'eFsnw':_0x5cd70d(0x147,'Hgfh'),'IjuED':function(_0x30f2ba,_0x4b94c3,_0x2bbc8d){return _0x30f2ba(_0x4b94c3,_0x2bbc8d);}},_0x2259ea=document[_0x4510bb(0x10f)+_0x5cd70d(0x139,'9atd')]('toast');if(!_0x2259ea)return;_0x2259ea[_0x5cd70d(0x172,'^9y)')]=_0x2b9c5d[_0x4510bb(0x17c)](_0x2b9c5d['rpNMw'](_0x5cd70d(0x13d,'pBh$')+_0x5cd70d(0x111,'s1PJ')+(_0x44dfc1==='success'?'check-circ'+'le':_0x44dfc1===_0x2b9c5d[_0x4510bb(0x100)]?_0x5cd70d(0x105,'njbw')+'le':_0x2b9c5d[_0x4510bb(0x11b)]),_0x5cd70d(0x178,'d8#7')+'-4\x20h-4\x22></'+_0x4510bb(0x138))+_0x33fbab,_0x2b9c5d[_0x5cd70d(0xfe,'Hgfh')]),_0x2259ea['className']=_0x2b9c5d[_0x5cd70d(0x125,'u*i9')]+_0x44dfc1,feather['replace'](),clearTimeout(_0x2259ea[_0x5cd70d(0x143,'95%b')]),_0x2259ea[_0x4510bb(0x129)]=_0x2b9c5d[_0x5cd70d(0x128,'hcrW')](setTimeout,()=>{const _0x3f57d4=_0x5cd70d;_0x2259ea[_0x3f57d4(0x102,'!cFe')]=_0x44dfc1;},-0x525*0x2+-0x2212+0xc*0x4d6);}const mdInput=document[_0x318ad1(0x141,'t%Uj')+_0x189ea9(0x15f)](_0x189ea9(0x155)),previewContainer=document['getElement'+_0x318ad1(0xfb,'PLeb')](_0x318ad1(0x16b,'xPDY')+_0x318ad1(0x153,'u*i9')),htmlOutput=document['getElement'+'ById'](_0x318ad1(0x132,'nnwL')+'t'),tabPreview=document[_0x189ea9(0x10f)+_0x189ea9(0x15f)](_0x189ea9(0x10e)+'w'),tabHtml=document[_0x189ea9(0x10f)+_0x318ad1(0x154,'4x6o')](_0x189ea9(0x123)),outputTitle=document[_0x318ad1(0x161,'OWp(')+_0x189ea9(0x15f)]('output-tit'+'le');function _0x5f23(_0x49a531,_0x5a5fef){_0x49a531=_0x49a531-(-0x1*-0x188b+0x1*0xf4c+-0x26e0);const _0xf148a6=_0x31b9();let _0x2326fd=_0xf148a6[_0x49a531];if(_0x5f23['bzHdLw']===undefined){var _0x546d34=function(_0x1b41c5){const _0x3c51a5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x408cb5='',_0x3170e3='',_0x1dffb3=_0x408cb5+_0x546d34,_0x21731c=(''+function(){return 0x1b4c+-0x2b*0xe7+0xb81;})['indexOf']('\x0a')!==-(-0x2233+-0x5*-0x91+-0x1*-0x1f5f);for(let _0x509101=-0x17d0+-0x12d3+0x2aa3,_0x4d9ba4,_0x2ac025,_0x1894e0=0x161e*0x1+-0x1a5e+0x440*0x1;_0x2ac025=_0x1b41c5['charAt'](_0x1894e0++);~_0x2ac025&&(_0x4d9ba4=_0x509101%(-0xca3*-0x2+-0x449+-0x5b*0x3b)?_0x4d9ba4*(0x13d*0xa+0x5*0xb7+0xfb5*-0x1)+_0x2ac025:_0x2ac025,_0x509101++%(0x2f*0x7f+-0x2*0x6ad+-0x9f3*0x1))?_0x408cb5+=_0x21731c||_0x1dffb3['charCodeAt'](_0x1894e0+(0x20e3+0x12af+-0x3388))-(0x1b25+-0x519*-0x2+-0x254d)!==0x511*-0x4+-0x1d51+0x3195?String['fromCharCode'](-0x8*-0x2fb+-0x36*0x4+0x2b*-0x83&_0x4d9ba4>>(-(0x1d8*-0x10+-0x14*0x6b+0x25de)*_0x509101&0xb*0x279+-0x4c7*-0x1+-0x1ff4)):_0x509101:0x36*0x3c+0x3*0x13d+0x3*-0x575){_0x2ac025=_0x3c51a5['indexOf'](_0x2ac025);}for(let _0x4340ed=-0x12f*-0x21+0x241+-0x10*0x295,_0x45fad8=_0x408cb5['length'];_0x4340ed<_0x45fad8;_0x4340ed++){_0x3170e3+='%'+('00'+_0x408cb5['charCodeAt'](_0x4340ed)['toString'](-0x1d7e+-0x16b3+0x3441))['slice'](-(0x2391+0x1*0x2379+-0x4708));}return decodeURIComponent(_0x3170e3);};const _0x580973=function(_0xc8b856,_0xec8106){let _0x3fb9ec=[],_0x2ddcec=0x3b6+0xf*0x216+0x7*-0x500,_0x59c434,_0x215ac6='';_0xc8b856=_0x546d34(_0xc8b856);let _0x49f0a0;for(_0x49f0a0=-0x6a3+0x20be+0x29*-0xa3;_0x49f0a0<-0x5fe+0xa48+-0x34a;_0x49f0a0++){_0x3fb9ec[_0x49f0a0]=_0x49f0a0;}for(_0x49f0a0=0x124*0x1a+0x1*0x1b9d+-0x3945;_0x49f0a0<0x1*-0x429+0x1c94+0x6d*-0x37;_0x49f0a0++){_0x2ddcec=(_0x2ddcec+_0x3fb9ec[_0x49f0a0]+_0xec8106['charCodeAt'](_0x49f0a0%_0xec8106['length']))%(0x7*-0x4ce+-0x161*-0x9+0x1639),_0x59c434=_0x3fb9ec[_0x49f0a0],_0x3fb9ec[_0x49f0a0]=_0x3fb9ec[_0x2ddcec],_0x3fb9ec[_0x2ddcec]=_0x59c434;}_0x49f0a0=-0x1*-0x209f+-0x1545+-0x2*0x5ad,_0x2ddcec=0x1c03+0x15f0+-0x31f3;for(let _0x3176e4=0x7f2+-0xb2c+0x33a;_0x3176e4<_0xc8b856['length'];_0x3176e4++){_0x49f0a0=(_0x49f0a0+(0x245+-0x5b*0x37+0x1149))%(0x4*0x19f+0x1*0x4ca+-0xa46),_0x2ddcec=(_0x2ddcec+_0x3fb9ec[_0x49f0a0])%(-0x24ac+-0xd08+0x24e*0x16),_0x59c434=_0x3fb9ec[_0x49f0a0],_0x3fb9ec[_0x49f0a0]=_0x3fb9ec[_0x2ddcec],_0x3fb9ec[_0x2ddcec]=_0x59c434,_0x215ac6+=String['fromCharCode'](_0xc8b856['charCodeAt'](_0x3176e4)^_0x3fb9ec[(_0x3fb9ec[_0x49f0a0]+_0x3fb9ec[_0x2ddcec])%(-0x3*-0x8f9+0x1*-0x324+-0x16c7)]);}return _0x215ac6;};_0x5f23['brnJmT']=_0x580973,_0x5f23['YPdqsu']={},_0x5f23['bzHdLw']=!![];}const _0x1fea73=_0xf148a6[0x1e09+0x1c20+-0x3a29*0x1],_0x237a2d=_0x49a531+_0x1fea73,_0x373d4e=_0x5f23['YPdqsu'][_0x237a2d];if(!_0x373d4e){if(_0x5f23['mviYfT']===undefined){const _0x45b148=function(_0x27702c){this['zjgFvC']=_0x27702c,this['mOCUGf']=[0x2153*0x1+-0x21c1+0x6f*0x1,0x1*0x10af+0x1d36+-0x1*0x2de5,0x1*-0x1e55+-0x1070+0x2ec5],this['qzHGcb']=function(){return'newState';},this['qhGxKp']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['QicepT']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x45b148['prototype']['wPvtSd']=function(){const _0x56144f=new RegExp(this['qhGxKp']+this['QicepT']),_0x3efcda=_0x56144f['test'](this['qzHGcb']['toString']())?--this['mOCUGf'][0xd67+-0x1*0x2429+-0x16c3*-0x1]:--this['mOCUGf'][-0x432+-0x1a7e+0x1eb0];return this['sPIJiN'](_0x3efcda);},_0x45b148['prototype']['sPIJiN']=function(_0x5b6619){if(!Boolean(~_0x5b6619))return _0x5b6619;return this['PnaLPD'](this['zjgFvC']);},_0x45b148['prototype']['PnaLPD']=function(_0x12ace1){for(let _0x9594df=0x1*-0x4d4+-0x201d*0x1+0x24f1,_0x443ed5=this['mOCUGf']['length'];_0x9594df<_0x443ed5;_0x9594df++){this['mOCUGf']['push'](Math['round'](Math['random']())),_0x443ed5=this['mOCUGf']['length'];}return _0x12ace1(this['mOCUGf'][0x2*-0xdc9+-0x579*-0x7+-0xabd]);},(''+function(){return 0x37b+-0x522+0x3*0x8d;})['indexOf']('\x0a')===-(0x10d7+-0x105a*0x1+0x1f*-0x4)&&new _0x45b148(_0x5f23)['wPvtSd'](),_0x5f23['mviYfT']=!![];}_0x2326fd=_0x5f23['brnJmT'](_0x2326fd,_0x5a5fef),_0x5f23['YPdqsu'][_0x237a2d]=_0x2326fd;}else _0x2326fd=_0x373d4e;return _0x2326fd;}marked['setOptions']({'gfm':!![],'breaks':!![]});function _0x2589(_0x379ae1,_0x3588de){_0x379ae1=_0x379ae1-(-0x1*-0x188b+0x1*0xf4c+-0x26e0);const _0x365b7f=_0x31b9();let _0x38c7cd=_0x365b7f[_0x379ae1];if(_0x2589['kjxmNu']===undefined){var _0x4b501c=function(_0x1fc85d){const _0x211087='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2b1898='',_0x4d6b4d='',_0x4fb279=_0x2b1898+_0x4b501c,_0x508a9a=(''+function(){return 0x1b4c+-0x2b*0xe7+0xb81;})['indexOf']('\x0a')!==-(-0x2233+-0x5*-0x91+-0x1*-0x1f5f);for(let _0x2bdb87=-0x17d0+-0x12d3+0x2aa3,_0x540c91,_0x19e11e,_0x52dbc9=0x161e*0x1+-0x1a5e+0x440*0x1;_0x19e11e=_0x1fc85d['charAt'](_0x52dbc9++);~_0x19e11e&&(_0x540c91=_0x2bdb87%(-0xca3*-0x2+-0x449+-0x5b*0x3b)?_0x540c91*(0x13d*0xa+0x5*0xb7+0xfb5*-0x1)+_0x19e11e:_0x19e11e,_0x2bdb87++%(0x2f*0x7f+-0x2*0x6ad+-0x9f3*0x1))?_0x2b1898+=_0x508a9a||_0x4fb279['charCodeAt'](_0x52dbc9+(0x20e3+0x12af+-0x3388))-(0x1b25+-0x519*-0x2+-0x254d)!==0x511*-0x4+-0x1d51+0x3195?String['fromCharCode'](-0x8*-0x2fb+-0x36*0x4+0x2b*-0x83&_0x540c91>>(-(0x1d8*-0x10+-0x14*0x6b+0x25de)*_0x2bdb87&0xb*0x279+-0x4c7*-0x1+-0x1ff4)):_0x2bdb87:0x36*0x3c+0x3*0x13d+0x3*-0x575){_0x19e11e=_0x211087['indexOf'](_0x19e11e);}for(let _0x33a3f6=-0x12f*-0x21+0x241+-0x10*0x295,_0x287e37=_0x2b1898['length'];_0x33a3f6<_0x287e37;_0x33a3f6++){_0x4d6b4d+='%'+('00'+_0x2b1898['charCodeAt'](_0x33a3f6)['toString'](-0x1d7e+-0x16b3+0x3441))['slice'](-(0x2391+0x1*0x2379+-0x4708));}return decodeURIComponent(_0x4d6b4d);};_0x2589['nIkvEn']=_0x4b501c,_0x2589['dWtPfv']={},_0x2589['kjxmNu']=!![];}const _0x30cbb6=_0x365b7f[0x3b6+0xf*0x216+0x7*-0x500],_0x1dbb6e=_0x379ae1+_0x30cbb6,_0x2ee304=_0x2589['dWtPfv'][_0x1dbb6e];if(!_0x2ee304){const _0x545857=function(_0x52039d){this['WqPjDi']=_0x52039d,this['NeTwMt']=[-0x6a3+0x20be+0x1a*-0x101,-0x5fe+0xa48+-0x44a,0x124*0x1a+0x1*0x1b9d+-0x3945],this['GUffPK']=function(){return'newState';},this['iyBxgT']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['zwHWTm']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x545857['prototype']['hNccaI']=function(){const _0x1ab4a7=new RegExp(this['iyBxgT']+this['zwHWTm']),_0x2405d0=_0x1ab4a7['test'](this['GUffPK']['toString']())?--this['NeTwMt'][0x1*-0x429+0x1c94+0x7d*-0x32]:--this['NeTwMt'][0x7*-0x4ce+-0x161*-0x9+0x1539];return this['NQAxYg'](_0x2405d0);},_0x545857['prototype']['NQAxYg']=function(_0x38697a){if(!Boolean(~_0x38697a))return _0x38697a;return this['VzBENs'](this['WqPjDi']);},_0x545857['prototype']['VzBENs']=function(_0x25f67d){for(let _0x585d07=-0x1*-0x209f+-0x1545+-0x2*0x5ad,_0x67dbc4=this['NeTwMt']['length'];_0x585d07<_0x67dbc4;_0x585d07++){this['NeTwMt']['push'](Math['round'](Math['random']())),_0x67dbc4=this['NeTwMt']['length'];}return _0x25f67d(this['NeTwMt'][0x1c03+0x15f0+-0x31f3]);},(''+function(){return 0x7f2+-0xb2c+0x33a;})['indexOf']('\x0a')===-(0x245+-0x5b*0x37+0x1149)&&new _0x545857(_0x2589)['hNccaI'](),_0x38c7cd=_0x2589['nIkvEn'](_0x38c7cd),_0x2589['dWtPfv'][_0x1dbb6e]=_0x38c7cd;}else _0x38c7cd=_0x2ee304;return _0x38c7cd;}function convertMarkdown(){const _0xbbcdb9=_0x318ad1,_0x31c97f={'SxHax':function(_0x40dc57){return _0x40dc57();}},_0x590438=(function(){let _0x20cdef=!![];return function(_0x3cb1b5,_0x21f376){const _0x53b3d6=_0x20cdef?function(){const _0x439f64=_0x5f23;if(_0x21f376){const _0x1103d2=_0x21f376[_0x439f64(0x151,'7Kt^')](_0x3cb1b5,arguments);return _0x21f376=null,_0x1103d2;}}:function(){};return _0x20cdef=![],_0x53b3d6;};}()),_0x3bf333=_0x590438(this,function(){const _0x1f1e90=_0x2589,_0x407cf6=_0x5f23;if(_0x3bf333[_0x407cf6(0x17d,'(q4b')]()[_0x1f1e90(0x13b)]()['indexOf']('\x0a')!==-(-0x6b8+0x10df+-0xa26))return;return _0x3bf333[_0x1f1e90(0x13b)]()[_0x407cf6(0x130,'XE%h')](_0x1f1e90(0x115)+'+$')[_0x407cf6(0x124,'oFho')]()['constructo'+'r'](_0x3bf333)[_0x1f1e90(0x131)](_0x407cf6(0x11e,'qFDN')+'+$');});_0x31c97f[_0xbbcdb9(0x14b,'XE%h')](_0x3bf333);const _0x24846c=mdInput[_0xbbcdb9(0x14a,'NmVK')],_0x182084=marked[_0xbbcdb9(0x158,'yBOt')](_0x24846c);previewContainer[_0xbbcdb9(0x11c,'7Kt^')]=_0x182084,htmlOutput[_0xbbcdb9(0x14a,'NmVK')]=_0x182084;}mdInput[_0x318ad1(0xfa,'oFho')+_0x318ad1(0x156,'Jz7I')]('input',convertMarkdown),tabPreview[_0x189ea9(0x173)+'stener'](_0x318ad1(0xff,'xPDY'),()=>{const _0x61d64d=_0x318ad1,_0xd0e5b3=_0x189ea9,_0x37a8ca={'QOXit':_0xd0e5b3(0x150)+_0x61d64d(0x10a,'s1PJ'),'JbqsR':_0x61d64d(0x140,'njbw')+_0x61d64d(0x107,'njbw'),'Mgicz':_0xd0e5b3(0x168),'ALvUc':'Rich\x20Previ'+'ew','IkUEU':'active'},_0x4425fc=_0x37a8ca[_0xd0e5b3(0x10b)]['split']('|');let _0x276d49=-0x25ee*-0x1+0x679+-0x2c67;while(!![]){switch(_0x4425fc[_0x276d49++]){case'0':tabHtml['classList'][_0x61d64d(0x16f,'ImnX')](_0x37a8ca[_0x61d64d(0x11d,'qLBP')]);continue;case'1':previewContainer[_0x61d64d(0x15c,'spJ!')][_0xd0e5b3(0x12d)](_0x37a8ca[_0x61d64d(0x16c,'9atd')]);continue;case'2':outputTitle[_0x61d64d(0x11a,'njbw')+'t']=_0x37a8ca['ALvUc'];continue;case'3':htmlOutput[_0x61d64d(0x12a,'qFDN')][_0xd0e5b3(0x17e)](_0x37a8ca[_0xd0e5b3(0x174)]);continue;case'4':tabHtml[_0xd0e5b3(0x159)]['remove'](_0xd0e5b3(0x165));continue;case'5':tabPreview[_0xd0e5b3(0x159)][_0x61d64d(0x171,'nFOU')](_0x37a8ca[_0xd0e5b3(0x14c)]);continue;case'6':tabPreview[_0xd0e5b3(0x159)][_0xd0e5b3(0x12d)](_0xd0e5b3(0x126)+_0xd0e5b3(0x103));continue;}break;}}),tabHtml[_0x318ad1(0x12c,'t%Uj')+_0x189ea9(0x148)](_0x189ea9(0x13a),()=>{const _0x5581e9=_0x318ad1,_0x249f5a=_0x189ea9,_0x244f0c={'zBVVI':_0x249f5a(0x126)+'400','HqBof':_0x249f5a(0x165),'BPJZR':_0x249f5a(0x168)},_0x2522b0=(_0x249f5a(0x166)+'5|1')[_0x249f5a(0x142)]('|');let _0x2857d4=0x626+-0x23ed+-0x3*-0x9ed;while(!![]){switch(_0x2522b0[_0x2857d4++]){case'0':tabHtml[_0x5581e9(0x15c,'spJ!')][_0x5581e9(0x137,'8IPZ')](_0x249f5a(0x165));continue;case'1':outputTitle[_0x249f5a(0xfc)+'t']='Raw\x20HTML\x20M'+_0x5581e9(0x104,'qLBP');continue;case'2':tabHtml['classList'][_0x5581e9(0x175,'qb*P')](_0x244f0c['zBVVI']);continue;case'3':tabPreview[_0x5581e9(0x118,'(([@')][_0x5581e9(0x127,')7pr')](_0x244f0c[_0x249f5a(0x15d)]);continue;case'4':previewContainer[_0x249f5a(0x159)]['add'](_0x244f0c['BPJZR']);continue;case'5':htmlOutput[_0x5581e9(0x17f,'XE%h')][_0x249f5a(0x12d)]('hidden');continue;case'6':tabPreview['classList']['add']('text-gray-'+'400');continue;}break;}}),document['getElement'+_0x189ea9(0x15f)](_0x189ea9(0x120)+_0x189ea9(0x101))[_0x189ea9(0x173)+_0x189ea9(0x148)](_0x189ea9(0x13a),()=>{const _0x18e94a=_0x318ad1,_0x5d1ea3=_0x189ea9,_0x21aca9={'YQROi':function(_0x2d3bf7,_0x256c67){return _0x2d3bf7(_0x256c67);}};navigator[_0x5d1ea3(0xf7)]['writeText'](htmlOutput[_0x18e94a(0x14a,'NmVK')])['then'](()=>{const _0x17529c=_0x5d1ea3,_0xbe3b73=_0x18e94a;_0x21aca9[_0xbe3b73(0x12b,'qLBP')](showMessage,_0x17529c(0x136)+_0x17529c(0x14f));});}),document[_0x318ad1(0x112,'c2WS')+_0x318ad1(0x10d,'7hG9')](_0x189ea9(0x133)+_0x318ad1(0x167,'0k3$'))[_0x189ea9(0x173)+'stener']('click',()=>{const _0x4b64b6=_0x189ea9,_0x22ffcf=_0x318ad1,_0x485981={'DrUxg':_0x22ffcf(0x108,'Jz7I')+_0x4b64b6(0x152)+_0x4b64b6(0x16a),'hfoIh':'converted.'+_0x22ffcf(0x11f,'OWp('),'EZLol':function(_0x149809,_0x47b692){return _0x149809(_0x47b692);}},_0x5b02a3=_0x22ffcf(0x14d,'ImnX')+_0x22ffcf(0x145,'zNbB')+'><head><me'+_0x22ffcf(0x17a,'^9y)')+_0x4b64b6(0x114)+_0x22ffcf(0x10c,'dk#d')+_0x4b64b6(0x146)+_0x4b64b6(0x13f)+_0x22ffcf(0x15e,'qFDN')+'y>'+htmlOutput[_0x4b64b6(0x16d)]+(_0x4b64b6(0x134)+'tml>'),_0x36213f=new Blob([_0x5b02a3],{'type':_0x485981[_0x4b64b6(0x106)]}),_0x20df4a=URL['createObje'+_0x22ffcf(0x119,'PLeb')](_0x36213f),_0xb35836=document[_0x4b64b6(0x15b)+_0x4b64b6(0x109)]('a');_0xb35836[_0x22ffcf(0x15a,'1lAH')]=_0x20df4a,_0xb35836[_0x22ffcf(0x180,'qFDN')]=_0x485981[_0x22ffcf(0x12f,'s1PJ')],_0xb35836['click'](),_0x485981[_0x22ffcf(0x176,'qLBP')](showMessage,'Downloaded'+_0x22ffcf(0x116,'!cFe')+'!');}),convertMarkdown();</script>
 
-
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Markdown to HTML Converter",
-        "description": "Convert Markdown to HTML instantly with live preview, syntax highlighting, and download options. Free, fast, and privacy-focused.",
-        "url": "https://infiniteforge.tech/markdown-to-html.html",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "featureList": [
-            "Real-time Markdown to HTML conversion",
-            "Live preview with styling",
-            "GitHub Flavored Markdown support",
-            "Client-side processing for privacy",
-            "Copy and download functionality",
-            "Syntax highlighting"
-        ],
-        "author": {
-            "@type": "Organization",
-            "name": "Infiniteforge"
-        }
-    }
-    </script>
-
-    <script>
-        // Initialize Feather Icons
-        feather.replace();
-
-        // Global variables
-        let htmlOutput = '';
-        let currentTab = 'html';
-
-        // DOM elements
-        const markdownInput = document.getElementById('markdown-input');
-        const htmlOutputEl = document.getElementById('html-output');
-        const outputContainer = document.getElementById('output-container');
-        const outputTitle = document.getElementById('output-title');
-        const convertBtn = document.getElementById('convert-btn');
-        const convertText = document.getElementById('convert-text');
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const copyBtn = document.getElementById('copy-btn');
-        const downloadBtn = document.getElementById('download-btn');
-        const pasteBtn = document.getElementById('paste-btn');
-        const clearInputBtn = document.getElementById('clear-input-btn');
-        const statusContainer = document.getElementById('status-container');
-        const tabHtml = document.getElementById('tab-html');
-        const tabPreview = document.getElementById('tab-preview');
-        const breaksCheckbox = document.getElementById('breaks');
-        const gfmCheckbox = document.getElementById('gfm');
-        const sanitizeCheckbox = document.getElementById('sanitize');
-
-        // Configure Marked.js
-        marked.setOptions({
-            breaks: breaksCheckbox.checked,
-            gfm: gfmCheckbox.checked,
-            sanitize: sanitizeCheckbox.checked,
-            smartLists: true,
-            smartypants: true
-        });
-
-        // Initialize the application
-        function init() {
-            setupEventListeners();
-            loadSampleMarkdown();
-            convertMarkdown();
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Convert button
-            convertBtn.addEventListener('click', convertMarkdown);
-
-            // Copy button
-            copyBtn.addEventListener('click', copyToClipboard);
-
-            // Download button
-            downloadBtn.addEventListener('click', downloadHtml);
-
-            // Paste button
-            pasteBtn.addEventListener('click', pasteFromClipboard);
-
-            // Clear input button
-            clearInputBtn.addEventListener('click', clearInput);
-
-            // Tab switching
-            tabHtml.addEventListener('click', () => switchTab('html'));
-            tabPreview.addEventListener('click', () => switchTab('preview'));
-
-            // Mobile menu
-            document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
-
-            // Option checkboxes
-            breaksCheckbox.addEventListener('change', updateMarkedOptions);
-            gfmCheckbox.addEventListener('change', updateMarkedOptions);
-            sanitizeCheckbox.addEventListener('change', updateMarkedOptions);
-
-            // Auto-convert on input change (debounced)
-            let convertTimeout;
-            markdownInput.addEventListener('input', () => {
-                clearTimeout(convertTimeout);
-                convertTimeout = setTimeout(() => {
-                    if (markdownInput.value.trim()) {
-                        convertMarkdown();
-                    }
-                }, 500);
-            });
-        }
-
-        // Update Marked.js options
-        function updateMarkedOptions() {
-            marked.setOptions({
-                breaks: breaksCheckbox.checked,
-                gfm: gfmCheckbox.checked,
-                sanitize: sanitizeCheckbox.checked,
-                smartLists: true,
-                smartypants: true
-            });
-            convertMarkdown();
-        }
-
-        // Switch between HTML and Preview tabs
-        function switchTab(tab) {
-            currentTab = tab;
-
-            // Update tab buttons
-            tabHtml.classList.toggle('active', tab === 'html');
-            tabPreview.classList.toggle('active', tab === 'preview');
-
-            // Update output title
-            outputTitle.textContent = tab === 'html' ? 'HTML Output' : 'Live Preview';
-
-            // Update output content
-            updateOutputDisplay();
-        }
-
-        // Convert Markdown to HTML
-        function convertMarkdown() {
-            try {
-                const markdown = markdownInput.value;
-                htmlOutput = marked.parse(markdown);
-
-                updateOutputDisplay();
-                enableButtons();
-
-                showStatus('Markdown converted successfully!', 'success');
-            } catch (error) {
-                console.error('Conversion error:', error);
-                showStatus('Error converting Markdown. Please check your syntax.', 'error');
-            }
-        }
-
-        // Update output display based on current tab
-        function updateOutputDisplay() {
-            if (currentTab === 'html') {
-                outputContainer.innerHTML = `<pre id="html-output" class="html-output w-full p-4 border border-white/20 rounded-md code-container"><code class="language-html">${escapeHtml(htmlOutput)}</code></pre>`;
-                Prism.highlightElement(document.querySelector('#html-output code'));
-            } else {
-                outputContainer.innerHTML = `<div id="preview-output" class="preview-output preview-content">${htmlOutput}</div>`;
-            }
-        }
-
-        // Enable copy and download buttons
-        function enableButtons() {
-            copyBtn.disabled = false;
-            downloadBtn.disabled = false;
-            copyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        }
-
-        // Copy to clipboard
-        async function copyToClipboard() {
-            try {
-                const textToCopy = currentTab === 'html' ? htmlOutput : getPlainHtml(htmlOutput);
-                await navigator.clipboard.writeText(textToCopy);
-                showStatus('Copied to clipboard!', 'success');
-            } catch (error) {
-                console.error('Copy failed:', error);
-                showStatus('Failed to copy to clipboard.', 'error');
-            }
-        }
-
-        // Download HTML
-        function downloadHtml() {
-            try {
-                const content = currentTab === 'html' ? htmlOutput : getPlainHtml(htmlOutput);
-                const blob = new Blob([content], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'converted.html';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showStatus('HTML downloaded successfully!', 'success');
-            } catch (error) {
-                console.error('Download failed:', error);
-                showStatus('Failed to download HTML.', 'error');
-            }
-        }
-
-        // Paste from clipboard
-        async function pasteFromClipboard() {
-            try {
-                const text = await navigator.clipboard.readText();
-                markdownInput.value = text;
-                convertMarkdown();
-                showStatus('Pasted from clipboard!', 'success');
-            } catch (error) {
-                console.error('Paste failed:', error);
-                showStatus('Failed to paste from clipboard.', 'error');
-            }
-        }
-
-        // Clear input
-        function clearInput() {
-            markdownInput.value = '';
-            htmlOutput = '';
-            updateOutputDisplay();
-            copyBtn.disabled = true;
-            downloadBtn.disabled = true;
-            copyBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            downloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            showStatus('Input cleared.', 'success');
-        }
-
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Auto-close mobile menu on scroll or link click
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-
-        // Show status messages
-        function showStatus(message, type) {
-            statusContainer.innerHTML = `
-                <div class="${type}-message fade-in">
-                    ${message}
-                </div>
-            `;
-            statusContainer.classList.remove('hidden');
-
-            // Auto-hide after 3 seconds
-            setTimeout(() => {
-                statusContainer.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Load sample Markdown
-        function loadSampleMarkdown() {
-            const sample = `# Hello World
-
-This is **bold** text and this is *italic* text.
-
-## Lists
-
-### Unordered List
-- Item 1
-- Item 2
-- Item 3
-
-### Ordered List
-1. First item
-2. Second item
-3. Third item
-
-## Code
-
-Inline code: \`console.log('Hello, World!')\`
-
-\`\`\`javascript
-function greet(name) {
-    console.log(\`Hello, \${name}!\`);
-}
-
-greet('World');
-\`\`\`
-
-## Links and Images
-
-[Visit Google](https://google.com)
-
-![Sample Image](https://via.placeholder.com/300x200?text=Sample+Image)
-
-## Blockquotes
-
-> This is a blockquote.
-> It can span multiple lines.
-
-## Tables
-
-| Name | Age | City |
-|------|-----|------|
-| John | 25  | NYC  |
-| Jane | 30  | LA   |
-| Bob  | 35  | Chicago |
-
-## Task Lists
-
-- [x] Completed task
-- [ ] Incomplete task
-- [x] Another completed task`;
-
-            markdownInput.value = sample;
-        }
-
-        // Utility functions
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function getPlainHtml(html) {
-            return html;
-        }
-
-        // Initialize when DOM is loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

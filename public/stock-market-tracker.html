@@ -1,347 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Market Tracker - Real-time Stock Prices & Charts | Infiniteforge</title>
+    <title>Stock Market &amp; Index Tracker — Real-Time Quotes &amp; Interactive Charts | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Free stock market tracker with real-time stock prices, interactive charts, market indices, and portfolio tracking. Track stocks like AAPL, GOOGL, TSLA, and more with live data.">
-    <meta name="keywords" content="stock market tracker, stock prices, real-time stocks, stock charts, AAPL, GOOGL, TSLA, NASDAQ, NYSE, stock portfolio, stock watchlist, market indices, S&P 500, Dow Jones, financial data">
+    <meta name="description" content="Track live stock market indices, tech equities (AAPL, NVDA, TSLA), interactive price history charts, and portfolio profit/loss calculations.">
+    <meta name="keywords" content="stock market tracker, real time stock prices, interactive stock chart, portfolio tracker, nasdaq quote">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:title" content="Stock Market Tracker - Real-time Stock Prices & Charts | Infiniteforge">
-    <meta property="og:description" content="Track stocks with real-time prices, interactive charts, and market data. Free stock market tracker for investors and traders.">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="Stock Market &amp; Index Tracker | Infiniteforge">
+    <meta property="og:description" content="Track live stock prices, interactive charts, and portfolios online.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/stock-market-tracker.html">
     <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="author" content="InfinityForge">
-    <meta name="theme-color" content="#2563eb">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Infiniteforge Logo">
     <meta property="og:site_name" content="Infiniteforge">
     <meta property="og:locale" content="en_US">
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Stock Market Tracker - Real-time Stock Prices & Charts | Infiniteforge">
-    <meta name="twitter:description" content="Track stocks with real-time prices, interactive charts, and market data. Free stock market tracker for investors and traders.">
+    <meta name="twitter:title" content="Stock Market &amp; Index Tracker | Infiniteforge">
+    <meta name="twitter:description" content="Monitor market trends and calculate portfolio PnL online.">
     <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
-    <meta name="twitter:image:alt" content="Infiniteforge Logo">
+    
     <link rel="canonical" href="https://infiniteforge.tech/stock-market-tracker.html">
     <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/stock-market-tracker.html">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
 
-        /* Custom animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .stock-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        .stock-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .search-container:focus-within::before {
-            left: 100%;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .floating-animation {
-            animation: slideInUp 0.8s ease-out;
-        }
-
-        .animate-fadeIn {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .animate-slideInUp {
-            animation: slideInUp 0.8s ease-out forwards;
-        }
-
-        /* Stock specific styles */
-        .stock-input {
-            background: rgba(31, 40, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 16px;
-            transition: border-color 0.2s ease;
-            width: 100%;
-        }
-
-        .stock-input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .price-change {
-            font-size: 0.875rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        .price-change.positive {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .price-change.negative {
-            background: rgba(31, 40, 51, 0.4);
-            color: #dc2626;
-        }
-
-        .loading-spinner {
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid #2563eb;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        .error-message {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .success-message {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid #bbf7d0;
-            color: #166534;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
-
-        .watchlist-item {
-            transition: all 0.2s ease;
-        }
-
-        .watchlist-item:hover {
-            background: rgba(31, 40, 51, 0.4);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Mobile responsive adjustments */
-        @media (max-width: 640px) {
-            .stock-input {
-                padding: 10px 12px;
-                font-size: 16px;
-            }
-
-            .chart-container {
-                height: 250px;
-            }
-        }
-    </style>
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Stock Market Tracker",
-        "description": "Free stock market tracker with real-time stock prices, interactive charts, market indices, and portfolio tracking. Track stocks like AAPL, GOOGL, TSLA with live financial data.",
-        "url": "https://infiniteforge.tech/stock-market-tracker.html",
-        "applicationCategory": "Financial",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "InfinityForge"
-        }
-    }</script>
-    <!-- Google tag (gtag.js) -->
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WQ58J7WX');</script>
-    <!-- End Google Tag Manager -->
-
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
     </script>
+
+    <script>var _0x45deb5=_0x49aa,_0x4a3d73=_0x1d74;function _0x1d74(_0x5a52b7,_0x440e70){_0x5a52b7=_0x5a52b7-(0x1dc1*0x1+-0x2a*-0xad+-0x3953);var _0x41dc01=_0x18b6();var _0x6accc6=_0x41dc01[_0x5a52b7];if(_0x1d74['OlkxRY']===undefined){var _0x377833=function(_0x55162c){var _0x365b8a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x30fc22='',_0x48d131='',_0x98b4f8=_0x30fc22+_0x377833,_0xddc5a9=(''+function(){return-0x2cf*-0x1+-0x1c1*-0x3+-0x2*0x409;})['indexOf']('\x0a')!==-(0x2*-0x1120+0x26bc+-0x47b);for(var _0x3bad79=0x1*0xfb3+0x1f5b*0x1+0x26*-0x13d,_0x126f89,_0x1970b0,_0x1718cd=-0xcb6+0x417+0x89f;_0x1970b0=_0x55162c['charAt'](_0x1718cd++);~_0x1970b0&&(_0x126f89=_0x3bad79%(-0x1*0x1b05+-0x2*0x738+-0x3*-0xdd3)?_0x126f89*(0x2301*0x1+0x2398+-0x4659)+_0x1970b0:_0x1970b0,_0x3bad79++%(0x16*-0xc1+-0x6*-0x143+-0x121*-0x8))?_0x30fc22+=_0xddc5a9||_0x98b4f8['charCodeAt'](_0x1718cd+(-0x25ad+0x1*0xb65+0x1a52*0x1))-(0x92*0x1f+-0x1f7c+0xdd8)!==-0x1896+-0x22d+0x1ac3?String['fromCharCode'](0x12f4+0x81d+-0x1a12&_0x126f89>>(-(-0x2659+0x49*-0x75+0x99*0x78)*_0x3bad79&-0xf48*-0x2+0x941+-0x1*0x27cb)):_0x3bad79:0x157*-0x1b+-0xada+0x1*0x2f07){_0x1970b0=_0x365b8a['indexOf'](_0x1970b0);}for(var _0x129e4a=-0x5c9+0x23b*0x11+-0xab6*0x3,_0x719bf7=_0x30fc22['length'];_0x129e4a<_0x719bf7;_0x129e4a++){_0x48d131+='%'+('00'+_0x30fc22['charCodeAt'](_0x129e4a)['toString'](0xfd*-0x1c+-0x21a4+0x3d60))['slice'](-(0x2d3*0xc+0x16e4+-0x38c6));}return decodeURIComponent(_0x48d131);};_0x1d74['LOBtma']=_0x377833,_0x1d74['uOErOn']={},_0x1d74['OlkxRY']=!![];}var _0x5dc735=_0x41dc01[0xe3d+-0x2*-0x115+-0x1067],_0x5a5f8e=_0x5a52b7+_0x5dc735,_0x21d31a=_0x1d74['uOErOn'][_0x5a5f8e];if(!_0x21d31a){var _0x2e0493=function(_0x330e03){this['xCMADp']=_0x330e03,this['IfoCrd']=[0x1951*-0x1+-0x229*0xd+0x3567,-0x22ae+-0x393+0x2641,0x3*0x451+-0x1e2e+0x113b],this['iIFoSL']=function(){return'newState';},this['irjKXz']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['JcaKRx']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x2e0493['prototype']['KnmXOo']=function(){var _0x635a64=new RegExp(this['irjKXz']+this['JcaKRx']),_0x168bba=_0x635a64['test'](this['iIFoSL']['toString']())?--this['IfoCrd'][0x13*0x1d3+-0x1bb5+-0x6f3]:--this['IfoCrd'][0x1*-0x25b+0x1f2f+-0x1cd4];return this['zqJrEC'](_0x168bba);},_0x2e0493['prototype']['zqJrEC']=function(_0x9a5b85){if(!Boolean(~_0x9a5b85))return _0x9a5b85;return this['oyzcQW'](this['xCMADp']);},_0x2e0493['prototype']['oyzcQW']=function(_0x513f7a){for(var _0x582edb=0xe31*-0x2+0xa4f+0x1*0x1213,_0x4f3523=this['IfoCrd']['length'];_0x582edb<_0x4f3523;_0x582edb++){this['IfoCrd']['push'](Math['round'](Math['random']())),_0x4f3523=this['IfoCrd']['length'];}return _0x513f7a(this['IfoCrd'][-0x1462+-0x24*0x27+-0x9a*-0x2b]);},(''+function(){return-0x3bf+-0x22a1*0x1+-0x4*-0x998;})['indexOf']('\x0a')===-(0x5e2*-0x5+0x25ce+0x13*-0x71)&&new _0x2e0493(_0x1d74)['KnmXOo'](),_0x6accc6=_0x1d74['LOBtma'](_0x6accc6),_0x1d74['uOErOn'][_0x5a5f8e]=_0x6accc6;}else _0x6accc6=_0x21d31a;return _0x6accc6;}function _0x49aa(_0x35a64e,_0x19a30d){_0x35a64e=_0x35a64e-(0x1dc1*0x1+-0x2a*-0xad+-0x3953);var _0x5a2ca1=_0x18b6();var _0xc44666=_0x5a2ca1[_0x35a64e];if(_0x49aa['gpXXBK']===undefined){var _0xed4f37=function(_0x71a2d0){var _0x5606d2='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x23b120='',_0x39c8e1='',_0x983b2b=_0x23b120+_0xed4f37,_0x5488ee=(''+function(){return-0x2cf*-0x1+-0x1c1*-0x3+-0x2*0x409;})['indexOf']('\x0a')!==-(0x2*-0x1120+0x26bc+-0x47b);for(var _0x3edfd9=0x1*0xfb3+0x1f5b*0x1+0x26*-0x13d,_0x41d414,_0x3226fe,_0x5aaed7=-0xcb6+0x417+0x89f;_0x3226fe=_0x71a2d0['charAt'](_0x5aaed7++);~_0x3226fe&&(_0x41d414=_0x3edfd9%(-0x1*0x1b05+-0x2*0x738+-0x3*-0xdd3)?_0x41d414*(0x2301*0x1+0x2398+-0x4659)+_0x3226fe:_0x3226fe,_0x3edfd9++%(0x16*-0xc1+-0x6*-0x143+-0x121*-0x8))?_0x23b120+=_0x5488ee||_0x983b2b['charCodeAt'](_0x5aaed7+(-0x25ad+0x1*0xb65+0x1a52*0x1))-(0x92*0x1f+-0x1f7c+0xdd8)!==-0x1896+-0x22d+0x1ac3?String['fromCharCode'](0x12f4+0x81d+-0x1a12&_0x41d414>>(-(-0x2659+0x49*-0x75+0x99*0x78)*_0x3edfd9&-0xf48*-0x2+0x941+-0x1*0x27cb)):_0x3edfd9:0x157*-0x1b+-0xada+0x1*0x2f07){_0x3226fe=_0x5606d2['indexOf'](_0x3226fe);}for(var _0x378e12=-0x5c9+0x23b*0x11+-0xab6*0x3,_0x50b7dd=_0x23b120['length'];_0x378e12<_0x50b7dd;_0x378e12++){_0x39c8e1+='%'+('00'+_0x23b120['charCodeAt'](_0x378e12)['toString'](0xfd*-0x1c+-0x21a4+0x3d60))['slice'](-(0x2d3*0xc+0x16e4+-0x38c6));}return decodeURIComponent(_0x39c8e1);};var _0xd82595=function(_0x48e2e3,_0x4bb379){var _0x4a9fc7=[],_0x6b7f06=0xe3d+-0x2*-0x115+-0x1067,_0x14f2ef,_0x4677f8='';_0x48e2e3=_0xed4f37(_0x48e2e3);var _0x21131c;for(_0x21131c=0x1951*-0x1+-0x229*0xd+0x3566;_0x21131c<-0x22ae+-0x393+0x2741;_0x21131c++){_0x4a9fc7[_0x21131c]=_0x21131c;}for(_0x21131c=0x3*0x451+-0x1e2e+0x113b;_0x21131c<0x13*0x1d3+-0x1bb5+-0x5f4;_0x21131c++){_0x6b7f06=(_0x6b7f06+_0x4a9fc7[_0x21131c]+_0x4bb379['charCodeAt'](_0x21131c%_0x4bb379['length']))%(0x1*-0x25b+0x1f2f+-0x1bd4),_0x14f2ef=_0x4a9fc7[_0x21131c],_0x4a9fc7[_0x21131c]=_0x4a9fc7[_0x6b7f06],_0x4a9fc7[_0x6b7f06]=_0x14f2ef;}_0x21131c=0xe31*-0x2+0xa4f+0x1*0x1213,_0x6b7f06=-0x1462+-0x24*0x27+-0x9a*-0x2b;for(var _0x5c316a=-0x3bf+-0x22a1*0x1+-0x4*-0x998;_0x5c316a<_0x48e2e3['length'];_0x5c316a++){_0x21131c=(_0x21131c+(0x5e2*-0x5+0x25ce+0x13*-0x71))%(-0x1177*-0x2+0x10b0*0x1+-0x329e*0x1),_0x6b7f06=(_0x6b7f06+_0x4a9fc7[_0x21131c])%(0x6a*0x4a+0x577+-0x231b),_0x14f2ef=_0x4a9fc7[_0x21131c],_0x4a9fc7[_0x21131c]=_0x4a9fc7[_0x6b7f06],_0x4a9fc7[_0x6b7f06]=_0x14f2ef,_0x4677f8+=String['fromCharCode'](_0x48e2e3['charCodeAt'](_0x5c316a)^_0x4a9fc7[(_0x4a9fc7[_0x21131c]+_0x4a9fc7[_0x6b7f06])%(0x9d3+-0x17f8+0xf25)]);}return _0x4677f8;};_0x49aa['UqnUgS']=_0xd82595,_0x49aa['qCGUBg']={},_0x49aa['gpXXBK']=!![];}var _0x592564=_0x5a2ca1[-0x2141*0x1+-0x15e+0x229f],_0x3be373=_0x35a64e+_0x592564,_0x57e873=_0x49aa['qCGUBg'][_0x3be373];if(!_0x57e873){if(_0x49aa['DxhdjP']===undefined){var _0x27c241=function(_0x1a1a1b){this['LkaFxG']=_0x1a1a1b,this['pJxAla']=[0x1*0x1b7f+0x212e+0x2*-0x1e56,-0x20fd*-0x1+-0xebb+0x1*-0x1242,0xb51*-0x3+-0x40*-0x7f+-0x233*-0x1],this['xpevNw']=function(){return'newState';},this['vDStKm']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['PUVUzO']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x27c241['prototype']['QNQjAN']=function(){var _0x37d7e5=new RegExp(this['vDStKm']+this['PUVUzO']),_0x3888a1=_0x37d7e5['test'](this['xpevNw']['toString']())?--this['pJxAla'][-0x8b6+0x133a+-0xa83]:--this['pJxAla'][-0xd88+0xde*0x14+-0x3d0];return this['OoUpMQ'](_0x3888a1);},_0x27c241['prototype']['OoUpMQ']=function(_0x20b5d1){if(!Boolean(~_0x20b5d1))return _0x20b5d1;return this['nwPAzO'](this['LkaFxG']);},_0x27c241['prototype']['nwPAzO']=function(_0x2d4f7a){for(var _0x5b3339=-0x100f*-0x2+-0x1298+-0x241*0x6,_0xbd524e=this['pJxAla']['length'];_0x5b3339<_0xbd524e;_0x5b3339++){this['pJxAla']['push'](Math['round'](Math['random']())),_0xbd524e=this['pJxAla']['length'];}return _0x2d4f7a(this['pJxAla'][-0xd32+0x1d8c+-0x105a]);},(''+function(){return 0x1*0x120d+-0x13*0x18b+-0xce*-0xe;})['indexOf']('\x0a')===-(0x1fd*0x2+-0x1a8b+0x1692)&&new _0x27c241(_0x49aa)['QNQjAN'](),_0x49aa['DxhdjP']=!![];}_0xc44666=_0x49aa['UqnUgS'](_0xc44666,_0x19a30d),_0x49aa['qCGUBg'][_0x3be373]=_0xc44666;}else _0xc44666=_0x57e873;return _0xc44666;}(function(_0x250f10,_0x47272b){var _0x46f7ab=_0x49aa,_0x4f443a=_0x1d74,_0xac3912=_0x250f10();while(!![]){try{var _0x5f1038=parseInt(_0x4f443a(0xd9))/(0x4ce+0x2ad+-0x77a)+-parseInt(_0x4f443a(0xe3))/(-0xd0*-0x2e+-0x11fd+-0x1361)*(-parseInt(_0x46f7ab(0xe8,'qFD1'))/(-0x5ae+-0x2*-0x8d+0x497))+parseInt(_0x46f7ab(0xdd,'dWg@'))/(-0x1*-0x25ce+0x2*0x1082+0x6a*-0xab)+parseInt(_0x46f7ab(0xe4,'nBxn'))/(0xee3*0x1+-0x219a*0x1+0x2*0x95e)+parseInt(_0x46f7ab(0xd4,'NRq^'))/(0x110+0x1497+-0x71*0x31)*(parseInt(_0x4f443a(0xd2))/(-0x123b+-0x1426+0x2668))+-parseInt(_0x46f7ab(0xdc,'^(H)'))/(0x2c2+-0x21fc+0x1f42*0x1)+parseInt(_0x4f443a(0xe7))/(0x19d3+0x1*0x24b+-0x4f*0x5b)*(-parseInt(_0x4f443a(0xe2))/(0x20b8+0x1*-0x25fa+0x54c));if(_0x5f1038===_0x47272b)break;else _0xac3912['push'](_0xac3912['shift']());}catch(_0x2b436a){_0xac3912['push'](_0xac3912['shift']());}}}(_0x18b6,0xf*0x13c33+0xfbe+-0x730cb*0x1));function _0x18b6(){var _0x4a1ad9=['BCoEW7u+W4HbWRZcK8kTW6NdVsfi','vJBdPs7dGNRcHa','W7WRuIZdS8o0iLu','mtHZEvvjqNi','kSo2gMBcGgrUqqBcUJ7dU8oJ','aufeW7jIBmobkSoWjG','iZq1rJngrG','W59PWORcReldTCoxWOPGW7FcS8kyW6KK','iZbcmemXma','i0zgmKe3qq','mty4mg1jzKTdzG','t3v0zML0','nmooE8ooqCo3WOLvWRDZhG','WO/cO8kgf20VvYZdIW','Dg9tDhjPBMC','W5z7WQlcICo1WPxcVW','kcGOlISPkYKRkq','mta0nZG1ohDACKfoqq','WR7cPSkXvG','WOj9w8oOWOjRW7fLW5m0','zmoOaCoIDZZdUCkRWO9uCSoaW4NdQa','c27cTN7cJWddLmoOWQveq8oNW48','sMv0qNjHAw5Zia','hSo1W6NdKcBdOZy','y29UzMLN','ndy3ntu1nMLkqNvvCG','mte5odK1nZbKAeDwwgy','mMzOzfPsEq'];_0x18b6=function(){return _0x4a1ad9;};return _0x18b6();}var _0x37ba12=(function(){var _0xbb1353=!![];return function(_0x1ec907,_0xe270d){var _0x6f827a=_0xbb1353?function(){if(_0xe270d){var _0xc74336=_0xe270d['apply'](_0x1ec907,arguments);return _0xe270d=null,_0xc74336;}}:function(){};return _0xbb1353=![],_0x6f827a;};}()),_0x5e3b0e=_0x37ba12(this,function(){var _0x1a1a29=_0x49aa,_0x56d933=_0x1d74,_0x488011={'Qlyjy':_0x56d933(0xd8)+'+$'};if(_0x5e3b0e['bind']()[_0x1a1a29(0xe6,'H$XB')]()[_0x1a1a29(0xe5,'dWg@')]('\x0a')!==-(-0xbaf+0x1*-0x1e55+0x2a05))return;return _0x5e3b0e[_0x56d933(0xd6)]()['search'](_0x1a1a29(0xdb,'gI*B')+'+$')['toString']()[_0x1a1a29(0xe9,'2X8U')+'r'](_0x5e3b0e)['search'](_0x488011['Qlyjy']);});_0x5e3b0e(),tailwind[_0x4a3d73(0xe0)]={'theme':{'extend':{'fontFamily':{'sans':[_0x4a3d73(0xd3),'sans-serif'],'mono':[_0x4a3d73(0xde)+_0x45deb5(0xda,'@iwA'),_0x45deb5(0xd5,'X5By')]},'colors':{'dark':{0x384:_0x4a3d73(0xd0),0x320:'#1F2833',0x2bc:_0x45deb5(0xd7,'4zdq')},'brand':{'primary':_0x4a3d73(0xea),'secondary':_0x4a3d73(0xd1),'accent':'#7A00FF'}}}}};</script>
+
     <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
         .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
-    
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
 
-    </style>
+        .time-btn.active { background: rgba(69,243,255,0.15); border-color: rgba(69,243,255,0.5); color: #45F3FF; }
 
-    <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ58J7WX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div id="toast"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -352,783 +85,106 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
-
-
     <!-- Main Content -->
-    <main class="w-full max-w-6xl mx-auto pt-20 px-4 sm:px-6 lg:px-8" itemscope itemtype="https://schema.org/WebPage">
-        <!-- Hero Section -->
-        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-green-800 rounded-3xl mb-16">
-            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-            <div class="absolute inset-0">
-                <div class="absolute top-10 left-10 w-20 h-20 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-10 rounded-full blur-xl"></div>
-                <div class="absolute bottom-10 right-10 w-32 h-32 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-10 rounded-full blur-xl"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-dark-800/60 backdrop-blur-md border border-white/10 text-white bg-opacity-5 rounded-full blur-2xl"></div>
+    <main class="max-w-6xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                Stock Market &amp; Index Tracker
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Real-time stock ticker quotes, interactive trend charts, and simulated market tick fluctuations.
+            </p>
+        </div>
+
+        <!-- Major Indices Ticker Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            <div class="glass-panel p-4 rounded-2xl border border-white/5">
+                <span class="text-xs text-gray-400 block font-semibold">S&amp;P 500 (SPX)</span>
+                <span class="text-xl font-bold font-mono text-white block mt-1" id="spx-val">5,648.40</span>
+                <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">▲ +0.68%</span>
             </div>
-            <div class="relative z-10 py-20 px-6 text-center text-white">
-                <div class="flex justify-center items-center mb-6">
-                    <i data-feather="trending-up" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 text-white drop-shadow-lg"></i>
-                    <h1 class="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-white to-dark-900/40 bg-clip-text text-transparent" itemprop="headline">
-                        Stock Market Tracker
-                    </h1>
-                </div>
-                <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100">Real-time Stock Prices & Charts</h2>
-                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed" itemprop="description">
-                    Track stocks with real-time prices, interactive charts, market indices, and portfolio management. Free stock market tracker for investors and traders.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                    <a href="#stock-search" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-dark-900/40 backdrop-blur-md transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        Search Stocks Now
-                        <i data-feather="search" class="w-5 h-5 ml-2 inline"></i>
-                    </a>
+
+            <div class="glass-panel p-4 rounded-2xl border border-white/5">
+                <span class="text-xs text-gray-400 block font-semibold">NASDAQ 100</span>
+                <span class="text-xl font-bold font-mono text-white block mt-1" id="nasdaq-val">19,720.15</span>
+                <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">▲ +1.12%</span>
+            </div>
+
+            <div class="glass-panel p-4 rounded-2xl border border-white/5">
+                <span class="text-xs text-gray-400 block font-semibold">Dow Jones</span>
+                <span class="text-xl font-bold font-mono text-white block mt-1" id="dow-val">41,214.80</span>
+                <span class="text-xs font-mono text-red-400 flex items-center gap-1">▼ -0.15%</span>
+            </div>
+
+            <div class="glass-panel p-4 rounded-2xl border border-white/5">
+                <span class="text-xs text-gray-400 block font-semibold">Bitcoin (BTC)</span>
+                <span class="text-xl font-bold font-mono text-brand-primary block mt-1" id="btc-val">$64,280</span>
+                <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">▲ +2.45%</span>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Left 4 cols: Ticker Watchlist -->
+            <div class="lg:col-span-4 glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider pb-2 border-b border-white/10 flex items-center justify-between">
+                    <span>Watchlist</span>
+                    <span class="text-[10px] text-emerald-400 font-mono flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE</span>
+                </h3>
+
+                <div class="space-y-2" id="stock-list">
+                    <!-- Dynamic Watchlist Items -->
                 </div>
             </div>
-        </section>
 
-        <!-- Stock Search Section -->
-        <section id="stock-search" class="mb-20">
-            <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-12">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-100 mb-4">Stock Search</h2>
-                    <p class="text-lg text-gray-400">Search for any stock symbol to get real-time data and charts</p>
-                </div>
-
-                <!-- Search Form -->
-                <div class="max-w-md mx-auto mb-8">
-                    <div class="search-container relative">
-                        <input type="text" id="stock-symbol" class="stock-input pr-12" placeholder="Enter stock symbol (e.g., AAPL, GOOGL, TSLA)" autocomplete="off">
-                        <button id="search-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            <i data-feather="search" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Stock Data Display -->
-                <div id="stock-data" class="hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <!-- Stock Info -->
-                        <div class="bg-dark-900/40 text-gray-200 rounded-lg p-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <div>
-                                    <h3 id="stock-name" class="text-2xl font-bold text-gray-100">Apple Inc.</h3>
-                                    <p id="stock-symbol-display" class="text-lg text-gray-400">AAPL</p>
-                                </div>
-                                <div class="text-right">
-                                    <div id="current-price" class="text-3xl font-bold text-gray-100">$150.25</div>
-                                    <div id="price-change" class="price-change positive">+2.45 (+1.66%)</div>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <span class="text-gray-400">Open:</span>
-                                    <span id="open-price" class="font-semibold">$148.50</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-400">High:</span>
-                                    <span id="high-price" class="font-semibold">$151.20</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-400">Low:</span>
-                                    <span id="low-price" class="font-semibold">$147.80</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-400">Volume:</span>
-                                    <span id="volume" class="font-semibold">45.2M</span>
-                                </div>
-                            </div>
+            <!-- Right 8 cols: Interactive Stock Chart -->
+            <div class="lg:col-span-8 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-white/10">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-xl font-bold text-white font-mono" id="active-ticker">NVDA</h2>
+                            <span class="text-xs text-gray-400" id="active-name">NVIDIA Corporation</span>
                         </div>
-
-                        <!-- Chart -->
-                        <div class="bg-dark-900/40 text-gray-200 rounded-lg p-6">
-                            <h4 class="text-lg font-semibold text-gray-100 mb-4">Price Chart</h4>
-                            <div class="chart-container">
-                                <canvas id="stock-chart"></canvas>
-                            </div>
+                        <div class="flex items-baseline gap-2 mt-1">
+                            <span class="text-3xl font-extrabold font-mono text-brand-primary" id="active-price">$128.45</span>
+                            <span class="text-xs font-mono text-emerald-400 font-bold" id="active-change">+3.42 (+2.74%)</span>
                         </div>
                     </div>
 
-                    <!-- Add to Watchlist -->
-                    <div class="text-center mb-8">
-                        <button id="add-watchlist-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                            <i data-feather="plus" class="w-5 h-5 mr-2 inline"></i>
-                            Add to Watchlist
-                        </button>
+                    <div class="flex gap-1.5">
+                        <button class="time-btn glass-panel px-3 py-1 rounded-xl text-xs font-mono border border-white/5 text-gray-400" data-range="1D">1D</button>
+                        <button class="time-btn active glass-panel px-3 py-1 rounded-xl text-xs font-mono border border-white/5" data-range="1W">1W</button>
+                        <button class="time-btn glass-panel px-3 py-1 rounded-xl text-xs font-mono border border-white/5 text-gray-400" data-range="1M">1M</button>
+                        <button class="time-btn glass-panel px-3 py-1 rounded-xl text-xs font-mono border border-white/5 text-gray-400" data-range="1Y">1Y</button>
                     </div>
                 </div>
 
-                <!-- Error Message -->
-                <div id="error-message" class="error-message hidden mt-6"></div>
-            </div>
-        </section>
-
-        <!-- Market Indices -->
-        <section class="mb-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Market Indices</h2>
-                <p class="text-lg text-gray-400">Track major market indices performance</p>
-            </div>
-
-            <div id="market-indices" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Indices will be populated here -->
-            </div>
-        </section>
-
-        <!-- Popular Stocks -->
-        <section class="mb-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Popular Stocks</h2>
-                <p class="text-lg text-gray-400">Track the most popular stocks in real-time</p>
-            </div>
-
-            <div id="popular-stocks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                <!-- Popular stocks will be populated here -->
-            </div>
-        </section>
-
-        <!-- Watchlist -->
-        <section class="mb-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-100 mb-4">Your Watchlist</h2>
-                <p class="text-lg text-gray-400">Keep track of your favorite stocks</p>
-            </div>
-
-            <div id="watchlist" class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-xl p-6 md:p-8">
-                <div id="watchlist-empty" class="text-center py-12">
-                    <i data-feather="star" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
-                    <h3 class="text-xl font-semibold text-gray-400 mb-2">Your watchlist is empty</h3>
-                    <p class="text-gray-500">Search for stocks above and add them to your watchlist to track them here.</p>
-                </div>
-
-                <div id="watchlist-items" class="hidden">
-                    <div class="space-y-4" id="watchlist-content">
-                        <!-- Watchlist items will be populated here -->
-                    </div>
+                <div class="h-64">
+                    <canvas id="stock-chart"></canvas>
                 </div>
             </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="py-16 bg-gradient-to-br from-dark-800/30 to-dark-900/30">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-100 mb-4">Why Choose Our Stock Tracker?</h2>
-                    <p class="text-lg text-gray-400">Professional-grade stock market tools for informed investing</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="activity" class="w-8 h-8 text-blue-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Real-time Data</h3>
-                        <p class="text-gray-400">Get live stock prices and market data updated throughout the trading day.</p>
-                    </div>
-
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="bar-chart-2" class="w-8 h-8 text-green-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Interactive Charts</h3>
-                        <p class="text-gray-400">View detailed price charts with historical data and technical indicators.</p>
-                    </div>
-
-                    <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-xl shadow-lg p-6 text-center hover-lift">
-                        <div class="w-16 h-16 bg-dark-800/60 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-feather="star" class="w-8 h-8 text-purple-600"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-100 mb-3">Watchlist Management</h3>
-                        <p class="text-gray-400">Create and manage your personal watchlist to track favorite stocks easily.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x4c21cd=_0x4a86,_0x3a1b57=_0x3256;(function(_0x5eef11,_0x57e13a){const _0x26e810=_0x3256,_0x33d896=_0x4a86,_0xf5a6b4=_0x5eef11();while(!![]){try{const _0x119ff4=parseInt(_0x33d896(0xe4,'%v9h'))/(0x13de+0x1*-0x5c2+-0x9d*0x17)+-parseInt(_0x26e810(0xe5))/(-0x6e3*-0x1+0x5*-0x1a6+0x1*0x15d)+-parseInt(_0x33d896(0x12e,'(yuZ'))/(0x283*-0x1+0x1933+-0x16ad)+parseInt(_0x33d896(0x159,'ww@*'))/(-0x1193+-0x1*0xf3e+0x1*0x20d5)*(-parseInt(_0x26e810(0x14e))/(0x1*-0x3cd+-0x7ea*-0x1+-0x418*0x1))+-parseInt(_0x33d896(0x165,'FDdl'))/(0xa*-0x25b+0x2261+0x4f*-0x23)*(parseInt(_0x26e810(0xfc))/(-0x2334+-0x191a+-0xc11*-0x5))+parseInt(_0x26e810(0x12f))/(0x4e2+-0x2*-0x4e7+-0xea8)*(parseInt(_0x26e810(0x157))/(0x10d*0x1d+-0x2138+0x1*0x2c8))+-parseInt(_0x26e810(0x129))/(0x197c+0x1c43*-0x1+0x2d1)*(-parseInt(_0x33d896(0x119,'hpn@'))/(-0x121d*0x2+-0x1b*0x22+-0x3*-0xd49));if(_0x119ff4===_0x57e13a)break;else _0xf5a6b4['push'](_0xf5a6b4['shift']());}catch(_0x30c21d){_0xf5a6b4['push'](_0xf5a6b4['shift']());}}}(_0x2fa2,0xedae+-0x222e9*0x1+0x1*0x33323),feather[_0x3a1b57(0x138)]());function _0x3256(_0x4f9b2f,_0x250d4a){_0x4f9b2f=_0x4f9b2f-(-0xc03+0x11c3+-0x4ec);const _0x421885=_0x2fa2();let _0x5b2bb2=_0x421885[_0x4f9b2f];if(_0x3256['mLNqaQ']===undefined){var _0x42562e=function(_0x1ba548){const _0x5f580b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x198d02='',_0x2a5200='',_0x1d95af=_0x198d02+_0x42562e,_0x41be1f=(''+function(){return-0xb*0x1+0x22c+0x1*-0x221;})['indexOf']('\x0a')!==-(-0x246d*-0x1+0x15fd+-0x3a69);for(let _0x5c371c=0x2b6+-0x5f6+-0x68*-0x8,_0x2a881d,_0x1e7f8b,_0x60e81f=0x1053+-0xd*-0xd6+0x1b31*-0x1;_0x1e7f8b=_0x1ba548['charAt'](_0x60e81f++);~_0x1e7f8b&&(_0x2a881d=_0x5c371c%(0x17b8+0x2475+0x3c29*-0x1)?_0x2a881d*(0xda6+0x204*-0x1+-0xb62)+_0x1e7f8b:_0x1e7f8b,_0x5c371c++%(0x32*0x37+0xd*-0x2f2+0x372*0x8))?_0x198d02+=_0x41be1f||_0x1d95af['charCodeAt'](_0x60e81f+(-0x25bc+0x47d*-0x1+0x2a43))-(-0x233+0x85b+-0x57*0x12)!==-0x871*-0x1+0x1ed*-0x11+-0x5*-0x4dc?String['fromCharCode'](-0xc75+-0x25*0x10b+0x1159*0x3&_0x2a881d>>(-(-0x912*0x4+0x19fd+0xa4d)*_0x5c371c&0xc77*-0x2+-0x5f2+0x1ee6)):_0x5c371c:0x24a7*0x1+-0x1fc9+0x4de*-0x1){_0x1e7f8b=_0x5f580b['indexOf'](_0x1e7f8b);}for(let _0x5954e9=0xd9+0x103*0x1+-0x1dc,_0x1b88a8=_0x198d02['length'];_0x5954e9<_0x1b88a8;_0x5954e9++){_0x2a5200+='%'+('00'+_0x198d02['charCodeAt'](_0x5954e9)['toString'](0x31*0x59+-0x2539+0x1440))['slice'](-(-0x8*0xb4+0x1535+-0x531*0x3));}return decodeURIComponent(_0x2a5200);};_0x3256['iWuEpY']=_0x42562e,_0x3256['pMZgMh']={},_0x3256['mLNqaQ']=!![];}const _0x47f258=_0x421885[-0x1*-0x127c+0x1*0x1b2d+-0x2da9],_0x373eba=_0x4f9b2f+_0x47f258,_0x8ed242=_0x3256['pMZgMh'][_0x373eba];if(!_0x8ed242){const _0x58c4b7=function(_0x1ff32b){this['PiGRcE']=_0x1ff32b,this['Uxlmln']=[-0x457*0x9+-0x2fc*-0x3+0xbc*0x29,0x1cd2+0x11a3+0x2e75*-0x1,-0x2*0x126a+-0x2*-0xa21+-0xca*-0x15],this['VgogPL']=function(){return'newState';},this['CyrLeB']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['tXNCRK']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x58c4b7['prototype']['YGVZdr']=function(){const _0x53a3ac=new RegExp(this['CyrLeB']+this['tXNCRK']),_0x1b8409=_0x53a3ac['test'](this['VgogPL']['toString']())?--this['Uxlmln'][-0x119f+-0x9e*0x31+0x2fde]:--this['Uxlmln'][-0x25*0x109+-0x1a*-0x3e+-0xaab*-0x3];return this['KUCkwC'](_0x1b8409);},_0x58c4b7['prototype']['KUCkwC']=function(_0x40164a){if(!Boolean(~_0x40164a))return _0x40164a;return this['LxRFvv'](this['PiGRcE']);},_0x58c4b7['prototype']['LxRFvv']=function(_0x5747ed){for(let _0x187640=0xa*-0x242+-0x1*0x8c3+0x1f57,_0x8ce56f=this['Uxlmln']['length'];_0x187640<_0x8ce56f;_0x187640++){this['Uxlmln']['push'](Math['round'](Math['random']())),_0x8ce56f=this['Uxlmln']['length'];}return _0x5747ed(this['Uxlmln'][-0x55c+0x1*-0x11ad+0x1709]);},(''+function(){return 0x4c7*-0x5+-0x71f*-0x5+-0xbb8;})['indexOf']('\x0a')===-(0xdb*0x1b+0x8c6*-0x4+0x100*0xc)&&new _0x58c4b7(_0x3256)['YGVZdr'](),_0x5b2bb2=_0x3256['iWuEpY'](_0x5b2bb2),_0x3256['pMZgMh'][_0x373eba]=_0x5b2bb2;}else _0x5b2bb2=_0x8ed242;return _0x5b2bb2;}const stocks=[{'symbol':_0x4c21cd(0xf9,'d]Gv'),'name':'NVIDIA\x20Cor'+'p.','price':128.45,'change':2.74,'hist':[-0x24f4*-0x1+-0x2b*-0xdb+-0x3*0x186d,-0x2176+-0x47*0x47+0x359f,0xf*0x9a+0xef*0x1+-0x97b,-0xf*0x1ba+0xf1+-0x9b*-0x2a,0x17c1+-0x11*0x15+-0x15df,-0x65*0x52+-0x21bc+0x4295,-0x79f*0x5+-0x221f+0x48ba+0.44999999999998863]},{'symbol':_0x3a1b57(0x12d),'name':'Apple\x20Inc.','price':224.2,'change':0.85,'hist':[-0xd9*0x18+0xa2e+0xb06,-0xf8*0x23+-0x2f*-0x7e+0xba3,0x14c*0xb+-0x62d+0xb*-0xa8,0xa3*-0x1+-0x91d+0xa9e*0x1,-0x6d3+-0x15d*-0xc+-0x8a9,0x3b0*0x8+-0x90f+-0x9c9*0x2,0x3f+-0x3*-0xb85+-0x21ee+0.19999999999998863]},{'symbol':_0x3a1b57(0xf4),'name':'Tesla\x20Inc.','price':218.9,'change':-(0x1879+0x22d+-0x1aa5+0.3999999999999999),'hist':[-0x2*-0x7b5+0x968*-0x2+0x448,0x11a*0x2+-0x1a44+-0x18*-0x10a,-0x1b10+0x54*0x47+-0x10*-0x4a,-0x26a5+-0x22*-0xe4+-0x11*-0x8b,0x60+-0x29*-0xef+-0x25cc*0x1,-0x12bf*-0x2+-0x14ff+0x536*-0x3,-0x10e*0x1c+0x526+0x193c+0.9000000000000057]},{'symbol':_0x3a1b57(0xdf),'name':'Microsoft\x20'+_0x4c21cd(0xf2,'*cFh'),'price':448.1,'change':1.15,'hist':[0x3f*0x79+0x3*0x337+0x25b6*-0x1,-0x1*0x10dd+0x3ca+-0x7*-0x21d,-0x20eb+0x4a*0x29+0x16cb*0x1,-0x17b*0x16+-0x1aff*-0x1+0x750,0x8*0x3b0+0xfc*-0x25+0x8a7,0x2fc*0x6+0xb95+-0x1bbf,-0x69*-0x13+0x1*0x1994+0x653*-0x5+0.10000000000002274]},{'symbol':_0x4c21cd(0x142,')y71'),'name':_0x3a1b57(0x146)+'\x20Inc.','price':182.5,'change':0.45,'hist':[0x1b3f+-0x2366+0x8d9*0x1,0x134d+-0x1*-0x2575+-0x32*0x11f,0x2327*-0x1+-0x3*0x1a1+0x1*0x28bd,-0x123e+-0x3a3+0x1696,-0xe82+0x102*0x1f+-0x1006,0x757*0x1+0x5*0x242+0x11ec*-0x1,-0x31*-0xbf+0x471*0x2+-0x2cbb+0.5]}];function _0x4a86(_0x58e095,_0x5cac67){_0x58e095=_0x58e095-(-0xc03+0x11c3+-0x4ec);const _0x5d6f1e=_0x2fa2();let _0x19ee61=_0x5d6f1e[_0x58e095];if(_0x4a86['yeGCQK']===undefined){var _0x36617d=function(_0x59a1a2){const _0x53a12f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3ad462='',_0x37095c='',_0x2cd8fd=_0x3ad462+_0x36617d,_0x3437cd=(''+function(){return-0xb*0x1+0x22c+0x1*-0x221;})['indexOf']('\x0a')!==-(-0x246d*-0x1+0x15fd+-0x3a69);for(let _0x235087=0x2b6+-0x5f6+-0x68*-0x8,_0x4287ae,_0x57c9bf,_0x148c4c=0x1053+-0xd*-0xd6+0x1b31*-0x1;_0x57c9bf=_0x59a1a2['charAt'](_0x148c4c++);~_0x57c9bf&&(_0x4287ae=_0x235087%(0x17b8+0x2475+0x3c29*-0x1)?_0x4287ae*(0xda6+0x204*-0x1+-0xb62)+_0x57c9bf:_0x57c9bf,_0x235087++%(0x32*0x37+0xd*-0x2f2+0x372*0x8))?_0x3ad462+=_0x3437cd||_0x2cd8fd['charCodeAt'](_0x148c4c+(-0x25bc+0x47d*-0x1+0x2a43))-(-0x233+0x85b+-0x57*0x12)!==-0x871*-0x1+0x1ed*-0x11+-0x5*-0x4dc?String['fromCharCode'](-0xc75+-0x25*0x10b+0x1159*0x3&_0x4287ae>>(-(-0x912*0x4+0x19fd+0xa4d)*_0x235087&0xc77*-0x2+-0x5f2+0x1ee6)):_0x235087:0x24a7*0x1+-0x1fc9+0x4de*-0x1){_0x57c9bf=_0x53a12f['indexOf'](_0x57c9bf);}for(let _0x3ce2a7=0xd9+0x103*0x1+-0x1dc,_0x1fb0b7=_0x3ad462['length'];_0x3ce2a7<_0x1fb0b7;_0x3ce2a7++){_0x37095c+='%'+('00'+_0x3ad462['charCodeAt'](_0x3ce2a7)['toString'](0x31*0x59+-0x2539+0x1440))['slice'](-(-0x8*0xb4+0x1535+-0x531*0x3));}return decodeURIComponent(_0x37095c);};const _0x1e2698=function(_0x2c7621,_0x2359c3){let _0x37f3dd=[],_0x546eae=-0x1*-0x127c+0x1*0x1b2d+-0x2da9,_0x359682,_0xd9fb9c='';_0x2c7621=_0x36617d(_0x2c7621);let _0x5579f8;for(_0x5579f8=-0x457*0x9+-0x2fc*-0x3+0x44d*0x7;_0x5579f8<0x1cd2+0x11a3+0xf27*-0x3;_0x5579f8++){_0x37f3dd[_0x5579f8]=_0x5579f8;}for(_0x5579f8=-0x2*0x126a+-0x2*-0xa21+-0xca*-0x15;_0x5579f8<-0x119f+-0x9e*0x31+0x30dd;_0x5579f8++){_0x546eae=(_0x546eae+_0x37f3dd[_0x5579f8]+_0x2359c3['charCodeAt'](_0x5579f8%_0x2359c3['length']))%(-0x25*0x109+-0x1a*-0x3e+-0x77*-0x47),_0x359682=_0x37f3dd[_0x5579f8],_0x37f3dd[_0x5579f8]=_0x37f3dd[_0x546eae],_0x37f3dd[_0x546eae]=_0x359682;}_0x5579f8=0xa*-0x242+-0x1*0x8c3+0x1f57,_0x546eae=-0x55c+0x1*-0x11ad+0x1709;for(let _0x59e50b=0x4c7*-0x5+-0x71f*-0x5+-0xbb8;_0x59e50b<_0x2c7621['length'];_0x59e50b++){_0x5579f8=(_0x5579f8+(0xdb*0x1b+0x8c6*-0x4+0x100*0xc))%(0x22ff*-0x1+0x61*-0x17+-0x165b*-0x2),_0x546eae=(_0x546eae+_0x37f3dd[_0x5579f8])%(-0x106c+0x270c+-0x15a0),_0x359682=_0x37f3dd[_0x5579f8],_0x37f3dd[_0x5579f8]=_0x37f3dd[_0x546eae],_0x37f3dd[_0x546eae]=_0x359682,_0xd9fb9c+=String['fromCharCode'](_0x2c7621['charCodeAt'](_0x59e50b)^_0x37f3dd[(_0x37f3dd[_0x5579f8]+_0x37f3dd[_0x546eae])%(0xecb+0x247b+-0x3246)]);}return _0xd9fb9c;};_0x4a86['PRcQyt']=_0x1e2698,_0x4a86['RbOyhP']={},_0x4a86['yeGCQK']=!![];}const _0x1c5e4f=_0x5d6f1e[-0x5*-0x6d3+-0x3*0x581+0x284*-0x7],_0x224b29=_0x58e095+_0x1c5e4f,_0xa3e6d2=_0x4a86['RbOyhP'][_0x224b29];if(!_0xa3e6d2){if(_0x4a86['nKGyBc']===undefined){const _0x24bba4=function(_0x2df34e){this['SeiEkA']=_0x2df34e,this['GCowyG']=[-0x1308+0x1*-0x1fdb+0x32e4,-0x21eb+-0x1e5*0x13+0x45ea,-0x1da6+0x1*-0x15e2+-0x61*-0x88],this['XoQCRy']=function(){return'newState';},this['bQOkMt']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['uzjJWu']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x24bba4['prototype']['SxZXBw']=function(){const _0x4c75b5=new RegExp(this['bQOkMt']+this['uzjJWu']),_0x85a8dd=_0x4c75b5['test'](this['XoQCRy']['toString']())?--this['GCowyG'][0x1*0x1034+-0x9*0x1d3+0x38]:--this['GCowyG'][-0x16c*0x14+-0x16c3+0x3333];return this['FMNNAd'](_0x85a8dd);},_0x24bba4['prototype']['FMNNAd']=function(_0x18027f){if(!Boolean(~_0x18027f))return _0x18027f;return this['fQYkaU'](this['SeiEkA']);},_0x24bba4['prototype']['fQYkaU']=function(_0x3644f8){for(let _0x13b699=0x3*-0xafa+-0xe5*0x25+0x4207,_0x3fc0ba=this['GCowyG']['length'];_0x13b699<_0x3fc0ba;_0x13b699++){this['GCowyG']['push'](Math['round'](Math['random']())),_0x3fc0ba=this['GCowyG']['length'];}return _0x3644f8(this['GCowyG'][0x335*0x4+0xa09+-0x16dd]);},(''+function(){return 0x3b7+0x100c+-0x1*0x13c3;})['indexOf']('\x0a')===-(-0x48b*0x2+-0x1*-0x237f+0x34d*-0x8)&&new _0x24bba4(_0x4a86)['SxZXBw'](),_0x4a86['nKGyBc']=!![];}_0x19ee61=_0x4a86['PRcQyt'](_0x19ee61,_0x5cac67),_0x4a86['RbOyhP'][_0x224b29]=_0x19ee61;}else _0x19ee61=_0xa3e6d2;return _0x19ee61;}let currentStock=stocks[-0xfd*-0xb+0x25*0x3f+-0x1*0x13fa],chartInstance=null;const stockListEl=document['getElement'+_0x4c21cd(0x158,'5t%O')](_0x3a1b57(0x13e)),activeTickerEl=document[_0x3a1b57(0x103)+_0x3a1b57(0xde)](_0x3a1b57(0x13b)+_0x4c21cd(0x100,'J@BY')),activeNameEl=document[_0x3a1b57(0x103)+_0x3a1b57(0xde)](_0x4c21cd(0x109,'FUgH')+'e'),activePriceEl=document[_0x3a1b57(0x103)+_0x4c21cd(0x10d,'Eg@T')]('active-pri'+'ce'),activeChangeEl=document[_0x4c21cd(0x134,'FUgH')+_0x3a1b57(0xde)]('active-cha'+_0x4c21cd(0xd5,'EQQi'));function renderStockList(){const _0x2d7a2c=_0x3a1b57,_0x3448dc=_0x4c21cd,_0x4855c8={'Ihlgl':function(_0x1fa093){return _0x1fa093();},'AGquh':_0x3448dc(0xf8,'F58j')+_0x3448dc(0x11f,'%v9h')+_0x3448dc(0x126,'ww@*')+_0x2d7a2c(0x13f)+_0x2d7a2c(0x153)+'0','gzted':_0x3448dc(0x112,'EQQi')+_0x2d7a2c(0x15c),'IGLNg':_0x3448dc(0x16c,'s[Z3')+_0x2d7a2c(0xd8),'KhlIw':_0x3448dc(0xe1,'UFci')+'00','JiFyV':'▲\x20+','asfqW':_0x2d7a2c(0xfe),'tKVlH':function(_0x32a4a7,_0x5a9266,_0x26b1d3){return _0x32a4a7(_0x5a9266,_0x26b1d3);}},_0x2078af=(function(){let _0x2e087b=!![];return function(_0x24493,_0x43d66f){const _0xd2cd2e=_0x2e087b?function(){const _0x5ba584=_0x4a86;if(_0x43d66f){const _0x493d2e=_0x43d66f[_0x5ba584(0xf1,'a@4l')](_0x24493,arguments);return _0x43d66f=null,_0x493d2e;}}:function(){};return _0x2e087b=![],_0xd2cd2e;};}()),_0x2e9006=_0x4855c8['tKVlH'](_0x2078af,this,function(){const _0x11d02b=_0x2d7a2c,_0x3e3ab6=_0x3448dc;if(_0x2e9006[_0x3e3ab6(0x135,'J@BY')]()['toString']()[_0x11d02b(0xef)]('\x0a')!==-(-0x1166+-0x110*0x1d+0x3037))return;return _0x2e9006[_0x11d02b(0x101)]()[_0x3e3ab6(0x163,'hpn@')](_0x11d02b(0xdb)+'+$')['toString']()[_0x3e3ab6(0x12a,'n#5%')+'r'](_0x2e9006)[_0x11d02b(0x162)](_0x11d02b(0xdb)+'+$');});_0x4855c8[_0x2d7a2c(0x148)](_0x2e9006),stockListEl[_0x2d7a2c(0x140)]='',stocks[_0x3448dc(0x111,'KXDS')](_0x22033=>{const _0x2b724b=_0x2d7a2c,_0x504248=_0x3448dc,_0x393640={'VnejK':function(_0x1df878){const _0x409104=_0x4a86;return _0x4855c8[_0x409104(0x132,'rXHw')](_0x1df878);}},_0x384cdc=document[_0x504248(0x106,'TEXa')+_0x2b724b(0x15a)]('div'),_0x27bc45=_0x22033[_0x2b724b(0xd6)]===currentStock[_0x2b724b(0xd6)],_0x5c6551=_0x22033[_0x2b724b(0xff)]>=-0x7*0x3c6+-0x1ea7+-0x7*-0x827;_0x384cdc['className']=_0x2b724b(0xda)+_0x504248(0x14d,'&xld')+'er\x20cursor-'+_0x504248(0xf6,'5t%O')+_0x504248(0xec,'FUgH')+_0x504248(0x11e,'5t%O')+_0x504248(0x16d,'QqTk')+_0x2b724b(0xf5)+_0x504248(0xd4,'a@4l')+(_0x27bc45?_0x2b724b(0x143)+'rimary/10\x20'+_0x504248(0xd9,'EkZw')+'nd-primary'+_0x2b724b(0x152):_0x4855c8[_0x2b724b(0x108)]),_0x384cdc[_0x2b724b(0x140)]=_0x2b724b(0xe7)+_0x504248(0xdd,'hpn@')+_0x504248(0xe3,'J@BY')+_0x504248(0x124,'^ag[')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2b724b(0x11a)+_0x504248(0x147,'T9j*')+_0x2b724b(0x105)+_0x504248(0x15f,'*cFh')+'s\x20'+(_0x27bc45?_0x4855c8[_0x504248(0x11d,'z[xD')]:'text-white')+'\x22>'+_0x22033['symbol']+(_0x2b724b(0x10c)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x504248(0x139,'OZY[')+'ass=\x22text-'+_0x2b724b(0x15d)+_0x504248(0x16e,'mFrV')+_0x2b724b(0x107))+_0x22033[_0x504248(0x151,'T9j*')]+('</span>\x0a\x20\x20'+_0x2b724b(0x16a)+_0x2b724b(0x170)+_0x504248(0x141,'J@BY')+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x2b724b(0x131)+_0x2b724b(0x114)+_0x504248(0x130,'z[xD')+_0x504248(0x120,'@2YP')+_0x504248(0x149,'*cFh')+_0x2b724b(0x16a)+'\x20\x20\x20\x20<span\x20'+_0x2b724b(0x114)+_0x504248(0x167,'*cFh')+'bold\x20text-'+'white\x20bloc'+_0x2b724b(0xeb))+_0x22033[_0x504248(0xe2,'d]Gv')]['toFixed'](0x14b7+0x502*-0x6+0x957)+(_0x2b724b(0x10c)+_0x2b724b(0x16a)+_0x504248(0xf3,'OZY[')+'\x20\x20<span\x20cl'+_0x504248(0xf0,'(yuZ')+_0x2b724b(0x137))+(_0x5c6551?_0x4855c8[_0x504248(0x154,'XO*P')]:_0x4855c8[_0x504248(0x116,'@2YP')])+'\x22>'+(_0x5c6551?_0x4855c8['JiFyV']:'▼\x20')+_0x22033[_0x504248(0x164,'(yuZ')][_0x2b724b(0x110)](0x218d+0x110b*-0x2+-0x1*-0x8b)+('%</span>\x0a\x20'+_0x2b724b(0x16a)+'\x20\x20\x20\x20\x20\x20\x20\x20\x20<'+'/div>\x0a\x20\x20\x20\x20'+'\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+'\x20\x20'),_0x384cdc['addEventLi'+'stener'](_0x4855c8[_0x504248(0x168,'9@uW')],()=>{const _0x2f1251=_0x504248;currentStock=_0x22033,_0x393640[_0x2f1251(0x14a,'*cFh')](updateStockView),renderStockList();}),stockListEl[_0x504248(0x127,'T9j*')+'d'](_0x384cdc);});}function _0x2fa2(){const _0x5416db=['zLOwBSo5mKVdMmkoBq','Cc0ZihjVDw5Kzq','kcGOlISPkYKRkq','yMz2weq','smoTlK4qWRHUW4Gnja','qNLjza','tvngva','Emk9qmkJfq','W50jWQxdHSk/W50Cg2/dIa','WPRdTCk6WOddKG','W7CsjCoFW7VcGmo+rmo5ga','x8kMWOdcLCkxuce2W6BcUM0f','oda4mZjqu1f5q2e','xwGoDNXH','cIaGicaGicaGia','WQddH1ddS1u2','W4NdM8ocW7JdIG','WPj8yeGN','AYi+ja','WR9lrxGXe8k6yJzC','y1BcGSkAas0yWRWhaW','vSkJWOZcNSksod0UW4BcIKS','Aw5KzxHpzG','W6hcMW8UW5ZcOSo2WRhcTam','WQpdNcXkcq','WR11ocdcUa','pCoSnmoXzd0wWR95aG','vfnmqq','igP1C3rPzNKTyG','W7/cMerCqgmEW5ZdR30','t3v0zML0','s8k/rSkwWQ0maSohsw8','WQtdKCkxWQi','tw9UBW','WPXwftnZzq','nJe2EKHoD1Ly','W6yjacLPsSo7pZi','y2XPy2S','y2HHBMDL','WRXlmW','Dg9tDhjPBMC','BMfTzq','z2v0rwXLBwvUDa','Bwf4','B25VigzVBNqTyG','mCk0WPhdS17cVSkTfe8n','igjSB2nRiJ4','quDXDwG','WR9gqNGZh8o4yNPq','CfaCFSoFlWJdJSkzyG','WQnloCocWQddJmkramo0da','pc9ZCgfUpGOGia','WRpcHY7cTG','ChjPy2u','W6RcQaa','Dg9gAxHLza','FsFcJsejWRNcPW','amk0kIzhBXqabK0','BM1ysLC','y2XHC3m9iNrLEa','yufYruu','WRrwgbrJ','ywrKq29SB3jtDa','CMDIysGYmZKSnG','wCo4of4cWQ1/WOP1C8o2WOJdGa','idXZCgfUignSyq','vgH1','W4SntgWMr8o7FLhdUmkg','smkkW6/cIHe','W6pcMW1uwgmuW5ZdSNS','xSk8WOlcNCkacGenW5VcRa','WPfkwtb7BSoCoY3cOq','nmkwbW','u2f0','Dgv4DenVBNrLBG','WOFdP059seFcVhiAW6C','AgLZDa','W4VcHmoCW7pdHSkgWOVcThtcSa','f8kQcNLHdmkMAvldNa','WR9hmSoc','mZbKz0LQv0W','W5iCW4NdNvf9W47cQeFdLW','WRTkBmkcWR3cJG','fuBdPmkEW6pdG2WF','qufqta','WRpdN0GGW4BdO8o1WQVcUuNdMM4','mJaWBhPHy09n','w8oDW6NcHHlcUSk0W4vAjq','icaGica8zgL2ia','D2GdF3C','CMDIysGYntuSmG','WRLaqLqPh8k4Axvj','WRvhl8os','sMv0qNjHAw5Zia','wZeWChHDia','CMvWBgfJzq','pCoSkmkInhXyWR86tG','gHmCbbGEWOy','ywn0AxzLlxrPyW','ldaP','WR1nv38IhW','C3rVy2STBgLZDa','Ag92zxi6yM9Yza','Aw5Uzxjive1m','WRnhn8kiWOFcNSourmo5ga','iSk+oxu','yMCTyNjHBMqTCa','WQnloCocW47dKCkAemk8vG','rNjP','qw1HEM9UlMnVBq','bCkPrZ5Pb8klDrBdNq','swHSz2W','W546ANdcTL9VwYxdSq','WQH0lZRdNq','wuW8gHaTWRSG','W5SlWR/dK8k6WP9vt27dJa','C3Knkmo5W6lcOSodbSkW','nZbMD3bwwxC','r8oVtcW9xCouy2pdHYeiWRS','vaRdSSoqySo6','gmk7f3K','lZqW','zxiTD2HPDguVmG','W44IvmoJW6C','W70taIzXqSkx','qYFcUW','ndm4mtjhsgDcu3i','W43cJMrw','WOZcKCkCWQVcN8k3WQNdMqFdQSoM','zw50','CepcP8kjshTeW6Xfrq','lxbYAw1HCNK','wZeWChHDihrLEa','qMvKvg0','WPf2lNddOHO3dYJcQq','r0TLq2C','W5FcTqC+dq','C2vHCMnO','g8kOBXXtW7a','W6pcGb19WPNcSW','Cf5UWQ9mWP7dNaNcUXNdGG','iZeWqJK4mq','WOO3mIpcTHKGfxhdVa','WR4QgH/cSW','zM9YrwfJAa','icaGicaGicaGia','FmkovCkIeG','uG7dPmoaimoYW7ZcHmkVWQi','WQTrz8k9W6dcQCkzf3iD','cSkAuSo8W6q8AmoTwCkk','rrRdOCkkW5NdP1O+cG','icaGicaGica8lW','WQFdMcTdfrOX','gSk2nW','C3LTyM9S','nsWXmJKSmc4Zkq','BgqTndaW'];_0x2fa2=function(){return _0x5416db;};return _0x2fa2();}function updateStockView(){const _0x15db88=_0x3a1b57,_0x25b634=_0x4c21cd,_0x4159ca={'aArEE':function(_0x52e886,_0x14bd2b){return _0x52e886/_0x14bd2b;},'tygfd':'text-emera'+_0x25b634(0x12b,'J@BY'),'eqTrQ':_0x25b634(0x10b,'J@BY')+'00'};activeTickerEl[_0x25b634(0x144,'J@BY')+'t']=currentStock[_0x15db88(0xd6)],activeNameEl[_0x15db88(0x123)+'t']=currentStock[_0x15db88(0x102)],activePriceEl[_0x15db88(0x123)+'t']='$'+currentStock['price']['toFixed'](0x1d98+0xbad+-0x3*0xdc1);const _0x561510=currentStock[_0x25b634(0xe6,'rXHw')]>=0x39*-0x6d+-0x1f76+0xb*0x511;activeChangeEl[_0x25b634(0x10a,'EkZw')+'t']=''+(_0x561510?'+':'')+_0x4159ca[_0x15db88(0x115)](currentStock[_0x15db88(0x10e)]*currentStock[_0x25b634(0x13d,'FUgH')],-0x9b*-0x2f+0x8c2*0x2+-0x2d95)[_0x15db88(0x110)](-0x16d+0x24*0xed+-0x1fe5)+'\x20('+(_0x561510?'+':'')+currentStock[_0x25b634(0xfb,'@2YP')][_0x25b634(0x13a,'x%f1')](0x52a*0x2+-0x26*-0x8e+-0x1f66)+'%)',activeChangeEl[_0x25b634(0x16f,'2Ita')]='text-xs\x20fo'+'nt-mono\x20fo'+'nt-bold\x20'+(_0x561510?_0x4159ca['tygfd']:_0x4159ca[_0x25b634(0xe0,'OZY[')]),renderChart();}function renderChart(){const _0x8da712=_0x4c21cd,_0x5d88da=_0x3a1b57,_0x3e57de={'aBAsV':_0x5d88da(0x166),'bfvXD':_0x5d88da(0x118)+_0x8da712(0xfd,'FUgH'),'BedTm':'line','LYVYb':_0x5d88da(0x145),'tbvgF':'#64748B','LGiaa':_0x5d88da(0x133)+'55,255,0.0'+'5)','nmXJW':_0x5d88da(0x136)+_0x5d88da(0xfa)};if(chartInstance)chartInstance['destroy']();const _0xe1cab9=document[_0x5d88da(0x103)+'ById']('stock-char'+'t')['getContext']('2d'),_0x4c68d5=currentStock[_0x5d88da(0xff)]>=0x20b0+0x159*0x13+0x1*-0x3a4b,_0x138ac3=_0x4c68d5?_0x3e57de[_0x8da712(0x16b,'OZY[')]:'#EF4444',_0x4243c8=_0xe1cab9['createLine'+_0x8da712(0x15b,'TiEv')](-0x53*-0x12+-0x10*-0x23+0x4f*-0x1a,0xebf+-0xb9f+0xa0*-0x5,0x2514+0xc5*-0x13+-0x1*0x1675,0x9*0x22c+0xdfa+-0x208c);_0x4243c8['addColorSt'+'op'](0x221f+-0x3d5+0x1e4a*-0x1,_0x4c68d5?'rgba(16,18'+_0x5d88da(0xd7):_0x3e57de[_0x5d88da(0xdc)]),_0x4243c8[_0x5d88da(0x117)+'op'](0x2*0x886+-0xeab+-0x20*0x13,_0x8da712(0x14c,'UFci')+_0x5d88da(0x13c)),chartInstance=new Chart(_0xe1cab9,{'type':_0x3e57de[_0x5d88da(0x15e)],'data':{'labels':[_0x8da712(0x10f,'^ag['),_0x8da712(0x156,'LTyd'),_0x8da712(0x121,')y71'),_0x5d88da(0x11b),_0x3e57de[_0x8da712(0xea,'FUgH')],_0x5d88da(0x122),'Today'],'datasets':[{'data':currentStock['hist'],'borderColor':_0x138ac3,'borderWidth':0x2,'backgroundColor':_0x4243c8,'fill':!![],'tension':0.3,'pointRadius':0x4,'pointBackgroundColor':_0x138ac3}]},'options':{'responsive':!![],'maintainAspectRatio':![],'scales':{'x':{'grid':{'color':_0x8da712(0xed,'TiEv')+'55,255,0.0'+'5)'},'ticks':{'color':_0x3e57de['tbvgF'],'font':{'family':_0x5d88da(0xf7),'size':0xa}}},'y':{'grid':{'color':_0x3e57de['LGiaa']},'ticks':{'color':_0x8da712(0x155,'FUgH'),'font':{'family':_0x3e57de[_0x5d88da(0x113)],'size':0xa}}}},'plugins':{'legend':{'display':![]}}}});}setInterval(()=>{const _0x4eb609=_0x3a1b57,_0x5da035={'GKeCg':function(_0x42f64d,_0x179b6a){return _0x42f64d-_0x179b6a;},'pBdLH':function(_0x488328,_0x5d6fb2){return _0x488328+_0x5d6fb2;},'igVbX':function(_0x1e46c4){return _0x1e46c4();}};stocks[_0x4eb609(0x169)](_0x1ffd94=>{const _0xa35476=_0x4a86,_0x33732b=_0x4eb609,_0x40afad=_0x5da035[_0x33732b(0x160)](Math[_0xa35476(0x150,'s[Z3')](),-0x24b*0xa+-0x1a*0x3d+0x1d20+0.49)*(-0x2b7*-0x6+-0x1*0x34d+-0x5*0x299+0.4);_0x1ffd94[_0x33732b(0x10e)]=Math[_0x33732b(0x104)](0x480+-0xe52+0x9dc,_0x5da035['pBdLH'](_0x1ffd94[_0xa35476(0xe9,'ww@*')],_0x40afad)),_0x1ffd94[_0xa35476(0x128,'J@BY')][_0x5da035['GKeCg'](_0x1ffd94[_0x33732b(0x125)][_0xa35476(0xe8,'G(KZ')],-0x80d+0x203f+-0x1831)]=_0x1ffd94[_0xa35476(0x161,'^ag[')];}),_0x5da035['igVbX'](updateStockView),renderStockList();},-0x449*0x3+0x4*0x3b8+-0x1*-0xba7),renderStockList(),updateStockView();</script>
 
-
-    <script>
-        // Stock Market Tracker functionality
-        let watchlist = JSON.parse(localStorage.getItem('stockWatchlist') || '[]');
-        let currentStockData = null;
-        let stockChart = null;
-
-        // Popular stocks to display
-        const popularStocks = [
-            { symbol: 'AAPL', name: 'Apple Inc.' },
-            { symbol: 'GOOGL', name: 'Alphabet Inc.' },
-            { symbol: 'MSFT', name: 'Microsoft Corporation' },
-            { symbol: 'TSLA', name: 'Tesla Inc.' },
-            { symbol: 'AMZN', name: 'Amazon.com Inc.' },
-            { symbol: 'NVDA', name: 'NVIDIA Corporation' },
-            { symbol: 'META', name: 'Meta Platforms Inc.' },
-            { symbol: 'NFLX', name: 'Netflix Inc.' },
-            { symbol: 'AMD', name: 'Advanced Micro Devices' },
-            { symbol: 'INTC', name: 'Intel Corporation' }
-        ];
-
-        // Market indices
-        const marketIndices = [
-            { symbol: 'SPY', name: 'S&P 500', description: 'Large-cap U.S. stocks' },
-            { symbol: 'QQQ', name: 'Nasdaq 100', description: 'Technology-heavy index' },
-            { symbol: 'DIA', name: 'Dow Jones', description: 'Blue-chip stocks' },
-            { symbol: 'IWM', name: 'Russell 2000', description: 'Small-cap stocks' }
-        ];
-
-        // Initialize the stock tracker
-        function initStockTracker() {
-            setupEventListeners();
-            loadMarketIndices();
-            displayPopularStocks();
-            displayWatchlist();
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Search button
-            document.getElementById('search-btn').addEventListener('click', searchStock);
-            document.getElementById('stock-symbol').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchStock();
-                }
-            });
-
-            // Add to watchlist button
-            document.getElementById('add-watchlist-btn').addEventListener('click', addToWatchlist);
-
-            // Mobile menu
-            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-                document.getElementById('mobileMenu').classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking links
-            document.querySelectorAll('#mobileMenu a').forEach(link => {
-                link.addEventListener('click', function() {
-                    document.getElementById('mobileMenu').classList.add('hidden');
-                });
-            });
-        }
-
-        // Search for stock
-        async function searchStock() {
-            const symbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
-
-            if (!symbol) {
-                showError('Please enter a stock symbol');
-                return;
-            }
-
-            showLoading(true);
-            hideError();
-
-            try {
-                // Using Alpha Vantage API (you'll need to get a free API key)
-                // For demo purposes, we'll use mock data
-                const stockData = await getStockData(symbol);
-
-                if (stockData) {
-                    displayStockData(stockData);
-                    document.getElementById('stock-data').classList.remove('hidden');
-                } else {
-                    throw new Error('Stock not found');
-                }
-            } catch (error) {
-                console.error('Error searching stock:', error);
-                showError('Failed to fetch stock data. Please try again.');
-                document.getElementById('stock-data').classList.add('hidden');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Get stock data (mock implementation - replace with real API)
-        async function getStockData(symbol) {
-            // Mock data for demonstration
-            const mockStocks = {
-                'AAPL': {
-                    symbol: 'AAPL',
-                    name: 'Apple Inc.',
-                    price: 175.43,
-                    change: 2.45,
-                    changePercent: 1.41,
-                    open: 173.50,
-                    high: 176.20,
-                    low: 172.80,
-                    volume: '45.2M',
-                    chartData: [170, 172, 169, 173, 175, 178, 176, 179, 177, 175, 178, 180, 182, 179, 175]
-                },
-                'GOOGL': {
-                    symbol: 'GOOGL',
-                    name: 'Alphabet Inc.',
-                    price: 142.56,
-                    change: -1.23,
-                    changePercent: -0.85,
-                    open: 143.80,
-                    high: 144.50,
-                    low: 141.20,
-                    volume: '28.5M',
-                    chartData: [145, 143, 146, 144, 142, 140, 143, 145, 142, 141, 143, 142, 140, 142, 142]
-                },
-                'MSFT': {
-                    symbol: 'MSFT',
-                    name: 'Microsoft Corporation',
-                    price: 378.85,
-                    change: 4.67,
-                    changePercent: 1.25,
-                    open: 375.20,
-                    high: 380.50,
-                    low: 373.80,
-                    volume: '32.1M',
-                    chartData: [370, 375, 372, 378, 376, 380, 378, 382, 379, 375, 378, 380, 382, 378, 378]
-                },
-                'TSLA': {
-                    symbol: 'TSLA',
-                    name: 'Tesla Inc.',
-                    price: 248.42,
-                    change: 8.67,
-                    changePercent: 3.62,
-                    open: 240.50,
-                    high: 250.80,
-                    low: 238.90,
-                    volume: '89.3M',
-                    chartData: [235, 240, 238, 245, 242, 250, 248, 252, 249, 245, 248, 250, 252, 248, 248]
-                },
-                'AMZN': {
-                    symbol: 'AMZN',
-                    name: 'Amazon.com Inc.',
-                    price: 155.89,
-                    change: -2.34,
-                    changePercent: -1.48,
-                    open: 158.40,
-                    high: 159.20,
-                    low: 154.50,
-                    volume: '41.7M',
-                    chartData: [160, 158, 161, 159, 157, 155, 158, 160, 157, 156, 158, 157, 155, 157, 155]
-                },
-                'NVDA': {
-                    symbol: 'NVDA',
-                    name: 'NVIDIA Corporation',
-                    price: 875.28,
-                    change: 15.42,
-                    changePercent: 1.79,
-                    open: 862.50,
-                    high: 880.90,
-                    low: 858.20,
-                    volume: '67.8M',
-                    chartData: [850, 860, 855, 870, 865, 875, 870, 880, 875, 870, 875, 878, 880, 875, 875]
-                },
-                'META': {
-                    symbol: 'META',
-                    name: 'Meta Platforms Inc.',
-                    price: 484.67,
-                    change: -5.89,
-                    changePercent: -1.20,
-                    open: 490.80,
-                    high: 492.30,
-                    low: 482.10,
-                    volume: '18.9M',
-                    chartData: [495, 490, 493, 488, 485, 480, 485, 490, 485, 483, 487, 485, 482, 485, 484]
-                },
-                'NFLX': {
-                    symbol: 'NFLX',
-                    name: 'Netflix Inc.',
-                    price: 589.27,
-                    change: 7.34,
-                    changePercent: 1.26,
-                    open: 583.40,
-                    high: 592.80,
-                    low: 580.50,
-                    volume: '8.2M',
-                    chartData: [575, 580, 578, 585, 582, 590, 585, 592, 588, 583, 587, 589, 591, 587, 589]
-                },
-                'AMD': {
-                    symbol: 'AMD',
-                    name: 'Advanced Micro Devices',
-                    price: 122.84,
-                    change: 3.21,
-                    changePercent: 2.68,
-                    open: 120.30,
-                    high: 124.50,
-                    low: 119.80,
-                    volume: '52.3M',
-                    chartData: [118, 120, 119, 122, 121, 124, 122, 125, 123, 120, 122, 123, 124, 122, 122]
-                },
-                'INTC': {
-                    symbol: 'INTC',
-                    name: 'Intel Corporation',
-                    price: 21.45,
-                    change: -0.67,
-                    changePercent: -3.03,
-                    open: 22.20,
-                    high: 22.40,
-                    low: 21.10,
-                    volume: '78.6M',
-                    chartData: [23, 22, 22.5, 22, 21.5, 21, 21.5, 22, 21.5, 21.2, 21.8, 21.5, 21.2, 21.5, 21]
-                }
-            };
-
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            return mockStocks[symbol] || null;
-        }
-
-        // Display stock data
-        function displayStockData(data) {
-            currentStockData = data;
-
-            document.getElementById('stock-name').textContent = data.name;
-            document.getElementById('stock-symbol-display').textContent = data.symbol;
-            document.getElementById('current-price').textContent = `$${data.price.toFixed(2)}`;
-
-            const changeElement = document.getElementById('price-change');
-            changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePercent >= 0 ? '+' : ''}${data.changePercent.toFixed(2)}%)`;
-            changeElement.className = `price-change ${data.change >= 0 ? 'positive' : 'negative'}`;
-
-            document.getElementById('open-price').textContent = `$${data.open.toFixed(2)}`;
-            document.getElementById('high-price').textContent = `$${data.high.toFixed(2)}`;
-            document.getElementById('low-price').textContent = `$${data.low.toFixed(2)}`;
-            document.getElementById('volume').textContent = data.volume;
-
-            // Update chart
-            updateChart(data.chartData);
-        }
-
-        // Update chart
-        function updateChart(data) {
-            const ctx = document.getElementById('stock-chart').getContext('2d');
-
-            if (stockChart) {
-                stockChart.destroy();
-            }
-
-            stockChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array.from({length: data.length}, (_, i) => `Day ${i + 1}`),
-                    datasets: [{
-                        label: 'Stock Price',
-                        data: data,
-                        borderColor: '#2563eb',
-                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            grid: {
-                                color: '#f3f4f6'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                color: '#f3f4f6'
-                            }
-                        }
-                    },
-                    elements: {
-                        point: {
-                            radius: 0,
-                            hoverRadius: 6
-                        }
-                    }
-                }
-            });
-        }
-
-        // Load market indices
-        async function loadMarketIndices() {
-            const container = document.getElementById('market-indices');
-
-            for (const index of marketIndices) {
-                const card = document.createElement('div');
-                card.className = 'stock-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow';
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <h4 class="font-semibold text-gray-100">${index.name}</h4>
-                            <p class="text-sm text-gray-400">${index.symbol}</p>
-                        </div>
-                        <div class="loading-spinner" id="spinner-${index.symbol}"></div>
-                    </div>
-                    <div class="text-2xl font-bold text-gray-100" id="index-price-${index.symbol}">Loading...</div>
-                    <div class="price-change positive" id="index-change-${index.symbol}">--</div>
-                    <p class="text-xs text-gray-500 mt-1">${index.description}</p>
-                `;
-
-                container.appendChild(card);
-
-                // Load index data (mock)
-                setTimeout(() => {
-                    const mockData = {
-                        'SPY': { price: 450.25, change: 5.67, changePercent: 1.28 },
-                        'QQQ': { price: 380.80, change: -2.34, changePercent: -0.61 },
-                        'DIA': { price: 340.15, change: 3.21, changePercent: 0.95 },
-                        'IWM': { price: 185.60, change: 1.45, changePercent: 0.79 }
-                    };
-
-                    const data = mockData[index.symbol];
-                    if (data) {
-                        document.getElementById(`index-price-${index.symbol}`).textContent = `$${data.price.toFixed(2)}`;
-                        const changeElement = document.getElementById(`index-change-${index.symbol}`);
-                        changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePercent >= 0 ? '+' : ''}${data.changePercent.toFixed(2)}%)`;
-                        changeElement.className = `price-change ${data.change >= 0 ? 'positive' : 'negative'}`;
-                        document.getElementById(`spinner-${index.symbol}`).style.display = 'none';
-                    }
-                }, Math.random() * 2000 + 500);
-            }
-        }
-
-        // Display popular stocks
-        function displayPopularStocks() {
-            const container = document.getElementById('popular-stocks');
-
-            popularStocks.forEach((stock, index) => {
-                const card = document.createElement('div');
-                card.className = 'stock-card bg-dark-800/60 backdrop-blur-md border border-white/10 text-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer';
-                card.onclick = () => selectStock(stock.symbol);
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h4 class="font-semibold text-gray-100">${stock.name}</h4>
-                            <p class="text-sm text-gray-400">${stock.symbol}</p>
-                        </div>
-                        <div class="loading-spinner" id="spinner-${stock.symbol}"></div>
-                    </div>
-                    <div class="text-2xl font-bold text-gray-100" id="price-${stock.symbol}">Loading...</div>
-                    <div class="price-change positive mt-1" id="change-${stock.symbol}">--</div>
-                `;
-
-                container.appendChild(card);
-
-                // Load stock data (mock) with staggered timing
-                setTimeout(async () => {
-                    try {
-                        const data = await getStockData(stock.symbol);
-                        if (data) {
-                            document.getElementById(`price-${stock.symbol}`).textContent = `$${data.price.toFixed(2)}`;
-                            const changeElement = document.getElementById(`change-${stock.symbol}`);
-                            changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePercent >= 0 ? '+' : ''}${data.changePercent.toFixed(2)}%)`;
-                            changeElement.className = `price-change ${data.change >= 0 ? 'positive' : 'negative'}`;
-                        } else {
-                            // Handle case where stock data is not found
-                            document.getElementById(`price-${stock.symbol}`).textContent = 'N/A';
-                            document.getElementById(`change-${stock.symbol}`).textContent = '--';
-                        }
-                        // Always hide the spinner
-                        const spinner = document.getElementById(`spinner-${stock.symbol}`);
-                        if (spinner) {
-                            spinner.style.display = 'none';
-                        }
-                    } catch (error) {
-                        console.error('Error loading stock data for', stock.symbol, error);
-                        document.getElementById(`price-${stock.symbol}`).textContent = 'Error';
-                        document.getElementById(`change-${stock.symbol}`).textContent = '--';
-                        const spinner = document.getElementById(`spinner-${stock.symbol}`);
-                        if (spinner) {
-                            spinner.style.display = 'none';
-                        }
-                    }
-                }, index * 200); // Stagger loading by 200ms per stock
-            });
-        }
-
-        // Select stock from popular stocks
-        function selectStock(symbol) {
-            document.getElementById('stock-symbol').value = symbol;
-            searchStock();
-            // Scroll to search section
-            document.getElementById('stock-search').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Add to watchlist
-        function addToWatchlist() {
-            if (!currentStockData) return;
-
-            const exists = watchlist.find(item => item.symbol === currentStockData.symbol);
-            if (exists) {
-                showError('Stock is already in your watchlist');
-                return;
-            }
-
-            watchlist.push({
-                symbol: currentStockData.symbol,
-                name: currentStockData.name,
-                price: currentStockData.price,
-                change: currentStockData.change,
-                changePercent: currentStockData.changePercent
-            });
-
-            saveWatchlist();
-            displayWatchlist();
-            showSuccess('Stock added to watchlist!');
-        }
-
-        // Remove from watchlist
-        function removeFromWatchlist(symbol) {
-            watchlist = watchlist.filter(item => item.symbol !== symbol);
-            saveWatchlist();
-            displayWatchlist();
-        }
-
-        // Save watchlist to localStorage
-        function saveWatchlist() {
-            localStorage.setItem('stockWatchlist', JSON.stringify(watchlist));
-        }
-
-        // Display watchlist
-        function displayWatchlist() {
-            const container = document.getElementById('watchlist-content');
-            const emptyState = document.getElementById('watchlist-empty');
-            const itemsContainer = document.getElementById('watchlist-items');
-
-            if (watchlist.length === 0) {
-                emptyState.classList.remove('hidden');
-                itemsContainer.classList.add('hidden');
-                return;
-            }
-
-            emptyState.classList.add('hidden');
-            itemsContainer.classList.remove('hidden');
-
-            container.innerHTML = '';
-
-            watchlist.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'watchlist-item flex justify-between items-center p-4 bg-dark-900/40 text-gray-200 rounded-lg';
-
-                itemElement.innerHTML = `
-                    <div class="flex-1">
-                        <h4 class="font-semibold text-gray-100">${item.name}</h4>
-                        <p class="text-sm text-gray-400">${item.symbol}</p>
-                    </div>
-                    <div class="text-right mr-4">
-                        <div class="font-bold text-gray-100">$${item.price.toFixed(2)}</div>
-                        <div class="price-change ${item.change >= 0 ? 'positive' : 'negative'}">
-                            ${item.change >= 0 ? '+' : ''}${item.change.toFixed(2)} (${item.changePercent >= 0 ? '+' : ''}${item.changePercent.toFixed(2)}%)
-                        </div>
-                    </div>
-                    <button onclick="removeFromWatchlist('${item.symbol}')" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-dark-900/40 backdrop-blur-md transition-colors">
-                        <i data-feather="trash-2" class="w-5 h-5"></i>
-                    </button>
-                `;
-
-                container.appendChild(itemElement);
-            });
-
-            // Reinitialize feather icons
-            setTimeout(() => {
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                }
-            }, 10);
-        }
-
-        // Show loading state
-        function showLoading(show) {
-            const searchBtn = document.getElementById('search-btn');
-            const icon = searchBtn.querySelector('i');
-
-            if (show) {
-                searchBtn.disabled = true;
-                searchBtn.innerHTML = '<div class="loading-spinner"></div>';
-            } else {
-                searchBtn.disabled = false;
-                searchBtn.innerHTML = '<i data-feather="search" class="w-5 h-5"></i>';
-                // Reinitialize feather icons
-                setTimeout(() => {
-                    if (typeof feather !== 'undefined') {
-                        feather.replace();
-                    }
-                }, 10);
-            }
-        }
-
-        // Show error message
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-        }
-
-        // Hide error message
-        function hideError() {
-            document.getElementById('error-message').classList.add('hidden');
-        }
-
-        // Show success message
-        function showSuccess(message) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message fixed top-20 right-4 z-50 max-w-sm';
-            successDiv.textContent = message;
-
-            document.body.appendChild(successDiv);
-
-            setTimeout(() => {
-                successDiv.remove();
-            }, 3000);
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initStockTracker();
-        });
-
-        // Initialize Feather icons when window loads
-        window.addEventListener('load', function() {
-            feather.replace();
-        });
-
-        // Refresh data every 5 minutes
-        setInterval(() => {
-            loadMarketIndices();
-            displayPopularStocks();
-            displayWatchlist();
-        }, 5 * 60 * 1000);
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>

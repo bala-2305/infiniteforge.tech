@@ -1,107 +1,76 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Voyager | AI Chat SDK for React</title>
-    <meta name="description" content="A production-ready AI agent SDK for React applications with plug-and-play chat UI, API integration, and an intelligent interaction layer.">
-    <link rel="stylesheet" href="aura/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <title>Aura Voyager — Modern React AI Chat SDK | Infiniteforge</title>
+    <link rel="icon" type="image/png" href="images/letter-d.png">
+    <meta name="description" content="Aura Voyager: A production-ready, beautiful AI chat SDK for modern web applications. Plug-and-play UI, streaming responses, and theme customization.">
+    <meta name="keywords" content="aura voyager, react ai chat sdk, ai ui components, chat sdk react, stream chat agent">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta property="og:title" content="Aura Voyager SDK | Infiniteforge">
+    <meta property="og:description" content="Production-ready AI chat SDK with plug-and-play UI.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://infiniteforge.tech/aura.html">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    <meta property="og:site_name" content="Infiniteforge">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aura Voyager SDK | Infiniteforge">
+    <meta name="twitter:description" content="React AI agent SDK with streaming UI.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/aura.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/aura.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>function _0x5d51(_0xefcaa8,_0x444738){_0xefcaa8=_0xefcaa8-(-0x1bc7+-0x5*0x4e1+-0x35e7*-0x1);var _0x2eccd0=_0x30c9();var _0x34fb73=_0x2eccd0[_0xefcaa8];if(_0x5d51['qUXtci']===undefined){var _0x216d8b=function(_0x332382){var _0x387578='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x55a2cf='',_0x2dba35='',_0x497e9e=_0x55a2cf+_0x216d8b,_0x33246d=(''+function(){return-0x529*0x5+0xe0a*-0x1+0x1*0x27d7;})['indexOf']('\x0a')!==-(-0xf3d+0x4b4+0xa8a);for(var _0x1bfb20=-0x359*0x8+-0xb5*0x2b+0x392f,_0x28b602,_0x5166c7,_0x30a757=0xa99+-0x10a+-0x98f;_0x5166c7=_0x332382['charAt'](_0x30a757++);~_0x5166c7&&(_0x28b602=_0x1bfb20%(-0x7fa*-0x3+-0x1*0x16f3+0xd*-0x13)?_0x28b602*(0x1*-0x1721+0x15*-0x23+0x1a40)+_0x5166c7:_0x5166c7,_0x1bfb20++%(0x234a+0x3*0xb45+-0x1*0x4515))?_0x55a2cf+=_0x33246d||_0x497e9e['charCodeAt'](_0x30a757+(0x23fc+0x23c7+0x3d*-0x12d))-(-0x1ad3+-0x1fe4+0x485*0xd)!==-0x29*-0x19+0x1b72+0x53*-0x61?String['fromCharCode'](0x372+-0x36*0x1+-0x23d&_0x28b602>>(-(-0x11c7+0x1ff4+0x3*-0x4b9)*_0x1bfb20&0x198f+-0x2264+0x8db)):_0x1bfb20:0xf48+-0x3*-0x76c+0x642*-0x6){_0x5166c7=_0x387578['indexOf'](_0x5166c7);}for(var _0x3b789a=0xecf+-0xa*-0x2e7+-0x643*0x7,_0x33d261=_0x55a2cf['length'];_0x3b789a<_0x33d261;_0x3b789a++){_0x2dba35+='%'+('00'+_0x55a2cf['charCodeAt'](_0x3b789a)['toString'](0x1750+-0x1d*0x10a+0x6e2))['slice'](-(0x897+0x2f4*-0x6+0x1*0x923));}return decodeURIComponent(_0x2dba35);};var _0x5c71e=function(_0x3bd4ce,_0x1b944b){var _0x280901=[],_0x42b592=-0x634+0x1963+-0x665*0x3,_0x4a8b4e,_0x1c2bb5='';_0x3bd4ce=_0x216d8b(_0x3bd4ce);var _0xa4cc1e;for(_0xa4cc1e=0x27*0xa9+0x185b+-0x321a;_0xa4cc1e<0xf1*-0x16+-0xe2f+0x3*0xbf7;_0xa4cc1e++){_0x280901[_0xa4cc1e]=_0xa4cc1e;}for(_0xa4cc1e=-0xf*-0x20b+0x1fd3+-0x3e78;_0xa4cc1e<-0x103a+-0x18a5+-0x4a7*-0x9;_0xa4cc1e++){_0x42b592=(_0x42b592+_0x280901[_0xa4cc1e]+_0x1b944b['charCodeAt'](_0xa4cc1e%_0x1b944b['length']))%(-0xa41+0x149e+-0x95d),_0x4a8b4e=_0x280901[_0xa4cc1e],_0x280901[_0xa4cc1e]=_0x280901[_0x42b592],_0x280901[_0x42b592]=_0x4a8b4e;}_0xa4cc1e=-0x1*0x1463+0x1314+0x14f,_0x42b592=-0xb2d*0x2+-0x210*-0xb+-0x56;for(var _0x7547f8=-0x144c+-0x798+0x1be4;_0x7547f8<_0x3bd4ce['length'];_0x7547f8++){_0xa4cc1e=(_0xa4cc1e+(0x3ef*-0x2+0x26d8+-0x371*0x9))%(0xb5+-0x1*-0x2289+-0x223e),_0x42b592=(_0x42b592+_0x280901[_0xa4cc1e])%(0x1bc7+-0xacb+-0xffc),_0x4a8b4e=_0x280901[_0xa4cc1e],_0x280901[_0xa4cc1e]=_0x280901[_0x42b592],_0x280901[_0x42b592]=_0x4a8b4e,_0x1c2bb5+=String['fromCharCode'](_0x3bd4ce['charCodeAt'](_0x7547f8)^_0x280901[(_0x280901[_0xa4cc1e]+_0x280901[_0x42b592])%(0x2*0xa47+-0xb*0x115+-0x7a7)]);}return _0x1c2bb5;};_0x5d51['qrXCrC']=_0x5c71e,_0x5d51['gMVhwM']={},_0x5d51['qUXtci']=!![];}var _0x54b2b4=_0x2eccd0[-0x1796+0x455*-0x7+0x25*0x175],_0x3ef8f7=_0xefcaa8+_0x54b2b4,_0x21156d=_0x5d51['gMVhwM'][_0x3ef8f7];if(!_0x21156d){if(_0x5d51['oJgdwA']===undefined){var _0xd5f5a3=function(_0x1cdd0d){this['uxbLZB']=_0x1cdd0d,this['MpzyKd']=[0x68e*-0x3+-0x2a*0x1d+0x25*0xa9,0x5fb+0x1*-0x1c45+0x164a,0x1*0x103d+-0x1*-0x14f8+-0x27b*0xf],this['uZCKPb']=function(){return'newState';},this['wJLyev']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['KHaMFJ']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xd5f5a3['prototype']['HeNqZd']=function(){var _0xa78eda=new RegExp(this['wJLyev']+this['KHaMFJ']),_0x37d125=_0xa78eda['test'](this['uZCKPb']['toString']())?--this['MpzyKd'][0x11b*0x16+0x5f8*-0x1+-0x7*0x29f]:--this['MpzyKd'][0xc3*-0x2f+0x169f+0x697*0x2];return this['oWBKcR'](_0x37d125);},_0xd5f5a3['prototype']['oWBKcR']=function(_0x7863ac){if(!Boolean(~_0x7863ac))return _0x7863ac;return this['IHBVfn'](this['uxbLZB']);},_0xd5f5a3['prototype']['IHBVfn']=function(_0x3d2941){for(var _0x54dca7=-0x21e9*-0x1+0x1807*0x1+-0x338*0x12,_0x2c439a=this['MpzyKd']['length'];_0x54dca7<_0x2c439a;_0x54dca7++){this['MpzyKd']['push'](Math['round'](Math['random']())),_0x2c439a=this['MpzyKd']['length'];}return _0x3d2941(this['MpzyKd'][-0x1*0x11f1+0xf91+0x260]);},(''+function(){return-0xf7a+0x958*0x4+-0x2*0xaf3;})['indexOf']('\x0a')===-(0x294*-0x5+0x227d+0x566*-0x4)&&new _0xd5f5a3(_0x5d51)['HeNqZd'](),_0x5d51['oJgdwA']=!![];}_0x34fb73=_0x5d51['qrXCrC'](_0x34fb73,_0x444738),_0x5d51['gMVhwM'][_0x3ef8f7]=_0x34fb73;}else _0x34fb73=_0x21156d;return _0x34fb73;}function _0x30c9(){var _0x48175c=['mtaZnZmXrwPsuvnm','mtm1Cffivvzq','yMLUza','iZDbmdbgrG','nde2otrWAgzWANG','mJm3mZrhs3zry2q','eKJcU8kcgSkdBSkdmrD9','iZq1rJngrG','d8kmWRdcKmoxeSkLW70','wvJcOx7cIf0/va','iZfgmJGZmW','fGJcShhdLITFW4bx','Dg9tDhjPBMC','mtbIrM91qvG','fqHiW6ZdVfX7','WORcL8owWRPkWO0JW7S','r8oEBSopWQHI','sLFdRsNcLMP7W4LGWPtcQSoG','iXzlWRpdSM4','W5C5yXi','y29UzMLN','sMv0qNjHAw5Zia','otK3mJGZCK5QDe5N','fCo9WQpcS8knDgqMrvm3hq','ndG2ndzqEhPtC2i','mJi2mZG2A3LSueLT','W6vFW5tcICkm','AfiXpa1iW7fG','dWG5W63dVLXyFmkAfhBdIW','mJb1Dw1Xu08','y8k6W6xdP8otmW','p1qUWQDeW7mOehhcPri','og5OBu1xEq','Fa7cH1ddQCoTW47cPMyb','mtbyzMzTDxO','BvTBlI9iW4vnWRe','ndKYDerTqvD0'];_0x30c9=function(){return _0x48175c;};return _0x30c9();}var _0x5ca05a=_0x5d51,_0x587a61=_0xf389;function _0xf389(_0x308d67,_0x59d744){_0x308d67=_0x308d67-(-0x1bc7+-0x5*0x4e1+-0x35e7*-0x1);var _0x23a1cd=_0x30c9();var _0x4b99b8=_0x23a1cd[_0x308d67];if(_0xf389['SAdFkg']===undefined){var _0x2bd13b=function(_0x1d9aaa){var _0xc2dc3='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x253b42='',_0x48c617='',_0x21298e=_0x253b42+_0x2bd13b,_0x4d4ccb=(''+function(){return-0x529*0x5+0xe0a*-0x1+0x1*0x27d7;})['indexOf']('\x0a')!==-(-0xf3d+0x4b4+0xa8a);for(var _0x388025=-0x359*0x8+-0xb5*0x2b+0x392f,_0x4453a6,_0x19716c,_0x25b7f0=0xa99+-0x10a+-0x98f;_0x19716c=_0x1d9aaa['charAt'](_0x25b7f0++);~_0x19716c&&(_0x4453a6=_0x388025%(-0x7fa*-0x3+-0x1*0x16f3+0xd*-0x13)?_0x4453a6*(0x1*-0x1721+0x15*-0x23+0x1a40)+_0x19716c:_0x19716c,_0x388025++%(0x234a+0x3*0xb45+-0x1*0x4515))?_0x253b42+=_0x4d4ccb||_0x21298e['charCodeAt'](_0x25b7f0+(0x23fc+0x23c7+0x3d*-0x12d))-(-0x1ad3+-0x1fe4+0x485*0xd)!==-0x29*-0x19+0x1b72+0x53*-0x61?String['fromCharCode'](0x372+-0x36*0x1+-0x23d&_0x4453a6>>(-(-0x11c7+0x1ff4+0x3*-0x4b9)*_0x388025&0x198f+-0x2264+0x8db)):_0x388025:0xf48+-0x3*-0x76c+0x642*-0x6){_0x19716c=_0xc2dc3['indexOf'](_0x19716c);}for(var _0x12e6a8=0xecf+-0xa*-0x2e7+-0x643*0x7,_0xaad037=_0x253b42['length'];_0x12e6a8<_0xaad037;_0x12e6a8++){_0x48c617+='%'+('00'+_0x253b42['charCodeAt'](_0x12e6a8)['toString'](0x1750+-0x1d*0x10a+0x6e2))['slice'](-(0x897+0x2f4*-0x6+0x1*0x923));}return decodeURIComponent(_0x48c617);};_0xf389['OWgqxW']=_0x2bd13b,_0xf389['cWlmsm']={},_0xf389['SAdFkg']=!![];}var _0x2ea016=_0x23a1cd[-0x634+0x1963+-0x665*0x3],_0x51979f=_0x308d67+_0x2ea016,_0x22839f=_0xf389['cWlmsm'][_0x51979f];if(!_0x22839f){var _0xe31f8=function(_0x4ae30e){this['UTBGCB']=_0x4ae30e,this['qoyqib']=[0x27*0xa9+0x185b+-0x3219,0xf1*-0x16+-0xe2f+0x1*0x22e5,-0xf*-0x20b+0x1fd3+-0x3e78],this['wqXNUu']=function(){return'newState';},this['LiUtsq']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['TsTxXN']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0xe31f8['prototype']['fTICaW']=function(){var _0x4e8086=new RegExp(this['LiUtsq']+this['TsTxXN']),_0x54e15c=_0x4e8086['test'](this['wqXNUu']['toString']())?--this['qoyqib'][-0x103a+-0x18a5+-0x1b4*-0x18]:--this['qoyqib'][-0xa41+0x149e+-0xa5d];return this['pXWwcg'](_0x54e15c);},_0xe31f8['prototype']['pXWwcg']=function(_0x421221){if(!Boolean(~_0x421221))return _0x421221;return this['UkcGJi'](this['UTBGCB']);},_0xe31f8['prototype']['UkcGJi']=function(_0x17b021){for(var _0x29e209=-0x1*0x1463+0x1314+0x14f,_0x36b696=this['qoyqib']['length'];_0x29e209<_0x36b696;_0x29e209++){this['qoyqib']['push'](Math['round'](Math['random']())),_0x36b696=this['qoyqib']['length'];}return _0x17b021(this['qoyqib'][-0xb2d*0x2+-0x210*-0xb+-0x56]);},(''+function(){return-0x144c+-0x798+0x1be4;})['indexOf']('\x0a')===-(0x3ef*-0x2+0x26d8+-0x371*0x9)&&new _0xe31f8(_0xf389)['fTICaW'](),_0x4b99b8=_0xf389['OWgqxW'](_0x4b99b8),_0xf389['cWlmsm'][_0x51979f]=_0x4b99b8;}else _0x4b99b8=_0x22839f;return _0x4b99b8;}(function(_0x28b602,_0x5166c7){var _0x7cc2f1=_0x5d51,_0x4a01c6=_0xf389,_0x30a757=_0x28b602();while(!![]){try{var _0x3b789a=parseInt(_0x4a01c6(0x1d6))/(-0x11*0x243+0x3*-0x2db+-0x1*-0x2f05)*(parseInt(_0x7cc2f1(0x1c3,'1Yv)'))/(-0x82b+-0x1796+0xad*0x2f))+-parseInt(_0x4a01c6(0x1c9))/(0x1e79+0xf10+0x16c3*-0x2)*(-parseInt(_0x7cc2f1(0x1d1,'y&qp'))/(0x2*0xe3b+-0x225*0xa+-0x700))+-parseInt(_0x4a01c6(0x1ca))/(0x650+0x649*0x2+0xb*-0x1b7)*(parseInt(_0x4a01c6(0x1cd))/(-0xb23*-0x2+-0x1*0x21d+0x407*-0x5))+-parseInt(_0x4a01c6(0x1df))/(-0x7*-0x519+0x2268+0x76*-0x98)*(-parseInt(_0x4a01c6(0x1c4))/(0x16a7*0x1+0x251*-0xe+-0x5d*-0x1b))+-parseInt(_0x4a01c6(0x1bd))/(-0x397*-0x2+0x1f52+0x2b*-0xe5)*(parseInt(_0x4a01c6(0x1c6))/(-0x424+-0x15fc+-0x22*-0xc5))+parseInt(_0x7cc2f1(0x1c0,'F9Rk'))/(-0x5*-0x449+0x225a+0x29*-0x15c)+-parseInt(_0x7cc2f1(0x1c7,'YL$u'))/(0x1145*0x2+-0x1a0a+-0x1*0x874)*(parseInt(_0x7cc2f1(0x1cf,'$lcu'))/(0xa*0x6f+-0xbaf+0x766));if(_0x3b789a===_0x5166c7)break;else _0x30a757['push'](_0x30a757['shift']());}catch(_0x33d261){_0x30a757['push'](_0x30a757['shift']());}}}(_0x30c9,-0x1*-0x55bf+-0xd9f6*-0x1+0x120bf));var _0x1a6504=(function(){var _0x407f1d=!![];return function(_0x375175,_0x4ee24f){var _0x5b7561=_0x407f1d?function(){if(_0x4ee24f){var _0x7855e4=_0x4ee24f['apply'](_0x375175,arguments);return _0x4ee24f=null,_0x7855e4;}}:function(){};return _0x407f1d=![],_0x5b7561;};}()),_0x4517cc=_0x1a6504(this,function(){var _0x140721=_0x5d51,_0x4b4727=_0xf389,_0x2a14a9={'IHCzn':'(((.+)+)+)'+'+$'};if(_0x4517cc[_0x4b4727(0x1cb)]()[_0x4b4727(0x1d5)]()['indexOf']('\x0a')!==-(-0x24fe+-0x2*0x1246+0x498b))return;return _0x4517cc[_0x140721(0x1d2,'O](K')]()[_0x140721(0x1d9,'3vSU')](_0x2a14a9[_0x140721(0x1be,'*Gio')])[_0x4b4727(0x1d5)]()['constructo'+'r'](_0x4517cc)[_0x140721(0x1db,'f]g[')](_0x140721(0x1c5,'uBp6')+'+$');});_0x4517cc(),tailwind[_0x587a61(0x1dd)]={'theme':{'extend':{'fontFamily':{'sans':[_0x5ca05a(0x1c2,'iv#Y'),'sans-serif'],'mono':[_0x587a61(0x1de)+_0x5ca05a(0x1dc,'xkNh'),_0x5ca05a(0x1d4,'4vBu')]},'colors':{'dark':{0x384:'#0B0C10',0x320:_0x587a61(0x1d3),0x2bc:_0x5ca05a(0x1d7,'F9Rk')},'brand':{'primary':_0x587a61(0x1d0),'secondary':'#FF2A7A','accent':_0x587a61(0x1cc)}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
     </style>
 </head>
+
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <canvas id="starfield"></canvas>
+    <div id="toast"></div>
 
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -112,102 +81,127 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
+    <!-- Main Hero -->
+    <main class="max-w-6xl mx-auto pt-32 pb-20 px-4 sm:px-6">
+        <div class="grid lg:grid-cols-12 gap-12 items-center mb-20">
+            <!-- Hero Left -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border border-brand-primary/30 text-brand-primary text-xs font-semibold">
+                    <i data-feather="terminal" class="w-3.5 h-3.5"></i> NPM Package v1.2.0
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary leading-tight">
+                    Navigate the <br><span class="text-brand-primary">AI Cosmos</span>
+                </h1>
+                <p class="text-lg text-gray-400 max-w-xl leading-relaxed">
+                    A production-ready AI chat SDK for React applications. Featuring plug-and-play UI widgets, streaming token responses, and native markdown parsing.
+                </p>
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <div class="flex items-center gap-3 p-3 rounded-2xl bg-dark-900/90 border border-white/10 font-mono text-sm text-gray-300">
+                        <span class="text-brand-primary">$</span> npm install aura-voyager
+                        <button id="copy-npm-btn" class="text-xs text-gray-400 hover:text-white ml-2"><i data-feather="copy" class="w-4 h-4"></i></button>
+                    </div>
+                    <a href="https://www.npmjs.com/package/aura-voyager" target="_blank" class="glass-panel px-6 py-3.5 rounded-2xl font-bold text-white hover:bg-white/10 border border-white/20 transition-all flex items-center gap-2">
+                        <i data-feather="external-link" class="w-4 h-4"></i> View on NPM
+                    </a>
+                </div>
+            </div>
 
+            <!-- Terminal Mockup -->
+            <div class="lg:col-span-5">
+                <div class="glass-panel rounded-3xl border border-white/10 overflow-hidden shadow-[0_0_30px_rgba(122,0,255,0.2)]">
+                    <div class="bg-dark-900/90 px-4 py-3 border-b border-white/10 flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        <span class="text-xs font-mono text-gray-500 ml-2">AuraChat.tsx</span>
+                    </div>
+                    <pre class="p-6 font-mono text-xs text-gray-300 leading-relaxed overflow-x-auto"><span class="text-pink-400">import</span> { AuraChat } <span class="text-pink-400">from</span> <span class="text-emerald-400">'aura-voyager'</span>;
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="reveal">Navigate the <span class="gradient-text">AI Cosmos</span></h1>
-            <p class="reveal">A production-ready AI agent SDK for React applications with plug-and-play chat UI, API integration, and an intelligent interaction layer.</p>
-            <div class="cta-group reveal">
-                <code class="install-cmd">npm install aura-voyager</code>
+<span class="text-pink-400">export default function</span> <span class="text-brand-primary">App</span>() {
+  <span class="text-pink-400">return</span> (
+    &lt;<span class="text-purple-400">AuraChat</span>
+      <span class="text-brand-primary">endpoint</span>=<span class="text-emerald-400">"/api/chat"</span>
+      <span class="text-brand-primary">theme</span>=<span class="text-emerald-400">"dark-glass"</span>
+      <span class="text-brand-primary">streaming</span>={<span class="text-pink-400">true</span>}
+    /&gt;
+  );
+}</pre>
+                </div>
             </div>
         </div>
-        
-        <div class="hero-visual reveal">
-            <div class="terminal-window">
-                <div class="terminal-header">
-                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+
+        <!-- Features Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary">
+                    <i data-feather="box" class="w-5 h-5"></i>
                 </div>
-                <div class="terminal-body">
-                    <p class="line"><span class="prompt">></span> import { AuraChat } from 'aura-voyager';</p>
-                    <p class="line typing">Initializing AI chat interface...</p>
-                    <p class="line success">✓ Ready to converse with AI agents.</p>
+                <h3 class="text-lg font-bold text-white">Plug-and-Play Chat UI</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">Modern dark glassmorphic chat widget ready for instant drop-in integration.</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400">
+                    <i data-feather="activity" class="w-5 h-5"></i>
                 </div>
+                <h3 class="text-lg font-bold text-white">Streaming Token Responses</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">Native Server-Sent Events (SSE) stream reader with live typing animation.</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                    <i data-feather="code" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Syntax Highlighting</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">Automatic code block format and syntax highlighting in AI answers.</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <i data-feather="database" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Local Memory Cache</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">Automatic chat thread history preservation and progressive local storage.</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400">
+                    <i data-feather="shield" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">TypeScript First</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">100% typed with full IntelliSense support for all props and event hooks.</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-white/5 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                    <i data-feather="smartphone" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Adaptive Responsive</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">Fluid layouts designed for mobile touch, tablet sidebars, and desktop viewports.</p>
             </div>
         </div>
-    </header>
-    <section id="features" class="features">
-        <div class="card reveal">
-            <h3>Plug-and-Play Chat UI</h3>
-            <p>Beautiful, modern chat component ready to use out of the box.</p>
-        </div>
-        <div class="card reveal">
-            <h3>AI Integration</h3>
-            <p>OpenAI and NVIDIA NIM compatible API with native mock mode for development.</p>
-        </div>
-        <div class="card reveal">
-            <h3>Streaming Responses</h3>
-            <p>Real-time server-sent events (SSE) support for progressive text rendering.</p>
-        </div>
-        <div class="card reveal">
-            <h3>Markdown & Syntax Highlighting</h3>
-            <p>Native support for Markdown formatting and code block highlighting.</p>
-        </div>
-        <div class="card reveal">
-            <h3>Smart Memory Management</h3>
-            <p>Automatic chat history with progressive persistence.</p>
-        </div>
-        <div class="card reveal">
-            <h3>Theme Support</h3>
-            <p>Built-in light and dark themes for seamless integration.</p>
-        </div>
-        <div class="card reveal">
-            <h3>Fully Responsive</h3>
-            <p>Adapts perfectly across mobile, tablet, and desktop viewports.</p>
-        </div>
-        <div class="card reveal">
-            <h3>TypeScript First</h3>
-            <p>Full type safety and excellent IDE support.</p>
-        </div>
-    </section>
+    </main>
 
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x48eb01=_0x3aaf,_0x24f962=_0x4a20;function _0x3aaf(_0x15fa4b,_0x3a9c13){_0x15fa4b=_0x15fa4b-(-0xd6*-0x1d+-0x4*0x48+-0x1667*0x1);const _0x224f38=_0x25a4();let _0x2003f9=_0x224f38[_0x15fa4b];if(_0x3aaf['vsxnli']===undefined){var _0x57b415=function(_0x4ed56e){const _0x36125a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3342f8='',_0x5996c6='',_0x47d63e=_0x3342f8+_0x57b415,_0x309072=(''+function(){return 0x1393+-0xc1*-0x1+-0xa2a*0x2;})['indexOf']('\x0a')!==-(-0x107b+-0x2269+0x32e5);for(let _0x5aea34=0x2bc+-0x1065+0xda9,_0x2e6270,_0x105d60,_0x4cfbdd=-0x1aec+0x225d*0x1+-0x771;_0x105d60=_0x4ed56e['charAt'](_0x4cfbdd++);~_0x105d60&&(_0x2e6270=_0x5aea34%(-0x1411+-0x7fc+0x59d*0x5)?_0x2e6270*(0x1ef+0x2e*0xb3+0x21d9*-0x1)+_0x105d60:_0x105d60,_0x5aea34++%(-0xc9*-0x25+-0x191b+0x2*-0x1f7))?_0x3342f8+=_0x309072||_0x47d63e['charCodeAt'](_0x4cfbdd+(-0xbf9*-0x1+0x170*-0x8+-0x6f))-(0x14cb*-0x1+-0xe10+0x22e5)!==-0x1*0x2d1+-0x1c92+0x1*0x1f63?String['fromCharCode'](-0x160c+-0x18bf+0x2fca&_0x2e6270>>(-(0xfd9*0x2+0x33d*-0x3+-0x15f9)*_0x5aea34&-0x7*-0x8c+-0x61*-0x7+-0x675)):_0x5aea34:-0x241a+-0x2198+0x32b*0x16){_0x105d60=_0x36125a['indexOf'](_0x105d60);}for(let _0x5a2e6a=-0xdb0*-0x1+0x5*-0x721+0x15f5,_0xefd1e6=_0x3342f8['length'];_0x5a2e6a<_0xefd1e6;_0x5a2e6a++){_0x5996c6+='%'+('00'+_0x3342f8['charCodeAt'](_0x5a2e6a)['toString'](-0x3*-0x9a3+0x1*-0x1a0f+0x7*-0x66))['slice'](-(0x12*-0x18+0x25c7*-0x1+0x2779));}return decodeURIComponent(_0x5996c6);};const _0x2740d9=function(_0x4f35b0,_0xab3b32){let _0x1e9fdd=[],_0x11a4fc=-0x3cd+-0x7*-0x51b+-0x2*0xff8,_0x5be980,_0x389472='';_0x4f35b0=_0x57b415(_0x4f35b0);let _0x55c7a0;for(_0x55c7a0=0xc5b*0x3+0x827*-0x3+0x434*-0x3;_0x55c7a0<0x6aa*-0x1+-0x9*0x1ce+0x5fa*0x4;_0x55c7a0++){_0x1e9fdd[_0x55c7a0]=_0x55c7a0;}for(_0x55c7a0=-0x1c*-0x27+-0x5d0+0x18c;_0x55c7a0<0x3c0+0x3f9+-0x6b9*0x1;_0x55c7a0++){_0x11a4fc=(_0x11a4fc+_0x1e9fdd[_0x55c7a0]+_0xab3b32['charCodeAt'](_0x55c7a0%_0xab3b32['length']))%(0x1cf0+0x1ccf+-0x49*0xc7),_0x5be980=_0x1e9fdd[_0x55c7a0],_0x1e9fdd[_0x55c7a0]=_0x1e9fdd[_0x11a4fc],_0x1e9fdd[_0x11a4fc]=_0x5be980;}_0x55c7a0=-0x215+-0x210d+0x5db*0x6,_0x11a4fc=-0x3*0xc1e+-0x1*-0x224d+-0xf*-0x23;for(let _0x3540b5=-0xb6b+0x139d*0x1+-0x832;_0x3540b5<_0x4f35b0['length'];_0x3540b5++){_0x55c7a0=(_0x55c7a0+(0x171a*-0x1+0x193*0x8+0x381*0x3))%(-0x84e*0x2+-0x2009+0x1*0x31a5),_0x11a4fc=(_0x11a4fc+_0x1e9fdd[_0x55c7a0])%(0xe82*0x1+0x1dc*-0x2+-0x9ca),_0x5be980=_0x1e9fdd[_0x55c7a0],_0x1e9fdd[_0x55c7a0]=_0x1e9fdd[_0x11a4fc],_0x1e9fdd[_0x11a4fc]=_0x5be980,_0x389472+=String['fromCharCode'](_0x4f35b0['charCodeAt'](_0x3540b5)^_0x1e9fdd[(_0x1e9fdd[_0x55c7a0]+_0x1e9fdd[_0x11a4fc])%(0x8ae+-0x40d*-0x4+0x17e2*-0x1)]);}return _0x389472;};_0x3aaf['SUjJfW']=_0x2740d9,_0x3aaf['VQpZiw']={},_0x3aaf['vsxnli']=!![];}const _0x1c800c=_0x224f38[-0x13d9*0x1+-0x2*-0x112d+0x1*-0xe81],_0x24b5a5=_0x15fa4b+_0x1c800c,_0x32d42b=_0x3aaf['VQpZiw'][_0x24b5a5];if(!_0x32d42b){if(_0x3aaf['KhzCcP']===undefined){const _0x546f0c=function(_0x52e4a2){this['tCNBLW']=_0x52e4a2,this['bEfWUA']=[-0x77f+0x7e2+-0x7*0xe,0x2279*-0x1+-0x14b9*-0x1+-0x370*-0x4,-0x3*0x793+0x6b8*-0x2+0x1*0x2429],this['SRfrNS']=function(){return'newState';},this['WkLfQk']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['RtfUvG']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x546f0c['prototype']['IRMflL']=function(){const _0x13efcd=new RegExp(this['WkLfQk']+this['RtfUvG']),_0x17e59c=_0x13efcd['test'](this['SRfrNS']['toString']())?--this['bEfWUA'][0x250c+-0xbb1*-0x1+-0x30bc]:--this['bEfWUA'][0x1ab*0x1+0x1d31+-0x1edc];return this['bQilRC'](_0x17e59c);},_0x546f0c['prototype']['bQilRC']=function(_0x15143e){if(!Boolean(~_0x15143e))return _0x15143e;return this['aEJVgN'](this['tCNBLW']);},_0x546f0c['prototype']['aEJVgN']=function(_0x20c96d){for(let _0x5bf049=-0x2ab*-0x1+0x1a33+-0x1cde,_0xebcee=this['bEfWUA']['length'];_0x5bf049<_0xebcee;_0x5bf049++){this['bEfWUA']['push'](Math['round'](Math['random']())),_0xebcee=this['bEfWUA']['length'];}return _0x20c96d(this['bEfWUA'][-0x16*-0x23+0x1*-0x1cb2+-0x3*-0x890]);},(''+function(){return-0x1fef+0x935*0x4+-0xb3*0x7;})['indexOf']('\x0a')===-(-0x112e+-0x1*0x1b08+0x2c37)&&new _0x546f0c(_0x3aaf)['IRMflL'](),_0x3aaf['KhzCcP']=!![];}_0x2003f9=_0x3aaf['SUjJfW'](_0x2003f9,_0x3a9c13),_0x3aaf['VQpZiw'][_0x24b5a5]=_0x2003f9;}else _0x2003f9=_0x32d42b;return _0x2003f9;}(function(_0x6acb53,_0x221f72){const _0x594397=_0x3aaf,_0xc712ba=_0x4a20,_0x5a9376=_0x6acb53();while(!![]){try{const _0x3ba7cc=parseInt(_0xc712ba(0xc8))/(0xa*-0x36d+-0x2*0xe7f+-0x3f41*-0x1)+-parseInt(_0xc712ba(0xc4))/(-0x2*0xe89+0xb9*-0x1d+0x1*0x3209)+-parseInt(_0xc712ba(0xc5))/(-0x23e6*0x1+-0x704*-0x4+-0x7d9*-0x1)+-parseInt(_0x594397(0xc2,'vvE('))/(-0x5*-0x753+-0x1*0x883+-0x1c18)*(parseInt(_0x594397(0xce,'w($M'))/(0x11e9+-0x156a*-0x1+0x2b*-0xea))+-parseInt(_0xc712ba(0xe9))/(0x4df*0x3+-0x706*0x1+-0x1*0x791)+-parseInt(_0xc712ba(0xd6))/(0x995*-0x1+0x1b31*0x1+-0x1195)*(-parseInt(_0x594397(0xcb,'dS$3'))/(0x1677+-0x957*-0x2+-0x1a5*0x19))+parseInt(_0x594397(0xe5,'hGef'))/(-0x3f5+-0x265*-0x5+-0x7fb);if(_0x3ba7cc===_0x221f72)break;else _0x5a9376['push'](_0x5a9376['shift']());}catch(_0x2871e6){_0x5a9376['push'](_0x5a9376['shift']());}}}(_0x25a4,-0xf33c7+0x1587f1*-0x1+0xd*0x3bf23));const _0x368261=(function(){const _0x32f23d={'XiZsB':'mqWYr','jZTAO':'hygMx'};let _0x4fa9c1=!![];return function(_0x329ba9,_0x247c9){const _0x21b5e2=_0x4fa9c1?function(){const _0x429522=_0x4a20,_0x259313=_0x3aaf,_0x73a818={'gzbdf':'Copied\x20NPM'+_0x259313(0xb7,'1iA%')+_0x429522(0xbf)};if(_0x32f23d[_0x429522(0xdd)]===_0x32f23d[_0x259313(0xe7,'S[xL')])_0x26fe90[_0x259313(0xbc,'eSgd')][_0x429522(0xc6)](_0x259313(0xd8,'6B8u')+_0x429522(0xcf)+_0x429522(0xdb))[_0x259313(0xb9,'POYu')](()=>{const _0x13dcee=_0x429522;_0x444ae5(_0x73a818[_0x13dcee(0xbe)]);});else{if(_0x247c9){const _0xcaa62e=_0x247c9['apply'](_0x329ba9,arguments);return _0x247c9=null,_0xcaa62e;}}}:function(){};return _0x4fa9c1=![],_0x21b5e2;};}()),_0xf66c2d=_0x368261(this,function(){const _0x4197fc=_0x4a20,_0x1d377a=_0x3aaf,_0x584a11={'hjENb':_0x1d377a(0xea,'Wgml')+'+$'};if(_0xf66c2d[_0x4197fc(0xc0)]()[_0x1d377a(0xbd,'r@iA')]()[_0x4197fc(0xe3)]('\x0a')!==-(0x250c+-0xbb1*-0x1+-0x30bc))return;return _0xf66c2d[_0x4197fc(0xda)]()[_0x1d377a(0xcd,'$nTw')](_0x584a11['hjENb'])[_0x4197fc(0xda)]()['constructo'+'r'](_0xf66c2d)[_0x1d377a(0xc7,'(cjU')]('(((.+)+)+)'+'+$');});function _0x25a4(){const _0xfb555a=['ymkBW5OVWRK','WQbUW4ddPa','WQeeWO8UACobW7L6W5Cg','mJm3odK0ndHorg12AMC','W5CloCotpNfQW7tdPq','o3JdHCk8nsXlhq','z3PIzgy','B21Tyw5Kiq','yMLUza','zK1zBvC','tNVcRYr3WPNdVYSmW5a','w8o+W4So','mJm0mJmZmK5bwhPPua','mJa3mdqYm1HPuMzXAG','D3jPDgvuzxH0','wfdcI8k6fCon','mtiWnJu4mKj2uurcvW','pc9ZCgfUpG','qNLjza','s8k1zmoXWOiid8ogWRDT','DgHLBG','hrHwWRNcTMu','oSkjuSkJimkHW50VWQBdKq','BcbHDxjHlxzVEq','C2HVDYa','mCohWOr8W6zwgwrQW5OzpGW','CmoZW41LWQTrpSkgWOG','x3rPBwvY','dhnsW4VdPCowWOWwWR9l','WO5KWRBdGruwW6u','nZKXrMj4seLc','WR7dHWVcKSk0WPBdVelcLqS','W6hdHb7cSSoanKjhsSkX','pHPHlMJcUJRcU8kaBW','Dg9tDhjPBMC','ywDLCG','ndrVWQhcKW','wgLAC0i','pgHhW4ZdPCoa','y2XHC3noyw1L','z2v0rwXLBwvUDa','WQLEW51AW7tdImoNW60tW6O','y29WEs1UCg0TyG','Aw5KzxHpzG','nmooWOikWRaCyNvb','W7jdW5bZiSoiW68HW7eNWRCmW79K','wMDHrem','n8oAW5dcK8oF','rSkBfw/dQLFcK8kiW5dcTG','mtaWnJy2ogv3C0Hota','DmoVErutWO3cGSoQasq','FhGlsuS','W7rDeSoHW4tcHhhcLKlcNq'];_0x25a4=function(){return _0xfb555a;};return _0x25a4();}function _0x4a20(_0x1b6b31,_0x896f0e){_0x1b6b31=_0x1b6b31-(-0xd6*-0x1d+-0x4*0x48+-0x1667*0x1);const _0x5eea15=_0x25a4();let _0xb5da76=_0x5eea15[_0x1b6b31];if(_0x4a20['UGGsBs']===undefined){var _0x1c5613=function(_0x2b2693){const _0x50b78c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5df2fc='',_0x3fd814='',_0x5b95e4=_0x5df2fc+_0x1c5613,_0x119d47=(''+function(){return 0x1393+-0xc1*-0x1+-0xa2a*0x2;})['indexOf']('\x0a')!==-(-0x107b+-0x2269+0x32e5);for(let _0x3a4863=0x2bc+-0x1065+0xda9,_0x437769,_0x9cf22b,_0x43ddc6=-0x1aec+0x225d*0x1+-0x771;_0x9cf22b=_0x2b2693['charAt'](_0x43ddc6++);~_0x9cf22b&&(_0x437769=_0x3a4863%(-0x1411+-0x7fc+0x59d*0x5)?_0x437769*(0x1ef+0x2e*0xb3+0x21d9*-0x1)+_0x9cf22b:_0x9cf22b,_0x3a4863++%(-0xc9*-0x25+-0x191b+0x2*-0x1f7))?_0x5df2fc+=_0x119d47||_0x5b95e4['charCodeAt'](_0x43ddc6+(-0xbf9*-0x1+0x170*-0x8+-0x6f))-(0x14cb*-0x1+-0xe10+0x22e5)!==-0x1*0x2d1+-0x1c92+0x1*0x1f63?String['fromCharCode'](-0x160c+-0x18bf+0x2fca&_0x437769>>(-(0xfd9*0x2+0x33d*-0x3+-0x15f9)*_0x3a4863&-0x7*-0x8c+-0x61*-0x7+-0x675)):_0x3a4863:-0x241a+-0x2198+0x32b*0x16){_0x9cf22b=_0x50b78c['indexOf'](_0x9cf22b);}for(let _0x96c955=-0xdb0*-0x1+0x5*-0x721+0x15f5,_0x463ac0=_0x5df2fc['length'];_0x96c955<_0x463ac0;_0x96c955++){_0x3fd814+='%'+('00'+_0x5df2fc['charCodeAt'](_0x96c955)['toString'](-0x3*-0x9a3+0x1*-0x1a0f+0x7*-0x66))['slice'](-(0x12*-0x18+0x25c7*-0x1+0x2779));}return decodeURIComponent(_0x3fd814);};_0x4a20['fWWAsf']=_0x1c5613,_0x4a20['vaJUtm']={},_0x4a20['UGGsBs']=!![];}const _0x36a905=_0x5eea15[-0x3cd+-0x7*-0x51b+-0x2*0xff8],_0x350685=_0x1b6b31+_0x36a905,_0x416561=_0x4a20['vaJUtm'][_0x350685];if(!_0x416561){const _0x5c3853=function(_0x177667){this['sZqCQP']=_0x177667,this['dMOFIn']=[0xc5b*0x3+0x827*-0x3+0xc9b*-0x1,0x6aa*-0x1+-0x9*0x1ce+0x16e8*0x1,-0x1c*-0x27+-0x5d0+0x18c],this['VTQhgu']=function(){return'newState';},this['KlWBeN']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['vRrSGL']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5c3853['prototype']['qaEioX']=function(){const _0x599d58=new RegExp(this['KlWBeN']+this['vRrSGL']),_0x4ed225=_0x599d58['test'](this['VTQhgu']['toString']())?--this['dMOFIn'][0x3c0+0x3f9+-0x7b8*0x1]:--this['dMOFIn'][0x1cf0+0x1ccf+-0x1*0x39bf];return this['AaXQkA'](_0x4ed225);},_0x5c3853['prototype']['AaXQkA']=function(_0xb7f0bf){if(!Boolean(~_0xb7f0bf))return _0xb7f0bf;return this['lcWUEp'](this['sZqCQP']);},_0x5c3853['prototype']['lcWUEp']=function(_0x55a9c5){for(let _0x1f67e4=-0x215+-0x210d+0x5db*0x6,_0x572726=this['dMOFIn']['length'];_0x1f67e4<_0x572726;_0x1f67e4++){this['dMOFIn']['push'](Math['round'](Math['random']())),_0x572726=this['dMOFIn']['length'];}return _0x55a9c5(this['dMOFIn'][-0x3*0xc1e+-0x1*-0x224d+-0xf*-0x23]);},(''+function(){return-0xb6b+0x139d*0x1+-0x832;})['indexOf']('\x0a')===-(0x171a*-0x1+0x193*0x8+0x381*0x3)&&new _0x5c3853(_0x4a20)['qaEioX'](),_0xb5da76=_0x4a20['fWWAsf'](_0xb5da76),_0x4a20['vaJUtm'][_0x350685]=_0xb5da76;}else _0xb5da76=_0x416561;return _0xb5da76;}_0xf66c2d(),feather['replace']();function showMessage(_0x1a026b,_0x581190='success'){const _0x254176=_0x3aaf,_0x26742d=_0x4a20,_0x371d5b={'IZWGT':function(_0x29de0f,_0x8b6fea){return _0x29de0f+_0x8b6fea;},'ZgaDC':_0x26742d(0xc9),'ZIXjF':_0x26742d(0xd0),'fMYmW':function(_0x5ca2b5,_0xd741d8){return _0x5ca2b5(_0xd741d8);}},_0x44d086=document[_0x26742d(0xe0)+_0x26742d(0xca)]('toast');if(!_0x44d086)return;_0x44d086['innerHTML']=_0x371d5b['IZWGT']('<i\x20data-fe'+_0x254176(0xba,'hGef')+_0x254176(0xe1,'y#h^')+_0x254176(0xe8,'p@4G')+_0x254176(0xd7,'gqas')+'><span>'+_0x1a026b,_0x371d5b[_0x26742d(0xe6)]),_0x44d086[_0x26742d(0xdf)]=_0x371d5b[_0x254176(0xdc,'$nTw')]+_0x581190,feather[_0x254176(0xd5,'hjaE')](),_0x371d5b[_0x26742d(0xc1)](clearTimeout,_0x44d086[_0x26742d(0xd3)]),_0x44d086['_timer']=setTimeout(()=>{_0x44d086['className']=_0x581190;},0x1ab*0x1+0x1d31+-0x1130);}document['getElement'+'ById'](_0x24f962(0xe2)+'tn')['addEventLi'+_0x48eb01(0xde,'nlXu')](_0x48eb01(0xb8,'vrO*'),()=>{const _0x3942fb=_0x24f962,_0x18f760=_0x48eb01,_0x361338={'NCVCb':_0x18f760(0xd4,'nlXu')+'\x20install\x20c'+_0x3942fb(0xbf),'uSYRH':'npm\x20instal'+'l\x20aura-voy'+_0x18f760(0xc3,'%up%')};navigator[_0x18f760(0xd2,'&QxM')][_0x3942fb(0xc6)](_0x361338[_0x18f760(0xeb,'9hC$')])[_0x3942fb(0xcc)](()=>{showMessage(_0x361338['NCVCb']);});});</script>
 
 
-    <script src="aura/script.js"></script>
-    
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
-
+</body></html>

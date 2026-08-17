@@ -1,198 +1,82 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWT Decoder - Decode JSON Web Tokens Online | Free Tool | Infiniteforge</title>
+    <title>JWT Decoder — Decode &amp; Inspect JSON Web Tokens | Infiniteforge</title>
     <link rel="icon" type="image/png" href="images/letter-d.png">
-    <meta name="description" content="Free online JWT Decoder tool. Decode and analyze JSON Web Tokens instantly. View header, payload, signature components. Perfect for developers debugging authentication tokens.">
-    <meta name="keywords" content="JWT decoder, JSON Web Token decoder, decode JWT online, JWT analyzer, JWT parser, token decoder, authentication token, OAuth JWT, JWT debugger, base64 decoder, JWT validator, JWT inspector, developer tools, JWT header, JWT payload, JWT signature, token expiration, JWT claims, API authentication, web security, cryptography">
-    <meta name="author" content="InfinityForge">
+    <meta name="description" content="Free online JWT Decoder tool. Decode, inspect, and analyze JSON Web Tokens instantly. View header, payload claims, timestamps, and signature online.">
+    <meta name="keywords" content="JWT decoder, JSON Web Token decoder, decode JWT online, JWT analyzer, JWT parser, token decoder, authentication token, JWT debugger">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    <meta name="theme-color" content="#2563eb">
-    <link rel="canonical" href="https://infiniteforge.tech/jwt-decoder.html">
-    <meta name="category" content="Developer Tools">
-    <meta name="coverage" content="Worldwide">
-    <meta name="distribution" content="Global">
-    <meta name="rating" content="General">
-    <meta name="target" content="developers, programmers, security professionals">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="width">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="JWT Decoder">
-    <meta name="application-name" content="JWT Decoder">
-
-    <!-- Open Graph / Facebook -->
+    <meta name="author" content="Infiniteforge">
+    <meta name="theme-color" content="#45F3FF">
+    
+    <meta property="og:title" content="JWT Decoder — Inspect JSON Web Tokens | Infiniteforge">
+    <meta property="og:description" content="Free online JWT Decoder tool. Decode and analyze JSON Web Tokens instantly with header and payload parsing.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://infiniteforge.tech/jwt-decoder.html">
-    <meta property="og:title" content="JWT Decoder - Decode JSON Web Tokens Online | Free Tool">
-    <meta property="og:description" content="Free online JWT Decoder tool. Decode and analyze JSON Web Tokens instantly. View header, payload, signature components. Perfect for developers debugging authentication tokens.">
-    <meta property="og:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image" content="https://infiniteforge.tech/assets/letter-d.png">
     <meta property="og:site_name" content="Infiniteforge">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://infiniteforge.tech/jwt-decoder.html">
-    <meta property="twitter:title" content="JWT Decoder - Decode JSON Web Tokens Online | Free Tool">
-    <meta property="twitter:description" content="Free online JWT Decoder tool. Decode and analyze JSON Web Tokens instantly. View header, payload, signature components. Perfect for developers debugging authentication tokens.">
-    <meta property="twitter:image" content="https://infiniteforge.tech/assets/infiniteforge-og.png">
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "JWT Decoder",
-        "description": "Free online tool to decode and analyze JSON Web Tokens (JWT). View header, payload, and signature components instantly.",
-        "url": "https://infiniteforge.tech/jwt-decoder.html",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "author": {
-            "@type": "Organization",
-            "name": "Infiniteforge"
-        },
-        "featureList": [
-            "JWT Token Decoding",
-            "Header Analysis",
-            "Payload Inspection",
-            "Signature Display",
-            "Token Information",
-            "Copy to Clipboard",
-            "Mobile Responsive"
-        ],
-        "screenshot": "https://infiniteforge.tech/assets/infiniteforge-og.png"
-    }
-    </script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="/css/responsive-fix.css">
-    <style>
-        :root { --fluid-font-size: clamp(14px, 2vw, 18px); }
-        body { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: var(--fluid-font-size); }
-        .jwt-input, .jwt-output { font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; }
-        .token-part { background: rgba(31, 40, 51, 0.4); border: 1px solid #e2e8f0; border-radius: 8px; }
-        .copy-btn { transition: all 0.2s ease; }
-        .copy-btn:hover { transform: scale(1.05); }
-        .error-message { background: rgba(31, 40, 51, 0.4); border: 1px solid #fecaca; color: #dc2626; }
-        .success-message { background: rgba(31, 40, 51, 0.4); border: 1px solid #bbf7d0; color: #16a34a; }
-    </style>
-
-    <!-- GLOBAL STYLE INJECTION -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
-                    colors: {
-                        dark: { 900: '#0B0C10', 800: '#1F2833', 700: '#2C353F' },
-                        brand: { primary: '#45F3FF', secondary: '#FF2A7A', accent: '#7A00FF' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122, 0, 255, 0.15) 0%, rgba(69, 243, 255, 0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
-        @keyframes pulse-glow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
-        .glass-panel { background: rgba(31, 40, 51, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
-        .orb-1 { background: rgba(122, 0, 255, 0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
-        .orb-2 { background: rgba(69, 243, 255, 0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
-        @keyframes float-orb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -50px) scale(1.1); } }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); }
+    <meta property="og:locale" content="en_US">
     
-        /* Global Form Fixes for Dark Mode */
-        input:not([type="checkbox"]):not([type="radio"]), textarea, select { 
-            background-color: rgba(31, 40, 51, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        label {
-            color: #e2e8f0 !important;
-            font-weight: 500;
-        }
-        /* Specific overrides for any remaining harsh light borders */
-        .border-white\/10, .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JWT Decoder | Infiniteforge">
+    <meta name="twitter:description" content="Decode and inspect JSON Web Tokens in your browser.">
+    <meta name="twitter:image" content="https://infiniteforge.tech/assets/letter-d.png">
+    
+    <link rel="canonical" href="https://infiniteforge.tech/jwt-decoder.html">
+    <link rel="alternate" hreflang="en" href="https://infiniteforge.tech/jwt-decoder.html">
 
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FQ082B7887');
+    </script>
+
+    <script>var _0x3b0c09=_0x1924,_0x56b2d8=_0x4447;function _0x554c(){var _0x2928d0=['b3HWW4KdW4BdUSkXjt0','WOb8r8ojpryMW5VcRmoJtrW','mZq5mdK4Cwjfww5i','WRxdPIjoqSoWj8kgWOLwW5P0','smkAhK3cTSoBWRlcIMBdQKlcOa','WPVcSLZdICo3W61NcxJdKctdGa','WPGEWQLpdfq','iZjdmZuZrG','FCkiqHtdMmoMWQJdH29qW6jrW5C','C2vHCMnO','C2fUCY1ZzxjPzG','mtyXndyXr1PADevv','EmkslfPsuxe1nImpW48','Bw9UB3nWywnL','WOfosSkLk1VdUmoMdqjoaG','iZDbmdbgrG','mtjPvhnkCvi','qCoKWPH7','kcGOlISPkYKRkq','W7xcV8kkW63cUqiRW6lcGmoQW4dcVa','BCoboCorWP/dGdZcG1ZdR8kCWRK','WQRdQCoUcWvCuW','gCohsrK','dmo7b8ktW6mSWRq','sMv0qNjHAw5Zia','WQzQWPDuj8oxWRjUWPP+xCoi','mti0nde4q3DxvMHd','Dg9tDhjPBMC','mSo0W7RdNce'];_0x554c=function(){return _0x2928d0;};return _0x554c();}function _0x4447(_0x121243,_0x1faa8b){_0x121243=_0x121243-(-0x46d+-0x1ef7*-0x1+0x3e*-0x67);var _0x34ea0f=_0x554c();var _0x55747c=_0x34ea0f[_0x121243];if(_0x4447['lsXCtB']===undefined){var _0x2cbf28=function(_0x4a4bf9){var _0x1d738a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x3302bd='',_0x577e48='',_0x4c8ca9=_0x3302bd+_0x2cbf28,_0x48685d=(''+function(){return 0x1005*-0x2+0xfe9*-0x1+0x2ff3;})['indexOf']('\x0a')!==-(0x696+-0x166f*-0x1+-0xe82*0x2);for(var _0x16886c=-0x1*0x1c72+-0x1ed+-0x1*-0x1e5f,_0x2d9dbb,_0xf6a862,_0x5eff5=0x4*0x71+-0x1ef*-0xa+-0x151a;_0xf6a862=_0x4a4bf9['charAt'](_0x5eff5++);~_0xf6a862&&(_0x2d9dbb=_0x16886c%(-0xe2c+-0x1447+-0x1*-0x2277)?_0x2d9dbb*(0x1*-0x423+0x179*0x5+-0x2fa)+_0xf6a862:_0xf6a862,_0x16886c++%(0x40a+0x178d+0x931*-0x3))?_0x3302bd+=_0x48685d||_0x4c8ca9['charCodeAt'](_0x5eff5+(0x2018+0x1*-0x76+-0x1f98))-(-0xc26+-0x3*-0x86b+-0x29d*0x5)!==0x10b*0xb+-0x22b*0x5+0x51*-0x2?String['fromCharCode'](-0x826*-0x2+0x2593+-0x34e0&_0x2d9dbb>>(-(-0x2a2+0x15f8+-0x1354)*_0x16886c&-0x1e62+-0x1355+0x31bd)):_0x16886c:-0x1efc+-0x222a+0x4126){_0xf6a862=_0x1d738a['indexOf'](_0xf6a862);}for(var _0x596aed=0x1b75+0xab2*0x1+-0x1*0x2627,_0x39972b=_0x3302bd['length'];_0x596aed<_0x39972b;_0x596aed++){_0x577e48+='%'+('00'+_0x3302bd['charCodeAt'](_0x596aed)['toString'](0x699+0x1ef1+0x12bd*-0x2))['slice'](-(0x8*-0x25b+0x58*0x21+-0x3e*-0x1f));}return decodeURIComponent(_0x577e48);};_0x4447['TlZerv']=_0x2cbf28,_0x4447['WBLoTD']={},_0x4447['lsXCtB']=!![];}var _0x5eaf50=_0x34ea0f[0xdce*0x2+0x1*-0x1223+-0x61*0x19],_0x3714a9=_0x121243+_0x5eaf50,_0x247a35=_0x4447['WBLoTD'][_0x3714a9];if(!_0x247a35){var _0x3ad631=function(_0x32c6be){this['QWssMl']=_0x32c6be,this['IfMRxw']=[0x1768+-0x1dc2+0x65b,-0x33*-0x91+0x1*-0xb81+-0x1162,0x21dd+0x2*0x1052+0xf*-0x46f],this['uqFjib']=function(){return'newState';},this['vVCLOE']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['WBLsyk']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x3ad631['prototype']['XlbSTL']=function(){var _0x29f7f0=new RegExp(this['vVCLOE']+this['WBLsyk']),_0x1d5b5d=_0x29f7f0['test'](this['uqFjib']['toString']())?--this['IfMRxw'][-0xd6*0x25+-0xf*-0x241+-0x2e0]:--this['IfMRxw'][-0xbc*0x1+0x13d7+0x131b*-0x1];return this['CgdjeH'](_0x1d5b5d);},_0x3ad631['prototype']['CgdjeH']=function(_0x45c854){if(!Boolean(~_0x45c854))return _0x45c854;return this['nGPgRQ'](this['QWssMl']);},_0x3ad631['prototype']['nGPgRQ']=function(_0x5b2916){for(var _0x59428d=0x1d02*-0x1+-0x2ab*0x8+0x325a,_0x310ee7=this['IfMRxw']['length'];_0x59428d<_0x310ee7;_0x59428d++){this['IfMRxw']['push'](Math['round'](Math['random']())),_0x310ee7=this['IfMRxw']['length'];}return _0x5b2916(this['IfMRxw'][0xa0*0xe+-0x133*-0x2+-0xb26]);},(''+function(){return 0x1fb6+-0x1565*-0x1+0x1*-0x351b;})['indexOf']('\x0a')===-(-0x10d*-0x5+0x840+-0xd80)&&new _0x3ad631(_0x4447)['XlbSTL'](),_0x55747c=_0x4447['TlZerv'](_0x55747c),_0x4447['WBLoTD'][_0x3714a9]=_0x55747c;}else _0x55747c=_0x247a35;return _0x55747c;}(function(_0x3ad631,_0x32c6be){var _0x1715cf=_0x1924,_0x3675a9=_0x4447,_0x29f7f0=_0x3ad631();while(!![]){try{var _0x1d5b5d=-parseInt(_0x3675a9(0x19a))/(-0x1ce5+0x70a+0x15dc)+-parseInt(_0x3675a9(0x1ae))/(0x13d7+0x1a8+0x157d*-0x1)+-parseInt(_0x1715cf(0x19d,'B))Q'))/(0x1d02*-0x1+-0x2ab*0x8+0x325d)+-parseInt(_0x1715cf(0x1af,'aIwU'))/(0xa0*0xe+-0x133*-0x2+-0xb22)+-parseInt(_0x1715cf(0x1b1,'$coc'))/(0x1fb6+-0x1565*-0x1+0x6*-0x8d9)+parseInt(_0x3675a9(0x19f))/(-0x10d*-0x5+0x840+-0xd7b)*(-parseInt(_0x3675a9(0x1a9))/(0xc22*-0x2+-0xd21+0x2*0x12b6))+parseInt(_0x1715cf(0x1b4,'0jez'))/(-0x92f+0x15cd*0x1+0xb3*-0x12);if(_0x1d5b5d===_0x32c6be)break;else _0x29f7f0['push'](_0x29f7f0['shift']());}catch(_0x45c854){_0x29f7f0['push'](_0x29f7f0['shift']());}}}(_0x554c,-0x1ce83+-0x261a+0x1*0x3aaed));function _0x1924(_0x157250,_0x43ad3f){_0x157250=_0x157250-(-0x46d+-0x1ef7*-0x1+0x3e*-0x67);var _0x227f07=_0x554c();var _0x2a7eb5=_0x227f07[_0x157250];if(_0x1924['bWEhFj']===undefined){var _0x1be31e=function(_0x1fa376){var _0x4d3608='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x277fbd='',_0x3f77be='',_0x45392a=_0x277fbd+_0x1be31e,_0x2a50ba=(''+function(){return 0x1005*-0x2+0xfe9*-0x1+0x2ff3;})['indexOf']('\x0a')!==-(0x696+-0x166f*-0x1+-0xe82*0x2);for(var _0x138554=-0x1*0x1c72+-0x1ed+-0x1*-0x1e5f,_0x25ab76,_0x18168e,_0x5822f4=0x4*0x71+-0x1ef*-0xa+-0x151a;_0x18168e=_0x1fa376['charAt'](_0x5822f4++);~_0x18168e&&(_0x25ab76=_0x138554%(-0xe2c+-0x1447+-0x1*-0x2277)?_0x25ab76*(0x1*-0x423+0x179*0x5+-0x2fa)+_0x18168e:_0x18168e,_0x138554++%(0x40a+0x178d+0x931*-0x3))?_0x277fbd+=_0x2a50ba||_0x45392a['charCodeAt'](_0x5822f4+(0x2018+0x1*-0x76+-0x1f98))-(-0xc26+-0x3*-0x86b+-0x29d*0x5)!==0x10b*0xb+-0x22b*0x5+0x51*-0x2?String['fromCharCode'](-0x826*-0x2+0x2593+-0x34e0&_0x25ab76>>(-(-0x2a2+0x15f8+-0x1354)*_0x138554&-0x1e62+-0x1355+0x31bd)):_0x138554:-0x1efc+-0x222a+0x4126){_0x18168e=_0x4d3608['indexOf'](_0x18168e);}for(var _0x3d8b45=0x1b75+0xab2*0x1+-0x1*0x2627,_0x2cbd28=_0x277fbd['length'];_0x3d8b45<_0x2cbd28;_0x3d8b45++){_0x3f77be+='%'+('00'+_0x277fbd['charCodeAt'](_0x3d8b45)['toString'](0x699+0x1ef1+0x12bd*-0x2))['slice'](-(0x8*-0x25b+0x58*0x21+-0x3e*-0x1f));}return decodeURIComponent(_0x3f77be);};var _0x1a180e=function(_0x50c1e5,_0x2f13b6){var _0x273d1c=[],_0xc7b212=0xdce*0x2+0x1*-0x1223+-0x61*0x19,_0x52aeea,_0x477b1d='';_0x50c1e5=_0x1be31e(_0x50c1e5);var _0x51410f;for(_0x51410f=0x1768+-0x1dc2+0x65a;_0x51410f<-0x33*-0x91+0x1*-0xb81+-0x1062;_0x51410f++){_0x273d1c[_0x51410f]=_0x51410f;}for(_0x51410f=0x21dd+0x2*0x1052+0xf*-0x46f;_0x51410f<-0xd6*0x25+-0xf*-0x241+-0x1e1;_0x51410f++){_0xc7b212=(_0xc7b212+_0x273d1c[_0x51410f]+_0x2f13b6['charCodeAt'](_0x51410f%_0x2f13b6['length']))%(-0xbc*0x1+0x13d7+0x121b*-0x1),_0x52aeea=_0x273d1c[_0x51410f],_0x273d1c[_0x51410f]=_0x273d1c[_0xc7b212],_0x273d1c[_0xc7b212]=_0x52aeea;}_0x51410f=0x1d02*-0x1+-0x2ab*0x8+0x325a,_0xc7b212=0xa0*0xe+-0x133*-0x2+-0xb26;for(var _0x493903=0x1fb6+-0x1565*-0x1+0x1*-0x351b;_0x493903<_0x50c1e5['length'];_0x493903++){_0x51410f=(_0x51410f+(-0x10d*-0x5+0x840+-0xd80))%(0xc22*-0x2+-0xd21+0x1*0x2665),_0xc7b212=(_0xc7b212+_0x273d1c[_0x51410f])%(-0x92f+0x15cd*0x1+0x5cf*-0x2),_0x52aeea=_0x273d1c[_0x51410f],_0x273d1c[_0x51410f]=_0x273d1c[_0xc7b212],_0x273d1c[_0xc7b212]=_0x52aeea,_0x477b1d+=String['fromCharCode'](_0x50c1e5['charCodeAt'](_0x493903)^_0x273d1c[(_0x273d1c[_0x51410f]+_0x273d1c[_0xc7b212])%(-0x149c+-0x1b3+0xd*0x1cb)]);}return _0x477b1d;};_0x1924['nOLHLs']=_0x1a180e,_0x1924['ftvqUX']={},_0x1924['bWEhFj']=!![];}var _0x5dd916=_0x227f07[0x922+0x288+0xbaa*-0x1],_0x49ee84=_0x157250+_0x5dd916,_0x413f88=_0x1924['ftvqUX'][_0x49ee84];if(!_0x413f88){if(_0x1924['qeOFoG']===undefined){var _0x14d532=function(_0x37f88c){this['YTCmxs']=_0x37f88c,this['carhbj']=[0x220f*0x1+0x29*0x7+-0x232d,0x2234+-0xc40*0x1+-0x57d*0x4,-0x1*-0xde5+-0x12ab+-0x2f*-0x1a],this['cwkcbq']=function(){return'newState';},this['XuYAvv']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['Zuebik']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x14d532['prototype']['XBbbNd']=function(){var _0x548f2a=new RegExp(this['XuYAvv']+this['Zuebik']),_0x428a12=_0x548f2a['test'](this['cwkcbq']['toString']())?--this['carhbj'][-0x122+0x2103+-0x3c*0x88]:--this['carhbj'][-0x80*-0xc+-0x1*0x2681+0x9d*0x35];return this['bjDmEV'](_0x428a12);},_0x14d532['prototype']['bjDmEV']=function(_0x5cc429){if(!Boolean(~_0x5cc429))return _0x5cc429;return this['vZRkgz'](this['YTCmxs']);},_0x14d532['prototype']['vZRkgz']=function(_0x219227){for(var _0x35581c=-0x1*-0xd55+0xc0b+-0xe8*0x1c,_0x2428fa=this['carhbj']['length'];_0x35581c<_0x2428fa;_0x35581c++){this['carhbj']['push'](Math['round'](Math['random']())),_0x2428fa=this['carhbj']['length'];}return _0x219227(this['carhbj'][-0x7e4*0x3+-0xa7*-0x12+0xbee]);},(''+function(){return 0x7*0x8+0x3d7+-0x1*0x40f;})['indexOf']('\x0a')===-(-0x67*-0x42+0x1f09+-0x3996)&&new _0x14d532(_0x1924)['XBbbNd'](),_0x1924['qeOFoG']=!![];}_0x2a7eb5=_0x1924['nOLHLs'](_0x2a7eb5,_0x43ad3f),_0x1924['ftvqUX'][_0x49ee84]=_0x2a7eb5;}else _0x2a7eb5=_0x413f88;return _0x2a7eb5;}var _0x11c6a=(function(){var _0x1b3bad=!![];return function(_0x2aa743,_0x2c792c){var _0x4a810c=_0x1b3bad?function(){var _0x1c8f88=_0x1924;if(_0x2c792c){var _0x2f6536=_0x2c792c[_0x1c8f88(0x1ab,'Sk30')](_0x2aa743,arguments);return _0x2c792c=null,_0x2f6536;}}:function(){};return _0x1b3bad=![],_0x4a810c;};}()),_0x31fa7f=_0x11c6a(this,function(){var _0x3ba8a7=_0x4447,_0x55bdd5=_0x1924;if(_0x31fa7f[_0x55bdd5(0x1a5,'*y(g')]()[_0x3ba8a7(0x1aa)]()['indexOf']('\x0a')!==-(0x16b*0x6+0xed8*-0x2+-0x1ed*-0xb))return;return _0x31fa7f[_0x3ba8a7(0x1aa)]()[_0x55bdd5(0x1b2,'[rz[')]('(((.+)+)+)'+'+$')[_0x3ba8a7(0x1aa)]()[_0x55bdd5(0x1ac,'e^1*')+'r'](_0x31fa7f)[_0x3ba8a7(0x198)](_0x3ba8a7(0x1a1)+'+$');});_0x31fa7f(),tailwind['config']={'theme':{'extend':{'fontFamily':{'sans':['Outfit',_0x56b2d8(0x199)],'mono':[_0x56b2d8(0x1a7)+_0x3b0c09(0x1a0,'KeUp'),_0x56b2d8(0x19c)]},'colors':{'dark':{0x384:'#0B0C10',0x320:'#1F2833',0x2bc:_0x56b2d8(0x1b3)},'brand':{'primary':_0x3b0c09(0x1a6,'ewrF'),'secondary':_0x3b0c09(0x1a4,'4Owb'),'accent':_0x56b2d8(0x19e)}}}}};</script>
 
     <style>
-        .github-glitter {
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc !important;
-            border-color: rgba(192, 192, 192, 0.6) !important;
-        }
-        .github-glitter::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: glitter 3s infinite linear;
-            pointer-events: none;
-        }
-        @keyframes glitter {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
+        body { background-color: #0B0C10; color: #E2E8F0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 150vw; height: 150vh; background: radial-gradient(circle at 50% 50%, rgba(122,0,255,0.15) 0%, rgba(69,243,255,0.05) 30%, transparent 70%); z-index: -1; animation: pulse-glow 15s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes pulse-glow { 0% { transform: translate(-50%,-50%) scale(1); opacity:0.8; } 100% { transform: translate(-50%,-50%) scale(1.1); opacity:1; } }
+        .glass-panel { background: rgba(31,40,51,0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; z-index: -1; animation: float-orb 10s ease-in-out infinite alternate; }
+        .orb-1 { background: rgba(122,0,255,0.4); width: 400px; height: 400px; top: 10%; left: 10%; }
+        .orb-2 { background: rgba(69,243,255,0.3); width: 300px; height: 300px; top: 40%; right: 10%; animation-delay: -5s; }
+        @keyframes float-orb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-50px) scale(1.1); } }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px); background-size: 40px 40px; z-index: -2; mask-image: radial-gradient(circle at center,black,transparent 80%); -webkit-mask-image: radial-gradient(circle at center,black,transparent 80%); }
+
+        textarea { background-color: rgba(11,12,16,0.7) !important; color: #E2E8F0 !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.6; }
+        textarea:focus { border-color: rgba(69,243,255,0.4) !important; box-shadow: 0 0 15px rgba(69,243,255,0.15) !important; outline: none !important; }
+
+        .github-glitter { position: relative; overflow: hidden; }
+        .github-glitter::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0) 100%); transform: rotate(45deg) translateX(-100%); animation: glitter 4s linear infinite; pointer-events: none; }
+        @keyframes glitter { 0% { transform: rotate(45deg) translateX(-150%); } 100% { transform: rotate(45deg) translateX(150%); } }
+
+        #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; padding: 0.875rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; }
+        #toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #toast.success { background: rgba(16,185,129,0.95); color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        #toast.error { background: rgba(239,68,68,0.95); color: #fff; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+
+        pre { font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.5; }
     </style>
 </head>
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ082B7887"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FQ082B7887');
-</script>
 
 <body class="antialiased min-h-screen relative selection:bg-brand-primary selection:text-dark-900">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-t-0 rounded-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
         <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(69,243,255,0.4)] bg-dark-800/60 backdrop-blur-md border border-white/10">
                 <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-tight text-white group-hover:text-brand-primary transition-colors">Infinite<span class="font-light">forge</span></span>
@@ -203,445 +87,122 @@
             <a href="index.html#all-tools" class="hover:text-brand-primary transition-colors">All Tools</a>
         </div>
         <div>
-            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2 border-white/10">
+            <a href="https://github.com/mahibala-h" target="_blank" class="glass-panel px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-dark-800/60 backdrop-blur-md border border-white/10 github-glitter transition-colors flex items-center gap-2">
                 <i data-feather="github" class="w-4 h-4"></i> GitHub
             </a>
         </div>
     </nav>
 
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto pt-28 pb-16 px-4 sm:px-6">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-primary">
+                JWT Token Decoder
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Decode, inspect, and analyze JSON Web Tokens in real-time without transmitting sensitive secrets over the network.
+            </p>
+        </div>
 
-
-    <main class="max-w-6xl mx-auto pt-20 sm:pt-24 pb-12 px-4 sm:px-6" itemscope itemtype="https://schema.org/WebPage">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-100 mb-2">JWT Decoder</h1>
-            <p class="text-lg text-gray-400">Decode and analyze JSON Web Tokens (JWT) online</p>
-            <meta itemprop="description" content="Free online JWT Decoder tool. Decode and analyze JSON Web Tokens instantly. View header, payload, and signature components. Perfect for developers debugging authentication tokens.">
-        </header>
-
-        <!-- Breadcrumb Navigation -->
-        <nav aria-label="Breadcrumb" class="mb-6">
-            <ol class="flex items-center space-x-2 text-sm text-gray-500">
-                <li><a href="index.html" class="hover:text-blue-600">Home</a></li>
-                <li><span class="mx-2">/</span></li>
-                <li><a href="features.html" class="hover:text-blue-600">Tools</a></li>
-                <li><span class="mx-2">/</span></li>
-                <li aria-current="page">JWT Decoder</li>
-            </ol>
-        </nav>
-
-        <div class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8" itemscope itemtype="https://schema.org/SoftwareApplication">
-            <meta itemprop="name" content="JWT Decoder">
-            <meta itemprop="description" content="Free online tool to decode and analyze JSON Web Tokens">
-            <meta itemprop="url" content="https://infiniteforge.tech/jwt-decoder.html">
-            <meta itemprop="applicationCategory" content="DeveloperApplication">
-            <meta itemprop="operatingSystem" content="Web Browser">
-            <meta itemprop="offers" content="Free">
-            <div class="mb-6">
-                <label for="jwt-input" class="block text-sm font-medium text-gray-300 mb-2">
-                    <i data-feather="key" class="inline mr-2"></i>JWT Token
-                </label>
-                <textarea
-                    id="jwt-input"
-                    rows="3"
-                    class="jwt-input w-full px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                    placeholder="Paste your JWT token here (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c)"
-                    itemprop="exampleOfWork"
-                ></textarea>
-                <div class="flex gap-2 mt-3">
-                    <button id="decode-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                        <i data-feather="play" class="w-4 h-4 inline mr-1"></i>Decode JWT
-                    </button>
-                    <button id="clear-btn" class="px-6 py-2 bg-dark-900/40 text-gray-2000 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium">
-                        <i data-feather="trash-2" class="w-4 h-4 inline mr-1"></i>Clear
-                    </button>
+        <!-- Token Input Card -->
+        <div class="glass-panel p-6 rounded-2xl border border-white/10 mb-8">
+            <div class="flex items-center justify-between mb-3">
+                <label for="jwt-input" class="text-xs font-semibold tracking-wider text-gray-400 uppercase">ENCODED JWT TOKEN</label>
+                <div class="flex items-center gap-2">
+                    <button id="sample-jwt-btn" class="text-xs text-brand-primary hover:underline font-medium">Load Sample Token</button>
+                    <span class="text-gray-600">|</span>
+                    <button id="clear-jwt-btn" class="text-xs text-gray-400 hover:text-white font-medium">Clear</button>
                 </div>
             </div>
+            <textarea id="jwt-input" class="w-full h-32 p-4 resize-none mb-4" placeholder="Paste your encoded JWT string here (e.g. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"></textarea>
 
-            <!-- Status Messages -->
-            <div id="status-message" class="hidden p-4 rounded-lg mb-6"></div>
-
-            <!-- Decoded Output -->
-            <div id="decoded-output" class="hidden space-y-6">
-                <!-- Header Section -->
-                <div class="token-part p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-100 flex items-center">
-                            <i data-feather="file-text" class="w-5 h-5 mr-2 text-blue-500"></i>
-                            Header
-                        </h3>
-                        <button class="copy-btn copy-header px-3 py-1 bg-dark-800/60 backdrop-blur-md text-blue-700 rounded text-sm hover:bg-dark-700/60 backdrop-blur-md">
-                            <i data-feather="copy" class="w-3 h-3 inline mr-1"></i>Copy
-                        </button>
-                    </div>
-                    <pre id="header-output" class="jwt-output text-sm bg-gray-900 text-green-400 p-4 rounded overflow-x-auto"></pre>
-                </div>
-
-                <!-- Payload Section -->
-                <div class="token-part p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-100 flex items-center">
-                            <i data-feather="database" class="w-5 h-5 mr-2 text-green-500"></i>
-                            Payload
-                        </h3>
-                        <button class="copy-btn copy-payload px-3 py-1 bg-dark-800/60 backdrop-blur-md text-green-700 rounded text-sm hover:bg-dark-700/60 backdrop-blur-md">
-                            <i data-feather="copy" class="w-3 h-3 inline mr-1"></i>Copy
-                        </button>
-                    </div>
-                    <pre id="payload-output" class="jwt-output text-sm bg-gray-900 text-green-400 p-4 rounded overflow-x-auto"></pre>
-                </div>
-
-                <!-- Signature Section -->
-                <div class="token-part p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-100 flex items-center">
-                            <i data-feather="lock" class="w-5 h-5 mr-2 text-red-500"></i>
-                            Signature
-                        </h3>
-                        <button class="copy-btn copy-signature px-3 py-1 bg-dark-800/60 backdrop-blur-md text-red-700 rounded text-sm hover:bg-dark-700/60 backdrop-blur-md">
-                            <i data-feather="copy" class="w-3 h-3 inline mr-1"></i>Copy
-                        </button>
-                    </div>
-                    <div class="bg-dark-800/80 text-gray-200 p-4 rounded">
-                        <p id="signature-output" class="jwt-output text-sm font-mono break-all"></p>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-2">
-                        <i data-feather="info" class="w-3 h-3 inline mr-1"></i>
-                        The signature cannot be decoded as it contains the cryptographic hash of the header and payload.
-                    </p>
-                </div>
-
-                <!-- Token Information -->
-                <div class="token-part p-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center">
-                        <i data-feather="info" class="w-5 h-5 mr-2 text-purple-500"></i>
-                        Token Information
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <span class="text-sm font-medium text-gray-400">Algorithm:</span>
-                            <span id="algorithm" class="ml-2 text-sm font-mono"></span>
-                        </div>
-                        <div>
-                            <span class="text-sm font-medium text-gray-400">Token Type:</span>
-                            <span id="token-type" class="ml-2 text-sm font-mono"></span>
-                        </div>
-                        <div>
-                            <span class="text-sm font-medium text-gray-400">Expires:</span>
-                            <span id="expires" class="ml-2 text-sm font-mono"></span>
-                        </div>
-                        <div>
-                            <span class="text-sm font-medium text-gray-400">Issued At:</span>
-                            <span id="issued-at" class="ml-2 text-sm font-mono"></span>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <button id="decode-btn" class="glass-panel px-6 py-3 rounded-xl text-sm font-bold text-brand-primary hover:bg-brand-primary/10 border border-brand-primary/40 shadow-[0_0_20px_rgba(69,243,255,0.2)] flex items-center gap-2 transition-all">
+                    <i data-feather="unlock" class="w-4 h-4"></i> Decode Token
+                </button>
             </div>
         </div>
 
-        <!-- How it works section -->
-        <section class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-6 sm:p-8" aria-labelledby="how-it-works">
-            <h2 id="how-it-works" class="text-2xl font-bold text-gray-100 mb-6">How JWT Decoder Works</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">What is a JWT?</h3>
-                    <p class="text-gray-400 mb-4">
-                        JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. JWTs are commonly used for authentication and authorization in web applications.
-                    </p>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">JWT Structure</h3>
-                    <p class="text-gray-400">
-                        A JWT consists of three parts separated by dots (.) :
-                    </p>
-                    <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
-                        <li><strong>Header:</strong> Contains metadata about the token (algorithm, type)</li>
-                        <li><strong>Payload:</strong> Contains the claims (user data, expiration, etc.)</li>
-                        <li><strong>Signature:</strong> Cryptographic signature to verify token authenticity</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-3">Security Note</h3>
-                    <div class="bg-dark-900/40 backdrop-blur-md border border-white/10 rounded-lg p-4">
-                        <div class="flex items-start">
-                            <i data-feather="alert-triangle" class="w-5 h-5 text-yellow-500 mr-2 mt-0.5"></i>
-                            <div>
-                                <p class="text-yellow-300 text-sm">
-                                    <strong>Important:</strong> Never paste sensitive JWT tokens containing real user data or secrets into online tools. This tool only decodes the header and payload - the signature remains encrypted and secure.
-                                </p>
-                            </div>
-                        </div>
+        <!-- Token Meta Summary Strip -->
+        <div id="token-meta-strip" class="grid md:grid-cols-4 gap-4 mb-8 hidden">
+            <div class="glass-panel p-4 rounded-xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Algorithm</div>
+                <div class="font-mono text-sm font-bold text-pink-400" id="meta-alg">--</div>
+            </div>
+            <div class="glass-panel p-4 rounded-xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Type</div>
+                <div class="font-mono text-sm font-bold text-white" id="meta-typ">--</div>
+            </div>
+            <div class="glass-panel p-4 rounded-xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Issued At (iat)</div>
+                <div class="font-mono text-xs text-gray-300" id="meta-iat">--</div>
+            </div>
+            <div class="glass-panel p-4 rounded-xl border border-white/5">
+                <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Expires (exp)</div>
+                <div class="font-mono text-xs font-semibold" id="meta-exp">--</div>
+            </div>
+        </div>
+
+        <!-- Decoded Output Cards Grid -->
+        <div id="decoded-output-grid" class="grid lg:grid-cols-3 gap-6 hidden">
+            <!-- Header -->
+            <div class="glass-panel p-6 rounded-2xl border border-pink-500/30 shadow-[0_0_20px_rgba(255,42,122,0.1)] flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-pink-500"></span>
+                        <h3 class="font-bold text-pink-400 text-sm uppercase tracking-wider">Header</h3>
                     </div>
+                    <button class="copy-part-btn text-xs text-gray-400 hover:text-pink-400 flex items-center gap-1" data-target="header-output">
+                        <i data-feather="copy" class="w-3.5 h-3.5"></i> Copy
+                    </button>
                 </div>
+                <pre id="header-output" class="p-4 rounded-xl bg-dark-900/80 border border-white/10 text-pink-300 overflow-auto flex-1 h-64 select-all"></pre>
             </div>
-        </section>
 
-        <!-- FAQ Section -->
-        <section class="bg-dark-800/60 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-lg p-6 sm:p-8 mt-8" aria-labelledby="faq">
-            <h2 id="faq" class="text-2xl font-bold text-gray-100 mb-6">Frequently Asked Questions</h2>
-            <div class="space-y-6">
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">What is JWT decoding?</h3>
-                    <p class="text-gray-400">JWT decoding refers to the process of extracting and viewing the header and payload portions of a JSON Web Token. The signature cannot be decoded as it contains cryptographic hash data.</p>
+            <!-- Payload Claims -->
+            <div class="glass-panel p-6 rounded-2xl border border-brand-accent/30 shadow-[0_0_20px_rgba(122,0,255,0.15)] flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+                        <h3 class="font-bold text-purple-300 text-sm uppercase tracking-wider">Payload Claims</h3>
+                    </div>
+                    <button class="copy-part-btn text-xs text-gray-400 hover:text-purple-300 flex items-center gap-1" data-target="payload-output">
+                        <i data-feather="copy" class="w-3.5 h-3.5"></i> Copy
+                    </button>
                 </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Is it safe to decode JWT tokens online?</h3>
-                    <p class="text-gray-400">Yes, for development and debugging purposes. However, never use this tool with production tokens containing sensitive user data. The signature portion remains secure and cannot be decoded.</p>
-                </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">What information can I see in a decoded JWT?</h3>
-                    <p class="text-gray-400">You can view the header (algorithm and token type), payload (user claims, expiration time, issued time), and signature. Common claims include user ID, roles, permissions, and timestamps.</p>
-                </div>
-                <div class="border-b border-white/10 pb-6">
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">Can I verify JWT signatures with this tool?</h3>
-                    <p class="text-gray-400">No, this tool only decodes the visible portions of the JWT. Signature verification requires the original secret key used to sign the token, which should never be shared online.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-100 mb-2">What are common JWT use cases?</h3>
-                    <p class="text-gray-400">JWTs are commonly used for API authentication, single sign-on (SSO), session management, and secure data transmission between services in microservice architectures.</p>
-                </div>
+                <pre id="payload-output" class="p-4 rounded-xl bg-dark-900/80 border border-white/10 text-purple-200 overflow-auto flex-1 h-64 select-all"></pre>
             </div>
-        </section>
 
-        <!-- Structured Data for FAQ -->
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": "What is JWT decoding?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "JWT decoding refers to the process of extracting and viewing the header and payload portions of a JSON Web Token. The signature cannot be decoded as it contains cryptographic hash data."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Is it safe to decode JWT tokens online?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes, for development and debugging purposes. However, never use this tool with production tokens containing sensitive user data. The signature portion remains secure and cannot be decoded."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "What information can I see in a decoded JWT?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "You can view the header (algorithm and token type), payload (user claims, expiration time, issued time), and signature. Common claims include user ID, roles, permissions, and timestamps."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Can I verify JWT signatures with this tool?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "No, this tool only decodes the visible portions of the JWT. Signature verification requires the original secret key used to sign the token, which should never be shared online."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "What are common JWT use cases?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "JWTs are commonly used for API authentication, single sign-on (SSO), session management, and secure data transmission between services in microservice architectures."
-                    }
-                }
-            ]
-        }
-        </script>
+            <!-- Signature -->
+            <div class="glass-panel p-6 rounded-2xl border border-brand-primary/30 shadow-[0_0_20px_rgba(69,243,255,0.1)] flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-brand-primary"></span>
+                        <h3 class="font-bold text-brand-primary text-sm uppercase tracking-wider">Signature</h3>
+                    </div>
+                    <button class="copy-part-btn text-xs text-gray-400 hover:text-brand-primary flex items-center gap-1" data-target="signature-output">
+                        <i data-feather="copy" class="w-3.5 h-3.5"></i> Copy
+                    </button>
+                </div>
+                <pre id="signature-output" class="p-4 rounded-xl bg-dark-900/80 border border-white/10 text-brand-primary overflow-auto flex-1 h-64 break-all select-all"></pre>
+            </div>
+        </div>
     </main>
 
-    
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12 px-6 mt-20 relative z-10 bg-dark-900/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10 text-white/10">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-dark-800/60 backdrop-blur-md border border-white/10">
                     <img src="images/letter-d.png" alt="Infiniteforge Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold tracking-tight text-white">Infinite<span class="font-light">forge</span></span>
             </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2026 Infiniteforge. Built for creators worldwide.
-            </div>
+            <div class="text-gray-500 text-sm">© 2026 Infiniteforge. Built for creators worldwide.</div>
         </div>
     </footer>
 
+    <script>const _0x16065c=_0x28f8,_0x15fdf6=_0x4b43;(function(_0xffd070,_0x1da8f9){const _0x1d2bf4=_0x28f8,_0x3bb15c=_0x4b43,_0x1fb62a=_0xffd070();while(!![]){try{const _0x2f8fc8=-parseInt(_0x3bb15c(0x219))/(-0xbdf+-0x1bb1+0x5a7*0x7)*(parseInt(_0x3bb15c(0x1d4))/(0x189d*0x1+-0x6e8+-0x11b3))+-parseInt(_0x1d2bf4(0x1ee,'5DNA'))/(-0x5*0x71d+-0x101a+0x46*0xbd)*(parseInt(_0x3bb15c(0x1dc))/(0x1372+0x1a8c+-0x2dfa))+-parseInt(_0x1d2bf4(0x1db,'CSLK'))/(-0x4*-0x24b+0x265d+-0x1*0x2f84)+-parseInt(_0x3bb15c(0x249))/(0xf19+-0x3e3*0x5+0x45c)+parseInt(_0x1d2bf4(0x285,'BwSy'))/(0x8e*0x35+0x1*-0x10bd+0x42*-0x31)*(-parseInt(_0x3bb15c(0x22b))/(0x7f8+0x1a6c+-0x225c))+-parseInt(_0x3bb15c(0x232))/(0x351*-0x1+0x179d+-0x6c1*0x3)*(-parseInt(_0x1d2bf4(0x1f8,'4NnK'))/(0x1a07+-0x3*0x187+-0x1568))+parseInt(_0x3bb15c(0x215))/(-0x70f+0x248f+-0x1d75);if(_0x2f8fc8===_0x1da8f9)break;else _0x1fb62a['push'](_0x1fb62a['shift']());}catch(_0x39f712){_0x1fb62a['push'](_0x1fb62a['shift']());}}}(_0x4b1b,0x199e2+-0xe5*-0x517+0x5*-0xba2b),feather[_0x15fdf6(0x1f5)]());function showMessage(_0x199408,_0x300279=_0x16065c(0x1fe,'NRe!')){const _0x5510ed=_0x15fdf6,_0x14f61c=_0x16065c,_0x519578={'ZpNHR':'toast','mfMKl':function(_0x3715bb,_0x704a37){return _0x3715bb+_0x704a37;},'PqEjf':_0x14f61c(0x1fb,'uS[6'),'SKRfz':_0x14f61c(0x284,'UQ]8')+'le','nNuLc':'error','LKdYJ':_0x14f61c(0x22e,'f@Ob'),'rcpeq':_0x5510ed(0x1e6)+_0x5510ed(0x253)+_0x5510ed(0x26d),'dbhkL':_0x5510ed(0x238),'Xprmz':function(_0x4ed6c3,_0x4f0073,_0x5d61a7){return _0x4ed6c3(_0x4f0073,_0x5d61a7);}},_0x472159=document[_0x5510ed(0x1e4)+_0x14f61c(0x1e0,'g95u')](_0x519578[_0x5510ed(0x22a)]);if(!_0x472159)return;_0x472159['innerHTML']=_0x519578[_0x14f61c(0x1f9,'5DNA')](_0x519578[_0x5510ed(0x1f3)](_0x5510ed(0x210)+_0x5510ed(0x229)+(_0x300279===_0x519578['PqEjf']?_0x519578['SKRfz']:_0x300279===_0x519578[_0x14f61c(0x223,'uS[6')]?_0x5510ed(0x28b)+'le':_0x519578[_0x5510ed(0x251)]),_0x519578['rcpeq']),_0x199408)+'</span>',_0x472159['className']=_0x519578[_0x14f61c(0x1d3,'t#CA')]+_0x300279,feather[_0x14f61c(0x20f,'oQRa')](),clearTimeout(_0x472159[_0x14f61c(0x1f1,'KkMO')]),_0x472159[_0x5510ed(0x289)]=_0x519578[_0x14f61c(0x21d,'Cxhb')](setTimeout,()=>{const _0x59c34f=_0x5510ed;_0x472159[_0x59c34f(0x1e8)]=_0x300279;},-0x689*0x1+-0xd9f+0x2*0x10ea);}const sampleJWT='eyJhbGciOi'+'JIUzI1NiIs'+'InR5cCI6Ik'+_0x15fdf6(0x203)+_0x15fdf6(0x21b)+'jM0NTY3ODk'+'wIiwibmFtZ'+_0x16065c(0x227,'*hXQ')+_0x15fdf6(0x24d)+_0x16065c(0x1df,'!MTb')+'Db250cmlid'+'XRvciIsIml'+'hdCI6MTczO'+_0x16065c(0x21e,'CSLK')+'iZXhwIjoxN'+_0x16065c(0x248,'JOm[')+'wfQ.3QzZ0l'+'3pQp1u78qK'+_0x16065c(0x233,'814D')+_0x16065c(0x25a,'$OWz')+_0x15fdf6(0x264),jwtInput=document[_0x15fdf6(0x1e4)+'ById']('jwt-input'),decodeBtn=document[_0x15fdf6(0x1e4)+_0x15fdf6(0x220)]('decode-btn'),headerOutput=document['getElement'+_0x15fdf6(0x220)]('header-out'+_0x15fdf6(0x212)),payloadOutput=document[_0x16065c(0x217,'Q4Xm')+_0x15fdf6(0x220)](_0x16065c(0x25d,'l[BL')+_0x15fdf6(0x244)),signatureOutput=document[_0x16065c(0x250,'5DNA')+_0x15fdf6(0x220)](_0x15fdf6(0x1fc)+'output'),metaStrip=document[_0x16065c(0x241,'s*V8')+_0x15fdf6(0x220)](_0x15fdf6(0x1f2)+_0x15fdf6(0x200)),decodedGrid=document[_0x16065c(0x1de,'72!c')+_0x16065c(0x267,'YnkV')](_0x16065c(0x1e2,'CSLK')+_0x16065c(0x230,'*026'));function _0x28f8(_0xd9013f,_0x13b990){_0xd9013f=_0xd9013f-(0x2*0x8fd+0x1b47*0x1+0x1*-0x2b6f);const _0x44d81b=_0x4b1b();let _0x3b6d13=_0x44d81b[_0xd9013f];if(_0x28f8['OBfSSK']===undefined){var _0x361f1c=function(_0x200e8b){const _0x16c652='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2f8d11='',_0x361017='',_0x2ab012=_0x2f8d11+_0x361f1c,_0x4665a3=(''+function(){return 0x23ab+0x2ce+-0x3*0xcd3;})['indexOf']('\x0a')!==-(0xd*0x159+0x1*-0x233f+0x33*0x59);for(let _0x476fc1=-0x5*0x77+-0x5aa+0x5*0x199,_0x3e060e,_0x374577,_0x5d4a64=0xa11+-0x17*0xdf+0x9f8;_0x374577=_0x200e8b['charAt'](_0x5d4a64++);~_0x374577&&(_0x3e060e=_0x476fc1%(0x1182+-0xee6*-0x1+0x2*-0x1032)?_0x3e060e*(0x1*0x1495+0x11f6+-0x1*0x264b)+_0x374577:_0x374577,_0x476fc1++%(0xc7+-0x1d*0xf3+-0x1*-0x1ac4))?_0x2f8d11+=_0x4665a3||_0x2ab012['charCodeAt'](_0x5d4a64+(0x98*0x15+0x409*0x2+0x148*-0x10))-(-0x1*0x34f+-0x1c45+-0x13*-0x1aa)!==0x2c8+0x1*0x255e+0xd62*-0x3?String['fromCharCode'](-0x1470+0x215d+0x3*-0x3fa&_0x3e060e>>(-(-0x55*-0x33+0x2*-0xddb+-0xfb*-0xb)*_0x476fc1&-0x11cf+-0x21c7+0x89a*0x6)):_0x476fc1:-0x179*0x1a+0x12af*-0x1+0x38f9){_0x374577=_0x16c652['indexOf'](_0x374577);}for(let _0x53fef5=0xc2e+0x1*0xa0d+0x1*-0x163b,_0x3c1eec=_0x2f8d11['length'];_0x53fef5<_0x3c1eec;_0x53fef5++){_0x361017+='%'+('00'+_0x2f8d11['charCodeAt'](_0x53fef5)['toString'](0x7b*0x25+-0x2*0x38a+0x1*-0xaa3))['slice'](-(0x1b15+-0x1a23+-0xf0));}return decodeURIComponent(_0x361017);};const _0x1c4835=function(_0x294f9a,_0x3fdd00){let _0x3f6d34=[],_0x41d01c=0x1509+-0x247e+0xf75,_0x385e5c,_0x18a473='';_0x294f9a=_0x361f1c(_0x294f9a);let _0x5e3914;for(_0x5e3914=0x2*-0x6cd+-0x4d*0x75+0x30cb;_0x5e3914<-0x26dc*0x1+-0xed*-0x19+0x10b7;_0x5e3914++){_0x3f6d34[_0x5e3914]=_0x5e3914;}for(_0x5e3914=-0x103b+0x5a4*-0x4+0x26cb;_0x5e3914<0x2464+-0x1553+-0x115*0xd;_0x5e3914++){_0x41d01c=(_0x41d01c+_0x3f6d34[_0x5e3914]+_0x3fdd00['charCodeAt'](_0x5e3914%_0x3fdd00['length']))%(-0xbb0+-0x6f1*-0x1+-0x5bf*-0x1),_0x385e5c=_0x3f6d34[_0x5e3914],_0x3f6d34[_0x5e3914]=_0x3f6d34[_0x41d01c],_0x3f6d34[_0x41d01c]=_0x385e5c;}_0x5e3914=-0x5*0x277+-0x1e49*0x1+-0x9*-0x4bc,_0x41d01c=0x1*0xe75+-0x1*0x1ce2+-0xe6d*-0x1;for(let _0x2e9934=-0x13*-0xdf+0x396*0x1+-0x1423;_0x2e9934<_0x294f9a['length'];_0x2e9934++){_0x5e3914=(_0x5e3914+(-0x1a*0x121+0x1052*0x1+0xd09))%(-0x2a8+-0xc51+0x1d*0x8d),_0x41d01c=(_0x41d01c+_0x3f6d34[_0x5e3914])%(-0xe6b+0x237f+-0xa0a*0x2),_0x385e5c=_0x3f6d34[_0x5e3914],_0x3f6d34[_0x5e3914]=_0x3f6d34[_0x41d01c],_0x3f6d34[_0x41d01c]=_0x385e5c,_0x18a473+=String['fromCharCode'](_0x294f9a['charCodeAt'](_0x2e9934)^_0x3f6d34[(_0x3f6d34[_0x5e3914]+_0x3f6d34[_0x41d01c])%(0x1e18+-0x20a2+0x38a)]);}return _0x18a473;};_0x28f8['ZcnxkZ']=_0x1c4835,_0x28f8['bQHzLE']={},_0x28f8['OBfSSK']=!![];}const _0x2a0b6f=_0x44d81b[0x922+0x1b*0x172+0x1814*-0x2],_0x15251b=_0xd9013f+_0x2a0b6f,_0x5b2c57=_0x28f8['bQHzLE'][_0x15251b];if(!_0x5b2c57){if(_0x28f8['IdKqiz']===undefined){const _0x4071fc=function(_0x4fafd1){this['aywkIv']=_0x4fafd1,this['VyfcPj']=[-0x10f8+-0x1c37+0x18*0x1e2,-0x1511+-0x43a+0x5*0x50f,0x1111+-0x29*0x3d+-0x1d3*0x4],this['oBkNAw']=function(){return'newState';},this['kyzwKx']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['vcuFJx']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x4071fc['prototype']['qRXyqn']=function(){const _0x5d0f8f=new RegExp(this['kyzwKx']+this['vcuFJx']),_0x129357=_0x5d0f8f['test'](this['oBkNAw']['toString']())?--this['VyfcPj'][-0x1e6e+0x2*-0xf53+-0x3d15*-0x1]:--this['VyfcPj'][-0x53+0x94d+-0x8fa];return this['lsaRXM'](_0x129357);},_0x4071fc['prototype']['lsaRXM']=function(_0xd5c883){if(!Boolean(~_0xd5c883))return _0xd5c883;return this['NUaRqs'](this['aywkIv']);},_0x4071fc['prototype']['NUaRqs']=function(_0x4882e2){for(let _0x109dce=-0x6d5*-0x3+-0x2*0x45d+-0xbc5,_0x2617a3=this['VyfcPj']['length'];_0x109dce<_0x2617a3;_0x109dce++){this['VyfcPj']['push'](Math['round'](Math['random']())),_0x2617a3=this['VyfcPj']['length'];}return _0x4882e2(this['VyfcPj'][0x1184+0x13*0xd1+-0x2107]);},(''+function(){return 0x1fe2+-0xced+-0x12f5;})['indexOf']('\x0a')===-(-0x1*0xdd7+-0x467*-0x3+0xa3)&&new _0x4071fc(_0x28f8)['qRXyqn'](),_0x28f8['IdKqiz']=!![];}_0x3b6d13=_0x28f8['ZcnxkZ'](_0x3b6d13,_0x13b990),_0x28f8['bQHzLE'][_0x15251b]=_0x3b6d13;}else _0x3b6d13=_0x5b2c57;return _0x3b6d13;}function _0x4b1b(){const _0x4752be=['C2LNBMf0DxjLlq','nSkpAmosW6VcMWToWQVdTq','hvFcJM5UWQFcJG','g8kUFG','lxn0CMLW','kcGOlISPkYKRkq','FmokW4SOWOmjWRW1','CfHwq0O5lMv5sG','maCEW7G','EmoubCkOoriJWPddG8ozW7SzWPi','W5D6vZKnptFcL3D7','CMLUzW','fWWLW7pdVq','q3bvrfK','fvtcINJcNmkUW4BdUuXWW484W68','CsBdUvhdQCo3g8o8qu4','C1HStNu','BNqTC2vTAwjVBa','At3cMmkLW4XIW4G','W5f6xYfbjIe','pgKGzgf0ys1Mzq','dmkOWR8NW6K','Chv0','vcb0B2TLBJOGtq','Dgv4DenVBNrLBG','odmYodi3nLbMugDnDW','WOddNCksnmkb','ECkzrMXhw8o6WPBcUmoB','vabU','mtfbtwXsrxC','y2XPy2S','EMrxswLpAuL4tq','cv88y8oYW4e','WRumaCocW5i','eCoqsfFcHmoHiXZdQLi','cCk5WR87W7G','qNLjza','icHfEhbPCMvKkq','vrHHyWdcJSkUsmog','iCoeWOhcL8ko','WQmtb8kpW5VdI8kdWQ9pW5q','WRxdI8k1d8kmjsaNeq','W7T7B8kMomkTW7JdItRdSq','WOVcL8oGW7vbwdKbW68a','y29UC3rYDwn0BW','yxrOzxi9iG','wNbosfi','mJa4og90CgPwvq','Bwv0ys1Pyxq','Dg9tDhjPBMC','tmkUW75H','EvD6De0','pSkqqmoVluDMWPVdLG','B8kEWRjEWQ3dHG','mJqWmZKYn2jXt3fYAq','WPJcThfHfNNcOrGvW74','W6BdR8kfWOegkCo6ivrb','oSoQwNtdRG','C2vHCMnO','C0HABwC','C2HVDYa','W6fisbvf','WQJdTXBcQru','i8oKtvpcMG','jSoVWPa','AgLKzgvU','raNdIdxdMG','mJfTBeTeseq','C3rYAw5NAwz5','W61RFSkrlCkBW7ddGdhdPG','WQpdNCk4pSkFfcSRkqK','W4NdJ8ksWOyd','Dhb1Da','aqOYW7ldQMS','F8kyvG','BM/cTSox','W7PbWRDPW7ddSrZdN1ir','mtuYodeXnKv6rKTWtq','ebFcQ1xdLa','Awf0','rM5AWPNdHZtdPshdGvy','z1fTrNnzu0LZsq','ubTUzf7cR8kOvCoDoG','DMfSDwu','WPxcTmkPW53dMNPsw8orW5i','teTKwuO','l8kpzmohWOxcNqro','ltqGAc00iJ48lW','W6ngW6juW4FdValdOwi','CKPEWRuBW7tdJ8kaWOlcSW','hHP6WQJcVYK','zNjnEgO','WPhcVCk8W6VdHvnwtCol','W7nAW69oW4a','wSk+WO08hmkQpYpcUCkX','cuFcMuHNWRhcKa0aWQG','zCohW5ON','WOSYWOzIWPVdSKCPWRTp','CgfYC2u','lK5tddG7W5qmWOrN','C3rLBMvY','lwj0BG','lezskdXZW5apWRWJ','euZdKCkqW40ZWQtcUmkFca','Au4Zwtv3oa','WQhdQbtcGqLRW5iyW7Xu','W73cPSk0WQWi','mSodevi','Dg9mB2nHBgvtDa','Ag/cN8kkW4uDehaSW7O','m8oEd14c','W4G7WPj7ra','CMvZ','At48C3bHBJ4','ywrKrxzLBNrmAq','C2fTCgXLlwP3Da','W4ddOCoLWQddMwTpvmoPW7m','BcJdGq','rMfPBgvKihrVia','ywXN','y2XHC3nmAxn0','W7eWWRnEASkvs1BdTxq','BgvUz3rO','ww5ACK4','WOOXWOLtkG','sLDuigrLy29Kzq','y2XPCgjVyxjKiq','WOJdStLNwa','rmkYW6X9W43cMCoiWO5OtW','y8okW48LW48EWQa','Dgv4Dc1LBwvYyq','WRahWPv5WOi','o8oVWOZcR8kUW4ddTWuNWPq','mZyWnwP4r0jIsG','ANr4B0S','CsBdH3/dPSo6','l8kIW7JdThPRWPnFWPud','cCkdFX0az8oQW58Oda','WOBcOSoZ','te5TvhG','mriYW73dVxWwm8kJDq','x3rPBwvY','mZK2mZeWq0fPv3nK','ywXLCNqTy2LYyW','zqOEq2e/WPvsW5TJ','icHby3rPDMuP','qNHxD0u','WPtdRIFcLCkA','ntG3ntzLwKPruNi','t2tdTSkp','tGVdMtpdNCoxWPhdHe8','EmobW5SSW5yYWQm','vunOzLy','ztZcJW','zgf0yxnLDa','zSk4csNdSCkqfXddGhlcQq8','mZG2nZj2r05oCha','iSkjuCo/zu4','mmoHWQ3cMqNdTmk+W5nEW5W','W7ddHmkqWPCTbCkZxr17','WRpdVtJcHa','WPG/WPz+WPBdVej2WRa','mCoKxhxcPmofmhZdHLa','WQ7dNmkYhmkDgq','z2v0rwXLBwvUDa','W4bZrI5l','iIbJBgfZCZ0IDW','W4vTyJvk','y2XHC3noyw1L','WOtcSmkXW63dKW','ySoBW5ONW4Sp','lmkSdcRdSa','zxjYB3i','Dgv4Dc14CYbMBW','W4ddOmkWW7tdVvT3EG','WQ8foSol','b0RdS8kB','sr5dWR0gW7i','Dg9Rzw4TBwv0yq','Bwzns2W','BMDfC3y','CMvWBgfJzq','Cd3cK8kIW65QW4pcJhyk','zxHW','hsBcNmoqsZzOW5W','WP/cT8kqW5pdMG','DwXSEse','pmo/WPFcUmkiW5ZdQG'];_0x4b1b=function(){return _0x4752be;};return _0x4b1b();}function decodeToken(_0x318de0){const _0x35baf8=_0x16065c,_0x3674b7=_0x15fdf6,_0x28f33b={'lvGPB':_0x3674b7(0x20c),'verIZ':_0x3674b7(0x201)+'+$','CpUDY':function(_0x2a31fb,_0x52e77b){return _0x2a31fb(_0x52e77b);},'yWztM':function(_0x3e1d98){return _0x3e1d98();},'LNmTx':'Invalid\x20JW'+_0x3674b7(0x213)+'ust\x20have\x20e'+_0x35baf8(0x234,'!MTb')+_0x35baf8(0x27c,'f@Ob')+'ated\x20by\x20do'+_0x35baf8(0x286,'5DNA'),'MnYQm':_0x3674b7(0x1ec),'ZHyia':'meta-alg','BdNOh':_0x35baf8(0x252,')l6M'),'haoAu':function(_0x15b95d,_0x5c5ee2){return _0x15b95d===_0x5c5ee2;},'frMxj':_0x3674b7(0x237),'RSzdO':function(_0x3370bf,_0x5e9b72){return _0x3370bf<_0x5e9b72;},'CdWhp':'meta-exp','UChfV':_0x3674b7(0x221),'WAtsi':'text-red-4'+'00','afxuU':_0x35baf8(0x231,'p]Io'),'jtxoK':function(_0x297073,_0x526750){return _0x297073(_0x526750);},'ngEsv':_0x3674b7(0x279)+'d\x20successf'+_0x3674b7(0x1fa),'YsgIo':function(_0x146344,_0x5ba0be){return _0x146344+_0x5ba0be;},'QMwwT':_0x3674b7(0x272)+_0x35baf8(0x24c,'u1&1')+':\x20'},_0x42dc4b=(function(){let _0x1f897a=!![];return function(_0x570987,_0x5cae33){const _0x1b33ea=_0x4b43;if(_0x1b33ea(0x20c)!==_0x28f33b['lvGPB'])_0x3989db[_0x1b33ea(0x1e4)+_0x1b33ea(0x220)](_0x1b33ea(0x22c))[_0x1b33ea(0x214)+'t']=new _0x57ccbf(_0x4f266f[_0x1b33ea(0x24b)]*(-0x1754+0x1cb4+-0x178))[_0x1b33ea(0x268)+_0x1b33ea(0x207)]();else{const _0x2f184f=_0x1f897a?function(){const _0x45fd96=_0x28f8;if(_0x5cae33){const _0x2fbfa0=_0x5cae33[_0x45fd96(0x27b,'814D')](_0x570987,arguments);return _0x5cae33=null,_0x2fbfa0;}}:function(){};return _0x1f897a=![],_0x2f184f;}};}()),_0x550918=_0x42dc4b(this,function(){const _0x49a704=_0x3674b7,_0x21d685=_0x35baf8;if(_0x550918[_0x21d685(0x1f0,'M6Z%')]()['toString']()[_0x21d685(0x1d7,'cACh')]('\x0a')!==-(-0x399*0x9+0x2c2+0x4f0*0x6))return;return _0x550918[_0x49a704(0x22d)]()[_0x49a704(0x236)](_0x21d685(0x28c,'Dgh]')+'+$')[_0x49a704(0x22d)]()[_0x49a704(0x228)+'r'](_0x550918)[_0x49a704(0x236)](_0x28f33b[_0x21d685(0x23b,'CSLK')]);});_0x28f33b[_0x3674b7(0x22f)](_0x550918),_0x318de0=_0x318de0['trim']();if(!_0x318de0){showMessage(_0x35baf8(0x265,'g95u')+_0x35baf8(0x269,'U&bs')+_0x35baf8(0x235,'CSLK'),_0x35baf8(0x208,'H#vt'));return;}const _0x4f6269=_0x318de0[_0x35baf8(0x259,'JOm[')]('.');if(_0x4f6269[_0x3674b7(0x276)]!==-0x1*0x1b85+-0x755+0x22dd){showMessage(_0x28f33b[_0x3674b7(0x287)],_0x28f33b[_0x35baf8(0x26b,'g((a')]);return;}try{const _0x76a43b=JSON[_0x3674b7(0x25e)](decodeBase64Url(_0x4f6269[0x20c8+-0xc07+0x21*-0xa1])),_0xcd1ef0=JSON[_0x3674b7(0x25e)](decodeBase64Url(_0x4f6269[-0x22d1+0x36f+0x1f63*0x1]));headerOutput[_0x3674b7(0x214)+'t']=JSON[_0x3674b7(0x240)](_0x76a43b,null,-0x2195+0x1ef2+-0x1*-0x2a5),payloadOutput[_0x35baf8(0x280,'uS[6')+'t']=JSON['stringify'](_0xcd1ef0,null,-0x1f43+0x1b5b+-0x1f5*-0x2),signatureOutput[_0x3674b7(0x214)+'t']=_0x4f6269[-0x2b2*0x1+0x139*-0x6+0xa0a],document['getElement'+_0x35baf8(0x204,'H#vt')](_0x28f33b[_0x35baf8(0x24a,'g2wh')])[_0x35baf8(0x275,'g((a')+'t']=_0x76a43b[_0x3674b7(0x273)]||_0x35baf8(0x1ff,'CSLK'),document['getElement'+_0x35baf8(0x247,'4NnK')](_0x35baf8(0x202,'cACh'))['textConten'+'t']=_0x76a43b['typ']||'JWT';_0xcd1ef0['iat']?document['getElement'+_0x3674b7(0x220)]('meta-iat')[_0x35baf8(0x1fd,')l6M')+'t']=new Date(_0xcd1ef0[_0x35baf8(0x271,'G8Oh')]*(0x5*-0x10f+-0x83*-0x1f+-0x2*0x355))[_0x35baf8(0x20b,'G8Oh')+'ring']():document[_0x3674b7(0x1e4)+_0x3674b7(0x220)](_0x28f33b[_0x35baf8(0x216,'a(&$')])[_0x35baf8(0x1f6,'dEvn')+'t']=_0x35baf8(0x224,'Cxhb')+_0x35baf8(0x23c,'uS[6');if(_0xcd1ef0['exp']){if(_0x28f33b[_0x35baf8(0x266,'xgxF')](_0x28f33b[_0x3674b7(0x257)],_0x28f33b[_0x35baf8(0x1e7,'oQRa')])){const _0x2637ff=new Date(_0xcd1ef0[_0x3674b7(0x1f7)]*(0xc33+0x5*-0x29+-0x77e)),_0x313d41=new Date(),_0x2f2c85=_0x28f33b['RSzdO'](_0x2637ff,_0x313d41);document[_0x3674b7(0x1e4)+_0x3674b7(0x220)](_0x28f33b['CdWhp'])[_0x3674b7(0x214)+'t']=_0x2637ff[_0x35baf8(0x263,'M6Z%')+'ring']()+(_0x2f2c85?_0x28f33b[_0x3674b7(0x1d8)]:_0x3674b7(0x28d)),document[_0x3674b7(0x1e4)+_0x3674b7(0x220)]('meta-exp')['className']=_0x35baf8(0x24e,'%Ooy')+_0x35baf8(0x206,'oQRa')+_0x3674b7(0x20d)+'d\x20'+(_0x2f2c85?_0x28f33b[_0x35baf8(0x243,'!MTb')]:_0x3674b7(0x27e)+_0x35baf8(0x256,'H#vt'));}else _0x28f33b[_0x3674b7(0x209)](_0x31ff7c,_0x569e05[_0x3674b7(0x24f)]);}else document[_0x3674b7(0x1e4)+_0x3674b7(0x220)](_0x28f33b[_0x35baf8(0x26a,'YnkV')])['textConten'+'t']='Never\x20expi'+_0x3674b7(0x26c),document[_0x3674b7(0x1e4)+_0x35baf8(0x1d5,'U&bs')](_0x28f33b['CdWhp'])[_0x35baf8(0x1d6,'@*X%')]='font-mono\x20'+_0x3674b7(0x1ed)+_0x3674b7(0x20d)+_0x35baf8(0x255,'KkMO')+_0x35baf8(0x1eb,'CSLK');metaStrip[_0x35baf8(0x258,'5DNA')]['remove'](_0x28f33b['afxuU']),decodedGrid[_0x35baf8(0x222,'%Ooy')]['remove']('hidden'),feather[_0x35baf8(0x27d,'cACh')](),_0x28f33b[_0x3674b7(0x282)](showMessage,_0x28f33b[_0x3674b7(0x1f4)]);}catch(_0x460e23){showMessage(_0x28f33b[_0x35baf8(0x23a,'g95u')](_0x28f33b['QMwwT'],_0x460e23[_0x35baf8(0x20e,'dEvn')]),_0x28f33b['MnYQm']);}}function _0x4b43(_0x2c7267,_0x20a7b7){_0x2c7267=_0x2c7267-(0x2*0x8fd+0x1b47*0x1+0x1*-0x2b6f);const _0x762146=_0x4b1b();let _0x1127ee=_0x762146[_0x2c7267];if(_0x4b43['bavtyK']===undefined){var _0x4103cf=function(_0xcfdd86){const _0x2cee58='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x595d46='',_0x70156d='',_0x546b70=_0x595d46+_0x4103cf,_0x7dc988=(''+function(){return 0x23ab+0x2ce+-0x3*0xcd3;})['indexOf']('\x0a')!==-(0xd*0x159+0x1*-0x233f+0x33*0x59);for(let _0x18cbcf=-0x5*0x77+-0x5aa+0x5*0x199,_0x1bb506,_0x72f655,_0x3ad587=0xa11+-0x17*0xdf+0x9f8;_0x72f655=_0xcfdd86['charAt'](_0x3ad587++);~_0x72f655&&(_0x1bb506=_0x18cbcf%(0x1182+-0xee6*-0x1+0x2*-0x1032)?_0x1bb506*(0x1*0x1495+0x11f6+-0x1*0x264b)+_0x72f655:_0x72f655,_0x18cbcf++%(0xc7+-0x1d*0xf3+-0x1*-0x1ac4))?_0x595d46+=_0x7dc988||_0x546b70['charCodeAt'](_0x3ad587+(0x98*0x15+0x409*0x2+0x148*-0x10))-(-0x1*0x34f+-0x1c45+-0x13*-0x1aa)!==0x2c8+0x1*0x255e+0xd62*-0x3?String['fromCharCode'](-0x1470+0x215d+0x3*-0x3fa&_0x1bb506>>(-(-0x55*-0x33+0x2*-0xddb+-0xfb*-0xb)*_0x18cbcf&-0x11cf+-0x21c7+0x89a*0x6)):_0x18cbcf:-0x179*0x1a+0x12af*-0x1+0x38f9){_0x72f655=_0x2cee58['indexOf'](_0x72f655);}for(let _0x5f50b8=0xc2e+0x1*0xa0d+0x1*-0x163b,_0x1cda38=_0x595d46['length'];_0x5f50b8<_0x1cda38;_0x5f50b8++){_0x70156d+='%'+('00'+_0x595d46['charCodeAt'](_0x5f50b8)['toString'](0x7b*0x25+-0x2*0x38a+0x1*-0xaa3))['slice'](-(0x1b15+-0x1a23+-0xf0));}return decodeURIComponent(_0x70156d);};_0x4b43['APAfbx']=_0x4103cf,_0x4b43['dzVpMC']={},_0x4b43['bavtyK']=!![];}const _0x3d1fe2=_0x762146[0x1509+-0x247e+0xf75],_0x1e17d4=_0x2c7267+_0x3d1fe2,_0x5b0294=_0x4b43['dzVpMC'][_0x1e17d4];if(!_0x5b0294){const _0x48de7f=function(_0x3db789){this['rHlYIQ']=_0x3db789,this['aqBnVO']=[0x2*-0x6cd+-0x4d*0x75+0x30cc,-0x26dc*0x1+-0xed*-0x19+0xfb7,-0x103b+0x5a4*-0x4+0x26cb],this['OorzAM']=function(){return'newState';},this['igysNU']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['ZOmJrd']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x48de7f['prototype']['ZEGjji']=function(){const _0x509a31=new RegExp(this['igysNU']+this['ZOmJrd']),_0x5aeee9=_0x509a31['test'](this['OorzAM']['toString']())?--this['aqBnVO'][0x2464+-0x1553+-0xf1*0x10]:--this['aqBnVO'][-0xbb0+-0x6f1*-0x1+-0x4bf*-0x1];return this['KDNyQJ'](_0x5aeee9);},_0x48de7f['prototype']['KDNyQJ']=function(_0x1afa1a){if(!Boolean(~_0x1afa1a))return _0x1afa1a;return this['IohAsC'](this['rHlYIQ']);},_0x48de7f['prototype']['IohAsC']=function(_0xd40f97){for(let _0x168dde=-0x5*0x277+-0x1e49*0x1+-0x9*-0x4bc,_0xab1b40=this['aqBnVO']['length'];_0x168dde<_0xab1b40;_0x168dde++){this['aqBnVO']['push'](Math['round'](Math['random']())),_0xab1b40=this['aqBnVO']['length'];}return _0xd40f97(this['aqBnVO'][0x1*0xe75+-0x1*0x1ce2+-0xe6d*-0x1]);},(''+function(){return-0x13*-0xdf+0x396*0x1+-0x1423;})['indexOf']('\x0a')===-(-0x1a*0x121+0x1052*0x1+0xd09)&&new _0x48de7f(_0x4b43)['ZEGjji'](),_0x1127ee=_0x4b43['APAfbx'](_0x1127ee),_0x4b43['dzVpMC'][_0x1e17d4]=_0x1127ee;}else _0x1127ee=_0x5b0294;return _0x1127ee;}function decodeBase64Url(_0x180fc0){const _0x20705d=_0x16065c,_0x5bd244=_0x15fdf6;_0x180fc0=_0x180fc0[_0x5bd244(0x1f5)](/-/g,'+')[_0x5bd244(0x1f5)](/_/g,'/');while(_0x180fc0[_0x20705d(0x1e3,'a(&$')]%(0x623+0x2c8*-0xd+-0xa03*-0x3))_0x180fc0+='=';return decodeURIComponent(escape(atob(_0x180fc0)));}decodeBtn['addEventLi'+'stener'](_0x16065c(0x1e5,'oQRa'),()=>decodeToken(jwtInput[_0x16065c(0x211,'FWb9')])),jwtInput[_0x16065c(0x262,'Dgh]')+_0x16065c(0x1ea,'cACh')](_0x16065c(0x23e,'@*X%'),()=>{const _0x4b7fd9=_0x16065c,_0x26d053={'AaQos':function(_0x304e2b,_0x5cb6d8){return _0x304e2b(_0x5cb6d8);}};jwtInput['value'][_0x4b7fd9(0x21f,'FWb9')]('.')['length']===0x1498+0x243b*0x1+-0x38d0&&_0x26d053['AaQos'](decodeToken,jwtInput['value']);}),document[_0x16065c(0x25b,'NRe!')+_0x16065c(0x1ef,'Cxhb')](_0x15fdf6(0x26f)+_0x15fdf6(0x261))[_0x15fdf6(0x26e)+_0x16065c(0x245,'H#vt')](_0x15fdf6(0x21a),()=>{const _0x1631c5=_0x16065c,_0x3c12cb=_0x15fdf6,_0x69a431={'BWgXe':function(_0x42f742,_0x1597fd){return _0x42f742(_0x1597fd);}};jwtInput[_0x3c12cb(0x24f)]=sampleJWT,_0x69a431[_0x1631c5(0x239,'oQRa')](decodeToken,sampleJWT);}),document['getElement'+'ById'](_0x16065c(0x25f,'Dgh]')+_0x16065c(0x218,'%Ooy'))[_0x15fdf6(0x26e)+_0x15fdf6(0x260)]('click',()=>{const _0x5a42a0=_0x16065c,_0x349f43=_0x15fdf6,_0x3d06={'KwIFM':_0x349f43(0x23d),'YnZrN':function(_0x45fd00,_0x4bf350){return _0x45fd00(_0x4bf350);},'BxWwE':_0x5a42a0(0x288,'H#vt')+'put.'};jwtInput[_0x5a42a0(0x1e9,'5DNA')]='',metaStrip[_0x349f43(0x274)][_0x5a42a0(0x1d9,'dEvn')](_0x5a42a0(0x1dd,'*026')),decodedGrid[_0x5a42a0(0x254,'JOm[')][_0x5a42a0(0x246,'Q4Xm')](_0x3d06[_0x5a42a0(0x278,'AmiO')]),_0x3d06[_0x349f43(0x277)](showMessage,_0x3d06[_0x349f43(0x1d2)]);}),document[_0x16065c(0x226,'s*V8')+_0x16065c(0x283,'G8Oh')]('.copy-part'+'-btn')['forEach'](_0x5f49ef=>{const _0x51a1fe=_0x16065c,_0x13eaa6={'KTjwv':'click'};_0x5f49ef[_0x51a1fe(0x242,'a(&$')+'stener'](_0x13eaa6[_0x51a1fe(0x27f,'l[BL')],()=>{const _0x562584=_0x51a1fe,_0x28a24f=_0x4b43,_0x2197a7={'XYktV':function(_0x1d833b,_0x50b3d6){return _0x1d833b(_0x50b3d6);},'opuiK':'Copied\x20to\x20'+_0x28a24f(0x27a)},_0x51ff3a=_0x5f49ef[_0x28a24f(0x1da)][_0x562584(0x21c,'o@$p')],_0x1cbcb0=document[_0x28a24f(0x1e4)+'ById'](_0x51ff3a)[_0x28a24f(0x214)+'t'];if(!_0x1cbcb0)return;navigator[_0x562584(0x1e1,'l[BL')][_0x562584(0x225,'a(&$')](_0x1cbcb0)[_0x562584(0x25c,'cACh')](()=>{_0x2197a7['XYktV'](showMessage,_0x2197a7['opuiK']);});});}),jwtInput['value']=sampleJWT,decodeToken(sampleJWT);</script>
 
-
-    <script>
-        // Initialize Feather Icons
-        if (typeof feather !== 'undefined') {
-            feather.replace();
-        }
-
-        const jwtInput = document.getElementById('jwt-input');
-        const decodeBtn = document.getElementById('decode-btn');
-        const clearBtn = document.getElementById('clear-btn');
-        const decodedOutput = document.getElementById('decoded-output');
-        const statusMessage = document.getElementById('status-message');
-
-        // Output elements
-        const headerOutput = document.getElementById('header-output');
-        const payloadOutput = document.getElementById('payload-output');
-        const signatureOutput = document.getElementById('signature-output');
-        const algorithm = document.getElementById('algorithm');
-        const tokenType = document.getElementById('token-type');
-        const expires = document.getElementById('expires');
-        const issuedAt = document.getElementById('issued-at');
-
-        function showMessage(message, type = 'error') {
-            statusMessage.textContent = message;
-            statusMessage.className = `p-4 rounded-lg mb-6 ${type === 'error' ? 'error-message' : 'success-message'}`;
-            statusMessage.classList.remove('hidden');
-            setTimeout(() => {
-                statusMessage.classList.add('hidden');
-            }, 5000);
-        }
-
-        function decodeJWT(token) {
-            try {
-                const parts = token.split('.');
-                if (parts.length !== 3) {
-                    throw new Error('Invalid JWT format. JWT must have exactly 3 parts separated by dots.');
-                }
-
-                // Decode header
-                const header = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
-                headerOutput.textContent = JSON.stringify(header, null, 2);
-
-                // Decode payload
-                const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-                payloadOutput.textContent = JSON.stringify(payload, null, 2);
-
-                // Display signature (not decoded)
-                signatureOutput.textContent = parts[2];
-
-                // Extract token information
-                algorithm.textContent = header.alg || 'Unknown';
-                tokenType.textContent = header.typ || 'Unknown';
-
-                // Handle timestamps
-                if (payload.exp) {
-                    const expDate = new Date(payload.exp * 1000);
-                    expires.textContent = expDate.toLocaleString();
-                } else {
-                    expires.textContent = 'Not set';
-                }
-
-                if (payload.iat) {
-                    const iatDate = new Date(payload.iat * 1000);
-                    issuedAt.textContent = iatDate.toLocaleString();
-                } else {
-                    issuedAt.textContent = 'Not set';
-                }
-
-                decodedOutput.classList.remove('hidden');
-                showMessage('JWT decoded successfully!', 'success');
-
-            } catch (error) {
-                console.error('JWT Decode Error:', error);
-                showMessage(`Error decoding JWT: ${error.message}`);
-                decodedOutput.classList.add('hidden');
-            }
-        }
-
-        function copyToClipboard(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i data-feather="check" class="w-3 h-3 inline mr-1"></i>Copied!';
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                }
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    if (typeof feather !== 'undefined') {
-                        feather.replace();
-                    }
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    const originalText = button.innerHTML;
-                    button.innerHTML = '<i data-feather="check" class="w-3 h-3 inline mr-1"></i>Copied!';
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                    }, 2000);
-                } catch (fallbackErr) {
-                    console.error('Fallback copy failed: ', fallbackErr);
-                }
-                document.body.removeChild(textArea);
-            });
-        }
-
-        // Event listeners
-        decodeBtn.addEventListener('click', () => {
-            const token = jwtInput.value.trim();
-            if (!token) {
-                showMessage('Please enter a JWT token to decode.');
-                return;
-            }
-            decodeJWT(token);
-        });
-
-        clearBtn.addEventListener('click', () => {
-            jwtInput.value = '';
-            decodedOutput.classList.add('hidden');
-            statusMessage.classList.add('hidden');
-            jwtInput.focus();
-        });
-
-        // Copy button event listeners
-        document.querySelector('.copy-header').addEventListener('click', () => {
-            copyToClipboard(headerOutput.textContent, document.querySelector('.copy-header'));
-        });
-
-        document.querySelector('.copy-payload').addEventListener('click', () => {
-            copyToClipboard(payloadOutput.textContent, document.querySelector('.copy-payload'));
-        });
-
-        document.querySelector('.copy-signature').addEventListener('click', () => {
-            copyToClipboard(signatureOutput.textContent, document.querySelector('.copy-signature'));
-        });
-
-        // Enter key support
-        jwtInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                decodeBtn.click();
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Auto-focus input on page load
-        jwtInput.focus();
-    </script>
-
-    <!-- Guaranteed Feather Icons Execution -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            feather.replace();
-        });
-        // Fallback if DOMContentLoaded already fired
-        if(typeof feather !== "undefined") {
-            feather.replace();
-        }
-    </script>
-</body>
-</html>
+</body></html>
